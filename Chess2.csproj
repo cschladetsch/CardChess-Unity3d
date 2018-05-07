@@ -768,6 +768,7 @@
     <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\YieldInstructionCache.cs" />
     <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\Thread.cs" />
     <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\ThreadPoolScheduler_UnityWinRT.cs" />
+    <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\External\Adic\CHANGELOG.txt" />
