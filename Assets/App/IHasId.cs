@@ -1,6 +1,9 @@
 ﻿using System;
 
-public interface IHasId
+namespace App
 {
-    Guid Id { get; }
+    public interface IHasId
+    {
+        Guid Id { get; }
+    }
 }

@@ -1,3 +1,6 @@
-﻿public interface IOwner
+﻿namespace App
 {
+    public interface IOwner
+    {
+    }
 }

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 
-public interface ICardCollection
+namespace App
 {
-    IList<ICard> Cards { get; }
-    void Add(ICard card);
-    void Remove(ICard card);
+    public interface ICardCollection
+    {
+        IList<ICard> Cards { get; }
+        void Add(ICard card);
+        void Remove(ICard card);
+    }
 }

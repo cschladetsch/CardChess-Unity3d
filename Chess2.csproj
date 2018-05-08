@@ -317,7 +317,6 @@
     <Compile Include="Assets\App\IOwner.cs" />
     <Compile Include="Assets\App\IPlayer.cs" />
     <Compile Include="Assets\App\IUser.cs" />
-    <Compile Include="Assets\App\Kernel.cs" />
     <Compile Include="Assets\App\Logger.cs" />
     <Compile Include="Assets\App\Model\Board.cs" />
     <Compile Include="Assets\App\Model\Card.cs" />

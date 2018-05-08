@@ -37,7 +37,7 @@ namespace App
         {
             if (!_constructed)
             {
-                Warn("Construction failed");
+                Warn("Construction failed for {0}", this);
                 MonoBehaviour.Destroy(this);
                 return;
             }
@@ -59,10 +59,6 @@ namespace App
             return true;
         }
 
-        protected virtual void Destroy()
-        {
-        }
-
         protected virtual void Begin()
         {
         }
@@ -71,14 +67,18 @@ namespace App
         {
         }
 
-        public void Pause()
+        public void Pause(bool pause = true)
         {
-            _paused = true;
+            _paused = pause;
         }
 
         public float LifeTime()
         {
             return _localTime;
+        }
+
+        protected virtual void Destroy()
+        {
         }
 
         private bool _paused;

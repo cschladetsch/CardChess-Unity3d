@@ -1,3 +1,6 @@
-﻿public interface IEffect : IHasId
+﻿namespace App
 {
+    public interface IEffect : IHasId
+    {
+    }
 }
