@@ -10,11 +10,13 @@ using Flow;
 namespace App.View.World
 {
     /// <summary>
-    /// Responsible for all animations that occur as a resuylt of 
+    /// Responsible for all visual and audio animations that occur as a result of 
     /// decisions made by the arbiter.
     /// </summary>
     public class ArbiterView : Agent
     {
+        public Model.Board Board { get { return _arbiter.Board; } }
+
         public ArbiterView(Arbiter arbiter)
         {
             _arbiter = arbiter;

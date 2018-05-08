@@ -14,6 +14,7 @@ namespace App
         public static Flow.IKernel Kernel;
 
         public IPlayer CurrentPlayer {  get { return _players[_currentPlayer]; } }
+        public Model.Board Board { get { return _board; } }
 
         protected override bool Construct()
         {
@@ -211,6 +212,7 @@ namespace App
             yield return self.ResumeAfter(_view.NextPlayerTurn(previous, CurrentPlayer));
         }
 
+        private Model.Board _board;
         private readonly IPlayer[] _players = new IPlayer[2];
         private int _currentPlayer;
         private IFactory _new;
