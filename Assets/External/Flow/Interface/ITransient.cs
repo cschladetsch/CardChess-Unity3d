@@ -12,7 +12,7 @@ namespace Flow
 	///     it has no more work to do and its internal state will not change without external influence.
 	///     flow-control.
 	/// </summary>
-	public interface ITransient : INamed
+	public interface ITransient// : INamed
 	{
 		event TransientHandler Completed;
 
@@ -21,6 +21,6 @@ namespace Flow
 
 		void Complete();
 
-		ITransient Named(string name);
+		//ITransient Named(string name);
 	}
 }

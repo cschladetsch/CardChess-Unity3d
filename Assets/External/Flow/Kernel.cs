@@ -19,7 +19,7 @@ namespace Flow.Impl
 
 			Trace = new Logger.Logger(level, "Kernel");
 #if UNITY3D
-			Trace.AddLogger(new UnityLogger(level));
+			Trace.AddLogger(new UnityLogger(eLevel));
 #endif
 
 #if DOTNET

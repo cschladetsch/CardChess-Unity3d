@@ -15,9 +15,9 @@ namespace Flow.Logger
 
 	/// <summary>
 	/// Logger with multiple output streams, and chained loggers/
-	/// Also has independant output streams <see cref="ELogEntryType"/> and Verbosity level.
+	/// Also has independant output streams <see cref="ELogEntryType"/> and Verbosity eLevel.
 	/// 
-	/// All logging methods have an override that provides a verbosity level.
+	/// All logging methods have an override that provides a verbosity eLevel.
 	/// 
 	/// This allows you to independantly control the verbosity of each log entry type.
 	/// </summary>

@@ -6,7 +6,7 @@ namespace Flow.Impl
 {
 	public class Transient : ITransient
 	{
-		public event NameChangeHandler Renamed;
+		//public event NameChangeHandler Renamed;
 		public event TransientHandler Completed;
 		public event TransientHandlerReason WhyCompleted;
 
@@ -23,8 +23,8 @@ namespace Flow.Impl
 				if (_name == value)
 					return;
 
-				if (Renamed != null)
-					Renamed(this, _name, value);
+				//if (Renamed != null)
+				//	Renamed(this, _name, value);
 
 				_name = value;
 			}
