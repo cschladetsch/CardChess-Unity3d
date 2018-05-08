@@ -4,6 +4,8 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
+#pragma warning disable CS0618 
+
 namespace UniRx
 {
     [InitializeOnLoad]

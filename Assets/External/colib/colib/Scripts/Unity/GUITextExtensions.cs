@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 
+#pragma warning disable CS0618 
+
 namespace CoLib
 {
 
