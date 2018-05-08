@@ -26,7 +26,6 @@ namespace App
 
         protected void Info(string fmt, params object[] args)
         {
-            //Log(ELevel.Info, string.Format("{0}:{1}: {2}", this.GetType(), name, string.Format(fmt, args)));
             Log(ELevel.Info, string.Format(fmt, args));
         }
 
@@ -65,8 +64,8 @@ namespace App
         private string MakeEntry(ELevel level, string text)
         {
             return string.Format(
-                "{0}:{1}:step {2}:type {3}:name {4}:\n\t'{5}'",
-                level, _logPrefix, Arbiter.Kernel.StepNumber, GetType(), name, text);
+                "{0}:step {1}:type {2}:name {3}:\n\t'{4}'",
+                _logPrefix, Arbiter.Kernel.StepNumber, GetType(), name, text);
         }
 
         protected string _logPrefix;
