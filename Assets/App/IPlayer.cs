@@ -7,8 +7,8 @@ namespace App
         EColor Color { get; }
         Flow.IFuture<int> RollDice();
         void AddMaxMana(int mana);
-        IFuture<Arbiter.PlayCard> TryPlayCard();
-        IFuture<Arbiter.MovePiece> TryMovePiece();
+        IFuture<PlayCard> TryPlayCard();
+        IFuture<MovePiece> TryMovePiece();
         IFuture<bool> Pass();
     }
 }

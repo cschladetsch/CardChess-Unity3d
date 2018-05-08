@@ -306,6 +306,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\App\Action.cs" />
     <Compile Include="Assets\App\Agent.cs" />
     <Compile Include="Assets\App\Arbiter.cs" />
     <Compile Include="Assets\App\ICard.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="Assets\App\Model\Player.cs" />
     <Compile Include="Assets\App\Model\Spell.cs" />
     <Compile Include="Assets\App\Player.cs" />
+    <Compile Include="Assets\App\View\World\ArbiterView.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\HelloWorld.cs" />
     <Compile Include="Assets\External\Adic\Examples\02_BindingGameObjects\Scripts\GameObjectRotator.cs" />

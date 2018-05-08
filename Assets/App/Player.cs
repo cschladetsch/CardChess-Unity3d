@@ -18,12 +18,12 @@ namespace App
             throw new NotImplementedException();
         }
 
-        public IFuture<Arbiter.PlayCard> TryPlayCard()
+        public IFuture<PlayCard> TryPlayCard()
         {
             throw new NotImplementedException();
         }
 
-        public IFuture<Arbiter.MovePiece> TryMovePiece()
+        public IFuture<MovePiece> TryMovePiece()
         {
             throw new NotImplementedException();
         }
