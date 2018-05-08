@@ -307,15 +307,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\App\Agent.cs" />
+    <Compile Include="Assets\App\Arbiter.cs" />
     <Compile Include="Assets\App\ICard.cs" />
     <Compile Include="Assets\App\ICardCollection.cs" />
     <Compile Include="Assets\App\IEffect.cs" />
     <Compile Include="Assets\App\IHasId.cs" />
     <Compile Include="Assets\App\IInstance.cs" />
     <Compile Include="Assets\App\IOwner.cs" />
+    <Compile Include="Assets\App\IPlayer.cs" />
+    <Compile Include="Assets\App\IUser.cs" />
     <Compile Include="Assets\App\Kernel.cs" />
     <Compile Include="Assets\App\Logger.cs" />
-    <Compile Include="Assets\App\Model\Arbiter.cs" />
     <Compile Include="Assets\App\Model\Board.cs" />
     <Compile Include="Assets\App\Model\Card.cs" />
     <Compile Include="Assets\App\Model\CardCollection.cs" />
@@ -327,6 +329,7 @@
     <Compile Include="Assets\App\Model\Piece.cs" />
     <Compile Include="Assets\App\Model\Player.cs" />
     <Compile Include="Assets\App\Model\Spell.cs" />
+    <Compile Include="Assets\App\Player.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\HelloWorld.cs" />
     <Compile Include="Assets\External\Adic\Examples\02_BindingGameObjects\Scripts\GameObjectRotator.cs" />

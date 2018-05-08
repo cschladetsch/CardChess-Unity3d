@@ -4,34 +4,39 @@ using System;
 
 namespace Flow.Impl
 {
-	internal class Periodic : Subroutine<bool>, IPeriodic
-	{
-		public event TransientHandler Elapsed;
+    internal class Periodic : Subroutine<bool>, IPeriodic
+    {
+        public TimeSpan TimeRemaining
+        {
+            get { throw new NotImplementedException(); }
+            set { }
+        }
+        public event TransientHandler Elapsed;
 
-		public DateTime TimeStarted { get; private set; }
-		public TimeSpan Interval { get; set; }
+        public DateTime TimeStarted { get; private set; }
+        public TimeSpan Interval { get; set; }
 
-		internal Periodic(IKernel kernel, TimeSpan interval)
-		{
-			Interval = interval;
-			TimeStarted = kernel.Time.Now;
-			_expires = TimeStarted + Interval;
-			Sub = StepTimer;
-		}
+        internal Periodic(IKernel kernel, TimeSpan interval)
+        {
+            Interval = interval;
+            TimeStarted = kernel.Time.Now;
+            _expires = TimeStarted + Interval;
+            Sub = StepTimer;
+        }
 
-		private bool StepTimer(IGenerator self)
-		{
-			if (Kernel.Time.Now < _expires)
-				return true;
+        private bool StepTimer(IGenerator self)
+        {
+            if (Kernel.Time.Now < _expires)
+                return true;
 
-			if (Elapsed != null)
-				Elapsed(this);
+            if (Elapsed != null)
+                Elapsed(this);
 
-			_expires = Kernel.Time.Now + Interval;
+            _expires = Kernel.Time.Now + Interval;
 
-			return true;
-		}
+            return true;
+        }
 
-		private DateTime _expires;
-	}
+        private DateTime _expires;
+    }
 }

@@ -14,6 +14,8 @@ namespace Flow
 		// Gets or sets the interval. Successive Elapsed events will have not less than this TimeSpan between being fired.
 		TimeSpan Interval { get; set; }
 
+	    TimeSpan TimeRemaining { get; set; }
+
 		// Periodically occurs when the timer has elapsed. Fired at most once per Kernel Step
 		event TransientHandler Elapsed;
 	}

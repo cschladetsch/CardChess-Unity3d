@@ -49,7 +49,7 @@ namespace Flow
 		IBarrier TimedBarrier(TimeSpan span, params ITransient[] args);
 
 		ITrigger Trigger(params ITransient[] args);
-		ITimedTrigger TimedTrigger(TimeSpan span);
+		ITimedTrigger TimedTrigger(TimeSpan span, params ITransient[] args);
 
 		IGenerator Nop();
 		IFuture<T> Future<T>();
