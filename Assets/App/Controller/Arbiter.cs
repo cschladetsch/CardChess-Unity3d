@@ -2,14 +2,17 @@
 using System.Collections;
 using Flow;
 
-namespace App
+using App.View;
+using App.Model;
+
+namespace App.Controller
 {
     public enum EColor { White, Black }
 
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
     /// </summary>
-    public class Arbiter : Agent
+    public class Arbiter : AgentBase
     {
         public static Flow.IKernel Kernel;
 
@@ -20,7 +23,7 @@ namespace App
         {
             Kernel = Flow.Create.Kernel();
             _new = Kernel.Factory;
-            _view = new View.World.ArbiterView(this);
+            //_view = new View.World.ArbiterView(this);
             return true;
         }
 

@@ -1,33 +1,15 @@
 ﻿using UnityEngine;
 using Flow;
 
-namespace App
+namespace App.View
 {
-    //public class TransientBase<Impl> where Impl : ITransient
-    //{
-    //    Impl Transient { get; protected set; }
-    //    public event TransientHandler Completed;
-    //    public bool Active { get; private set; }
-    //    public IKernel Kernel { get; set; }
-    //    public void Complete()
-    //    {
-    //        if (!Active)
-    //            return;
-    //        if (Completed != null)
-    //            Completed(_transient);
-    //        Active = false;
-    //    }
-    //}
-
     /// <summary>
     /// Common for all actors in the game. This is to replace
     /// MonoBehavior and make it more rational, as well as to 
     /// conform with Flow.ITransient.
     /// </summary>
-    public /*abstract*/ class Agent/*Base*/ : Logger//, TransientBase<Agent>
+    public abstract class ViewBase : Logger
     {
-        public Agent Transient { get; private set; }
-
         private void Awake()
         {
             _constructed = Construct();
@@ -38,7 +20,7 @@ namespace App
             if (!_constructed)
             {
                 Warn("Construction failed for {0}", this);
-                MonoBehaviour.Destroy(this);
+                //Object.Destroy(this);
                 return;
             }
 

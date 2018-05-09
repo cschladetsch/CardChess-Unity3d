@@ -1,0 +1,846 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace>
+    </RootNamespace>
+    <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>.</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_1_0;UNITY_2018_1;UNITY_2018;PLATFORM_ARCH_64;UNITY_64;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_OSX;PLATFORM_STANDALONE;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_SPATIALTRACKING;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_UNITY_COLLECTIONS_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_POST_PROCESSING_STACK_V2</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
+    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityBuildTarget>StandaloneOSX:2</UnityBuildTarget>
+    <UnityVersion>2018.1.0f2</UnityVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\App\Controller\Arbiter.cs" />
+    <Compile Include="Assets\App\Controller\ControllerBase.cs" />
+    <Compile Include="Assets\App\Controller\Player.cs" />
+    <Compile Include="Assets\App\Model\Action.cs" />
+    <Compile Include="Assets\App\Model\Arbiter.cs" />
+    <Compile Include="Assets\App\Model\Board.cs" />
+    <Compile Include="Assets\App\Model\Card.cs" />
+    <Compile Include="Assets\App\Model\CardCollection.cs" />
+    <Compile Include="Assets\App\Model\Coord.cs" />
+    <Compile Include="Assets\App\Model\Creature.cs" />
+    <Compile Include="Assets\App\Model\Deck.cs" />
+    <Compile Include="Assets\App\Model\Hand.cs" />
+    <Compile Include="Assets\App\Model\ICard.cs" />
+    <Compile Include="Assets\App\Model\ICardCollection.cs" />
+    <Compile Include="Assets\App\Model\IEffect.cs" />
+    <Compile Include="Assets\App\Model\IHasId.cs" />
+    <Compile Include="Assets\App\Model\IInstance.cs" />
+    <Compile Include="Assets\App\Model\IOwner.cs" />
+    <Compile Include="Assets\App\Model\IPlayer.cs" />
+    <Compile Include="Assets\App\Model\Item.cs" />
+    <Compile Include="Assets\App\Model\IUser.cs" />
+    <Compile Include="Assets\App\Model\Logger.cs" />
+    <Compile Include="Assets\App\Model\ModelBase.cs" />
+    <Compile Include="Assets\App\Model\Piece.cs" />
+    <Compile Include="Assets\App\Model\Player.cs" />
+    <Compile Include="Assets\App\Model\Spell.cs" />
+    <Compile Include="Assets\App\View\Logger.cs" />
+    <Compile Include="Assets\App\View\ViewBase.cs" />
+    <Compile Include="Assets\App\View\World\ArbiterView.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\BindingPriority.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\BindingsSetupExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\IBindingsSetup.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Behaviours\CommandDispatch.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Behaviours\NamespaceCommandBehaviour.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Behaviours\TimedCommandDispatch.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Command.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\CommandDispatcher.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\CommanderContainerExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\CommanderExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\CommanderUtils.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\DispatcherOptions.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Exceptions\CommandException.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\ICommand.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\ICommandDispatcher.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\ICommandPool.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Types\CommandReference.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\ContextRoot\ContextRoot.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\ContextRoot\IContextRoot.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\ContextRoot\SceneInjector.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\EventCallerBehaviour.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\EventCallerContainerExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\IFixedUpdatable.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\IFocusable.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\ILateUpdatable.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\IPausable.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\IQuitable.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\EventCaller\IUpdatable.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\MonoInjection\InjectFromContainer.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\MonoInjection\InjectionUtil.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\MonoInjection\MonoInjectionExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\StateInjection\StateInjectionExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\UnityBinding\PrefabBinding.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\UnityBinding\UnityBindingConditionFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\UnityBinding\UnityBindingContainerExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Extensions\UnityBinding\UnityBindingExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Attributes\Construct.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Attributes\Inject.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Attributes\PostConstruct.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\Binder.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\BindingDelegates.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\BindingFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\BindingInfo.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\BindingInstance.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\IBinder.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\IBindingConditionFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\IBindingCreator.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\IBindingFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\MultipleBindingConditionFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Binding\SingleBindingConditionFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\AcessorInfo.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\IReflectionCache.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\IReflectionFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\MethodInfo.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\ParameterInfo.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\ReflectedClass.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\ReflectionCache.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Cache\ReflectionFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Container\IContainerExtension.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Container\IInjectionContainer.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Container\InjectionContainer.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Exceptions\BinderException.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Exceptions\BindingException.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Exceptions\InjectorException.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Injection\IInjector.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Injection\InjectDelegates.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Injection\InjectionContext.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Injection\InjectionMember.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Injection\Injector.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Injection\ResolutionMode.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Types\IFactory.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Util\CallDelegates.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Util\MethodUtils.cs" />
+    <Compile Include="Assets\External\Adic\Scripts\Framework\Util\TypeUtils.cs" />
+    <Compile Include="Assets\External\colib\colib\Examples\CommandQueueExample.cs" />
+    <Compile Include="Assets\External\colib\colib\Examples\EaseExample.cs" />
+    <Compile Include="Assets\External\colib\colib\Examples\MenuExample.cs" />
+    <Compile Include="Assets\External\colib\colib\Examples\RectangleExample.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\CommandQueue.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\CommandQueueGroup.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\Commands.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\Commands~Functional.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\Commands~Tween.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\CommandScheduler.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\Ease.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\IInterpolatable.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\IInterpolator.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\ListUtils.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Core\Ref.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\AutoBezierPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\AutoWindingPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Behaviours\PathBehaviour.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Behaviours\PathPreviewBehaviour.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\BezierPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\ChainPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Commands~Path.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Commands~PathGameObject.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\IPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\LinearPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\NormalizedBezierPath.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\CubicBezierKnot.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\CubicBezierKnotUtils.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\CubicBezierSegment.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\CubicBezierTangentCoefficients.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\CubicBezierTangentCoefficientsUtils.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\CubicBezierUtils.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Path\Utils\QuaternionUtils.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\CameraExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\CommandBehaviour.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\Commands~Animate.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\Commands~GameObject.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\Commands~TweenUnity.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\Commands~Unity.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\GameObjectExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\GUITextExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\GUITextureExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\MaterialExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\SpriteRendererExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\TransformExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\UI\CanvasGroupExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\UI\Commands~UI.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\UI\GraphicExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\UI\LayoutElementExtensions.cs" />
+    <Compile Include="Assets\External\colib\colib\Scripts\Unity\UI\RectTransformExtensions.cs" />
+    <Compile Include="Assets\External\ConsolePro\ConsoleProDebug.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\ConsoleProRemoteServer.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\FastBitConverter.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\INetEventListener.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NatPunchModule.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetConstants.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetDataReader.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetDataWriter.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetDebug.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetEndPoint.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetManager.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetPacket.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetPacketPool.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetPeer.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetPeerCollection.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetSerializer.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetSocket.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetThread.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NetUtils.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\NtpSyncModule.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\ReliableChannel.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\SequencedChannel.cs" />
+    <Compile Include="Assets\External\ConsolePro\Remote\LiteNetLib\SimpleChannel.cs" />
+    <Compile Include="Assets\External\Flow\Barrier.cs" />
+    <Compile Include="Assets\External\Flow\BlockingChannel.cs" />
+    <Compile Include="Assets\External\Flow\Break.cs" />
+    <Compile Include="Assets\External\Flow\Case.cs" />
+    <Compile Include="Assets\External\Flow\Channel.cs" />
+    <Compile Include="Assets\External\Flow\ConcurrentQueue.cs" />
+    <Compile Include="Assets\External\Flow\Coroutine.cs" />
+    <Compile Include="Assets\External\Flow\Create.cs" />
+    <Compile Include="Assets\External\Flow\Exception.cs" />
+    <Compile Include="Assets\External\Flow\Extension.cs" />
+    <Compile Include="Assets\External\Flow\Factory.cs" />
+    <Compile Include="Assets\External\Flow\Future.cs" />
+    <Compile Include="Assets\External\Flow\Generator.cs" />
+    <Compile Include="Assets\External\Flow\Group.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IBarrier.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IBreak.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ICase.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IChannel.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ICoroutine.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IFactory.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IFuture.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IGenerator.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IGroup.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IKernel.cs" />
+    <Compile Include="Assets\External\Flow\Interface\INamed.cs" />
+    <Compile Include="Assets\External\Flow\Interface\INode.cs" />
+    <Compile Include="Assets\External\Flow\Interface\IPeriodic.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ISubroutine.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ITimedFuture.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ITimeFrame.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ITimer.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ITimesOut.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ITransient.cs" />
+    <Compile Include="Assets\External\Flow\Interface\ITrigger.cs" />
+    <Compile Include="Assets\External\Flow\Kernel.cs" />
+    <Compile Include="Assets\External\Flow\Logger\ConsoleLogger.cs" />
+    <Compile Include="Assets\External\Flow\Logger\ILogger.cs" />
+    <Compile Include="Assets\External\Flow\Logger\Logger.cs" />
+    <Compile Include="Assets\External\Flow\Logger\UnityLogger.cs" />
+    <Compile Include="Assets\External\Flow\Node.cs" />
+    <Compile Include="Assets\External\Flow\Periodic.cs" />
+    <Compile Include="Assets\External\Flow\Properties\AssemblyInfo.cs" />
+    <Compile Include="Assets\External\Flow\Reactive\Test\TestReactive.cs" />
+    <Compile Include="Assets\External\Flow\SpinWait.cs" />
+    <Compile Include="Assets\External\Flow\Subroutine.cs" />
+    <Compile Include="Assets\External\Flow\TimedFuture.cs" />
+    <Compile Include="Assets\External\Flow\TimeFrame.cs" />
+    <Compile Include="Assets\External\Flow\Timer.cs" />
+    <Compile Include="Assets\External\Flow\Transient.cs" />
+    <Compile Include="Assets\External\Flow\Trigger.cs" />
+    <Compile Include="Assets\External\Flow\Unity\UnityFactory.cs" />
+    <Compile Include="Assets\External\Flow\VolatileBool.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample01_ObservableWWW.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample02_ObservableTriggers.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample03_GameObjectAsObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample04_ConvertFromUnityCallback.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample05_ConvertFromCoroutine.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample06_ConvertToCoroutine.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample07_OrchestratIEnumerator.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample08_DetectDoubleClick.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample09_EventHandling.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample10_MainThreadDispatcher.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample11_Logger.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample12_ReactiveProperty.cs" />
+    <Compile Include="Assets\External\UniRx\Examples\Sample13_ToDoApp.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Asynchronous\WebRequestExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\BooleanDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\CancellationDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\CompositeDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\DictionaryDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\Disposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\DisposableExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\ICancelable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\MultipleAssignmentDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\RefCountDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\ScheduledDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\SerialDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\SingleAssignmentDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Disposables\StableCompositeDisposable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\EventPattern.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\AscynLock.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\ImmutableList.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\ListObserver.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\MicroCoroutine.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\PriorityQueue.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\ReflectionAccessor.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\ScheduledItem.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\InternalUtil\ThreadSafeQueueWorker.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Notification.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Notifiers\BooleanNotifier.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Notifiers\CountNotifier.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Notifiers\MessageBroker.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Notifiers\ScheduledNotifier.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Aggregate.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Awaiter.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Binding.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Blocking.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Concatenate.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Concurrency.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Conversions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Creation.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.ErrorHandling.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Events.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.FromAsync.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Joins.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Paging.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observable.Time.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Observer.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Aggregate.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Amb.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\AsObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\AsSingleUnitObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\AsUnitObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Buffer.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Cast.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Catch.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\CombineLatest.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Concat.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ContinueWith.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Create.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\DefaultIfEmpty.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Defer.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Delay.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\DelaySubscription.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Dematerialize.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Distinct.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\DistinctUntilChanged.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Do.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Empty.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Finally.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\First.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ForEachAsync.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\FromEvent.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\GroupBy.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\IgnoreElements.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Last.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Materialize.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Merge.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Never.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ObserveOn.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\OfType.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\OperatorObservableBase.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\OperatorObserverBase.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\PairWise.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Range.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\RefCount.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Repeat.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\RepeatSafe.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Return.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Sample.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Scan.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Select.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\SelectMany.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\SelectWhere.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Single.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Skip.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\SkipUntil.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\SkipWhile.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Start.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\StartWith.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\SubscribeOn.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Switch.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Synchronize.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\SynchronizedObserver.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Take.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\TakeLast.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\TakeUntil.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\TakeWhile.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Throttle.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ThrottleFirst.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Throw.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\TimeInterval.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Timeout.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Timer.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Timestamp.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ToArray.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ToList.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ToObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Wait.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\WhenAll.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Where.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\WhereSelect.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\WithLatestFrom.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\Zip.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Operators\ZipLatest.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Pair.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Schedulers\CurrentThreadScheduler.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Schedulers\ImmediateScheduler.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Schedulers\IScheduler.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Schedulers\Scheduler.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Schedulers\ThreadPoolScheduler.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\AsyncSubject.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\BehaviorSubject.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\ConnectableObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\ISubject.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\ReplaySubject.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\Subject.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Subjects\SubjectExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\System\IObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\System\IObserver.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\System\IOptimizedObservable.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\System\IProgress.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\System\Tuple.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\System\Unit.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Tasks\TaskObservableExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\TimeInterval.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\Timestamped.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\AotSafeExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\AsyncOperationExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\CancellationToken.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\CoroutineAsyncBridge.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Diagnostics\LogEntry.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Diagnostics\LogEntryExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Diagnostics\Logger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Diagnostics\ObservableDebugExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Diagnostics\ObservableLogger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Diagnostics\UnityDebugSink.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\FrameInterval.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\InspectableReactiveProperty.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\InspectorDisplayDrawer.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\LazyTask.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\LifetimeDisposableExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\MainThreadDispatcher.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\MainThreadScheduler.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Observable.Unity.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ObservableMonoBehaviour.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ObservableWWW.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ObserveExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\BatchFrame.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\DelayFrame.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\DelayFrameSubscription.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\FrameInterval.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\FrameTimeInterval.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\FromCoroutine.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\RepeatUntil.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\SampleFrame.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\SubscribeOnMainThread.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\ThrottleFirstFrame.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\ThrottleFrame.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Operators\TimeoutFrame.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\PresenterBase.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ReactiveCollection.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ReactiveCommand.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ReactiveDictionary.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ReactiveProperty.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\ScenePlaybackDetector.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Toolkit\ObjectPool.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableAnimatorTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableBeginDragTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableCancelTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableCanvasGroupChangedTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableCollision2DTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableCollisionTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableDeselectTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableDestroyTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableDragTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableDropTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableEnableTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableEndDragTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableEventTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableFixedUpdateTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableInitializePotentialDragTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableLateUpdateTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableMouseTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableMoveTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableParticleTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservablePointerClickTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservablePointerDownTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservablePointerEnterTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservablePointerExitTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservablePointerUpTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableRectTransformTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableScrollTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableSelectTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableStateMachineTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableSubmitTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTransformChangedTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTrigger2DTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTriggerBase.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTriggerExtensions.Component.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTriggerExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTriggerTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableUpdateSelectedTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableUpdateTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableVisibleTrigger.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\TypedMonoBehaviour.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\UniRxSynchronizationContext.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\UnityEqualityComparer.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\UnityEventExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\UnityGraphicExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\UnityUIComponentExtensions.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityEngineBridge\YieldInstructionCache.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\Thread.cs" />
+    <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\ThreadPoolScheduler_UnityWinRT.cs" />
+    <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
+    <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\External\Adic\CHANGELOG.txt" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald Bold - OFL.txt" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\NotoSans - License.txt" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\External\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
+    <None Include="Assets\External\colib\colib\License.txt" />
+    <None Include="Assets\External\UniRx\ReadMe.txt" />
+    <None Include="Assets\External\Adic\LICENSE.txt" />
+    <None Include="Assets\External\Flow\Portfolio.txt" />
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>/Users/christian/src/Chess2/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.StandardEvents">
+      <HintPath>/Users/christian/src/Chess2/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.BaselibModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.BaselibModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CloudWebServicesModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CloudWebServicesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.FacebookModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.FacebookModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticlesLegacyModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTrackingModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpatialTrackingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StyleSheetsModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TimelineModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TimelineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WebModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Locator">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/Unity.Locator.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GoogleAudioSpatializer">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>/Users/christian/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>/Users/christian/Library/Unity/cache/packages/packages.unity.com/com.unity.purchasing@2.0.1/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StandardEvents">
+      <HintPath>/Users/christian/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-2017.3-Runtime">
+      <HintPath>/Users/christian/src/Chess2/Assets/External/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-2017.3-Editor">
+      <HintPath>/Users/christian/src/Chess2/Assets/External/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/UnityScript.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript.Lang">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/UnityScript.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/Boo.Lang.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

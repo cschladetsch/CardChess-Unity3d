@@ -1,7 +1,9 @@
 ﻿using System;
 using Flow;
 
-namespace App
+using App.Model;
+
+namespace App.Controller
 {
     public class Player : Agent, IPlayer
     {
@@ -18,12 +20,12 @@ namespace App
             throw new NotImplementedException();
         }
 
-        public IFuture<PlayCard> TryPlayCard()
+        public IFuture<Model.PlayCard> TryPlayCard()
         {
             throw new NotImplementedException();
         }
 
-        public IFuture<MovePiece> TryMovePiece()
+        public IFuture<Model.MovePiece> TryMovePiece()
         {
             throw new NotImplementedException();
         }

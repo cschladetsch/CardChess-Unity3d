@@ -1,4 +1,4 @@
-﻿namespace App
+﻿namespace App.Model
 {
     // An instance of playing a Card. This could be a creature, item, spell, etc.
     public interface IInstance : IHasId

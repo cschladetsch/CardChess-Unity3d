@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace App
+namespace App.Model
 {
     // A card in a Hand or Deck or Collection
     public interface ICard : IHasId

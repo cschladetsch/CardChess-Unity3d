@@ -4,19 +4,7 @@ using UnityEngine;
 
 namespace App.Model
 {
-    public class Card : MonoBehaviour
+    public class Card : ModelBase
     {
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace App
+﻿
+namespace App.Model
 {
     public interface IAction
     {

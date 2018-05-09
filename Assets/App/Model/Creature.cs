@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace App.Model
 {
-    public class Creature : Agent
+    public class Creature : ModelBase
     {
     }
 }

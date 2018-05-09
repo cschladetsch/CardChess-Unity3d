@@ -1,10 +1,20 @@
-﻿public class Coord
-{
-    public int X, Y;
+﻿using UnityEngine.Assertions;
 
-    public Coord(int x, int y)
+namespace App.Model
+{
+    public class Coord
     {
-        X = x;
-        Y = y;
-    }
+        public int X, Y;
+
+        public Coord(int x, int y)
+        {
+            Assert.IsTrue(x >= 0);
+            Assert.IsTrue(y >= 0);
+            Assert.IsTrue(x < 20);
+            Assert.IsTrue(y < 20);
+
+            X = x;
+            Y = y;
+        }
+    }    
 }

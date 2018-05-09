@@ -14,11 +14,11 @@ namespace App.Model
     /// the topright corner for white is at contents[Height - 1][Width - 1]
     /// Both Black and White use the same coordinate system.
     /// </summary>
-    public class Board : MonoBehaviour
+    public class Board : ModelBase
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public float SquareSideLength;
+        public float SquareSideLength = 2;
 
         public void Create(int width, int height)
         {

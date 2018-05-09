@@ -1,6 +1,6 @@
 ﻿using Flow;
 
-namespace App
+namespace App.Model
 {
     /// <summary>
     /// A Player in the game.

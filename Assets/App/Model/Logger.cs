@@ -1,15 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-namespace App
+namespace App.Model
 {
     /// <summary>
-    /// Log system used by agents.
-    /// Only derives from MonoBehaviour so it can be used as a base
-    /// for Agents.
+    /// Log system used by Models.
     /// </summary>
-    public class Logger : MonoBehaviour
+    public class Logger
     {
+        public string Name { get; set; }
+
         public enum ELevel
         {
             None = 0, Info = 1, Warn = 2, Verbose = 4, Error = 8,
@@ -64,8 +64,8 @@ namespace App
         private string MakeEntry(ELevel level, string text)
         {
             return string.Format(
-                "{0}:step {1}:type {2}:name {3}:\n\t'{4}'",
-                _logPrefix, Arbiter.Kernel.StepNumber, GetType(), name, text);
+                "{0}:type {1}:name {2}:\n\t'{3}'",
+                _logPrefix, GetType(), Name, text);
         }
 
         protected string _logPrefix;

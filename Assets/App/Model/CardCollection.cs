@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace App.Model
 {
-    public abstract class CardCollection : ICardCollection
+    public abstract class CardCollection : ModelBase, ICardCollection
     {
         public IList<ICard> Cards { get; private set; }
 

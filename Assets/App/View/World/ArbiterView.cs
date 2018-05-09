@@ -7,17 +7,24 @@ using Adic;
 using CoLib;
 using Flow;
 
+using App.Model;
+
 namespace App.View.World
 {
+    public class ViewBase
+    {
+        
+    }
+
     /// <summary>
     /// Responsible for all visual and audio animations that occur as a result of 
     /// decisions made by the arbiter.
     /// </summary>
-    public class ArbiterView : Agent
+    public class ArbiterView : ViewBase
     {
         public Model.Board Board { get { return _arbiter.Board; } }
 
-        public ArbiterView(Arbiter arbiter)
+        public ArbiterView(Model.Arbiter arbiter)
         {
             _arbiter = arbiter;
         }
