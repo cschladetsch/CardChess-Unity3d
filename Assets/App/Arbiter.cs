@@ -5,29 +5,28 @@ using Flow;
 using App.View;
 using App.Model;
 
-namespace App.Controller
+namespace App
 {
     public enum EColor { White, Black }
 
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
     /// </summary>
-    public class Arbiter : AgentBase
+    public class Arbiter : Logger
     {
         public static Flow.IKernel Kernel;
 
         public IPlayer CurrentPlayer {  get { return _players[_currentPlayer]; } }
         public Model.Board Board { get { return _board; } }
 
-        protected override bool Construct()
+        public Arbiter()
         {
             Kernel = Flow.Create.Kernel();
             _new = Kernel.Factory;
             //_view = new View.World.ArbiterView(this);
-            return true;
         }
 
-        protected override void Step()
+        public void Step()
         {
             Kernel.Step();
         }
@@ -159,20 +158,22 @@ namespace App.Controller
         {
             // TODO: show player lost sequence
             Info("Player {0} lost", loser);
-            yield return self.ResumeAfter(_view.PlayerLost(loser));
+            //yield return self.ResumeAfter(_view.PlayerLost(loser));
+            yield break;
         }
 
         IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
         {
             Info("Player {0} timedout", player);
-            yield return self.ResumeAfter(_view.PlayerTimedOut(player));
+            //yield return self.ResumeAfter(_view.PlayerTimedOut(player));
+            yield break;
         }
 
         IEnumerator TestCanPlayCardCoro(IGenerator self, PlayCard playCard, IFuture<bool> canPlay)
         {
             // TODO: if card can't be played, show why
             Info("Card play {0} is invalid");
-            yield return self.ResumeAfter(_view.InvalidPlay(playCard));
+            //yield return self.ResumeAfter(_view.InvalidPlay(playCard));
             canPlay.Value = false;
             yield break;
         }
@@ -181,7 +182,7 @@ namespace App.Controller
         {
             // TODO: if card can't be moved, show why
             Info("Move {0} is invalid");
-            yield return self.ResumeAfter(_view.InvalidMove(move));
+            //yield return self.ResumeAfter(_view.InvalidMove(move));
             canMove.Value = false;
             yield break;
         }
@@ -190,20 +191,23 @@ namespace App.Controller
         {
             // TODO: play the card
             Info("PlayCard: {0}", playCard);
-            yield return self.ResumeAfter(_view.PlayCard(playCard));
+            //yield return self.ResumeAfter(_view.PlayCard(playCard));
+            yield break;
         }
 
         IEnumerator MovePieceCoro(IGenerator self, MovePiece move)
         {
             Info("Move: {0}", move);
-            yield return self.ResumeAfter(_view.MovePiece(move));
+            //yield return self.ResumeAfter(_view.MovePiece(move));
+            yield break;
         }
 
         IEnumerator PlayerInCheckCoro(IGenerator self, IPlayer player)
         {
             // TODO: show why player is in check
             Info("Player {0} is in check", player.Color, player);
-            yield return self.ResumeAfter(_view.PlayerInCheck(player));
+            //yield return self.ResumeAfter(_view.PlayerInCheck(player));
+            yield break;
         }
 
         IEnumerator NextPlayerTurnCoro(IGenerator self)
@@ -212,7 +216,8 @@ namespace App.Controller
             _currentPlayer = (_currentPlayer + 1) % _players.Length;
             // TODO: animations etc.
             Info("Next player turn {0}", _currentPlayer);
-            yield return self.ResumeAfter(_view.NextPlayerTurn(previous, CurrentPlayer));
+            //yield return self.ResumeAfter(_view.NextPlayerTurn(previous, CurrentPlayer));
+            yield break;
         }
 
         private Model.Board _board;
@@ -220,7 +225,5 @@ namespace App.Controller
         private int _currentPlayer;
         private IFactory _new;
         private ICoroutine _playerTimerCountdown;
-
-        App.View.World.ArbiterView _view;
     }
 }

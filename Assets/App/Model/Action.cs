@@ -1,17 +1,29 @@
 ﻿
 namespace App.Model
 {
+    public enum EAction
+    {
+        None,
+        Pass,
+        PlayCard,
+        MovePiece,
+        ClaimDraw,
+        ClaimWin,
+    }
+
     public interface IAction
     {
         IPlayer Player { get; }
+        EAction Action { get; }
     }
 
     /// <summary>
     /// Common to all Actions
     /// </summary>
-    public class ActionBase : IAction
+    public abstract class ActionBase : IAction
     {
-        public IPlayer Player { get; private set; }
+        public IPlayer Player { get; protected set; }
+        public EAction Action { get; protected set; }
     }
 
     /// <summary>

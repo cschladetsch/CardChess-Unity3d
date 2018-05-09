@@ -3,9 +3,9 @@ using Flow;
 
 using App.Model;
 
-namespace App.Controller
+namespace App
 {
-    public class Player : Agent, IPlayer
+    public class Player : IPlayer
     {
         public IUser User { get; private set; }
         public Model.Hand Hand { get; private set; }

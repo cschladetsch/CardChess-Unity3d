@@ -14,7 +14,7 @@ Each player starts with 1 mana and gains 1 mana at the start of his turn. Each c
 
 ## Cards
 
-After both Kings are placed, each player draws 7 cards. Cards can be of the following type:
+Before both Kings are placed, each player draws 7 cards. Cards can be of the following type:
 
 1. A Creature
 1. An Item
@@ -22,15 +22,17 @@ After both Kings are placed, each player draws 7 cards. Cards can be of the foll
 
 ### Creatures
 
-When a Creature card is played, it must be placed on a square adjacent to its King unless otherwise stated on the Creature Card.
+In general, creatures can be placed anywhere on the board as long as it doesn't result in a Check or Checkmate.
+
+### Creature Movement
 
 Different creatures have different movement abilities. In general, a given creature will move like a piece in chess: A Pawn, Queen, Root, Bishop, Knight.
 
-Some creatures have special movement abilities like flying.
+Some creatures have special movement abilities like Flying. Flying creatures are not blocked by other non-flying creatures.
 
-Most creatures have an Attack strengh and a Health amount.
+All creatures have an Attack strengh and a Health amount. When a creature's health is reduced to below zero, it is removed from the board and placed in the player's Graveyard.
 
-When a creature lands on a square occupied by an enemy creature, they Battle. If a creature's health ever drops below zero, it is removed from the board and put in the Graveyard. Creatures with zero health are unconcious and cannot move. 
+When a creature lands on a square occupied by an enemy creature, they Battle.
 
 Some creatures can heal other creatures.
 
