@@ -1,6 +1,7 @@
 Temp/
 Library/
 Builds/
+obj/
 .DS_Store
 .vs/
 
