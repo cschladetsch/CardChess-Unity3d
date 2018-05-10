@@ -1,4 +1,4 @@
-// (C) 2012-2018 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See https://github.com/cschladetsch/Flow.
 
 using System;
 using System.Collections;
@@ -16,8 +16,8 @@ namespace Flow.Impl
     /// </summary>
     public partial class Factory : IFactory
     {
-        // TODO: does the Factory really need a referene to a kernel? 
-        // Kernel and Factory should be separated? 
+        // TODO: does the Factory really need a referene to a kernel?
+        // Kernel and Factory should be separated?
         public IKernel Kernel { get; set; }
 
         public bool AutoAdd { get; set; }
