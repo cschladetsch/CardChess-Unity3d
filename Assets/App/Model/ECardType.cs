@@ -2,13 +2,14 @@
 {
     public enum ECardType
     {
-        Pawn,
+        Peon,
         King,
         Queen,
-        Rook,
+        Castle,
         Bishop,
-        Knight,
+        Gryphon,
         Barricade,
         Siege,
+        Dragon
     }
 }

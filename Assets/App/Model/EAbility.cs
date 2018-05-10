@@ -7,5 +7,6 @@
         Charge,
         Drain,
         Lethal,
+        Static
     }
 }
