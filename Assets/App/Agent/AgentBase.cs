@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Flow;
-using UnityEngine;
 using UnityEngine.Assertions;
+using Flow;
 
 namespace  App.Agent
 {
@@ -31,17 +29,19 @@ namespace  App.Agent
     {
     }
 
-    public interface IAgent<in T0>
+    public interface IAgent<IModel> where IModel : class
     {
-        bool Create(T0 t0);
+        IModel Model { get; }
+        bool Create(IModel model);
     }
 
     public abstract class AgentCoroBase<IModel> : Flow.Impl.Coroutine, IAgent<IModel> where IModel : class
     {
-        public IModel Model { get { return _model; } }
+        public IModel Model => _model;
 
         public bool Create(IModel model)
         {
+            Start = Next;
             Assert.IsNotNull(model);
             _model = model;
             return Create();
