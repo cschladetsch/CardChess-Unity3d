@@ -14,5 +14,6 @@ namespace App.Agent
         IFuture<PlayCard> PlayCard();
         IFuture<MovePiece> MovePiece();
         IFuture<bool> Pass();
+        IFuture<EResponse> NewGame();
     }
 }

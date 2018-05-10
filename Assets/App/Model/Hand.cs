@@ -5,5 +5,7 @@
         public void RemoveRandom()
         {
         }
+
+        public override int MaxCards => 9;
     }
 }

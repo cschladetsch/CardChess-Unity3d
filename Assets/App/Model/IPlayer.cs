@@ -24,5 +24,6 @@ namespace App.Model
         IHand Hand { get; }
         IDeck Deck { get; }
         IDictionary<CardCollectionDesc, ICardCollection> Collections { get; }
+        void NewGame();
     }
 }

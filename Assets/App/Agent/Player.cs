@@ -12,12 +12,9 @@ using UnityEngine.Assertions;
 
 namespace App.Agent
 {
-    public class Player : AgentCoroBase<Model.IPlayer>, IAgent<Model.IPlayer>, IPlayer
+    public class Player : AgentCoroBase<Model.IPlayer>, IPlayer
     {
-        public EColor Color
-        {
-            get { return _model.Color; }
-        }
+        public EColor Color => _model.Color;
 
         IFuture<EResponse> IPlayer.AddMaxMana(int mana)
         {
@@ -61,6 +58,13 @@ namespace App.Agent
         public IFuture<bool> Pass()
         {
             throw new NotImplementedException();
+        }
+
+        public IFuture<EResponse> NewGame()
+        {
+            _model.NewGame();
+            var future = Factory.Future<EResponse>();
+            return future;
         }
 
         public void AddMaxMana(int mana)
