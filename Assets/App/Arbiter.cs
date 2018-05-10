@@ -4,10 +4,12 @@ using Flow;
 
 using App.View;
 using App.Model;
+using UnityEngine.Assertions;
+using IPlayer = App.Agent.IPlayer;
 
 namespace App
 {
-    public enum EColor { White, Black }
+    public enum EColor { White, Black, Neutral, None }
 
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
@@ -23,7 +25,33 @@ namespace App
         {
             Kernel = Flow.Create.Kernel();
             _new = Kernel.Factory;
-            //_view = new View.World.ArbiterView(this);
+        }
+
+        public Arbiter(Board board)
+            : this()
+        {
+            Assert.IsNotNull(board);
+            _board = board;
+        }
+
+        public TAgent NewAgent<TAgent, TModel>(TModel model) where TAgent : class, ITransient, Agent.IAgent<TModel>, new()
+        {
+            var agent = Kernel.Factory.Prepare(new TAgent());
+            if (!agent.Create(model))
+            {
+                Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
+                return null;
+            }
+
+            return agent;
+        }
+
+        public void SetPlayers(IPlayer p0, IPlayer p1)
+        {
+            Assert.IsNotNull(p0);
+            Assert.IsNotNull(p1);
+            _players[0] = p0;
+            _players[1] = p1;
         }
 
         public void Step()
@@ -53,8 +81,8 @@ namespace App
                 yield break;
             }
 
-            var tryPlayCard = player.TryPlayCard();
-            var tryMovePiece = player.TryMovePiece();
+            var tryPlayCard = player.PlayCard();
+            var tryMovePiece = player.MovePiece();
             var passed = player.Pass();
 
             var trigger = _new.TimedTrigger(TimeSpan.FromSeconds(timeOut), tryPlayCard, tryMovePiece, passed);
@@ -225,5 +253,15 @@ namespace App
         private int _currentPlayer;
         private IFactory _new;
         private ICoroutine _playerTimerCountdown;
+
+        public void NewGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartGame()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

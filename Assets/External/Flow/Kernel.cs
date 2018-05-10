@@ -1,4 +1,4 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
 
 using System;
 using System.Diagnostics;
@@ -6,18 +6,18 @@ using Flow.Logger;
 
 namespace Flow.Impl
 {
-	public class Kernel : Generator<bool>, IKernel
-	{
-		public EDebugLevel DebugLevel { get; set; }
-		public Logger.ILogger Trace { get; set; }
-		public INode Root { get; set; }
+    public class Kernel : Generator<bool>, IKernel
+    {
+        public EDebugLevel DebugLevel { get; set; }
+        public Logger.ILogger Trace { get; set; }
+        public INode Root { get; set; }
         public new IFactory Factory { get; internal set; }
 
-		internal Kernel()
-		{
-			var level = ELogEntryType.Everything;
+        internal Kernel()
+        {
+            var level = ELogEntryType.Everything;
 
-			Trace = new Logger.Logger(level, "Kernel");
+            Trace = new Logger.Logger(level, "Kernel");
 #if UNITY3D
 			Trace.AddLogger(new UnityLogger(eLevel));
 #endif
@@ -26,100 +26,97 @@ namespace Flow.Impl
 			Trace.AddLogger(new ConsoleLogger(entryType));
 #endif
 
-			_time.Now = DateTime.Now;
-			_time.Last = _time.Now;
-			_time.Delta = TimeSpan.FromSeconds(0);
-		}
+            _time.Now = DateTime.Now;
+            _time.Last = _time.Now;
+            _time.Delta = TimeSpan.FromSeconds(0);
+        }
 
-		public ITimeFrame Time
-		{
-			get { return _time; }
-		}
+        public ITimeFrame Time => _time;
 
-		public void WaitSteps(int numSteps)
-		{
-			throw new NotImplementedException();
-		}
+        public void WaitSteps(int numSteps)
+        {
+            throw new NotImplementedException();
+        }
 
-		public bool Break { get; private set; }
+        public bool Break { get; private set; }
 
-		public void BreakFlow()
-		{
-			Break = true;
-		}
+        public void BreakFlow()
+        {
+            Break = true;
+        }
 
-		public void ContinueFlow()
-		{
-			Break = false;
-		}
+        public void ContinueFlow()
+        {
+            Break = false;
+        }
 
-		public void Wait(TimeSpan span)
-		{
-			if (_waiting)
-			{
-				_resumeTime += span;
-				return;
-			}
+        public void Wait(TimeSpan span)
+        {
+            if (_waiting)
+            {
+                _resumeTime += span;
+                return;
+            }
 
-			_resumeTime = _time.Now + span;
-			_waiting = true;
-		}
+            _resumeTime = _time.Now + span;
+            _waiting = true;
+        }
 
-		public void Update(float dt)
-		{
-			UpdateTime(dt);
+        public void Update(float dt)
+        {
+            UpdateTime(dt);
 
-			Process();
-		}
+            Process();
+        }
 
-		private void UpdateTime(float dt)
-		{
-			var delta = TimeSpan.FromSeconds(dt);
-			_time.Last = _time.Now;
-			_time.Delta = delta;
-			_time.Now = _time.Now + delta;
-		}
+        private void UpdateTime(float dt)
+        {
+            var delta = TimeSpan.FromSeconds(dt);
+            _time.Last = _time.Now;
+            _time.Delta = delta;
+            _time.Now = _time.Now + delta;
+        }
 
-		public override void Step()
-		{
-			StepTime();
+        public override void Step()
+        {
+            StepTime();
 
-			if (_waiting)
-			{
-				if (_time.Now > _resumeTime)
-				{
-					_resumeTime = DateTime.MinValue;
-					_waiting = false;
-				}
-				else
-					return;
-			}
+            if (_waiting)
+            {
+                if (_time.Now > _resumeTime)
+                {
+                    _resumeTime = DateTime.MinValue;
+                    _waiting = false;
+                }
+                else
+                    return;
+            }
 
-			Process();
-		}
+            Process();
+        }
 
-		private void Process()
-		{
-			if (Break)
-				return;
+        private void Process()
+        {
+            if (Break)
+                return;
 
-			if (!IsNullOrInactive(Root))
-				Root.Step();
+            if (!IsNullOrInactive(Root))
+                Root.Step();
 
-			base.Step();
-		}
+            base.Step();
+        }
 
-		public void StepTime()
-		{
-			var now = DateTime.Now;
+        public void StepTime()
+        {
+            var now = DateTime.Now;
 
-			_time.Last = _time.Now;
-			_time.Delta = now - _time.Last;
-			_time.Now = now;
-		}
+            _time.Last = _time.Now;
+            _time.Delta = now - _time.Last;
+            _time.Now = now;
+        }
 
-		private bool _waiting;
-		private DateTime _resumeTime;
-		private readonly TimeFrame _time = new TimeFrame();
-	}
+        private bool _waiting;
+        private DateTime _resumeTime;
+        private readonly TimeFrame _time = new TimeFrame();
+    }
 }

@@ -1,76 +1,75 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
 
 using System.Collections.Generic;
 
 namespace Flow.Impl
 {
-	internal class Channel<TR> : Subroutine<bool>, IChannel<TR>
-	{
-		private readonly Queue<IFuture<TR>> _requests = new Queue<IFuture<TR>>();
+    internal class Channel<TR> : Subroutine<bool>, IChannel<TR>
+    {
+        internal Channel(IKernel kernel)
+        {
+            Sub = StepChannel;
+            Completed += tr => Close();
+        }
 
-		private readonly Queue<TR> _values = new Queue<TR>();
+        internal Channel(IKernel kernel, IGenerator<TR> gen)
+            : this(kernel)
+        {
+            gen.Stepped += g => Insert(gen.Value);
+            CompleteAfter(gen);
+        }
 
-		internal Channel(IKernel kernel)
-		{
-			Sub = StepChannel;
-			Completed += tr => Close();
-		}
+        public IFuture<TR> Extract()
+        {
+            var future = Factory.Future<TR>();
+            _requests.Enqueue(future);
+            return future;
+        }
 
-		internal Channel(IKernel kernel, IGenerator<TR> gen)
-			: this(kernel)
-		{
-			gen.Stepped += g => Insert(gen.Value);
-			CompleteAfter(gen);
-		}
+        public List<TR> ExtractAll()
+        {
+            Flush();
 
-		public IFuture<TR> Extract()
-		{
-			IFuture<TR> future = Factory.Future<TR>();
-			_requests.Enqueue(future);
-			return future;
-		}
+            var list = new List<TR>();
+            while (_values.Count > 0)
+            {
+                list.Add(_values.Dequeue());
+            }
 
-		public List<TR> ExtractAll()
-		{
-			Flush();
+            return list;
+        }
 
-			var list = new List<TR>();
-			while (_values.Count > 0)
-			{
-				list.Add(_values.Dequeue());
-			}
+        public void Insert(TR val)
+        {
+            _values.Enqueue(val);
+        }
 
-			return list;
-		}
+        public void Flush()
+        {
+            while (_values.Count > 0 && _requests.Count > 0)
+            {
+                _requests.Dequeue().Value = _values.Dequeue();
+            }
+        }
 
-		public void Insert(TR val)
-		{
-			_values.Enqueue(val);
-		}
+        internal void Close()
+        {
+            Flush();
 
-		public void Flush()
-		{
-			while (_values.Count > 0 && _requests.Count > 0)
-			{
-				_requests.Dequeue().Value = _values.Dequeue();
-			}
-		}
+            foreach (var f in _requests)
+            {
+                f.Complete();
+            }
+        }
 
-		internal void Close()
-		{
-			Flush();
+        private bool StepChannel(IGenerator self)
+        {
+            Flush();
 
-			foreach (var f in _requests)
-			{
-				f.Complete();
-			}
-		}
+            return true;
+        }
 
-		private bool StepChannel(IGenerator self)
-		{
-			Flush();
-
-			return true;
-		}
-	}
+        private readonly Queue<IFuture<TR>> _requests = new Queue<IFuture<TR>>();
+        private readonly Queue<TR> _values = new Queue<TR>();
+    }
 }

@@ -4,81 +4,88 @@ using System.Collections.Generic;
 
 namespace Flow.Impl
 {
-	internal class Coroutine : Generator, ICoroutine
-	{
-		public override object Value {
-			get { return _value; }
-		}
+    public class Coroutine : Generator, ICoroutine
+    {
+        public override object Value => _value;
 
-		private object _value;
+        private object _value;
 
-		public override void Step()
-		{
-			if (!Running || !Active)
-				return;
+        public Coroutine()
+        {
+        }
 
-			if (_state == null)
-			{
-				if (Start == null)
-					CannotStart();
-				else
-					_state = Start();
+        public Coroutine(Func<IEnumerator> start)
+        {
+            Start = start;
+        }
 
-				if (_state == null)
-					CannotStart();
-			}
+        public override void Step()
+        {
+            if (!Running || !Active)
+                return;
 
-			if (_state == null || !_state.MoveNext())
-			{
-				Complete();
-				return;
-			}
+            if (_state == null)
+            {
+                if (Start == null)
+                    CannotStart();
+                else
+                    _state = Start();
 
-			_value = _state.Current;
+                if (_state == null)
+                    CannotStart();
+            }
 
-			base.Step();
-		}
+            if (_state == null || !_state.MoveNext())
+            {
+                Complete();
+                return;
+            }
 
-		protected static void CannotStart()
-		{
-			throw new Exception("Coroutine cannot start");
-		}
+            _value = _state.Current;
 
-		internal Func<IEnumerator> Start;
+            base.Step();
+        }
 
-		protected IEnumerator _state;
-	}
+        protected static void CannotStart()
+        {
+            throw new Exception("Coroutine cannot start");
+        }
 
-	internal class Coroutine<T> : Generator<T>, ICoroutine<T>
-	{
-		public override void Step()
-		{
-			if (!Running || !Active)
-				return;
+        internal Func<IEnumerator> Start;
 
-			if (_state == null)
-			{
-				if (Start == null)
-					CannotStart();
-				else
-					_state = Start();
+        protected IEnumerator _state;
+    }
 
-				if (_state == null)
-					CannotStart();
-			}
+    internal class Coroutine<T> : Generator<T>, ICoroutine<T>
+    {
+        public override void Step()
+        {
+            if (!Running || !Active)
+                return;
 
-			if (_state == null || !_state.MoveNext())
-			{
-				Complete();
-				return;
-			}
+            if (_state == null)
+            {
+                if (Start == null)
+                    CannotStart();
+                else
+                    _state = Start();
 
-			Value = _state.Current;
+                if (_state == null)
+                    CannotStart();
+            }
 
-			base.Step();
-		}
+            if (_state == null || !_state.MoveNext())
+            {
+                Complete();
+                return;
+            }
 
-		internal Func<IEnumerator<T>> Start;
-		private IEnumerator<T> _state;
-	}
+            Value = _state.Current;
+
+            base.Step();
+        }
+
+        internal Func<IEnumerator<T>> Start;
+        private IEnumerator<T> _state;
+    }
 }

@@ -20,6 +20,11 @@ namespace App.Model
         public int Height { get; private set; }
         public float SquareSideLength = 2;
 
+        public Board(int width, int height)
+        {
+            Create(width, height);
+        }
+
         public void Create(int width, int height)
         {
             _contents = new List<List<IInstance>>();
@@ -58,6 +63,7 @@ namespace App.Model
         }
 
         private List<List<IInstance>> _contents;
+
     }
 }
 

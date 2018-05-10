@@ -35,7 +35,7 @@ namespace Flow.Impl.Unity
             float total = seconds;
             while (seconds > 0)
             {
-                var alpha = 1f - seconds/total;
+                var alpha = 1f - seconds / total;
 
                 action(alpha);
 
@@ -45,22 +45,22 @@ namespace Flow.Impl.Unity
             }
         }
 
-     //   public IGenerator MoveTo<T>(Ref<T> src, T target, float seconds)
-     //   {
-	    //    dynamic s = src.Get();
-	    //    dynamic tgt = target;
+        //   public IGenerator MoveTo<T>(Ref<T> src, T target, float seconds)
+        //   {
+        //    dynamic s = src.Get();
+        //    dynamic tgt = target;
 
-	    //    return Prepare(OverTime((t) => src.Set(Interp<T>(s, tgt, t)), seconds));
-     //   }
+        //    return Prepare(OverTime((t) => src.Set(Interp<T>(s, tgt, t)), seconds));
+        //   }
 
-	    //T Interp<T>(dynamic a, dynamic b, float t)
-	    //{
-		   // return a + (b - a) * t;
-	    //}
-	    public IGenerator MoveTo<T>(Ref<T> src, T target, float seconds)
-	    {
-		    throw new NotImplementedException();
-	    }
+        //T Interp<T>(dynamic a, dynamic b, float t)
+        //{
+        // return a + (b - a) * t;
+        //}
+        public IGenerator MoveTo<T>(Ref<T> src, T target, float seconds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

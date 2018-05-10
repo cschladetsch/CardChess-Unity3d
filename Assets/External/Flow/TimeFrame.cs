@@ -1,11 +1,11 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
 
 using System;
 
 namespace Flow.Impl
 {
 	/// <summary>
-	///     TODO: delta-capping, pausing, introduction of zulu/sim time differences
+	/// TODO: delta-capping, pausing, introduction of zulu/sim time differences
 	/// </summary>
 	internal class TimeFrame : ITimeFrame
 	{

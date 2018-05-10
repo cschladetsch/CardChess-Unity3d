@@ -1,4 +1,4 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
 
 using System;
 using System.Collections;
@@ -169,7 +169,7 @@ namespace Flow.Impl
             return Prepare(Coroutine(SequenceCoro, gens));
         }
 
-        private IEnumerator SequenceCoro(IGenerator self, IGenerator[] gens)
+        private static IEnumerator SequenceCoro(IGenerator self, IGenerator[] gens)
         {
             foreach (var gen in gens)
             {

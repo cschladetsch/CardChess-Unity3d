@@ -13,8 +13,7 @@ namespace App
         [TestCase(8,8)]
         public void TestCreate(int width, int height)
         {
-            Model.Board board = new Model.Board();
-            board.Create(width, height);
+            Board board = new Model.Board(width, height);
             Assert.AreEqual(board.Width, width);
             Assert.AreEqual(board.Height, height);
             Assert.IsTrue(board.IsValid(new Coord(0, 0)));
