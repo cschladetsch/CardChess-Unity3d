@@ -32,25 +32,28 @@ namespace  App.Agent
     public interface IAgent<IModel> where IModel : class
     {
         IModel Model { get; }
-        bool Create(IModel model);
+        bool Create(IFactory factory, IModel model);
     }
 
-    public abstract class AgentCoroBase<IModel> : Flow.Impl.Coroutine, IAgent<IModel> where IModel : class
+	public abstract class AgentCoroBase<IModel> : IAgent<IModel> where IModel : class
     {
         public IModel Model => _model;
 
-        public bool Create(IModel model)
+        public bool Create(IFactory factory, IModel model)
         {
-            Start = Next;
             Assert.IsNotNull(model);
-            _model = model;
+			New = factory;
+			_model = model;
+			_coro = factory.Coroutine(Next);
+
             return Create();
         }
 
-        protected abstract IEnumerator Next();
-
+		protected abstract IEnumerator Next(IGenerator self);
         protected abstract bool Create();
 
+		protected IFactory New;
         protected IModel _model;
+		protected IGenerator _coro;
     }
 }

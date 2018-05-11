@@ -18,18 +18,22 @@ namespace App.Agent
         {
             throw new NotImplementedException();
         }
-
+        
         public IFuture<EResponse> AddMana(int mana)
         {
             throw new NotImplementedException();
         }
 
-        protected override IEnumerator Next()
+        protected override IEnumerator Next(IGenerator self)
         {
+            if (_placeKing != null)
+			{
+			}
+
             yield return null;
         }
 
-        protected override bool Create()
+		protected override bool Create()
         {
             return true;
         }
@@ -61,7 +65,7 @@ namespace App.Agent
         public IFuture<EResponse> NewGame()
         {
             _model.NewGame();
-            var future = Factory.Future<EResponse>();
+            var future = New.Future<EResponse>();
             return future;
         }
 

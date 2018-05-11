@@ -40,11 +40,11 @@ namespace App
         /// Make a new Agent that represents a Model.
         /// </summary>
         public TAgent NewAgent<TAgent, TModel>(TModel model)
-            where TAgent : class, ITransient, Agent.IAgent<TModel>, new()
+            where TAgent : class, Agent.IAgent<TModel>, new()
             where TModel : class
         {
-            var agent = _new.Prepare(new TAgent());
-            if (!agent.Create(model))
+            var agent = new TAgent();
+            if (!agent.Create(_new, model))
             {
                 Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
                 return null;
