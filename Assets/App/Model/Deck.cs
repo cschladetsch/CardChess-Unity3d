@@ -9,5 +9,7 @@ namespace App.Model
         {
             throw new NotImplementedException();
         }
+
+        public override int MaxCards => 30;
     }
 }

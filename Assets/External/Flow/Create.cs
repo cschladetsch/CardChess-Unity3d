@@ -1,4 +1,4 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See https://github.com/cschladetsch/Flow.
 
 using Flow.Impl;
 
@@ -6,34 +6,34 @@ using Flow.Impl;
 
 namespace Flow
 {
-	/// <summary>
-	/// Boot-strapper for the flow library using default implementations
-	/// </summary>
-	public static class Create
-	{
-		public static IKernel Kernel()
-		{
-			return NewFactory<Factory>().Kernel;
-		}
+    /// <summary>
+    /// Boot-strapper for the flow library using default implementations
+    /// </summary>
+    public static class Create
+    {
+        public static IKernel Kernel()
+        {
+            return NewFactory<Factory>().Kernel;
+        }
 
-		public static IKernel Kernel<TF>() where TF : class, IFactory, new()
-		{
-			return NewFactory<TF>().Kernel;
-		}
+        public static IKernel Kernel<TF>() where TF : class, IFactory, new()
+        {
+            return NewFactory<TF>().Kernel;
+        }
 
-		public static IFactory NewFactory<TF>() where TF : class, IFactory, new()
-		{
-			var kernel = new Kernel();
-			var factory = new TF();
+        public static IFactory NewFactory<TF>() where TF : class, IFactory, new()
+        {
+            var kernel = new Kernel();
+            var factory = new TF();
 
-			kernel.Factory = factory;
-			factory.Kernel = kernel;
+            kernel.Factory = factory;
+            factory.Kernel = kernel;
 
-			kernel.Root = new Node {Kernel = kernel, Name = "Root"};
+            kernel.Root = new Node { Kernel = kernel, Name = "Root" };
 
-			return factory;
-		}
-	}
+            return factory;
+        }
+    }
 }
 
 #if REQUIRE_EXTENSION_ATTRIBUTE

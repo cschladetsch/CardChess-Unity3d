@@ -5,3 +5,5 @@ obj/
 .DS_Store
 .vs/
 
+# Unified line endings plugin for VS
+.leu

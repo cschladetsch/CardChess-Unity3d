@@ -1,13 +1,13 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See https://github.com/cschladetsch/Flow.
 
 namespace Flow
 {
-	public delegate void NameChangeHandler(INamed named, string newName, string oldName);
+    public delegate void NameChangeHandler(INamed named, string newName, string oldName);
 
-	/// Fires its Renamed event when its Name property is changed.
-	public interface INamed
-	{
-		event NameChangeHandler Renamed;
-		string Name { get; set; }
-	}
+    /// Fires its Renamed event when its Name property is changed.
+    public interface INamed
+    {
+        event NameChangeHandler Renamed;
+        string Name { get; set; }
+    }
 }

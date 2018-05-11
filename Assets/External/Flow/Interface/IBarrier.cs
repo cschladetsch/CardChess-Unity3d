@@ -1,11 +1,11 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See https://github.com/cschladetsch/Flow.
 
 namespace Flow
 {
-	/// <summary>
-	/// A Barrier is a Group that Completes itself when all added Transients have been Removed from it.
-	/// </summary>
-	public interface IBarrier : IGroup
-	{
-	}
+    /// <summary>
+    /// A Barrier is a Group that Completes itself when all added Transients have been Removed from it.
+    /// </summary>
+    public interface IBarrier : IGroup
+    {
+    }
 }

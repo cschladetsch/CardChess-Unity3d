@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-
-using Flow;
+using UnityEngine.Assertions;
 
 namespace App.Model
 {
@@ -18,10 +14,17 @@ namespace App.Model
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public float SquareSideLength = 2;
+
+        public Board(int width, int height)
+        {
+            Create(width, height);
+        }
 
         public void Create(int width, int height)
         {
+            Width = width;
+            Height = height;
+
             _contents = new List<List<IInstance>>();
             for (var n = 0; n < height; ++n)
             {
@@ -30,24 +33,26 @@ namespace App.Model
                     row.Add(null);
                 _contents.Add(row);
             }
+        }
 
-            Width = width;
-            Height = height;
+        public void NewGame()
+        {
+            Create(Width, Height);
         }
 
         public IInstance GetContents(Coord coord)
         {
-            if (!IsValid(coord))
-                return null;
-            return At(coord);
+            return !IsValidCoord(coord) ? null : At(coord);
         }
 
         private IInstance At(Coord coord)
         {
-            return _contents[coord.Y][coord.X];
+            var valid = IsValidCoord(coord);
+            Assert.IsTrue(valid);
+            return !valid ? null : _contents[coord.Y][coord.X];
         }
 
-        public bool IsValid(Coord coord)
+        public bool IsValidCoord(Coord coord)
         {
             return coord.X >= 0 && coord.Y >= 0 && coord.X < Width && coord.Y < Height;
         }

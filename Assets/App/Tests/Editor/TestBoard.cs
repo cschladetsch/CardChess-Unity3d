@@ -13,13 +13,12 @@ namespace App
         [TestCase(8,8)]
         public void TestCreate(int width, int height)
         {
-            Model.Board board = new Model.Board();
-            board.Create(width, height);
+            Board board = new Model.Board(width, height);
             Assert.AreEqual(board.Width, width);
             Assert.AreEqual(board.Height, height);
-            Assert.IsTrue(board.IsValid(new Coord(0, 0)));
-            Assert.IsTrue(board.IsValid(new Coord(width - 1, height - 1)));
-            Assert.IsFalse(board.IsValid(new Coord(width, height)));
+            Assert.IsTrue(board.IsValidCoord(new Coord(0, 0)));
+            Assert.IsTrue(board.IsValidCoord(new Coord(width - 1, height - 1)));
+            Assert.IsFalse(board.IsValidCoord(new Coord(width, height)));
 
             int squares = 0;
             foreach (var square in board.GetContents())

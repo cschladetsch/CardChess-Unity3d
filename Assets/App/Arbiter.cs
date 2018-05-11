@@ -1,29 +1,90 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using App.Database;
 using Flow;
 
 using App.View;
 using App.Model;
+using UnityEngine.Assertions;
+using IPlayer = App.Agent.IPlayer;
 
 namespace App
 {
-    public enum EColor { White, Black }
-
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
     /// </summary>
     public class Arbiter : Logger
     {
-        public static Flow.IKernel Kernel;
+        public static IKernel Kernel;
+        public IPlayer WhitePlayer => _players[0];
+        public IPlayer BlackPlayer => _players[1];
 
-        public IPlayer CurrentPlayer {  get { return _players[_currentPlayer]; } }
-        public Model.Board Board { get { return _board; } }
+        public IPlayer CurrentPlayer => _players[_currentPlayer];
+        public Board Board { get; }
 
         public Arbiter()
         {
-            Kernel = Flow.Create.Kernel();
+            Kernel = Create.Kernel();
             _new = Kernel.Factory;
-            //_view = new View.World.ArbiterView(this);
+        }
+
+        public Arbiter(Board board)
+            : this()
+        {
+            Assert.IsNotNull(board);
+            Board = board;
+        }
+
+        /// <summary>
+        /// Make a new Agent that represents a Model.
+        /// </summary>
+        public TAgent NewAgent<TAgent, TModel>(TModel model)
+            where TAgent : class, ITransient, Agent.IAgent<TModel>, new()
+            where TModel : class
+        {
+            var agent = _new.Prepare(new TAgent());
+            if (!agent.Create(model))
+            {
+                Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
+                return null;
+            }
+
+            return agent;
+        }
+
+        public void SetPlayers(IPlayer p0, IPlayer p1)
+        {
+            Assert.IsNotNull(p0);
+            Assert.IsNotNull(p1);
+            _players[0] = p0;
+            _players[1] = p1;
+        }
+
+        public void NewGame()
+        {
+            Info("New Game");
+
+            _currentPlayer = 0;
+            _turnNumber = 0;
+
+            foreach (var player in _players)
+            {
+                Assert.IsNotNull(player);
+                player.NewGame();
+            }
+
+            Board.NewGame();
+        }
+
+        public void StartGame()
+        {
+            Info("Game Started");
+
+            // TODO Kernel.Root.Add(_new.Coroutine(PlayerStart, WhitePlayer));
+            // TODO Kernel.Root.Add(_new.Coroutine(PlayerStart, BlackPlayer));
+
+            Kernel.Root.Add(_new.Coroutine(PlayerTurn, CurrentPlayer));
         }
 
         public void Step()
@@ -33,17 +94,22 @@ namespace App
 
         IEnumerator PlayerTurn(IGenerator self, IPlayer player)
         {
+            ++_turnNumber;
+
+            Info("Start turn {0}", _turnNumber);
+
             if (PlayerCheckMated(player))
             {
                 yield return self.ResumeAfter(PlayerLost(player));
                 yield break;
             }
+
             player.AddMaxMana(1);
 
             SaveState();
             var timeOut = 60;
             var checks = 0;
-            //_playerTimerCountdown = _new.Coroutine(PlayerTimerCountdownCoro, player);
+            //_playerTimerCountdown = new_.Coroutine(PlayerTimerCountdownCoro, player);
 
         retry:
             RestoreState();
@@ -53,8 +119,8 @@ namespace App
                 yield break;
             }
 
-            var tryPlayCard = player.TryPlayCard();
-            var tryMovePiece = player.TryMovePiece();
+            var tryPlayCard = player.PlayCard();
+            var tryMovePiece = player.MovePiece();
             var passed = player.Pass();
 
             var trigger = _new.TimedTrigger(TimeSpan.FromSeconds(timeOut), tryPlayCard, tryMovePiece, passed);
@@ -111,10 +177,12 @@ namespace App
         void SaveState()
         {
             // TODO: Save state of the board, and both players' hands
+            Info("SaveState");
         }
 
         void RestoreState()
         {
+            Info("RestoreState");
             // TODO: Restore state of the board, and both players' hands
         }
 
@@ -148,7 +216,7 @@ namespace App
         IGenerator PlayerLost(IPlayer player) { return _new.Coroutine(PlayerLostCoro, player); }
         IGenerator PlayerTimedOut(IPlayer player) { return _new.Coroutine(PlayerTimedOutCoro, player); }
         IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return _new.Coroutine(TestCanPlayCardCoro, play, future); }
-        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return _new.Coroutine(TestCanMovePieceCoro, move, future); } 
+        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return _new.Coroutine(TestCanMovePieceCoro, move, future); }
         IGenerator PerformPlayCard(PlayCard playCard) { return _new.Coroutine(PlayCardCoro, playCard); }
         IGenerator PerformMovePiece(MovePiece move) { return _new.Coroutine(MovePieceCoro, move); }
         IGenerator PlayerInCheck(IPlayer player) { return _new.Coroutine(PlayerInCheckCoro, player); }
@@ -220,10 +288,23 @@ namespace App
             yield break;
         }
 
-        private Model.Board _board;
+        public static ICardInstance NewCard(ECardType type, IPlayer owner)
+        {
+            var template = _cardTemplates.OfType(type).FirstOrDefault();
+            if (template == null)
+                return null;
+            return CardInstance.New(template, owner);
+        }
+
+        #region Private Fields
+
         private readonly IPlayer[] _players = new IPlayer[2];
         private int _currentPlayer;
         private IFactory _new;
         private ICoroutine _playerTimerCountdown;
+        private int _turnNumber;
+        private static Database.CardTemplates _cardTemplates = new CardTemplates();
+
+        #endregion
     }
 }

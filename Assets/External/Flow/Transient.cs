@@ -1,95 +1,78 @@
-// (C) 2012 Christian Schladetsch. See http://www.schladetsch.net/flow/license.txt for Licensing information.
+// (C) 2012-2018 Christian Schladetsch. See https://github.com/cschladetsch/Flow.
 
 using System;
 
 namespace Flow.Impl
 {
-	public class Transient : ITransient
-	{
-		//public event NameChangeHandler Renamed;
-		public event TransientHandler Completed;
-		public event TransientHandlerReason WhyCompleted;
+    public class Transient : ITransient
+    {
+        public event TransientHandler Completed;
+        public event TransientHandlerReason WhyCompleted;
 
-		public static bool DebugTrace;
-		public bool Active { get; private set; }
-		public IKernel Kernel { get; /*internal*/ set; }
-		public IFactory Factory { get { return Kernel.Factory; } }
+        public static bool DebugTrace;
+        public bool Active { get; private set; }
+        public IKernel Kernel { get; /*internal*/ set; }
+        public IFactory Factory => Kernel.Factory;
+        public IFactory New => Factory;
 
-		public virtual string Name
-		{
-			get { return _name; }
-			set
-			{
-				if (_name == value)
-					return;
+        public virtual string Name { get; set; }
 
-				//if (Renamed != null)
-				//	Renamed(this, _name, value);
+        public Transient()
+        {
+            Active = true;
+        }
 
-				_name = value;
-			}
-		}
+        public ITransient Named(string name)
+        {
+            Name = name;
+            return this;
+        }
 
-		public Transient()
-		{
-			Active = true;
-		}
+        public void Complete()
+        {
+            if (!Active)
+                return;
 
-		public ITransient Named(string name)
-		{
-			Name = name;
-			return this;
-		}
+            Active = false;
 
-		public void Complete()
-		{
-			if (!Active)
-				return;
+            Completed?.Invoke(this);
+        }
 
-			Active = false;
+        public void CompleteAfter(ITransient other)
+        {
+            if (!Active)
+                return;
 
-			if (Completed != null)
-				Completed(this);
-		}
+            if (other == null)
+                return;
 
-		public void CompleteAfter(ITransient other)
-		{
-			if (!Active)
-				return;
+            if (!other.Active)
+            {
+                Complete();
+                return;
+            }
 
-			if (other == null)
-				return;
+            other.Completed += tr => CompletedBecause(other);
+        }
 
-			if (!other.Active)
-			{
-				Complete();
-				return;
-			}
+        public void CompleteAfter(TimeSpan span)
+        {
+            CompleteAfter(Factory.OneShotTimer(span));
+        }
 
-			other.Completed += tr => CompletedBecause(other);
-		}
+        public static bool IsNullOrInactive(ITransient other)
+        {
+            return other == null || !other.Active;
+        }
 
-		public void CompleteAfter(TimeSpan span)
-		{
-			CompleteAfter(Factory.OneShotTimer(span));
-		}
+        private void CompletedBecause(ITransient other)
+        {
+            if (!Active)
+                return;
 
-		public static bool IsNullOrInactive(ITransient other)
-		{
-			return other == null || !other.Active;
-		}
+            WhyCompleted?.Invoke(this, other);
 
-		private void CompletedBecause(ITransient other)
-		{
-			if (!Active)
-				return;
-
-			if (WhyCompleted != null)
-				WhyCompleted(this, other);
-
-			Complete();
-		}
-
-		private string _name;
-	}
+            Complete();
+        }
+    }
 }
