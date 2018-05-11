@@ -59,11 +59,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\App\Controller\Arbiter.cs" />
-    <Compile Include="Assets\App\Controller\ControllerBase.cs" />
-    <Compile Include="Assets\App\Controller\Player.cs" />
+    <Compile Include="Assets\App\Agent\ControllerBase.cs" />
+    <Compile Include="Assets\App\Arbiter.cs" />
+    <Compile Include="Assets\App\Logger.cs" />
     <Compile Include="Assets\App\Model\Action.cs" />
-    <Compile Include="Assets\App\Model\Arbiter.cs" />
     <Compile Include="Assets\App\Model\Board.cs" />
     <Compile Include="Assets\App\Model\Card.cs" />
     <Compile Include="Assets\App\Model\CardCollection.cs" />
@@ -85,9 +84,9 @@
     <Compile Include="Assets\App\Model\Piece.cs" />
     <Compile Include="Assets\App\Model\Player.cs" />
     <Compile Include="Assets\App\Model\Spell.cs" />
+    <Compile Include="Assets\App\Player.cs" />
     <Compile Include="Assets\App\View\Logger.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
-    <Compile Include="Assets\App\View\World\ArbiterView.cs" />
     <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\BindingPriority.cs" />
     <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\BindingsSetupExtension.cs" />
     <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\IBindingsSetup.cs" />
@@ -590,11 +589,11 @@
     <None Include="Assets\External\UniRx\ReadMe.txt" />
     <None Include="Assets\External\Adic\LICENSE.txt" />
     <None Include="Assets\External\Flow\Portfolio.txt" />
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>/Users/christian/src/Chess2/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/christian/src/Chess2/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>/Users/christian/src/Chess2/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -770,17 +769,17 @@
     <Reference Include="Unity.Locator">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/Unity.Locator.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Timeline">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
@@ -791,6 +790,12 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="TextMeshPro-2017.3-Editor">
+      <HintPath>/Users/christian/src/Chess2/Assets/External/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-2017.3-Runtime">
+      <HintPath>/Users/christian/src/Chess2/Assets/External/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>/Users/christian/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
@@ -799,12 +804,6 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>/Users/christian/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="TextMeshPro-2017.3-Runtime">
-      <HintPath>/Users/christian/src/Chess2/Assets/External/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="TextMeshPro-2017.3-Editor">
-      <HintPath>/Users/christian/src/Chess2/Assets/External/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Editor.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
