@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define UNITY
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -115,7 +117,7 @@ namespace Flow.Logger
         protected virtual string MakeEntryText(DateTime dateTime, ELogEntryType entryType, string message)
         {
             var entry = string.Format("{0}: {1}: #{2}: {3}: {4}", entryType.ToString(), MakeTimeString(dateTime),
-#if UNITY_EDITOR
+#if UNITY
                 UnityEngine.Time.frameCount
 #else
 				0

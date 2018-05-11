@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 using App;
@@ -8,6 +7,7 @@ using App.Agent;
 
 namespace App
 {
+    [TestFixture]
     public class TestKingPlacement
     {
 
@@ -30,16 +30,6 @@ namespace App
             //arbiter.SetPlayers(a0, a1);
             arbiter.NewGame();
             arbiter.StartGame();
-        }
-
-        // A UnityTest behaves like a coroutine in PlayMode
-        // and allows you to yield null to skip a frame in EditMode
-        [UnityTest]
-        public IEnumerator NewTestScriptWithEnumeratorPasses()
-        {
-            // Use the Assert class to test conditions.
-            // yield to skip a frame
-            yield return null;
         }
     }
 }
