@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -603,7 +602,6 @@
     <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\Thread.cs" />
     <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\ThreadPoolScheduler_UnityWinRT.cs" />
     <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
-    <None Include="app.config" />
     <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
