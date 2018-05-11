@@ -346,6 +346,9 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Assets/Packages/NUnit.3.10.1/lib/net45/nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
     </Reference>
@@ -764,6 +767,9 @@
     <None Include="Assets\External\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\External\UniRx\ReadMe.txt" />
     <None Include="Assets\External\colib\colib\License.txt" />
+    <None Include="Assets\Packages\NUnit.3.10.1\LICENSE.txt" />
+    <None Include="Assets\Packages\NUnit.3.10.1\NOTICES.txt" />
+    <None Include="Assets\Packages\NUnit.3.10.1\lib\net45\nunit.framework.xml" />
     <None Include="C:\Users\christian\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="C:\Users\christian\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="C:\Users\christian\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\Alert.uxml" />

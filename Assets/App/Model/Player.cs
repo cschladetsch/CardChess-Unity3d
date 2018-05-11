@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using System.Reflection;
+
 namespace App.Model
 {
     public class Player : ModelBase, IPlayer
