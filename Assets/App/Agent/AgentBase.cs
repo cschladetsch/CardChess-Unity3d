@@ -32,8 +32,7 @@ namespace App.Agent
     }
 
     public abstract class AgentBase<TModel> :
-        AgentLogger, IAgent<TModel>,
-        ICreated<TModel>
+        AgentLogger, IAgent<TModel>, ICreated<TModel>
         where TModel : class, App.Model.IModel
     {
         public Guid Id { get; private set;}
@@ -49,7 +48,8 @@ namespace App.Agent
         }
     }
 
-    public abstract class AgentBaseCoro<TModel> : AgentBase<TModel> where TModel : class, App.Model.IModel
+    public abstract class AgentBaseCoro<TModel> :
+        AgentBase<TModel> where TModel : class, App.Model.IModel
     {
         public override bool Create(TModel a0)
         {

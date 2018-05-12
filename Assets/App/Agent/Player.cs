@@ -8,9 +8,15 @@ namespace App.Agent
 {
     using Action;
 
-    public class Player : AgentBaseCoro<Model.IPlayer>, Agent.IPlayer
+    public class Player : AgentBaseCoro<Model.Player>, Agent.IPlayer
     {
         public EColor Color => Model.Color;
+        public Model.IPlayer Model { get; }
+
+        public bool Create(Model.IPlayer a0)
+        {
+            throw new NotImplementedException();
+        }
 
         public IFuture<EResponse> AddMaxMana(int mana)
         {

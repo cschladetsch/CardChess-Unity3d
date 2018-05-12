@@ -40,7 +40,7 @@ namespace App
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
-            where TModel: class, Model.IModel, ICreated<A0, A1>, new()
+            where TModel : class, Model.IModel, ICreated<A0, A1>, new()
             where TAgent : class, Agent.IAgent<TModel>, new()
         {
             var model = NewModel<TModel, A0, A1>(a0, a1);
@@ -50,17 +50,23 @@ namespace App
             return entity;
         }
 
-        //public IEntity<TModel, TAgent> NewEntity<TModel, TAgent>(TModel model, TAgent agent)
-        //    where TModel: class, Model.IModel, ICreated<A0, A1>, new()
-        //    where TAgent : class, Agent.IAgent<TModel>, new()
-        //{
-        //    return new Entity<TModel, TAgent>(model, agent);
-        //}
+        public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1)
+            where TModel: class, ICreated<A0, A1>, new()
+        {
+            var model = new TModel();
+            if (!model.Create(a0, a1))
+            {
+                Error("Failed to create Model {0} with args {1}, {2}", typeof(TModel), a0, a1);
+                return null;
+            }
+
+            return model;
+        }
 
         /// <summary>
         /// Make a new Agent that represents a Model.
         /// </summary>
-        public static TAgent NewAgent<TAgent, TModel>(TModel model)
+        public  TAgent NewAgent<TAgent, TModel>(TModel model)
             where TModel : class, Model.IModel
             where TAgent : class, Agent.IAgent<TModel>, new()
         {
@@ -74,7 +80,8 @@ namespace App
             return agent;
         }
 
-        public TModel NewModel<TModel>() where TModel : class, ICreated, new()
+        public TModel NewModel<TModel>()
+            where TModel : class, ICreated, new()
         {
             var model = new TModel();
             if (!model.Create())
@@ -82,18 +89,6 @@ namespace App
                 Error("Failed to create Model {0}", typeof(TModel));
                 return null;
             }
-            return model;
-        }
-
-        public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1) where TModel: class, ICreated<A0, A1>, new()
-        {
-            var model = new TModel();
-            if (!model.Create(a0, a1))
-            {
-                Error("Failed to create Model {0} with args {1}, {2}", typeof(TModel), a0, a1);
-                return null;
-            }
-
             return model;
         }
 
@@ -332,7 +327,7 @@ namespace App
             yield break;
         }
 
-        public static ICardInstance NewCard(Model.ECardType type, Model.IOwner owner)
+        public  ICardInstance NewCard(Model.ECardType type, Model.IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             if (template == null)
