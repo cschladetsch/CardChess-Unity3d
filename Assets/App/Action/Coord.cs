@@ -2,11 +2,9 @@
 
 namespace App.Action
 {
-    public class Coord
+    public class Coord : Vector2
     {
-        public int X, Y;
-
-        public Coord(int x, int y)
+        public Coord(int x, int y) : base(x,y)
         {
             Assert.IsTrue(x >= 0);
             Assert.IsTrue(y >= 0);

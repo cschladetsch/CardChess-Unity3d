@@ -2,11 +2,11 @@
 {
     public enum EAbility
     {
-        Flying,
         Guard,
         Charge,
         Drain,
         Lethal,
-        Static
+        Static,
+        Mount
     }
 }

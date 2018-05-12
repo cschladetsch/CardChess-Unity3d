@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Agent
 {
-    class Board : AgentBase<Model.IBoard>
+    class Board : Base<Model.IBoard>
     {
     }
 }

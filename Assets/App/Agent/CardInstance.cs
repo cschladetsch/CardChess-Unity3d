@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 namespace App.Agent
 {
-    public class CardInstance : AgentBaseCoro<Model.ICardInstance>, ICardInstance
+    public class CardInstance : BaseCoro<Model.ICardInstance>, ICardInstance
     {
         protected override IEnumerator Next(IGenerator self)
         {

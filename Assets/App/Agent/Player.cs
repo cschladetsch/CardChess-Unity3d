@@ -8,7 +8,7 @@ namespace App.Agent
 {
     using Action;
 
-    public class Player : AgentBaseCoro<Model.Player>, Agent.IPlayer
+    public class Player : BaseCoro<Model.Player>, Agent.IPlayer
     {
         public EColor Color => Model.Color;
         public Model.IPlayer Model { get; }
