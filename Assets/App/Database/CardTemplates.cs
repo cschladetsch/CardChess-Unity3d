@@ -5,24 +5,37 @@ using App.Model;
 
 namespace App.Database
 {
-    class CardTemplates
+    static class CardTemplates
     {
-        public CardTemplates()
+        static CardTemplates()
         {
             MockConstruct();
         }
 
-        public ICardTemplate Get(Guid id)
+        public static ICardInstance New(string name, IOwner owner = null)
+        {
+            var tmpl = _templates.Values.FirstOrDefault(t => t.Name == name);
+            return tmpl == null ? null : New(tmpl.Id, owner);
+        }
+
+        public static ICardInstance New(Guid id, IOwner owner)
+        {
+            var tmp = _templates[id];
+            var card = new CardInstance(tmp, owner);
+            return card;
+        }
+
+        public static ICardTemplate Get(Guid id)
         {
             return _templates.ContainsKey(id) ? _templates[id] : null;
         }
 
-        public IEnumerable<ICardTemplate> OfType(ECardType type)
+        public static IEnumerable<ICardTemplate> OfType(ECardType type)
         {
             return _templates.Select(kv => kv.Value).Where(template => template.Type == type);
         }
 
-        private void MockConstruct()
+        private static void MockConstruct()
         {
             _templates.Clear();
             var X = int.MaxValue;
@@ -46,6 +59,6 @@ namespace App.Database
             }
         }
 
-        private readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
+        private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
     }
 }

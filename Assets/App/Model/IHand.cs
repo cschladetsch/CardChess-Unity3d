@@ -2,10 +2,8 @@
 
 namespace App.Model
 {
-    public interface IHand : ICardCollection
+    public interface IHand : ICardCollection<ICardInstance>
     {
         void NewGame();
-        void Add(ICardInstance card);
-        bool Remove(ICardInstance card);
     }
 }

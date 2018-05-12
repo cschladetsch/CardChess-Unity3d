@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Flow;
 using UnityEngine.EventSystems;
 
 namespace App.Model
 {
-    public class CardCollectionDesc : IHasId
-    {
-        public Guid Id { get; }
-        public string Name { get; }
-    }
-
     /// <summary>
     /// A Player in the game.
     /// Hopefully, these could be bots, or remote players as well
     /// as simple hotseat players at the same local device.
     /// </summary>
-    public interface IPlayer
+    public interface IPlayer : ICreated<EColor, IDeck>, IOwner
     {
         EColor Color { get; }
-        int Mana { get; set; }
-        int Health { get; set; }
+        int MaxMana { get; }
+        int Mana { get; }
+        int Health { get; }
         IHand Hand { get; }
         IDeck Deck { get; }
-        IDictionary<CardCollectionDesc, ICardCollection> Collections { get; }
+        ICardInstance King { get; }
+        IEnumerable<ICardInstance> CardsOnBoard { get; }
+        IEnumerable<ICardInstance> CardsInGraveyard { get; }
+
         void NewGame();
+        void ChangeMaxMana(int mana);
     }
 }

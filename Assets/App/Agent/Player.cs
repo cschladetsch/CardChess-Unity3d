@@ -18,7 +18,7 @@ namespace App.Agent
         {
             throw new NotImplementedException();
         }
-        
+
         public IFuture<EResponse> AddMana(int mana)
         {
             throw new NotImplementedException();
@@ -71,7 +71,7 @@ namespace App.Agent
 
         public void AddMaxMana(int mana)
         {
-            _model.Mana += mana;
+            _model.ChangeMaxMana(mana);
         }
 
         public IFuture<int> RollDice()

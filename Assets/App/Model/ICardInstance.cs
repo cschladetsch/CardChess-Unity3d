@@ -22,7 +22,7 @@ namespace App.Model
 
         ICardTemplate Template { get; }
 
-        int Attack { get; set; }
+        int Attack { get; }
         int Health { get; }
         IList<ICardInstance> Items { get; }
         IList<EAbility> Abilities { get; }

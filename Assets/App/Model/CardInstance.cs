@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+// event not used
+#pragma warning disable 67
+
 namespace App.Model
 {
     public class CardInstance : ICardInstance
@@ -21,27 +24,27 @@ namespace App.Model
 
         public Guid Id { get; }
         public ICardTemplate Template { get; }
-        public Agent.IPlayer Owner { get; }
+        public IOwner Owner { get; }
         public ECardType Type => Template.Type;
-        public int Attack { get; set; }
+        public int Attack => _attack;
         public int Health => _health;
 
         public IList<ICardInstance> Items { get; } = new List<ICardInstance>();
         public IList<EAbility> Abilities { get; } = new List<EAbility>();
 
-        public CardInstance(ICardTemplate template, Agent.IPlayer owner)
+        public CardInstance(ICardTemplate template, IOwner owner)
         {
             Id = Guid.NewGuid();
             Template = template;
             Owner = owner;
 
-            Attack = template.Attack;
+            _attack = template.Attack;
             _health = template.Health;
 
             Abilities = template.Abilities.ToList();
         }
 
-        public static ICardInstance New(ICardTemplate template, Agent.IPlayer owner)
+        public static ICardInstance New(ICardTemplate template, IOwner owner)
         {
             return new CardInstance(template, owner);
         }
@@ -59,11 +62,17 @@ namespace App.Model
                 Die();
         }
 
+        public void ChangeAttack(int value, ICardInstance cause)
+        {
+            throw new NotImplementedException("ChangeAttack");
+        }
+
         private void Die()
         {
             Died?.Invoke(this, this);
         }
 
+        private int _attack;
         private int _health;
     }
 }

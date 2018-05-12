@@ -2,9 +2,12 @@
 
 namespace App.Model
 {
-    public interface IDeck : ICardCollection
+    public interface ITemplateDeck : ICardCollection<ICardTemplate>, IHasId
     {
-        Guid Template { get; }
+    }
+
+    public interface IDeck : ICardCollection<ICardInstance>, ICreated
+    {
         void NewGame();
         void Shuffle();
         ICardInstance Draw();

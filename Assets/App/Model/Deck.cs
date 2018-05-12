@@ -3,13 +3,39 @@ using System.Collections.Generic;
 
 namespace App.Model
 {
-    public class Deck : CardCollection
+    public class Deck : CardCollection<ICardInstance>, IDeck
     {
-        public IEnumerable<ICard> Draw(int n = 1)
+        public override int MaxCards => 50;
+
+        public bool Create()
         {
             throw new NotImplementedException();
         }
 
-        public override int MaxCards => 30;
+        public void NewGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Shuffle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICardInstance Draw()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddToBottom(ICardInstance card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddToRandom(ICardInstance card)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

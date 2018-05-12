@@ -14,20 +14,20 @@ namespace App
         [Test]
         public void TestKing()
         {
-            var inj = new Injection();
 
             var board = new Model.Board(8, 8);
             var arbiter = new Arbiter(board);
 
-            //var p0 = arbiter.NewModel<Model.Player>(EColor.White);
+            var d0 = arbiter.NewModel<Model.Deck>();
+            var d1 = arbiter.NewModel<Model.Deck>();
 
-            //var p1 = new Model.Player(EColor.Black);
+            var p0 = arbiter.NewModel<Model.Player, EColor, Model.IDeck>(EColor.White, d0);
+            var p1 = arbiter.NewModel<Model.Player, EColor, Model.IDeck>(EColor.Black, d1);
 
+            var a0 = arbiter.NewAgent<Agent.Player, Model.IPlayer>(p0);
+            var a1 = arbiter.NewAgent<Agent.Player, Model.IPlayer>(p1);
 
-            //var a0 = arbiter.NewAgent<Player, Model.IPlayer>(p0);
-            //var a1 = arbiter.NewAgent<Player, Model.IPlayer>(p1);
-
-            //arbiter.SetPlayers(a0, a1);
+            arbiter.SetPlayers(a0, a1);
             arbiter.NewGame();
             arbiter.StartGame();
         }

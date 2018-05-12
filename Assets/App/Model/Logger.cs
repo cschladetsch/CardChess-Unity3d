@@ -3,10 +3,17 @@ using UnityEngine;
 
 namespace App.Model
 {
+    public class DependancyInjected
+    {
+        protected void Inject()
+        {
+        }
+    }
+
     /// <summary>
     /// Log system used by Models.
     /// </summary>
-    public class Logger
+    public class Logger : DependancyInjected
     {
         public string Name { get; set; }
 
@@ -19,6 +26,11 @@ namespace App.Model
         public static ELevel MaxLevel;
 
         protected ELevel _logLevel;
+
+        public Logger()
+        {
+            this.Inject();
+        }
 
         public static void Initialise()
         {
@@ -63,9 +75,7 @@ namespace App.Model
 
         private string MakeEntry(ELevel level, string text)
         {
-            return string.Format(
-                "{0}:type {1}:name {2}:\n\t'{3}'",
-                _logPrefix, GetType(), Name, text);
+            return $"{_logPrefix} type:{GetType()} name: {Name}:\n\t'{text}'";
         }
 
         protected string _logPrefix;

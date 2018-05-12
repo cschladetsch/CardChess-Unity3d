@@ -11,12 +11,15 @@ using IPlayer = App.Agent.IPlayer;
 
 namespace App
 {
+    /// <inheritdoc />
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
     /// </summary>
     public class Arbiter : Logger
     {
+        public static Arbiter Instance;
         public static IKernel Kernel;
+
         public IPlayer WhitePlayer => _players[0];
         public IPlayer BlackPlayer => _players[1];
 
@@ -25,6 +28,8 @@ namespace App
 
         public Arbiter()
         {
+            Assert.IsNull(Instance);
+            Instance = this;
             Kernel = Create.Kernel();
             _new = Kernel.Factory;
         }
@@ -51,6 +56,29 @@ namespace App
             }
 
             return agent;
+        }
+
+        public TModel NewModel<TModel>() where TModel : class, ICreated, new()
+        {
+            var model = new TModel();
+            if (!model.Create())
+            {
+                Error("Failed to create Model {0}", typeof(TModel));
+                return null;
+            }
+            return model;
+        }
+
+        public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1) where TModel: class, ICreated<A0, A1>, new()
+        {
+            var model = new TModel();
+            if (!model.Create(a0, a1))
+            {
+                Error("Failed to create Model {0} with args {1}, {2}", typeof(TModel), a0, a1);
+                return null;
+            }
+
+            return model;
         }
 
         public void SetPlayers(IPlayer p0, IPlayer p1)
@@ -288,9 +316,9 @@ namespace App
             yield break;
         }
 
-        public static ICardInstance NewCard(ECardType type, IPlayer owner)
+        public static ICardInstance NewCard(ECardType type, IOwner owner)
         {
-            var template = _cardTemplates.OfType(type).FirstOrDefault();
+            var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             if (template == null)
                 return null;
             return CardInstance.New(template, owner);
@@ -303,8 +331,8 @@ namespace App
         private IFactory _new;
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
-        private static Database.CardTemplates _cardTemplates = new CardTemplates();
 
         #endregion
+
     }
 }

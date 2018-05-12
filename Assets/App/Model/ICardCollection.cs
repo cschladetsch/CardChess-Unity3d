@@ -1,13 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 
 namespace App.Model
 {
-    public interface ICardCollection
+    /// <summary>
+    /// A generic collection of cards: can be CardInstances or CardTemplates
+    /// </summary>
+    /// <typeparam name="TCard"></typeparam>
+    public interface ICardCollection<TCard>
     {
+        string Name { get; }
         int MaxCards { get; }
-        IList<ICard> Cards { get; }
+        IList<TCard> Cards { get; }
 
-        void Add(ICard card);
-        void Remove(ICard card);
+        bool Add(TCard card);
+        bool Remove(TCard card);
+        bool Has(Guid id);
+        TCard Get(Guid id);
     }
 }

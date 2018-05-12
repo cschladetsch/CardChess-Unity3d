@@ -2,6 +2,6 @@
 {
     public interface IOwned
     {
-        Agent.IPlayer Owner { get; }
+        IOwner Owner { get; }
     }
 }
