@@ -1,11 +1,11 @@
-﻿namespace App.Model
+﻿namespace App.Action
 {
     /// <summary>
     /// Play a card from a Player's Hand onto the Board
     /// </summary>
     public class PlayCard : ActionBase
     {
-        public ICard Card;
+        public Agent.ICardInstance Card;
         public Coord Coord;
     }
 }

@@ -1,9 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using App.Model;
 using UnityEngine.Assertions;
 using Flow;
 
-namespace  App.Agent
+namespace App.Agent
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Base for all agents. Provides a custom logger and an ITransient implementation
+    /// to be used with Flow library.
+    /// </summary>
     public class AgentLogger : Flow.ITransient
     {
         public event TransientHandler Completed;
@@ -19,41 +26,46 @@ namespace  App.Agent
         {
             if (!Active)
                 return;
-            if (Completed != null)
-                Completed(this);
+            Completed?.Invoke(this);
             Active = false;
         }
     }
 
-    public class AgentBase : AgentLogger
+    public abstract class AgentBase<TModel> :
+        AgentLogger, IAgent<TModel>,
+        ICreated<TModel>
+        where TModel : class, App.Model.IModel
     {
-    }
+        public Guid Id { get; private set;}
+        public IModel BaseModel { get; }
+        public TModel Model { get; private set; }
 
-    public interface IAgent<IModel> where IModel : class
-    {
-        IModel Model { get; }
-        bool Create(IFactory factory, IModel model);
-    }
-
-	public abstract class AgentCoroBase<IModel> : IAgent<IModel> where IModel : class
-    {
-        public IModel Model => _model;
-
-        public bool Create(IFactory factory, IModel model)
+        public virtual bool Create(TModel a0)
         {
-            Assert.IsNotNull(model);
-			New = factory;
-			_model = model;
-			_coro = factory.Coroutine(Next);
+            Assert.IsNotNull(a0);
+            Id = Guid.NewGuid();
+            Model = a0;
+            return true;
+        }
+    }
 
-            return Create();
+    public abstract class AgentBaseCoro<TModel> : AgentBase<TModel> where TModel : class, App.Model.IModel
+    {
+        public override bool Create(TModel a0)
+        {
+            base.Create(a0);
+            _coro = Arbiter.Kernel.Factory.Coroutine(Next);
+            return Construct();
         }
 
-		protected abstract IEnumerator Next(IGenerator self);
-        protected abstract bool Create();
+        protected abstract IEnumerator Next(IGenerator self);
 
-		protected IFactory New;
-        protected IModel _model;
-		protected IGenerator _coro;
+        protected virtual bool Construct()
+        {
+            return true;
+        }
+
+        protected IFactory New;
+        protected IGenerator _coro;
     }
 }

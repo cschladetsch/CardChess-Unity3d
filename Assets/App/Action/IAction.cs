@@ -1,8 +1,8 @@
-﻿namespace App.Model
+﻿namespace App.Action
 {
     public interface IAction
     {
-        IPlayer Player { get; }
+        Agent.IPlayer Player { get; }
         EAction Action { get; }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace App.Model
 {
-    public abstract class CardCollection<TCard> : ModelBase, ICardCollection<TCard> where TCard: IHasId
+    public abstract class CardCollection<TCard> : ModelBase, ICardCollection<TCard> where TCard : IHasId
     {
         public abstract int MaxCards { get; }
 

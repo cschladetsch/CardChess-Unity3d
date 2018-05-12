@@ -1,4 +1,4 @@
-﻿namespace App.Model
+﻿namespace App.Action
 {
     public enum EAction
     {

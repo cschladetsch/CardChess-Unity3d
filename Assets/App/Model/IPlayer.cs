@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using Flow;
-using UnityEngine.EventSystems;
 
 namespace App.Model
 {
     /// <summary>
-    /// A Player in the game.
+    /// Player in the game.
     /// Hopefully, these could be bots, or remote players as well
     /// as simple hotseat players at the same local device.
     /// </summary>
-    public interface IPlayer : ICreated<EColor, IDeck>, IOwner
+    public interface IPlayer : IModel, ICreated<EColor, IDeck>, IOwner
     {
         EColor Color { get; }
         int MaxMana { get; }

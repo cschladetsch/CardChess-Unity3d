@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace App.Model
+﻿namespace App.Model
 {
     public interface ITemplateDeck : ICardCollection<ICardTemplate>, IHasId
     {

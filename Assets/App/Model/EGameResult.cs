@@ -2,6 +2,9 @@
 {
     public enum EGameResult
     {
-        Win, Loss, Draw, Incomplete,
+        Win,
+        Loss,
+        Draw,
+        Incomplete
     }
 }

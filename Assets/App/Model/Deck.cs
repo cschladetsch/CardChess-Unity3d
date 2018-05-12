@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace App.Model
 {
@@ -36,6 +35,5 @@ namespace App.Model
         {
             throw new NotImplementedException();
         }
-
     }
 }

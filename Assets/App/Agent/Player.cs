@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using App.Model;
 using Flow;
-using Flow.Impl;
 using UnityEngine.Assertions;
 
 namespace App.Agent
 {
-    public class Player : AgentCoroBase<Model.IPlayer>, IPlayer
-    {
-        public EColor Color => _model.Color;
+    using Action;
 
-        IFuture<EResponse> IPlayer.AddMaxMana(int mana)
+    public class Player : AgentBaseCoro<Model.IPlayer>, Agent.IPlayer
+    {
+        public EColor Color => Model.Color;
+
+        public IFuture<EResponse> AddMaxMana(int mana)
         {
             throw new NotImplementedException();
         }
@@ -27,15 +25,10 @@ namespace App.Agent
         protected override IEnumerator Next(IGenerator self)
         {
             if (_placeKing != null)
-			{
-			}
+            {
+            }
 
             yield return null;
-        }
-
-		protected override bool Create()
-        {
-            return true;
         }
 
         public IFuture<PlayCard> PlaceKing()
@@ -64,14 +57,9 @@ namespace App.Agent
 
         public IFuture<EResponse> NewGame()
         {
-            _model.NewGame();
+            Model.NewGame();
             var future = New.Future<EResponse>();
             return future;
-        }
-
-        public void AddMaxMana(int mana)
-        {
-            _model.ChangeMaxMana(mana);
         }
 
         public IFuture<int> RollDice()

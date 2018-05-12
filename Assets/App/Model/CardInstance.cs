@@ -9,6 +9,19 @@ namespace App.Model
 {
     public class CardInstance : ICardInstance
     {
+        public CardInstance(ICardTemplate template, IOwner owner)
+        {
+            Id = Guid.NewGuid();
+            Template = template;
+            Owner = owner;
+
+            Attack = template.Attack;
+            Health = template.Health;
+
+            Abilities = template.Abilities.ToList();
+        }
+
+        public ECardType Type => Template.Type;
         public event CardInstanceDelegate Born;
         public event CardInstanceDelegate Died;
         public event CardInstanceDelegate Reborn;
@@ -25,41 +38,29 @@ namespace App.Model
         public Guid Id { get; }
         public ICardTemplate Template { get; }
         public IOwner Owner { get; }
-        public ECardType Type => Template.Type;
-        public int Attack => _attack;
-        public int Health => _health;
+        public int Attack { get; }
+
+        public int Health { get; private set; }
 
         public IList<ICardInstance> Items { get; } = new List<ICardInstance>();
         public IList<EAbility> Abilities { get; } = new List<EAbility>();
 
-        public CardInstance(ICardTemplate template, IOwner owner)
+        public void ChangeHealth(int value, ICardInstance cause)
         {
-            Id = Guid.NewGuid();
-            Template = template;
-            Owner = owner;
+            if (Health == value)
+                return;
 
-            _attack = template.Attack;
-            _health = template.Health;
+            Health = value;
 
-            Abilities = template.Abilities.ToList();
+            HealthChanged?.Invoke(this, cause);
+
+            if (Health <= 0)
+                Die();
         }
 
         public static ICardInstance New(ICardTemplate template, IOwner owner)
         {
             return new CardInstance(template, owner);
-        }
-
-        public void ChangeHealth(int value, ICardInstance cause)
-        {
-            if (_health == value)
-                return;
-
-            _health = value;
-
-            HealthChanged?.Invoke(this, cause);
-
-            if (_health <= 0)
-                Die();
         }
 
         public void ChangeAttack(int value, ICardInstance cause)
@@ -71,8 +72,5 @@ namespace App.Model
         {
             Died?.Invoke(this, this);
         }
-
-        private int _attack;
-        private int _health;
     }
 }

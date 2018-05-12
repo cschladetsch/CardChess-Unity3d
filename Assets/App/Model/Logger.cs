@@ -11,15 +11,17 @@ namespace App.Model
     }
 
     /// <summary>
-    /// Log system used by Models.
+    ///     Log system used by Models.
     /// </summary>
     public class Logger : DependancyInjected
     {
-        public string Name { get; set; }
-
         public enum ELevel
         {
-            None = 0, Info = 1, Warn = 2, Verbose = 4, Error = 8,
+            None = 0,
+            Info = 1,
+            Warn = 2,
+            Verbose = 4,
+            Error = 8
         }
 
         public static string LogFileName;
@@ -27,10 +29,14 @@ namespace App.Model
 
         protected ELevel _logLevel;
 
+        protected string _logPrefix;
+
         public Logger()
         {
-            this.Inject();
+            Inject();
         }
+
+        public string Name { get; set; }
 
         public static void Initialise()
         {
@@ -77,7 +83,5 @@ namespace App.Model
         {
             return $"{_logPrefix} type:{GetType()} name: {Name}:\n\t'{text}'";
         }
-
-        protected string _logPrefix;
     }
 }

@@ -1,12 +1,12 @@
 ﻿
-namespace App.Model
+namespace App.Action
 {
     /// <summary>
     /// Move a piece on the board
     /// </summary>
     public class MovePiece : ActionBase
     {
-        public IInstance Instance;
+        public Agent.ICardInstance Instance;
         public Coord Target;
     }
 

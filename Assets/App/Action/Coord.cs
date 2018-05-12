@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Assertions;
 
-namespace App.Model
+namespace App.Action
 {
     public class Coord
     {
@@ -16,5 +16,5 @@ namespace App.Model
             X = x;
             Y = y;
         }
-    }    
+    }
 }

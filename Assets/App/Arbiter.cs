@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using App.Database;
 using Flow;
-
-using App.View;
-using App.Model;
 using UnityEngine.Assertions;
-using IPlayer = App.Agent.IPlayer;
 
 namespace App
 {
+    using Agent;
+    using Action;
+
     /// <inheritdoc />
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
@@ -24,7 +22,7 @@ namespace App
         public IPlayer BlackPlayer => _players[1];
 
         public IPlayer CurrentPlayer => _players[_currentPlayer];
-        public Board Board { get; }
+        public IBoard Board { get; }
 
         public Arbiter()
         {
@@ -34,24 +32,42 @@ namespace App
             _new = Kernel.Factory;
         }
 
-        public Arbiter(Board board)
+        public Arbiter(IBoard board)
             : this()
         {
             Assert.IsNotNull(board);
             Board = board;
         }
 
+        public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
+            where TModel: class, Model.IModel, ICreated<A0, A1>, new()
+            where TAgent : class, Agent.IAgent<TModel>, new()
+        {
+            var model = NewModel<TModel, A0, A1>(a0, a1);
+            var agent = NewAgent<TAgent, TModel>(model);
+            var entity = new Entity<TModel, TAgent>();
+            entity.Create(model, agent);
+            return entity;
+        }
+
+        //public IEntity<TModel, TAgent> NewEntity<TModel, TAgent>(TModel model, TAgent agent)
+        //    where TModel: class, Model.IModel, ICreated<A0, A1>, new()
+        //    where TAgent : class, Agent.IAgent<TModel>, new()
+        //{
+        //    return new Entity<TModel, TAgent>(model, agent);
+        //}
+
         /// <summary>
         /// Make a new Agent that represents a Model.
         /// </summary>
-        public TAgent NewAgent<TAgent, TModel>(TModel model)
+        public static TAgent NewAgent<TAgent, TModel>(TModel model)
+            where TModel : class, Model.IModel
             where TAgent : class, Agent.IAgent<TModel>, new()
-            where TModel : class
         {
             var agent = new TAgent();
-            if (!agent.Create(_new, model))
+            if (!agent.Create(model))
             {
-                Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
+                //TODO: Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
                 return null;
             }
 
@@ -316,23 +332,24 @@ namespace App
             yield break;
         }
 
-        public static ICardInstance NewCard(ECardType type, IOwner owner)
+        public static ICardInstance NewCard(Model.ECardType type, Model.IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             if (template == null)
                 return null;
-            return CardInstance.New(template, owner);
+            var cardInstance = Database.CardTemplates.New(template.Id, owner);
+            return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
         }
 
         #region Private Fields
 
-        private readonly IPlayer[] _players = new IPlayer[2];
+        private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
         private int _currentPlayer;
         private IFactory _new;
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
 
         #endregion
-
     }
 }
+
