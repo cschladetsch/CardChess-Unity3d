@@ -1,7 +1,7 @@
 ﻿namespace App.Agent
 {
     /// <summary>
-    /// Base for all agents. Each agent represents a model.
+    /// AgentBase for all agents. Each agent represents a model.
     /// </summary>
     public interface IAgent
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using App.Model;
 using Flow;
 using UnityEngine.Assertions;
 
@@ -22,21 +23,14 @@ namespace App
         public IPlayer BlackPlayer => _players[1];
 
         public IPlayer CurrentPlayer => _players[_currentPlayer];
-        public IBoard Board { get; }
+        public IBoard Board => _board;
 
         public Arbiter()
         {
-            Assert.IsNull(Instance);
+            //Assert.IsNull(Instance);
             Instance = this;
             Kernel = Create.Kernel();
             _new = Kernel.Factory;
-        }
-
-        public Arbiter(IBoard board)
-            : this()
-        {
-            Assert.IsNotNull(board);
-            Board = board;
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
@@ -48,6 +42,30 @@ namespace App
             var entity = new Entity<TModel, TAgent>();
             entity.Create(model, agent);
             return entity;
+        }
+
+        public TModel NewModel<TModel>()
+            where TModel : class, ICreated, new()
+        {
+            var model = new TModel();
+            if (!model.Create())
+            {
+                Error("Failed to create Model {0}", typeof(TModel));
+                return null;
+            }
+            return model;
+        }
+
+        public TModel NewModel<TModel, A0>(A0 a0)
+            where TModel : class, ICreated<A0>, new()
+        {
+            var model = new TModel();
+            if (!model.Create(a0))
+            {
+                Error("Failed to create Model {0} with arg {1}", typeof(TModel), a0);
+                return null;
+            }
+            return model;
         }
 
         public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1)
@@ -80,18 +98,6 @@ namespace App
             return agent;
         }
 
-        public TModel NewModel<TModel>()
-            where TModel : class, ICreated, new()
-        {
-            var model = new TModel();
-            if (!model.Create())
-            {
-                Error("Failed to create Model {0}", typeof(TModel));
-                return null;
-            }
-            return model;
-        }
-
         public void SetPlayers(IPlayer p0, IPlayer p1)
         {
             Assert.IsNotNull(p0);
@@ -100,20 +106,31 @@ namespace App
             _players[1] = p1;
         }
 
+        public void Setup(IBoard board, IPlayer p0, IPlayer p1)
+        {
+            _board = board;
+            SetPlayers(p0, p1);
+            NewGame();
+        }
+
         public void NewGame()
         {
+            Assert.IsNotNull(_board);
+            Assert.IsNotNull(_players[0]);
+            Assert.IsNotNull(_players[1]);
+
             Info("New Game");
 
             _currentPlayer = 0;
             _turnNumber = 0;
+
+            Board.NewGame();
 
             foreach (var player in _players)
             {
                 Assert.IsNotNull(player);
                 player.NewGame();
             }
-
-            Board.NewGame();
         }
 
         public void StartGame()
@@ -327,13 +344,21 @@ namespace App
             yield break;
         }
 
-        public  ICardInstance NewCard(Model.ECardType type, Model.IOwner owner)
+        public ICardInstance NewCardInstance(Model.ICardTemplate template, Model.IOwner owner)
         {
-            var template = Database.CardTemplates.OfType(type).FirstOrDefault();
-            if (template == null)
-                return null;
             var cardInstance = Database.CardTemplates.New(template.Id, owner);
             return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
+        }
+
+        public Agent.ICardInstance NewCardInstance(Model.ECardType type, Model.IOwner owner)
+        {
+            var template = Database.CardTemplates.OfType(type).FirstOrDefault();
+            return template == null ? null : NewCardInstance(template, owner);
+        }
+
+        public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
+        {
+            return new Model.CardInstance(tmpl, owner);
         }
 
         #region Private Fields
@@ -342,6 +367,7 @@ namespace App
         private int _currentPlayer;
         private IFactory _new;
         private ICoroutine _playerTimerCountdown;
+        private Agent.IBoard _board;
         private int _turnNumber;
 
         #endregion

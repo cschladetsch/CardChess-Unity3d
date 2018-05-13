@@ -2,18 +2,34 @@
 
 namespace App.Model
 {
-    public class Deck : CardCollection<ICardInstance>, IDeck
+    public class Deck :
+        CardCollection<ICardInstance>,
+        IDeck,
+        ICreated<Guid, IOwner>
     {
         public override int MaxCards => 50;
+        public IOwner Owner { get; private set; }
 
-        public bool Create()
+        public bool Create(Guid a0, IOwner owner)
+        {
+            Owner = owner;
+            for (var n = 0; n < 50; ++n)
+            {
+                var tmpl = Database.CardTemplates.GetRandom();
+                var card = Arbiter.Instance.NewCardModel(tmpl, Owner);
+                Cards.Add(card);
+            }
+            return true;
+        }
+
+        public bool Create(ITemplateDeck a0)
         {
             throw new NotImplementedException();
         }
 
         public void NewGame()
         {
-            throw new NotImplementedException();
+            Info("Deck.NewGame: TODO");
         }
 
         public void Shuffle()
@@ -35,5 +51,6 @@ namespace App.Model
         {
             throw new NotImplementedException();
         }
+
     }
 }

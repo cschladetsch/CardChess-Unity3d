@@ -54,11 +54,11 @@ namespace Adic.Extensions.ContextRoots.Editors {
 				EditorGUILayout.EnumPopup(new GUIContent("Injection type", "Type of injection on MonoBehaviours."),
                 this.editorItem.injectionType);
 
-            // Base injection type name.
+            // AgentBase injection type name.
             if (this.editorItem.injectionType == ContextRoot.MonoBehaviourInjectionType.BaseType ||
                 this.editorItem.injectionType == ContextRoot.MonoBehaviourInjectionType.Children) {
                 var index = Array.IndexOf<string>(this.customScripts, this.editorItem.baseBehaviourTypeName);
-                index = EditorGUILayout.Popup("Base behaviour type", index, this.customScripts);
+                index = EditorGUILayout.Popup("AgentBase behaviour type", index, this.customScripts);
                 if (index >= 0) {
                     this.editorItem.baseBehaviourTypeName = this.customScripts[index];
                 }

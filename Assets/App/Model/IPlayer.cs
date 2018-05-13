@@ -7,7 +7,7 @@ namespace App.Model
     /// Hopefully, these could be bots, or remote players as well
     /// as simple hotseat players at the same local device.
     /// </summary>
-    public interface IPlayer : IModel, ICreated<EColor, IDeck>, IOwner
+    public interface IPlayer : IModel, IOwner
     {
         EColor Color { get; }
         int MaxMana { get; }

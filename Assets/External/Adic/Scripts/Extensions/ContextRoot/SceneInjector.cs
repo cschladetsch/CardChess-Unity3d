@@ -27,7 +27,7 @@ namespace Adic.Extensions.ContextRoots {
         /// <summary>
         /// Performs injection on all children of the current GameObject.
         /// </summary>
-        /// <param name="baseType">Base type to perform injection.</param>
+        /// <param name="baseType">AgentBase type to perform injection.</param>
         public void InjectOnChildren(Type baseType) {
             var sceneInjectorType = this.GetType();
             var components = this.GetComponent<Transform>().GetComponentsInChildren(baseType, true);
@@ -44,7 +44,7 @@ namespace Adic.Extensions.ContextRoots {
         /// <summary>
         /// Performs injection on all behaviours of a given <paramref name="baseType"/>.
         /// </summary>
-        /// <param name="baseType">Base type to perform injection.</param>
+        /// <param name="baseType">AgentBase type to perform injection.</param>
         public void InjectFromBaseType(Type baseType) {
             var components = (MonoBehaviour[]) Resources.FindObjectsOfTypeAll(baseType);
 

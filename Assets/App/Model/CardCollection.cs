@@ -4,11 +4,19 @@ using System.Linq;
 
 namespace App.Model
 {
-    public abstract class CardCollection<TCard> : ModelBase, ICardCollection<TCard> where TCard : IHasId
+    public abstract class CardCollection<TCard> :
+        ModelBase,
+        ICreated,
+        ICardCollection<TCard> where TCard : IHasId
     {
         public abstract int MaxCards { get; }
 
         public IList<TCard> Cards { get; } = new List<TCard>();
+
+        public bool Create()
+        {
+            throw new NotImplementedException();
+        }
 
         public bool Add(TCard card)
         {
@@ -35,5 +43,6 @@ namespace App.Model
         {
             return Cards.FirstOrDefault(c => c.Id == id);
         }
+
     }
 }

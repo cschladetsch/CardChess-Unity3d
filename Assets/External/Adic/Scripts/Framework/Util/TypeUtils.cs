@@ -24,7 +24,7 @@ namespace Adic.Util {
         /// <remarks>
         /// Excludes any types in assemblies from Unity or Mono.
         /// </remarks>
-        /// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
+        /// <param name="baseType">AgentBase type from which the types in the namespace must be assignable.</param>
         /// <returns>The assignable types in the namespace.</returns>
         public static Type[] GetAssignableTypes(Type baseType) {
             return GetAssignableTypes(baseType, string.Empty, false);
@@ -37,7 +37,7 @@ namespace Adic.Util {
         /// <remarks>
         /// Excludes any types in assemblies from Unity or Mono.
         /// </remarks>
-        /// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
+        /// <param name="baseType">AgentBase type from which the types in the namespace must be assignable.</param>
         /// <param name="namespaceName">Namespace name.</param>
         /// <returns>The assignable types in the namespace.</returns>
         public static Type[] GetAssignableTypes(Type baseType, string namespaceName) {
@@ -51,7 +51,7 @@ namespace Adic.Util {
         /// <remarks>
         /// Excludes any types in assemblies from Unity or Mono.
         /// </remarks>
-        /// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
+        /// <param name="baseType">AgentBase type from which the types in the namespace must be assignable.</param>
         /// <param name="namespaceName">Namespace name.</param>
         /// <param name="includeChildren">Indicates whether children namespaces should be included.</param>
         /// <returns>The assignable types in the namespace.</returns>

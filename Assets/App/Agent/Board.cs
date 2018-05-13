@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using Flow;
 
 namespace App.Agent
 {
-    class Board : Base<Model.IBoard>
+    public class Board : AgentBaseCoro<Model.IBoard>, IBoard
     {
+        protected override IEnumerator Next(IGenerator self)
+        {
+            yield break;
+        }
+
+        public IFuture<bool> NewGame()
+        {
+            return null;
+        }
     }
 }

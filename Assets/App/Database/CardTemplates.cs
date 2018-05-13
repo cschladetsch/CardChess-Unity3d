@@ -60,5 +60,13 @@ namespace App.Database
         }
 
         private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
+
+        public static ICardTemplate GetRandom()
+        {
+            var numCards = _templates.Count;
+            var rand = UnityEngine.Random.Range(0, numCards - 1);
+            var key = _templates.Keys.ElementAt(rand);
+            return _templates[key];
+        }
     }
 }

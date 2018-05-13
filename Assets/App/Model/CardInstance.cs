@@ -18,7 +18,8 @@ namespace App.Model
             Attack = template.Attack;
             Health = template.Health;
 
-            Abilities = template.Abilities.ToList();
+            if (template.Abilities != null)
+                Abilities = template.Abilities.ToList();
         }
 
         public ECardType Type => Template.Type;

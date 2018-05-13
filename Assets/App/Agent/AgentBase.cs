@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using App.Model;
 using UnityEngine.Assertions;
 
 namespace App.Agent
 {
-    public abstract class Base<TModel> :
+    public abstract class AgentBase<TModel> :
         Logger, IAgent<TModel>
         where TModel : class, IModel
     {

@@ -10,18 +10,9 @@ namespace App.Model
 {
     using App.Action;
 
-    public class Player : ModelBase, IPlayer
+    public class Player : ModelBase, IPlayer, ICreated<EColor>
     {
         public static int StartHandCardCount = 7;
-
-        public Player()
-        {
-        }
-
-        public Player(EColor color)
-        {
-            Color = color;
-        }
 
         public EColor Color { get; private set; }
         public int MaxMana { get; private set; }
@@ -33,29 +24,31 @@ namespace App.Model
         public IEnumerable<ICardInstance> CardsOnBoard { get; }
         public IEnumerable<ICardInstance> CardsInGraveyard { get; }
 
-        public bool Create(EColor a0, IDeck deck)
+        public Player() { }
+
+        public bool Create(EColor color)
         {
-            Color = a0;
-            MaxMana = 1;
-            King = CardTemplates.New("King", this);
-            Hand = MockMakeHand();
-            Deck = deck;
+            Color = color;
             return true;
+        }
+
+        public void SetDeck(IDeck deck)
+        {
+            Assert.IsNotNull(deck);
+            Deck = deck;
         }
 
         public void NewGame()
         {
+            MaxMana = 1;
+            King = CardTemplates.New("King", this);
             Deck.NewGame();
-            Hand.NewGame();
 
-            Assert.AreEqual(Hand.Cards.Count, 0);
-            Assert.IsTrue(Deck.Cards.Count >= 7);
+            int cardsInDeck = Deck.Cards.Count;
+            Hand = MockMakeHand();
 
-            foreach (var card in Deck.Cards.Take(7))
-                Hand.Add(card);
-
-            // TODO: sort out Agent/Model
-            //Hand.Add(NewKingCard());
+            Assert.AreEqual(Hand.Cards.Count, 7);
+            Assert.IsTrue(Deck.Cards.Count == cardsInDeck - 7);
         }
 
         public void ChangeMaxMana(int change)
@@ -66,10 +59,12 @@ namespace App.Model
         private IHand MockMakeHand()
         {
             Assert.IsNotNull(Deck);
+            Info("{0} cards in Deck", Deck.Cards.Count);
             Assert.IsTrue(Deck.Cards.Count >= 30);
             var hand = new Hand();
             foreach (var card in Deck.Cards.Take(7))
             {
+                Info("Adding {0}", card.Template.Name);
                 Deck.Remove(card);
                 hand.Add(card);
             }

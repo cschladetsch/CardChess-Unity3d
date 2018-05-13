@@ -4,7 +4,7 @@ namespace App.Agent
 {
     /// <inheritdoc />
     /// <summary>
-    /// Base for all agents. Provides a custom logger and an ITransient implementation
+    /// AgentBase for all agents. Provides a custom logger and an ITransient implementation
     /// to be used with Flow library.
     /// </summary>
     public class Logger : ITransient

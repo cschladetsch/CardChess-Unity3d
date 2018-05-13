@@ -1,10 +1,23 @@
-﻿namespace App.Model
+﻿using System;
+
+namespace App.Model
 {
-    public interface ITemplateDeck : ICardCollection<ICardTemplate>, IHasId
+    /// <summary>
+    /// A pre-made deck
+    /// </summary>
+    public interface ITemplateDeck :
+        ICardCollection<ICardTemplate>,
+        IHasId
     {
     }
 
-    public interface IDeck : ICardCollection<ICardInstance>, ICreated
+    /// <summary>
+    /// A deck in play in a game
+    /// </summary>
+    public interface IDeck :
+        ICardCollection<ICardInstance>,
+        ICreated<ITemplateDeck>,
+        IOwned
     {
         void NewGame();
         void Shuffle();

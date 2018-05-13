@@ -4,8 +4,8 @@ using Flow;
 
 namespace App.Agent
 {
-    public abstract class BaseCoro<TModel> :
-        Base<TModel> where TModel : class, IModel
+    public abstract class AgentBaseCoro<TModel> :
+        AgentBase<TModel> where TModel : class, IModel
     {
         public override bool Create(TModel a0)
         {
@@ -21,7 +21,7 @@ namespace App.Agent
             return true;
         }
 
-        protected IFactory New;
+        protected IFactory New => Arbiter.Kernel.Factory;
         protected IGenerator _coro;
     }
 }
