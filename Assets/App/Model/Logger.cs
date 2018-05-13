@@ -76,7 +76,11 @@ namespace App.Model
                     break;
             }
 
+#if TRACE
+            Console.WriteLine(MakeEntry(level, text));
+#else
             log(MakeEntry(level, text));
+            #endif
         }
 
         private string MakeEntry(ELevel level, string text)

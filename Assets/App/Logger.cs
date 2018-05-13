@@ -55,7 +55,11 @@ namespace App
                     break;
             }
 
+            #if TRACE
+            Console.WriteLine(MakeEntry(level, text));
+            #else
             log(MakeEntry(level, text));
+            #endif
         }
 
         protected virtual string MakeEntry(ELevel level, string text)

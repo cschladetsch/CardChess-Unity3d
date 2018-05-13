@@ -64,7 +64,8 @@ namespace App.Database
         public static ICardTemplate GetRandom()
         {
             var numCards = _templates.Count;
-            var rand = UnityEngine.Random.Range(0, numCards - 1);
+            var r = new System.Random();
+            var rand = r.Next(0, numCards - 1);
             var key = _templates.Keys.ElementAt(rand);
             return _templates[key];
         }
