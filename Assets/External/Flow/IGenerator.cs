@@ -29,6 +29,7 @@ namespace Flow
         IGenerator SuspendAfter(ITransient other);
         IGenerator SuspendAfter(TimeSpan span);
         IGenerator ResumeAfter(ITransient other);
+        IGenerator After(ITransient other);
         IGenerator ResumeAfter(TimeSpan span);
     }
 

@@ -78,6 +78,11 @@ namespace Flow.Impl
             return this;
         }
 
+        public IGenerator After(ITransient other)
+        {
+            return ResumeAfter(other);
+        }
+
         public IGenerator ResumeAfter(ITransient other)
         {
             if (IsNullOrInactive(other))

@@ -10,9 +10,11 @@ namespace App
     {
         public override IFuture<PlayCard> PlaceKing()
         {
-            var pc = new PlayCard();
-            pc.Coord = new Coord(4, 2);
-            pc.Card = King;
+            var pc = new PlayCard
+            {
+                Coord = new Coord(3, 2),
+                Card = King
+            };
             var f = New.Future<PlayCard>();
             f.Value = pc;
             return f;

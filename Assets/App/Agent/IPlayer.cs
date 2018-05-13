@@ -16,5 +16,6 @@ namespace App.Agent
         IFuture<Action.MovePiece> MovePiece();
         IFuture<bool> Pass();
         IFuture<EResponse> NewGame();
+        IFuture<Response> Mulligan();
     }
 }

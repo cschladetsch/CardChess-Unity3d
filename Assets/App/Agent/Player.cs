@@ -22,6 +22,11 @@ namespace App.Agent
             return future;
         }
 
+        public IFuture<Response> Mulligan()
+        {
+            return null;
+        }
+
         public IFuture<EResponse> ChangeMaxMana(int mana)
         {
             var future = New.Future<EResponse>();

@@ -30,7 +30,7 @@ namespace App.Main
             //Assert.IsNull(Instance);
             Instance = this;
             Kernel = Create.Kernel();
-            _new = Kernel.Factory;
+            New = Kernel.Factory;
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
@@ -136,15 +136,33 @@ namespace App.Main
         {
             Info("Game Started");
 
-            // TODO Kernel.Root.Add(_new.Coroutine(PlayerStart, WhitePlayer));
-            // TODO Kernel.Root.Add(_new.Coroutine(PlayerStart, BlackPlayer));
-
-            Kernel.Root.Add(_new.Coroutine(PlayerTurn, CurrentPlayer));
+            New.Group(
+                New.Coroutine(StartGame),
+                New.Coroutine(PlayerTurn, WhitePlayer),
+                New.Coroutine(EndGame));
         }
 
         public void Step()
         {
             Kernel.Step();
+        }
+
+        IEnumerator EndGame(IGenerator self)
+        {
+            Info("Game Ended");
+            yield break;
+        }
+
+        IEnumerator StartGame(IGenerator self)
+        {
+            yield return self.After(New.TimedBarrier(
+                TimeSpan.FromSeconds(20),
+                WhitePlayer.Mulligan(),
+                WhitePlayer.Mulligan()));
+            yield return self.After(WhitePlayer.PlaceKing());
+            yield return self.After(BlackPlayer.PlaceKing());
+            yield return self.After(New.Coroutine(PlayerTurn, WhitePlayer));
+            yield return self.After(New.Coroutine(EndGame));
         }
 
         IEnumerator PlayerTurn(IGenerator self, IPlayer player)
@@ -155,7 +173,7 @@ namespace App.Main
 
             Info("Start turn {0}", _turnNumber);
 
-            yield return self.ResumeAfter(player.ChangeMaxMana(1));
+            yield return self.After(player.ChangeMaxMana(1));
 
             SaveState();
             var timeOut = 60;
@@ -169,29 +187,29 @@ namespace App.Main
             var movePiece = player.MovePiece();
             var pass = player.Pass();
 
-            var trigger = _new.TimedTrigger(
+            var trigger = New.TimedTrigger(
                 TimeSpan.FromSeconds(timeOut),
                 playCard,
                 movePiece,
                 pass);
 
             // wait for player to make a move
-            yield return self.ResumeAfter(trigger);
+            yield return self.After(trigger);
             if (trigger.HasTimedOut || trigger.Reason == pass)
             {
                 // timed out, next player's turn
-                yield return self.ResumeAfter(PlayerTimedOut(player));
+                yield return self.After(PlayerTimedOut(player));
                 goto next;
             }
 
             SaveState();
             if (trigger.Reason == playCard)
             {
-                var canPlay = _new.Future<bool>();
-                yield return self.ResumeAfter(TestCanPlayCard(player, playCard.Value, canPlay));
+                var canPlay = New.Future<bool>();
+                yield return self.After(TestCanPlayCard(player, playCard.Value, canPlay));
                 if (canPlay.Available && canPlay.Value)
                 {
-                    yield return self.ResumeAfter(PerformPlayCard(playCard.Value));
+                    yield return self.After(PerformPlayCard(playCard.Value));
                     goto next;
                 }
                 timeOut = trigger.Timer.TimeRemaining.Seconds;
@@ -200,11 +218,11 @@ namespace App.Main
 
             if (trigger.Reason == movePiece)
             {
-                var canPlay = _new.Future<bool>();
-                yield return self.ResumeAfter(TestCanMovePiece(player, movePiece.Value, canPlay));
+                var canPlay = New.Future<bool>();
+                yield return self.After(TestCanMovePiece(player, movePiece.Value, canPlay));
                 if (canPlay.Available && canPlay.Value)
                 {
-                    yield return self.ResumeAfter(PerformMovePiece(movePiece.Value));
+                    yield return self.After(PerformMovePiece(movePiece.Value));
                     goto next;
                 }
                 timeOut = trigger.Timer.TimeRemaining.Seconds;
@@ -212,7 +230,7 @@ namespace App.Main
             }
 
         next:
-            yield return self.ResumeAfter(NextPlayerTurn());
+            yield return self.After(NextPlayerTurn());
         }
 
         void SaveState()
@@ -240,26 +258,26 @@ namespace App.Main
         }
 
         // wrappers to create coroutines
-        IGenerator PlayerLost(IPlayer player) { return _new.Coroutine(PlayerLostCoro, player); }
-        IGenerator PlayerTimedOut(IPlayer player) { return _new.Coroutine(PlayerTimedOutCoro, player); }
-        IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return _new.Coroutine(TestCanPlayCardCoro, player, play, future); }
-        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return _new.Coroutine(TestCanMovePieceCoro, player, move, future); }
-        IGenerator PerformPlayCard(PlayCard playCard) { return _new.Coroutine(PlayCardCoro, playCard); }
-        IGenerator PerformMovePiece(MovePiece move) { return _new.Coroutine(MovePieceCoro, move); }
-        IGenerator NextPlayerTurn() { return _new.Coroutine(NextPlayerTurnCoro); }
+        IGenerator PlayerLost(IPlayer player) { return New.Coroutine(PlayerLostCoro, player); }
+        IGenerator PlayerTimedOut(IPlayer player) { return New.Coroutine(PlayerTimedOutCoro, player); }
+        IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, player, play, future); }
+        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, player, move, future); }
+        IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
+        IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
+        IGenerator NextPlayerTurn() { return New.Coroutine(NextPlayerTurnCoro); }
 
         IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
         {
             // TODO: show player lost sequence
             Info("Player {0} lost", loser);
-            //yield return self.ResumeAfter(_view.PlayerLost(loser));
+            //yield return self.After(_view.PlayerLost(loser));
             yield break;
         }
 
         IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
         {
             Info("Player {0} timedout", player);
-            //yield return self.ResumeAfter(_view.PlayerTimedOut(player));
+            //yield return self.After(_view.PlayerTimedOut(player));
             yield break;
         }
 
@@ -282,7 +300,7 @@ namespace App.Main
         {
             // TODO: if card can't be moved, show why
             Info("Move {0} is invalid");
-            //yield return self.ResumeAfter(_view.InvalidMove(move));
+            //yield return self.After(_view.InvalidMove(move));
             canMove.Value = false;
             yield break;
         }
@@ -291,14 +309,14 @@ namespace App.Main
         {
             // TODO: play the card
             Info("PlayCard: {0}", playCard);
-            //yield return self.ResumeAfter(_view.PlayCard(playCard));
+            //yield return self.After(_view.PlayCard(playCard));
             yield break;
         }
 
         IEnumerator MovePieceCoro(IGenerator self, MovePiece move)
         {
             Info("Move: {0}", move);
-            //yield return self.ResumeAfter(_view.MovePiece(move));
+            //yield return self.After(_view.MovePiece(move));
             yield break;
         }
 
@@ -308,7 +326,7 @@ namespace App.Main
             _currentPlayer = (_currentPlayer + 1) % _players.Length;
             // TODO: animations etc.
             Info("Next player turn {0}", _currentPlayer);
-            //yield return self.ResumeAfter(_view.NextPlayerTurn(previous, CurrentPlayer));
+            //yield return self.After(_view.NextPlayerTurn(previous, CurrentPlayer));
             yield break;
         }
 
@@ -333,7 +351,7 @@ namespace App.Main
 
         private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
         private int _currentPlayer;
-        private IFactory _new;
+        private IFactory New;
         private ICoroutine _playerTimerCountdown;
         private Agent.IBoard _board;
         private int _turnNumber;
