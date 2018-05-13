@@ -18,6 +18,8 @@ namespace App.Main
     {
         public static Arbiter Instance;
         public static IKernel Kernel;
+        public static INode Root => Kernel.Root;
+        public static IFactory New => Kernel.Factory;
 
         public IPlayer WhitePlayer => _players[0];
         public IPlayer BlackPlayer => _players[1];
@@ -30,7 +32,6 @@ namespace App.Main
             //Assert.IsNull(Instance);
             Instance = this;
             Kernel = Create.Kernel();
-            New = Kernel.Factory;
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
@@ -136,10 +137,11 @@ namespace App.Main
         {
             Info("Game Started");
 
-            New.Group(
+            Root.Add(New.Sequence(
                 New.Coroutine(StartGame),
                 New.Coroutine(PlayerTurn, WhitePlayer),
-                New.Coroutine(EndGame));
+                New.Coroutine(EndGame))
+            );
         }
 
         public void Step()
@@ -155,10 +157,13 @@ namespace App.Main
 
         IEnumerator StartGame(IGenerator self)
         {
-            yield return self.After(New.TimedBarrier(
-                TimeSpan.FromSeconds(20),
+            //yield return self.After(New.TimedBarrier(
+            //    TimeSpan.FromSeconds(20),
+            //    WhitePlayer.Mulligan(),
+            //    WhitePlayer.Mulligan()));
+            yield return self.After(New.Barrier(
                 WhitePlayer.Mulligan(),
-                WhitePlayer.Mulligan()));
+                BlackPlayer.Mulligan()));
             yield return self.After(WhitePlayer.PlaceKing());
             yield return self.After(BlackPlayer.PlaceKing());
             yield return self.After(New.Coroutine(PlayerTurn, WhitePlayer));
@@ -351,7 +356,6 @@ namespace App.Main
 
         private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
         private int _currentPlayer;
-        private IFactory New;
         private ICoroutine _playerTimerCountdown;
         private Agent.IBoard _board;
         private int _turnNumber;

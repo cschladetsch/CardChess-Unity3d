@@ -61,7 +61,7 @@ namespace App.View
 
         private string MakeEntry(ELevel level, string text)
         {
-            return (string.Format("{0}: {1}", level, text));
+            return $"{level}: {text}";
 
             //return string.Format(
                 //"{0}:step {1}:type {2}:name {3}:\n\t'{4}'",

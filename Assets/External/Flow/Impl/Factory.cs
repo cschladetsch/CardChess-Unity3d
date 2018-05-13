@@ -427,8 +427,14 @@ namespace Flow.Impl
             obj.Kernel = Kernel;
 
             var gen = obj as IGenerator;
-            if (gen != null)
-                gen.Resume();
+            gen?.Resume();
+
+            // contentious!
+            // should we always add new things to the root of the Kernel?
+            // Should we only add them to Groups passed as arguments to the various maker methods?
+            // should we never add automatically to anything?
+            // All have pros and cons.
+            Kernel.Root.Add(obj);
 
             return obj;
         }
