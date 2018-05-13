@@ -12,14 +12,18 @@ namespace App.Agent
     {
         public EColor Color => Model.Color;
 
-        public IFuture<EResponse> AddMaxMana(int mana)
+        public IFuture<EResponse> ChangeMaxMana(int mana)
         {
-            throw new NotImplementedException();
+            var future = New.Future<EResponse>();
+            Model.ChangeMaxMana(mana, (response) => future.Value = response);
+            return future;
         }
 
-        public IFuture<EResponse> AddMana(int mana)
+        public IFuture<EResponse> ChangeMana(int mana)
         {
-            throw new NotImplementedException();
+            var future = New.Future<EResponse>();
+            Model.ChangeMana(mana, (response) => future.Value = response);
+            return future;
         }
 
         protected override IEnumerator Next(IGenerator self)

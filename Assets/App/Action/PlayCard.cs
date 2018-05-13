@@ -7,5 +7,10 @@
     {
         public Agent.ICardInstance Card;
         public Coord Coord;
+
+        public override string ToString()
+        {
+            return $"PlayCard {Card} to {Coord}";
+        }
     }
 }

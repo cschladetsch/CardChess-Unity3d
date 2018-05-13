@@ -69,7 +69,6 @@
     <Compile Include="Assets\App\Agent\AgentBaseCoro.cs" />
     <Compile Include="Assets\App\Agent\Board.cs" />
     <Compile Include="Assets\App\Agent\CardInstance.cs" />
-    <Compile Include="Assets\App\Agent\EResponse.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoard.cs" />
     <Compile Include="Assets\App\Agent\ICardInstance.cs" />
@@ -77,13 +76,16 @@
     <Compile Include="Assets\App\Agent\Logger.cs" />
     <Compile Include="Assets\App\Agent\Player.cs" />
     <Compile Include="Assets\App\Arbiter.cs" />
+    <Compile Include="Assets\App\ArbiterGameObject.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\EColor.cs" />
     <Compile Include="Assets\App\Entity.cs" />
+    <Compile Include="Assets\App\EResponse.cs" />
     <Compile Include="Assets\App\ICreated.cs" />
     <Compile Include="Assets\App\IEntity.cs" />
     <Compile Include="Assets\App\Logger.cs" />
+    <Compile Include="Assets\App\Main.cs" />
     <Compile Include="Assets\App\Model\Board.cs" />
     <Compile Include="Assets\App\Model\CardCollection.cs" />
     <Compile Include="Assets\App\Model\CardCollectionDesc.cs" />

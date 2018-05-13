@@ -115,9 +115,9 @@ namespace App
 
         public void NewGame()
         {
-            Assert.IsNotNull(_board);
-            Assert.IsNotNull(_players[0]);
-            Assert.IsNotNull(_players[1]);
+            Assert.IsNotNull(Board);
+            Assert.IsNotNull(WhitePlayer);
+            Assert.IsNotNull(BlackPlayer);
 
             Info("New Game");
 
@@ -125,7 +125,6 @@ namespace App
             _turnNumber = 0;
 
             Board.NewGame();
-
             foreach (var player in _players)
             {
                 Assert.IsNotNull(player);
@@ -150,76 +149,62 @@ namespace App
 
         IEnumerator PlayerTurn(IGenerator self, IPlayer player)
         {
+            yield return null;
+
             ++_turnNumber;
 
             Info("Start turn {0}", _turnNumber);
 
-            if (PlayerCheckMated(player))
-            {
-                yield return self.ResumeAfter(PlayerLost(player));
-                yield break;
-            }
-
-            player.AddMaxMana(1);
+            yield return self.ResumeAfter(player.ChangeMaxMana(1));
 
             SaveState();
             var timeOut = 60;
-            var checks = 0;
             //_playerTimerCountdown = new_.Coroutine(PlayerTimerCountdownCoro, player);
 
         retry:
             RestoreState();
-            if (checks == 3)
-            {
-                yield return self.ResumeAfter(PlayerLost(player));
-                yield break;
-            }
 
-            var tryPlayCard = player.PlayCard();
-            var tryMovePiece = player.MovePiece();
-            var passed = player.Pass();
+            // the options a player has
+            var playCard = player.PlayCard();
+            var movePiece = player.MovePiece();
+            var pass = player.Pass();
 
-            var trigger = _new.TimedTrigger(TimeSpan.FromSeconds(timeOut), tryPlayCard, tryMovePiece, passed);
+            var trigger = _new.TimedTrigger(
+                TimeSpan.FromSeconds(timeOut),
+                playCard,
+                movePiece,
+                pass);
+
+            // wait for player to make a move
             yield return self.ResumeAfter(trigger);
-            if (trigger.HasTimedOut || trigger.Reason == passed)
+            if (trigger.HasTimedOut || trigger.Reason == pass)
             {
+                // timed out, next player's turn
                 yield return self.ResumeAfter(PlayerTimedOut(player));
                 goto next;
             }
 
             SaveState();
-            if (trigger.Reason == tryPlayCard)
+            if (trigger.Reason == playCard)
             {
                 var canPlay = _new.Future<bool>();
-                yield return self.ResumeAfter(TestCanPlayCard(player, tryPlayCard.Value, canPlay));
+                yield return self.ResumeAfter(TestCanPlayCard(player, playCard.Value, canPlay));
                 if (canPlay.Available && canPlay.Value)
                 {
-                    yield return self.ResumeAfter(PerformPlayCard(tryPlayCard.Value));
-                    if (InCheck(player))
-                    {
-                        ++checks;
-                        yield return self.ResumeAfter(PlayerInCheck(player));
-                        goto retry;
-                    }
+                    yield return self.ResumeAfter(PerformPlayCard(playCard.Value));
                     goto next;
                 }
                 timeOut = trigger.Timer.TimeRemaining.Seconds;
                 goto retry;
             }
 
-            if (trigger.Reason == tryMovePiece)
+            if (trigger.Reason == movePiece)
             {
                 var canPlay = _new.Future<bool>();
-                yield return self.ResumeAfter(TestCanMovePiece(player, tryMovePiece.Value, canPlay));
+                yield return self.ResumeAfter(TestCanMovePiece(player, movePiece.Value, canPlay));
                 if (canPlay.Available && canPlay.Value)
                 {
-                    yield return self.ResumeAfter(PerformMovePiece(tryMovePiece.Value));
-                    if (InCheck(player))
-                    {
-                        ++checks;
-                        yield return self.ResumeAfter(PlayerInCheck(player));
-                        goto retry;
-                    }
+                    yield return self.ResumeAfter(PerformMovePiece(movePiece.Value));
                     goto next;
                 }
                 timeOut = trigger.Timer.TimeRemaining.Seconds;
@@ -254,28 +239,13 @@ namespace App
             return false;
         }
 
-        bool PlayerCheckMated(IPlayer player)
-        {
-            // This will be very hard to determine.
-            // Will have to figure out all outcomes of each way the
-            // player could play a card or make a move.
-            return false;
-        }
-
-        bool InCheck(IPlayer player)
-        {
-            // TODO: calc if player's King is under attack
-            return false;
-        }
-
         // wrappers to create coroutines
         IGenerator PlayerLost(IPlayer player) { return _new.Coroutine(PlayerLostCoro, player); }
         IGenerator PlayerTimedOut(IPlayer player) { return _new.Coroutine(PlayerTimedOutCoro, player); }
-        IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return _new.Coroutine(TestCanPlayCardCoro, play, future); }
-        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return _new.Coroutine(TestCanMovePieceCoro, move, future); }
+        IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return _new.Coroutine(TestCanPlayCardCoro, player, play, future); }
+        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return _new.Coroutine(TestCanMovePieceCoro, player, move, future); }
         IGenerator PerformPlayCard(PlayCard playCard) { return _new.Coroutine(PlayCardCoro, playCard); }
         IGenerator PerformMovePiece(MovePiece move) { return _new.Coroutine(MovePieceCoro, move); }
-        IGenerator PlayerInCheck(IPlayer player) { return _new.Coroutine(PlayerInCheckCoro, player); }
         IGenerator NextPlayerTurn() { return _new.Coroutine(NextPlayerTurnCoro); }
 
         IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
@@ -293,16 +263,22 @@ namespace App
             yield break;
         }
 
-        IEnumerator TestCanPlayCardCoro(IGenerator self, PlayCard playCard, IFuture<bool> canPlay)
+        IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayer player,
+            PlayCard playCard, IFuture<bool> canPlay)
         {
-            // TODO: if card can't be played, show why
-            Info("Card play {0} is invalid");
-            //yield return self.ResumeAfter(_view.InvalidPlay(playCard));
+            var current = Board.Model.At(playCard.Coord);
+            if (current == null)
+            {
+                Info("Card play {0} for player {1} is VALID", playCard, player.Color);
+                canPlay.Value = true;
+                yield break;
+            }
+
+            Info("Card play {0} for player {1} is INVALID", playCard, player.Color);
             canPlay.Value = false;
-            yield break;
         }
 
-        IEnumerator TestCanMovePieceCoro(IGenerator self, MovePiece move, IFuture<bool> canMove)
+        IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayer player, MovePiece move, IFuture<bool> canMove)
         {
             // TODO: if card can't be moved, show why
             Info("Move {0} is invalid");
@@ -323,14 +299,6 @@ namespace App
         {
             Info("Move: {0}", move);
             //yield return self.ResumeAfter(_view.MovePiece(move));
-            yield break;
-        }
-
-        IEnumerator PlayerInCheckCoro(IGenerator self, IPlayer player)
-        {
-            // TODO: show why player is in check
-            Info("Player {0} is in check", player.Color, player);
-            //yield return self.ResumeAfter(_view.PlayerInCheck(player));
             yield break;
         }
 

@@ -1,4 +1,4 @@
-namespace App.Agent
+namespace App
 {
     public enum EResponse
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace App.Model
 {
@@ -20,6 +21,7 @@ namespace App.Model
         IEnumerable<ICardInstance> CardsInGraveyard { get; }
 
         void NewGame();
-        void ChangeMaxMana(int mana);
+        void ChangeMaxMana(int mana, Action<EResponse> changed);
+        void ChangeMana(int mana, Action<EResponse> changed);
     }
 }

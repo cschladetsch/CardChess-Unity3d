@@ -16,7 +16,7 @@ namespace App.Model
 
         public EColor Color { get; private set; }
         public int MaxMana { get; private set; }
-        public int Mana { get; } = 1;
+        public int Mana { get; private set; } = 1;
         public int Health => King.Health;
         public IHand Hand { get; private set; }
         public IDeck Deck { get; private set; }
@@ -51,9 +51,16 @@ namespace App.Model
             Assert.IsTrue(Deck.Cards.Count == cardsInDeck - 7);
         }
 
-        public void ChangeMaxMana(int change)
+        public void ChangeMana(int change, Action<EResponse> response)
+        {
+            Mana = Mathf.Clamp(0, 12, Mana + change);
+            response(EResponse.Ok);
+        }
+
+        public void ChangeMaxMana(int change, Action<EResponse> response)
         {
             MaxMana = Mathf.Clamp(0, 12, Mana + change);
+            response(EResponse.Ok);
         }
 
         private IHand MockMakeHand()

@@ -7,8 +7,8 @@ namespace App.Agent
     {
         EColor Color { get; }
 
-        IFuture<EResponse> AddMaxMana(int mana);
-        IFuture<EResponse> AddMana(int mana);
+        IFuture<EResponse> ChangeMaxMana(int mana);
+        IFuture<EResponse> ChangeMana(int mana);
         IFuture<int> RollDice();
         IFuture<Action.PlayCard> PlaceKing();
         IFuture<Action.PlayCard> PlayCard();
