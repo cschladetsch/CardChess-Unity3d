@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using Flow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
+using System.Runtime;
 
 namespace Flow.Logger
 {
@@ -44,17 +47,20 @@ namespace Flow.Logger
             var tyName = trans.GetType().Name;
 
             var ty = trans.GetType();
-            if (ty == typeof(ITransient))
-                return _sb.AppendFormat($"{tyName}={name}:\n");
-
-            if (typeof(IFuture<>).IsAssignableFrom(ty))
+            if (ty.IsGenericType)
             {
-                var arg = ty.GetGenericArguments()[0];
-                var avail = (bool)ty.GetProperty("Available")?.GetValue(trans);
-                object val = "<unset>";
-                if (avail)
-                    val = ty.GetProperty("Value")?.GetValue(trans);
-                return _sb.AppendFormat($"Future<{arg.Name}>: {name} Available={avail}, Value={val}\n");
+                var isFuture = ty.GetInterfaces().Any(x => x.IsGenericType &&
+                    x.GetGenericTypeDefinition() == typeof(IFuture<>));;
+
+                if (isFuture)
+                {
+                    var arg = ty.GetGenericArguments()[0];
+                    var avail = (bool) ty.GetProperty("Available")?.GetValue(trans);
+                    object val = "<unset>";
+                    if (avail)
+                        val = ty.GetProperty("Value")?.GetValue(trans);
+                    return _sb.AppendFormat($"Future<{arg.Name}>: {name} Available={avail}, Value={val}\n");
+                }
             }
 
             if (typeof(IGroup).IsAssignableFrom(ty))
@@ -63,7 +69,8 @@ namespace Flow.Logger
                 return _sb.AppendFormat($"Group: {name} NumChildren={g.Contents.Count()}");
             }
 
-            return _sb.Append("??");
+            if (typeof(ITransient).IsAssignableFrom(ty))
+                return _sb.AppendFormat($"{tyName}={name}:\n");
         }
 
         private int Contents(IGroup group, int level)
