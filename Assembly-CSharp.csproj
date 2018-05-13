@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -77,14 +78,15 @@
     <Compile Include="Assets\App\Agent\Player.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
-    <Compile Include="Assets\App\EColor.cs" />
-    <Compile Include="Assets\App\Entity.cs" />
-    <Compile Include="Assets\App\ICreated.cs" />
-    <Compile Include="Assets\App\IEntity.cs" />
-    <Compile Include="Assets\App\Logger.cs" />
     <Compile Include="Assets\App\Main\Arbiter.cs" />
     <Compile Include="Assets\App\Main\ArbiterGameObject.cs" />
+    <Compile Include="Assets\App\Main\EColor.cs" />
+    <Compile Include="Assets\App\Main\Entity.cs" />
     <Compile Include="Assets\App\Main\GameRoot.cs" />
+    <Compile Include="Assets\App\Main\ICreated.cs" />
+    <Compile Include="Assets\App\Main\IEntity.cs" />
+    <Compile Include="Assets\App\Main\Logger.cs" />
+    <Compile Include="Assets\App\Main\Response.cs" />
     <Compile Include="Assets\App\Model\Board.cs" />
     <Compile Include="Assets\App\Model\CardCollection.cs" />
     <Compile Include="Assets\App\Model\CardCollectionDesc.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="Assets\App\Model\Piece.cs" />
     <Compile Include="Assets\App\Model\Player.cs" />
     <Compile Include="Assets\App\Model\Spell.cs" />
-    <Compile Include="Assets\App\Response.cs" />
     <Compile Include="Assets\App\View\Logger.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />
@@ -620,6 +621,8 @@
     <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\Thread.cs" />
     <Compile Include="Assets\External\UniRx\Scripts\UnityWinRTBridge\ThreadPoolScheduler_UnityWinRT.cs" />
     <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
+    <None Include="Assets\App\Action\Readme.md" />
+    <None Include="Assets\App\Agent\Readme.md" />
     <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
