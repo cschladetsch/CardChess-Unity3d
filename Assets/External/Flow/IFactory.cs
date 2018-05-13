@@ -53,6 +53,7 @@ namespace Flow
 
         IGenerator Nop();
         IFuture<T> Future<T>();
+        IFuture<T> Future<T>(T val);
         ITimedFuture<T> TimedFuture<T>(TimeSpan timeOut);
 
         ICoroutine Coroutine(Func<IGenerator, IEnumerator> fun);

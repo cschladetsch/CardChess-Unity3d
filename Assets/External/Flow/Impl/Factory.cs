@@ -305,6 +305,13 @@ namespace Flow.Impl
             return Prepare(new Future<T>());
         }
 
+        public IFuture<T> Future<T>(T val)
+        {
+            var future = Prepare(new Future<T>());
+            future.Value = val;
+            return future;
+        }
+
         public ITransient Wait(TimeSpan span)
         {
             return Do(() => Kernel.Wait(span));

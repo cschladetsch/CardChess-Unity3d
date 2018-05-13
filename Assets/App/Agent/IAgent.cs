@@ -8,6 +8,7 @@
         Model.IModel BaseModel { get; }
     }
 
+    /// <inheritdoc cref="" />
     /// <summary>
     /// A type-specific agent.
     /// </summary>
