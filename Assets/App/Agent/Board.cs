@@ -12,6 +12,7 @@ namespace App.Agent
 
         public IFuture<bool> NewGame()
         {
+            Model.NewGame();
             return null;
         }
     }

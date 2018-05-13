@@ -5,7 +5,6 @@ namespace Flow.Impl
     internal class Trigger : Group, ITrigger
     {
         public event TriggerHandler Tripped;
-
         public ITransient Reason { get; private set; }
 
         internal Trigger()

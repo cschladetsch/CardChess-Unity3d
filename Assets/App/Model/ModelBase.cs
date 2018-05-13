@@ -10,5 +10,7 @@ namespace App.Model
         {
             Id = Guid.NewGuid();
         }
+
+        protected Main.Arbiter Arbiter => Main.Arbiter.Instance;
     }
 }

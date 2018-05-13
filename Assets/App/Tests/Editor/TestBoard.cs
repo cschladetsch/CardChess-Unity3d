@@ -32,7 +32,7 @@ namespace App
         [Test]
         public void TestBoardSetup()
         {
-            var arbiter = new Arbiter();
+            var arbiter = new Main.Arbiter();
             var b0 = arbiter.NewModel<Model.Board, int, int>(8, 8);
             var c0 = arbiter.NewAgent<Agent.Board, Model.IBoard>(b0);
             var m0 = arbiter.NewModel<Model.Player, EColor>(EColor.White);

@@ -5,7 +5,7 @@ using App.Model;
 using Flow;
 using UnityEngine.Assertions;
 
-namespace App
+namespace App.Main
 {
     using Agent;
     using Action;
@@ -14,7 +14,7 @@ namespace App
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
     /// </summary>
-    public class Arbiter : Logger
+    public class Arbiter : App.Logger
     {
         public static Arbiter Instance;
         public static IKernel Kernel;

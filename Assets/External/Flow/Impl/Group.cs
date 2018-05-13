@@ -122,8 +122,7 @@ namespace Flow.Impl
 
                 tr.Completed -= Remove;
 
-                if (Removed != null)
-                    Removed(this, tr);
+                Removed?.Invoke(this, tr);
             }
 
             Deletions.Clear();

@@ -290,14 +290,9 @@ namespace Flow.Impl
 
         public ITimedTrigger TimedTrigger(TimeSpan span, params ITransient[] args)
         {
-            var trigger = TimedTrigger(span);
-            trigger.Add(args);
-            return Prepare(trigger);
-        }
-
-        public ITimedTrigger TimedTrigger(TimeSpan span)
-        {
-            throw new NotImplementedException("New TimedTrigger");
+            var timedTrigger = new TimedTrigger(Kernel, span);
+            timedTrigger.Add(args);
+            return Prepare(timedTrigger);
         }
 
         public IGenerator Nop()

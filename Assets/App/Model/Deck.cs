@@ -16,7 +16,7 @@ namespace App.Model
             for (var n = 0; n < 50; ++n)
             {
                 var tmpl = Database.CardTemplates.GetRandom();
-                var card = Arbiter.Instance.NewCardModel(tmpl, Owner);
+                var card = Main.Arbiter.Instance.NewCardModel(tmpl, Owner);
                 Cards.Add(card);
             }
             return true;

@@ -9,7 +9,7 @@ namespace App.Agent
     {
         protected override IEnumerator Next(IGenerator self)
         {
-            throw new System.NotImplementedException();
+            yield break;
         }
     }
 }

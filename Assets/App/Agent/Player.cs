@@ -11,6 +11,16 @@ namespace App.Agent
     public class Player : AgentBaseCoro<Model.IPlayer>, IPlayer
     {
         public EColor Color => Model.Color;
+        public ICardInstance King { get; private set; }
+
+        public IFuture<EResponse> NewGame()
+        {
+            Model.NewGame();
+            King = Main.Arbiter.Instance.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
+            var future = New.Future<EResponse>();
+            future.Value = EResponse.Ok;
+            return future;
+        }
 
         public IFuture<EResponse> ChangeMaxMana(int mana)
         {
@@ -35,19 +45,19 @@ namespace App.Agent
             yield return null;
         }
 
-        public IFuture<PlayCard> PlaceKing()
+        public virtual IFuture<PlayCard> PlaceKing()
         {
             return _placeKing = New.Future<PlayCard>();
         }
 
-        public IFuture<PlayCard> PlayCard()
+        public virtual IFuture<PlayCard> PlayCard()
         {
             var future = New.Future<PlayCard>();
             _cardPlays.Add(future);
             return future;
         }
 
-        public IFuture<MovePiece> MovePiece()
+        public virtual IFuture<MovePiece> MovePiece()
         {
             var future = New.Future<MovePiece>();
             _pieceMoves.Add(future);
@@ -56,22 +66,19 @@ namespace App.Agent
 
         public IFuture<bool> Pass()
         {
-            throw new NotImplementedException();
-        }
-
-        public IFuture<EResponse> NewGame()
-        {
-            Model.NewGame();
-            var future = New.Future<EResponse>();
-            return future;
+            var pass = New.Future<bool>();
+            pass.Value = false;
+            return pass;
         }
 
         public IFuture<int> RollDice()
         {
-            Assert.IsNull(_roll);
-            return _roll = New.Future<int>();
+            var roll = New.Future<int>();
+            roll.Value = _random.Next(0, 6);
+            return roll;
         }
 
+        private System.Random _random = new Random();
         private IFuture<PlayCard> _placeKing;
         private IFuture<int> _roll;
         private List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();

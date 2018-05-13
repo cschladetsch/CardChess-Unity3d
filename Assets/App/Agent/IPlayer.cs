@@ -6,6 +6,7 @@ namespace App.Agent
     public interface IPlayer : IAgent<Model.IPlayer>
     {
         EColor Color { get; }
+        ICardInstance King { get; }
 
         IFuture<EResponse> ChangeMaxMana(int mana);
         IFuture<EResponse> ChangeMana(int mana);

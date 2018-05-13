@@ -4,9 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace App
+namespace App.Main
 {
-    class Main : MonoBehaviour
+    class GameRoot : MonoBehaviour
     {
         public ArbiterGameObject Arbiter;
 

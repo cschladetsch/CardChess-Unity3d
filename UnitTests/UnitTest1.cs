@@ -1,12 +1,15 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using App.Main;
 
 namespace App
 {
     [TestClass]
     public class UnitTest1
     {
-        private static Arbiter BasicSetup()
+        private static Arbiter BasicSetup<TPlayer0, TPlayer1>()
+            where TPlayer0 : class, Agent.IPlayer, new()
+            where TPlayer1 : class, Agent.IPlayer, new()
         {
             var arbiter = new Arbiter();
             var b0 = arbiter.NewModel<Model.Board, int, int>(8, 8);
@@ -14,8 +17,8 @@ namespace App
 
             var m0 = arbiter.NewModel<Model.Player, EColor>(EColor.White);
             var m1 = arbiter.NewModel<Model.Player, EColor>(EColor.Black);
-            var p0 = arbiter.NewAgent<Agent.Player, Model.IPlayer>(m0);
-            var p1 = arbiter.NewAgent<Agent.Player, Model.IPlayer>(m1);
+            var p0 = arbiter.NewAgent<TPlayer0, Model.IPlayer>(m0);
+            var p1 = arbiter.NewAgent<TPlayer1, Model.IPlayer>(m1);
 
             var d0 = arbiter.NewModel<Model.Deck, Guid, Model.IPlayer>(Guid.Empty, m0);
             var d1 = arbiter.NewModel<Model.Deck, Guid, Model.IPlayer>(Guid.Empty, m1);
@@ -28,10 +31,16 @@ namespace App
             return arbiter;
         }
 
-        [TestMethod]
-        public void TestMethod1()
+        private static void Step(Flow.IGenerator gen, int steps)
         {
-            var arbiter = BasicSetup();
+            for (var n = 0; n < steps; ++n)
+                gen.Step();
+        }
+
+        [TestMethod]
+        public void TestBoardSetup()
+        {
+            var arbiter = BasicSetup<Agent.Player, Agent.Player>();
 
             var p0 = arbiter.WhitePlayer;
             var p1 = arbiter.BlackPlayer;
@@ -55,6 +64,14 @@ namespace App
             Assert.AreEqual(7, p1.Model.Hand.Cards.Count);
             Assert.AreEqual(43, d0.Cards.Count);
             Assert.AreEqual(43, d1.Cards.Count);
+        }
+
+        [TestMethod]
+        public void TestPlayKings()
+        {
+            var arbiter = BasicSetup<MockWhitePlayer, MockBlackPlayer>();
+            arbiter.StartGame();
+            Step(Arbiter.Kernel, 10);
         }
     }
 }
