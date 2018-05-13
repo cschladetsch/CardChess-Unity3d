@@ -2,7 +2,7 @@
 
 namespace App.Model
 {
-    public interface IBoard : IModel, ICreated<int, int>
+    public interface IBoard : IModel, ICreateWith<int, int>
     {
         int Width { get; }
         int Height { get; }

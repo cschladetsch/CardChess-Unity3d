@@ -4,7 +4,7 @@ namespace App.Model
 {
     public class CardLibrary :
         CardCollection<ICardTemplate>,
-        ICreated<Guid>
+        ICreateWith<Guid>
     {
         public override int MaxCards => 1000;
 

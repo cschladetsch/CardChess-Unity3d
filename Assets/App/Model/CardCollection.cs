@@ -6,7 +6,7 @@ namespace App.Model
 {
     public abstract class CardCollection<TCard> :
         ModelBase,
-        ICreated,
+        ICreateWith,
         ICardCollection<TCard> where TCard : IHasId
     {
         public abstract int MaxCards { get; }

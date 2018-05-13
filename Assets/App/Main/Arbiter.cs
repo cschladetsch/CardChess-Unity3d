@@ -35,7 +35,7 @@ namespace App.Main
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
-            where TModel : class, Model.IModel, ICreated<A0, A1>, new()
+            where TModel : class, Model.IModel, ICreateWith<A0, A1>, new()
             where TAgent : class, Agent.IAgent<TModel>, new()
         {
             var model = NewModel<TModel, A0, A1>(a0, a1);
@@ -46,7 +46,7 @@ namespace App.Main
         }
 
         public TModel NewModel<TModel>()
-            where TModel : class, ICreated, new()
+            where TModel : class, ICreateWith, new()
         {
             var model = new TModel();
             if (!model.Create())
@@ -58,7 +58,7 @@ namespace App.Main
         }
 
         public TModel NewModel<TModel, A0>(A0 a0)
-            where TModel : class, ICreated<A0>, new()
+            where TModel : class, ICreateWith<A0>, new()
         {
             var model = new TModel();
             if (!model.Create(a0))
@@ -70,7 +70,7 @@ namespace App.Main
         }
 
         public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1)
-            where TModel: class, ICreated<A0, A1>, new()
+            where TModel: class, ICreateWith<A0, A1>, new()
         {
             var model = new TModel();
             if (!model.Create(a0, a1))

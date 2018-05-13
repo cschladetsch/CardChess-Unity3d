@@ -9,7 +9,7 @@ namespace App
         IAgent BaseAgent { get; }
     }
 
-    public interface IEntity<TModel, TAgent> : IEntity, ICreated<TModel, TAgent>
+    public interface IEntity<TModel, TAgent> : IEntity, ICreateWith<TModel, TAgent>
     {
         TModel Model { get; }
         TAgent Agent { get; }

@@ -16,7 +16,7 @@ namespace App.Model
     /// </summary>
     public interface IDeck :
         ICardCollection<ICardInstance>,
-        ICreated<ITemplateDeck>,
+        ICreateWith<ITemplateDeck>,
         IOwned
     {
         void NewGame();

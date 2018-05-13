@@ -5,7 +5,7 @@ namespace App.Model
     public class Deck :
         CardCollection<ICardInstance>,
         IDeck,
-        ICreated<Guid, IOwner>
+        ICreateWith<Guid, IOwner>
     {
         public override int MaxCards => 50;
         public IOwner Owner { get; private set; }

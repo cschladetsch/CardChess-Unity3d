@@ -10,7 +10,7 @@ namespace App.Model
 {
     using App.Action;
 
-    public class Player : ModelBase, IPlayer, ICreated<EColor>
+    public class Player : ModelBase, IPlayer, ICreateWith<EColor>
     {
         public static int StartHandCardCount = 7;
 
