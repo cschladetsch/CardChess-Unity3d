@@ -327,6 +327,13 @@ namespace Flow.Impl
             return Prepare(new TimedFuture<T>(Kernel, interval));
         }
 
+        public ITimedFuture<T> TimedFuture<T>(TimeSpan timeOut, T val)
+        {
+            var future = TimedFuture<T>(timeOut);
+            future.Value = val;
+            return future;
+        }
+
         public ISubroutine<TR> Subroutine<TR>(Func<IGenerator, TR> fun)
         {
             var sub = new Subroutine<TR>();
@@ -446,14 +453,12 @@ namespace Flow.Impl
             return obj;
         }
 
-        ///// <inheritdoc />
-        //public ICoroutine<TR> TypedCoroutine<TR, T0, T1, T2, T3>(
-        //	Func<IGenerator, T0, T1, T2, T3, IEnumerator<TR>> fun, T0 t0, T1 t1, T2 t2, T3 t3)
-        //{
-        //	var coro = new Coroutine<TR>();
-        //	coro.Start = () => fun(coro, t0, t1, t2, t3);
-        //	return Prepare(coro);
-        //}
+        public ITransient NamedFuture<T>(string name)
+        {
+            var fut = Future<T>();
+            fut.Name = name;
+            return fut;
+        }
     }
 
     namespace detail

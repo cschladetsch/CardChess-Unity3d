@@ -2,9 +2,6 @@
 
 namespace Flow
 {
-    public interface ITimedFuture<T> : IFuture<T>, ITimesOut
-    {
-    }
 
     public interface ITimedBarrier : IBarrier, ITimesOut
     {

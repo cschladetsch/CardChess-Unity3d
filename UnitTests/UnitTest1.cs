@@ -7,6 +7,31 @@ namespace App
     [TestClass]
     public class UnitTest1
     {
+        [TestMethod]
+        public void TestBasicPrint()
+        {
+            Console.WriteLine("Test PrettyPrint");
+
+            var k = Flow.Create.Kernel();
+            var f = k.Factory;
+
+            var t0 = f.Transient();
+            var t1 = f.Transient();
+            var f0 = f.Future<int>();
+            var g0 = f.Group(t0, t1, f0);
+
+            t0.Name = "t0";
+            t1.Name = "t1";
+            f0.Name = "f0";
+
+            // allow all objects to be placed
+            for (int n = 0; n < 10; ++n)
+                k.Step();
+
+            var s0 = Flow.Logger.PrettyPrinter.ToString(g0);
+            Console.WriteLine(s0);
+        }
+
         private static Arbiter BasicSetup<TPlayer0, TPlayer1>()
             where TPlayer0 : class, Agent.IPlayer, new()
             where TPlayer1 : class, Agent.IPlayer, new()

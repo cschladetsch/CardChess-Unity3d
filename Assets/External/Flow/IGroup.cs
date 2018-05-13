@@ -6,6 +6,7 @@ namespace Flow
 {
     public delegate void GroupHandler(IGroup node, ITransient child);
 
+    /// <inheritdoc />
     /// <summary>
     /// A Group contains a collection of other Transients, and fires events when the contents of the group changes.
     /// <para>When a Group is stepped, nothing happens</para>

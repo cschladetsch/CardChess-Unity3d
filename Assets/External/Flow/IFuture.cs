@@ -4,6 +4,7 @@ namespace Flow
 {
     public delegate void FutureHandler<T>(IFuture<T> future);
 
+    /// <inheritdoc />
     /// <summary>
     /// When its Value property is first set, a Future fires its Arrived event, sets its Available property to true, and
     /// Completes itself.
@@ -13,5 +14,13 @@ namespace Flow
         bool Available { get; }
         T Value { get; set; }
         event FutureHandler<T> Arrived;
+    }
+
+    /// <inheritdoc cref="IFuture{T}" />
+    /// <summary>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface ITimedFuture<T> : IFuture<T>, ITimesOut
+    {
     }
 }

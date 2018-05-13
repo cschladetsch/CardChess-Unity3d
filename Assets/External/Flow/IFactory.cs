@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Flow
 {
@@ -52,9 +53,11 @@ namespace Flow
         ITimedTrigger TimedTrigger(TimeSpan span, params ITransient[] args);
 
         IGenerator Nop();
+
         IFuture<T> Future<T>();
         IFuture<T> Future<T>(T val);
         ITimedFuture<T> TimedFuture<T>(TimeSpan timeOut);
+        ITimedFuture<T> TimedFuture<T>(TimeSpan timeOut, T val);
 
         ICoroutine Coroutine(Func<IGenerator, IEnumerator> fun);
         ICoroutine Coroutine<T0>(Func<IGenerator, T0, IEnumerator> fun, T0 t0);
@@ -72,5 +75,6 @@ namespace Flow
         IChannel<TR> Channel<TR>(IGenerator<TR> gen);
 
         T Prepare<T>(T obj) where T : ITransient;
+        ITransient NamedFuture<T>(string name);
     }
 }

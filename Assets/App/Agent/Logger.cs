@@ -12,6 +12,7 @@ namespace App.Agent
         public event TransientHandler Completed;
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
+        public string Name { get; set; }
 
         public Logger()
         {

@@ -6,6 +6,7 @@ namespace Flow
 {
     public delegate void GeneratorHandler(IGenerator generator);
 
+    /// <inheritdoc />
     /// <summary>
     /// A Generator does some work every time its Step method is called, unless it is Suspended or Completed.
     /// <para>All Generators are Resumed when they are first created by a Factory</para>
