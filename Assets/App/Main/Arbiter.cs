@@ -330,16 +330,16 @@ namespace App.Main
             yield break;
         }
 
-        public ICardInstance NewCardInstance(Model.ICardTemplate template, Model.IOwner owner)
+        public ICardInstance NewCardAgent(Model.ICardTemplate template, Model.IOwner owner)
         {
             var cardInstance = Database.CardTemplates.New(template.Id, owner);
             return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
         }
 
-        public Agent.ICardInstance NewCardInstance(Model.ECardType type, Model.IOwner owner)
+        public Agent.ICardInstance NewCardAgent(Model.ECardType type, Model.IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
-            return template == null ? null : NewCardInstance(template, owner);
+            return template == null ? null : NewCardAgent(template, owner);
         }
 
         public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
