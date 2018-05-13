@@ -10,8 +10,6 @@ namespace App
         [TestMethod]
         public void TestBasicPrint()
         {
-            Console.WriteLine("Test PrettyPrint");
-
             var k = Flow.Create.Kernel();
             var f = k.Factory;
 
