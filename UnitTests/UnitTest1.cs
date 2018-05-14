@@ -1,6 +1,10 @@
 using System;
+using System.Collections;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using App.Main;
+
+using Flow;
 
 namespace App
 {
@@ -27,7 +31,7 @@ namespace App
             for (int n = 0; n < 10; ++n)
                 k.Step();
 
-            var s0 = Flow.Logger.PrettyPrinter.ToString(g0);
+            var s0 = Flow.PrettyPrinter.ToString(g0);
             Console.WriteLine(s0);
         }
 
@@ -96,6 +100,45 @@ namespace App
             var arbiter = BasicSetup<MockWhitePlayer, MockBlackPlayer>();
             arbiter.StartGame();
             Step(Arbiter.Kernel, 10);
+        }
+
+        [TestMethod]
+        public void TestFlowSequence()
+        {
+            var k = Flow.Create.Kernel();
+            var f = k.Factory;
+            var r = k.Root;
+            r.Add(f.Sequence(
+                f.Coroutine(StartGame).SetName("StartGame"),
+                f.Coroutine(PlayerTurn, EColor.White),
+                f.Coroutine(EndGame))
+            );
+
+            Trace.WriteLine(r);
+            k.Step();
+            Trace.WriteLine(r);
+            k.Step();
+            Trace.WriteLine(r);
+            k.Step();
+            Trace.WriteLine(r);
+        }
+
+        IEnumerator PlayerTurn(IGenerator self, App.EColor color)
+        {
+            Trace.WriteLine($"PlayerTurn: {color}");
+            yield break;
+        }
+
+        IEnumerator EndGame(IGenerator self)
+        {
+            Trace.WriteLine("EndGame");
+            yield break;
+        }
+
+        IEnumerator StartGame(IGenerator self)
+        {
+            Trace.WriteLine("StartGame");
+            yield break;
         }
     }
 }

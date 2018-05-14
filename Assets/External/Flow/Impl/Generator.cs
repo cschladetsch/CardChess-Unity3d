@@ -19,12 +19,18 @@ namespace Flow.Impl
 
         public int StepNumber { get; protected set; }
 
+        public new IGenerator SetName(string name)
+        {
+            Name = name;
+            return this;
+        }
+
         public virtual void Step()
         {
-            ++StepNumber;
-
             if (!Active)
                 return;
+
+            ++StepNumber;
 
             Stepped?.Invoke(this);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
-using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace App
 {
@@ -56,6 +57,7 @@ namespace App
             }
 
             #if TRACE
+            Trace.WriteLine(MakeEntry(level, text));
             Console.WriteLine(MakeEntry(level, text));
             #else
             log(MakeEntry(level, text));

@@ -21,7 +21,7 @@ namespace Flow.Test
                 )
             );
 
-            Print(Flow.Logger.PrettyPrinter.ToString(_root));
+            Print(_root);
 
             var delta = RunKernel(2) - timeOut;
             Assert.IsTrue(Math.Abs(delta) < 0.1f);

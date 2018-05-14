@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using App.Model;
 using Flow;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace App.Main
@@ -138,10 +139,15 @@ namespace App.Main
             Info("Game Started");
 
             Root.Add(New.Sequence(
-                New.Coroutine(StartGame),
+                New.Coroutine(StartGame).SetName("StartGame"),
                 New.Coroutine(PlayerTurn, WhitePlayer),
                 New.Coroutine(EndGame))
             );
+
+            Kernel.Step();
+            Kernel.Step();
+            Kernel.Step();
+            Info("Root {0}", Root);
         }
 
         public void Step()
