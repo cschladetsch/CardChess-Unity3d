@@ -24,7 +24,8 @@ namespace App
         public IPlayer WhitePlayer => _players[0];
         public IPlayer BlackPlayer => _players[1];
         public IPlayer CurrentPlayer => _players[_currentPlayer];
-        public IBoard Board => _board;
+        public IBoard Board { get; private set; }
+
         #endregion
 
         #region Public Methods
@@ -37,7 +38,7 @@ namespace App
 
         public void Setup(IBoard board, IPlayer p0, IPlayer p1)
         {
-            _board = board;
+            Board = board;
             SetPlayers(p0, p1);
             NewGame();
         }
@@ -345,7 +346,6 @@ namespace App
         private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
         private int _currentPlayer;
         private ICoroutine _playerTimerCountdown;
-        private Agent.IBoard _board;
         private int _turnNumber;
         private bool _gameOver;
         #endregion

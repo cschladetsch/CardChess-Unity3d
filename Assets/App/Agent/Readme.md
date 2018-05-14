@@ -4,8 +4,6 @@ An *Agent* represents a *Model*.
 
 It acts as the intermediary between the *Arbitrator* and the rest of the system.
 
-Each Agent has a _Trigger_ that contains a set of pending decisions that have to be made by the player.
-
 Models contain just state. They are persistent and can be sent over the network.
 
 An _Agent_ however is ephemeral and transiet. It is based on _Flow.Transient_ and can perform actions over time.
