@@ -106,7 +106,7 @@ namespace App.Agent
 
         public void AcceptCards()
         {
-            throw new NotImplementedException();
+            _hasAccepted.Complete();
         }
 
         public IFuture<PlayCard> HasPlacedKing()
@@ -122,7 +122,7 @@ namespace App.Agent
 
         public void AcceptKingPlacement()
         {
-            throw new NotImplementedException();
+            // Unused?
         }
 
         public IFuture<int> RollDice()
