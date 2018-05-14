@@ -22,6 +22,11 @@ namespace App
         {
         }
 
+        protected void Info(object obj)
+        {
+            Info($"{obj}");
+        }
+
         protected void Info(string fmt, params object[] args)
         {
             Log(ELevel.Info, string.Format(fmt, args));

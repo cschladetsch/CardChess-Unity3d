@@ -152,6 +152,8 @@ namespace App.Main
                     New.Coroutine(EndGame).SetName("EndGame")
                 )
             );
+
+            Info(Root);
         }
 
         IEnumerator StartGame(IGenerator self)

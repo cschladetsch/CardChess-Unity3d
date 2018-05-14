@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using App.Model;
 using Flow;
-using UnityEngine.Assertions;
 
 namespace App.Agent
 {
     public class CardInstance : AgentBaseCoro<Model.ICardInstance>, ICardInstance
     {
+        public int Health => Model.Health;
+
         protected override IEnumerator Next(IGenerator self)
         {
             yield break;
