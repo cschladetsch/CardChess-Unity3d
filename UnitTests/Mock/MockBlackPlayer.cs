@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using App.Action;
+﻿using App.Action;
 using Flow;
 
 namespace App
 {
-    class MockBlackPlayer : Agent.Player
+    /// <inheritdoc />
+    /// <summary>
+    /// Player used to test as Black pieces.
+    /// </summary>
+    internal class MockBlackPlayer : Agent.Player
     {
         public override IFuture<PlayCard> PlaceKing()
         {

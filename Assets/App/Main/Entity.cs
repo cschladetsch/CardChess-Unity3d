@@ -8,11 +8,14 @@ namespace App
         where TModel : class, IModel
         where TAgent : class, IAgent<TModel>
     {
+        #region Public Fields
         public IModel BaseModel => Model;
         public IAgent BaseAgent => Agent;
         public TModel Model { get; private set; }
         public TAgent Agent { get; private set; }
+        #endregion
 
+        #region Public Methods
         public bool Create(TModel model, TAgent agent)
         {
             Assert.IsNotNull(model);
@@ -24,5 +27,6 @@ namespace App
 
             return true;
         }
+        #endregion
     }
 }

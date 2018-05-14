@@ -8,10 +8,11 @@ using UnityEngine.Assertions;
 
 namespace App.Model
 {
-    using App.Action;
+    using Action;
 
     public class Player : ModelBase, IPlayer, ICreateWith<EColor>
     {
+        #region public Fields
         public EColor Color { get; private set; }
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
@@ -22,9 +23,9 @@ namespace App.Model
         public IEnumerable<ICardInstance> CardsOnBoard { get; }
         public IEnumerable<ICardInstance> CardsInGraveyard { get; }
         public static int StartHandCardCount => Parameters.StartHandCardCount;
+        #endregion
 
-        public Player() { }
-
+        #region Public Methods
         public bool Create(EColor color)
         {
             Color = color;
@@ -87,5 +88,6 @@ namespace App.Model
         {
             return null;
         }
+        #endregion
     }
 }

@@ -6,12 +6,7 @@ namespace App.Model
 
     public interface ICardInstance : IModel, IOwned
     {
-        ICardTemplate Template { get; }
-
-        int Attack { get; }
-        int Health { get; }
-        IList<ICardInstance> Items { get; }
-        IList<EAbility> Abilities { get; }
+        #region Events
         event CardInstanceDelegate Born;
         event CardInstanceDelegate Died;
         event CardInstanceDelegate Reborn;
@@ -24,7 +19,18 @@ namespace App.Model
         event CardInstanceDelegate ItemRemoved;
         event CardInstanceDelegate Attacked;
         event CardInstanceDelegate Defended;
+        #endregion
 
+        #region Properties
+        ICardTemplate Template { get; }
+        int Attack { get; }
+        int Health { get; }
+        IList<ICardInstance> Items { get; }
+        IList<EAbility> Abilities { get; }
+        #endregion
+
+        #region Methods
         void ChangeHealth(int amount, ICardInstance cause);
+        #endregion
     }
 }

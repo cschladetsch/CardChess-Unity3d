@@ -2,9 +2,9 @@
 
 namespace App.Model
 {
-
-
-    // A card in a Hand or Deck or Collection
+    /// <summary>
+    /// A card in a Hand or Deck or Collection
+    /// </summary>
     public interface ICard : IHasId
     {
         string Name { get; }

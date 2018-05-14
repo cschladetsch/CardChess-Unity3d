@@ -3,18 +3,12 @@ using UnityEngine;
 
 namespace App.Model
 {
-    public class DependancyInjected
-    {
-        protected void Inject()
-        {
-        }
-    }
-
     /// <summary>
-    ///     Log system used by Models.
+    /// Log system used by Models.
     /// </summary>
-    public class Logger : DependancyInjected
+    public class Logger
     {
+        #region Public Fields
         public enum ELevel
         {
             None = 0,
@@ -23,40 +17,41 @@ namespace App.Model
             Verbose = 4,
             Error = 8
         }
-
         public static string LogFileName;
         public static ELevel MaxLevel;
+        public string Name { get; set; }
+        #endregion
 
-        protected ELevel _logLevel;
-
-        protected string _logPrefix;
-
+        #region Public Methods
         public Logger()
         {
-            Inject();
         }
-
-        public string Name { get; set; }
-
         public static void Initialise()
         {
         }
+        #endregion
 
+        #region Protected Methods
         protected void Info(string fmt, params object[] args)
         {
             Log(ELevel.Info, string.Format(fmt, args));
         }
-
         protected void Warn(string fmt, params object[] args)
         {
             Log(ELevel.Warn, string.Format(fmt, args));
         }
-
         protected void Error(string fmt, params object[] args)
         {
             Log(ELevel.Error, string.Format(fmt, args));
         }
+        #endregion
 
+        #region Protected Fields
+        protected ELevel _logLevel;
+        protected string _logPrefix;
+        #endregion
+
+        #region Private
         private void Log(ELevel level, string text)
         {
             Action<string> log = Debug.Log;
@@ -75,17 +70,16 @@ namespace App.Model
                     log = Debug.LogError;
                     break;
             }
-
 #if TRACE
             Console.WriteLine(MakeEntry(level, text));
 #else
             log(MakeEntry(level, text));
-            #endif
+#endif
         }
-
         private string MakeEntry(ELevel level, string text)
         {
             return $"{_logPrefix} type:{GetType()} name: {Name}:\n\t'{text}'";
         }
+        #endregion
     }
 }

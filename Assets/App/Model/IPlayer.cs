@@ -10,6 +10,7 @@ namespace App.Model
     /// </summary>
     public interface IPlayer : IModel, IOwner
     {
+        #region Properties
         EColor Color { get; }
         int MaxMana { get; }
         int Mana { get; }
@@ -19,10 +20,13 @@ namespace App.Model
         ICardInstance King { get; }
         IEnumerable<ICardInstance> CardsOnBoard { get; }
         IEnumerable<ICardInstance> CardsInGraveyard { get; }
+        #endregion
 
+        #region Methods
         void NewGame();
         void ChangeMaxMana(int mana);
         void ChangeMana(int mana);
         void MockMakeHand();
+        #endregion
     }
 }

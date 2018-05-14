@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    /// <summary>
+    /// A Piece on the Board
+    /// </summary>
     public class Piece : ModelBase
     {
     }

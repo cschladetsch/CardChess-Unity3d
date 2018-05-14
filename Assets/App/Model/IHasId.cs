@@ -6,5 +6,4 @@ namespace App.Model
     {
         Guid Id { get; }
     }
-
 }

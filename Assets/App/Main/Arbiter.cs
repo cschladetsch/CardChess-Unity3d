@@ -35,15 +35,66 @@ namespace App.Main
             Kernel = Create.Kernel();
         }
 
-        public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
-            where TModel : class, Model.IModel, ICreateWith<A0, A1>, new()
-            where TAgent : class, Agent.IAgent<TModel>, new()
+        public void Setup(IBoard board, IPlayer p0, IPlayer p1)
         {
-            var model = NewModel<TModel, A0, A1>(a0, a1);
-            var agent = NewAgent<TAgent, TModel>(model);
-            var entity = new Entity<TModel, TAgent>();
-            entity.Create(model, agent);
-            return entity;
+            _board = board;
+            SetPlayers(p0, p1);
+            NewGame();
+        }
+
+        public void SetPlayers(IPlayer p0, IPlayer p1)
+        {
+            Assert.IsNotNull(p0);
+            Assert.IsNotNull(p1);
+            _players[0] = p0;
+            _players[1] = p1;
+        }
+
+        public void NewGame()
+        {
+            Assert.IsNotNull(Board);
+            Assert.IsNotNull(WhitePlayer);
+            Assert.IsNotNull(BlackPlayer);
+
+            Info("New Game");
+
+            _currentPlayer = 0;
+            _turnNumber = 0;
+
+            Board.NewGame();
+            foreach (var player in _players)
+            {
+                Assert.IsNotNull(player);
+                player.NewGame();
+            }
+
+            GameLoop();
+        }
+
+        public void Step()
+        {
+            Info($"Step: {Kernel.StepNumber}");
+            Kernel.Step();
+        }
+
+        public void GameLoop()
+        {
+            Root.Add(
+                New.Sequence(
+                    New.Log("Main game sequence begins"),
+                    New.Coroutine(StartGame).Named("StartGame"),
+                    New.While(() => !_gameOver),
+                        New.Coroutine(PlayerTurn).Named("Turn"),
+                    New.Coroutine(EndGame).Named("EndGame")
+                ).Named("GameLoop")
+            );
+
+            Info(Root);
+        }
+
+        public static bool CanPlaceKing(Player player, Coord coord)
+        {
+            return true;
         }
 
         public TModel NewModel<TModel>()
@@ -101,66 +152,9 @@ namespace App.Main
             return agent;
         }
 
-        public void SetPlayers(IPlayer p0, IPlayer p1)
+        public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
         {
-            Assert.IsNotNull(p0);
-            Assert.IsNotNull(p1);
-            _players[0] = p0;
-            _players[1] = p1;
-        }
-
-        public void Setup(IBoard board, IPlayer p0, IPlayer p1)
-        {
-            _board = board;
-            SetPlayers(p0, p1);
-            NewGame();
-        }
-
-        public void NewGame()
-        {
-            Assert.IsNotNull(Board);
-            Assert.IsNotNull(WhitePlayer);
-            Assert.IsNotNull(BlackPlayer);
-
-            Info("New Game");
-
-            _currentPlayer = 0;
-            _turnNumber = 0;
-
-            Board.NewGame();
-            foreach (var player in _players)
-            {
-                Assert.IsNotNull(player);
-                player.NewGame();
-            }
-
-            GameLoop();
-        }
-
-        public void Step()
-        {
-            Info($"Step: {Kernel.StepNumber}");
-            Kernel.Step();
-        }
-
-        public void GameLoop()
-        {
-            Root.Add(
-                New.Sequence(
-                    New.Log("Main game sequence begins"),
-                    New.Coroutine(StartGame).Named("StartGame"),
-                    New.While(() => !_gameOver),
-                        New.Coroutine(PlayerTurn).Named("Turn"),
-                    New.Coroutine(EndGame).Named("EndGame")
-                ).Named("GameLoop")
-            );
-
-            Info(Root);
-        }
-
-        public static bool CanPlaceKing(Player player, Coord coord)
-        {
-            return true;
+            return new Model.CardInstance(tmpl, owner);
         }
 
         public ICardInstance NewCardAgent(Model.ICardTemplate template, Model.IOwner owner)
@@ -175,10 +169,17 @@ namespace App.Main
             return template == null ? null : NewCardAgent(template, owner);
         }
 
-        public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
+        public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
+            where TModel : class, Model.IModel, ICreateWith<A0, A1>, new()
+            where TAgent : class, Agent.IAgent<TModel>, new()
         {
-            return new Model.CardInstance(tmpl, owner);
+            var model = NewModel<TModel, A0, A1>(a0, a1);
+            var agent = NewAgent<TAgent, TModel>(model);
+            var entity = new Entity<TModel, TAgent>();
+            entity.Create(model, agent);
+            return entity;
         }
+
         #endregion
 
         #region Private Methods
