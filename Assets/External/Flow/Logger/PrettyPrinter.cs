@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
-using Flow;
-using System.Reflection;
-using System.Runtime;
 
 // There are a lot of accessess to properties that could return null, but won't
 // ReSharper disable PossibleNullReferenceException
 
-namespace Flow.Logger
+namespace Flow
 {
+    public static class Print
+    {
+        public static string Object(ITransient trans)
+        {
+            return PrettyPrinter.ToString(trans);
+        }
+    }
+
     public class PrettyPrinter
     {
         public int Indenting = 4;

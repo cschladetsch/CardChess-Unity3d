@@ -19,7 +19,7 @@ namespace App
             var r0 = f.Trigger("Trigger0", t2, t1);
             var b0 = f.Barrier("Barrier0", t0, r0);
             var f0 = f.NamedFuture<int>("Future<int>");
-            var g0 = f.Group("Group0", t0, f0, b0);
+            var g0 = f.Group("Group0", f0, b0);
 
             k.Root.Add(g0);
 

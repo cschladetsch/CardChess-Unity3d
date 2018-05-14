@@ -22,7 +22,12 @@ namespace Flow.Impl
             Active = true;
         }
 
-        public ITransient Named(string name)
+        public override string ToString()
+        {
+            return Flow.Print.Object(this);
+        }
+
+        public ITransient SetName(string name)
         {
             Name = name;
             return this;

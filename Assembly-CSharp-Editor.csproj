@@ -92,7 +92,6 @@
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestTrigger.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TimerTimedWait.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\Unity\TestMoveTo.cs" />
-    <Compile Include="Assets\External\UniRx\Test\Editor\TestCollections.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/christian/src/Chess2/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
@@ -710,9 +709,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{587306A4-4476-5AEF-18A4-84A1E4F77EEE}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
+      <Project>{32BE77A5-2E31-C41C-A550-D40453E18E62}</Project>
+      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
