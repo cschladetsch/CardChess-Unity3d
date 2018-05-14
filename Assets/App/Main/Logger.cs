@@ -9,6 +9,7 @@ namespace App
     /// </summary>
     public class Logger
     {
+        #region Public Fields
         public enum ELevel
         {
             None = 0, Info = 1, Warn = 2, Verbose = 4, Error = 8,
@@ -17,10 +18,15 @@ namespace App
         public static string LogFileName;
         public static ELevel MaxLevel;
         public string Name { get; set; }
+        #endregion
 
-        public static void Initialise()
+        #region Protected Methods
+        #region Virtuals
+        protected virtual string MakeEntry(ELevel level, string text)
         {
+            return $"{_logPrefix} type={GetType()}, name={Name}: '{text}'";
         }
+        #endregion
 
         protected void Info(object obj)
         {
@@ -41,7 +47,9 @@ namespace App
         {
             Log(ELevel.Error, string.Format(fmt, args));
         }
+        #endregion
 
+        #region Private Methods
         private void Log(ELevel level, string text)
         {
             Action<string> log = Debug.Log;
@@ -68,15 +76,11 @@ namespace App
             log(MakeEntry(level, text));
             #endif
         }
+        #endregion
 
-        protected virtual string MakeEntry(ELevel level, string text)
-        {
-            return string.Format(
-                "{0}:type {1}:name {2}:\n\t'{3}'",
-                _logPrefix, GetType(), Name, text);
-        }
-
+        #region Protected Fields
         protected ELevel _logLevel;
         protected string _logPrefix;
+        #endregion
     }
 }

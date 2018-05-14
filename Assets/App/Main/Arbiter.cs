@@ -25,10 +25,14 @@ namespace App
         public IPlayer BlackPlayer => _players[1];
         public IPlayer CurrentPlayer => _players[_currentPlayer];
         public IBoard Board { get; private set; }
-
         #endregion
 
         #region Public Methods
+        public static bool CanPlaceKing(Player player, Coord coord)
+        {
+            return true;
+        }
+
         public Arbiter()
         {
             //Assert.IsNull(Instance);
@@ -93,11 +97,7 @@ namespace App
             Info(Root);
         }
 
-        public static bool CanPlaceKing(Player player, Coord coord)
-        {
-            return true;
-        }
-
+        #region Creation Methods
         public TModel NewModel<TModel>()
             where TModel : class, ICreateWith, new()
         {
@@ -182,6 +182,7 @@ namespace App
         }
 
         #endregion
+        #endregion
 
         #region Private Methods
         private IEnumerator StartGame(IGenerator self)
@@ -211,13 +212,11 @@ namespace App
                 ).Named("Start Game")
             );
         }
-
         private IEnumerator EndGame(IGenerator self)
         {
             Info("Game Ended");
             yield break;
         }
-
         private IEnumerator PlayerTurn(IGenerator self)
         {
             ++_turnNumber;
@@ -286,7 +285,6 @@ namespace App
         private IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, player, move, future); }
         private IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
         private IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
-
         private IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
         {
             // TODO: show player lost sequence
@@ -294,16 +292,13 @@ namespace App
             //yield return self.After(_view.PlayerLost(loser));
             yield break;
         }
-
         private IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
         {
             Info("Player {0} timedout", player);
             //yield return self.After(_view.PlayerTimedOut(player));
             yield break;
         }
-
-        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayer player,
-            PlayCard playCard, IFuture<bool> canPlay)
+        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayer player, PlayCard playCard, IFuture<bool> canPlay)
         {
             var current = Board.Model.At(playCard.Coord);
             if (current == null)
@@ -316,7 +311,6 @@ namespace App
             Info("Card play {0} for player {1} is INVALID", playCard, player.Color);
             canPlay.Value = false;
         }
-
         private IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayer player, MovePiece move, IFuture<bool> canMove)
         {
             // TODO: if card can't be moved, show why
@@ -325,7 +319,6 @@ namespace App
             canMove.Value = false;
             yield break;
         }
-
         private IEnumerator PlayCardCoro(IGenerator self, PlayCard playCard)
         {
             // TODO: play the card
@@ -333,7 +326,6 @@ namespace App
             //yield return self.After(_view.PlayCard(playCard));
             yield break;
         }
-
         private IEnumerator MovePieceCoro(IGenerator self, MovePiece move)
         {
             Info("Move: {0}", move);

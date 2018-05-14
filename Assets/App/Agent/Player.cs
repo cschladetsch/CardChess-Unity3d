@@ -23,6 +23,7 @@ namespace App.Agent
         #endregion
 
         #region Public Methods
+        #region Public Virtual Methods
         public virtual IFuture<PlayCard> PlaceKing()
         {
             return _placeKing = New.Future<PlayCard>();
@@ -41,7 +42,8 @@ namespace App.Agent
             _pieceMoves.Add(future);
             return future;
         }
-
+        #endregion
+        #region Public Emperical Methods
         public void RedrawCards(params Guid[] rejected)
         {
             //var hand = Hand;
@@ -67,7 +69,8 @@ namespace App.Agent
         {
             _hasAccepted.Complete();
         }
-
+        #endregion
+        #region Public Flow Methods
         public IFuture<EResponse> NewGame()
         {
             Model.NewGame();
@@ -75,19 +78,24 @@ namespace App.Agent
             var future = New.Future<EResponse>();
             future.Value = EResponse.Ok;
             return future;
+
         }
 
         public ITransient StartGame()
         {
+            //TODO Info("Start Game");
             return null;
         }
 
         public IGenerator DrawInitialCards()
         {
-            foreach (var card in Model.Deck.Cards.Take(App.Model.Player.StartHandCardCount))
+            //TODO Info("DrawCards");
+            var deck = Model.Deck.Cards;
+            var hand = Model.Hand.Cards;
+            foreach (var card in deck.Take(App.Model.Player.StartHandCardCount))
             {
-                Model.Hand.Cards.Add(card);
-                Model.Deck.Cards.Remove(card);
+                hand.Add(card);
+                deck.Remove(card);
             }
 
             return null;
@@ -112,9 +120,7 @@ namespace App.Agent
 
         public IFuture<bool> Pass()
         {
-            var pass = New.Future<bool>();
-            pass.Value = false;
-            return pass;
+            return New.Future(false);
         }
 
         public IFuture<bool> HasAcceptedCards()
@@ -129,6 +135,7 @@ namespace App.Agent
 
         public ITransient DeliverCards()
         {
+            // TODO: animate
             // TODO: animate
             return null;
         }
@@ -148,8 +155,14 @@ namespace App.Agent
             return roll;
         }
         #endregion
+        #endregion
 
         #region Protected Methods
+        /// <summary>
+        /// The over-time actions of this entity.
+        /// </summary>
+        /// <param name="self">The context</param>
+        /// <returns></returns>
         protected override IEnumerator Next(IGenerator self)
         {
             yield return null;
