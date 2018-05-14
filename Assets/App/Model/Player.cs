@@ -13,6 +13,7 @@ namespace App.Model
     public class Player : ModelBase, IPlayer, ICreateWith<EColor>
     {
         public static int StartHandCardCount = 7;
+        public static int MaxManaCap = 12;
 
         public EColor Color { get; private set; }
         public int MaxMana { get; private set; }
@@ -40,62 +41,52 @@ namespace App.Model
 
         public void NewGame()
         {
+            Deck.NewGame();
             MaxMana = 0;
             King = CardTemplates.New("King", this);
-            Deck.NewGame();
-
-            int cardsInDeck = Deck.Cards.Count;
-            Hand = MockMakeHand();
-
-            Assert.AreEqual(Hand.Cards.Count, 7);
-            Assert.IsTrue(Deck.Cards.Count == cardsInDeck - 7);
+            Hand = new Hand();
         }
 
-        public void ChangeMana(int change, Action<EResponse> response)
+        public void ChangeMana(int change)
         {
             Mana = Mathf.Clamp(0, 12, Mana + change);
-            response(EResponse.Ok);
         }
 
-        public void ChangeMaxMana(int change, Action<EResponse> response)
+        public void ChangeMaxMana(int change)
         {
             MaxMana = Mathf.Clamp(0, 12, Mana + change);
-            response(EResponse.Ok);
         }
 
-        private IHand MockMakeHand()
+        public void MockMakeHand()
         {
             Assert.IsNotNull(Deck);
-            Info("{0} cards in Deck", Deck.Cards.Count);
             Assert.IsTrue(Deck.Cards.Count >= 30);
-            var hand = new Hand();
+            Hand = new Hand();
             foreach (var card in Deck.Cards.Take(7))
             {
-                Info("Adding {0}", card.Template.Name);
                 Deck.Remove(card);
-                hand.Add(card);
+                Hand.Add(card);
             }
-            return hand;
         }
 
         public void AddMaxMana(int mana)
         {
-            throw new NotImplementedException();
+            MaxMana = Mathf.Clamp(MaxMana + mana, 0, MaxManaCap);
         }
 
         public IFuture<PlayCard> TryPlayCard()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public IFuture<MovePiece> TryMovePiece()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public IFuture<bool> Pass()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

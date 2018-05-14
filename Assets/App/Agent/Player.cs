@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Flow;
-using UnityEngine.Assertions;
 
 namespace App.Agent
 {
     using Action;
 
+    /// <inheritdoc />
+    /// <summary>
+    /// The agent that represents a player in the game.
+    /// </summary>
     public class Player : AgentBaseCoro<Model.IPlayer>, IPlayer
     {
         public EColor Color => Model.Color;
@@ -28,28 +32,32 @@ namespace App.Agent
             return null;
         }
 
-        public IFuture<Response> DrawCards()
+        public IFuture<EResponse> DrawInitialCards()
         {
-            throw new NotImplementedException();
+            foreach (var card in Model.Deck.Cards.Take(App.Model.Player.StartHandCardCount))
+            {
+                Model.Hand.Cards.Add(card);
+                Model.Deck.Cards.Remove(card);
+            }
+
+            return New.Future(EResponse.Ok);
         }
 
-        public IFuture<Response> Mulligan()
+        public ITransient Mulligan()
         {
             return null;
         }
 
         public IFuture<EResponse> ChangeMaxMana(int mana)
         {
-            var future = New.Future<EResponse>();
-            Model.ChangeMaxMana(mana, (response) => future.Value = response);
-            return future;
+            Model.ChangeMaxMana(mana);
+            return New.Future(EResponse.Ok);
         }
 
         public IFuture<EResponse> ChangeMana(int mana)
         {
-            var future = New.Future<EResponse>();
-            Model.ChangeMana(mana, (response) => future.Value = response);
-            return future;
+            Model.ChangeMana(mana);
+            return New.Future(EResponse.Ok);
         }
 
         protected override IEnumerator Next(IGenerator self)
@@ -94,10 +102,10 @@ namespace App.Agent
             return roll;
         }
 
-        private System.Random _random = new Random();
+        private readonly Random _random = new Random();
         private IFuture<PlayCard> _placeKing;
         private IFuture<int> _roll;
-        private List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();
-        private List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
+        private readonly List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();
+        private readonly List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
     }
 }

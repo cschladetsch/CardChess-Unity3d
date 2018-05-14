@@ -29,6 +29,8 @@ namespace App
             Assert.AreSame(p0.Model, m0);
             Assert.AreSame(p1.Model, m1);
 
+            p0.Model.MockMakeHand();
+            p1.Model.MockMakeHand();
             Assert.AreEqual(7, p0.Model.Hand.Cards.Count);
             Assert.AreEqual(7, p1.Model.Hand.Cards.Count);
             Assert.AreEqual(43, d0.Cards.Count);
@@ -40,7 +42,7 @@ namespace App
         {
             var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
             arbiter.StartGame();
-            Step(Arbiter.Kernel, 10);
+            StepArbiter(10);
         }
     }
 }

@@ -13,11 +13,12 @@ namespace App.Agent
         IFuture<EResponse> ChangeMana(int mana);
         IFuture<EResponse> NewGame();
         ITransient StartGame();
-        IFuture<Response> DrawCards();
+        IFuture<EResponse> DrawInitialCards();
         IFuture<int> RollDice();
         IFuture<Action.PlayCard> PlaceKing();
         IFuture<Action.PlayCard> PlayCard();
         IFuture<Action.MovePiece> MovePiece();
         IFuture<bool> Pass();
+        ITransient Mulligan();
     }
 }

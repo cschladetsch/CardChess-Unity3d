@@ -165,10 +165,18 @@ namespace App.Main
                         BlackPlayer.StartGame()
                     ),
                     New.Barrier(
-                        WhitePlayer.DrawCards(),
-                        BlackPlayer.DrawCards(),
-                        WhitePlayer.PlaceKing(),
-                        BlackPlayer.PlaceKing()
+                        WhitePlayer.DrawInitialCards(),
+                        BlackPlayer.DrawInitialCards(),
+                        New.TimedBarrier(
+                            TimeSpan.FromSeconds(20),
+                            WhitePlayer.Mulligan(),
+                            BlackPlayer.Mulligan()
+                        ),
+                        New.TimedBarrier(
+                            TimeSpan.FromSeconds(20),
+                            WhitePlayer.PlaceKing(),
+                            BlackPlayer.PlaceKing()
+                        )
                     )
                 )
             );

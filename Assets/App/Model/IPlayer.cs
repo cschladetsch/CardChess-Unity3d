@@ -21,7 +21,8 @@ namespace App.Model
         IEnumerable<ICardInstance> CardsInGraveyard { get; }
 
         void NewGame();
-        void ChangeMaxMana(int mana, Action<EResponse> changed);
-        void ChangeMana(int mana, Action<EResponse> changed);
+        void ChangeMaxMana(int mana);
+        void ChangeMana(int mana);
+        void MockMakeHand();
     }
 }

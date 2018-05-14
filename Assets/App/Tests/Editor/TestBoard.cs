@@ -47,6 +47,9 @@ namespace App
 
             arbiter.Setup(c0, p0, p1);
 
+            m0.MockMakeHand();
+            m1.MockMakeHand();
+
             Assert.IsNotNull(p0);
             Assert.IsNotNull(p0.Model);
             Assert.IsNotNull(m0.Hand);
