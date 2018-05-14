@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{956D885B-4293-F724-972B-BD6F0B169B94}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -85,7 +86,6 @@
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestKernel.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestLog.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestLoops.cs" />
-    <Compile Include="Assets\External\Flow\TestFlow\Editor\TestMockGame.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestSequenceTopology.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestSwitch.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestTimers.cs" />
