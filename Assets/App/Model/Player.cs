@@ -40,7 +40,7 @@ namespace App.Model
 
         public void NewGame()
         {
-            MaxMana = 1;
+            MaxMana = 0;
             King = CardTemplates.New("King", this);
             Deck.NewGame();
 

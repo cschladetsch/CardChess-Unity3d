@@ -2,5 +2,6 @@
 {
     public interface ICardInstance : IAgent<Model.ICardInstance>
     {
+        int Health { get; }
     }
 }

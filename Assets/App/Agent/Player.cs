@@ -12,6 +12,7 @@ namespace App.Agent
     {
         public EColor Color => Model.Color;
         public ICardInstance King { get; private set; }
+        public int Health => King.Health;
 
         public IFuture<EResponse> NewGame()
         {
@@ -20,6 +21,16 @@ namespace App.Agent
             var future = New.Future<EResponse>();
             future.Value = EResponse.Ok;
             return future;
+        }
+
+        public ITransient StartGame()
+        {
+            return null;
+        }
+
+        public IFuture<Response> DrawCards()
+        {
+            throw new NotImplementedException();
         }
 
         public IFuture<Response> Mulligan()

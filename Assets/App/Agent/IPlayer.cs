@@ -7,15 +7,17 @@ namespace App.Agent
     {
         EColor Color { get; }
         ICardInstance King { get; }
+        int Health { get; }
 
         IFuture<EResponse> ChangeMaxMana(int mana);
         IFuture<EResponse> ChangeMana(int mana);
+        IFuture<EResponse> NewGame();
+        ITransient StartGame();
+        IFuture<Response> DrawCards();
         IFuture<int> RollDice();
         IFuture<Action.PlayCard> PlaceKing();
         IFuture<Action.PlayCard> PlayCard();
         IFuture<Action.MovePiece> MovePiece();
         IFuture<bool> Pass();
-        IFuture<EResponse> NewGame();
-        IFuture<Response> Mulligan();
     }
 }

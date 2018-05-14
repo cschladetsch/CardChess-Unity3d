@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using App.Model;
 using Flow;
-using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace App.Main
@@ -134,25 +133,43 @@ namespace App.Main
             }
         }
 
+        public void Step()
+        {
+            Info($"Step: {Kernel.StepNumber}");
+            Kernel.Step();
+        }
+
         public void StartGame()
         {
             Info("Game Started");
 
-            Root.Add(New.Sequence(
-                New.Coroutine(StartGame).SetName("StartGame"),
-                New.Coroutine(PlayerTurn, WhitePlayer),
-                New.Coroutine(EndGame))
+            Root.Add(
+                New.Sequence(
+                    New.Coroutine(StartGame).SetName("StartGame"),
+                    New.Log("Main game sequence begins"),
+                    New.While(() => !_gameOver),
+                        New.Coroutine(PlayerTurn).SetName($"Turn {_turnNumber}"),
+                    New.Coroutine(EndGame).SetName("EndGame")
+                )
             );
-
-            Kernel.Step();
-            Kernel.Step();
-            Kernel.Step();
-            Info("Root {0}", Root);
         }
 
-        public void Step()
+        IEnumerator StartGame(IGenerator self)
         {
-            Kernel.Step();
+            yield return self.After(
+                New.Sequence(
+                    New.Barrier(
+                        WhitePlayer.StartGame(),
+                        BlackPlayer.StartGame()
+                    ),
+                    New.Barrier(
+                        WhitePlayer.DrawCards(),
+                        BlackPlayer.DrawCards(),
+                        WhitePlayer.PlaceKing(),
+                        BlackPlayer.PlaceKing()
+                    )
+                )
+            );
         }
 
         IEnumerator EndGame(IGenerator self)
@@ -161,87 +178,75 @@ namespace App.Main
             yield break;
         }
 
-        IEnumerator StartGame(IGenerator self)
-        {
-            //yield return self.After(New.TimedBarrier(
-            //    TimeSpan.FromSeconds(20),
-            //    WhitePlayer.Mulligan(),
-            //    WhitePlayer.Mulligan()));
-            yield return self.After(New.Barrier(
-                WhitePlayer.Mulligan(),
-                BlackPlayer.Mulligan()));
-            yield return self.After(WhitePlayer.PlaceKing());
-            yield return self.After(BlackPlayer.PlaceKing());
-            yield return self.After(New.Coroutine(PlayerTurn, WhitePlayer));
-            yield return self.After(New.Coroutine(EndGame));
-        }
-
-        IEnumerator PlayerTurn(IGenerator self, IPlayer player)
+        IEnumerator PlayerTurn(IGenerator self)
         {
             yield return null;
-
             ++_turnNumber;
-
-            Info("Start turn {0}", _turnNumber);
+            var player = CurrentPlayer;
+            Info($"Start turn {_turnNumber} for {player}");
 
             yield return self.After(player.ChangeMaxMana(1));
 
             SaveState();
             var timeOut = 60;
-            //_playerTimerCountdown = new_.Coroutine(PlayerTimerCountdownCoro, player);
 
-        retry:
-            RestoreState();
-
-            // the options a player has
-            var playCard = player.PlayCard();
-            var movePiece = player.MovePiece();
-            var pass = player.Pass();
-
-            var trigger = New.TimedTrigger(
-                TimeSpan.FromSeconds(timeOut),
-                playCard,
-                movePiece,
-                pass);
-
-            // wait for player to make a move
-            yield return self.After(trigger);
-            if (trigger.HasTimedOut || trigger.Reason == pass)
+            while (true)
             {
-                // timed out, next player's turn
-                yield return self.After(PlayerTimedOut(player));
-                goto next;
-            }
+                // the options a player has
+                var playCard = player.PlayCard();
+                var movePiece = player.MovePiece();
+                var pass = player.Pass();
 
-            SaveState();
-            if (trigger.Reason == playCard)
-            {
-                var canPlay = New.Future<bool>();
-                yield return self.After(TestCanPlayCard(player, playCard.Value, canPlay));
-                if (canPlay.Available && canPlay.Value)
+                var trigger = New.TimedTrigger(
+                    TimeSpan.FromSeconds(timeOut),
+                    playCard,
+                    movePiece,
+                    pass);
+
+                trigger.TimedOut += timed =>
                 {
-                    yield return self.After(PerformPlayCard(playCard.Value));
-                    goto next;
-                }
-                timeOut = trigger.Timer.TimeRemaining.Seconds;
-                goto retry;
-            }
+                    Info($"Player {CurrentPlayer.Color} timed out. Should do something");
+                    throw new NotImplementedException();
+                };
 
-            if (trigger.Reason == movePiece)
-            {
-                var canPlay = New.Future<bool>();
-                yield return self.After(TestCanMovePiece(player, movePiece.Value, canPlay));
-                if (canPlay.Available && canPlay.Value)
+                // wait for player to make a move
+                yield return self.After(trigger);
+                if (trigger.HasTimedOut || trigger.Reason == pass)
                 {
-                    yield return self.After(PerformMovePiece(movePiece.Value));
-                    goto next;
+                    // timed out, next player's turn
+                    yield return self.After(PlayerTimedOut(player));
+                    break;
                 }
-                timeOut = trigger.Timer.TimeRemaining.Seconds;
-                goto retry;
+
+                SaveState();
+                if (trigger.Reason == playCard)
+                {
+                    var canPlay = New.Future<bool>();
+                    yield return self.After(TestCanPlayCard(player, playCard.Value, canPlay));
+                    if (canPlay.Available && canPlay.Value)
+                    {
+                        yield return self.After(PerformPlayCard(playCard.Value));
+                        break;
+                    }
+                    timeOut = trigger.Timer.TimeRemaining.Seconds;
+                    continue;
+                }
+
+                if (trigger.Reason == movePiece)
+                {
+                    var canPlay = New.Future<bool>();
+                    yield return self.After(TestCanMovePiece(player, movePiece.Value, canPlay));
+                    if (canPlay.Available && canPlay.Value)
+                    {
+                        yield return self.After(PerformMovePiece(movePiece.Value));
+                        continue;
+                    }
+                    timeOut = trigger.Timer.TimeRemaining.Seconds;
+                    continue;
+                }
             }
 
-        next:
-            yield return self.After(NextPlayerTurn());
+            _gameOver = CurrentPlayer.Health <= 0;
         }
 
         void SaveState()
@@ -275,7 +280,6 @@ namespace App.Main
         IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, player, move, future); }
         IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
         IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
-        IGenerator NextPlayerTurn() { return New.Coroutine(NextPlayerTurnCoro); }
 
         IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
         {
@@ -331,16 +335,6 @@ namespace App.Main
             yield break;
         }
 
-        IEnumerator NextPlayerTurnCoro(IGenerator self)
-        {
-            var previous = CurrentPlayer;
-            _currentPlayer = (_currentPlayer + 1) % _players.Length;
-            // TODO: animations etc.
-            Info("Next player turn {0}", _currentPlayer);
-            //yield return self.After(_view.NextPlayerTurn(previous, CurrentPlayer));
-            yield break;
-        }
-
         public ICardInstance NewCardAgent(Model.ICardTemplate template, Model.IOwner owner)
         {
             var cardInstance = Database.CardTemplates.New(template.Id, owner);
@@ -365,6 +359,7 @@ namespace App.Main
         private ICoroutine _playerTimerCountdown;
         private Agent.IBoard _board;
         private int _turnNumber;
+        private bool _gameOver;
 
         #endregion
     }
