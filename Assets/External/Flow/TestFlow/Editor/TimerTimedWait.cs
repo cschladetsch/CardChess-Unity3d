@@ -14,7 +14,7 @@ namespace Flow.Test
         public void TestBreak(float timeOut)
         {
             _root.Add(
-                _flow.Parallel(
+                _flow.Node(
                     _flow.While(() => true,
                         _flow.OneShotTimer(TimeSpan.FromSeconds(timeOut), (self) => self.Kernel.BreakFlow())
                     )

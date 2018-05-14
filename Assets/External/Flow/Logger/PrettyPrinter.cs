@@ -92,19 +92,19 @@ namespace Flow
             //    typeof(IGroup), typeof(INode)
             //};
 
-            if (typeof(IPeriodic).IsAssignableFrom(ty))
-            {
-                var started = (DateTime) ty.GetProperty("TimeStarted")?.GetValue(trans);
-                var interval = (TimeSpan) ty.GetProperty("Interval")?.GetValue(trans);
-                var remaining = (TimeSpan) ty.GetProperty("Remaining")?.GetValue(trans);
-                return _sb.AppendFormat(
-                    $"Periodic: {name}, started={started}, interval={interval}, remaining={remaining}: {GeneratorInfo(trans)}\n");
-            }
             if (typeof(ITimer).IsAssignableFrom(ty))
             {
                 var started = (DateTime) ty.GetProperty("TimeStarted")?.GetValue(trans);
                 var ends = (DateTime) ty.GetProperty("TimeEnds")?.GetValue(trans);
                 return _sb.AppendFormat($"Timer: {name}, started={started}, ends={ends}: {GeneratorInfo(trans)}\n");
+            }
+            if (typeof(IPeriodic).IsAssignableFrom(ty))
+            {
+                var started = (DateTime) ty.GetProperty("TimeStarted")?.GetValue(trans);
+                var interval = (TimeSpan) ty.GetProperty("Interval")?.GetValue(trans);
+                var remaining = (TimeSpan) ty.GetProperty("TimeRemaining")?.GetValue(trans);
+                return _sb.AppendFormat(
+                    $"Periodic: {name}, started={started}, interval={interval}, remaining={remaining}: {GeneratorInfo(trans)}\n");
             }
             if (typeof(ITrigger).IsAssignableFrom(ty))
             {

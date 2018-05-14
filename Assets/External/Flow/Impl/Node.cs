@@ -60,6 +60,8 @@ namespace Flow.Impl
 
                         gen.Step();
                         gen = gen.Value as IGenerator;
+
+                        //Kernel.StepTime();
                     }
 
                     if (_stepOne)

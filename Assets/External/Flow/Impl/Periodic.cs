@@ -6,15 +6,11 @@ namespace Flow.Impl
 {
     internal class Periodic : Subroutine<bool>, IPeriodic
     {
-        public TimeSpan TimeRemaining
-        {
-            get { throw new NotImplementedException(); }
-            set { }
-        }
         public event TransientHandler Elapsed;
 
-        public DateTime TimeStarted { get; private set; }
-        public TimeSpan Interval { get; set; }
+        public TimeSpan TimeRemaining => Kernel.Time.Now - TimeStarted;
+        public DateTime TimeStarted { get; }
+        public TimeSpan Interval { get; }
 
         internal Periodic(IKernel kernel, TimeSpan interval)
         {
@@ -29,8 +25,7 @@ namespace Flow.Impl
             if (Kernel.Time.Now < _expires)
                 return true;
 
-            if (Elapsed != null)
-                Elapsed(this);
+            Elapsed?.Invoke(this);
 
             _expires = Kernel.Time.Now + Interval;
 
