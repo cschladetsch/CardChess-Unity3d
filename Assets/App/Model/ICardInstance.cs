@@ -4,7 +4,7 @@ namespace App.Model
 {
     public delegate void CardInstanceDelegate(object sender, ICardInstance subject, params ICardInstance[] context);
 
-    public interface ICardInstance : IModel, IOwned
+    public interface ICardInstance : IModel, IOwned, IHasName
     {
         #region Events
         event CardInstanceDelegate Born;

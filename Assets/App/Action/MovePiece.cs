@@ -1,6 +1,6 @@
-﻿
-namespace App.Action
+﻿namespace App.Action
 {
+    /// <inheritdoc />
     /// <summary>
     /// Move a piece on the board
     /// </summary>
@@ -8,12 +8,5 @@ namespace App.Action
     {
         public Agent.ICardInstance Instance;
         public Coord Target;
-    }
-
-    /// <summary>
-    /// Pass the turn
-    /// </summary>
-    public class Pass : ActionBase
-    {
     }
 }

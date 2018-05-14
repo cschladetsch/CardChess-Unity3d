@@ -9,6 +9,7 @@ namespace App.Model
 {
     public class CardInstance : ICardInstance
     {
+        public string Name => Template.Name;
         public CardInstance(ICardTemplate template, IOwner owner)
         {
             Id = Guid.NewGuid();
@@ -73,5 +74,6 @@ namespace App.Model
         {
             Died?.Invoke(this, this);
         }
+
     }
 }

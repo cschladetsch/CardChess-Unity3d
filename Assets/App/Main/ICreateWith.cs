@@ -1,5 +1,8 @@
 ﻿namespace App
 {
+    /// <summary>
+    /// Adds a creation method
+    /// </summary>
     public interface ICreateWith
     {
         bool Create();

@@ -47,7 +47,6 @@ namespace App.Database
                 new CardTemplate(ECardType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mount, EAbility.Lethal}),      // knight
                 new CardTemplate(ECardType.Bishop, "Archer",       3, 2, 3),        // bishop
                 new CardTemplate(ECardType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
-
                 new CardTemplate(ECardType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
                 new CardTemplate(ECardType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
                 new CardTemplate(ECardType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mount}),

@@ -59,25 +59,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\App\Action\Action.cs" />
+    <Compile Include="Assets\App\Action\Pass.cs" />
     <Compile Include="Assets\App\Action\ActionBase.cs" />
     <Compile Include="Assets\App\Action\Coord.cs" />
     <Compile Include="Assets\App\Action\EAction.cs" />
     <Compile Include="Assets\App\Action\IAction.cs" />
+    <Compile Include="Assets\App\Action\MovePiece.cs" />
     <Compile Include="Assets\App\Action\PlayCard.cs" />
     <Compile Include="Assets\App\Action\Vector2.cs" />
-    <Compile Include="Assets\App\Agent\AgentBase.cs" />
-    <Compile Include="Assets\App\Agent\AgentBaseCoro.cs" />
-    <Compile Include="Assets\App\Agent\Board.cs" />
-    <Compile Include="Assets\App\Agent\CardInstance.cs" />
+    <Compile Include="Assets\App\Agent\Card\King.cs" />
+    <Compile Include="Assets\App\Agent\Card\Paladin.cs" />
+    <Compile Include="Assets\App\Agent\Impl\CardInstance.cs" />
+    <Compile Include="Assets\App\Agent\Impl\AgentBase.cs" />
+    <Compile Include="Assets\App\Agent\Impl\AgentBaseCoro.cs" />
+    <Compile Include="Assets\App\Agent\Impl\Board.cs" />
+    <Compile Include="Assets\App\Agent\IPieceInstance.cs" />
+    <Compile Include="Assets\App\Agent\Impl\PieceInstance.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoard.cs" />
     <Compile Include="Assets\App\Agent\ICardInstance.cs" />
     <Compile Include="Assets\App\Agent\IPlayer.cs" />
     <Compile Include="Assets\App\Agent\Logger.cs" />
-    <Compile Include="Assets\App\Agent\Player.cs" />
-    <Compile Include="Assets\App\Agent\PlayerDeckCollection.cs" />
-    <Compile Include="Assets\App\Agent\PlayerHandCollection.cs" />
+    <Compile Include="Assets\App\Agent\Impl\Player.cs" />
+    <Compile Include="Assets\App\Agent\Impl\PlayerDeckCollection.cs" />
+    <Compile Include="Assets\App\Agent\Impl\PlayerHandCollection.cs" />
+    <Compile Include="Assets\App\Agent\Card\Queen.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\Main\Arbiter.cs" />
@@ -87,19 +93,20 @@
     <Compile Include="Assets\App\Main\GameRoot.cs" />
     <Compile Include="Assets\App\Main\ICreateWith.cs" />
     <Compile Include="Assets\App\Main\IEntity.cs" />
+    <Compile Include="Assets\App\Main\IHasName.cs" />
     <Compile Include="Assets\App\Main\Logger.cs" />
     <Compile Include="Assets\App\Main\Response.cs" />
-    <Compile Include="Assets\App\Model\Board.cs" />
-    <Compile Include="Assets\App\Model\CardCollection.cs" />
-    <Compile Include="Assets\App\Model\CardCollectionDesc.cs" />
-    <Compile Include="Assets\App\Model\CardInstance.cs" />
-    <Compile Include="Assets\App\Model\CardLibrary.cs" />
-    <Compile Include="Assets\App\Model\CardTemplate.cs" />
-    <Compile Include="Assets\App\Model\Deck.cs" />
+    <Compile Include="Assets\App\Model\Impl\Board.cs" />
+    <Compile Include="Assets\App\Model\Impl\CardCollection.cs" />
+    <Compile Include="Assets\App\Model\Impl\CardCollectionDesc.cs" />
+    <Compile Include="Assets\App\Model\Impl\CardInstance.cs" />
+    <Compile Include="Assets\App\Model\Impl\CardLibrary.cs" />
+    <Compile Include="Assets\App\Model\Impl\CardTemplate.cs" />
+    <Compile Include="Assets\App\Model\Impl\Deck.cs" />
     <Compile Include="Assets\App\Model\EAbility.cs" />
     <Compile Include="Assets\App\Model\ECardType.cs" />
     <Compile Include="Assets\App\Model\EGameResult.cs" />
-    <Compile Include="Assets\App\Model\Hand.cs" />
+    <Compile Include="Assets\App\Model\Impl\Hand.cs" />
     <Compile Include="Assets\App\Model\IBoard.cs" />
     <Compile Include="Assets\App\Model\ICard.cs" />
     <Compile Include="Assets\App\Main\ICardCollection.cs" />
@@ -115,14 +122,14 @@
     <Compile Include="Assets\App\Model\IOwned.cs" />
     <Compile Include="Assets\App\Model\IOwner.cs" />
     <Compile Include="Assets\App\Model\IPlayer.cs" />
-    <Compile Include="Assets\App\Model\Item.cs" />
+    <Compile Include="Assets\App\Model\Impl\Item.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUser.cs" />
     <Compile Include="Assets\App\Model\Logger.cs" />
-    <Compile Include="Assets\App\Model\ModelBase.cs" />
-    <Compile Include="Assets\App\Model\Piece.cs" />
-    <Compile Include="Assets\App\Model\Player.cs" />
-    <Compile Include="Assets\App\Model\Spell.cs" />
+    <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
+    <Compile Include="Assets\App\Model\Impl\Piece.cs" />
+    <Compile Include="Assets\App\Model\Impl\Player.cs" />
+    <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Parameters.cs" />
     <Compile Include="Assets\App\View\Logger.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
@@ -385,6 +392,7 @@
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
     <None Include="Assets\App\Agent\Readme.md" />
+    <None Include="Assets\App\Agent\Card\Readme.md" />
     <None Include="Assets\App\Database\Readme.md" />
     <None Include="Assets\App\Main\Readme.md" />
     <None Include="Assets\App\View\Readme.md" />
@@ -977,6 +985,7 @@
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

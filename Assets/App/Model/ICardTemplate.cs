@@ -2,10 +2,9 @@
 
 namespace App.Model
 {
-    public interface ICardTemplate : IHasId
+    public interface ICardTemplate : IHasId, IHasName
     {
         ECardType Type { get; }
-        string Name { get; }
         string FlavourText { get; }
         int ManaCost { get; }
         int Attack { get; }

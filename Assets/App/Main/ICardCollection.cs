@@ -4,10 +4,11 @@ using System.Collections.Generic;
 namespace App
 {
     /// <summary>
-    /// A generic collection of cards: can be CardInstances or CardTemplates
+    /// A generic collection of cards.
     /// </summary>
     /// <typeparam name="TCard"></typeparam>
     public interface ICardCollection<TCard>
+        where TCard : IHasId, IHasName
     {
         #region Properties
         string Name { get; }
