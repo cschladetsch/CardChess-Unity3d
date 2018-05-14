@@ -14,15 +14,13 @@ namespace App.Agent
     /// </summary>
     public class Player : AgentBaseCoro<Model.IPlayer>, IPlayer
     {
+        #region Public Fields
         public EColor Color => Model.Color;
         public ICardInstance King { get; private set; }
         public int Health => King.Health;
+        #endregion
 
-        protected override IEnumerator Next(IGenerator self)
-        {
-            yield return null;
-        }
-
+        #region Public Methods
         public IFuture<EResponse> NewGame()
         {
             Model.NewGame();
@@ -142,7 +140,16 @@ namespace App.Agent
             roll.Value = _random.Next(0, 6);
             return roll;
         }
+        #endregion
 
+        #region Protected Methods
+        protected override IEnumerator Next(IGenerator self)
+        {
+            yield return null;
+        }
+        #endregion
+
+        #region Private Fields
         private readonly Random _random = new Random();
         private IFuture<PlayCard> _placeKing;
         private IFuture<int> _roll;
@@ -150,5 +157,6 @@ namespace App.Agent
         private readonly List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
         private IFuture<bool> _hasAccepted;
         private IFuture<PlayCard> _hasPlacedKing;
+        #endregion
     }
 }

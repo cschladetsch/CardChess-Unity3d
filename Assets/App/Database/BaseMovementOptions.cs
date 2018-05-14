@@ -19,21 +19,8 @@ namespace App.Database
             //Options = Filter(_potentials[type]);
         }
 
-        IEnumerable<Coord> Filter(Vector2[] offsets)
-        {
-            foreach (var v in offsets)
-            {
-                var dest = _start + v;
-                if (dest.X < 0 || dest.Y < 0)
-                    continue;
-                if (dest.X >= _board.Width || dest.Y >= _board.Height)
-                    continue;
-
-                yield return new Coord(dest.X, dest.Y);
-            }
-        }
-
-        static readonly Vector2[] KingOffsets =
+        #region Private Fields
+        private static readonly Vector2[] KingOffsets =
         {
             new Vector2(-1, 0),
             new Vector2(-1, 1),
@@ -49,5 +36,6 @@ namespace App.Database
         private Vector2 _start;
         private Model.IBoard _board;
         private static Dictionary<ECardType, IList<Vector2>> _potentials;
+        #endregion
     }
 }

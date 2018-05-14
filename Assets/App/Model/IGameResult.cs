@@ -4,6 +4,7 @@ namespace App.Model
 {
     public interface IGameResult
     {
+        #region Properties
         Guid WhitePlayer { get; }
         Guid BlackPlayer { get; }
         Guid BlackDeck { get; }
@@ -11,5 +12,6 @@ namespace App.Model
         DateTime Played { get; }
         TimeSpan Duration { get; }
         EGameResult Result { get; }
+        #endregion
     }
 }

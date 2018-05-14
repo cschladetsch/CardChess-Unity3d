@@ -59,8 +59,6 @@ namespace App.Database
             }
         }
 
-        private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
-
         public static ICardTemplate GetRandom()
         {
             var numCards = _templates.Count;
@@ -69,5 +67,7 @@ namespace App.Database
             var key = _templates.Keys.ElementAt(rand);
             return _templates[key];
         }
+
+        private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
     }
 }
