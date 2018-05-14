@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
+// field not assigned - because it is assigned in Unity3d editor
+#pragma warning disable CS0649
 namespace App.Main
 {
     class GameRoot : MonoBehaviour

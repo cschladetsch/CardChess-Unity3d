@@ -2,6 +2,13 @@
 
 namespace Flow
 {
+    /// <inheritdoc cref="IFuture{T}" />
+    /// <summary>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface ITimedFuture<T> : IFuture<T>, ITimesOut
+    {
+    }
 
     public interface ITimedBarrier : IBarrier, ITimesOut
     {

@@ -23,7 +23,8 @@ namespace Flow.Test
             kernel.Step();
             kernel.Step();
 
-            Assert.AreEqual(3, kernel.Root.Contents.Count());
+            var rootCount = kernel.Root.Contents.Count();
+            Assert.AreEqual(3, rootCount);
 
             Assert.IsTrue(barrier.Active);
             Assert.IsTrue(future1.Active);

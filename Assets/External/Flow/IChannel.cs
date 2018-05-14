@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Flow
 {
+    /// <inheritdoc />
     /// <summary>
     /// A channel is a buffered input/output stream.
     /// <para>If a channel is created with a TypedGenerator, that is used as the source of the channel</para>

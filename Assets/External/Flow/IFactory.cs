@@ -16,6 +16,8 @@ namespace Flow
 
         ITransient Transient();
         IGroup Group(params ITransient[] gens);
+        ITransient Group(string name, params ITransient[] contents);
+        INode Node(string name, params IGenerator[] gens);
         INode Node(params IGenerator[] gens);
 
         IGenerator Do(Action act);
@@ -47,15 +49,20 @@ namespace Flow
         IPeriodic PeriodicTimer(TimeSpan interval);
 
         IBarrier Barrier(params ITransient[] args);
+        IBarrier Barrier(string name, params ITransient[] args);
         IBarrier TimedBarrier(TimeSpan span, params ITransient[] args);
+        IBarrier TimedBarrier(string name, TimeSpan span, params ITransient[] args);
 
         ITrigger Trigger(params ITransient[] args);
+        ITrigger Trigger(string name, params ITransient[] args);
         ITimedTrigger TimedTrigger(TimeSpan span, params ITransient[] args);
+        ITimedTrigger TimedTrigger(string name, TimeSpan span, params ITransient[] args);
 
         IGenerator Nop();
 
         IFuture<T> Future<T>();
         IFuture<T> Future<T>(T val);
+        ITransient NamedFuture<T>(string name);
         ITimedFuture<T> TimedFuture<T>(TimeSpan timeOut);
         ITimedFuture<T> TimedFuture<T>(TimeSpan timeOut, T val);
 
@@ -75,6 +82,6 @@ namespace Flow
         IChannel<TR> Channel<TR>(IGenerator<TR> gen);
 
         T Prepare<T>(T obj) where T : ITransient;
-        ITransient NamedFuture<T>(string name);
+        ITransient Transient(string name);
     }
 }

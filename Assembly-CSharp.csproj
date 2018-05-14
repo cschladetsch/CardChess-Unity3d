@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -51,9 +50,6 @@
     <UnityVersion>2018.1.0f2</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
-      <HintPath>..\..\.nuget\packages\mstest.testframework\1.3.0\lib\netstandard1.0\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -325,6 +321,7 @@
     <Compile Include="Assets\External\Flow\Impl\Periodic.cs" />
     <Compile Include="Assets\External\Flow\Impl\SpinWait.cs" />
     <Compile Include="Assets\External\Flow\Impl\Subroutine.cs" />
+    <Compile Include="Assets\External\Flow\Impl\TimedBarrier.cs" />
     <Compile Include="Assets\External\Flow\Impl\TimedFuture.cs" />
     <Compile Include="Assets\External\Flow\Impl\TimedTrigger.cs" />
     <Compile Include="Assets\External\Flow\Impl\TimeFrame.cs" />

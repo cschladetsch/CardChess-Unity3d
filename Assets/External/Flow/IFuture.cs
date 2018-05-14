@@ -15,12 +15,4 @@ namespace Flow
         T Value { get; set; }
         event FutureHandler<T> Arrived;
     }
-
-    /// <inheritdoc cref="IFuture{T}" />
-    /// <summary>
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface ITimedFuture<T> : IFuture<T>, ITimesOut
-    {
-    }
 }

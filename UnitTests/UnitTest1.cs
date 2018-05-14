@@ -13,14 +13,15 @@ namespace App
             var k = Flow.Create.Kernel();
             var f = k.Factory;
 
-            var t0 = f.Transient();
-            var t1 = f.Transient();
-            var f0 = f.Future<int>();
-            var g0 = f.Group(t0, t1, f0);
+            var t0 = f.Transient("Trans0");
+            var t1 = f.Transient("Trans1");
+            var t2 = f.Transient("Trans2");
+            var r0 = f.Trigger("Trigger0", t2, t1);
+            var b0 = f.Barrier("Barrier0", t0, r0);
+            var f0 = f.NamedFuture<int>("Future<int>");
+            var g0 = f.Group("Group0", t0, f0, b0);
 
-            t0.Name = "t0";
-            t1.Name = "t1";
-            f0.Name = "f0";
+            k.Root.Add(g0);
 
             // allow all objects to be placed
             for (int n = 0; n < 10; ++n)

@@ -3,9 +3,11 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using Flow;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.Runtime;
+
+// There are a lot of accessess to properties that could return null, but won't
+// ReSharper disable PossibleNullReferenceException
 
 namespace Flow.Logger
 {
@@ -39,36 +41,91 @@ namespace Flow.Logger
             _sb.Append(' ', level*Indenting);
         }
 
+        bool ImplementsGenericInterface(Type given, Type iface)
+        {
+            return given.GetInterfaces().Any(x => x.IsGenericType &&
+              x.GetGenericTypeDefinition() == iface);
+        }
+
         private StringBuilder Header(ITransient trans)
         {
-            Assert.IsNotNull(trans);
+            //Assert.IsNotNull(trans);
 
             var name = trans.Name ?? "anon";
             var tyName = trans.GetType().Name;
 
             var ty = trans.GetType();
+
+            // test for generics
             if (ty.IsGenericType)
             {
-                var isFuture = ty.GetInterfaces().Any(x => x.IsGenericType &&
-                    x.GetGenericTypeDefinition() == typeof(IFuture<>));;
-
-                if (isFuture)
+                var arg = ty.GetGenericArguments()[0];
+                if (ImplementsGenericInterface(ty, typeof(ITimedFuture<>)))
                 {
-                    var arg = ty.GetGenericArguments()[0];
+                    var avail = (bool) ty.GetProperty("Available")?.GetValue(trans);
+                    object val = "<unset>";
+                    if (avail)
+                        val = ty.GetProperty("Value")?.GetValue(trans);
+                    return _sb.AppendFormat($"TimedFuture<{arg.Name}>: {name} Available={avail}, Value={val}\n");
+                }
+                if (ImplementsGenericInterface(ty, typeof(IFuture<>)))
+                {
                     var avail = (bool) ty.GetProperty("Available")?.GetValue(trans);
                     object val = "<unset>";
                     if (avail)
                         val = ty.GetProperty("Value")?.GetValue(trans);
                     return _sb.AppendFormat($"Future<{arg.Name}>: {name} Available={avail}, Value={val}\n");
                 }
+                if (ImplementsGenericInterface(ty, typeof(IChannel<>)))
+                {
+                    return _sb.AppendFormat($"Channel<{arg.Name}>: {name}\n");
+                }
             }
 
+            //Type[] types =
+            //{
+            //    typeof(ITrigger), typeof(ITimedTrigger), typeof(IBarrier), typeof(ITimedBarrier),
+            //    typeof(IGroup), typeof(INode)
+            //};
+
+            if (typeof(IPeriodic).IsAssignableFrom(ty))
+            {
+                var started = (DateTime) ty.GetProperty("TimeStarted")?.GetValue(trans);
+                var interval = (TimeSpan) ty.GetProperty("Interval")?.GetValue(trans);
+                var remaining = (TimeSpan) ty.GetProperty("Remaining")?.GetValue(trans);
+                return _sb.AppendFormat(
+                    $"Periodic: {name}, started={started}, interval={interval}, remaining={remaining}: {GeneratorInfo(trans)}\n");
+            }
+            if (typeof(ITimer).IsAssignableFrom(ty))
+            {
+                var started = (DateTime) ty.GetProperty("TimeStarted")?.GetValue(trans);
+                var ends = (DateTime) ty.GetProperty("TimeEnds")?.GetValue(trans);
+                return _sb.AppendFormat($"Timer: {name}, started={started}, ends={ends}: {GeneratorInfo(trans)}\n");
+            }
+            if (typeof(ITrigger).IsAssignableFrom(ty))
+            {
+                var group = (IGroup) trans;
+                return _sb.AppendFormat($"Trigger: {name}: {GeneratorInfo(trans)}\n");
+            }
+            if (typeof(IBarrier).IsAssignableFrom(ty))
+            {
+                var group = (IGroup) trans;
+                return _sb.AppendFormat($"Barrier: {name}: {GeneratorInfo(trans)}\n");
+            }
+            if (typeof(INode).IsAssignableFrom(ty))
+            {
+                var g = (IGroup) trans;
+                return _sb.AppendFormat($"Node {name}: {GeneratorInfo(trans)}\n");
+            }
             if (typeof(IGroup).IsAssignableFrom(ty))
             {
                 var g = (IGroup) trans;
-                return _sb.AppendFormat($"Group: {name} NumChildren={g.Contents.Count()}");
+                return _sb.AppendFormat($"Group: {name}: {GeneratorInfo(trans)}\n");
             }
-
+            if (typeof(ICoroutine).IsAssignableFrom(ty))
+            {
+                return _sb.AppendFormat($"Coroutine {name}: {GeneratorInfo(trans)}");
+            }
             if (typeof(ITransient).IsAssignableFrom(ty))
                 return _sb.AppendFormat($"{tyName}={name}:\n");
 
@@ -82,6 +139,19 @@ namespace Flow.Logger
                 Print(tr, level + 1);
             }
             return level;
+        }
+
+        string GeneratorInfo(ITransient trans)
+        {
+            var gen = trans as IGenerator;
+            if (gen == null)
+                return "";
+            var ty = gen.GetType();
+            var running = (bool) ty.GetProperty("Running")?.GetValue(gen);
+            var step = (int) ty.GetProperty("StepNumber")?.GetValue(gen);
+            //var val = (object) ty.GetProperty("Value")?.GetValue(gen); // ambiguous
+            //return $"running={running}, step={step}, val={val}";
+            return $"running={running}, step={step}";
         }
 
         private readonly StringBuilder _sb = new StringBuilder();
