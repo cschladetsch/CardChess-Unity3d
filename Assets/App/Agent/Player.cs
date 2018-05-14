@@ -128,6 +128,14 @@ namespace App.Agent
             return null;
         }
 
+        public ITransient DrawCard()
+        {
+            var card = Model.Deck.Cards.First();
+            Model.Hand.Add(card);
+            Model.Deck.Cards.Remove(card);
+            return null;
+        }
+
         public IFuture<int> RollDice()
         {
             var roll = New.Future<int>();

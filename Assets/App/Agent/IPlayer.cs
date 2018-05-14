@@ -32,5 +32,7 @@ namespace App.Agent
         void PlaceKing(Coord coord);
         void AcceptKingPlacement();
         ITransient DeliverCards();
+
+        ITransient DrawCard();
     }
 }

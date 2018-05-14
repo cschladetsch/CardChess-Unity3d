@@ -43,7 +43,7 @@ namespace App
         public void TestPlayKings()
         {
             var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
-            arbiter.StartGame();
+            arbiter.GameLoop();
             StepArbiter(10);
 
             var w = arbiter.WhitePlayer;

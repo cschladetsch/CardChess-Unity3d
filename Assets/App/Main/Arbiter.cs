@@ -132,6 +132,8 @@ namespace App.Main
                 Assert.IsNotNull(player);
                 player.NewGame();
             }
+
+            GameLoop();
         }
 
         public void Step()
@@ -140,68 +142,66 @@ namespace App.Main
             Kernel.Step();
         }
 
-        public void StartGame()
+        public void GameLoop()
         {
-            Info("Game Started");
-
             Root.Add(
                 New.Sequence(
-                    New.Coroutine(StartGame).SetName("StartGame"),
                     New.Log("Main game sequence begins"),
+                    New.Coroutine(StartGame).Named("StartGame"),
                     New.While(() => !_gameOver),
-                        New.Coroutine(PlayerTurn).SetName($"Turn {_turnNumber}"),
-                    New.Coroutine(EndGame).SetName("EndGame")
-                )
+                        New.Coroutine(PlayerTurn).Named("Turn"),
+                    New.Coroutine(EndGame).Named("EndGame")
+                ).Named("GameLoop")
             );
 
             Info(Root);
         }
 
-        IEnumerator StartGame(IGenerator self)
+        private IEnumerator StartGame(IGenerator self)
         {
             yield return self.After(
                 New.Sequence(
                     New.Barrier(
                         WhitePlayer.StartGame(),
                         BlackPlayer.StartGame()
-                    ),
+                    ).Named("Init Game"),
                     New.Barrier(
                         WhitePlayer.DeliverCards(),
                         BlackPlayer.DeliverCards()
-                    ),
+                    ).Named("Deal Cards"),
                     New.Barrier(
                         New.TimedBarrier(
-                            TimeSpan.FromSeconds(20),
+                            TimeSpan.FromSeconds(Parameters.MulliganTimer),
                             WhitePlayer.HasAcceptedCards(),
                             BlackPlayer.HasAcceptedCards()
-                        ),
+                        ).Named("Mulligan"),
                         New.TimedBarrier(
-                            TimeSpan.FromSeconds(20),
+                            TimeSpan.FromSeconds(Parameters.PlaceKingTimer),
                             WhitePlayer.HasPlacedKing(),
                             BlackPlayer.HasPlacedKing()
-                        )
-                    )
-                )
+                        ).Named("Place Kings")
+                    ).Named("Preceedings")
+                ).Named("Start Game")
             );
         }
 
-        IEnumerator EndGame(IGenerator self)
+        private IEnumerator EndGame(IGenerator self)
         {
             Info("Game Ended");
             yield break;
         }
 
-        IEnumerator PlayerTurn(IGenerator self)
+        private IEnumerator PlayerTurn(IGenerator self)
         {
-            yield return null;
             ++_turnNumber;
             var player = CurrentPlayer;
+
             Info($"Start turn {_turnNumber} for {player}");
 
-            yield return self.After(player.ChangeMaxMana(1));
+            yield return self.After(player.ChangeMaxMana(1)).Named("AddMana");
+            yield return self.After(player.DrawCard()).Named("DrawCard");
 
-            SaveState();
-            var timeOut = 60;
+            var timeOut = Parameters.GameTurnTimer;
 
             while (true)
             {
@@ -209,57 +209,48 @@ namespace App.Main
                 var playCard = player.PlayCard();
                 var movePiece = player.MovePiece();
                 var pass = player.Pass();
-
-                var trigger = New.TimedTrigger(
-                    TimeSpan.FromSeconds(timeOut),
-                    playCard,
-                    movePiece,
-                    pass);
-
-                trigger.TimedOut += timed =>
-                {
-                    Info($"Player {CurrentPlayer.Color} timed out. Should do something");
-                    throw new NotImplementedException();
-                };
+                var trigger = New.TimedTrigger(TimeSpan.FromSeconds(timeOut), playCard, movePiece, pass);
+                trigger.Name = "Player Options";
 
                 // wait for player to make a move
                 yield return self.After(trigger);
+
+                // timed out, next player's turn
                 if (trigger.HasTimedOut || trigger.Reason == pass)
                 {
-                    // timed out, next player's turn
                     yield return self.After(PlayerTimedOut(player));
                     break;
                 }
 
-                SaveState();
+                // true if a valid play - move piece or play card
+                var canPlay = New.Future<bool>();
+
+                // a card was played
                 if (trigger.Reason == playCard)
                 {
-                    var canPlay = New.Future<bool>();
                     yield return self.After(TestCanPlayCard(player, playCard.Value, canPlay));
                     if (canPlay.Available && canPlay.Value)
                     {
                         yield return self.After(PerformPlayCard(playCard.Value));
                         break;
                     }
-                    timeOut = trigger.Timer.TimeRemaining.Seconds;
                     continue;
                 }
 
+                // a piece was moved
                 if (trigger.Reason == movePiece)
                 {
-                    var canPlay = New.Future<bool>();
                     yield return self.After(TestCanMovePiece(player, movePiece.Value, canPlay));
                     if (canPlay.Available && canPlay.Value)
                     {
                         yield return self.After(PerformMovePiece(movePiece.Value));
-                        continue;
+                        break;
                     }
-                    timeOut = trigger.Timer.TimeRemaining.Seconds;
-                    continue;
                 }
             }
 
             _gameOver = CurrentPlayer.Health <= 0;
+            _currentPlayer = (_currentPlayer + 1) % 2;
         }
 
         void SaveState()

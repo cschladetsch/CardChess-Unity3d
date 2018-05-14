@@ -48,7 +48,7 @@ namespace App
             var f = k.Factory;
             var r = k.Root;
             r.Add(f.Sequence(
-                f.Coroutine(StartGame).SetName("StartGame"),
+                f.Coroutine(StartGame).Named("GameLoop"),
                 f.Coroutine(PlayerTurn, EColor.White),
                 f.Coroutine(EndGame))
             );
@@ -82,7 +82,7 @@ namespace App
 
         IEnumerator StartGame(IGenerator self)
         {
-            Trace.WriteLine("StartGame");
+            Trace.WriteLine("GameLoop");
             yield break;
         }
     }
