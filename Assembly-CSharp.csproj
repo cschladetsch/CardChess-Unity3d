@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -310,6 +311,7 @@
     <Compile Include="Assets\External\Flow\Impl\Channel.cs" />
     <Compile Include="Assets\External\Flow\Impl\Coroutine.cs" />
     <Compile Include="Assets\External\Flow\Impl\Create.cs" />
+    <Compile Include="Assets\External\Flow\Impl\Detail\Detail.cs" />
     <Compile Include="Assets\External\Flow\Impl\Exception.cs" />
     <Compile Include="Assets\External\Flow\Impl\Extension.cs" />
     <Compile Include="Assets\External\Flow\Impl\Factory.cs" />
