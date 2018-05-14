@@ -16,17 +16,18 @@ namespace App.Main
     /// </summary>
     public class Arbiter : App.Logger
     {
+        #region Public Fields
         public static Arbiter Instance;
         public static IKernel Kernel;
         public static INode Root => Kernel.Root;
         public static IFactory New => Kernel.Factory;
-
         public IPlayer WhitePlayer => _players[0];
         public IPlayer BlackPlayer => _players[1];
-
         public IPlayer CurrentPlayer => _players[_currentPlayer];
         public IBoard Board => _board;
+        #endregion
 
+        #region Public Methods
         public Arbiter()
         {
             //Assert.IsNull(Instance);
@@ -157,6 +158,30 @@ namespace App.Main
             Info(Root);
         }
 
+        public static bool CanPlaceKing(Player player, Coord coord)
+        {
+            return true;
+        }
+
+        public ICardInstance NewCardAgent(Model.ICardTemplate template, Model.IOwner owner)
+        {
+            var cardInstance = Database.CardTemplates.New(template.Id, owner);
+            return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
+        }
+
+        public Agent.ICardInstance NewCardAgent(Model.ECardType type, Model.IOwner owner)
+        {
+            var template = Database.CardTemplates.OfType(type).FirstOrDefault();
+            return template == null ? null : NewCardAgent(template, owner);
+        }
+
+        public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
+        {
+            return new Model.CardInstance(tmpl, owner);
+        }
+        #endregion
+
+        #region Private Methods
         private IEnumerator StartGame(IGenerator self)
         {
             yield return self.After(
@@ -253,39 +278,14 @@ namespace App.Main
             _currentPlayer = (_currentPlayer + 1) % 2;
         }
 
-        void SaveState()
-        {
-            // TODO: Save state of the board, and both players' hands
-            Info("SaveState");
-        }
-
-        void RestoreState()
-        {
-            Info("RestoreState");
-            // TODO: Restore state of the board, and both players' hands
-        }
-
-        bool CanPlayCard(IPlayer player, PlayCard playCard)
-        {
-            // TODO: Determine if the given action is valid
-            return false;
-        }
-
-        bool CanMovePiece(IPlayer player, MovePiece move)
-        {
-            // TODO: determine if player can perform the given move
-            return false;
-        }
-
         // wrappers to create coroutines
-        IGenerator PlayerLost(IPlayer player) { return New.Coroutine(PlayerLostCoro, player); }
-        IGenerator PlayerTimedOut(IPlayer player) { return New.Coroutine(PlayerTimedOutCoro, player); }
-        IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, player, play, future); }
-        IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, player, move, future); }
-        IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
-        IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
+        private IGenerator PlayerTimedOut(IPlayer player) { return New.Coroutine(PlayerTimedOutCoro, player); }
+        private IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, player, play, future); }
+        private IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, player, move, future); }
+        private IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
+        private IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
 
-        IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
+        private IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
         {
             // TODO: show player lost sequence
             Info("Player {0} lost", loser);
@@ -293,14 +293,14 @@ namespace App.Main
             yield break;
         }
 
-        IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
+        private IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
         {
             Info("Player {0} timedout", player);
             //yield return self.After(_view.PlayerTimedOut(player));
             yield break;
         }
 
-        IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayer player,
+        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayer player,
             PlayCard playCard, IFuture<bool> canPlay)
         {
             var current = Board.Model.At(playCard.Coord);
@@ -315,7 +315,7 @@ namespace App.Main
             canPlay.Value = false;
         }
 
-        IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayer player, MovePiece move, IFuture<bool> canMove)
+        private IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayer player, MovePiece move, IFuture<bool> canMove)
         {
             // TODO: if card can't be moved, show why
             Info("Move {0} is invalid");
@@ -324,7 +324,7 @@ namespace App.Main
             yield break;
         }
 
-        IEnumerator PlayCardCoro(IGenerator self, PlayCard playCard)
+        private IEnumerator PlayCardCoro(IGenerator self, PlayCard playCard)
         {
             // TODO: play the card
             Info("PlayCard: {0}", playCard);
@@ -332,45 +332,21 @@ namespace App.Main
             yield break;
         }
 
-        IEnumerator MovePieceCoro(IGenerator self, MovePiece move)
+        private IEnumerator MovePieceCoro(IGenerator self, MovePiece move)
         {
             Info("Move: {0}", move);
             //yield return self.After(_view.MovePiece(move));
             yield break;
         }
-
-        public ICardInstance NewCardAgent(Model.ICardTemplate template, Model.IOwner owner)
-        {
-            var cardInstance = Database.CardTemplates.New(template.Id, owner);
-            return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
-        }
-
-        public Agent.ICardInstance NewCardAgent(Model.ECardType type, Model.IOwner owner)
-        {
-            var template = Database.CardTemplates.OfType(type).FirstOrDefault();
-            return template == null ? null : NewCardAgent(template, owner);
-        }
-
-        public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
-        {
-            return new Model.CardInstance(tmpl, owner);
-        }
+        #endregion
 
         #region Private Fields
-
         private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
         private int _currentPlayer;
         private ICoroutine _playerTimerCountdown;
         private Agent.IBoard _board;
         private int _turnNumber;
         private bool _gameOver;
-
         #endregion
-
-        public static bool CanPlaceKing(Player player, Coord coord)
-        {
-            return true;
-        }
     }
 }
-
