@@ -190,45 +190,6 @@ namespace Flow.Impl
             var seq = new Sequence();
             seq.Add(gens);
             return Prepare(seq);
-            //return Prepare(Coroutine(SequenceCoro, gens));
-        }
-
-        //private static IEnumerator SequenceCoro(IGenerator self, IGenerator[] gens)
-        //{
-        //    foreach (var gen in gens)
-        //    {
-        //        gen.Step();
-
-        //        yield return 0;
-        //    }
-        //}
-
-        public IGenerator Parallel(params IGenerator[] transients)
-        {
-            var node = Node();
-            foreach (var act in transients)
-            {
-                node.Add(act);
-            }
-            return Prepare(node);
-        }
-
-        public ITransient Parallel(params Action[] actions)
-        {
-            return Prepare(Coroutine(ParallelCoro, actions));
-        }
-
-        private IEnumerator ParallelCoro(IGenerator self, Action[] actions)
-        {
-            while (true)
-            {
-                foreach (var act in actions)
-                {
-                    act();
-                }
-
-                yield return 0;
-            }
         }
 
         public ITransient Apply(Func<ITransient, ITransient> fun, params ITransient[] transients)

@@ -28,7 +28,6 @@ namespace Flow
         IGenerator IfElse(Func<bool> pred, IGenerator @if, IGenerator @else);
         IGenerator While(Func<bool> pred, params IGenerator[] body);
         IGenerator Sequence(params IGenerator[] transients);
-        IGenerator Parallel(params IGenerator[] transients);
 
         IGenerator Switch<T>(IGenerator<T> val, params ICase<T>[] cases) where T : IComparable<T>;
         ICase<T> Case<T>(T val, IGenerator statement) where T : IComparable<T>;
