@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using App.Model;
 using Flow;
 
 namespace App.Agent
@@ -21,7 +20,6 @@ namespace App.Agent
         public int Health => King.Health;
         public PlayerDeckCollection Deck { get; } = new PlayerDeckCollection();
         public PlayerHandCollection Hand { get; } = new PlayerHandCollection();
-
         #endregion
 
         #region Public Methods
@@ -168,15 +166,5 @@ namespace App.Agent
         private IFuture<bool> _hasAccepted;
         private IFuture<PlayCard> _hasPlacedKing;
         #endregion
-    }
-
-    public class PlayerDeckCollection : CardCollection<ICardInstance>
-    {
-        public override int MaxCards => 50;
-    }
-
-    public class PlayerHandCollection : CardCollection<ICardInstance>
-    {
-        public override int MaxCards => 7;
     }
 }

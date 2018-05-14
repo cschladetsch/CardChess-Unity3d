@@ -27,11 +27,10 @@ namespace App
             k.Root.Add(g0);
 
             // allow all objects to be placed
-            for (int n = 0; n < 10; ++n)
+            for (var n = 0; n < 10; ++n)
                 k.Step();
 
-            var s0 = Flow.PrettyPrinter.ToString(g0);
-            Console.WriteLine(s0);
+            Console.WriteLine(g0);
         }
 
         private static void Step(Flow.IGenerator gen, int steps)
@@ -64,7 +63,7 @@ namespace App
             Trace.WriteLine(r);
         }
 
-        IEnumerator PlayerTurn(IGenerator self, App.EColor color)
+        static IEnumerator PlayerTurn(IGenerator self, App.EColor color)
         {
             Trace.WriteLine($"PlayerTurn: {color}");
             yield return null;
@@ -73,13 +72,13 @@ namespace App
             Trace.WriteLine($"PlayerTurn: Again Again {color}");
         }
 
-        IEnumerator EndGame(IGenerator self)
+        static IEnumerator EndGame(IGenerator self)
         {
             Trace.WriteLine("EndGame");
             yield break;
         }
 
-        IEnumerator StartGame(IGenerator self)
+        static IEnumerator StartGame(IGenerator self)
         {
             Trace.WriteLine("GameLoop");
             yield break;

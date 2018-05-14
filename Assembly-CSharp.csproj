@@ -76,6 +76,8 @@
     <Compile Include="Assets\App\Agent\IPlayer.cs" />
     <Compile Include="Assets\App\Agent\Logger.cs" />
     <Compile Include="Assets\App\Agent\Player.cs" />
+    <Compile Include="Assets\App\Agent\PlayerDeckCollection.cs" />
+    <Compile Include="Assets\App\Agent\PlayerHandCollection.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\Main\Arbiter.cs" />
@@ -382,6 +384,11 @@
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
+    <None Include="Assets\App\Agent\Readme.md" />
+    <None Include="Assets\App\Database\Readme.md" />
+    <None Include="Assets\App\Main\Readme.md" />
+    <None Include="Assets\App\View\Readme.md" />
+    <None Include="Assets\External\Readme.md" />
     <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
@@ -406,6 +413,8 @@
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
     <None Include="Assets\External\colib\colib\License.txt" />
     <None Include="Assets\External\Adic\LICENSE.txt" />
+    <None Include="Assets\Models\Readme.md" />
+    <None Include="Assets\Readme.md" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/christian/src/Chess2/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
