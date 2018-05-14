@@ -8,6 +8,7 @@ namespace App.Agent
 {
     using Action;
 
+    /// <inheritdoc cref="IPlayer" />
     /// <summary>
     /// The agent that represents a player in the game.
     /// </summary>
@@ -17,10 +18,15 @@ namespace App.Agent
         public ICardInstance King { get; private set; }
         public int Health => King.Health;
 
+        protected override IEnumerator Next(IGenerator self)
+        {
+            yield return null;
+        }
+
         public IFuture<EResponse> NewGame()
         {
             Model.NewGame();
-            King = Main.Arbiter.Instance.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
+            King = Arbiter.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
             var future = New.Future<EResponse>();
             future.Value = EResponse.Ok;
             return future;
@@ -64,15 +70,6 @@ namespace App.Agent
             return New.Future(EResponse.Ok);
         }
 
-        protected override IEnumerator Next(IGenerator self)
-        {
-            if (_placeKing != null)
-            {
-            }
-
-            yield return null;
-        }
-
         public virtual IFuture<PlayCard> PlaceKing()
         {
             return _placeKing = New.Future<PlayCard>();
@@ -99,9 +96,9 @@ namespace App.Agent
             return pass;
         }
 
-        public ITransient HasAcceptedCards()
+        public IFuture<bool> HasAcceptedCards()
         {
-            return _hasAccepted = New.Transient("HasAcceptedCards");
+            return _hasAccepted = New.NamedFuture<bool>("HasAcceptedCards");
         }
 
         public void AcceptCards()
@@ -125,6 +122,12 @@ namespace App.Agent
             // Unused?
         }
 
+        public ITransient DeliverCards()
+        {
+            // TODO: animate
+            return null;
+        }
+
         public IFuture<int> RollDice()
         {
             var roll = New.Future<int>();
@@ -137,7 +140,7 @@ namespace App.Agent
         private IFuture<int> _roll;
         private readonly List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();
         private readonly List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
-        private ITransient _hasAccepted;
+        private IFuture<bool> _hasAccepted;
         private IFuture<PlayCard> _hasPlacedKing;
     }
 }

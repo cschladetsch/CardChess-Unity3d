@@ -12,9 +12,6 @@ namespace App.Model
 
     public class Player : ModelBase, IPlayer, ICreateWith<EColor>
     {
-        public static int StartHandCardCount = 7;
-        public static int MaxManaCap = 12;
-
         public EColor Color { get; private set; }
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
@@ -24,12 +21,14 @@ namespace App.Model
         public ICardInstance King { get; private set; }
         public IEnumerable<ICardInstance> CardsOnBoard { get; }
         public IEnumerable<ICardInstance> CardsInGraveyard { get; }
+        public static int StartHandCardCount => Parameters.StartHandCardCount;
 
         public Player() { }
 
         public bool Create(EColor color)
         {
             Color = color;
+            //King = Database.CardTemplates.OfType(ECardType.King);
             return true;
         }
 

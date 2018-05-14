@@ -165,8 +165,10 @@ namespace App.Main
                         WhitePlayer.StartGame(),
                         BlackPlayer.StartGame()
                     ),
-                    WhitePlayer.DrawInitialCards(),
-                    BlackPlayer.DrawInitialCards(),
+                    New.Barrier(
+                        WhitePlayer.DeliverCards(),
+                        BlackPlayer.DeliverCards()
+                    ),
                     New.Barrier(
                         New.TimedBarrier(
                             TimeSpan.FromSeconds(20),

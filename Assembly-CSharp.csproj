@@ -119,6 +119,7 @@
     <Compile Include="Assets\App\Model\Piece.cs" />
     <Compile Include="Assets\App\Model\Player.cs" />
     <Compile Include="Assets\App\Model\Spell.cs" />
+    <Compile Include="Assets\App\Parameters.cs" />
     <Compile Include="Assets\App\View\Logger.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />

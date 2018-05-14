@@ -46,8 +46,8 @@ namespace App
             arbiter.StartGame();
             StepArbiter(10);
 
-            var w = (MockWhitePlayer) arbiter.WhitePlayer;
-            var b = (MockBlackPlayer) arbiter.BlackPlayer;
+            var w = arbiter.WhitePlayer;
+            var b = arbiter.BlackPlayer;
 
             Trace.WriteLine(Arbiter.Kernel.Root);
 
@@ -56,6 +56,9 @@ namespace App
 
             w.PlaceKing(new Coord(3, 1));
             b.PlaceKing(new Coord(4, 6));
+
+            StepArbiter(10);
+            Trace.WriteLine(arbiter);
         }
     }
 }
