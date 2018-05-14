@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics;
+using App.Action;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using App.Main;
 
 namespace App
@@ -43,6 +45,17 @@ namespace App
             var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
             arbiter.StartGame();
             StepArbiter(10);
+
+            var w = (MockWhitePlayer) arbiter.WhitePlayer;
+            var b = (MockBlackPlayer) arbiter.BlackPlayer;
+
+            Trace.WriteLine(Arbiter.Kernel.Root);
+
+            w.AcceptCards();
+            b.AcceptCards();
+
+            w.PlaceKing(new Coord(3, 1));
+            b.PlaceKing(new Coord(4, 6));
         }
     }
 }

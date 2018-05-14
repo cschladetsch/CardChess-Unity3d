@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using App.Main;
 using App.Model;
 using UnityEngine.Assertions;
 
@@ -11,6 +12,7 @@ namespace App.Agent
     {
         public Guid Id { get; private set;}
         public IModel BaseModel { get; private set; }
+        public Arbiter Arbiter { get; set; }
         public TModel Model { get; private set; }
 
         public virtual bool Create(TModel a0)

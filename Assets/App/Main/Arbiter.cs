@@ -92,9 +92,10 @@ namespace App.Main
             var agent = new TAgent();
             if (!agent.Create(model))
             {
-                //TODO: Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
+                Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
                 return null;
             }
+            agent.Arbiter = this;
 
             return agent;
         }
@@ -164,18 +165,18 @@ namespace App.Main
                         WhitePlayer.StartGame(),
                         BlackPlayer.StartGame()
                     ),
+                    WhitePlayer.DrawInitialCards(),
+                    BlackPlayer.DrawInitialCards(),
                     New.Barrier(
-                        WhitePlayer.DrawInitialCards(),
-                        BlackPlayer.DrawInitialCards(),
                         New.TimedBarrier(
                             TimeSpan.FromSeconds(20),
-                            WhitePlayer.Mulligan(),
-                            BlackPlayer.Mulligan()
+                            WhitePlayer.HasAcceptedCards(),
+                            BlackPlayer.HasAcceptedCards()
                         ),
                         New.TimedBarrier(
                             TimeSpan.FromSeconds(20),
-                            WhitePlayer.PlaceKing(),
-                            BlackPlayer.PlaceKing()
+                            WhitePlayer.HasPlacedKing(),
+                            BlackPlayer.HasPlacedKing()
                         )
                     )
                 )
@@ -372,6 +373,11 @@ namespace App.Main
         private bool _gameOver;
 
         #endregion
+
+        public static bool CanPlaceKing(Player player, Coord coord)
+        {
+            return true;
+        }
     }
 }
 

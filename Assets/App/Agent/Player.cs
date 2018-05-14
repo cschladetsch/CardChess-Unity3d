@@ -8,7 +8,6 @@ namespace App.Agent
 {
     using Action;
 
-    /// <inheritdoc />
     /// <summary>
     /// The agent that represents a player in the game.
     /// </summary>
@@ -32,7 +31,7 @@ namespace App.Agent
             return null;
         }
 
-        public IFuture<EResponse> DrawInitialCards()
+        public IGenerator DrawInitialCards()
         {
             foreach (var card in Model.Deck.Cards.Take(App.Model.Player.StartHandCardCount))
             {
@@ -40,7 +39,12 @@ namespace App.Agent
                 Model.Deck.Cards.Remove(card);
             }
 
-            return New.Future(EResponse.Ok);
+            return null;
+        }
+
+        public void RedrawCards(params Guid[] rejected)
+        {
+            throw new NotImplementedException();
         }
 
         public ITransient Mulligan()
@@ -95,6 +99,32 @@ namespace App.Agent
             return pass;
         }
 
+        public ITransient HasAcceptedCards()
+        {
+            return _hasAccepted = New.Transient("HasAcceptedCards");
+        }
+
+        public void AcceptCards()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFuture<PlayCard> HasPlacedKing()
+        {
+            return _hasPlacedKing = New.NamedFuture<PlayCard>("HasPlacedKing");
+        }
+
+        public void PlaceKing(Coord coord)
+        {
+            if (App.Main.Arbiter.CanPlaceKing(this, coord))
+                _hasPlacedKing.Value = new PlayCard(King, coord);
+        }
+
+        public void AcceptKingPlacement()
+        {
+            throw new NotImplementedException();
+        }
+
         public IFuture<int> RollDice()
         {
             var roll = New.Future<int>();
@@ -107,5 +137,7 @@ namespace App.Agent
         private IFuture<int> _roll;
         private readonly List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();
         private readonly List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
+        private ITransient _hasAccepted;
+        private IFuture<PlayCard> _hasPlacedKing;
     }
 }
