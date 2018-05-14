@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using App.Model;
 using Flow;
 
 namespace App.Agent
@@ -18,9 +19,57 @@ namespace App.Agent
         public EColor Color => Model.Color;
         public ICardInstance King { get; private set; }
         public int Health => King.Health;
+        public PlayerDeckCollection Deck { get; } = new PlayerDeckCollection();
+        public PlayerHandCollection Hand { get; } = new PlayerHandCollection();
+
         #endregion
 
         #region Public Methods
+        public virtual IFuture<PlayCard> PlaceKing()
+        {
+            return _placeKing = New.Future<PlayCard>();
+        }
+
+        public virtual IFuture<PlayCard> PlayCard()
+        {
+            var future = New.Future<PlayCard>();
+            _cardPlays.Add(future);
+            return future;
+        }
+
+        public virtual IFuture<MovePiece> MovePiece()
+        {
+            var future = New.Future<MovePiece>();
+            _pieceMoves.Add(future);
+            return future;
+        }
+
+        public void RedrawCards(params Guid[] rejected)
+        {
+            //var hand = Hand;
+            //var removed = new List<Agent.ICardInstance>();
+            //foreach (var rej in rejected)
+            //{
+            //    removed.Add(hand.Cards.First(c => c.Template.Id == rej));
+            //}
+        }
+
+        public void PlaceKing(Coord coord)
+        {
+            if (Arbiter.CanPlaceKing(this, coord))
+                _hasPlacedKing.Value = new PlayCard(King, coord);
+        }
+
+        public void AcceptKingPlacement()
+        {
+            // Unused?
+        }
+
+        public void AcceptCards()
+        {
+            _hasAccepted.Complete();
+        }
+
         public IFuture<EResponse> NewGame()
         {
             Model.NewGame();
@@ -46,11 +95,6 @@ namespace App.Agent
             return null;
         }
 
-        public void RedrawCards(params Guid[] rejected)
-        {
-            throw new NotImplementedException();
-        }
-
         public ITransient Mulligan()
         {
             return null;
@@ -68,25 +112,6 @@ namespace App.Agent
             return New.Future(EResponse.Ok);
         }
 
-        public virtual IFuture<PlayCard> PlaceKing()
-        {
-            return _placeKing = New.Future<PlayCard>();
-        }
-
-        public virtual IFuture<PlayCard> PlayCard()
-        {
-            var future = New.Future<PlayCard>();
-            _cardPlays.Add(future);
-            return future;
-        }
-
-        public virtual IFuture<MovePiece> MovePiece()
-        {
-            var future = New.Future<MovePiece>();
-            _pieceMoves.Add(future);
-            return future;
-        }
-
         public IFuture<bool> Pass()
         {
             var pass = New.Future<bool>();
@@ -99,25 +124,9 @@ namespace App.Agent
             return _hasAccepted = New.NamedFuture<bool>("HasAcceptedCards");
         }
 
-        public void AcceptCards()
-        {
-            _hasAccepted.Complete();
-        }
-
         public IFuture<PlayCard> HasPlacedKing()
         {
             return _hasPlacedKing = New.NamedFuture<PlayCard>("HasPlacedKing");
-        }
-
-        public void PlaceKing(Coord coord)
-        {
-            if (App.Main.Arbiter.CanPlaceKing(this, coord))
-                _hasPlacedKing.Value = new PlayCard(King, coord);
-        }
-
-        public void AcceptKingPlacement()
-        {
-            // Unused?
         }
 
         public ITransient DeliverCards()
@@ -151,12 +160,23 @@ namespace App.Agent
 
         #region Private Fields
         private readonly Random _random = new Random();
-        private IFuture<PlayCard> _placeKing;
-        private IFuture<int> _roll;
         private readonly List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();
         private readonly List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
+
+        private IFuture<PlayCard> _placeKing;
+        private IFuture<int> _roll;
         private IFuture<bool> _hasAccepted;
         private IFuture<PlayCard> _hasPlacedKing;
         #endregion
+    }
+
+    public class PlayerDeckCollection : CardCollection<ICardInstance>
+    {
+        public override int MaxCards => 50;
+    }
+
+    public class PlayerHandCollection : CardCollection<ICardInstance>
+    {
+        public override int MaxCards => 7;
     }
 }

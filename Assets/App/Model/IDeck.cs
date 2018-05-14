@@ -2,15 +2,7 @@
 
 namespace App.Model
 {
-    /// <summary>
-    /// A pre-made deck
-    /// </summary>
-    public interface ITemplateDeck :
-        ICardCollection<ICardTemplate>,
-        IHasId
-    {
-    }
-
+    /// <inheritdoc />
     /// <summary>
     /// A deck in play in a game
     /// </summary>

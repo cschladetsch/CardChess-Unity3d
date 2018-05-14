@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace App.Main
+namespace App
 {
     public class ArbiterGameObject : MonoBehaviour
     {

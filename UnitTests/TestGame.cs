@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using App.Action;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using App.Main;
 
 namespace App
 {

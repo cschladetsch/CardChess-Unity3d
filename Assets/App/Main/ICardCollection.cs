@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace App.Model
+namespace App
 {
     /// <summary>
-    ///     A generic collection of cards: can be CardInstances or CardTemplates
+    /// A generic collection of cards: can be CardInstances or CardTemplates
     /// </summary>
     /// <typeparam name="TCard"></typeparam>
     public interface ICardCollection<TCard>

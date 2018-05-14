@@ -25,7 +25,7 @@ namespace App.Agent
 
         protected abstract IEnumerator Next(IGenerator self);
 
-        protected IFactory New => Main.Arbiter.Kernel.Factory;
+        protected IFactory New => Arbiter.Kernel.Factory;
         protected IGenerator _coro;
     }
 }

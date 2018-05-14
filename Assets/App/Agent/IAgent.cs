@@ -1,6 +1,4 @@
-﻿using App.Main;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
     /// <summary>
     /// AgentBase for all agents. Each agent represents a model.

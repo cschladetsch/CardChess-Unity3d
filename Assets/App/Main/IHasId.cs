@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App.Model
+namespace App
 {
     public interface IHasId
     {

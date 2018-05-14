@@ -5,7 +5,7 @@ using App.Model;
 using Flow;
 using UnityEngine.Assertions;
 
-namespace App.Main
+namespace App
 {
     using Agent;
     using Action;

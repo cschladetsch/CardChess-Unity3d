@@ -100,7 +100,7 @@
     <Compile Include="Assets\App\Model\Hand.cs" />
     <Compile Include="Assets\App\Model\IBoard.cs" />
     <Compile Include="Assets\App\Model\ICard.cs" />
-    <Compile Include="Assets\App\Model\ICardCollection.cs" />
+    <Compile Include="Assets\App\Main\ICardCollection.cs" />
     <Compile Include="Assets\App\Model\ICardInstance.cs" />
     <Compile Include="Assets\App\Model\ICardTemplate.cs" />
     <Compile Include="Assets\App\Model\IDeck.cs" />
@@ -108,12 +108,13 @@
     <Compile Include="Assets\App\Model\IGameHistory.cs" />
     <Compile Include="Assets\App\Model\IGameResult.cs" />
     <Compile Include="Assets\App\Model\IHand.cs" />
-    <Compile Include="Assets\App\Model\IHasId.cs" />
+    <Compile Include="Assets\App\Main\IHasId.cs" />
     <Compile Include="Assets\App\Model\IModel.cs" />
     <Compile Include="Assets\App\Model\IOwned.cs" />
     <Compile Include="Assets\App\Model\IOwner.cs" />
     <Compile Include="Assets\App\Model\IPlayer.cs" />
     <Compile Include="Assets\App\Model\Item.cs" />
+    <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUser.cs" />
     <Compile Include="Assets\App\Model\Logger.cs" />
     <Compile Include="Assets\App\Model\ModelBase.cs" />

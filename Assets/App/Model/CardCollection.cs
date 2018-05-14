@@ -5,10 +5,10 @@ using System.Linq;
 namespace App.Model
 {
     public abstract class CardCollection<TCard> :
-        ModelBase,
         ICreateWith,
         ICardCollection<TCard> where TCard : IHasId
     {
+        public string Name { get; }
         public abstract int MaxCards { get; }
 
         public IList<TCard> Cards { get; } = new List<TCard>();
