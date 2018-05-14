@@ -91,7 +91,6 @@
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestTimers.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TestTrigger.cs" />
     <Compile Include="Assets\External\Flow\TestFlow\Editor\TimerTimedWait.cs" />
-    <Compile Include="Assets\External\Flow\TestFlow\Editor\Unity\TestMoveTo.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/christian/src/Chess2/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

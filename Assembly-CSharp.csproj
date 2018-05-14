@@ -307,7 +307,6 @@
     <Compile Include="Assets\External\Flow\Impl\Break.cs" />
     <Compile Include="Assets\External\Flow\Impl\Case.cs" />
     <Compile Include="Assets\External\Flow\Impl\Channel.cs" />
-    <Compile Include="Assets\External\Flow\Impl\ConcurrentQueue.cs" />
     <Compile Include="Assets\External\Flow\Impl\Coroutine.cs" />
     <Compile Include="Assets\External\Flow\Impl\Create.cs" />
     <Compile Include="Assets\External\Flow\Impl\Exception.cs" />
@@ -345,7 +344,6 @@
     <Compile Include="Assets\External\Flow\Logger\Logger.cs" />
     <Compile Include="Assets\External\Flow\Logger\PrettyPrinter.cs" />
     <Compile Include="Assets\External\Flow\Logger\UnityLogger.cs" />
-    <Compile Include="Assets\External\Flow\Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
