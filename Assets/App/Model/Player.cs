@@ -70,7 +70,7 @@ namespace App.Model
 
         public void AddMaxMana(int mana)
         {
-            MaxMana = Mathf.Clamp(MaxMana + mana, 0, MaxManaCap);
+            MaxMana = Mathf.Clamp(MaxMana + mana, 0, Parameters.MaxManaCap);
         }
 
         public IFuture<PlayCard> TryPlayCard()
