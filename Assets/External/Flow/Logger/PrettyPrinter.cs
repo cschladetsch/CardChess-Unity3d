@@ -116,6 +116,11 @@ namespace Flow
                 var group = (IGroup) trans;
                 return _sb.AppendFormat($"Barrier: {name}: {GeneratorInfo(trans)}\n");
             }
+            if (typeof(ISequence).IsAssignableFrom(ty))
+            {
+                var g = (IGroup) trans;
+                return _sb.AppendFormat($"Sequence {name}: {GeneratorInfo(trans)}\n");
+            }
             if (typeof(INode).IsAssignableFrom(ty))
             {
                 var g = (IGroup) trans;
@@ -141,6 +146,7 @@ namespace Flow
             foreach (var tr in group.Contents)
             {
                 Print(tr, level + 1);
+                _sb.Append('\n');
             }
             return level;
         }

@@ -114,6 +114,9 @@ namespace App
                 f.Coroutine(EndGame))
             );
 
+            k.Step();
+            Trace.WriteLine(r);
+            k.Step();
             Trace.WriteLine(r);
             k.Step();
             Trace.WriteLine(r);
@@ -126,7 +129,10 @@ namespace App
         IEnumerator PlayerTurn(IGenerator self, App.EColor color)
         {
             Trace.WriteLine($"PlayerTurn: {color}");
-            yield break;
+            yield return null;
+            Trace.WriteLine($"PlayerTurn: Again {color}");
+            yield return null;
+            Trace.WriteLine($"PlayerTurn: Again Again {color}");
         }
 
         IEnumerator EndGame(IGenerator self)

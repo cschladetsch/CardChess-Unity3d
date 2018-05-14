@@ -319,6 +319,7 @@
     <Compile Include="Assets\External\Flow\Impl\Kernel.cs" />
     <Compile Include="Assets\External\Flow\Impl\Node.cs" />
     <Compile Include="Assets\External\Flow\Impl\Periodic.cs" />
+    <Compile Include="Assets\External\Flow\Impl\Sequence.cs" />
     <Compile Include="Assets\External\Flow\Impl\SpinWait.cs" />
     <Compile Include="Assets\External\Flow\Impl\Subroutine.cs" />
     <Compile Include="Assets\External\Flow\Impl\TimedBarrier.cs" />

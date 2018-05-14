@@ -60,9 +60,10 @@ namespace Flow.Impl
 
                         gen.Step();
                         gen = gen.Value as IGenerator;
-
-                        Kernel.StepTime();
                     }
+
+                    if (_stepOne)
+                        break;
                 }
             }
             finally
@@ -85,6 +86,6 @@ namespace Flow.Impl
         }
 
         private bool _stepping;
-
+        protected bool _stepOne;
     }
 }

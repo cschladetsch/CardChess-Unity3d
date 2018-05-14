@@ -187,18 +187,21 @@ namespace Flow.Impl
 
         public IGenerator Sequence(params IGenerator[] gens)
         {
-            return Prepare(Coroutine(SequenceCoro, gens));
+            var seq = new Sequence();
+            seq.Add(gens);
+            return Prepare(seq);
+            //return Prepare(Coroutine(SequenceCoro, gens));
         }
 
-        private static IEnumerator SequenceCoro(IGenerator self, IGenerator[] gens)
-        {
-            foreach (var gen in gens)
-            {
-                gen.Step();
+        //private static IEnumerator SequenceCoro(IGenerator self, IGenerator[] gens)
+        //{
+        //    foreach (var gen in gens)
+        //    {
+        //        gen.Step();
 
-                yield return 0;
-            }
-        }
+        //        yield return 0;
+        //    }
+        //}
 
         public IGenerator Parallel(params IGenerator[] transients)
         {
