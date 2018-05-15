@@ -19,32 +19,34 @@ namespace App.Agent
         #endregion
 
         #region Methods
-        #region Initialise
+
+        #region State
         IFuture<EResponse> NewGame();
         IFuture<int> RollDice();
         ITransient StartGame();
-        IFuture<PlayCard> PlaceKing();
         IGenerator DrawInitialCards();
-        ITransient AcceptCards();
         IFuture<EResponse> ChangeMaxMana(int delta);
         IFuture<EResponse> ChangeMana(int delta);
         #endregion
 
         #region Turn Options
-        ITransient DrawCard();
-        IFuture<PlayCard> PlayCard();
-        IFuture<MovePiece> MovePiece();
-        IFuture<bool> Pass();
+        IFuture<ICardInstance> FutureDrawCard();
+        IFuture<PlayCard> FuturePlaceKing();
+        IFuture<bool> FutureAcceptCards();
+        IFuture<PlayCard> FuturePlayCard();
+        IFuture<MovePiece> FutureMovePiece();
+        IFuture<bool> FuturePass();
         #endregion
 
         #region Command Methods
         void RedrawCards(params Guid[] rejected);
-        void KingPlaced(Coord coord);
-        void CardPlayed(PlayCard playCard);
-        void PieceMoved(MovePiece move);
-        void Passed();
-
+        void AcceptCards();
+        void PlaceKing(Coord coord);
+        void PlayCard(PlayCard playCard);
+        void MovePiece(MovePiece move);
+        void Pass();
         #endregion
+
         #endregion
     }
 }

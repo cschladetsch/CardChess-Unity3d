@@ -44,7 +44,6 @@ namespace App
         {
             Board = board;
             SetPlayers(p0, p1);
-            NewGame();
         }
 
         public void SetPlayers(IPlayer p0, IPlayer p1)
@@ -85,16 +84,14 @@ namespace App
         public void GameLoop()
         {
             Root.Add(
+                //New.Log("Main game sequence begins").Named("Log"),
                 New.Sequence(
-                    New.Log("Main game sequence begins"),
                     New.Coroutine(StartGame).Named("StartGame"),
                     New.While(() => !_gameOver),
-                        New.Coroutine(PlayerTurn).Named("Turn"),
+                        New.Coroutine(PlayerTurn).Named("Turn").Named("While"),
                     New.Coroutine(EndGame).Named("EndGame")
                 ).Named("GameLoop")
             );
-
-            Info(Root);
         }
 
         #region Creation Methods
@@ -158,13 +155,15 @@ namespace App
             return new Model.CardInstance(tmpl, owner);
         }
 
-        public ICardInstance NewCardAgent(Model.ICardTemplate template, Model.IOwner owner)
+        public ICardInstance NewCardAgent(Model.ICardTemplate template, IOwner owner)
         {
             var cardInstance = Database.CardTemplates.New(template.Id, owner);
             return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
         }
 
-        public Agent.ICardInstance NewCardAgent(Model.ECardType type, Model.IOwner owner)
+        public ICardInstance NewCardAgent(Model.ICardInstance model, IOwner owner) => NewCardAgent(model.Template, owner);
+
+        public ICardInstance NewCardAgent(Model.ECardType type, IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             return template == null ? null : NewCardAgent(template, owner);
@@ -200,12 +199,12 @@ namespace App
                     New.Barrier(
                         New.TimedBarrier(
                             TimeSpan.FromSeconds(Parameters.MulliganTimer),
-                            WhitePlayer.AcceptCards(),
-                            BlackPlayer.AcceptCards()
+                            WhitePlayer.FutureAcceptCards(),
+                            BlackPlayer.FutureAcceptCards()
                         ).Named("Mulligan"),
                         New.Sequence(   // TODO: TimedSequence
-                            WhitePlayer.PlaceKing(),
-                            BlackPlayer.PlaceKing()
+                            WhitePlayer.FuturePlaceKing(),
+                            BlackPlayer.FuturePlaceKing()
                         ).Named("Place Kings")
                     ).Named("Preceedings")
                 ).Named("Start Game")
@@ -221,7 +220,7 @@ namespace App
             yield return self.After(
                 New.Barrier(
                     player.ChangeMaxMana(1).Named("AddMaxMana"),
-                    player.DrawCard().Named("DrawCard")
+                    player.FutureDrawCard().Named("DrawCard")
                 )
             );
 
@@ -230,9 +229,9 @@ namespace App
             while (true)
             {
                 // the options a player has
-                var playCard = player.PlayCard();
-                var movePiece = player.MovePiece();
-                var pass = player.Pass();
+                var playCard = player.FuturePlayCard();
+                var movePiece = player.FutureMovePiece();
+                var pass = player.FuturePass();
                 var trigger = New.TimedTrigger(
                     TimeSpan.FromSeconds(timeOut),
                     playCard,

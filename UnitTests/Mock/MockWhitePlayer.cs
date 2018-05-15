@@ -8,16 +8,16 @@ namespace App
 {
     class MockWhitePlayer : Agent.Player
     {
-        public override IFuture<PlayCard> PlaceKing()
-        {
-            var pc = new PlayCard
-            {
-                Coord = new Coord(3, 2),
-                Card = King
-            };
-            var f = New.Future<PlayCard>();
-            f.Value = pc;
-            return f;
-        }
+        //public override IFuture<PlayCard> PlaceKing()
+        //{
+        //    var pc = new PlayCard
+        //    {
+        //        Coord = new Coord(3, 2),
+        //        Card = King
+        //    };
+        //    var f = New.Future<PlayCard>();
+        //    f.Value = pc;
+        //    return f;
+        //}
     }
 }

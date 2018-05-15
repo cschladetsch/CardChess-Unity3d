@@ -128,8 +128,8 @@
     <Compile Include="Assets\App\Model\Impl\Piece.cs" />
     <Compile Include="Assets\App\Model\Impl\Player.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
-    <Compile Include="Assets\App\Model\IOwned.cs" />
-    <Compile Include="Assets\App\Model\IOwner.cs" />
+    <Compile Include="Assets\App\Main\IOwned.cs" />
+    <Compile Include="Assets\App\Main\IOwner.cs" />
     <Compile Include="Assets\App\Model\IPlayer.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUser.cs" />

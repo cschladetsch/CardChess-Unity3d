@@ -42,21 +42,30 @@ namespace App
         public void TestPlayKings()
         {
             var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
-            arbiter.GameLoop();
-            StepArbiter(10);
+
+            arbiter.NewGame();
+
+            StepArbiter(2);
+            Trace.WriteLine(Arbiter.Kernel.Root);
 
             var w = arbiter.WhitePlayer;
             var b = arbiter.BlackPlayer;
 
+            StepArbiter(2);
             Trace.WriteLine(Arbiter.Kernel.Root);
 
             w.AcceptCards();
             b.AcceptCards();
 
-            w.KingPlaced(new Coord(3, 1));
-            b.KingPlaced(new Coord(4, 6));
+            StepArbiter(2);
+            Trace.WriteLine(Arbiter.Kernel.Root);
 
-            StepArbiter(10);
+            w.PlaceKing(new Coord(3, 1));
+            b.PlaceKing(new Coord(4, 6));
+
+            StepArbiter(2);
+            Trace.WriteLine(Arbiter.Kernel.Root);
+
             Trace.WriteLine(arbiter);
         }
     }
