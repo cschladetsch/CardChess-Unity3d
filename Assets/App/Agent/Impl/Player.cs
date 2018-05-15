@@ -40,7 +40,7 @@ namespace App.Agent
 
         public ITransient StartGame()
         {
-            //TODO Info("Start Game");
+            Info($"{Color}: Start Game");
             return null;
         }
 

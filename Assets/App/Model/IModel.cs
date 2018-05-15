@@ -1,6 +1,6 @@
 ﻿namespace App.Model
 {
-    public interface IModel : IHasId
+    public interface IModel : IHasId, ILogger
     {
     }
 }

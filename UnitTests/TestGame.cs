@@ -19,6 +19,9 @@ namespace App
             var d0 = m0.Deck;
             var d1 = m1.Deck;
 
+            p0.Model.MockMakeHand();
+            p1.Model.MockMakeHand();
+
             Assert.IsNotNull(p0);
             Assert.IsNotNull(p0.Model);
             Assert.IsNotNull(m0.Hand);
@@ -30,8 +33,6 @@ namespace App
             Assert.AreSame(p0.Model, m0);
             Assert.AreSame(p1.Model, m1);
 
-            p0.Model.MockMakeHand();
-            p1.Model.MockMakeHand();
             Assert.AreEqual(7, p0.Model.Hand.Cards.Count);
             Assert.AreEqual(7, p1.Model.Hand.Cards.Count);
             Assert.AreEqual(43, d0.Cards.Count);

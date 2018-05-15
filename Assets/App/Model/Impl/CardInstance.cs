@@ -7,12 +7,10 @@ using System.Linq;
 
 namespace App.Model
 {
-    public class CardInstance : ICardInstance
+    public class CardInstance : ModelBase, ICardInstance
     {
-        public string Name => Template.Name;
         public CardInstance(ICardTemplate template, IOwner owner)
         {
-            Id = Guid.NewGuid();
             Template = template;
             Owner = owner;
 
@@ -37,7 +35,6 @@ namespace App.Model
         public event CardInstanceDelegate Attacked;
         public event CardInstanceDelegate Defended;
 
-        public Guid Id { get; }
         public ICardTemplate Template { get; }
         public IOwner Owner { get; }
         public int Attack { get; }

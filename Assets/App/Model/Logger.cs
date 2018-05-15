@@ -1,24 +1,18 @@
 ﻿using System;
-using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace App.Model
 {
     /// <summary>
     /// Log system used by Models.
     /// </summary>
-    public class Logger
+    public class Logger : ILogger
     {
         #region Public Fields
-        public enum ELevel
-        {
-            None = 0,
-            Info = 1,
-            Warn = 2,
-            Verbose = 4,
-            Error = 8
-        }
+        public string Prefix { get;set; }
         public static string LogFileName;
-        public static ELevel MaxLevel;
+        public static ELogLevel MaxLevel;
         public string Name { get; set; }
         #endregion
 
@@ -32,54 +26,55 @@ namespace App.Model
         #endregion
 
         #region Protected Methods
-        protected void Info(string fmt, params object[] args)
+        public void Info(string fmt, params object[] args)
         {
-            Log(ELevel.Info, string.Format(fmt, args));
+            Log(ELogLevel.Info, string.Format(fmt, args));
         }
-        protected void Warn(string fmt, params object[] args)
+        public void Warn(string fmt, params object[] args)
         {
-            Log(ELevel.Warn, string.Format(fmt, args));
+            Log(ELogLevel.Warn, string.Format(fmt, args));
         }
-        protected void Error(string fmt, params object[] args)
+        public void Error(string fmt, params object[] args)
         {
-            Log(ELevel.Error, string.Format(fmt, args));
+            Log(ELogLevel.Error, string.Format(fmt, args));
+        }
+        #endregion
+
+        #region Private
+        private void Log(ELogLevel level, string text)
+        {
+            Action<string> log = Debug.Log;
+            if (level == ELogLevel.None)
+                level = ELogLevel.Error;
+#if TRACE
+            var entry = MakeEntry(level, text);
+            Console.WriteLine(entry);
+            Trace.WriteLine(entry);
+#else
+            // TODO: use bitmasks as intended
+            switch (level)
+            {
+                case ELogLevel.Info:
+                    log = Debug.Log;
+                    break;
+                case ELogLevel.Warn:
+                    log = Debug.LogWarning;
+                    break;
+                case ELogLevel.Error:
+                    log = Debug.LogError;
+                    break;
+            }
+            log(MakeEntry(level, text));
+#endif
+        }
+        private string MakeEntry(ELogLevel level, string text)
+        {
+            return $"{Prefix}: type:{GetType()} name: {Name}: t'{text}'";
         }
         #endregion
 
         #region Protected Fields
-        protected ELevel _logLevel;
-        protected string _logPrefix;
-        #endregion
-
-        #region Private
-        private void Log(ELevel level, string text)
-        {
-            Action<string> log = Debug.Log;
-            if (level == ELevel.None)
-                level = ELevel.Error;
-            // TODO: use bitmasks as intended
-            switch (level)
-            {
-                case ELevel.Info:
-                    log = Debug.Log;
-                    break;
-                case ELevel.Warn:
-                    log = Debug.LogWarning;
-                    break;
-                case ELevel.Error:
-                    log = Debug.LogError;
-                    break;
-            }
-#if TRACE
-            Console.WriteLine(MakeEntry(level, text));
-#else
-            log(MakeEntry(level, text));
-#endif
-        }
-        private string MakeEntry(ELevel level, string text)
-        {
-            return $"{_logPrefix} type:{GetType()} name: {Name}:\n\t'{text}'";
-        }
+        protected ELogLevel _logLevel;
         #endregion
     }
 }

@@ -81,19 +81,6 @@ namespace App
             Kernel.Step();
         }
 
-        public void GameLoop()
-        {
-            Root.Add(
-                //New.Log("Main game sequence begins").Named("Log"),
-                New.Sequence(
-                    New.Coroutine(StartGame).Named("StartGame"),
-                    New.While(() => !_gameOver),
-                        New.Coroutine(PlayerTurn).Named("Turn").Named("While"),
-                    New.Coroutine(EndGame).Named("EndGame")
-                ).Named("GameLoop")
-            );
-        }
-
         #region Creation Methods
         public TModel NewModel<TModel>()
             where TModel : class, ICreateWith, new()
@@ -184,9 +171,22 @@ namespace App
         #endregion
 
         #region Private Methods
+        public void GameLoop()
+        {
+            Root.Add(
+                //New.Log("Main game sequence begins").Named("Log"),
+                New.Sequence(
+                    New.Coroutine(StartGame).Named("StartGame"),
+                    New.While(() => !_gameOver),
+                        New.Coroutine(PlayerTurn).Named("Turn").Named("While"),
+                    New.Coroutine(EndGame).Named("EndGame")
+                ).Named("GameLoop")
+            );
+        }
+
         private IEnumerator StartGame(IGenerator self)
         {
-            yield return self.After(
+            var start = self.After(
                 New.Sequence(
                     New.Barrier(
                         WhitePlayer.StartGame(),
@@ -209,7 +209,10 @@ namespace App
                     ).Named("Preceedings")
                 ).Named("Start Game")
             );
+            start.Completed += (tr) => Info("StartGame completed");
+            yield return start;
         }
+
         private IEnumerator PlayerTurn(IGenerator self)
         {
             ++_turnNumber;

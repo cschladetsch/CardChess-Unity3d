@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 namespace App.Agent
 {
     public abstract class AgentBase<TModel> :
-        Logger, IAgent<TModel>
+        AgentLogger, IAgent<TModel>
         where TModel : class, IModel
     {
         public Guid Id { get; private set;}
