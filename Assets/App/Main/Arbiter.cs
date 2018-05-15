@@ -194,28 +194,22 @@ namespace App
                         BlackPlayer.StartGame()
                     ).Named("Init Game"),
                     New.Barrier(
-                        WhitePlayer.DeliverCards(),
-                        BlackPlayer.DeliverCards()
+                        WhitePlayer.DrawInitialCards(),
+                        BlackPlayer.DrawInitialCards()
                     ).Named("Deal Cards"),
                     New.Barrier(
                         New.TimedBarrier(
                             TimeSpan.FromSeconds(Parameters.MulliganTimer),
-                            WhitePlayer.HasAcceptedCards(),
-                            BlackPlayer.HasAcceptedCards()
+                            WhitePlayer.AcceptCards(),
+                            BlackPlayer.AcceptCards()
                         ).Named("Mulligan"),
-                        New.TimedBarrier(
-                            TimeSpan.FromSeconds(Parameters.PlaceKingTimer),
-                            WhitePlayer.HasPlacedKing(),
-                            BlackPlayer.HasPlacedKing()
+                        New.Sequence(   // TODO: TimedSequence
+                            WhitePlayer.PlaceKing(),
+                            BlackPlayer.PlaceKing()
                         ).Named("Place Kings")
                     ).Named("Preceedings")
                 ).Named("Start Game")
             );
-        }
-        private IEnumerator EndGame(IGenerator self)
-        {
-            Info("Game Ended");
-            yield break;
         }
         private IEnumerator PlayerTurn(IGenerator self)
         {
@@ -224,8 +218,12 @@ namespace App
 
             Info($"Start turn {_turnNumber} for {player}");
 
-            yield return self.After(player.ChangeMaxMana(1)).Named("AddMana");
-            yield return self.After(player.DrawCard()).Named("DrawCard");
+            yield return self.After(
+                New.Barrier(
+                    player.ChangeMaxMana(1).Named("AddMaxMana"),
+                    player.DrawCard().Named("DrawCard")
+                )
+            );
 
             var timeOut = Parameters.GameTurnTimer;
 
@@ -235,7 +233,12 @@ namespace App
                 var playCard = player.PlayCard();
                 var movePiece = player.MovePiece();
                 var pass = player.Pass();
-                var trigger = New.TimedTrigger(TimeSpan.FromSeconds(timeOut), playCard, movePiece, pass);
+                var trigger = New.TimedTrigger(
+                    TimeSpan.FromSeconds(timeOut),
+                    playCard,
+                    movePiece,
+                    pass
+                );
                 trigger.Name = "Player Options";
 
                 // wait for player to make a move
@@ -244,6 +247,7 @@ namespace App
                 // timed out, next player's turn
                 if (trigger.HasTimedOut || trigger.Reason == pass)
                 {
+                    Warn($"Player {CurrentPlayer} Timed out");
                     yield return self.After(PlayerTimedOut(player));
                     break;
                 }
@@ -260,6 +264,8 @@ namespace App
                         yield return self.After(PerformPlayCard(playCard.Value));
                         break;
                     }
+                    if (canPlay.Available && playCard.Available)
+                        Warn($"{playCard.Value} cannot be played");
                     continue;
                 }
 
@@ -272,11 +278,19 @@ namespace App
                         yield return self.After(PerformMovePiece(movePiece.Value));
                         break;
                     }
+                    if (canPlay.Available && movePiece.Available)
+                        Warn($"{movePiece.Value} cannot be played");
+                    continue;
                 }
             }
 
             _gameOver = CurrentPlayer.Health <= 0;
             _currentPlayer = (_currentPlayer + 1) % 2;
+        }
+        private IEnumerator EndGame(IGenerator self)
+        {
+            Info("Game Ended");
+            yield break;
         }
 
         // wrappers to create coroutines

@@ -5,7 +5,7 @@ namespace App.Agent.Card
 {
     /// <inheritdoc />
     /// <summary>
-    /// The strongest piece on the Board.
+    /// The strongest piece on the Board. Can move any number of squares diagonaly or orthogonally.
     /// </summary>
     internal class Queen : PieceInstance
     {

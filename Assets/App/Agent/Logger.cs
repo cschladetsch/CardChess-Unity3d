@@ -19,7 +19,7 @@ namespace App.Agent
             Active = true;
         }
 
-        public ITransient SetName(string name)
+        public ITransient Named(string name)
         {
             Name = name;
             return this;

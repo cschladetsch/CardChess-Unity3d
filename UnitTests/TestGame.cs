@@ -53,8 +53,8 @@ namespace App
             w.AcceptCards();
             b.AcceptCards();
 
-            w.PlaceKing(new Coord(3, 1));
-            b.PlaceKing(new Coord(4, 6));
+            w.KingPlaced(new Coord(3, 1));
+            b.KingPlaced(new Coord(4, 6));
 
             StepArbiter(10);
             Trace.WriteLine(arbiter);

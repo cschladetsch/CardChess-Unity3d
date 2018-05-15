@@ -9,7 +9,7 @@ namespace App.Agent.Card
 {
     /// <inheritdoc />
     /// <summary>
-    /// The most important piece on the board.
+    /// The most important piece on the board. Can move one square in any direction.
     /// </summary>
     internal class King : PieceInstance
     {

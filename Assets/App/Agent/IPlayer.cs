@@ -1,4 +1,5 @@
 using System;
+using App.Action;
 using Flow;
 
 namespace App.Agent
@@ -18,25 +19,30 @@ namespace App.Agent
         #endregion
 
         #region Methods
-        void AcceptCards();
-        void RedrawCards(params Guid[] rejected);
-        void PlaceKing(Action.Coord coord);
-        void AcceptKingPlacement();
-
-        #region Flow Methods
+        #region Initialise
         IFuture<EResponse> NewGame();
-        ITransient StartGame();
-        IFuture<EResponse> ChangeMaxMana(int mana);
-        IFuture<EResponse> ChangeMana(int mana);
         IFuture<int> RollDice();
-        IFuture<Action.PlayCard> PlayCard();
-        IFuture<Action.MovePiece> MovePiece();
-        IFuture<bool> Pass();
+        ITransient StartGame();
+        IFuture<PlayCard> PlaceKing();
         IGenerator DrawInitialCards();
-        IFuture<bool> HasAcceptedCards();
-        IFuture<Action.PlayCard> HasPlacedKing();
-        ITransient DeliverCards();
+        ITransient AcceptCards();
+        IFuture<EResponse> ChangeMaxMana(int delta);
+        IFuture<EResponse> ChangeMana(int delta);
+        #endregion
+
+        #region Turn Options
         ITransient DrawCard();
+        IFuture<PlayCard> PlayCard();
+        IFuture<MovePiece> MovePiece();
+        IFuture<bool> Pass();
+        #endregion
+
+        #region Command Methods
+        void RedrawCards(params Guid[] rejected);
+        void KingPlaced(Coord coord);
+        void CardPlayed(PlayCard playCard);
+        void PieceMoved(MovePiece move);
+        void Passed();
 
         #endregion
         #endregion

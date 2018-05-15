@@ -2,7 +2,7 @@
 {
     /// <inheritdoc />
     /// <summary>
-    /// Move a piece on the board
+    /// A valid description of a movement of a piece on the Board.
     /// </summary>
     public class MovePiece : ActionBase
     {

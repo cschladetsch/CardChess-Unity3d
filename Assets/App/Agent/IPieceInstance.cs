@@ -4,10 +4,15 @@ using Flow;
 
 namespace App.Agent
 {
-    public interface IPieceInstance : ICardInstance, IOwned
+    /// <summary>
+    /// An active piece on the Board.
+    /// </summary>
+    public interface IPieceInstance :
+        ICardInstance,
+        IOwned
     {
         Coord Coord { get; }
         ECardType Type { get; }
-        IFuture<ModePiece> Move();
+        IFuture<MovePiece> Move();
     }
 }

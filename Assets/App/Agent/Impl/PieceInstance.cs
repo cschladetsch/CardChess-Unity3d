@@ -15,13 +15,18 @@ namespace App.Agent
     {
         #region Public Fields
         public IOwner Owner => Model.Owner;
-        public int Health => Model.Health;
         public int Attack => Model.Attack;
         public ECardType Type => Model.Template.Type;
         public Coord Coord { get; private set; }
         #endregion
 
-        #region Public Abstract Methods
+        #region Public Methods
+        public IFuture<Action.MovePiece> Move()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        #region Abstract Methods
         /// <summary>
         /// Where this card can move to
         /// </summary>
@@ -47,6 +52,8 @@ namespace App.Agent
         public abstract IEnumerable<IPieceInstance> Guards(Coord coord);
         #endregion
 
+        #endregion
+
         #region Protected Methods
         protected override IEnumerator Next(IGenerator self)
         {
@@ -55,7 +62,6 @@ namespace App.Agent
         #endregion
 
         #region Private Fields
-
         #endregion
     }
 }

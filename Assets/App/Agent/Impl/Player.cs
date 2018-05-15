@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Flow;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace App.Agent
 {
@@ -23,27 +24,24 @@ namespace App.Agent
         #endregion
 
         #region Public Methods
-        #region Public Virtual Methods
         public virtual IFuture<PlayCard> PlaceKing()
         {
-            return _placeKing = New.Future<PlayCard>();
+            _placeKing?.Complete();
+            return _placeKing = New.NamedFuture<PlayCard>("PlaceKing");
         }
 
         public virtual IFuture<PlayCard> PlayCard()
         {
-            var future = New.Future<PlayCard>();
-            _cardPlays.Add(future);
-            return future;
+            _playCard?.Complete();
+            return _playCard = New.NamedFuture<PlayCard>("PlayCard");
         }
 
         public virtual IFuture<MovePiece> MovePiece()
         {
-            var future = New.Future<MovePiece>();
-            _pieceMoves.Add(future);
-            return future;
+            _movePiece?.Complete();
+            return _movePiece = New.NamedFuture<MovePiece>("MovePiece");
         }
-        #endregion
-        #region Public Emperical Methods
+
         public void RedrawCards(params Guid[] rejected)
         {
             //var hand = Hand;
@@ -56,29 +54,33 @@ namespace App.Agent
 
         public void PlaceKing(Coord coord)
         {
-            if (Arbiter.CanPlaceKing(this, coord))
-                _hasPlacedKing.Value = new PlayCard(King, coord);
         }
 
-        public void AcceptKingPlacement()
+        public void PlayCard(PlayCard playCard)
         {
-            // Unused?
+            _playCard.Value = playCard;
         }
 
-        public void AcceptCards()
+        public void MovePiece(MovePiece move)
         {
+            _movePiece.Value = move;
+        }
+
+        public ITransient AcceptCards()
+        {
+            Assert.IsNotNull(_hasAccepted);
             _hasAccepted.Complete();
+            return _hasAccepted;
         }
+
         #endregion
+
         #region Public Flow Methods
         public IFuture<EResponse> NewGame()
         {
             Model.NewGame();
             King = Arbiter.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
-            var future = New.Future<EResponse>();
-            future.Value = EResponse.Ok;
-            return future;
-
+            return New.Future(EResponse.Ok);
         }
 
         public ITransient StartGame()
@@ -98,24 +100,42 @@ namespace App.Agent
                 deck.Remove(card);
             }
 
-            return null;
+            return _hasAccepted = New.Node("DrawCards");
         }
 
         public ITransient Mulligan()
         {
+            _hasAccepted.Complete();
             return null;
         }
 
-        public IFuture<EResponse> ChangeMaxMana(int mana)
+        public IFuture<EResponse> ChangeMaxMana(int delta)
         {
-            Model.ChangeMaxMana(mana);
+            Model.ChangeMaxMana(delta);
             return New.Future(EResponse.Ok);
         }
 
-        public IFuture<EResponse> ChangeMana(int mana)
+        public IFuture<EResponse> ChangeMana(int delta)
         {
-            Model.ChangeMana(mana);
+            Model.ChangeMana(delta);
             return New.Future(EResponse.Ok);
+        }
+
+        public ITransient StartDrawCard()
+        {
+            return null;
+        }
+
+        public IFuture<PlayCard> StartPlayCard()
+        {
+            _playCard?.Complete();
+            return _playCard = New.NamedFuture<PlayCard>("PlayCard");
+        }
+
+        public IFuture<MovePiece> StartMovePiece()
+        {
+            _movePiece?.Complete();
+            return _movePiece = New.NamedFuture<MovePiece>("MovePiece");
         }
 
         public IFuture<bool> Pass()
@@ -123,25 +143,36 @@ namespace App.Agent
             return New.Future(false);
         }
 
-        public IFuture<bool> HasAcceptedCards()
+        public void KingPlaced(Coord coord)
         {
-            return _hasAccepted = New.NamedFuture<bool>("HasAcceptedCards");
+            _placeKing = New.NamedFuture<PlayCard>(
+                "HasPlacedKing", new Action.PlayCard(King, coord));
         }
 
-        public IFuture<PlayCard> HasPlacedKing()
+        public void CardPlayed(PlayCard playCard)
         {
-            return _hasPlacedKing = New.NamedFuture<PlayCard>("HasPlacedKing");
+            Assert.IsNotNull(_playCard);
+            _playCard.Value = playCard;
         }
 
-        public ITransient DeliverCards()
+        public void PieceMoved(MovePiece move)
         {
-            // TODO: animate
-            // TODO: animate
-            return null;
+            throw new NotImplementedException();
+        }
+
+        public void Passed()
+        {
+            throw new NotImplementedException();
         }
 
         public ITransient DrawCard()
         {
+            if (Model.Deck.Cards.Count == 0)
+            {
+                //Warn("No cards left");
+                return null;
+            }
+
             var card = Model.Deck.Cards.First();
             Model.Hand.Add(card);
             Model.Deck.Cards.Remove(card);
@@ -150,11 +181,9 @@ namespace App.Agent
 
         public IFuture<int> RollDice()
         {
-            var roll = New.Future<int>();
-            roll.Value = _random.Next(0, 6);
-            return roll;
+            return New.Future<int>(_random.Next(0, 6));
         }
-        #endregion
+
         #endregion
 
         #region Protected Methods
@@ -171,13 +200,12 @@ namespace App.Agent
 
         #region Private Fields
         private readonly Random _random = new Random();
-        private readonly List<IFuture<PlayCard>> _cardPlays = new List<IFuture<PlayCard>>();
-        private readonly List<IFuture<MovePiece>> _pieceMoves = new List<IFuture<MovePiece>>();
 
-        private IFuture<PlayCard> _placeKing;
         private IFuture<int> _roll;
-        private IFuture<bool> _hasAccepted;
-        private IFuture<PlayCard> _hasPlacedKing;
+        private IGenerator _hasAccepted;
+        private IFuture<PlayCard> _placeKing;
+        private IFuture<PlayCard> _playCard;
+        private IFuture<MovePiece> _movePiece;
         #endregion
     }
 }
