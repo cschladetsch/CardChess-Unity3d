@@ -11,7 +11,7 @@ namespace App.Agent.Card
     /// <summary>
     /// The most important piece on the board. Can move one square in any direction.
     /// </summary>
-    internal class King : PieceInstance
+    internal class King : PieceAgent
     {
         /// <inheritdoc />
         public override IEnumerable<Coord> PotentialCoords()

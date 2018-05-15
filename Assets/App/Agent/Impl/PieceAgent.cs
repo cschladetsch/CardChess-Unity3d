@@ -8,8 +8,9 @@ namespace App.Agent
 {
     /// <summary>
     /// A piece on the board.
+    /// Possibly wearing a blue beret.
     /// </summary>
-    public abstract class PieceInstance :
+    public abstract class PieceAgent :
         CardInstance,
         IPieceInstance
     {

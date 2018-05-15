@@ -6,7 +6,7 @@ namespace App.Model
     /// <summary>
     /// Common for all Models
     /// </summary>
-    public class ModelBase : Logger, IModel
+    public class ModelBase : Flow.Impl.Logger, IModel
     {
         #region Public Fieleds
         public Guid Id { get; }

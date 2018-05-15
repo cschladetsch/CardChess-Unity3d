@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Linq;
 using Flow;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace App.Agent
 {
@@ -128,13 +127,13 @@ namespace App.Agent
 
         public void AcceptCards()
         {
-            Assert.IsNotNull(_acceptCards);
+            //Assert.IsNotNull(_acceptCards);
             _acceptCards.Value = true;
         }
 
         public void PlaceKing(Coord coord)
         {
-            Assert.IsNotNull(_placeKing);
+            //Assert.IsNotNull(_placeKing);
             _placeKing.Value = new PlayCard(King, coord);
         }
 
@@ -155,13 +154,13 @@ namespace App.Agent
 
         public void CardPlayed(PlayCard playCard)
         {
-            Assert.IsNotNull(_playCard);
+            //Assert.IsNotNull(_playCard);
             _playCard.Value = playCard;
         }
 
         public void PieceMoved(MovePiece move)
         {
-            Assert.IsNotNull(_movePiece);
+            //Assert.IsNotNull(_movePiece);
             _movePiece.Value = move;
         }
 
@@ -170,7 +169,7 @@ namespace App.Agent
         #region Private/Protected Methods
         private void ModelTransferFromDeckToHand(Model.ICardInstance model)
         {
-            Assert.IsTrue(Model.Deck.Cards.Contains(model));
+            //Assert.IsTrue(Model.Deck.Cards.Contains(model));
             Model.Deck.Cards.Remove(model);
             Model.Hand.Add(model);
         }
@@ -185,7 +184,7 @@ namespace App.Agent
         private void RemoveFromAgentDeck(Model.ICardInstance model)
         {
             var inDeck = Deck.Cards.FirstOrDefault(c => c.Model == model);
-            Assert.IsNotNull(inDeck);
+            //Assert.IsNotNull(inDeck);
             Deck.Remove(inDeck);
         }
 

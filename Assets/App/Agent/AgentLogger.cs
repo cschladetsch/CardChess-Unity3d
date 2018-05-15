@@ -13,6 +13,7 @@ namespace App.Agent
         public IKernel Kernel { get; set; }
         public string Name { get; set; }
         public string Prefix { get { return _log.Prefix; } set { _log.Prefix = value; }}
+        public int Verbosity { get; set; }
 
         public ITransient Named(string name)
         {
@@ -43,6 +44,11 @@ namespace App.Agent
             _log.Error(fmt, args);
         }
 
-        private LoggerFacade<App.Model.Logger> _log = new LoggerFacade<Model.Logger>("Agent");
+        public void Verbose(int level, string fmt, params object[] args)
+        {
+            _log.Verbose(level, fmt, args);
+        }
+
+        private readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
     }
 }

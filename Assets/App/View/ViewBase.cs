@@ -5,10 +5,10 @@ namespace App.View
 {
     /// <summary>
     /// Common for all actors in the game. This is to replace
-    /// MonoBehavior and make it more rational, as well as to 
+    /// MonoBehavior and make it more rational, as well as to
     /// conform with Flow.ITransient.
     /// </summary>
-    public abstract class ViewBase : Logger
+    public abstract class ViewBase : LoggingBehavior
     {
         private void Awake()
         {

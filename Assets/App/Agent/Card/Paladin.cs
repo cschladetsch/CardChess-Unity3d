@@ -9,7 +9,7 @@ namespace Assets.App.Agent.Card
     /// <summary>
     /// Paladins are like the Pawns of Chess.
     /// </summary>
-    internal class Paladin : PieceInstance
+    internal class Paladin : PieceAgent
     {
         /// <inheritdoc />
         public override IEnumerable<Coord> PotentialCoords()

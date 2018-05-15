@@ -14,7 +14,7 @@ namespace App
     /// <summary>
     /// The 'umpire' of the game: enforces all the rules.
     /// </summary>
-    public class Arbiter : App.Logger
+    public class Arbiter : Flow.Impl.Logger
     {
         #region Public Fields
         public static Arbiter Instance;
