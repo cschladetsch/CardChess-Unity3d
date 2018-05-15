@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -51,9 +50,6 @@
     <UnityVersion>2018.1.0f2</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
-      <HintPath>..\..\.nuget\packages\mstest.testframework\1.3.0\lib\netstandard1.0\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -70,6 +66,7 @@
     <Compile Include="Assets\App\Action\Pass.cs" />
     <Compile Include="Assets\App\Action\PlayCard.cs" />
     <Compile Include="Assets\App\Action\Vector2.cs" />
+    <Compile Include="Assets\App\Agent\AgentLogger.cs" />
     <Compile Include="Assets\App\Agent\Card\King.cs" />
     <Compile Include="Assets\App\Agent\Card\Paladin.cs" />
     <Compile Include="Assets\App\Agent\Card\Queen.cs" />
@@ -81,13 +78,12 @@
     <Compile Include="Assets\App\Agent\Impl\Board.cs" />
     <Compile Include="Assets\App\Agent\Impl\CardInstance.cs" />
     <Compile Include="Assets\App\Agent\Impl\MoveSelector.cs" />
-    <Compile Include="Assets\App\Agent\Impl\PieceInstance.cs" />
+    <Compile Include="Assets\App\Agent\Impl\PieceAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\Player.cs" />
     <Compile Include="Assets\App\Agent\Impl\PlayerDeckCollection.cs" />
     <Compile Include="Assets\App\Agent\Impl\PlayerHandCollection.cs" />
     <Compile Include="Assets\App\Agent\IPieceInstance.cs" />
     <Compile Include="Assets\App\Agent\IPlayer.cs" />
-    <Compile Include="Assets\App\Agent\AgentLogger.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\Main\Arbiter.cs" />
@@ -100,7 +96,8 @@
     <Compile Include="Assets\App\Main\IEntity.cs" />
     <Compile Include="Assets\App\Main\IHasId.cs" />
     <Compile Include="Assets\App\Main\IHasName.cs" />
-    <Compile Include="Assets\App\Main\Logger.cs" />
+    <Compile Include="Assets\App\Main\IOwned.cs" />
+    <Compile Include="Assets\App\Main\IOwner.cs" />
     <Compile Include="Assets\App\Main\Response.cs" />
     <Compile Include="Assets\App\Model\EAbility.cs" />
     <Compile Include="Assets\App\Model\ECardType.cs" />
@@ -128,14 +125,11 @@
     <Compile Include="Assets\App\Model\Impl\Piece.cs" />
     <Compile Include="Assets\App\Model\Impl\Player.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
-    <Compile Include="Assets\App\Main\IOwned.cs" />
-    <Compile Include="Assets\App\Main\IOwner.cs" />
     <Compile Include="Assets\App\Model\IPlayer.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUser.cs" />
-    <Compile Include="Assets\App\Model\Logger.cs" />
     <Compile Include="Assets\App\Parameters.cs" />
-    <Compile Include="Assets\App\View\Logger.cs" />
+    <Compile Include="Assets\App\View\LoggingBehavior.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\HelloWorld.cs" />
@@ -318,6 +312,7 @@
     <Compile Include="Assets\External\Flow\IGenerator.cs" />
     <Compile Include="Assets\External\Flow\IGroup.cs" />
     <Compile Include="Assets\External\Flow\IKernel.cs" />
+    <Compile Include="Assets\External\Flow\ILogger.cs" />
     <Compile Include="Assets\External\Flow\Impl\Barrier.cs" />
     <Compile Include="Assets\External\Flow\Impl\BlockingChannel.cs" />
     <Compile Include="Assets\External\Flow\Impl\Break.cs" />
@@ -357,7 +352,6 @@
     <Compile Include="Assets\External\Flow\ITransient.cs" />
     <Compile Include="Assets\External\Flow\ITrigger.cs" />
     <Compile Include="Assets\External\Flow\Logger\ConsoleLogger.cs" />
-    <Compile Include="Assets\External\Flow\Logger\ILogger.cs" />
     <Compile Include="Assets\External\Flow\Logger\Logger.cs" />
     <Compile Include="Assets\External\Flow\Logger\PrettyPrinter.cs" />
     <Compile Include="Assets\External\Flow\Logger\UnityLogger.cs" />
@@ -395,7 +389,6 @@
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
-    <None Include="Assets\App\Main\Readme.md" />
     <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
@@ -981,9 +974,6 @@
       <Project>{587306A4-4476-5AEF-18A4-84A1E4F77EEE}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\App\Main\ILogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

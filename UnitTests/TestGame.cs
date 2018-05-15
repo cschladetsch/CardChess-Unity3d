@@ -67,6 +67,9 @@ namespace App
             StepArbiter(2);
             Trace.WriteLine(Arbiter.Kernel.Root);
 
+            Assert.AreEqual(w.Hand.Cards.Count, 7);
+            Assert.AreEqual(b.Hand.Cards.Count, 7);
+
             Trace.WriteLine(arbiter);
         }
     }
