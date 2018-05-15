@@ -7,13 +7,13 @@ namespace App.Model
         IDeck,
         ICreateWith<Guid, IOwner>
     {
-        public override int MaxCards => 50;
+        public override int MaxCards => Parameters.MinCardsInDeck;
         public IOwner Owner { get; private set; }
 
         public bool Create(Guid a0, IOwner owner)
         {
             Owner = owner;
-            for (var n = 0; n < 50; ++n)
+            for (var n = 0; n < MaxCards; ++n)
             {
                 var tmpl = Database.CardTemplates.GetRandom();
                 var card = Arbiter.Instance.NewCardModel(tmpl, Owner);

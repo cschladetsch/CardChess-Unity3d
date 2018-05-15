@@ -1,7 +1,6 @@
 ﻿namespace App
 {
-    public interface IHasName
+    public interface IHasName : Flow.INamed
     {
-        string Name { get; }
     }
 }

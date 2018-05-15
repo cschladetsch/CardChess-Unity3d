@@ -102,7 +102,7 @@ namespace Adic.Util {
         /// <remarks>
         /// Excludes any type in assemblies from Unity or Mono.
         /// </remarks>
-        /// <param name="typeName">Type name.</param>
+        /// <param name="typeName">LoggingType name.</param>
         /// <returns>The type or NULL.</returns>
         public static Type GetType(string typeName) {
             return GetType(string.Empty, typeName);
@@ -115,7 +115,7 @@ namespace Adic.Util {
         /// Excludes any type in assemblies from Unity or Mono.
         /// </remarks>
         /// <param name="namespaceName">Namespace name.</param>
-        /// <param name="typeName">Type name.</param>
+        /// <param name="typeName">LoggingType name.</param>
         /// <returns>The type or NULL.</returns>
         public static Type GetType(string namespaceName, string typeName) {
             string fullName = null;

@@ -310,7 +310,7 @@ namespace Adic {
         /// <summary>
         /// Register a command for a given type.
         /// </summary>
-        /// <param name="commandType">Type to be registered.</param>
+        /// <param name="commandType">LoggingType to be registered.</param>
         private void RegisterCommand(Type commandType) {
             if (!commandType.IsClass && commandType.IsAssignableFrom(typeof(ICommand))) {
                 throw new CommandException(CommandException.TYPE_NOT_A_COMMAND);

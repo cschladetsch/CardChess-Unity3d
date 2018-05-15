@@ -51,7 +51,7 @@ namespace Adic.Extensions.ContextRoots.Editors {
 
             // Injection type.
             this.editorItem.injectionType = (ContextRoot.MonoBehaviourInjectionType)
-				EditorGUILayout.EnumPopup(new GUIContent("Injection type", "Type of injection on MonoBehaviours."),
+				EditorGUILayout.EnumPopup(new GUIContent("Injection type", "LoggingType of injection on MonoBehaviours."),
                 this.editorItem.injectionType);
 
             // AgentBase injection type name.

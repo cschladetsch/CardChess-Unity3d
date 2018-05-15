@@ -1,5 +1,5 @@
-#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
-﻿using System;
+﻿#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
+ using System;
 using System.Reflection;
 using System.Collections.Generic;
 #if WINRT || NETCORE
@@ -254,7 +254,7 @@ namespace FlyingWormConsole3.LiteNetLib.Utils
 #endif
             if (props == null || propsCount < 0)
             {
-                throw new ArgumentException("Type does not contain acceptable fields");
+                throw new ArgumentException("LoggingType does not contain acceptable fields");
             }
 
             info = new StructInfo(nameHash, propsCount);

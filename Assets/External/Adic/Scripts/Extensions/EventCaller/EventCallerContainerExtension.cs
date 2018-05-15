@@ -153,7 +153,7 @@ namespace Adic {
         /// </summary>
         /// <param name="instances">List of event instances.</param>
         /// <param name="instance">Instance to be bound to.</param>
-        /// <typeparam name="T">Type of the instances.</typeparam>
+        /// <typeparam name="T">LoggingType of the instances.</typeparam>
         protected void BindUnityExtension<T>(List<T> instances, object instance) {
             if (instance is T && !instances.Contains((T) instance)) {
                 instances.Add((T) instance);

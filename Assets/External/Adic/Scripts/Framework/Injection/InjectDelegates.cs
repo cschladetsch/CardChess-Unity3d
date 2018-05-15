@@ -5,7 +5,7 @@ using Adic.Cache;
 
 namespace Adic.Injection {
     /// <summary>
-    /// Type resolution handler.
+    /// LoggingType resolution handler.
     /// </summary>
     /// <param name="source">The source of the event.</param>
     /// <param name="type">Binding type.</param>

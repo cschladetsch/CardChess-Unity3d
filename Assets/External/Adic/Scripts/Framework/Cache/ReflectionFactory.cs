@@ -12,7 +12,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Creates a <see cref="ReflectedClass"/> from a <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">Type from which the reflected class will be created.</param>
+        /// <param name="type">LoggingType from which the reflected class will be created.</param>
         public ReflectedClass Create(Type type) {
             var reflectedClass = new ReflectedClass();
 
@@ -39,7 +39,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Selects the constructor marked with <see cref="InjectAttribute"/> or with the minimum amount of parameters.
         /// </summary>
-        /// <param name="type">Type from which reflection will be resolved.</param>
+        /// <param name="type">LoggingType from which reflection will be resolved.</param>
         /// <returns>The constructor.</returns>
         #pragma warning disable 0618
 		protected ConstructorInfo ResolveConstructor(Type type) {
@@ -160,7 +160,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Resolves the properties that can be injected.
         /// </summary>
-        /// <param name="type">Type from which reflection will be resolved.</param>
+        /// <param name="type">LoggingType from which reflection will be resolved.</param>
         /// <returns>The properties.</returns>
         protected AcessorInfo[] ResolveProperties(Type type) {
             var setters = new List<AcessorInfo>();
@@ -190,7 +190,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Resolves the fields that can be injected.
         /// </summary>
-        /// <param name="type">Type from which reflection will be resolved.</param>
+        /// <param name="type">LoggingType from which reflection will be resolved.</param>
         /// <returns>The fields.</returns>
         protected AcessorInfo[] ResolveFields(Type type) {
             var setters = new List<AcessorInfo>();

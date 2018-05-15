@@ -41,7 +41,7 @@ namespace Adic {
             BaseType
         }
 
-        [Tooltip("Type of injection on MonoBehaviours."), HideInInspector]
+        [Tooltip("LoggingType of injection on MonoBehaviours."), HideInInspector]
         public MonoBehaviourInjectionType injectionType;
         [Tooltip("Name of the base behaviour type to perform scene injection."), HideInInspector]
         public string baseBehaviourTypeName;
@@ -136,7 +136,7 @@ namespace Adic {
         /// <summary>
         /// Adds the specified container.
         /// </summary>
-        /// <param name="parameterTypes">Type of the constructor parameters.</param>
+        /// <param name="parameterTypes">LoggingType of the constructor parameters.</param>
         /// <param name="parameterValues">Construtor parameters values.</param>
         /// <typeparam name="T">Container type.</typeparam>
         /// <returns>The injection container for chaining.</returns>

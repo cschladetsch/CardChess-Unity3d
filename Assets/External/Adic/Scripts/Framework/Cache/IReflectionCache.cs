@@ -19,27 +19,27 @@ namespace Adic.Cache {
         /// <summary>
         /// Adds a type to the cache.
         /// </summary>
-        /// <param name="type">Type to be added.</param>
+        /// <param name="type">LoggingType to be added.</param>
         void Add(Type type);
 
         /// <summary>
         /// Removes a type from the cache.
         /// </summary>
-        /// <param name="type">Type to be removed.</param>
+        /// <param name="type">LoggingType to be removed.</param>
         void Remove(Type type);
 
         /// <summary>
         /// Gets an<see cref="Adic.Cache.IReflectedClass"/> for a certain type.
         /// </summary>
         /// <remarks>If the type being getted doesn't exist, it'll be created.</remarks>
-        /// <param name="type">Type to look for.</param>
+        /// <param name="type">LoggingType to look for.</param>
         /// <returns>The reflected class.</returns>
         ReflectedClass GetClass(Type type);
 
         /// <summary>
         /// Checks whether a cache exists for a certain type.
         /// </summary>
-        /// <param name="type">Type to be removed.</param>
+        /// <param name="type">LoggingType to be removed.</param>
         /// <returns>Boolean.</returns>
         bool Contains(Type type);
 

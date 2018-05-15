@@ -9,7 +9,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Creates a <see cref="ReflectedClass"/> from a <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">Type from which the reflected class will be created.</param>
+        /// <param name="type">LoggingType from which the reflected class will be created.</param>
         ReflectedClass Create(Type type);
     }
 }

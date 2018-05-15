@@ -254,9 +254,9 @@ public class PathBehaviourEditor : UnityEditor.Editor
 
 		GUI.enabled = !pathBehaviour.AutoControlPoints;
 
-		var type = (CubicBezierKnotType) EditorGUILayout.EnumPopup("Type", segment.Type);
+		var type = (CubicBezierKnotType) EditorGUILayout.EnumPopup("LoggingType", segment.Type);
 		if (EditorGUI.EndChangeCheck()) {
-			Undo.RecordObject(pathBehaviour, "Changed Point Type");
+			Undo.RecordObject(pathBehaviour, "Changed Point LoggingType");
 			dirty = true;
 			segment.Type = type;
 			segment.RecalculateControlPoint(true, true);

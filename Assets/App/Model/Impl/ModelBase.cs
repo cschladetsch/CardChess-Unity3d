@@ -9,12 +9,15 @@ namespace App.Model
     public class ModelBase : Flow.Impl.Logger, IModel
     {
         #region Public Fieleds
+        public string Name { get; set; }
         public Guid Id { get; }
         #endregion
 
         #region Protected Methods
         protected ModelBase()
         {
+            Subject = this;
+            LogPrefix = "Model";
             Id = Guid.NewGuid();
         }
         #endregion

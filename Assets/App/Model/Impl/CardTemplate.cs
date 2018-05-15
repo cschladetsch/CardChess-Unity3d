@@ -8,11 +8,11 @@ namespace App.Model
     {
         public Guid Id { get; }
         public ECardType Type { get; }
-        public string Name { get; }
         public string FlavourText { get; }
         public int ManaCost { get; }
         public int Attack { get; }
         public int Health { get; }
+        public string Name { get;}
         public IList<EAbility> Abilities { get; }
 
         public CardTemplate(ECardType type, string name, int manaCost, int attack, int health, IEnumerable<EAbility> abilities = null,

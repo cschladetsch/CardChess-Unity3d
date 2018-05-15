@@ -50,7 +50,7 @@ namespace Adic.Injection {
         /// <remarks>
         /// If the type has multiple instances, please use ResolveAll<T>().
         /// </remarks>
-        /// <typeparam name="T">Type to be resolved.</typeparam>
+        /// <typeparam name="T">LoggingType to be resolved.</typeparam>
         /// <returns>The instance or NULL.</returns>
         public T Resolve<T>() {
             return (T) this.Resolve(typeof(T), InjectionMember.None, null, null, null, false);
@@ -62,7 +62,7 @@ namespace Adic.Injection {
         /// <remarks>
         /// If the type has multiple instances, please use ResolveAll<T>().
         /// </remarks>
-        /// <typeparam name="T">Type to be resolved.</typeparam>
+        /// <typeparam name="T">LoggingType to be resolved.</typeparam>
         /// <param name="identifier">Identifier to look for.</param>
         /// <returns>The instance or NULL.</returns>
         public T Resolve<T>(object identifier) {
@@ -75,7 +75,7 @@ namespace Adic.Injection {
         /// <remarks>
         /// If the type has multiple instances, it will return an IList<[type]>.
         /// </remarks>
-        /// <param name="type">Type to be resolved.</param>
+        /// <param name="type">LoggingType to be resolved.</param>
         /// <returns>The instance or NULL.</returns>
         public object Resolve(Type type) {
             return this.Resolve(type, InjectionMember.None, null, null, null, false);
@@ -108,7 +108,7 @@ namespace Adic.Injection {
         /// <remarks>
         /// If the type has multiple instances, it will return an IList<[type]>.
         /// </remarks>
-        /// <param name="type">Type to be resolved.</param>
+        /// <param name="type">LoggingType to be resolved.</param>
         /// <param name="identifier">Identifier to look for.</param>
         /// <returns>The instance or NULL.</returns>
         public object Resolve(Type type, object identifier) {
@@ -118,7 +118,7 @@ namespace Adic.Injection {
         /// <summary>
         /// Resolves a list of instances for a specified type.
         /// </summary>
-        /// <typeparam name="T">Type to be resolved.</typeparam>
+        /// <typeparam name="T">LoggingType to be resolved.</typeparam>
         /// <returns>The list of instances or NULL if there are no instances.</returns>
         public T[] ResolveAll<T>() {
             return this.ResolveAll<T>(null);
@@ -127,7 +127,7 @@ namespace Adic.Injection {
         /// <summary>
         /// Resolves a list of instances for a specified type with a given identifier.
         /// </summary>
-        /// <typeparam name="T">Type to be resolved.</typeparam>
+        /// <typeparam name="T">LoggingType to be resolved.</typeparam>
         /// <param name="identifier">Identifier to look for.</param>
         /// <returns>The list of instances or NULL if there are no instances.</returns>
         public T[] ResolveAll<T>(object identifier) {
@@ -147,7 +147,7 @@ namespace Adic.Injection {
         /// <summary>
         /// Resolves a list of instances for a specified type.
         /// </summary>
-        /// <param name="type">Type to be resolved.</param>
+        /// <param name="type">LoggingType to be resolved.</param>
         /// <returns>The list of instances or NULL if there are no instances.</returns>
         public object[] ResolveAll(Type type) {
             return this.ResolveAll(type, null);
@@ -165,7 +165,7 @@ namespace Adic.Injection {
         /// <summary>
         /// Resolves a list of instances for a specified type with a given identifier.
         /// </summary>
-        /// <param name="type">Type to be resolved.</param>
+        /// <param name="type">LoggingType to be resolved.</param>
         /// <param name="identifier">Identifier to look for.</param>
         /// <returns>The list of instances or NULL if there are no instances.</returns>
         public object[] ResolveAll(Type type, object identifier) {

@@ -10,7 +10,10 @@ namespace App.Model
 {
     using Action;
 
-    public class Player : ModelBase, IPlayer, ICreateWith<EColor>
+    public class Player :
+        ModelBase,
+        IPlayer,
+        ICreateWith<EColor>
     {
         #region public Fields
         public EColor Color { get; private set; }
@@ -29,7 +32,6 @@ namespace App.Model
         public bool Create(EColor color)
         {
             Color = color;
-            //King = Database.CardTemplates.OfType(ECardType.King);
             return true;
         }
 
@@ -62,7 +64,7 @@ namespace App.Model
             Assert.IsNotNull(Deck);
             Assert.IsTrue(Deck.Cards.Count >= 30);
             Hand = new Hand();
-            foreach (var card in Deck.Cards.Take(7))
+            foreach (var card in Deck.Cards.Take(Parameters.StartHandCardCount))
             {
                 Deck.Remove(card);
                 Hand.Add(card);
@@ -72,21 +74,6 @@ namespace App.Model
         public void AddMaxMana(int mana)
         {
             MaxMana = Mathf.Clamp(MaxMana + mana, 0, Parameters.MaxManaCap);
-        }
-
-        public IFuture<PlayCard> TryPlayCard()
-        {
-            return null;
-        }
-
-        public IFuture<MovePiece> TryMovePiece()
-        {
-            return null;
-        }
-
-        public IFuture<bool> Pass()
-        {
-            return null;
         }
         #endregion
     }

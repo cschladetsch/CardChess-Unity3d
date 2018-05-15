@@ -66,7 +66,7 @@ namespace FlyingWormConsole3.LiteNetLib
                         {
                             DebugWriteForce(
                                 ConsoleColor.Green,
-                                "Interface: {0}, Type: {1}, Ip: {2}, OpStatus: {3}",
+                                "Interface: {0}, LoggingType: {1}, Ip: {2}, OpStatus: {3}",
                                 ni.Name,
                                 ni.NetworkInterfaceType.ToString(),
                                 ip.Address.ToString(),
@@ -90,8 +90,8 @@ namespace FlyingWormConsole3.LiteNetLib
             foreach (HostName localHostName in NetworkInformation.GetHostNames())
             {
                 if (localHostName.IPInformation != null && 
-                    ((ipv4 && localHostName.Type == HostNameType.Ipv4) ||
-                     (ipv6 && localHostName.Type == HostNameType.Ipv6)))
+                    ((ipv4 && localHostName.LoggingType == HostNameType.Ipv4) ||
+                     (ipv6 && localHostName.LoggingType == HostNameType.Ipv6)))
                 {
                     targetList.Add(localHostName.ToString());
                 }

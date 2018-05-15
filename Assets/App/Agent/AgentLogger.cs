@@ -1,4 +1,5 @@
-﻿using Flow;
+﻿using System;
+using Flow;
 
 namespace App.Agent
 {
@@ -12,8 +13,16 @@ namespace App.Agent
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
         public string Name { get; set; }
-        public string Prefix { get { return _log.Prefix; } set { _log.Prefix = value; }}
-        public int Verbosity { get; set; }
+
+        public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
+        public object Subject { get { return _log.Subject; } set { _log.Subject = value; } }
+        public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
+
+        protected AgentLogger()
+        {
+            _log.Subject = this;
+            _log.LogPrefix = "Agent";
+        }
 
         public ITransient Named(string name)
         {
@@ -49,6 +58,6 @@ namespace App.Agent
             _log.Verbose(level, fmt, args);
         }
 
-        private readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
+        protected readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
     }
 }

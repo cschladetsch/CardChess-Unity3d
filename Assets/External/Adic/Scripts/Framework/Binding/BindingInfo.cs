@@ -5,7 +5,7 @@ namespace Adic.Binding {
     /// Represents a binding.
     /// </summary>
     public class BindingInfo {
-        /// <summary>Type from which the binding is bound to.</summary>
+        /// <summary>LoggingType from which the binding is bound to.</summary>
         public Type type { get; private set; }
 
         /// <summary>Value to which the binding is bound to.</summary>
@@ -46,7 +46,7 @@ namespace Adic.Binding {
         /// <summary>
         /// Initializes a new instance of the <see cref="Adic.Binding.BindingInfo"/> class.
         /// </summary>
-        /// <param name="type">Type from which the binding is bound to.</param>
+        /// <param name="type">LoggingType from which the binding is bound to.</param>
         /// <param name="value">Value to which the binding is bound to.</param>
         /// <param name="instanceType">Binding instance type.</param>
         public BindingInfo(Type type, object value, BindingInstance instanceType) : this(type, value, instanceType, null) {
@@ -55,7 +55,7 @@ namespace Adic.Binding {
         /// <summary>
         /// Initializes a new instance of the <see cref="Adic.Binding.BindingInfo"/> class.
         /// </summary>
-        /// <param name="type">Type from which the binding is bound to.</param>
+        /// <param name="type">LoggingType from which the binding is bound to.</param>
         /// <param name="value">Value to which the binding is bound to.</param>
         /// <param name="instanceType">Binding instance type.</param>
         /// <param name="originalBinding">Original binding.</param>
@@ -80,7 +80,7 @@ namespace Adic.Binding {
         /// <returns>This object to string.</returns>
         public override string ToString() {
             return string.Format(
-                "Type: {0}\n" +
+                "LoggingType: {0}\n" +
                 "Bound to: {1} ({2})\n" +
                 "Binding type: {3}\n" +
                 "Identifier: {4}\n" +

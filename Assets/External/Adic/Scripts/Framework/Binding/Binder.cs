@@ -23,7 +23,7 @@ namespace Adic.Binding {
         /// <param name="binding">Binding to be evaluated.</param>
         public delegate bool CanRemoveBindingHandler(BindingInfo binding);
 
-        /// <summary>Type bindings of the binder.</summary>
+        /// <summary>LoggingType bindings of the binder.</summary>
         protected Dictionary<Type, IList<BindingInfo>> typeBindings = new Dictionary<Type, IList<BindingInfo>>();
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Adds a type to the cache.
         /// </summary>
-        /// <param name="type">Type to be added.</param>
+        /// <param name="type">LoggingType to be added.</param>
         public void Add(Type type) {
             if (type == null) {
                 return;
@@ -44,7 +44,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Removes a type from the cache.
         /// </summary>
-        /// <param name="type">Type to be removed.</param>
+        /// <param name="type">LoggingType to be removed.</param>
         public void Remove(Type type) {
             if (this.Contains(type)) {
                 this.classes.Remove(type);
@@ -55,7 +55,7 @@ namespace Adic.Cache {
         /// Gets an<see cref="Adic.Cache.ReflectedClass"/> for a certain type.
         /// </summary>
         /// <remarks>If the type being getted doesn't exist, it'll be created.</remarks>
-        /// <param name="type">Type to look for.</param>
+        /// <param name="type">LoggingType to look for.</param>
         /// <returns>The reflected class.</returns>
         public ReflectedClass GetClass(Type type) {
             if (!this.Contains(type)) {
@@ -68,7 +68,7 @@ namespace Adic.Cache {
         /// <summary>
         /// Checks whether a cache exists for a certain type.
         /// </summary>
-        /// <param name="type">Type to be removed.</param>
+        /// <param name="type">LoggingType to be removed.</param>
         /// <returns>Boolean.</returns>
         public bool Contains(Type type) {
             return this.classes.ContainsKey(type);

@@ -15,7 +15,7 @@ namespace App.Model
         public bool Create(Guid id)
         {
             // TODO: lookup library using guid
-            for (var n = 0; n < 50; ++n)
+            for (var n = 0; n < Parameters.MinCardsInDeck; ++n)
                 Add(Database.CardTemplates.GetRandom());
 
             return true;

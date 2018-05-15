@@ -173,7 +173,7 @@ namespace FlyingWormConsole3.LiteNetLib
             foreach (var endpointPair in task.Result)
             {
                 hostIp = endpointPair.RemoteHostName.CanonicalName;
-                if (endpointPair.RemoteHostName.Type == HostNameType.Ipv4)
+                if (endpointPair.RemoteHostName.LoggingType == HostNameType.Ipv4)
                 {
                     return ParseIpToId(hostIp);
                 }

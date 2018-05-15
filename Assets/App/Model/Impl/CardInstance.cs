@@ -71,6 +71,5 @@ namespace App.Model
         {
             Died?.Invoke(this, this);
         }
-
     }
 }

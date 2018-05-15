@@ -593,7 +593,7 @@ namespace Adic {
         /// <param name="type">The component type.</param>
         /// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
-        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefab(Type, GameObject) instead.")]
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefab(LoggingType, GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, Type type, string name) {
             if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
                 throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);

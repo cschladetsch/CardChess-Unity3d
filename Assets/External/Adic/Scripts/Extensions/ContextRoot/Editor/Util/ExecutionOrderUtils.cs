@@ -9,7 +9,7 @@ namespace Adic.Extensions.ContextRoots.Utils {
         /// <summary>
         /// Sets the script execution order ensuring unique order values.
         /// </summary>
-        /// <param name="type">Type to be set.</param>
+        /// <param name="type">LoggingType to be set.</param>
         /// <param name="order">Order to be set.</param>
         public static int SetScriptExecutionOrder(Type type, int order) {
             return SetScriptExecutionOrder(type, order, true);
@@ -18,7 +18,7 @@ namespace Adic.Extensions.ContextRoots.Utils {
         /// <summary>
         /// Sets the script execution order.
         /// </summary>
-        /// <param name="type">Type to be set.</param>
+        /// <param name="type">LoggingType to be set.</param>
         /// <param name="order">Order to be set.</param>
         /// <param name="unique">Indicates whether the execution order should be unique.</param>
         public static int SetScriptExecutionOrder(Type type, int order, bool unique) {

@@ -35,7 +35,6 @@ namespace App
 
         public Arbiter()
         {
-            //Assert.IsNull(Instance);
             Instance = this;
             Kernel = Create.Kernel();
         }
