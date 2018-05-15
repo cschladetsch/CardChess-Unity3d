@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using App.Model;
-using Flow;
 using UnityEngine.Assertions;
+
+using Flow;
 
 namespace App
 {
@@ -173,7 +173,6 @@ namespace App
         public void GameLoop()
         {
             Root.Add(
-                //New.Log("Main game sequence begins").Named("Log"),
                 New.Sequence(
                     New.Coroutine(StartGame).Named("StartGame"),
                     New.While(() => !_gameOver),
@@ -303,13 +302,13 @@ namespace App
         private IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
         {
             // TODO: show player lost sequence
-            Info("Player {0} lost", loser);
+            Info($"Player {loser.Color} lost");
             //yield return self.After(_view.PlayerLost(loser));
             yield break;
         }
         private IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
         {
-            Info("Player {0} timedout", player);
+            Info($"Player {player.Color} timedout");
             //yield return self.After(_view.PlayerTimedOut(player));
             yield break;
         }
@@ -318,18 +317,18 @@ namespace App
             var current = Board.Model.At(playCard.Coord);
             if (current == null)
             {
-                Info("Card play {0} for player {1} is VALID", playCard, player.Color);
+                Info($"{playCard} for player {player.Color} is VALID");
                 canPlay.Value = true;
                 yield break;
             }
 
-            Info("Card play {0} for player {1} is INVALID", playCard, player.Color);
+            Info("${playCard} for player {player.Color} is INVALID");
             canPlay.Value = false;
         }
         private IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayer player, MovePiece move, IFuture<bool> canMove)
         {
             // TODO: if card can't be moved, show why
-            Info("Move {0} is invalid");
+            Info($"Move {move} is invalid");
             //yield return self.After(_view.InvalidMove(move));
             canMove.Value = false;
             yield break;
@@ -337,13 +336,13 @@ namespace App
         private IEnumerator PlayCardCoro(IGenerator self, PlayCard playCard)
         {
             // TODO: play the card
-            Info("PlayCard: {0}", playCard);
+            Info($"PlayCard: {playCard}");
             //yield return self.After(_view.PlayCard(playCard));
             yield break;
         }
         private IEnumerator MovePieceCoro(IGenerator self, MovePiece move)
         {
-            Info("Move: {0}", move);
+            Info($"Move: {move}");
             //yield return self.After(_view.MovePiece(move));
             yield break;
         }
