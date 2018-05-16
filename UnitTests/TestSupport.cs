@@ -7,6 +7,8 @@ using Flow;
 
 namespace App
 {
+    using Common;
+
     [TestClass]
     public class TestSupport
     {
@@ -63,7 +65,7 @@ namespace App
             Trace.WriteLine(r);
         }
 
-        static IEnumerator PlayerTurn(IGenerator self, App.EColor color)
+        static IEnumerator PlayerTurn(IGenerator self, EColor color)
         {
             Trace.WriteLine($"PlayerTurn: {color}");
             yield return null;

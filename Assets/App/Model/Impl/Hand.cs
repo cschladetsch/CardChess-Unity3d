@@ -2,7 +2,7 @@
 
 namespace App.Model
 {
-    public class Hand : CardCollection<ICardInstance>, IHand
+    public class Hand : Common.CardCollection<ICardInstance>, IHand
     {
         public override int MaxCards => 9;
 

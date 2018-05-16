@@ -2,9 +2,11 @@
 
 namespace App.Model
 {
+    using Common;
+
     public delegate void CardInstanceDelegate(object sender, ICardInstance subject, params ICardInstance[] context);
 
-    public interface ICardInstance : IModel, IOwned, IHasName
+    public interface ICardInstance : IModel, IOwned, IHasName, IHasId
     {
         #region Events
         event CardInstanceDelegate Born;

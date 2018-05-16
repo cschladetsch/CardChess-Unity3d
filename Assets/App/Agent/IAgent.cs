@@ -15,7 +15,7 @@
     /// </summary>
     /// <typeparam name="TModel">The type of the model this agent represents</typeparam>
     public interface IAgent<TModel>
-        : ICreateWith<TModel>, IAgent
+        : Common.ICreateWith<TModel>, IAgent
         where TModel : Model.IModel
     {
         TModel Model { get; }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace App.Model
 {
+    using Common;
+
     /// <summary>
     /// Player in the game.
     /// Hopefully, these could be bots, or remote players as well

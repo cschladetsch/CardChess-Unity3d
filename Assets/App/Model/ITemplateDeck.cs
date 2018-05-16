@@ -1,6 +1,7 @@
 ﻿namespace App.Model
 {
-    /// <inheritdoc />
+    using Common;
+
     /// <summary>
     /// A pre-made deck
     /// </summary>

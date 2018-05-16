@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 namespace App.Model
 {
     using Action;
+    using Common;
 
     public class Player :
         ModelBase,

@@ -4,11 +4,14 @@ using Flow;
 
 namespace App.Agent
 {
+    using Common;
+
     /// <inheritdoc />
     /// <summary>
     /// Agent for a Player. Responsible for change over time.
     /// </summary>
-    public interface IPlayer : IAgent<Model.IPlayer>
+    public interface IPlayer :
+        IAgent<Model.IPlayer>
     {
         #region Properties
         EColor Color { get; }
@@ -16,6 +19,7 @@ namespace App.Agent
         int Health { get; }
         PlayerDeckCollection Deck { get; }
         PlayerHandCollection Hand { get; }
+        //ModelDeckCollection ModelDeck { get; }
         #endregion
 
         #region Methods

@@ -36,5 +36,10 @@
         /// many actions in a turn, and the ordering is important.
         /// </summary>
         public static float GameTurnTimer = 45;
+
+        /// <summary>
+        /// Minimum distance to enemy king when playing a new card to the board
+        /// </summary>
+        public static int EnemyKingClosestPlacement = 4;
     }
 }

@@ -14,9 +14,6 @@ namespace App.Action
             Assert.IsTrue(y >= 0);
             Assert.IsTrue(x < 20);
             Assert.IsTrue(y < 20);
-
-            X = x;
-            Y = y;
         }
 
         public override bool Equals(object obj)
@@ -24,17 +21,17 @@ namespace App.Action
             var c = obj as Coord;
             if (c == null)
                 return false;
-            return X == c.X && Y == c.Y;
+            return x == c.x && y == c.y;
         }
 
         public override int GetHashCode()
         {
-            return (X*137) ^ (Y*199);
+            return (x*137) ^ (y*199);
         }
 
         public override string ToString()
         {
-            return $"X:{X} Y:{Y}";
+            return $"x:{x} y:{y}";
         }
     }
 }

@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -85,24 +84,31 @@
     <Compile Include="Assets\App\Agent\Impl\PlayerHandCollection.cs" />
     <Compile Include="Assets\App\Agent\IPieceInstance.cs" />
     <Compile Include="Assets\App\Agent\IPlayer.cs" />
+    <Compile Include="Assets\App\Arbiter.cs" />
+    <Compile Include="Assets\App\ArbiterGameObject.cs" />
+    <Compile Include="Assets\App\Common\CardCollection.cs" />
+    <Compile Include="Assets\App\Common\CollectionExtentions.cs" />
+    <Compile Include="Assets\App\Common\EAbility.cs" />
+    <Compile Include="Assets\App\Common\ECardType.cs" />
+    <Compile Include="Assets\App\Common\EColor.cs" />
+    <Compile Include="Assets\App\Common\EGameResult.cs" />
+    <Compile Include="Assets\App\Common\Entity.cs" />
+    <Compile Include="Assets\App\Common\IBaseCardCollection.cs" />
+    <Compile Include="Assets\App\Common\ICard.cs" />
+    <Compile Include="Assets\App\Common\ICardCollection.cs" />
+    <Compile Include="Assets\App\Common\ICreateWith.cs" />
+    <Compile Include="Assets\App\Common\IEffect.cs" />
+    <Compile Include="Assets\App\Common\IEntity.cs" />
+    <Compile Include="Assets\App\Common\IHasId.cs" />
+    <Compile Include="Assets\App\Common\IHasName.cs" />
+    <Compile Include="Assets\App\Common\IMountable.cs" />
+    <Compile Include="Assets\App\Common\IOwned.cs" />
+    <Compile Include="Assets\App\Common\IOwner.cs" />
+    <Compile Include="Assets\App\Common\LoggingBehavior.cs" />
+    <Compile Include="Assets\App\Common\Response.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
-    <Compile Include="Assets\App\Main\Arbiter.cs" />
-    <Compile Include="Assets\App\Main\ArbiterGameObject.cs" />
-    <Compile Include="Assets\App\Main\EColor.cs" />
-    <Compile Include="Assets\App\Main\Entity.cs" />
-    <Compile Include="Assets\App\Main\GameRoot.cs" />
-    <Compile Include="Assets\App\Main\ICardCollection.cs" />
-    <Compile Include="Assets\App\Main\ICreateWith.cs" />
-    <Compile Include="Assets\App\Main\IEntity.cs" />
-    <Compile Include="Assets\App\Main\IHasId.cs" />
-    <Compile Include="Assets\App\Main\IHasName.cs" />
-    <Compile Include="Assets\App\Main\IOwned.cs" />
-    <Compile Include="Assets\App\Main\IOwner.cs" />
-    <Compile Include="Assets\App\Main\Response.cs" />
-    <Compile Include="Assets\App\Model\EAbility.cs" />
-    <Compile Include="Assets\App\Model\ECardType.cs" />
-    <Compile Include="Assets\App\Model\EGameResult.cs" />
+    <Compile Include="Assets\App\GameRoot.cs" />
     <Compile Include="Assets\App\Model\IBoard.cs" />
     <Compile Include="Assets\App\Model\ICard.cs" />
     <Compile Include="Assets\App\Model\ICardInstance.cs" />
@@ -114,7 +120,6 @@
     <Compile Include="Assets\App\Model\IHand.cs" />
     <Compile Include="Assets\App\Model\IModel.cs" />
     <Compile Include="Assets\App\Model\Impl\Board.cs" />
-    <Compile Include="Assets\App\Model\Impl\CardCollection.cs" />
     <Compile Include="Assets\App\Model\Impl\CardCollectionDesc.cs" />
     <Compile Include="Assets\App\Model\Impl\CardInstance.cs" />
     <Compile Include="Assets\App\Model\Impl\CardLibrary.cs" />
@@ -123,6 +128,7 @@
     <Compile Include="Assets\App\Model\Impl\Hand.cs" />
     <Compile Include="Assets\App\Model\Impl\Item.cs" />
     <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
+    <Compile Include="Assets\App\Model\Impl\ModelDeckCollection.cs" />
     <Compile Include="Assets\App\Model\Impl\Piece.cs" />
     <Compile Include="Assets\App\Model\Impl\Player.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
@@ -130,7 +136,6 @@
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUser.cs" />
     <Compile Include="Assets\App\Parameters.cs" />
-    <Compile Include="Assets\App\View\LoggingBehavior.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\HelloWorld.cs" />
@@ -390,8 +395,6 @@
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Models\fantasySpider\FSP_ContinuousRotation.cs" />
-    <None Include="Assets\External\Flow\Logger\Readme.md" />
-    <None Include="Assets\External\Flow\Logger\vscoloroutput.json" />
     <None Include="Assets\External\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\External\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />

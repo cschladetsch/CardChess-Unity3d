@@ -2,6 +2,8 @@
 
 namespace App.Model
 {
+    using Common;
+
     /// <summary>
     /// A Persistent user.
     /// </summary>

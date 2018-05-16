@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using App.Action;
 using Flow;
 
 namespace App.Agent
@@ -10,10 +12,27 @@ namespace App.Agent
             yield break;
         }
 
-        public IFuture<bool> NewGame()
+        public void NewGame()
         {
             Model.NewGame();
+        }
+
+        public IGenerator PlaceCard(ICardInstance card, Coord coord)
+        {
+            if (!Model.CanPlaceCard(card, coord))
+                return null;
+            Model.PlaceCard(card, coord);
             return null;
+        }
+
+        public ICardInstance At(Coord coord)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<ICardInstance> AdjacentTo(Coord coord, int dist = 1)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

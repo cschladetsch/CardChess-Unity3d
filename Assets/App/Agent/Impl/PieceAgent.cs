@@ -6,6 +6,8 @@ using Flow;
 
 namespace App.Agent
 {
+    using Common;
+
     /// <summary>
     /// A piece on the board.
     /// Possibly wearing a blue beret.
@@ -17,11 +19,19 @@ namespace App.Agent
         #region Public Fields
         public IOwner Owner => Model.Owner;
         public int Attack => Model.Attack;
+        public string Description => Model.Template.FlavourText;
         public ECardType Type => Model.Template.Type;
         public Coord Coord { get; private set; }
+        public IList<IEffect> Effects { get; } = new List<IEffect>();
         #endregion
 
         #region Public Methods
+
+        public bool SameOwner(IOwner other)
+        {
+            return Owner == other;
+        }
+
         public IFuture<Action.MovePiece> Move()
         {
             throw new System.NotImplementedException();
@@ -52,6 +62,7 @@ namespace App.Agent
         /// <returns></returns>
         public abstract IEnumerable<IPieceInstance> Guards(Coord coord);
         #endregion
+
 
         #endregion
 

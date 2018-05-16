@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
+using App.Common;
+using App.Agent;
+using App.Model;
+
 namespace App
 {
+    using Common;
+
     public class TestGameBase
     {
         /// <summary>

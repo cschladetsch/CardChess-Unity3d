@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace App.Model
 {
+    using Common;
+
     public class CardTemplate : ICardTemplate
     {
         public Guid Id { get; }

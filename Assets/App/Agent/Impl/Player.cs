@@ -3,9 +3,16 @@ using System.Collections;
 using System.Linq;
 using Flow;
 
+#if VS
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using UnityEngine.Assertions;
+#endif
+
 namespace App.Agent
 {
     using Action;
+    using Common;
 
     /// <inheritdoc cref="IPlayer" />
     /// <summary>
@@ -14,7 +21,7 @@ namespace App.Agent
     public class Player :
         AgentBaseCoro<Model.IPlayer>,
         IPlayer,
-        IOwner
+        Common.IOwner
     {
         #region Public Fields
         public EColor Color => Model.Color;
@@ -27,6 +34,7 @@ namespace App.Agent
         #region Startup Methods
         public IFuture<EResponse> NewGame()
         {
+            Info($"{Color}: NewGame");
             Model.NewGame();
             King = Arbiter.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
             return New.Future(EResponse.Ok);
@@ -45,21 +53,20 @@ namespace App.Agent
 
         public IGenerator DrawInitialCards()
         {
-            //TODO Info("DrawCards");
-            var deck = Model.Deck.Cards;
-            var hand = Model.Hand.Cards;
-            foreach (var model in deck.Take(App.Model.Player.StartHandCardCount))
+            Info($"{Color}: Draw Initial Cards");
+            var cards = Deck.Cards.Take(Parameters.StartHandCardCount);
+            foreach (var card in cards)
             {
-                hand.Add(model);
-                deck.Remove(model);
-
-                Deck.Add(NewCardAgent(model));
+                Hand.Add(card);
+                Deck.Remove(card);
             }
+
             return null;
         }
 
         public ITransient Mulligan()
         {
+            Info($"{Color}: Mulligan: do nothing");
             return null;
         }
 
@@ -75,29 +82,37 @@ namespace App.Agent
             return New.Future(EResponse.Ok);
         }
 
+        /// <summary>
+        /// For the moment, will create then immediately set a future
+        /// for the top card on the deck.
+        /// </summary>
+        /// <returns></returns>
         public IFuture<ICardInstance> FutureDrawCard()
         {
             if (Model.Deck.Cards.Count == 0)
             {
-                //Warn("No cards left");
+                Warn($"{Color}: No cards left draw");
                 return null;
             }
 
-            var model = Model.Deck.Cards.First();
-
-            ModelTransferFromDeckToHand(model);
-
-            return New.Future(AddToHand(model));
+            _drawCard?.Complete();
+            _drawCard = New.NamedFuture<ICardInstance>("DrawCard");
+            var card = Deck.DrawTopCard();
+            Hand.Add(card);
+            _drawCard.Value = card;
+            return _drawCard;
         }
 
         public virtual IFuture<PlayCard> FuturePlaceKing()
         {
+            Info($"{Color}: FuturePlaceKing");
             _placeKing?.Complete();
             return _placeKing = New.NamedFuture<PlayCard>("PlaceKing");
         }
 
         public virtual IFuture<PlayCard> FuturePlayCard()
         {
+            Info($"{Color}: FuturePlayCard");
             _playCard?.Complete();
             return _playCard = New.NamedFuture<PlayCard>("PlayCard");
         }
@@ -110,6 +125,7 @@ namespace App.Agent
 
         public IFuture<bool> FutureAcceptCards()
         {
+            Info($"{Color}: FutureAcceptCard");
             _acceptCards?.Complete();
             return _acceptCards = New.NamedFuture<bool>("AcceptCards");
         }
@@ -127,13 +143,13 @@ namespace App.Agent
 
         public void AcceptCards()
         {
-            //Assert.IsNotNull(_acceptCards);
+            Assert.IsNotNull(_acceptCards);
             _acceptCards.Value = true;
         }
 
         public void PlaceKing(Coord coord)
         {
-            //Assert.IsNotNull(_placeKing);
+            Assert.IsNotNull(_placeKing);
             _placeKing.Value = new PlayCard(King, coord);
         }
 
@@ -154,43 +170,33 @@ namespace App.Agent
 
         public void CardPlayed(PlayCard playCard)
         {
-            //Assert.IsNotNull(_playCard);
+            Assert.IsNotNull(_playCard);
             _playCard.Value = playCard;
         }
 
         public void PieceMoved(MovePiece move)
         {
-            //Assert.IsNotNull(_movePiece);
+            Assert.IsNotNull(_movePiece);
             _movePiece.Value = move;
         }
 
         #endregion
 
         #region Private/Protected Methods
-        private void ModelTransferFromDeckToHand(Model.ICardInstance model)
-        {
-            //Assert.IsTrue(Model.Deck.Cards.Contains(model));
-            Model.Deck.Cards.Remove(model);
-            Model.Hand.Add(model);
-        }
 
-        private ICardInstance AddToHand(Model.ICardInstance model)
+        private ICardInstance Add(Model.ICardInstance model)
         {
-            var card = NewCardAgent(model);
+            var card = Arbiter.NewCardAgent(model, this);
             Hand.Add(card);
-            return card;
+            return null;
         }
 
-        private void RemoveFromAgentDeck(Model.ICardInstance model)
+        private void Remove(ICardInstance model)
         {
             var inDeck = Deck.Cards.FirstOrDefault(c => c.Model == model);
-            //Assert.IsNotNull(inDeck);
+            Assert.IsNotNull(inDeck);
             Deck.Remove(inDeck);
-        }
-
-        private ICardInstance NewCardAgent(Model.ICardInstance model)
-        {
-            return Arbiter.NewCardAgent(model, this);
+            Model.Deck.Cards.Remove(Model.Deck.Cards.First(c => c.Template.Id == inDeck.Model.Template.Id));
         }
 
         /// <summary>
@@ -209,6 +215,7 @@ namespace App.Agent
         private IFuture<int> _roll;
         private IFuture<bool> _acceptCards;
         private IFuture<bool> _pass;
+        private IFuture<ICardInstance> _drawCard;
         private IFuture<PlayCard> _placeKing;
         private IFuture<PlayCard> _playCard;
         private IFuture<MovePiece> _movePiece;

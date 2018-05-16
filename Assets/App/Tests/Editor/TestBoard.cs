@@ -4,6 +4,7 @@ using NUnit.Framework;
 namespace App
 {
     using Action;
+    using Common;
 
     [TestFixture]
     public class TestBoard

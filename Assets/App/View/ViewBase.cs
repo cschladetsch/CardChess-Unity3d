@@ -3,6 +3,8 @@ using Flow;
 
 namespace App.View
 {
+    using Common;
+
     /// <summary>
     /// Common for all actors in the game. This is to replace
     /// MonoBehavior and make it more rational, as well as to

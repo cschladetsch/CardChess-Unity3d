@@ -4,6 +4,8 @@ using Flow;
 
 namespace App.Agent
 {
+    using Common;
+
     /// <summary>
     /// An active piece on the Board.
     /// </summary>

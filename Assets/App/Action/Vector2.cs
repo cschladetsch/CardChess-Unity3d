@@ -2,8 +2,8 @@
 {
     public class Vector2
     {
-        public int X;
-        public int Y;
+        public int x;
+        public int y;
 
         public Vector2()
         {
@@ -11,18 +11,18 @@
 
         public Vector2(int x, int y)
         {
-            X = x;
-            Y = y;
+            this.x = x;
+            this.y = y;
         }
 
         public static Vector2 operator +(Vector2 a, Vector2 b)
         {
-            return new Vector2(a.X + b.X, a.Y + b.Y);
+            return new Vector2(a.x + b.x, a.y + b.y);
         }
 
         public static Vector2 operator -(Vector2 a, Vector2 b)
         {
-            return new Vector2(a.X - b.X, a.Y - b.Y);
+            return new Vector2(a.x - b.x, a.y - b.y);
         }
 
         public override bool Equals(object obj)
@@ -33,14 +33,14 @@
 
         protected bool Equals(Vector2 other)
         {
-            return X == other.X && Y == other.Y;
+            return x == other.x && y == other.y;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (X * 397) ^ Y;
+                return (x * 397) ^ y;
             }
         }
     }

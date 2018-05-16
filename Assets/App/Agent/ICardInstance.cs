@@ -2,8 +2,11 @@
 
 namespace App.Agent
 {
-    public interface ICardInstance : IAgent<Model.ICardInstance>, IHasId, IHasName
+    public interface ICardInstance :
+        IAgent<Model.ICardInstance>,
+        Common.ICard,
+        Common.IOwned,
+        Common.IHasName
     {
-        int Health { get; }
     }
 }

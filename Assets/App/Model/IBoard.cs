@@ -2,6 +2,10 @@
 
 namespace App.Model
 {
+    using Action;
+    using Common;
+    using ICard = Agent.ICardInstance;
+
     /// <summary>
     /// The NxN playing board. Typically 6x6, 10x10, or 12x12 (Desktop only)
     /// </summary>
@@ -16,10 +20,16 @@ namespace App.Model
 
         #region Methods
         void NewGame();
-        ICardInstance GetContents(Action.Coord coord);
-        ICardInstance At(Action.Coord coord);
-        bool IsValidCoord(Action.Coord coord);
-        IEnumerable<ICardInstance> GetContents();
+        ICard GetContents(Coord coord);
+        ICard At(Coord coord);
+        bool IsValidCoord(Coord coord);
+        IEnumerable<ICard> GetContents();
+        void PlaceCard(ICard card, Coord coord);
+        bool CanPlaceCard(ICard card, Coord coord);
+        IEnumerable<PlayCard> GetAdjacent(Coord cood, int dist = 1);
+        IEnumerable<ICard> AttackedCards(Coord cood);
+        IEnumerable<ICard> DefendededCards(ICard defender, Coord cood);
+        IEnumerable<ICard> Defenders(Coord cood);
         #endregion
     }
 }

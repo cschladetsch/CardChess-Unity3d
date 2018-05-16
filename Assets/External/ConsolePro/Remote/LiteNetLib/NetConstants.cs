@@ -34,7 +34,7 @@ namespace FlyingWormConsole3.LiteNetLib
 
         public static readonly int[] PossibleMtu =
         {
-            576 - MaxUdpHeaderSize,  //Internet Path MTU for X.25 (RFC 879)
+            576 - MaxUdpHeaderSize,  //Internet Path MTU for x.25 (RFC 879)
             1492 - MaxUdpHeaderSize, //Ethernet with LLC and SNAP, PPPoE (RFC 1042)
             1500 - MaxUdpHeaderSize, //Ethernet II (RFC 1191)
             4352 - MaxUdpHeaderSize, //FDDI

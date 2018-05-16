@@ -4,6 +4,8 @@ using App.Model;
 
 namespace App.Database
 {
+    using Common;
+
     /// <summary>
     /// Options for a card on a board without considering other items etc.
     /// </summary>

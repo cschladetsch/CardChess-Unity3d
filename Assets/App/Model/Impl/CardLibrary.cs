@@ -2,6 +2,8 @@
 
 namespace App.Model
 {
+    using Common;
+
     public class CardLibrary :
         CardCollection<ICardTemplate>,
         ICreateWith<Guid>
@@ -16,7 +18,7 @@ namespace App.Model
         {
             // TODO: lookup library using guid
             for (var n = 0; n < Parameters.MinCardsInDeck; ++n)
-                Add(Database.CardTemplates.GetRandom());
+                Cards.Add(Database.CardTemplates.GetRandom());
 
             return true;
         }

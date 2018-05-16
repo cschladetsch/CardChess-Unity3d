@@ -58,7 +58,7 @@ namespace TMPro.Examples
                 else
                 {
                     // TextMesh Implementation
-                    // Causes crashes since atlas needed exceeds 4096 X 4096
+                    // Causes crashes since atlas needed exceeds 4096 x 4096
                     /*
                     GameObject go = new GameObject("Arial " + i);
 

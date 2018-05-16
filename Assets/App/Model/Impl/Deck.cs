@@ -2,23 +2,31 @@
 
 namespace App.Model
 {
+    using Common;
+
     public class Deck :
         CardCollection<ICardInstance>,
         IDeck,
         ICreateWith<Guid, IOwner>
     {
+        public string Name { get; }
         public override int MaxCards => Parameters.MinCardsInDeck;
+        public bool Add(ICardInstance card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(ICardInstance card)
+        {
+            throw new NotImplementedException();
+        }
+
         public IOwner Owner { get; private set; }
 
         public bool Create(Guid a0, IOwner owner)
         {
             Owner = owner;
-            for (var n = 0; n < MaxCards; ++n)
-            {
-                var tmpl = Database.CardTemplates.GetRandom();
-                var card = Arbiter.Instance.NewCardModel(tmpl, Owner);
-                Cards.Add(card);
-            }
+
             return true;
         }
 
@@ -29,7 +37,12 @@ namespace App.Model
 
         public void NewGame()
         {
-            //Info("Deck.NewGame: TODO");
+            for (var n = 0; n < MaxCards; ++n)
+            {
+                var tmpl = Database.CardTemplates.GetRandom();
+                var card = Arbiter.Instance.NewCardModel(tmpl, Owner);
+                Cards.Add(card);
+            }
         }
 
         public void Shuffle()

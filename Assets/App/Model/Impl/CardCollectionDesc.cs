@@ -2,9 +2,8 @@
 
 namespace App.Model
 {
-    public class CardCollectionDesc : IHasId
+    public class CardCollectionDesc :
+        ModelBase
     {
-        public string Name { get; }
-        public Guid Id { get; }
     }
 }

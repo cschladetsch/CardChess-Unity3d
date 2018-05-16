@@ -2,6 +2,8 @@
 
 namespace App.Model
 {
+    using Common;
+
     public interface ICardTemplate : IHasId, IHasName
     {
         ECardType Type { get; }

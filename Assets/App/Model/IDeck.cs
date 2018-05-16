@@ -2,6 +2,8 @@
 
 namespace App.Model
 {
+    using Common;
+
     /// <inheritdoc />
     /// <summary>
     /// A deck in play in a game
