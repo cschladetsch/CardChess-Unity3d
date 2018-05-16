@@ -30,6 +30,7 @@ namespace App.Model
         IEnumerable<ICard> AttackedCards(Coord cood);
         IEnumerable<ICard> DefendededCards(ICard defender, Coord cood);
         IEnumerable<ICard> Defenders(Coord cood);
+        IEnumerable<Coord> GetMovements(Coord cood);
         #endregion
     }
 }

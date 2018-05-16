@@ -34,5 +34,10 @@ namespace App.Agent
         {
             throw new System.NotImplementedException();
         }
+
+        public IEnumerable<Coord> GetMovements(Coord coord)
+        {
+            return Model.GetMovements(coord);
+        }
     }
 }

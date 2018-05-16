@@ -57,8 +57,10 @@ namespace App.Model
             if (existing == null)
             {
                 // ...unless within 4 squares of enemy king
-                return GetAdjacent(coord, Parameters.EnemyKingClosestPlacement)
-                    .Any(c => c.Card.Type == ECardType.King && !c.Card.SameOwner(card.Owner));
+                var adj = GetAdjacent(coord, Parameters.EnemyKingClosestPlacement).ToArray();
+                return
+                    adj.Length == 0 ||
+                    adj.Any(c => c.Card.Type == ECardType.King && !c.Card.SameOwner(card.Owner));
             }
 
             // this is actually a battle
@@ -113,8 +115,7 @@ namespace App.Model
         {
             for (var y = Max(orig.y - Height, 0); y < Height; ++y)
             {
-                var c = orig + new Coord(orig.x,y);
-                var coord = new Coord(c.x, c.y);
+                var coord = new Coord(orig.x, y);
                 if (!IsValid(coord))
                     continue;
                 if (!Equals(coord, orig))
@@ -122,8 +123,7 @@ namespace App.Model
             }
             for (var x = Max(orig.x - Width, 0); x < Width; ++x)
             {
-                var c = orig + new Coord(x, orig.y);
-                var coord = new Coord(c.x, c.y);
+                var coord = new Coord(x, orig.y);
                 if (!IsValid(coord))
                     continue;
                 if (!Equals(coord, orig))
@@ -133,20 +133,9 @@ namespace App.Model
 
         IEnumerable<Coord> Diagonals(Coord orig)
         {
-            for (int y = orig.y - Height; y < orig.y + Height; ++y)
-            {
-                for (int x = orig.x - Width; x < orig.x + Height; ++x)
-                {
-                    var c = orig + new Coord(x,y);
-                    var coord = new Coord(c.x, c.y);
-                    if (!IsValid(coord))
-                        continue;
-                    if (!Equals(coord, orig))
-                        yield return coord;
-                }
-            }
+            yield break;
         }
-        IDictionary<ECardType, IEnumerator<Coord>> _typeToCoords = new ConcurrentDictionary<ECardType, IEnumerator<Coord>>( );
+
         private IEnumerable<Coord> GetPossibleMovements(ICard card, Coord coord)
         {
             return null;
@@ -191,10 +180,21 @@ namespace App.Model
 
         public void PlaceCard(ICard card, Coord coord)
         {
-            throw new NotImplementedException();
+            _contents[coord.y][coord.x] = card;
         }
 
+        public IEnumerable<Coord> GetMovements(Coord coord)
+        {
+            var card = _contents[coord.y][coord.x];
+            if (card == null)
+                return null;
+            return Diagonals(coord);
+        }
+
+        #region Private Fields
         private List<List<ICard>> _contents;
+        private IDictionary<ECardType, IEnumerator<Coord>> _typeToCoords = new ConcurrentDictionary<ECardType, IEnumerator<Coord>>( );
+        #endregion
     }
 }
 

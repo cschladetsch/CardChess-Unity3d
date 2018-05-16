@@ -11,7 +11,8 @@ namespace App.Agent
     /// Agent for a Player. Responsible for change over time.
     /// </summary>
     public interface IPlayer :
-        IAgent<Model.IPlayer>
+        IAgent<Model.IPlayer>,
+        IOwner
     {
         #region Properties
         EColor Color { get; }

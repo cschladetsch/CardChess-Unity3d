@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using App.Action;
+using App.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace App
@@ -7,6 +8,24 @@ namespace App
     [TestClass]
     public class TestGame : TestGameBase
     {
+        [TestMethod]
+        public void TestArcherMovement()
+        {
+            var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
+            var board = arbiter.Board;
+            var card = arbiter.NewCardAgent(ECardType.Bishop, arbiter.WhitePlayer);
+
+            var coord = new Coord(3,3);
+            board.PlaceCard(card, coord);
+
+            var squares = board.GetMovements(coord);
+            foreach (var s in squares)
+            {
+                Trace.WriteLine(s);
+            }
+
+        }
+
         [TestMethod]
         public void TestPlayKings()
         {

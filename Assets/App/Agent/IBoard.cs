@@ -10,5 +10,6 @@ namespace App.Agent
         IGenerator PlaceCard(ICardInstance card, Coord where);
         ICardInstance At(Coord coord);
         IEnumerable<ICardInstance> AdjacentTo(Coord coord, int dist = 1);
+        IEnumerable<Coord> GetMovements(Coord coord);
     }
 }
