@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace App.Model
 {
@@ -31,6 +32,8 @@ namespace App.Model
         IEnumerable<ICard> DefendededCards(ICard defender, Coord cood);
         IEnumerable<ICard> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
+
+		string ToString(Func<Coord, string> fun);
         #endregion
     }
 }

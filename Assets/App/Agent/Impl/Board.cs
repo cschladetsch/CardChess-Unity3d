@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using App.Action;
 using Flow;
@@ -39,5 +40,15 @@ namespace App.Agent
         {
             return Model.GetMovements(coord);
         }
-    }
+
+		public string ToString(Func<Coord, string> func)
+		{
+			return Model.ToString(func);
+		}
+
+		public override string ToString()
+		{
+			return Model.ToString();
+		}
+	}
 }

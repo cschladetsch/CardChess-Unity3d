@@ -2,25 +2,45 @@
 
 namespace App.Action
 {
-    public class Coord : Vector2
+    public struct Coord
     {
-        public Coord()
+		public int x, y;
+
+        public Coord(int x, int y)
         {
+			this.x = x;
+			this.y = y;
         }
 
-        public Coord(int x, int y) : base(x,y)
+		public static Coord operator +(Coord a, Coord b)
         {
+			return new Coord(a.x + b.x, a.y + b.y);
         }
 
-        public override bool Equals(object obj)
+		public static Coord operator -(Coord a, Coord b)
         {
-            var c = obj as Coord;
-            if (c == null)
-                return false;
-            return x == c.x && y == c.y;
+			return new Coord(a.x - b.x, a.y - b.y);
         }
 
-        public override int GetHashCode()
+		public static bool operator ==(Coord c1, Coord c2)
+        {
+            return c1.Equals(c2);
+        }
+
+		public static bool operator !=(Coord c1, Coord c2)
+        {
+            return !c1.Equals(c2);
+        }
+
+		public override bool Equals(object obj)
+		{
+			if (!(obj is Coord))
+				return false;
+			var c = (Coord)obj;
+			return c.x == x && c.y == y;
+		}
+
+		public override int GetHashCode()
         {
             return (x*137) ^ (y*199);
         }

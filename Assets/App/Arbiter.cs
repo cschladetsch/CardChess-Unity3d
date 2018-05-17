@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+#if UNITY_2018
 using UnityEngine.Assertions;
+#else
+#endif
 
 using Flow;
 
@@ -18,7 +21,7 @@ namespace App
     /// </summary>
     public class Arbiter : Flow.Impl.Logger
     {
-        #region Public Fields
+#region Public Fields
         public static Arbiter Instance;
         public static IKernel Kernel;
         public static INode Root => Kernel.Root;
@@ -27,9 +30,9 @@ namespace App
         public IPlayer BlackPlayer => _players[1];
         public IPlayer CurrentPlayer => _players[_currentPlayer];
         public IBoard Board { get; private set; }
-        #endregion
+#endregion
 
-        #region Public Methods
+#region Public Methods
         public bool CanPlaceKing(Player player, Coord coord)
         {
             //if (!Board.At(coord) != null)
@@ -90,7 +93,7 @@ namespace App
             Kernel.Step();
         }
 
-        #region Creation Methods
+#region Creation Methods
         public TModel NewModel<TModel>()
             where TModel : class, ICreateWith, new()
         {
@@ -176,10 +179,10 @@ namespace App
             return entity;
         }
 
-        #endregion
-        #endregion
+#endregion
+#endregion
 
-        #region Private Methods
+#region Private Methods
         public void GameLoop()
         {
             Root.Add(
@@ -354,14 +357,14 @@ namespace App
             //yield return self.After(_view.MovePiece(move));
             yield break;
         }
-        #endregion
+#endregion
 
-        #region Private Fields
+#region Private Fields
         private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
         private int _currentPlayer;
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
         private bool _gameOver;
-        #endregion
+#endregion
     }
 }

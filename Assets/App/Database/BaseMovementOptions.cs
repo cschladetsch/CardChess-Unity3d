@@ -13,7 +13,7 @@ namespace App.Database
     {
         public IEnumerable<Coord> Options;
 
-        public BaseMovementOptions(ECardType type, Vector2 start, Model.IBoard board)
+        public BaseMovementOptions(ECardType type, Coord start, Model.IBoard board)
         {
             _start = start;
             _board = board;
@@ -22,22 +22,21 @@ namespace App.Database
         }
 
         #region Private Fields
-        private static readonly Vector2[] KingOffsets =
+		private static readonly Coord[] KingOffsets =
         {
-            new Vector2(-1, 0),
-            new Vector2(-1, 1),
-            new Vector2(0, 1),
-            new Vector2(1, 1),
-            new Vector2(1, 0),
-            new Vector2(1, -1),
-            new Vector2(0, -1),
-            new Vector2(-1, -1),
-            new Vector2(-1, -1),
+			new Coord(-1, 0),
+			new Coord(-1, 1),
+			new Coord(0, 1),
+			new Coord(1, 1),
+			new Coord(1, 0),
+			new Coord(1, -1),
+			new Coord(0, -1),
+			new Coord(-1, -1),
         };
 
-        private Vector2 _start;
+		private Coord _start;
         private Model.IBoard _board;
-        private static Dictionary<ECardType, IList<Vector2>> _potentials;
+		private static Dictionary<ECardType, IList<Coord>> _potentials;
         #endregion
     }
 }

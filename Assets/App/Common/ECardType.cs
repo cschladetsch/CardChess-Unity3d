@@ -2,11 +2,11 @@
 {
     public enum ECardType
     {
-        Peon,
+        Paladin,
         King,
         Queen,
         Castle,
-        Bishop,
+        Archer,
         Gryphon,
         Barricade,
         Siege,

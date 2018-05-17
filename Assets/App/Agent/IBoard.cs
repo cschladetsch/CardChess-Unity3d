@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using App.Action;
 using Flow;
 
@@ -11,5 +12,6 @@ namespace App.Agent
         ICardInstance At(Coord coord);
         IEnumerable<ICardInstance> AdjacentTo(Coord coord, int dist = 1);
         IEnumerable<Coord> GetMovements(Coord coord);
+		string ToString(Func<Coord, string> fun);
     }
 }

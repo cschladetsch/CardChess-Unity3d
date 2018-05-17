@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using App.Action;
 using App.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,20 +10,25 @@ namespace App
     [TestClass]
     public class TestGame : TestGameBase
     {
-        [TestMethod]
-        public void TestArcherMovement()
-        {
-            var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
-            var board = arbiter.Board;
-            var card = arbiter.NewCardAgent(ECardType.Bishop, arbiter.WhitePlayer);
+		[TestMethod]
+		public void TestArcherMovement()
+		{
+			var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
+			var board = arbiter.Board;
+			var card = arbiter.NewCardAgent(ECardType.Archer, arbiter.WhitePlayer);
 
-            var coord = new Coord(3,3);
-            board.PlaceCard(card, coord);
+			var coord = new Coord(3, 3);
+			board.PlaceCard(card, coord);
 
-            var squares = board.GetMovements(coord);
+			var squares = board.GetMovements(coord);
+			Trace.WriteLine("Start");
+			Trace.WriteLine(board.ToString());
+			Trace.WriteLine(board.ToString((c) => squares.Contains(c) ? " x " : "   "));
+
             foreach (var s in squares)
             {
                 Trace.WriteLine(s);
+				System.Console.WriteLine(s);
             }
 
         }
