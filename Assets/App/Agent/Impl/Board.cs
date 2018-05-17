@@ -24,8 +24,7 @@ namespace App.Agent
         {
             if (!Model.CanPlaceCard(card, coord))
                 return null;
-            Model.PlaceCard(card, coord);
-            return null;
+            return New.Do(() => Model.PlaceCard(card, coord));
         }
 
         public ICardInstance At(Coord coord)

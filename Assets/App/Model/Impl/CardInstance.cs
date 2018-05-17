@@ -9,7 +9,9 @@ namespace App.Model
 {
     using Common;
 
-    public class CardInstance : ModelBase, ICardInstance
+    public class CardInstance :
+        ModelBase,
+        ICardInstance
     {
         public CardInstance(ICardTemplate template, IOwner owner)
         {

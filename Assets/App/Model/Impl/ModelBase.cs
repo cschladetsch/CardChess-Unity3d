@@ -2,28 +2,35 @@ using System;
 
 namespace App.Model
 {
-    /// <inheritdoc />
+    using Common;
+
     /// <summary>
     /// Common for all Models
     /// </summary>
-    public class ModelBase : Flow.Impl.Logger, IModel
+    [Persistent]
+    public class ModelBase :
+        Flow.Impl.Logger,
+        IModel,
+        ICreateWith<IOwner>
     {
-        #region Public Fieleds
         public string Name { get; set; }
-        public Guid Id { get; }
-        #endregion
+        public Guid Id { get; private set; }
+        public Common.IOwner Owner { get; private set; }
 
-        #region Protected Methods
+        public bool Create(IOwner a0)
+        {
+            Id = Guid.NewGuid();
+            Owner = a0;
+            return true;
+        }
+
         protected ModelBase()
         {
             Subject = this;
             LogPrefix = "Model";
             Id = Guid.NewGuid();
         }
-        #endregion
 
-        #region Protected Fields
         protected Arbiter Arbiter => Arbiter.Instance;
-        #endregion
     }
 }

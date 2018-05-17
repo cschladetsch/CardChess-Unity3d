@@ -9,7 +9,6 @@ namespace App.Model
         IDeck,
         ICreateWith<Guid, IOwner>
     {
-        public string Name { get; }
         public override int MaxCards => Parameters.MinCardsInDeck;
         public bool Add(ICardInstance card)
         {

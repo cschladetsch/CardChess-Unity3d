@@ -14,7 +14,7 @@ namespace App.Agent
         public override bool Create(TModel a0)
         {
             base.Create(a0);
-            _coro = New.Coroutine(Next);
+            Coro = New.Coroutine(Next);
             return Construct();
         }
 
@@ -26,6 +26,6 @@ namespace App.Agent
         protected abstract IEnumerator Next(IGenerator self);
 
         protected IFactory New => Arbiter.Kernel.Factory;
-        protected IGenerator _coro;
+        protected IGenerator Coro;
     }
 }

@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -56,6 +57,12 @@
     <Reference Include="UnityEditor">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="ZeroFormatter, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ZeroFormatter.1.6.4\lib\net45\ZeroFormatter.dll</HintPath>
+    </Reference>
+    <Reference Include="ZeroFormatter.Interfaces, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ZeroFormatter.Interfaces.1.6.4\lib\net45\ZeroFormatter.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\App\Action\ActionBase.cs" />
@@ -85,7 +92,6 @@
     <Compile Include="Assets\App\Agent\IPlayer.cs" />
     <Compile Include="Assets\App\Arbiter.cs" />
     <Compile Include="Assets\App\ArbiterGameObject.cs" />
-    <Compile Include="Assets\App\Common\CardCollection.cs" />
     <Compile Include="Assets\App\Common\CollectionExtentions.cs" />
     <Compile Include="Assets\App\Common\EAbility.cs" />
     <Compile Include="Assets\App\Common\ECardType.cs" />
@@ -127,13 +133,14 @@
     <Compile Include="Assets\App\Model\Impl\Hand.cs" />
     <Compile Include="Assets\App\Model\Impl\Item.cs" />
     <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
-    <Compile Include="Assets\App\Model\Impl\ModelDeckCollection.cs" />
+    <Compile Include="Assets\App\Model\Impl\Persistent.cs" />
     <Compile Include="Assets\App\Model\Impl\Piece.cs" />
     <Compile Include="Assets\App\Model\Impl\Player.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\IPlayer.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUser.cs" />
+    <Compile Include="Assets\App\Model\Registry.cs" />
     <Compile Include="Assets\App\Parameters.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsSetup\BindingPriority.cs" />
@@ -394,6 +401,7 @@
     <None Include="Assets\External\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
     <None Include="Assets\External\colib\colib\License.txt" />
     <None Include="Assets\External\Adic\LICENSE.txt" />
+    <None Include="packages.config" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/christian/src/Chess2/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

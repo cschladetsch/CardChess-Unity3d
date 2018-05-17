@@ -259,6 +259,7 @@ namespace App.Model
 
         public void PlaceCard(ICard card, Coord coord)
         {
+            Info("Board: Placed {card.Owner.Color} {card} at {coord}");
             _contents[coord.y][coord.x] = card;
         }
 
@@ -272,7 +273,6 @@ namespace App.Model
 
         #region Private Fields
         private List<List<ICard>> _contents;
-        private IDictionary<ECardType, IEnumerator<Coord>> _typeToCoords = new ConcurrentDictionary<ECardType, IEnumerator<Coord>>();
         #endregion
     }
 }

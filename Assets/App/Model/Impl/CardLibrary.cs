@@ -1,25 +1,54 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace App.Model
 {
     using Common;
 
-    public class CardLibrary :
-        CardCollection<ICardTemplate>,
+    /// <summary>
+    /// All cards owned by a player
+    /// </summary>
+    public abstract class CardLibrary :
+        ModelBase,
+        ICardCollection<ICardTemplate>,
         ICreateWith<Guid>
     {
-        public override int MaxCards => 1000;
+        public int MaxCards => int.MaxValue;
 
-        public CardLibrary()
+        public IList<ICardTemplate> Cards { get; } = new List<ICardTemplate>();
+
+        public bool Add(ICardInstance card)
         {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(ICardInstance card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Add(ICardTemplate card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(ICardTemplate card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Has(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICardTemplate Get(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Create(Guid id)
         {
-            // TODO: lookup library using guid
-            for (var n = 0; n < Parameters.MinCardsInDeck; ++n)
-                Cards.Add(Database.CardTemplates.GetRandom());
-
             return true;
         }
     }

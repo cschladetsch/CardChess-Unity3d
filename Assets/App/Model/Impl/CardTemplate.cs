@@ -6,7 +6,7 @@ namespace App.Model
 {
     using Common;
 
-    public class CardTemplate : ICardTemplate
+    public class CardTemplate : ModelBase, ICardTemplate
     {
         public Guid Id { get; }
         public ECardType Type { get; }

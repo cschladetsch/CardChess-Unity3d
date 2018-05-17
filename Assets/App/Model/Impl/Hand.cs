@@ -9,6 +9,7 @@ namespace App.Model
         public void NewGame()
         {
             Cards.Clear();
+            //var cards = OwParameters.StartHandCardCount)
         }
 
         public void RemoveRandom()

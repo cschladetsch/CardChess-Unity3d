@@ -15,12 +15,10 @@ namespace App.Agent
         IOwner
     {
         #region Properties
-        EColor Color { get; }
         ICardInstance King { get; }
         int Health { get; }
         PlayerDeckCollection Deck { get; }
         PlayerHandCollection Hand { get; }
-        //ModelDeckCollection ModelDeck { get; }
         #endregion
 
         #region Methods

@@ -13,7 +13,6 @@ namespace App.Model
     public interface IPlayer : IModel, IOwner
     {
         #region Properties
-        EColor Color { get; }
         int MaxMana { get; }
         int Mana { get; }
         int Health { get; }

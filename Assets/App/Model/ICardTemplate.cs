@@ -4,7 +4,7 @@ namespace App.Model
 {
     using Common;
 
-    public interface ICardTemplate : IHasId, IHasName
+    public interface ICardTemplate : IHasId, IHasName, IOwned
     {
         ECardType Type { get; }
         string FlavourText { get; }

@@ -44,10 +44,10 @@ namespace App.Model
 
         public void NewGame()
         {
-            Deck.NewGame();
             MaxMana = 0;
+            Deck.NewGame();
+            Hand.NewGame();
             King = CardTemplates.New("King", this);
-            Hand = new Hand();
         }
 
         public void ChangeMana(int change)
@@ -60,11 +60,11 @@ namespace App.Model
             MaxMana = Mathf.Clamp(0, 12, Mana + change);
         }
 
-        public void MockMakeHand()
+        public void DrawHand()
         {
             Assert.IsNotNull(Deck);
             Assert.IsTrue(Deck.Cards.Count >= 30);
-            Hand = new Hand();
+            Hand = Arbiter.NewModel<Hand>(this);
             foreach (var card in Deck.Cards.Take(Parameters.StartHandCardCount))
             {
                 Deck.Remove(card);

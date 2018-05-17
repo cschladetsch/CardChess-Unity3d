@@ -36,7 +36,6 @@ namespace App.Agent
         {
             Info($"{Color}: NewGame");
             Model.NewGame();
-            King = Arbiter.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
             return New.Future(EResponse.Ok);
         }
 
@@ -48,6 +47,8 @@ namespace App.Agent
         public ITransient StartGame()
         {
             Info($"{Color}: Start Game");
+            King = Arbiter.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
+
             return null;
         }
 
@@ -150,6 +151,8 @@ namespace App.Agent
         public void PlaceKing(Coord coord)
         {
             Assert.IsNotNull(_placeKing);
+            var gen = Arbiter.Board.PlaceCard(King, coord);
+
             _placeKing.Value = new PlayCard(King, coord);
         }
 
