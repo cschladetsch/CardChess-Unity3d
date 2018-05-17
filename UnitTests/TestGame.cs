@@ -10,27 +10,21 @@ namespace App
     [TestClass]
     public class TestGame : TestGameBase
     {
-		[TestMethod]
-		public void TestArcherMovement()
-		{
-			var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
-			var board = arbiter.Board;
-			var card = arbiter.NewCardAgent(ECardType.Archer, arbiter.WhitePlayer);
+        [TestMethod]
+        public void TestArcherMovement()
+        {
+            var arbiter = RandomBasicSetup<MockWhitePlayer, MockBlackPlayer>();
+            var board = arbiter.Board;
+            var card = arbiter.NewCardAgent(ECardType.Archer, arbiter.WhitePlayer);
 
-			var coord = new Coord(3, 3);
-			board.PlaceCard(card, coord);
-
-			var squares = board.GetMovements(coord);
-			Trace.WriteLine("Start");
-			Trace.WriteLine(board.ToString());
-			Trace.WriteLine(board.ToString((c) => squares.Contains(c) ? " x " : "   "));
-
-            foreach (var s in squares)
-            {
-                Trace.WriteLine(s);
-				System.Console.WriteLine(s);
-            }
-
+            var coord = new Coord(3, 3);
+            board.PlaceCard(card, coord);
+            var squares = board.GetMovements(coord);
+            var cc = board.CardToRep(card);
+            var dd = board.CardToRep(null);
+            var text = board.ToString(
+                (c) => squares.Contains(c) ? "x " : $"{board.CardToRep(board.At(c))}");
+            Trace.WriteLine(text);
         }
 
         [TestMethod]

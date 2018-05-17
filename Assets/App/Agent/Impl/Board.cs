@@ -6,6 +6,8 @@ using Flow;
 
 namespace App.Agent
 {
+    using Common;
+
     public class Board : AgentBaseCoro<Model.IBoard>, IBoard
     {
         protected override IEnumerator Next(IGenerator self)
@@ -28,12 +30,12 @@ namespace App.Agent
 
         public ICardInstance At(Coord coord)
         {
-            throw new System.NotImplementedException();
+            return Model.At(coord);
         }
 
-        public IEnumerable<ICardInstance> AdjacentTo(Coord coord, int dist = 1)
+        public IEnumerable<PlayCard> AdjacentTo(Coord coord, int dist = 1)
         {
-            throw new System.NotImplementedException();
+            return Model.GetAdjacent(coord, dist);
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
@@ -41,14 +43,19 @@ namespace App.Agent
             return Model.GetMovements(coord);
         }
 
-		public string ToString(Func<Coord, string> func)
-		{
-			return Model.ToString(func);
-		}
+        public string ToString(Func<Coord, string> func)
+        {
+            return Model.ToString(func);
+        }
 
-		public override string ToString()
-		{
-			return Model.ToString();
-		}
-	}
+        public string CardToRep(ICardInstance card)
+        {
+            return Model.CardToRep(card);
+        }
+
+        public override string ToString()
+        {
+            return Model.ToString();
+        }
+    }
 }

@@ -10,8 +10,9 @@ namespace App.Agent
         void NewGame();
         IGenerator PlaceCard(ICardInstance card, Coord where);
         ICardInstance At(Coord coord);
-        IEnumerable<ICardInstance> AdjacentTo(Coord coord, int dist = 1);
+        IEnumerable<PlayCard> AdjacentTo(Coord coord, int dist = 1);
         IEnumerable<Coord> GetMovements(Coord coord);
 		string ToString(Func<Coord, string> fun);
+        string CardToRep(ICardInstance card);
     }
 }

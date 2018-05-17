@@ -34,6 +34,8 @@ namespace App.Model
         IEnumerable<Coord> GetMovements(Coord cood);
 
 		string ToString(Func<Coord, string> fun);
+        string CardToRep(ICard card);
+
         #endregion
     }
 }

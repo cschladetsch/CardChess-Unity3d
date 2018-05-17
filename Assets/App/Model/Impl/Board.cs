@@ -132,97 +132,79 @@ namespace App.Model
             }
         }
 
-		IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
-		{
-			for (int n = 1; n < Max(Width, Height); ++n)
-			{
-				var x = n * dx;	
-				var y = n * dy;
-				var d = new Coord(x, y);
-				var c = orig + d;
-				if (!IsValid(c))
-					continue;
-				yield return c;
-			}
-		}
+        IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
+        {
+            for (int n = 1; n < Max(Width, Height); ++n)
+            {
+                var x = n * dx;
+                var y = n * dy;
+                var d = new Coord(x, y);
+                var c = orig + d;
+                if (!IsValid(c))
+                    continue;
+                yield return c;
+            }
+        }
 
         IEnumerable<Coord> Diagonals(Coord orig)
         {
-			for (int dx = -1; dx < 2; dx++)
-			{
-				if (dx == 0) continue;
-				for (int dy = -1; dy < 2; dy++)
-				{
-					if (dy == 0) continue;
-					foreach (var c in TestCoords(orig, dx, dy))
-						yield return c;
-				}
-			}
-			yield break;
+            for (int dx = -1; dx < 2; dx++)
+            {
+                if (dx == 0) continue;
+                for (int dy = -1; dy < 2; dy++)
+                {
+                    if (dy == 0) continue;
+                    foreach (var c in TestCoords(orig, dx, dy))
+                        yield return c;
+                }
+            }
+            yield break;
         }
 
-		public string ToString(Func<Coord, string> fun)
-		{
-			var sb = new StringBuilder();
-			for (int y = Height -1; y >= 0; --y)
-			{
-				sb.Append($" {y}:");
+        public string ToString(Func<Coord, string> fun)
+        {
+            var sb = new StringBuilder();
+            for (int y = Height - 1; y >= 0; --y)
+            {
+                // vertical axis
+                sb.Append($" {y}:");
 
-				for (int x = 0; x < Width; ++x)
-				{
-					sb.Append($" {fun(new Coord(x,y))} ");
-				}
-				sb.AppendLine();
-				if (y == 0)
+                // horizontal cards
+                for (int x = 0; x < Width; ++x)
                 {
+                    var a = $"{fun(new Coord(x, y))}";
+                    //Assert.AreEqual(2, a.Length);
+                    sb.Append(a);
+                }
+                sb.AppendLine();
+                if (y == 0)
+                {
+                    // write the bottom axis
                     sb.Append("   ");
                     for (int x = 0; x < Width; ++x)
-                        sb.Append($" {x} ");
+                        sb.Append($"{x} ");
                 }
-			}
-			return sb.ToString();
-		}
+            }
+            return sb.ToString();
+        }
 
-		public override string ToString()
-		{
-			return ToString((c) => 
-			{
+        public string CardToRep(ICard card)
+        {
+            if (card == null) return "  ";
+            var ch = $"{card.Model.Template.Type.ToString()[0]} ";
+            return ch;
+        }
+
+        public override string ToString()
+        {
+            return ToString((c) =>
+            {
                 var card = At(c);
                 if (card == null)
-                    return "   ";
-                var letter = card.Model.Template.Type.ToString()[0];
-                return $" {letter} ";
-			});
-		}
-
-		public string ToString(IEnumerable<Coord> coords, Func<string, Coord> fun)
-		{
-			var sb = new StringBuilder();
-			for (int y = Height - 1; y >= 0; --y)
-			{
-				sb.Append($" {y}:");
-
-				if (y == 0)
-				{
-					sb.Append("   ");
-					for (int x = 0; x < Width; ++x)
-						sb.Append($" {x} ");
-				}
-
-				for (int x = 0; x < Width; ++x)
-				{
-					var card = At(x, y);
-					if (card == null)
-					{
-						sb.Append("   ");
-					}
-					var letter = card.Model.Template.Type.ToString()[0];
-					sb.Append($" {letter} ");
-				}
-				sb.AppendLine();
-			}
-			return sb.ToString();
-		}
+                    return "  ";
+                return CardToRep(card);
+            });
+        }
 
         private IEnumerable<Coord> GetPossibleMovements(ICard card, Coord coord)
         {
@@ -254,16 +236,16 @@ namespace App.Model
             var valid = IsValidCoord(coord);
             Assert.IsTrue(valid);
             return !valid ? null : _contents[coord.y][coord.x];
-		}
+        }
 
-		public ICard At(int x, int y)
-		{
-			if (x < 0 || y < 0)
-				return null;
-			if (x >= Width || y >= Height)
-				return null;
-			return _contents[y][x];
-		}
+        public ICard At(int x, int y)
+        {
+            if (x < 0 || y < 0)
+                return null;
+            if (x >= Width || y >= Height)
+                return null;
+            return _contents[y][x];
+        }
 
         public bool IsValidCoord(Coord coord)
         {
@@ -290,7 +272,7 @@ namespace App.Model
 
         #region Private Fields
         private List<List<ICard>> _contents;
-        private IDictionary<ECardType, IEnumerator<Coord>> _typeToCoords = new ConcurrentDictionary<ECardType, IEnumerator<Coord>>( );
+        private IDictionary<ECardType, IEnumerator<Coord>> _typeToCoords = new ConcurrentDictionary<ECardType, IEnumerator<Coord>>();
         #endregion
     }
 }
