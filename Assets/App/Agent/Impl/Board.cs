@@ -8,7 +8,9 @@ namespace App.Agent
 {
     using Common;
 
-    public class Board : AgentBaseCoro<Model.IBoard>, IBoard
+    public class Board :
+        AgentBaseCoro<Model.IBoard>,
+        IBoard
     {
         protected override IEnumerator Next(IGenerator self)
         {
@@ -20,14 +22,14 @@ namespace App.Agent
             Model.NewGame();
         }
 
-        public IGenerator PlaceCard(ICardInstance card, Coord coord)
+        public IGenerator PlaceCard(ICard card, Coord coord)
         {
             if (!Model.CanPlaceCard(card, coord))
                 return null;
             return New.Do(() => Model.PlaceCard(card, coord));
         }
 
-        public ICardInstance At(Coord coord)
+        public ICard At(Coord coord)
         {
             return Model.At(coord);
         }
@@ -47,7 +49,7 @@ namespace App.Agent
             return Model.ToString(func);
         }
 
-        public string CardToRep(ICardInstance card)
+        public string CardToRep(ICard card)
         {
             return Model.CardToRep(card);
         }

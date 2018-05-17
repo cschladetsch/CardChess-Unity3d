@@ -10,7 +10,7 @@
         /// </summary>
         public static int StartHandCardCount = 6;
 
-        public static int MaxHandCount = 10;
+        public static int MaxCardsInHand = 10;
 
         public static int MaxCardsInDeck = 60;
 

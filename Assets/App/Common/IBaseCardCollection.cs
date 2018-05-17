@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace App.Common
 {
-    interface IBaseCardCollection<TCard> where TCard : class, IHasId, IHasName
+    public interface ICardCollection<TCard>
+        where TCard : class, IHasId, IHasName, IOwned
     {
         int MaxCards { get; }
-        IList<TCard> Cards { get; }
+        IEnumerable<TCard> Cards { get; }
+        int NumCards { get; }
+        bool Empty { get; }
+        bool Maxxed { get; }
+
+        bool Add(TCard card);
+        bool Remove(TCard card);
     }
 }

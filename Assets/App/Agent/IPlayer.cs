@@ -6,19 +6,18 @@ namespace App.Agent
 {
     using Common;
 
-    /// <inheritdoc />
     /// <summary>
-    /// Agent for a Player. Responsible for change over time.
+    /// Agent for a Player. Responsible for reacting to changes in Model state.
     /// </summary>
     public interface IPlayer :
         IAgent<Model.IPlayer>,
         IOwner
     {
         #region Properties
-        ICardInstance King { get; }
+        ICard King { get; }
         int Health { get; }
-        PlayerDeckCollection Deck { get; }
-        PlayerHandCollection Hand { get; }
+        IDeck Deck { get; }
+        IHand Hand { get; }
         #endregion
 
         #region Methods
@@ -33,7 +32,7 @@ namespace App.Agent
         #endregion
 
         #region Turn Options
-        IFuture<ICardInstance> FutureDrawCard();
+        IFuture<ICard> FutureDrawCard();
         IFuture<PlayCard> FuturePlaceKing();
         IFuture<bool> FutureAcceptCards();
         IFuture<PlayCard> FuturePlayCard();

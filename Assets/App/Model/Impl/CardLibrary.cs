@@ -15,14 +15,17 @@ namespace App.Model
     {
         public int MaxCards => int.MaxValue;
 
-        public IList<ICardTemplate> Cards { get; } = new List<ICardTemplate>();
+        public IEnumerable<ICardTemplate> Cards => cards;
+        public int NumCards { get; }
+        public bool Empty => cards.Count == 0;
+        public bool Maxxed => cards.Count == MaxCards;
 
-        public bool Add(ICardInstance card)
+        public bool Add(ICard card)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(ICardInstance card)
+        public bool Remove(ICard card)
         {
             throw new NotImplementedException();
         }
@@ -51,5 +54,7 @@ namespace App.Model
         {
             return true;
         }
+
+        protected IList<ICardTemplate> cards = new List<ICardTemplate>();
     }
 }

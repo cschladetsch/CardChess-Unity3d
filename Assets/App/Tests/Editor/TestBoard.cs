@@ -58,10 +58,10 @@ namespace App
             Assert.IsNotNull(m0.Deck.Cards);
             Assert.AreSame(p0.Model, m0);
 
-            Assert.AreEqual(Parameters.StartHandCardCount, p0.Model.Hand.Cards.Count);
-            Assert.AreEqual(Parameters.StartHandCardCount, p1.Model.Hand.Cards.Count);
-            Assert.AreEqual(Parameters.MaxCardsInDeck - Parameters.StartHandCardCount, d0.Cards.Count);
-            Assert.AreEqual(Parameters.MaxCardsInDeck - Parameters.StartHandCardCount, d1.Cards.Count);
+            Assert.AreEqual(Parameters.StartHandCardCount, p0.Model.Hand.NumCards);
+            Assert.AreEqual(Parameters.StartHandCardCount, p1.Model.Hand.NumCards);
+            Assert.AreEqual(Parameters.MaxCardsInDeck - Parameters.StartHandCardCount, d0.NumCards);
+            Assert.AreEqual(Parameters.MaxCardsInDeck - Parameters.StartHandCardCount, d1.NumCards);
         }
     }
 }

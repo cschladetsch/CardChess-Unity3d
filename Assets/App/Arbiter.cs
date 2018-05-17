@@ -149,20 +149,21 @@ namespace App
             return agent;
         }
 
-        public Model.ICardInstance NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
+        public Model.ICard NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
         {
-            return new Model.CardInstance(tmpl, owner);
+            return new Model.Card(tmpl, owner);
         }
 
-        public ICardInstance NewCardAgent(Model.ICardTemplate template, IOwner owner)
+        public Agent.ICard NewCardAgent(Model.ICardTemplate template, IOwner owner)
         {
             var cardInstance = Database.CardTemplates.New(template.Id, owner);
-            return NewAgent<CardInstance, Model.ICardInstance>(cardInstance);
+            // TODOreturn NewAgent<CardAgent, Model.ICard>(cardInstance);
+            return null;
         }
 
-        public ICardInstance NewCardAgent(Model.ICardInstance model, IOwner owner) => NewCardAgent(model.Template, owner);
+        public Agent.ICard NewCardAgent(Model.ICard model, IOwner owner) => NewCardAgent(model.Template, owner);
 
-        public ICardInstance NewCardAgent(ECardType type, IOwner owner)
+        public Agent.ICard NewCardAgent(ECardType type, IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             return template == null ? null : NewCardAgent(template, owner);

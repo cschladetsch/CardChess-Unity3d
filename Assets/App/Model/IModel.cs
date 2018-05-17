@@ -2,7 +2,11 @@
 {
     using Common;
 
-    public interface IModel : IHasId, Flow.ILogger
+    public interface IModel :
+        IOwned,
+        Flow.ILogger,
+        IHasName,
+        IHasId
     {
     }
 }

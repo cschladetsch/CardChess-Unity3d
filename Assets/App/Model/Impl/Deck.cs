@@ -5,33 +5,16 @@ namespace App.Model
     using Common;
 
     public class Deck :
-        CardCollection<ICardInstance>,
+        CardCollection,
         IDeck,
         ICreateWith<Guid, IOwner>
     {
         public override int MaxCards => Parameters.MinCardsInDeck;
-        public bool Add(ICardInstance card)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(ICardInstance card)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IOwner Owner { get; private set; }
-
         public bool Create(Guid a0, IOwner owner)
         {
-            Owner = owner;
-
+            base.Create(owner);
+            // TODO: use guid to find the deck from deck-builder list
             return true;
-        }
-
-        public bool Create(ITemplateDeck a0)
-        {
-            throw new NotImplementedException();
         }
 
         public void NewGame()
@@ -40,29 +23,54 @@ namespace App.Model
             {
                 var tmpl = Database.CardTemplates.GetRandom();
                 var card = Arbiter.Instance.NewCardModel(tmpl, Owner);
-                Cards.Add(card);
+                Add(card);
             }
+        }
+
+        public bool Create(ITemplateDeck a0)
+        {
+            throw new NotImplementedException();
         }
 
         public void Shuffle()
         {
-            throw new NotImplementedException();
+            cards.Shuffle();
         }
 
-        public ICardInstance Draw()
+        public ICard Draw()
         {
-            throw new NotImplementedException();
+            if (Empty)
+            {
+                Warn("Empty");
+                return null;
+            }
+            var card = cards[0];
+            cards.RemoveAt(0);
+            return card;
         }
 
-        public void AddToBottom(ICardInstance card)
+        public bool AddToBottom(ICard card)
         {
-            throw new NotImplementedException();
+            if (Maxxed)
+            {
+                Warn("Maxxed");
+                return false;
+            }
+            cards.Insert(cards.Count, card);
+            return true;
         }
 
-        public void AddToRandom(ICardInstance card)
+        public int ShuffleIn(params ICard[] cards)
         {
-            throw new NotImplementedException();
+            var added = 0;
+            foreach (var card in cards)
+            {
+                if (Maxxed)
+                    return added;
+                ShuffleIn(card);
+                ++added;
+            }
+            return added;
         }
-
     }
 }

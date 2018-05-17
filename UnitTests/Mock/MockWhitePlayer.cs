@@ -13,7 +13,7 @@ namespace App
         //    var pc = new PlayCard
         //    {
         //        Coord = new Coord(3, 2),
-        //        Card = King
+        //        CardAgent = King
         //    };
         //    var f = New.Future<PlayCard>();
         //    f.Value = pc;

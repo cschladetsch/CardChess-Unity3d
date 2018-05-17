@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using App.Action;
+using App.Agent;
 
 namespace App.Agent.Card
 {
     /// <inheritdoc />
     /// <summary>
-    /// The most important piece on the board. Can move one square in any direction.
+    /// Paladins are like the Pawns of Chess.
     /// </summary>
-    internal class King : PieceAgent
+    internal class Paladin : CardAgent
     {
         /// <inheritdoc />
         public override IEnumerable<Coord> PotentialCoords()
@@ -20,19 +18,19 @@ namespace App.Agent.Card
         }
 
         /// <inheritdoc />
-        public override IEnumerable<IPieceInstance> Attackers(Coord coord)
+        public override IEnumerable<ICard> Attackers(Coord coord)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<IPieceInstance> Defenders(Coord coord)
+        public override IEnumerable<ICard> Defenders(Coord coord)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<IPieceInstance> Guards(Coord coord)
+        public override IEnumerable<ICard> Guards(Coord coord)
         {
             throw new NotImplementedException();
         }

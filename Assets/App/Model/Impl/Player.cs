@@ -23,9 +23,9 @@ namespace App.Model
         public int Health => King.Health;
         public IHand Hand { get; private set; }
         public IDeck Deck { get; private set; }
-        public ICardInstance King { get; private set; }
-        public IEnumerable<ICardInstance> CardsOnBoard { get; }
-        public IEnumerable<ICardInstance> CardsInGraveyard { get; }
+        public ICard King { get; private set; }
+        public IEnumerable<ICard> CardsOnBoard { get; }
+        public IEnumerable<ICard> CardsInGraveyard { get; }
         public static int StartHandCardCount => Parameters.StartHandCardCount;
         #endregion
 
@@ -55,6 +55,11 @@ namespace App.Model
             Mana = Mathf.Clamp(0, 12, Mana + change);
         }
 
+        public void MockMakeHand()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ChangeMaxMana(int change)
         {
             MaxMana = Mathf.Clamp(0, 12, Mana + change);
@@ -63,8 +68,8 @@ namespace App.Model
         public void DrawHand()
         {
             Assert.IsNotNull(Deck);
-            Assert.IsTrue(Deck.Cards.Count >= 30);
-            Hand = Arbiter.NewModel<Hand>(this);
+            Assert.IsTrue(Deck.NumCards >= 30);
+            //TODO Hand = Arbiter.NewModel<Hand>(this);
             foreach (var card in Deck.Cards.Take(Parameters.StartHandCardCount))
             {
                 Deck.Remove(card);

@@ -2,7 +2,9 @@
 {
     using Common;
 
-    public interface IHand : ICardCollection<ICardInstance>
+    public interface IHand :
+        IModel,
+        ICardCollection<ICard>
     {
         void NewGame();
     }

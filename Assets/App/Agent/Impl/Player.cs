@@ -25,10 +25,11 @@ namespace App.Agent
     {
         #region Public Fields
         public EColor Color => Model.Color;
-        public ICardInstance King { get; private set; }
+        public ICard King { get; private set; }
         public int Health => King.Health;
-        public PlayerDeckCollection Deck { get; } = new PlayerDeckCollection();
-        public PlayerHandCollection Hand { get; } = new PlayerHandCollection();
+        public IDeck Deck { get; private set; }
+        public IHand Hand { get; private set; }
+
         #endregion
 
         #region Startup Methods
@@ -47,7 +48,7 @@ namespace App.Agent
         public ITransient StartGame()
         {
             Info($"{Color}: Start Game");
-            King = Arbiter.NewAgent<CardInstance, Model.ICardInstance>(Model.King);
+            King = Arbiter.NewAgent<Agent.Card.King, Model.ICard>(Model.King);
 
             return null;
         }
@@ -88,17 +89,17 @@ namespace App.Agent
         /// for the top card on the deck.
         /// </summary>
         /// <returns></returns>
-        public IFuture<ICardInstance> FutureDrawCard()
+        public IFuture<ICard> FutureDrawCard()
         {
-            if (Model.Deck.Cards.Count == 0)
+            if (Model.Deck.NumCards == 0)
             {
                 Warn($"{Color}: No cards left draw");
                 return null;
             }
 
             _drawCard?.Complete();
-            _drawCard = New.NamedFuture<ICardInstance>("DrawCard");
-            var card = Deck.DrawTopCard();
+            _drawCard = New.NamedFuture<ICard>("DrawCard");
+            var card = Deck.Draw();
             Hand.Add(card);
             _drawCard.Value = card;
             return _drawCard;
@@ -187,20 +188,20 @@ namespace App.Agent
 
         #region Private/Protected Methods
 
-        private ICardInstance Add(Model.ICardInstance model)
-        {
-            var card = Arbiter.NewCardAgent(model, this);
-            Hand.Add(card);
-            return null;
-        }
+        //private ICard Add(Model.ICard model)
+        //{
+        //    var card = Arbiter.NewCardAgent(model, this);
+        //    Hand.Add(card);
+        //    return null;
+        //}
 
-        private void Remove(ICardInstance model)
-        {
-            var inDeck = Deck.Cards.FirstOrDefault(c => c.Model == model);
-            Assert.IsNotNull(inDeck);
-            Deck.Remove(inDeck);
-            Model.Deck.Cards.Remove(Model.Deck.Cards.First(c => c.Template.Id == inDeck.Model.Template.Id));
-        }
+        //private void Remove(ICard model)
+        //{
+        //    var inDeck = Deck.Cards.FirstOrDefault(c => c.Model == model);
+        //    Assert.IsNotNull(inDeck);
+        //    Deck.Remove(inDeck);
+        //    Model.Deck.Remove(Model.Deck.Cards.First(c => c.Template.Id == inDeck.Model.Template.Id));
+        //}
 
         /// <summary>
         /// The over-time actions of this entity.
@@ -218,7 +219,7 @@ namespace App.Agent
         private IFuture<int> _roll;
         private IFuture<bool> _acceptCards;
         private IFuture<bool> _pass;
-        private IFuture<ICardInstance> _drawCard;
+        private IFuture<ICard> _drawCard;
         private IFuture<PlayCard> _placeKing;
         private IFuture<PlayCard> _playCard;
         private IFuture<MovePiece> _movePiece;

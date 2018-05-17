@@ -18,9 +18,9 @@ namespace App.Model
         int Health { get; }
         IHand Hand { get; }
         IDeck Deck { get; }
-        ICardInstance King { get; }
-        IEnumerable<ICardInstance> CardsOnBoard { get; }
-        IEnumerable<ICardInstance> CardsInGraveyard { get; }
+        ICard King { get; }
+        IEnumerable<ICard> CardsOnBoard { get; }
+        IEnumerable<ICard> CardsInGraveyard { get; }
         #endregion
 
         #region Methods
