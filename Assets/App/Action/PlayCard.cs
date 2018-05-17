@@ -8,14 +8,14 @@ namespace App.Action
     /// </summary>
     public class PlayCard : ActionBase
     {
-        public ICardInstance Card;
+        public ICard Card;
         public Coord Coord;
 
         public PlayCard()
         {
         }
 
-        public PlayCard(ICardInstance card, Coord coord)
+        public PlayCard(ICard card, Coord coord)
         {
             // TODO Assert.IsNotNull(card);
             Card = card;

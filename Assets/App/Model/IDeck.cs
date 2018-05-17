@@ -4,19 +4,24 @@ namespace App.Model
 {
     using Common;
 
-    /// <inheritdoc />
     /// <summary>
     /// A deck in play in a game
     /// </summary>
     public interface IDeck :
-        ICardCollection<ICardInstance>,
+        ICardCollection<ICard>,
         ICreateWith<ITemplateDeck>,
-        IOwned
+        IModel
     {
         void NewGame();
         void Shuffle();
-        ICardInstance Draw();
-        void AddToBottom(ICardInstance card);
-        void AddToRandom(ICardInstance card);
+        ICard Draw();
+        bool AddToBottom(ICard card);
+
+        /// <summary>
+        /// Adds a number of cards to random locations in the deck.
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns>the number of cards added</returns>
+        int ShuffleIn(params ICard[] card);
     }
 }

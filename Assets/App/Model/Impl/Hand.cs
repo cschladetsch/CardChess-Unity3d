@@ -1,22 +1,20 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace App.Model
 {
-    public class Hand : Common.CardCollection<ICardInstance>, IHand
+    public class Hand :
+        CardCollection,
+        IHand
     {
-        public override int MaxCards => 9;
+        public override int MaxCards => Parameters.MaxCardsInHand;
 
         public void NewGame()
         {
-            Cards.Clear();
-            //var cards = OwParameters.StartHandCardCount)
-        }
-
-        public void RemoveRandom()
-        {
-            if (Cards.Count == 0)
-                return;
-            Cards.RemoveAt(new Random().Next(0, Cards.Count - 1));
+            cards = new List<ICard>();
+            for (var n = 0; n < Parameters.StartHandCardCount; ++n)
+            {
+                Add(Deck.Draw());
+            }
         }
     }
 }

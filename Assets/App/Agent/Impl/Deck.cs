@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using App.Model;
 
 namespace App.Agent
 {
-    using Common;
+    using ICardModel = Model.ICard;
 
-    public class PlayerDeckCollection :
-        CardCollection<ICardInstance>
+    public class Deck :
+        CardCollection<ICardModel>
     {
         public override int MaxCards => 50;
 
-        public IEnumerable<ICardInstance> DrawCards(uint n)
+        public IEnumerable<ICardModel> DrawCards(uint n)
         {
             while (n-- > 0)
             {
@@ -19,15 +18,15 @@ namespace App.Agent
             }
         }
 
-        public ICardInstance DrawTopCard()
+        public ICardModel DrawTopCard()
         {
-            if (Cards.Count == 0)
+            if (Empty)
             {
                 //Warn($"{Name}: No cards to draw from deck");
                 return null;
             }
             var card = Cards.First();
-            Cards.RemoveAt(0);
+            cards.RemoveAt(0);
             return card;
         }
     }

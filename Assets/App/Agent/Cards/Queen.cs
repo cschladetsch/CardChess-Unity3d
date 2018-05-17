@@ -7,7 +7,7 @@ namespace App.Agent.Card
     /// <summary>
     /// The strongest piece on the Board. Can move any number of squares diagonaly or orthogonally.
     /// </summary>
-    internal class Queen : PieceAgent
+    internal class Queen : CardAgent
     {
         /// <inheritdoc />
         public override IEnumerable<Coord> PotentialCoords()
@@ -16,19 +16,19 @@ namespace App.Agent.Card
         }
 
         /// <inheritdoc />
-        public override IEnumerable<IPieceInstance> Attackers(Coord coord)
+        public override IEnumerable<ICard> Attackers(Coord coord)
         {
             throw new System.NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<IPieceInstance> Defenders(Coord coord)
+        public override IEnumerable<ICard> Defenders(Coord coord)
         {
             throw new System.NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<IPieceInstance> Guards(Coord coord)
+        public override IEnumerable<ICard> Guards(Coord coord)
         {
             throw new System.NotImplementedException();
         }

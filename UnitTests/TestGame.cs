@@ -55,11 +55,8 @@ namespace App
             StepArbiter(2);
             Trace.WriteLine(Arbiter.Kernel.Root);
 
-            Trace.WriteLine(w.Hand.Cards.Count);
-            Trace.WriteLine(b.Hand.Cards.Count);
-
-            Assert.AreEqual(Parameters.StartHandCardCount, w.Hand.Cards.Count);
-            Assert.AreEqual(Parameters.StartHandCardCount, b.Hand.Cards.Count);
+            Assert.AreEqual(Parameters.StartHandCardCount, w.Hand.NumCards);
+            Assert.AreEqual(Parameters.StartHandCardCount, b.Hand.NumCards);
 
             Trace.WriteLine(arbiter);
         }

@@ -6,7 +6,7 @@
     /// </summary>
     public class MovePiece : ActionBase
     {
-        public Agent.ICardInstance Instance;
+        public Agent.ICard Instance;
         public Coord Target;
     }
 }

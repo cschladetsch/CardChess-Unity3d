@@ -5,6 +5,8 @@ using UnityEngine.Assertions;
 
 namespace App.Agent
 {
+    using Common;
+
     public abstract class AgentBase<TModel> :
         AgentLogger, IAgent<TModel>
         where TModel : class, IModel
@@ -13,6 +15,7 @@ namespace App.Agent
         public IModel BaseModel { get; private set; }
         public Arbiter Arbiter { get; set; }
         public TModel Model { get; private set; }
+        public IOwner Owner => Model.Owner;
 
         public virtual bool Create(TModel a0)
         {

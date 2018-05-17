@@ -6,8 +6,8 @@
     /// A pre-made deck
     /// </summary>
     public interface ITemplateDeck :
-        ICardCollection<ICardTemplate>,
-        IHasId
+        IModel,
+        ICardCollection<ICardTemplate>
     {
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using App.Action;
+using App.Agent;
 using UnityEngine.Assertions;
 
 namespace App.Model
@@ -11,7 +12,6 @@ namespace App.Model
     using Common;
 
     // boards do not store model cards
-    using ICard = Agent.ICardInstance;
 
     /// <summary>
     /// The main playing board. Can be of arbitrary dimention.
@@ -31,10 +31,10 @@ namespace App.Model
             Width = width;
             Height = height;
 
-            _contents = new List<List<ICard>>();
+            _contents = new List<List<Agent.ICard>>();
             for (var n = 0; n < height; ++n)
             {
-                var row = new List<ICard>();
+                var row = new List<Agent.ICard>();
                 for (var m = 0; m < width; ++m)
                     row.Add(null);
                 _contents.Add(row);
@@ -48,7 +48,7 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public bool CanPlaceCard(ICard card, Coord coord)
+        public bool CanPlaceCard(Agent.ICard card, Coord coord)
         {
             Assert.IsNotNull(card);
             Assert.IsTrue(IsValid(coord));
@@ -96,7 +96,7 @@ namespace App.Model
             return items;
         }
 
-        public IEnumerable<ICard> AttackedCards(Coord coord)
+        public IEnumerable<Agent.ICard> AttackedCards(Coord coord)
         {
             var card = At(coord);
             if (card == null)
@@ -188,7 +188,7 @@ namespace App.Model
             return sb.ToString();
         }
 
-        public string CardToRep(ICard card)
+        public string CardToRep(Agent.ICard card)
         {
             if (card == null) return "  ";
             var ch = $"{card.Model.Template.Type.ToString()[0]} ";
@@ -206,17 +206,17 @@ namespace App.Model
             });
         }
 
-        private IEnumerable<Coord> GetPossibleMovements(ICard card, Coord coord)
+        private IEnumerable<Coord> GetPossibleMovements(Agent.ICard card, Coord coord)
         {
             return null;
         }
 
-        public IEnumerable<ICard> DefendededCards(ICard defender, Coord cood)
+        public IEnumerable<Agent.ICard> DefendededCards(Agent.ICard defender, Coord cood)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ICard> Defenders(Coord cood)
+        public IEnumerable<Agent.ICard> Defenders(Coord cood)
         {
             throw new NotImplementedException();
         }
@@ -226,19 +226,19 @@ namespace App.Model
             Create(Width, Height);
         }
 
-        public ICard GetContents(Coord coord)
+        public Agent.ICard GetContents(Coord coord)
         {
             return !IsValidCoord(coord) ? null : At(coord);
         }
 
-        public ICard At(Coord coord)
+        public Agent.ICard At(Coord coord)
         {
             var valid = IsValidCoord(coord);
             Assert.IsTrue(valid);
             return !valid ? null : _contents[coord.y][coord.x];
         }
 
-        public ICard At(int x, int y)
+        public Agent.ICard At(int x, int y)
         {
             if (x < 0 || y < 0)
                 return null;
@@ -252,12 +252,12 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public IEnumerable<ICard> GetContents()
+        public IEnumerable<Agent.ICard> GetContents()
         {
             return _contents.SelectMany(row => row);
         }
 
-        public void PlaceCard(ICard card, Coord coord)
+        public void PlaceCard(Agent.ICard card, Coord coord)
         {
             Info("Board: Placed {card.Owner.Color} {card} at {coord}");
             _contents[coord.y][coord.x] = card;
@@ -272,7 +272,7 @@ namespace App.Model
         }
 
         #region Private Fields
-        private List<List<ICard>> _contents;
+        private List<List<Agent.ICard>> _contents;
         #endregion
     }
 }
