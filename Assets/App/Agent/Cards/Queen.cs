@@ -5,7 +5,7 @@ namespace App.Agent.Card
 {
     /// <inheritdoc />
     /// <summary>
-    /// The strongest piece on the Board. Can move any number of squares diagonaly or orthogonally.
+    /// The strongest piece on the BoardAgent. Can move any number of squares diagonaly or orthogonally.
     /// </summary>
     internal class Queen : CardAgent
     {
@@ -16,19 +16,19 @@ namespace App.Agent.Card
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Attackers(Coord coord)
+        public override IEnumerable<ICardAgent> Attackers(Coord coord)
         {
             throw new System.NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Defenders(Coord coord)
+        public override IEnumerable<ICardAgent> Defenders(Coord coord)
         {
             throw new System.NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Guards(Coord coord)
+        public override IEnumerable<ICardAgent> Guards(Coord coord)
         {
             throw new System.NotImplementedException();
         }

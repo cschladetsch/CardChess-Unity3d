@@ -18,19 +18,19 @@ namespace App.Agent.Card
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Attackers(Coord coord)
+        public override IEnumerable<ICardAgent> Attackers(Coord coord)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Defenders(Coord coord)
+        public override IEnumerable<ICardAgent> Defenders(Coord coord)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Guards(Coord coord)
+        public override IEnumerable<ICardAgent> Guards(Coord coord)
         {
             throw new NotImplementedException();
         }

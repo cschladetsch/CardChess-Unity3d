@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace App.Agent
 {
-    public interface ICardCollection :
-        IAgent<Model.ICardCollection>
+    public interface IHandAgent :
+        IAgent<Model.IHandModel>
     {
+        void Add(ICardAgent card);
     }
 }

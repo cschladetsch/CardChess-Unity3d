@@ -7,7 +7,7 @@ namespace App.Model
     using ICard = Common.ICard;
 
     /// <summary>
-    /// All cards owned by a player
+    /// All cards owned by a playerAgent
     /// </summary>
     public abstract class CardLibrary :
         ModelBase,
@@ -31,12 +31,12 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-        public bool Add(ICardTemplate card)
+        public bool Add(ICardModelTemplate cardModel)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(ICardTemplate card)
+        public bool Remove(ICardModelTemplate cardModel)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-        public ICardTemplate Get(Guid id)
+        public ICardModelTemplate Get(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -56,6 +56,6 @@ namespace App.Model
             return true;
         }
 
-        protected IList<ICardTemplate> cards = new List<ICardTemplate>();
+        protected IList<ICardModelTemplate> cards = new List<ICardModelTemplate>();
     }
 }

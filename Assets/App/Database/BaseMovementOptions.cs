@@ -7,16 +7,16 @@ namespace App.Database
     using Common;
 
     /// <summary>
-    /// Options for a card on a board without considering other items etc.
+    /// Options for a card on a boardAgent without considering other items etc.
     /// </summary>
     public class BaseMovementOptions
     {
         public IEnumerable<Coord> Options;
 
-        public BaseMovementOptions(ECardType type, Coord start, Model.IBoard board)
+        public BaseMovementOptions(ECardType type, Coord start, Model.IBoardModel boardModel)
         {
             _start = start;
-            _board = board;
+            _boardModel = boardModel;
 
             //Options = Filter(_potentials[type]);
         }
@@ -35,7 +35,7 @@ namespace App.Database
         };
 
 		private Coord _start;
-        private Model.IBoard _board;
+        private Model.IBoardModel _boardModel;
 		private static Dictionary<ECardType, IList<Coord>> _potentials;
         #endregion
     }

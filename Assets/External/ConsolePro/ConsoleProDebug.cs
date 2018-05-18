@@ -27,7 +27,7 @@ public static class ConsoleProDebug
 	// Watch a variable. This will only produce one log entry regardless of how many times it is logged, allowing you to track variables without spam.
 	// Ex:
 	// void Update() {
-	// ConsoleProDebug.Watch("Player x Position", transform.position.x);
+	// ConsoleProDebug.Watch("PlayerAgent x Position", transform.position.x);
 	// }
 	public static void Watch(string inName, string inValue)
 	{

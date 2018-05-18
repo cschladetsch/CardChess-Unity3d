@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Agent
+namespace App.Model
 {
-    public interface ICardCollection :
-        IAgent<Model.ICardCollection>
+    public interface IArbiterModel
+        : IModel
     {
     }
 }

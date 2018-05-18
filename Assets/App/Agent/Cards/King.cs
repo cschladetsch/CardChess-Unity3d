@@ -9,7 +9,7 @@ namespace App.Agent.Card
 {
     /// <inheritdoc />
     /// <summary>
-    /// The most important piece on the board. Can move one square in any direction.
+    /// The most important piece on the boardAgent. Can move one square in any direction.
     /// </summary>
     internal class King : CardAgent
     {
@@ -20,19 +20,19 @@ namespace App.Agent.Card
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Attackers(Coord coord)
+        public override IEnumerable<ICardAgent> Attackers(Coord coord)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Defenders(Coord coord)
+        public override IEnumerable<ICardAgent> Defenders(Coord coord)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public override IEnumerable<ICard> Guards(Coord coord)
+        public override IEnumerable<ICardAgent> Guards(Coord coord)
         {
             throw new NotImplementedException();
         }

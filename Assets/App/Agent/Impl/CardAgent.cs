@@ -9,18 +9,18 @@ namespace App.Agent
     using Common;
 
     /// <summary>
-    /// A piece on the board.
+    /// A piece on the boardAgent.
     /// Possibly wearing a blue beret.
     /// </summary>
     public abstract class CardAgent :
-        AgentBaseCoro<Model.ICard>,
-        ICard
+        AgentBaseCoro<Model.ICardModel>,
+        ICardAgent
     {
         #region Public Fields
         public int Attack => Model.Attack;
         public int Health => Model.Health;
-        public string Description => Model.Template.FlavourText;
-        public ECardType Type => Model.Template.Type;
+        public string Description => Model.ModelTemplate.FlavourText;
+        public ECardType Type => Model.ModelTemplate.Type;
         public Coord Coord { get; private set; }
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         #endregion
@@ -47,20 +47,20 @@ namespace App.Agent
         /// What attacks this card from the given coord
         /// </summary>
         /// <param name="coord">From this coord</param>
-        public abstract IEnumerable<ICard> Attackers(Coord coord);
+        public abstract IEnumerable<ICardAgent> Attackers(Coord coord);
 
         /// <summary>
         /// What this card can attack
         /// </summary>
         /// <param name="coord"></param>
-        public abstract IEnumerable<ICard> Defenders(Coord coord);
+        public abstract IEnumerable<ICardAgent> Defenders(Coord coord);
 
         /// <summary>
         /// Guards defending this piece from the given coord
         /// </summary>
         /// <param name="coord"></param>
         /// <returns></returns>
-        public abstract IEnumerable<ICard> Guards(Coord coord);
+        public abstract IEnumerable<ICardAgent> Guards(Coord coord);
         #endregion
 
         #endregion

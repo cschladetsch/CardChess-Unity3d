@@ -10,9 +10,10 @@ using Flow;
 
 namespace App
 {
-    using Agent;
-    using Action;
     using Common;
+    using Agent;
+    using Model;
+    using Action;
 
     /// <inheritdoc />
     /// <summary>
@@ -21,24 +22,24 @@ namespace App
     /// </summary>
     public class Arbiter : Flow.Impl.Logger
     {
-#region Public Fields
+        #region Public Fields
         public static Arbiter Instance;
         public static IKernel Kernel;
         public static INode Root => Kernel.Root;
         public static IFactory New => Kernel.Factory;
-        public IPlayer WhitePlayer => _players[0];
-        public IPlayer BlackPlayer => _players[1];
-        public IPlayer CurrentPlayer => _players[_currentPlayer];
-        public IBoard Board { get; private set; }
-#endregion
+        public IPlayerAgent WhitePlayerAgent => _playersAgent[0];
+        public IPlayerAgent BlackPlayerAgent => _playersAgent[1];
+        public IPlayerAgent CurrentPlayerAgent => _playersAgent[_currentPlayer];
+        public IBoardModel BoardModel => _boardModel;
+        #endregion
 
-#region Public Methods
-        public bool CanPlaceKing(Player player, Coord coord)
+        #region Public Methods
+        public bool CanPlaceKing(PlayerAgent playerAgent, Coord coord)
         {
-            //if (!Board.At(coord) != null)
+            //if (!BoardAt(coord) != null)
             //    return false;
 
-            //foreach (var adj in Board.AdjacentTo(coord))
+            //foreach (var adj in BoardAdjacentTo(coord))
             //{
             //    adj.Color
             //}
@@ -52,33 +53,33 @@ namespace App
             Kernel = Create.Kernel();
         }
 
-        public void Setup(IBoard board, IPlayer p0, IPlayer p1)
+        public void Setup(IBoardAgent boardAgent, IPlayerAgent p0, IPlayerAgent p1)
         {
-            Board = board;
+            _boardAgent = boardAgent;
             SetPlayers(p0, p1);
         }
 
-        public void SetPlayers(IPlayer p0, IPlayer p1)
+        public void SetPlayers(IPlayerAgent p0, IPlayerAgent p1)
         {
             Assert.IsNotNull(p0);
             Assert.IsNotNull(p1);
-            _players[0] = p0;
-            _players[1] = p1;
+            _playersAgent[0] = p0;
+            _playersAgent[1] = p1;
         }
 
         public void NewGame()
         {
-            Assert.IsNotNull(Board);
-            Assert.IsNotNull(WhitePlayer);
-            Assert.IsNotNull(BlackPlayer);
+            Assert.IsNotNull(_boardAgent);
+            Assert.IsNotNull(WhitePlayerAgent);
+            Assert.IsNotNull(BlackPlayerAgent);
 
             Info("New Game");
 
             _currentPlayer = 0;
             _turnNumber = 0;
 
-            Board.NewGame();
-            foreach (var player in _players)
+            _boardAgent.NewGame();
+            foreach (var player in _playersAgent)
             {
                 Assert.IsNotNull(player);
                 player.NewGame();
@@ -93,7 +94,7 @@ namespace App
             Kernel.Step();
         }
 
-#region Creation Methods
+        #region Creation Methods
         public TModel NewModel<TModel>()
             where TModel : class, ICreateWith, new()
         {
@@ -119,7 +120,7 @@ namespace App
         }
 
         public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1)
-            where TModel: class, ICreateWith<A0, A1>, new()
+            where TModel : class, ICreateWith<A0, A1>, new()
         {
             var model = new TModel();
             if (!model.Create(a0, a1))
@@ -132,11 +133,11 @@ namespace App
         }
 
         /// <summary>
-        /// Make a new Agent that represents a Model.
+        /// Make a new Agent that represents a
         /// </summary>
-        public  TAgent NewAgent<TAgent, TModel>(TModel model)
+        public TAgent NewAgent<TAgent, TModel>(TModel model)
             where TModel : class, Model.IModel
-            where TAgent : class, Agent.IAgent<TModel>, new()
+            where TAgent : class, IAgent<TModel>, new()
         {
             var agent = new TAgent();
             if (!agent.Create(model))
@@ -149,29 +150,30 @@ namespace App
             return agent;
         }
 
-        public Model.ICard NewCardModel(Model.ICardTemplate tmpl, IOwner owner)
+        public ICardModel NewCardModel(ICardModelTemplate tmpl, IOwner owner)
         {
-            return new Model.Card(tmpl, owner);
+            return new CardModel(tmpl, owner);
         }
 
-        public Agent.ICard NewCardAgent(Model.ICardTemplate template, IOwner owner)
+        public ICardAgent NewCardAgent(ICardModelTemplate modelTemplate, IOwner owner)
         {
-            var cardInstance = Database.CardTemplates.New(template.Id, owner);
-            // TODOreturn NewAgent<CardAgent, Model.ICard>(cardInstance);
+            var cardInstance = Database.CardTemplates.New(modelTemplate.Id, owner);
+            // TODOreturn NewAgent<CardAgent, ICard>(cardInstance);
             return null;
         }
 
-        public Agent.ICard NewCardAgent(Model.ICard model, IOwner owner) => NewCardAgent(model.Template, owner);
+        public ICardAgent NewCardAgent(ICardModel model, IOwner owner)
+            => NewCardAgent(model.ModelTemplate, owner);
 
-        public Agent.ICard NewCardAgent(ECardType type, IOwner owner)
+        public ICardAgent NewCardAgent(ECardType type, IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             return template == null ? null : NewCardAgent(template, owner);
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
-            where TModel : class, Model.IModel, ICreateWith<A0, A1>, new()
-            where TAgent : class, Agent.IAgent<TModel>, new()
+            where TModel : class, IModel, ICreateWith<A0, A1>, new()
+            where TAgent : class, IAgent<TModel>, new()
         {
             var model = NewModel<TModel, A0, A1>(a0, a1);
             var agent = NewAgent<TAgent, TModel>(model);
@@ -180,10 +182,10 @@ namespace App
             return entity;
         }
 
-#endregion
-#endregion
+        #endregion
+        #endregion
 
-#region Private Methods
+        #region Private Methods
         public void GameLoop()
         {
             Root.Add(
@@ -200,22 +202,22 @@ namespace App
         {
             var start = New.Sequence(
                 New.Barrier(
-                    WhitePlayer.StartGame(),
-                    BlackPlayer.StartGame()
+                    WhitePlayerAgent.StartGame(),
+                    BlackPlayerAgent.StartGame()
                 ).Named("Init Game"),
                 New.Barrier(
-                    WhitePlayer.DrawInitialCards(),
-                    BlackPlayer.DrawInitialCards()
+                    WhitePlayerAgent.DrawInitialCards(),
+                    BlackPlayerAgent.DrawInitialCards()
                 ).Named("Deal Cards"),
                 New.Barrier(
                     New.TimedBarrier(
                         TimeSpan.FromSeconds(Parameters.MulliganTimer),
-                        WhitePlayer.FutureAcceptCards(),
-                        BlackPlayer.FutureAcceptCards()
+                        WhitePlayerAgent.FutureAcceptCards(),
+                        BlackPlayerAgent.FutureAcceptCards()
                     ).Named("Mulligan"),
                     New.Sequence( // TODO: TimedSequence
-                        WhitePlayer.FuturePlaceKing(),
-                        BlackPlayer.FuturePlaceKing()
+                        WhitePlayerAgent.FuturePlaceKing(),
+                        BlackPlayerAgent.FuturePlaceKing()
                     ).Named("Place Kings")
                 ).Named("Preceedings")
             ).Named("Start Game");
@@ -226,7 +228,7 @@ namespace App
         private IEnumerator PlayerTurn(IGenerator self)
         {
             ++_turnNumber;
-            var player = CurrentPlayer;
+            var player = CurrentPlayerAgent;
 
             Info($"Start turn {_turnNumber} for {player}");
 
@@ -241,7 +243,7 @@ namespace App
 
             while (true)
             {
-                // the options a player has
+                // the options a playerAgent has
                 var playCard = player.FuturePlayCard();
                 var movePiece = player.FutureMovePiece();
                 var pass = player.FuturePass();
@@ -251,15 +253,15 @@ namespace App
                     movePiece,
                     pass
                 );
-                trigger.Name = "Player Options";
+                trigger.Name = "PlayerAgent Options";
 
-                // wait for player to make a move
+                // wait for playerAgent to make a move
                 yield return self.After(trigger);
 
-                // timed out, next player's turn
+                // timed out, next playerAgent's turn
                 if (trigger.HasTimedOut || trigger.Reason == pass)
                 {
-                    Warn($"Player {CurrentPlayer} Timed out");
+                    Warn($"PlayerAgent {CurrentPlayerAgent} Timed out");
                     yield return self.After(PlayerTimedOut(player));
                     break;
                 }
@@ -296,7 +298,7 @@ namespace App
                 }
             }
 
-            _gameOver = CurrentPlayer.Health <= 0;
+            _gameOver = CurrentPlayerAgent.Health <= 0;
             _currentPlayer = (_currentPlayer + 1) % 2;
         }
         private IEnumerator EndGame(IGenerator self)
@@ -306,38 +308,38 @@ namespace App
         }
 
         // wrappers to create coroutines
-        private IGenerator PlayerTimedOut(IPlayer player) { return New.Coroutine(PlayerTimedOutCoro, player); }
-        private IGenerator TestCanPlayCard(IPlayer player, PlayCard play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, player, play, future); }
-        private IGenerator TestCanMovePiece(IPlayer player, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, player, move, future); }
+        private IGenerator PlayerTimedOut(IPlayerAgent playerAgent) { return New.Coroutine(PlayerTimedOutCoro, playerAgent); }
+        private IGenerator TestCanPlayCard(IPlayerAgent playerAgent, PlayCard play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, playerAgent, play, future); }
+        private IGenerator TestCanMovePiece(IPlayerAgent playerAgent, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, playerAgent, move, future); }
         private IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
         private IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
-        private IEnumerator PlayerLostCoro(IGenerator self, IPlayer loser)
+        private IEnumerator PlayerLostCoro(IGenerator self, IPlayerAgent loser)
         {
-            // TODO: show player lost sequence
-            Info($"Player {loser.Color} lost");
+            // TODO: show playerAgent lost sequence
+            Info($"PlayerAgent {loser.Color} lost");
             //yield return self.After(_view.PlayerLost(loser));
             yield break;
         }
-        private IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayer player)
+        private IEnumerator PlayerTimedOutCoro(IGenerator self, IPlayerAgent playerAgent)
         {
-            Info($"Player {player.Color} timedout");
-            //yield return self.After(_view.PlayerTimedOut(player));
+            Info($"PlayerAgent {playerAgent.Color} timedout");
+            //yield return self.After(_view.PlayerTimedOut(playerAgent));
             yield break;
         }
-        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayer player, PlayCard playCard, IFuture<bool> canPlay)
+        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayerAgent playerAgent, PlayCard playCard, IFuture<bool> canPlay)
         {
-            var current = Board.Model.At(playCard.Coord);
+            var current = BoardModel.At(playCard.Coord);
             if (current == null)
             {
-                Info($"{playCard} for player {player.Color} is VALID");
+                Info($"{playCard} for playerAgent {playerAgent.Color} is VALID");
                 canPlay.Value = true;
                 yield break;
             }
 
-            Info("${playCard} for player {player.Color} is INVALID");
+            Info("${playCard} for playerAgent {playerColor} is INVALID");
             canPlay.Value = false;
         }
-        private IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayer player, MovePiece move, IFuture<bool> canMove)
+        private IEnumerator TestCanMovePieceCoro(IGenerator self, IPlayerAgent playerAgent, MovePiece move, IFuture<bool> canMove)
         {
             // TODO: if card can't be moved, show why
             Info($"Move {move} is invalid");
@@ -358,14 +360,16 @@ namespace App
             //yield return self.After(_view.MovePiece(move));
             yield break;
         }
-#endregion
+        #endregion
 
-#region Private Fields
-        private readonly Agent.IPlayer[] _players = new Agent.IPlayer[2];
+        #region Private Fields
+        private readonly IPlayerAgent[] _playersAgent = new IPlayerAgent[2];
+        private Model.BoardModel _boardModel;
+        private IBoardAgent _boardAgent;
         private int _currentPlayer;
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
         private bool _gameOver;
-#endregion
+        #endregion
     }
 }

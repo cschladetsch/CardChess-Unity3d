@@ -2,11 +2,11 @@
 {
     /// <inheritdoc />
     /// <summary>
-    /// A valid description of a movement of a piece on the Board.
+    /// A valid description of a movement of a piece on the BoardAgent.
     /// </summary>
     public class MovePiece : ActionBase
     {
-        public Agent.ICard Instance;
+        public Agent.ICardAgent Instance;
         public Coord Target;
     }
 }

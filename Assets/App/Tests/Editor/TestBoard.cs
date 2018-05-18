@@ -3,8 +3,9 @@ using NUnit.Framework;
 
 namespace App
 {
-    using Action;
     using Common;
+    using Model;
+    using Action;
 
     [TestFixture]
     public class TestBoard
@@ -13,7 +14,7 @@ namespace App
         [TestCase(8,8)]
         public void TestBoardModel(int width, int height)
         {
-            var board = new Model.Board();
+            var board = new BoardModel();
             board.Create(width, height);
             Assert.AreEqual(board.Width, width);
             Assert.AreEqual(board.Height, height);
@@ -34,14 +35,14 @@ namespace App
         public void TestBoardSetup()
         {
             var arbiter = new Arbiter();
-            var b0 = arbiter.NewModel<Model.Board, int, int>(8, 8);
-            var c0 = arbiter.NewAgent<Agent.Board, Model.IBoard>(b0);
-            var m0 = arbiter.NewModel<Model.Player, EColor>(EColor.White);
-            var m1 = arbiter.NewModel<Model.Player, EColor>(EColor.Black);
-            var p0 = arbiter.NewAgent<Agent.Player, Model.IPlayer>(m0);
-            var p1 = arbiter.NewAgent<Agent.Player, Model.IPlayer>(m1);
-            var d0 = arbiter.NewModel<Model.Deck, Guid, Model.IPlayer>(Guid.Empty, m0);
-            var d1 = arbiter.NewModel<Model.Deck, Guid, Model.IPlayer>(Guid.Empty, m1);
+            var b0 = arbiter.NewModel<BoardModel, int, int>(8, 8);
+            var c0 = arbiter.NewAgent<Agent.BoardAgent, IBoardModel>(b0);
+            var m0 = arbiter.NewModel<PlayerModel, EColor>(EColor.White);
+            var m1 = arbiter.NewModel<PlayerModel, EColor>(EColor.Black);
+            var p0 = arbiter.NewAgent<Agent.PlayerAgent, IPlayerModel>(m0);
+            var p1 = arbiter.NewAgent<Agent.PlayerAgent, IPlayerModel>(m1);
+            var d0 = arbiter.NewModel<DeckModel, Guid, IPlayerModel>(Guid.Empty, m0);
+            var d1 = arbiter.NewModel<DeckModel, Guid, IPlayerModel>(Guid.Empty, m1);
 
             m0.SetDeck(d0);
             m1.SetDeck(d1);
@@ -53,13 +54,12 @@ namespace App
 
             Assert.IsNotNull(p0);
             Assert.IsNotNull(p0.Model);
-            Assert.IsNotNull(m0.Hand);
-            Assert.IsNotNull(m0.Deck);
-            Assert.IsNotNull(m0.Deck.Cards);
+            Assert.IsNotNull(m0.HandModel);
+            Assert.IsNotNull(m0.DeckModel);
             Assert.AreSame(p0.Model, m0);
 
-            Assert.AreEqual(Parameters.StartHandCardCount, p0.Model.Hand.NumCards);
-            Assert.AreEqual(Parameters.StartHandCardCount, p1.Model.Hand.NumCards);
+            Assert.AreEqual(Parameters.StartHandCardCount, p0.Deck.NumCards);
+            Assert.AreEqual(Parameters.StartHandCardCount, p1.Deck.NumCards);
             Assert.AreEqual(Parameters.MaxCardsInDeck - Parameters.StartHandCardCount, d0.NumCards);
             Assert.AreEqual(Parameters.MaxCardsInDeck - Parameters.StartHandCardCount, d1.NumCards);
         }

@@ -4,27 +4,27 @@ namespace App.Action
 {
     /// <inheritdoc />
     /// <summary>
-    /// Play a card from a Player's Hand onto the Board
+    /// Play a card from a PlayerAgent's HandModel onto the BoardAgent
     /// </summary>
     public class PlayCard : ActionBase
     {
-        public ICard Card;
+        public ICardAgent CardAgent;
         public Coord Coord;
 
         public PlayCard()
         {
         }
 
-        public PlayCard(ICard card, Coord coord)
+        public PlayCard(ICardAgent cardAgent, Coord coord)
         {
             // TODO Assert.IsNotNull(card);
-            Card = card;
+            CardAgent = cardAgent;
             Coord = coord;
         }
 
         public override string ToString()
         {
-            return $"PlayCard {Card} to {Coord}";
+            return $"PlayCard {CardAgent} to {Coord}";
         }
     }
 }

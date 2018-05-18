@@ -3,11 +3,11 @@
     using Common;
 
     /// <summary>
-    /// A pre-made deck
+    /// A pre-made deckModel
     /// </summary>
     public interface ITemplateDeck :
         IModel,
-        ICardCollection<ICardTemplate>
+        ICardCollection<ICardModelTemplate>
     {
     }
 }

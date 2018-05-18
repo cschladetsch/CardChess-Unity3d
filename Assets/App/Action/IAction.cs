@@ -2,7 +2,7 @@
 {
     public interface IAction
     {
-        Agent.IPlayer Player { get; }
+        Agent.IPlayerAgent PlayerAgent { get; }
         EAction Action { get; }
     }
 }

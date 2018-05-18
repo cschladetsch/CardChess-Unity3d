@@ -15,6 +15,8 @@ namespace App.Agent
         {
             base.Create(a0);
             Coro = New.Coroutine(Next);
+            Node = New.Node(Coro);
+            Kernel.Root.Add(Node);
             return Construct();
         }
 
@@ -27,5 +29,6 @@ namespace App.Agent
 
         protected IFactory New => Arbiter.Kernel.Factory;
         protected IGenerator Coro;
+        protected INode Node;
     }
 }

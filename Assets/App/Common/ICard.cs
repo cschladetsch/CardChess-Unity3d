@@ -3,7 +3,7 @@
 namespace App.Common
 {
     /// <summary>
-    /// A card in a Hand or Deck or Collection for both Agents and Models
+    /// A card in a HandModel or DeckModel or Collection for both Agents and Models
     /// </summary>
     public interface ICard :
         IHasId,
