@@ -5,15 +5,9 @@ namespace App.Model
     using Common;
 
     public interface ICardTemplate :
-        IHasId,
-        IHasName,
-        IOwned
+        ICard
     {
-        ECardType Type { get; }
-        string FlavourText { get; }
         int ManaCost { get; }
-        int Attack { get; }
-        int Health { get; }
-        IEnumerable<EAbility> Abilities { get; }
+		string FlavourText { get; }
     }
 }

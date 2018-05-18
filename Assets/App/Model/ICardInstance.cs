@@ -6,7 +6,8 @@ namespace App.Model
 
     public delegate void CardDelegate(object sender, ICard subject, params ICard[] context);
 
-    public interface ICard : IModel, IHasName, IHasId
+    public interface ICard : 
+    	Common.ICard, IModel, IHasName, IHasId
     {
         #region Events
         event CardDelegate Born;
@@ -25,8 +26,6 @@ namespace App.Model
 
         #region Properties
         ICardTemplate Template { get; }
-        int Attack { get; }
-        int Health { get; }
         IEnumerable<ICard> Items { get; }
         IEnumerable<EAbility> Abilities { get; }
         #endregion

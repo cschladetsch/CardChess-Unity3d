@@ -15,6 +15,7 @@ namespace App.Agent
         public IModel BaseModel { get; private set; }
         public Arbiter Arbiter { get; set; }
         public TModel Model { get; private set; }
+		public TModel MyModel { get { return Model; } }
         public IOwner Owner => Model.Owner;
 
         public virtual bool Create(TModel a0)

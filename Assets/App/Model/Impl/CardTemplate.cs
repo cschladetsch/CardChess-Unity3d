@@ -21,7 +21,7 @@ namespace App.Model
         public int Health { get; private set; }
         public IEnumerable<EAbility> Abilities { get; private set; }
 
-        public void Set(ECardType type, string name, int manaCost, int attack, int health, IEnumerable<EAbility> abilities = null,
+		public CardTemplate(ECardType type, string name, int manaCost, int attack, int health, IEnumerable<EAbility> abilities = null,
             string flavourText = "")
         {
             Type = type;
@@ -33,6 +33,5 @@ namespace App.Model
                 Abilities = abilities.ToList();
             FlavourText = flavourText;
         }
-
     }
 }
