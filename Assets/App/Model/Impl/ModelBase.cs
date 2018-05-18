@@ -5,16 +5,22 @@ namespace App.Model
     using Common;
 
     /// <summary>
-    /// Common for all Models
+    /// Common for all Models.
+    ///
+    /// Models are created from a Registry, have an OnDestroyed event, and are persistent by default.
     /// </summary>
     public class ModelBase :
         Flow.Impl.Logger,
         IModel,
         ICreateWith<IOwner>
     {
+        public bool Destroyed { get; private set; } = false;
+        public Registry Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; private set; }
         public IOwner Owner { get; private set; }
+
+        public event ModelDestroyedHandler OnDestroy;
 
         protected ModelBase()
         {
@@ -34,6 +40,10 @@ namespace App.Model
             return Owner == other;
         }
 
-        protected Arbiter Arbiter => Arbiter.Instance;
+        public virtual void Destroy()
+        {
+            Destroyed = true;
+            Id = Guid.Empty;
+        }
     }
 }
