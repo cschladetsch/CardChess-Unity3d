@@ -13,8 +13,8 @@ namespace App.Model
         string Handle { get; }
         string Email { get; }
 
-        IDictionary<CardCollectionDesc, ICardCollection<ICardModelTemplate>> Decks { get; }
-        IEnumerable<ICardModelTemplate> AllCards { get; }
+        IDictionary<CardCollectionDesc, IList<ICardTemplate>> Decks { get; }
+        IEnumerable<ICardTemplate> AllCards { get; }
         IGameHistory GameHistory { get; }
         #endregion
     }

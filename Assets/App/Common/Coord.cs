@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Assertions;
 
-namespace App.Action
+namespace App.Common
 {
     public struct Coord
     {

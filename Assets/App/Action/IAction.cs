@@ -1,8 +1,13 @@
-﻿namespace App.Action
+﻿using App.Model;
+
+namespace App.Action
 {
+    /// <summary>
+    /// An action proposed by a player.
+    /// </summary>
     public interface IAction
     {
-        Agent.IPlayerAgent PlayerAgent { get; }
-        EAction Action { get; }
+        IPlayerModel Player { get; }
+        EAction Type { get; }
     }
 }

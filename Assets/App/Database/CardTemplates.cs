@@ -27,12 +27,12 @@ namespace App.Database
             return card;
         }
 
-        public static ICardModelTemplate Get(Guid id)
+        public static ICardTemplate Get(Guid id)
         {
             return _templates.ContainsKey(id) ? _templates[id] : null;
         }
 
-        public static IEnumerable<ICardModelTemplate> OfType(ECardType type)
+        public static IEnumerable<ICardTemplate> OfType(ECardType type)
         {
             return _templates.Select(kv => kv.Value).Where(template => template.Type == type);
         }
@@ -41,26 +41,26 @@ namespace App.Database
         {
             _templates.Clear();
             var X = int.MaxValue;
-            CardModelTemplate[] cardsModel =
+            CardTemplate[] cards =
             {                                                    //M, A, H
-                new CardModelTemplate(ECardType.King, "King",           X, 1, 20),       // king
-                new CardModelTemplate(ECardType.Queen, "Queen",         6, 6, 7),
-                new CardModelTemplate(ECardType.Paladin, "Paladin",     1, 1, 2),        // pawn
-                new CardModelTemplate(ECardType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight
-                new CardModelTemplate(ECardType.Archer, "Archer",       3, 2, 3),        // bishop
-                new CardModelTemplate(ECardType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
-                new CardModelTemplate(ECardType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
-                new CardModelTemplate(ECardType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
-                new CardModelTemplate(ECardType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mountable}),
+                new CardTemplate(ECardType.King, "King",           X, 1, 20),       // king
+                new CardTemplate(ECardType.Queen, "Queen",         6, 6, 7),
+                new CardTemplate(ECardType.Paladin, "Paladin",     1, 1, 2),        // pawn
+                new CardTemplate(ECardType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight
+                new CardTemplate(ECardType.Archer, "Archer",       3, 2, 3),        // bishop
+                new CardTemplate(ECardType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
+                new CardTemplate(ECardType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
+                new CardTemplate(ECardType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
+                new CardTemplate(ECardType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mountable}),
             };
 
-            foreach (var card in cardsModel)
+            foreach (var card in cards)
             {
                 _templates[card.Id] = card;
             }
         }
 
-        public static ICardModelTemplate GetRandom()
+        public static ICardTemplate GetRandom()
         {
             var numCards = _templates.Count;
             var r = new System.Random();
@@ -69,6 +69,6 @@ namespace App.Database
             return _templates[key];
         }
 
-        private static readonly Dictionary<Guid, ICardModelTemplate> _templates = new Dictionary<Guid, ICardModelTemplate>();
+        private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
     }
 }

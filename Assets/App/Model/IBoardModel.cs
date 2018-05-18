@@ -33,9 +33,9 @@ namespace App.Model
         IEnumerable<ICardModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
 
-		string ToString(Func<Coord, string> fun);
+        string Print();
+		string Print(Func<Coord, string> fun);
         string CardToRep(ICardModel cardModel);
-
         #endregion
     }
 }

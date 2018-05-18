@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace App.Model.Card
+﻿namespace App.Model.Card
 {
-    public class PieceModel
-        : ModelBase
-    {
-        public ICardModel CardModel { get; }
-    }
+    using Common;
 
     public class King
-        : PieceModel
+        : CardModel
     {
     }
 }

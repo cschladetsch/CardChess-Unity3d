@@ -150,14 +150,14 @@ namespace App
             return agent;
         }
 
-        public ICardModel NewCardModel(ICardModelTemplate tmpl, IOwner owner)
+        public ICardModel NewCardModel(ICardTemplate tmpl, IOwner owner)
         {
             return new CardModel(tmpl, owner);
         }
 
-        public ICardAgent NewCardAgent(ICardModelTemplate modelTemplate, IOwner owner)
+        public ICardAgent NewCardAgent(ICardTemplate template, IOwner owner)
         {
-            var cardInstance = Database.CardTemplates.New(modelTemplate.Id, owner);
+            var cardInstance = Database.CardTemplates.New(template.Id, owner);
             // TODOreturn NewAgent<Card, ICard>(cardInstance);
             return null;
         }

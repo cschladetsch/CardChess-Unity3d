@@ -13,26 +13,30 @@ namespace App.Model
         ModelBase,
         ICardModel
     {
-        public ECardType Type => ModelTemplate.Type;
-        public ICardModelTemplate ModelTemplate { get; }
-        public string Description => ModelTemplate.FlavourText;
+        public ECardType Type => Template.Type;
+        public ICardTemplate Template { get; }
+        public string Description => Template.FlavourText;
         public int Attack { get; }
         public int Health { get; private set; }
         public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
 
-        public CardModel(ICardModelTemplate modelTemplate, IOwner owner)
+        public CardModel()
         {
-            ModelTemplate = modelTemplate;
+        }
+
+        public CardModel(ICardTemplate template, IOwner owner)
+        {
+            Template = template;
 
             Create(owner);
 
-            Attack = modelTemplate.Attack;
-            Health = modelTemplate.Health;
+            Attack = template.Attack;
+            Health = template.Health;
 
-            if (modelTemplate.Abilities != null)
-                Abilities = modelTemplate.Abilities.ToList();
+            if (template.Abilities != null)
+                Abilities = template.Abilities.ToList();
         }
 
         public Response ChangeHealth(int value, ICardModel cause)
@@ -50,9 +54,9 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public static ICardModel New(ICardModelTemplate modelTemplate, IOwner owner)
+        public static ICardModel New(ICardTemplate template, IOwner owner)
         {
-            return new CardModel(modelTemplate, owner);
+            return new CardModel(template, owner);
         }
 
         public void ChangeAttack(int value, ICardModel cause)

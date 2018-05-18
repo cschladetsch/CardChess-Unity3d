@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -59,16 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\App\Action\ActionBase.cs" />
-    <Compile Include="Assets\App\Action\Coord.cs" />
+    <Compile Include="Assets\App\Action\CastSpell.cs" />
+    <Compile Include="Assets\App\Common\Coord.cs" />
     <Compile Include="Assets\App\Action\EAction.cs" />
     <Compile Include="Assets\App\Action\IAction.cs" />
     <Compile Include="Assets\App\Action\MovePiece.cs" />
     <Compile Include="Assets\App\Action\Pass.cs" />
     <Compile Include="Assets\App\Action\PlayCard.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
-    <Compile Include="Assets\App\Agent\Cards\King.cs" />
-    <Compile Include="Assets\App\Agent\Cards\Paladin.cs" />
-    <Compile Include="Assets\App\Agent\Cards\Queen.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoardAgent.cs" />
@@ -94,6 +93,7 @@
     <Compile Include="Assets\App\Common\EColor.cs" />
     <Compile Include="Assets\App\Common\EGameResult.cs" />
     <Compile Include="Assets\App\Common\Entity.cs" />
+    <Compile Include="Assets\App\Common\EPieceType.cs" />
     <Compile Include="Assets\App\Common\ICard.cs" />
     <Compile Include="Assets\App\Common\ICardCollection.cs" />
     <Compile Include="Assets\App\Common\ICreateWith.cs" />
@@ -101,7 +101,6 @@
     <Compile Include="Assets\App\Common\IEntity.cs" />
     <Compile Include="Assets\App\Common\IHasId.cs" />
     <Compile Include="Assets\App\Common\IHasName.cs" />
-    <Compile Include="Assets\App\Common\IMountable.cs" />
     <Compile Include="Assets\App\Common\IOwned.cs" />
     <Compile Include="Assets\App\Common\IOwner.cs" />
     <Compile Include="Assets\App\Common\LoggingBehavior.cs" />
@@ -109,12 +108,16 @@
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\GameRoot.cs" />
+    <Compile Include="Assets\App\Model\IItemModel.cs" />
+    <Compile Include="Assets\App\Model\IPieceModel.cs" />
+    <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\Card\King.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />
     <Compile Include="Assets\App\Model\ICardCollection.cs" />
     <Compile Include="Assets\App\Model\ICardModel.cs" />
-    <Compile Include="Assets\App\Model\ICardModelTemplate.cs" />
+    <Compile Include="Assets\App\Model\ICardModelMountable.cs" />
+    <Compile Include="Assets\App\Model\ICardTemplate.cs" />
     <Compile Include="Assets\App\Model\IDeckModel.cs" />
     <Compile Include="Assets\App\Model\IEffectModel.cs" />
     <Compile Include="Assets\App\Model\IGameHistory.cs" />
@@ -127,18 +130,15 @@
     <Compile Include="Assets\App\Model\Impl\CardCollectionModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\CardLibrary.cs" />
     <Compile Include="Assets\App\Model\Impl\CardModel.cs" />
-    <Compile Include="Assets\App\Model\Impl\CardModelTemplate.cs" />
-    <Compile Include="Assets\App\Model\Impl\Class1.cs" />
+    <Compile Include="Assets\App\Model\Impl\CardTemplate.cs" />
     <Compile Include="Assets\App\Model\Impl\DeckModel.cs" />
     <Compile Include="Assets\App\Model\Impl\HandModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ItemModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Persistent.cs" />
-    <Compile Include="Assets\App\Model\Impl\PieceModel.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerModel.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
-    <Compile Include="Assets\App\Model\IPieceModel.cs" />
     <Compile Include="Assets\App\Model\IPlayerModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />
@@ -988,6 +988,10 @@
       <Project>{587306A4-4476-5AEF-18A4-84A1E4F77EEE}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\App\Action\Impl\" />
+    <Folder Include="Assets\App\Agent\Cards\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

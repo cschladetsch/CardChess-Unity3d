@@ -1,6 +1,5 @@
 ﻿namespace App.Action
 {
-    /// <inheritdoc />
     /// <summary>
     /// Pass the turn
     /// </summary>

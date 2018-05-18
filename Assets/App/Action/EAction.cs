@@ -2,11 +2,10 @@
 {
     public enum EAction
     {
-        None,
         Pass,
         PlayCard,
+        CastSpell,
         MovePiece,
-        ClaimDraw,
-        ClaimWin,
+        Resign,
     }
 }

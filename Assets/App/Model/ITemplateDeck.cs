@@ -7,7 +7,7 @@
     /// </summary>
     public interface ITemplateDeck :
         IModel,
-        ICardCollection<ICardModelTemplate>
+        ICardCollection<ICardTemplate>
     {
     }
 }

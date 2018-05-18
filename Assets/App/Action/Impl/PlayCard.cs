@@ -1,18 +1,18 @@
-﻿using App.Agent;
-using UnityEngine.Assertions;
+﻿using UnityEngine.Assertions;
 
 namespace App.Action
 {
     using Model;
+    using Common;
 
     /// <inheritdoc />
     /// <summary>
-    /// Play a card from a PlayerAgent's HandModel onto the BoardAgent
+    /// Play a card from a PlayerAgent's Hand onto the Board
     /// </summary>
     public class PlayCard : ActionBase
     {
-        public ICardModel Card;
-        public Coord Coord;
+        public ICardModel Card { get; }
+        public Coord Coord { get; }
 
         public PlayCard()
         {

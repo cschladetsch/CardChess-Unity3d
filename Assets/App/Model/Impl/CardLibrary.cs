@@ -31,12 +31,12 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-        public bool Add(ICardModelTemplate cardModel)
+        public bool Add(ICardTemplate card)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(ICardModelTemplate cardModel)
+        public bool Remove(ICardTemplate card)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-        public ICardModelTemplate Get(Guid id)
+        public ICardTemplate Get(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -56,6 +56,6 @@ namespace App.Model
             return true;
         }
 
-        protected IList<ICardModelTemplate> cards = new List<ICardModelTemplate>();
+        protected IList<ICardTemplate> cards = new List<ICardTemplate>();
     }
 }
