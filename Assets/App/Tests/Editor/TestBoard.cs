@@ -14,8 +14,7 @@ namespace App
         [TestCase(8,8)]
         public void TestBoardModel(int width, int height)
         {
-            var board = new BoardModel();
-            board.Create(width, height);
+            var board = new BoardModel(width, height);
             Assert.AreEqual(board.Width, width);
             Assert.AreEqual(board.Height, height);
             Assert.IsTrue(board.IsValidCoord(new Coord(0, 0)));
@@ -35,7 +34,8 @@ namespace App
         public void TestBoardSetup()
         {
             var arbiter = new Arbiter();
-            var b0 = arbiter.NewModel<BoardModel, int, int>(8, 8);
+            //var b0 = arbiter.NewModel<BoardModel, int, int>(8, 8);
+            var b0 = new BoardModel(8,8);
             var c0 = arbiter.NewAgent<Agent.BoardAgent, IBoardModel>(b0);
             var m0 = arbiter.NewModel<PlayerModel, EColor>(EColor.White);
             var m1 = arbiter.NewModel<PlayerModel, EColor>(EColor.Black);

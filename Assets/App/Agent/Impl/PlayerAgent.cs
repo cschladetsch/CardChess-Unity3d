@@ -160,16 +160,12 @@ namespace App.Agent
 
         public void AcceptCards()
         {
-            Assert.IsNotNull(_acceptCards);
             _acceptCards.Value = true;
         }
 
         public void PlaceKing(Coord coord)
         {
-            Assert.IsNotNull(_placeKing);
-            //TODO var gen = Arbiter.BoardAgent.PlaceCard(King, coord);
-
-            _placeKing.Value = new PlayCard(King, coord);
+            _placeKing.Value = new PlayCard(King.Model, coord);
         }
 
         public void PlayCard(PlayCard playCard)

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.Agent;
+using App.Model;
 
 namespace App.Model
 {
@@ -8,11 +8,11 @@ namespace App.Model
     using Common;
 
     /// <summary>
-    /// The NxN playing boardAgent. Typically 6x6, 10x10, or 12x12 (Desktop only)
+    /// The NxN playing board Typically 6x6, 10x10, or 12x12 (Desktop only)
     /// </summary>
-    public interface IBoardModel :
-        IModel,
-        ICreateWith<int, int>
+    public interface IBoardModel
+        : IModel
+        //, ICreateWith<int, int>
     {
         #region Properties
         int Width { get; }
@@ -21,20 +21,20 @@ namespace App.Model
 
         #region Methods
         void NewGame();
-        Agent.ICardAgent GetContents(Coord coord);
-        Agent.ICardAgent At(Coord coord);
+        ICardModel GetContents(Coord coord);
+        ICardModel At(Coord coord);
         bool IsValidCoord(Coord coord);
-        IEnumerable<Agent.ICardAgent> GetContents();
-        void PlaceCard(Agent.ICardAgent cardAgent, Coord coord);
-        bool CanPlaceCard(Agent.ICardAgent cardAgent, Coord coord);
+        IEnumerable<ICardModel> GetContents();
+        void PlaceCard(ICardModel cardModel, Coord coord);
+        bool CanPlaceCard(ICardModel card, Coord coord);
         IEnumerable<PlayCard> GetAdjacent(Coord cood, int dist = 1);
-        IEnumerable<Agent.ICardAgent> AttackedCards(Coord cood);
-        IEnumerable<Agent.ICardAgent> DefendededCards(Agent.ICardAgent defender, Coord cood);
-        IEnumerable<Agent.ICardAgent> Defenders(Coord cood);
+        IEnumerable<ICardModel> AttackedCards(Coord cood);
+        IEnumerable<ICardModel> DefendededCards(ICardModel defender, Coord cood);
+        IEnumerable<ICardModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
 
 		string ToString(Func<Coord, string> fun);
-        string CardToRep(Agent.ICardAgent cardAgent);
+        string CardToRep(ICardModel cardModel);
 
         #endregion
     }

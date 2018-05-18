@@ -109,6 +109,7 @@
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\GameRoot.cs" />
+    <Compile Include="Assets\App\Model\Card\King.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />
     <Compile Include="Assets\App\Model\ICardCollection.cs" />
@@ -127,14 +128,17 @@
     <Compile Include="Assets\App\Model\Impl\CardLibrary.cs" />
     <Compile Include="Assets\App\Model\Impl\CardModel.cs" />
     <Compile Include="Assets\App\Model\Impl\CardModelTemplate.cs" />
+    <Compile Include="Assets\App\Model\Impl\Class1.cs" />
     <Compile Include="Assets\App\Model\Impl\DeckModel.cs" />
     <Compile Include="Assets\App\Model\Impl\HandModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ItemModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Persistent.cs" />
+    <Compile Include="Assets\App\Model\Impl\PieceModel.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerModel.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
+    <Compile Include="Assets\App\Model\IPieceModel.cs" />
     <Compile Include="Assets\App\Model\IPlayerModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />

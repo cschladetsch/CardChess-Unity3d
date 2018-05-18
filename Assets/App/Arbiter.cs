@@ -158,7 +158,7 @@ namespace App
         public ICardAgent NewCardAgent(ICardModelTemplate modelTemplate, IOwner owner)
         {
             var cardInstance = Database.CardTemplates.New(modelTemplate.Id, owner);
-            // TODOreturn NewAgent<CardAgent, ICard>(cardInstance);
+            // TODOreturn NewAgent<Card, ICard>(cardInstance);
             return null;
         }
 

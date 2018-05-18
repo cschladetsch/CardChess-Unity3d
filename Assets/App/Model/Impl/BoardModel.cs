@@ -13,7 +13,7 @@ namespace App.Model
     // boards do not store model cards
 
     /// <summary>
-    /// The main playing boardAgent. Can be of arbitrary dimention.
+    /// The main playing board Can be of arbitrary dimention.
     /// Contents are stored as row-major. the bottom left corner for white is at contents[0][0]
     /// the topright corner for white is at contents[Height - 1][Width - 1]
     /// Both Black and White use the same coordinate system.
@@ -25,21 +25,37 @@ namespace App.Model
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public bool Create(int width, int height)
+        public BoardModel() { throw new NotImplementedException(); }
+
+        public BoardModel(int width, int height)
         {
             Width = width;
             Height = height;
 
-            _contents = new List<List<Agent.ICardAgent>>();
-            for (var n = 0; n < height; ++n)
+            ConstructBoard();
+        }
+
+        public void NewGame()
+        {
+            ClearBoard();
+        }
+
+        private void ClearBoard()
+        {
+            foreach (var card in GetContents())
+                card.Destroy();
+        }
+
+        private void ConstructBoard()
+        {
+            _contents = new List<List<ICardModel>>();
+            for (var n = 0; n < Height; ++n)
             {
-                var row = new List<Agent.ICardAgent>();
-                for (var m = 0; m < width; ++m)
+                var row = new List<ICardModel>();
+                for (var m = 0; m < Width; ++m)
                     row.Add(null);
                 _contents.Add(row);
             }
-
-            return true;
         }
 
         public bool IsValid(Coord coord)
@@ -47,9 +63,9 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public bool CanPlaceCard(Agent.ICardAgent cardAgent, Coord coord)
+        public bool CanPlaceCard(ICardModel card, Coord coord)
         {
-            Assert.IsNotNull(cardAgent);
+            Assert.IsNotNull(card);
             Assert.IsTrue(IsValid(coord));
 
             // can play on empty square...
@@ -60,17 +76,17 @@ namespace App.Model
                 var adj = GetAdjacent(coord, Parameters.EnemyKingClosestPlacement).ToArray();
                 return
                     adj.Length == 0 ||
-                    adj.Any(c => c.CardAgent.Type == ECardType.King && !c.CardAgent.SameOwner(cardAgent.Owner));
+                    adj.Any(c => c.Card.Type == ECardType.King && !c.Card.SameOwner(card.Owner));
             }
 
             // this is actually a battle
-            if (!existing.SameOwner(cardAgent.Owner))
+            if (!existing.SameOwner(card.Owner))
                 return true;
 
             // true if we can mount an existing card there
-            var mountable = cardAgent as Common.IMountable;
+            var mountable = card as ICardModelMountable;
             if (mountable != null)
-                return mountable.CanMount(cardAgent);
+                return mountable.CanMount(card);
 
             return false;
         }
@@ -95,7 +111,7 @@ namespace App.Model
             return items;
         }
 
-        public IEnumerable<Agent.ICardAgent> AttackedCards(Coord coord)
+        public IEnumerable<ICardModel> AttackedCards(Coord coord)
         {
             var card = At(coord);
             if (card == null)
@@ -160,7 +176,16 @@ namespace App.Model
             yield break;
         }
 
-        public string ToString(Func<Coord, string> fun)
+        public string Print()
+        {
+            return Print((c) =>
+            {
+                var card = At(c);
+                return card == null ? "  " : CardToRep(card);
+            });
+        }
+
+        public string Print(Func<Coord, string> fun)
         {
             var sb = new StringBuilder();
             for (int y = Height - 1; y >= 0; --y)
@@ -187,57 +212,41 @@ namespace App.Model
             return sb.ToString();
         }
 
-        public string CardToRep(Agent.ICardAgent cardAgent)
+        public string CardToRep(ICardModel card)
         {
-            if (cardAgent == null) return "  ";
-            var ch = $"{cardAgent.Model.ModelTemplate.Type.ToString()[0]} ";
+            if (card == null) return "  ";
+            var ch = $"{card.ModelTemplate.Type.ToString()[0]} ";
             return ch;
         }
 
-        public override string ToString()
-        {
-            return ToString((c) =>
-            {
-                var card = At(c);
-                if (card == null)
-                    return "  ";
-                return CardToRep(card);
-            });
-        }
-
-        private IEnumerable<Coord> GetPossibleMovements(Agent.ICardAgent cardAgent, Coord coord)
+        private IEnumerable<Coord> GetPossibleMovements(ICardModel cardAgent, Coord coord)
         {
             return null;
         }
 
-        public IEnumerable<Agent.ICardAgent> DefendededCards(Agent.ICardAgent defender, Coord cood)
+        public IEnumerable<ICardModel> DefendededCards(ICardModel defender, Coord cood)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Agent.ICardAgent> Defenders(Coord cood)
+        public IEnumerable<ICardModel> Defenders(Coord cood)
         {
             throw new NotImplementedException();
         }
 
-        public void NewGame()
-        {
-            Create(Width, Height);
-        }
-
-        public Agent.ICardAgent GetContents(Coord coord)
+        public ICardModel GetContents(Coord coord)
         {
             return !IsValidCoord(coord) ? null : At(coord);
         }
 
-        public Agent.ICardAgent At(Coord coord)
+        public ICardModel At(Coord coord)
         {
             var valid = IsValidCoord(coord);
             Assert.IsTrue(valid);
             return !valid ? null : _contents[coord.y][coord.x];
         }
 
-        public Agent.ICardAgent At(int x, int y)
+        public ICardModel At(int x, int y)
         {
             if (x < 0 || y < 0)
                 return null;
@@ -251,12 +260,12 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public IEnumerable<Agent.ICardAgent> GetContents()
+        public IEnumerable<ICardModel> GetContents()
         {
             return _contents.SelectMany(row => row);
         }
 
-        public void PlaceCard(Agent.ICardAgent cardAgent, Coord coord)
+        public void PlaceCard(ICardModel cardAgent, Coord coord)
         {
             Info("BoardAgent: Placed {card.Owner.Color} {card} at {coord}");
             _contents[coord.y][coord.x] = cardAgent;
@@ -271,7 +280,7 @@ namespace App.Model
         }
 
         #region Private Fields
-        private List<List<Agent.ICardAgent>> _contents;
+        private List<List<ICardModel>> _contents;
         #endregion
     }
 }

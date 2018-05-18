@@ -1,30 +1,33 @@
 ﻿using App.Agent;
+using UnityEngine.Assertions;
 
 namespace App.Action
 {
+    using Model;
+
     /// <inheritdoc />
     /// <summary>
     /// Play a card from a PlayerAgent's HandModel onto the BoardAgent
     /// </summary>
     public class PlayCard : ActionBase
     {
-        public ICardAgent CardAgent;
+        public ICardModel Card;
         public Coord Coord;
 
         public PlayCard()
         {
         }
 
-        public PlayCard(ICardAgent cardAgent, Coord coord)
+        public PlayCard(ICardModel card, Coord coord)
         {
-            // TODO Assert.IsNotNull(card);
-            CardAgent = cardAgent;
+            Assert.IsNotNull(card);
+            Card = card;
             Coord = coord;
         }
 
         public override string ToString()
         {
-            return $"PlayCard {CardAgent} to {Coord}";
+            return $"Play {Card.Type} @{Coord}";
         }
     }
 }

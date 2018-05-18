@@ -24,14 +24,15 @@ namespace App.Agent
 
         public IGenerator PlaceCard(ICardAgent cardAgent, Coord coord)
         {
-            if (!Model.CanPlaceCard(cardAgent, coord))
+            if (!Model.CanPlaceCard(cardAgent.Model, coord))
                 return null;
-            return New.Do(() => Model.PlaceCard(cardAgent, coord));
+            return New.Do(() => Model.PlaceCard(cardAgent.Model, coord));
         }
 
         public ICardAgent At(Coord coord)
         {
-            return Model.At(coord);
+            //TODOreturn Model.At(coord);
+            return null;
         }
 
         public IEnumerable<PlayCard> AdjacentTo(Coord coord, int dist = 1)
@@ -51,7 +52,7 @@ namespace App.Agent
 
         public string CardToRep(ICardAgent cardAgent)
         {
-            return Model.CardToRep(cardAgent);
+            return Model.CardToRep(cardAgent.Model);
         }
 
         public override string ToString()

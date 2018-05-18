@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JetBrains.Annotations;
-using UniRx.Triggers;
+using System.Reflection;
 
 namespace App.Model
 {
@@ -26,7 +23,7 @@ namespace App.Model
         public IModel Get(Guid id)
         {
             IModel model;
-            if (Models.TryGetValue(id, out model))
+            if (_models.TryGetValue(id, out model))
                 return model;
             Warn($"Failed to find model with id {id}");
             return null;
@@ -52,19 +49,41 @@ namespace App.Model
             return null;
         }
 
-        public TModel New<TModel>() where TModel : class, IModel, new()
+        public TModel New<TModel>(params object[] args) where TModel : class, IModel, new()
         {
-            var model = new TModel();
-            Models[model.Id] = model;
+            var model = NewModel<TModel>(args);
+            _models[model.Id] = model;
             var ty = typeof(TModel);
-            if (!KnownTypes.Contains(ty))
+            if (!_typeToGuid.ContainsKey(ty))
             {
-                KnownTypes.Add(ty);
-                Types[Guid.NewGuid()] = ty;
+                var id = Guid.NewGuid();
+                _idToType[id] = ty;
+                _typeToGuid[ty] = id;
             }
 
+            Verbose(10, $"Made an instance of {ty} with Id={model.Id}");
             model.Registry = this;
             return model;
+        }
+
+        private TModel NewModel<TModel>(object[] args) where TModel : class, IModel, new()
+        {
+            var ty = typeof(TModel);
+            var cons = ty.GetConstructors();//BindingFlags.NonPublic | BindingFlags.Public);
+            var argTypes = args.Select(a => a.GetType()).ToArray();
+            foreach (var con in cons)
+            {
+                var paramTypes = con.GetParameters().Select(p => p.ParameterType);
+                if (!argTypes.SequenceEqual(paramTypes))
+                    continue;
+                var model = con.Invoke(args) as TModel;
+                if (model != null)
+                    return model;
+                Error($"Couldn't create type {ty} with args {args}");
+                return null;
+            }
+            Error($"Couldn't create type {ty} with args {args}");
+            return null;
         }
 
         public void Destroy(IModel model)
@@ -76,14 +95,14 @@ namespace App.Model
             }
 
             model.Destroy();
-            if (!Models.ContainsKey(model.Id))
+            if (!_models.ContainsKey(model.Id))
                 Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
 
-            Models.Remove(model.Id);
+            _models.Remove(model.Id);
         }
 
-        private Dictionary<Guid, IModel> Models = new Dictionary<Guid, IModel>();
-        private Dictionary<Guid, Type> Types = new Dictionary<Guid, Type>();
-        private HashSet<Type> KnownTypes = new HashSet<Type>();
+        private readonly Dictionary<Guid, IModel> _models = new Dictionary<Guid, IModel>();
+        private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
+        private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
     }
 }

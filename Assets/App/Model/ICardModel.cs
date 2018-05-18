@@ -28,4 +28,12 @@ namespace App.Model
 
         Response ChangeHealth(int amount, ICardModel cause);
     }
+
+    public interface ICardModelMountable
+        : ICardModel
+    {
+        ICardModel Mounted { get; }
+        bool CanMount(ICardModel other);
+        bool SetMounted(ICardModel rider);
+    }
 }

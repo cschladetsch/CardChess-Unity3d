@@ -13,12 +13,20 @@ namespace App.Model
         ModelBase,
         ICardModel
     {
+        public ECardType Type => ModelTemplate.Type;
+        public ICardModelTemplate ModelTemplate { get; }
+        public string Description => ModelTemplate.FlavourText;
+        public int Attack { get; }
+        public int Health { get; private set; }
+        public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
+        public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
+        public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
+
         public CardModel(ICardModelTemplate modelTemplate, IOwner owner)
         {
             ModelTemplate = modelTemplate;
 
-            // TODO
-            base.Create(owner);
+            Create(owner);
 
             Attack = modelTemplate.Attack;
             Health = modelTemplate.Health;
@@ -26,18 +34,6 @@ namespace App.Model
             if (modelTemplate.Abilities != null)
                 Abilities = modelTemplate.Abilities.ToList();
         }
-
-        public IEnumerable<Common.IEffect> Effects { get; }
-        public ECardType Type => ModelTemplate.Type;
-
-        public ICardModelTemplate ModelTemplate { get; }
-        public string Description { get; }
-        public int Attack { get; }
-
-        public int Health { get; private set; }
-
-        public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
-        public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
 
         public Response ChangeHealth(int value, ICardModel cause)
         {

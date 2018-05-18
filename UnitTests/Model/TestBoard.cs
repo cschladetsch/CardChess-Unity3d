@@ -14,7 +14,8 @@ namespace UnitTests
         [Test]
         public void TestBoardPiecePlacement()
         {
-            var board = new BoardModel();
+            var reg = new Registry();
+            var board = reg.New<BoardModel>(8, 8);
         }
     }
 }
