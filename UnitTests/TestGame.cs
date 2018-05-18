@@ -20,8 +20,6 @@ namespace App
             var coord = new Coord(3, 3);
             board.PlaceCard(card, coord);
             var squares = board.GetMovements(coord);
-            var cc = board.CardToRep(card);
-            var dd = board.CardToRep(null);
             var text = board.ToString(
                 (c) => squares.Contains(c) ? "x " : $"{board.CardToRep(board.At(c))}");
             Trace.WriteLine(text);

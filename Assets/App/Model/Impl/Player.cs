@@ -72,8 +72,8 @@ namespace App.Model
             //TODO Hand = Arbiter.NewModel<Hand>(this);
             foreach (var card in Deck.Cards.Take(Parameters.StartHandCardCount))
             {
-                Deck.Remove(card);
-                Hand.Add(card);
+                Deck.Remove(card as ICard);
+                Hand.Add(card as ICard);
             }
         }
 

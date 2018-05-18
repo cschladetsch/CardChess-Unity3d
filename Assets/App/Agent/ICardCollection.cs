@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace App.Agent
 {
     public interface ICardCollection :
-        Common.ICardCollection<ICard>
+        Common.ICardCollection<Common.ICard>
     {
     }
 }

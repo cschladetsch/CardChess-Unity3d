@@ -27,21 +27,11 @@ namespace App.Model
                 Abilities = template.Abilities.ToList();
         }
 
+        public IEnumerable<Common.IEffect> Effects { get; }
         public ECardType Type => Template.Type;
-        public event CardDelegate Born;
-        public event CardDelegate Died;
-        public event CardDelegate Reborn;
-        public event CardDelegate Moved;
-        public event CardDelegate AppliedToPiece;
-        public event CardDelegate RemovedFromPiece;
-        public event CardDelegate HealthChanged;
-        public event CardDelegate AttackChanged;
-        public event CardDelegate ItemAdded;
-        public event CardDelegate ItemRemoved;
-        public event CardDelegate Attacked;
-        public event CardDelegate Defended;
 
         public ICardTemplate Template { get; }
+        public string Description { get; }
         public int Attack { get; }
 
         public int Health { get; private set; }
@@ -56,7 +46,7 @@ namespace App.Model
 
             Health = value;
 
-            HealthChanged?.Invoke(this, cause);
+            //HealthChanged?.Invoke(this, cause);
 
             if (Health <= 0)
                 Die();
@@ -74,7 +64,7 @@ namespace App.Model
 
         private void Die()
         {
-            Died?.Invoke(this, this);
+            //Died?.Invoke(this, this);
         }
     }
 }

@@ -4,28 +4,29 @@ using System.Collections.Generic;
 namespace App.Model
 {
     using Common;
+    using ICard = Common.ICard;
 
     /// <summary>
     /// All cards owned by a player
     /// </summary>
     public abstract class CardLibrary :
         ModelBase,
-        ICardCollection<ICardTemplate>,
+        ICardCollection<Common.ICard>,
         ICreateWith<Guid>
     {
         public int MaxCards => int.MaxValue;
 
-        public IEnumerable<ICardTemplate> Cards => cards;
+        public IEnumerable<Common.ICard> Cards => cards;
         public int NumCards { get; }
         public bool Empty => cards.Count == 0;
         public bool Maxxed => cards.Count == MaxCards;
 
-        public bool Add(ICard card)
+        public bool Add(Common.ICard card)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(ICard card)
+        public bool Remove(Common.ICard card)
         {
             throw new NotImplementedException();
         }

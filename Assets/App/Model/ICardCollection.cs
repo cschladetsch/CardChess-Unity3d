@@ -1,8 +1,8 @@
 ﻿namespace App.Model
 {
-    interface ICardCollection :
+    public interface ICardCollection :
         IModel,
-        Common.ICardCollection<Model.ICard>
+        Common.ICardCollection<Common.ICard>
     {
     }
 }

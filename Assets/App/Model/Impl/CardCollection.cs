@@ -11,7 +11,7 @@ namespace App.Model
         Common.ICardCollection<Model.ICard>
     {
         public abstract int MaxCards { get; }
-        public IEnumerable<ICard> Cards => cards;
+        public IEnumerable<Common.ICard> Cards => cards;
         public int NumCards => cards.Count;
         public bool Empty => NumCards == 0;
         public bool Maxxed => cards.Count == MaxCards;
