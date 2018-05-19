@@ -63,7 +63,18 @@ namespace App.Model
 
             Verbose(10, $"Made an instance of {ty} with Id={model.Id}");
             model.Registry = this;
+            model.OnDestroy += ModelDestroyed;
             return model;
+        }
+
+        private void ModelDestroyed(object sender, IModel model, object[] context)
+        {
+            if (model == null)
+            {
+                Warn($"Attempt to Destroy null model, sender={sender}");
+                return;
+            }
+            _models.Remove(model.Id);
         }
 
         private TModel NewModel<TModel>(object[] args) where TModel : class, IModel, new()

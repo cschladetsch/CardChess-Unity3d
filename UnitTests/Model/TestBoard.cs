@@ -17,6 +17,11 @@ namespace UnitTests
             var reg = new Registry();
             var board = reg.New<BoardModel>(8, 8);
             var w = reg.New<PlayerModel>(EColor.White);
+            var b = reg.New<PlayerModel>(EColor.Black);
+            var a = reg.New<ArbiterModel>(board, w, b);
+
+            a.NewGame();
+
         }
     }
 }

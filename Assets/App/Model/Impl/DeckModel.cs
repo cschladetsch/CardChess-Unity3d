@@ -6,22 +6,21 @@ namespace App.Model
 
     public class DeckModel :
         CardCollectionModelBase,
-        IDeckModel,
-        IConstructWith<Guid, IOwner>
+        IDeckModel
     {
         public override int MaxCards => Parameters.MinCardsInDeck;
 
-        public bool Construct(Guid a0, IOwner owner)
+        public DeckModel(Guid a0, IOwner owner)
+            : base(owner)
         {
-            base.Construct(owner);
-            // TODO: use guid to find the deckModel from deckModel-builder list
-            return true;
         }
 
         public void NewGame()
         {
+            cards.Clear();
             for (var n = 0; n < MaxCards; ++n)
             {
+                // LATER: use a pre-made deck (CardLibrary)
                 var tmpl = Database.CardTemplates.GetRandom();
                 var card = Arbiter.Instance.NewCardModel(tmpl, Owner);
                 Add(card);
@@ -40,7 +39,7 @@ namespace App.Model
 
         ICardModel IDeckModel.Draw()
         {
-            throw new NotImplementedException();
+            return Draw() as ICardModel;
         }
 
         public ICard Draw()

@@ -9,6 +9,9 @@ namespace App.Model
     {
         public override int MaxCards => Parameters.MaxCardsInHand;
 
+        public HandModel(IOwner owner) : base(owner)
+        {
+        }
         public Response NewGame()
         {
             var count = Parameters.StartHandCardCount;
@@ -24,5 +27,6 @@ namespace App.Model
             }
             return Response.Ok;
         }
+
     }
 }

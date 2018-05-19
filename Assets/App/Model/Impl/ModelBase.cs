@@ -18,26 +18,22 @@ namespace App.Model
         public Registry Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; private set; }
-        public IOwner Owner { get; private set; }
+        public IOwner Owner { get; protected set; }
 
         public event ModelDestroyedHandler OnDestroy;
 
-        protected ModelBase()
+        public bool Construct(IOwner owner)
         {
+            Owner = owner;
             Id = Guid.NewGuid();
             Subject = this;
             LogPrefix = "Model";
-        }
-
-        public bool Construct(IOwner a0)
-        {
-            Owner = a0;
             return true;
         }
 
-        public bool SameOwner(IOwner other)
+        public bool SameOwner(IOwned other)
         {
-            return Owner == other;
+            return Owner == other.Owner;
         }
 
         public virtual void Destroy()

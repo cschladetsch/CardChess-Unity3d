@@ -11,23 +11,23 @@ namespace App.Agent.Card
 {
     public class AgentBaseCardCoro<TCardModel>
         : AgentBaseCoro<Model.ICardModel>
-            , ICardAgent
+        , ICardAgent
     {
-        protected override IEnumerator Next(IGenerator self)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SameOwner(IOwner other)
-        {
-            throw new NotImplementedException();
-        }
-
         public string Description { get; }
         public int Attack { get; }
         public int Health { get; }
         public IEnumerable<IEffect> Effects { get; }
         public ECardType Type { get; }
         public EPieceType PieceType { get; }
+
+        protected override IEnumerator Next(IGenerator self)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SameOwner(IOwned other)
+        {
+            return Owner == other?.Owner;
+        }
     }
 }

@@ -36,12 +36,21 @@ namespace App.Model
         public void NewGame()
         {
             ClearBoard();
+            ConstructBoard();
         }
 
         private void ClearBoard()
         {
             foreach (var card in GetContents())
+            {
+                RemovePiece(card.Coord);
                 card.Destroy();
+            }
+        }
+
+        void RemovePiece(Coord coord)
+        {
+            _contents[coord.y][coord.x] = null;
         }
 
         private void ConstructBoard()

@@ -4,6 +4,6 @@
     {
         IOwner Owner { get; }
 
-        bool SameOwner(IOwner other);
+        bool SameOwner(IOwned other);
     }
 }

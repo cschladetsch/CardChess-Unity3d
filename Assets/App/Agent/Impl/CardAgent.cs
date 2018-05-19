@@ -23,9 +23,9 @@ namespace App.Agent
 
         #region Public Methods
 
-        public bool SameOwner(IOwner other)
+        public bool SameOwner(IOwned other)
         {
-            return Owner == other;
+            return Owner == other?.Owner;
         }
 
         //public IFuture<Action.MovePiece> Move()

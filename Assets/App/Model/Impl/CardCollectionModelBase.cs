@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.Common;
 
 namespace App.Model
 {
@@ -19,6 +20,11 @@ namespace App.Model
         public IPlayerModel Player => Owner as IPlayerModel;
         public IHandModel Hand => Player.Hand;
         public IDeckModel Deck => Player.Deck;
+
+        protected CardCollectionModelBase(IOwner owner)
+        {
+            Construct(owner);
+        }
 
         public bool Has(ICardModel card)
         {
