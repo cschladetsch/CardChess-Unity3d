@@ -50,6 +50,11 @@ namespace App.Model
 
         void RemovePiece(Coord coord)
         {
+            if (!IsValid(coord))
+            {
+                Warn($"Attempt to remove from invalid {coord}");
+                return;
+            }
             _contents[coord.y][coord.x] = null;
         }
 

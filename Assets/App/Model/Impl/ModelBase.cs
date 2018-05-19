@@ -38,6 +38,12 @@ namespace App.Model
 
         public virtual void Destroy()
         {
+            if (Destroyed)
+            {
+                Warn($"Attempt to destroy {this} twice");
+                return;
+            }
+
             OnDestroy?.Invoke(this, this);
             Destroyed = true;
             Id = Guid.Empty;

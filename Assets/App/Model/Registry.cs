@@ -35,7 +35,7 @@ namespace App.Model
             if (model.Construct(a0, a1))
                 return model;
             Error($"Failed to create instance of {typeof(TModel)} with args {a0}, {a1}");
-            Destroy(model);
+            Remove(model);
             return null;
         }
 
@@ -45,8 +45,13 @@ namespace App.Model
             if (model.Construct(a0))
                 return model;
             Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
-            Destroy(model);
+            Remove(model);
             return null;
+        }
+
+        private void Remove(IModel model)
+        {
+            _models.Remove(model.Id);
         }
 
         public TModel New<TModel>(params object[] args) where TModel : class, IModel, new()
@@ -71,9 +76,14 @@ namespace App.Model
         {
             if (model == null)
             {
-                Warn($"Attempt to Destroy null model, sender={sender}");
+                Verbose(10, "Attempt to destroy null model");
                 return;
             }
+
+            model.OnDestroy -= ModelDestroyed;
+            if (!_models.ContainsKey(model.Id))
+                Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
+
             _models.Remove(model.Id);
         }
 
@@ -90,26 +100,10 @@ namespace App.Model
                 var model = con.Invoke(args) as TModel;
                 if (model != null)
                     return model;
-                Error($"Couldn't create type {ty} with args {args}");
-                return null;
+                break;
             }
             Error($"Couldn't create type {ty} with args {args}");
             return null;
-        }
-
-        public void Destroy(IModel model)
-        {
-            if (model == null)
-            {
-                Verbose(10, "Attempt to destroy null model");
-                return;
-            }
-
-            model.Destroy();
-            if (!_models.ContainsKey(model.Id))
-                Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
-
-            _models.Remove(model.Id);
         }
 
         private readonly Dictionary<Guid, IModel> _models = new Dictionary<Guid, IModel>();
