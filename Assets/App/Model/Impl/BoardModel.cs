@@ -2,8 +2,6 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using App.Action;
-using App.Agent;
 using UnityEngine.Assertions;
 
 namespace App.Model
@@ -48,10 +46,10 @@ namespace App.Model
 
         private void ConstructBoard()
         {
-            _contents = new List<List<ICardModel>>();
+            _contents = new List<List<IPieceModel>>();
             for (var n = 0; n < Height; ++n)
             {
-                var row = new List<ICardModel>();
+                var row = new List<IPieceModel>();
                 for (var m = 0; m < Width; ++m)
                     row.Add(null);
                 _contents.Add(row);
@@ -74,13 +72,14 @@ namespace App.Model
             {
                 // ...unless within 4 squares of enemy king
                 var adj = GetAdjacent(coord, Parameters.EnemyKingClosestPlacement).ToArray();
-                return
-                    adj.Length == 0 ||
-                    adj.Any(c => c.Card.Type == ECardType.King && !c.Card.SameOwner(card.Owner));
+                return false;
+                //return
+                //    adj.Length == 0 ||
+                //    adj.Any(c => c.Card.Type == ECardType.Piece && ((IPieceModel)c.Card).Type  == EPieceType.King && !c.Card.SameOwner(card.Owner));
             }
 
             // this is actually a battle
-            if (!existing.SameOwner(card.Owner))
+            if (existing.Owner != card.Owner)
                 return true;
 
             // true if we can mount an existing card there
@@ -91,9 +90,9 @@ namespace App.Model
             return false;
         }
 
-        public IEnumerable<PlayCard> GetAdjacent(Coord coord, int dist = 1)
+        public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
         {
-            var items = new List<PlayCard>();
+            var items = new List<IPieceModel>();
             for (var y = -dist; y <= dist; ++y)
             {
                 for (var x = -dist; x <= dist; ++x)
@@ -101,23 +100,27 @@ namespace App.Model
                     if (x == 0 && y == 0)
                         continue;
 
-                    var card = At(coord);
-                    if (card == null)
+                    var piece = At(coord);
+                    if (piece == null)
                         continue;
 
-                    items.Add(new PlayCard(card, coord));
+                    items.Add(piece);
                 }
             }
             return items;
         }
 
-        public IEnumerable<ICardModel> AttackedCards(Coord coord)
+        public IEnumerable<IPieceModel> AttackedCards(Coord coord)
         {
-            var card = At(coord);
-            if (card == null)
-                return null;
-            var coords = GetPossibleMovements(card, coord);
-            return null;
+            var piece = At(coord);
+            if (piece == null)
+                yield break;
+            foreach (var c in GetPossibleMovements(piece))
+            {
+                var attacked = At(c);
+                if (attacked != null)
+                    yield return attacked;
+            }
         }
 
         static int Max(int a, int b) { return a > b ? a : b; }
@@ -180,8 +183,8 @@ namespace App.Model
         {
             return Print((c) =>
             {
-                var card = At(c);
-                return card == null ? "  " : CardToRep(card);
+                var piece = At(c);
+                return piece == null ? "  " : CardToRep(piece.Card);
             });
         }
 
@@ -212,41 +215,41 @@ namespace App.Model
             return sb.ToString();
         }
 
-        public string CardToRep(ICardModel card)
+        public string CardToRep(ICardModel model)
         {
-            if (card == null) return "  ";
-            var ch = $"{card.ModelTemplate.Type.ToString()[0]} ";
+            if (model == null) return "  ";
+            var ch = $"{model.PieceType.ToString()[0]} ";
             return ch;
         }
 
-        private IEnumerable<Coord> GetPossibleMovements(ICardModel cardAgent, Coord coord)
+        private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
         {
             return null;
         }
 
-        public IEnumerable<ICardModel> DefendededCards(ICardModel defender, Coord cood)
+        public IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ICardModel> Defenders(Coord cood)
+        public IEnumerable<IPieceModel> Defenders(Coord cood)
         {
             throw new NotImplementedException();
         }
 
-        public ICardModel GetContents(Coord coord)
+        public IPieceModel GetContents(Coord coord)
         {
             return !IsValidCoord(coord) ? null : At(coord);
         }
 
-        public ICardModel At(Coord coord)
+        public IPieceModel At(Coord coord)
         {
             var valid = IsValidCoord(coord);
             Assert.IsTrue(valid);
             return !valid ? null : _contents[coord.y][coord.x];
         }
 
-        public ICardModel At(int x, int y)
+        public IPieceModel At(int x, int y)
         {
             if (x < 0 || y < 0)
                 return null;
@@ -260,15 +263,22 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public IEnumerable<ICardModel> GetContents()
+        public IEnumerable<IPieceModel> GetContents()
         {
             return _contents.SelectMany(row => row);
         }
 
-        public void PlaceCard(ICardModel cardAgent, Coord coord)
+        public IPieceModel PlaceCard(ICardModel card, Coord coord)
         {
             Info("BoardAgent: Placed {card.Owner.Color} {card} at {coord}");
-            _contents[coord.y][coord.x] = cardAgent;
+            //_contents[coord.y][coord.x] = MakePiece(card, coord);
+            return null;
+        }
+
+        IPieceModel MakePiece(ICardModel card, Coord coord)
+        {
+            // return Registry.New<PieceModel>(card);
+            return null;
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
@@ -280,7 +290,7 @@ namespace App.Model
         }
 
         #region Private Fields
-        private List<List<ICardModel>> _contents;
+        private List<List<IPieceModel>> _contents;
         #endregion
     }
 }

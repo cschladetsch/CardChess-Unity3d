@@ -43,15 +43,15 @@ namespace App.Database
             var X = int.MaxValue;
             CardTemplate[] cards =
             {                                                    //M, A, H
-                new CardTemplate(ECardType.King, "King",           X, 1, 20),       // king
-                new CardTemplate(ECardType.Queen, "Queen",         6, 6, 7),
-                new CardTemplate(ECardType.Paladin, "Paladin",     1, 1, 2),        // pawn
-                new CardTemplate(ECardType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight
-                new CardTemplate(ECardType.Archer, "Archer",       3, 2, 3),        // bishop
-                new CardTemplate(ECardType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
-                new CardTemplate(ECardType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
-                new CardTemplate(ECardType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
-                new CardTemplate(ECardType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mountable}),
+                new CardTemplate(ECardType.Piece, EPieceType.King, "King",           X, 1, 20),       // king
+                new CardTemplate(ECardType.Piece, EPieceType.Queen, "Queen",         6, 6, 7),
+                new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn
+                new CardTemplate(ECardType.Piece, EPieceType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight
+                new CardTemplate(ECardType.Piece, EPieceType.Archer, "Archer",       3, 2, 3),        // bishop
+                new CardTemplate(ECardType.Piece, EPieceType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
+                new CardTemplate(ECardType.Piece, EPieceType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
+                new CardTemplate(ECardType.Piece, EPieceType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
+                new CardTemplate(ECardType.Piece, EPieceType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mountable}),
             };
 
             foreach (var card in cards)

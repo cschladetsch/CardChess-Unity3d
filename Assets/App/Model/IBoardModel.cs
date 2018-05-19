@@ -21,16 +21,16 @@ namespace App.Model
 
         #region Methods
         void NewGame();
-        ICardModel GetContents(Coord coord);
-        ICardModel At(Coord coord);
+        IPieceModel GetContents(Coord coord);
+        IPieceModel At(Coord coord);
         bool IsValidCoord(Coord coord);
-        IEnumerable<ICardModel> GetContents();
-        void PlaceCard(ICardModel cardModel, Coord coord);
+        IEnumerable<IPieceModel> GetContents();
+        IPieceModel PlaceCard(ICardModel cardModel, Coord coord);
         bool CanPlaceCard(ICardModel card, Coord coord);
-        IEnumerable<PlayCard> GetAdjacent(Coord cood, int dist = 1);
-        IEnumerable<ICardModel> AttackedCards(Coord cood);
-        IEnumerable<ICardModel> DefendededCards(ICardModel defender, Coord cood);
-        IEnumerable<ICardModel> Defenders(Coord cood);
+        IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
+        IEnumerable<IPieceModel> AttackedCards(Coord cood);
+        IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
+        IEnumerable<IPieceModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
 
         string Print();

@@ -15,5 +15,6 @@ namespace App.Common
         int Health { get; }
         IEnumerable<IEffect> Effects { get; }
         ECardType Type { get; }
+        EPieceType PieceType { get; }
     }
 }

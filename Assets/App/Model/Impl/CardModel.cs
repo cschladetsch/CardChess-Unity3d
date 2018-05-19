@@ -21,6 +21,7 @@ namespace App.Model
         public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
+        public EPieceType PieceType { get; }
 
         public CardModel()
         {
@@ -32,6 +33,7 @@ namespace App.Model
 
             Create(owner);
 
+            PieceType = template.PieceType;
             Attack = template.Attack;
             Health = template.Health;
 

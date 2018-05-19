@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using App.Action;
+using App.Model;
 using Flow;
 
 namespace App.Agent
@@ -35,7 +36,7 @@ namespace App.Agent
             return null;
         }
 
-        public IEnumerable<PlayCard> AdjacentTo(Coord coord, int dist = 1)
+        public IEnumerable<Model.IPieceModel> AdjacentTo(Coord coord, int dist = 1)
         {
             return Model.GetAdjacent(coord, dist);
         }
@@ -47,12 +48,12 @@ namespace App.Agent
 
         public string ToString(Func<Coord, string> func)
         {
-            return Model.ToString(func);
+            return Model.Print(func);
         }
 
-        public string CardToRep(ICardAgent cardAgent)
+        public string CardToRep(ICardModel  card)
         {
-            return Model.CardToRep(cardAgent.Model);
+            return Model.CardToRep(card);
         }
 
         public override string ToString()

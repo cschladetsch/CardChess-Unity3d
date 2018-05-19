@@ -17,6 +17,7 @@ namespace App.Agent
         public int Health => Model.Health;
         public string Description => Model.Description;
         public ECardType Type => Model.Type;
+        public EPieceType PieceType => Model.PieceType;
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         #endregion
 

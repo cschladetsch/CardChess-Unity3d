@@ -1,8 +1,9 @@
-﻿using App.Action;
-using Flow;
+﻿using Flow;
 
 namespace App.Model.Card
 {
+    using Common;
+
     public interface ISpellModel
         : ICardModel
     {

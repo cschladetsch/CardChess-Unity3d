@@ -42,6 +42,7 @@ namespace App.Model
 
         public virtual void Destroy()
         {
+            OnDestroy?.Invoke(this, this);
             Destroyed = true;
             Id = Guid.Empty;
         }

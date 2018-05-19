@@ -9,8 +9,10 @@ namespace App.Model
     /// A card played as a piece on the board
     /// </summary>
     public interface IPieceModel
+        : IModel
     {
-        ICardModel Piece { get; }
+        ICardModel Card { get; }
+        EPieceType Type { get; }
         IBoardModel Board { get; }
         Coord Coord { get; }
 

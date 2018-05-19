@@ -163,7 +163,7 @@ namespace App
         }
 
         public ICardAgent NewCardAgent(ICardModel model, IOwner owner)
-            => NewCardAgent(model.ModelTemplate, owner);
+            => NewCardAgent(model.Template, owner);
 
         public ICardAgent NewCardAgent(ECardType type, IOwner owner)
         {

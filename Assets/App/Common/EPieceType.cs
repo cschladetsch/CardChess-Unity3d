@@ -2,6 +2,7 @@
 {
     public enum EPieceType
     {
+        None,
         Paladin,
         King,
         Queen,

@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -59,15 +58,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\App\Action\ActionBase.cs" />
-    <Compile Include="Assets\App\Action\CastSpell.cs" />
-    <Compile Include="Assets\App\Common\Coord.cs" />
     <Compile Include="Assets\App\Action\EAction.cs" />
     <Compile Include="Assets\App\Action\IAction.cs" />
-    <Compile Include="Assets\App\Action\MovePiece.cs" />
-    <Compile Include="Assets\App\Action\Pass.cs" />
-    <Compile Include="Assets\App\Action\PlayCard.cs" />
+    <Compile Include="Assets\App\Action\Impl\ActionBase.cs" />
+    <Compile Include="Assets\App\Action\Impl\CastSpell.cs" />
+    <Compile Include="Assets\App\Action\Impl\MovePiece.cs" />
+    <Compile Include="Assets\App\Action\Impl\Pass.cs" />
+    <Compile Include="Assets\App\Action\Impl\PlayCard.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
+    <Compile Include="Assets\App\Agent\Card\King.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoardAgent.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Assets\App\Arbiter.cs" />
     <Compile Include="Assets\App\ArbiterGameObject.cs" />
     <Compile Include="Assets\App\Common\CollectionExtentions.cs" />
+    <Compile Include="Assets\App\Common\Coord.cs" />
     <Compile Include="Assets\App\Common\EAbility.cs" />
     <Compile Include="Assets\App\Common\ECardType.cs" />
     <Compile Include="Assets\App\Common\EColor.cs" />
@@ -108,9 +108,6 @@
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\GameRoot.cs" />
-    <Compile Include="Assets\App\Model\IItemModel.cs" />
-    <Compile Include="Assets\App\Model\IPieceModel.cs" />
-    <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\Card\King.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />
@@ -123,6 +120,7 @@
     <Compile Include="Assets\App\Model\IGameHistory.cs" />
     <Compile Include="Assets\App\Model\IGameResult.cs" />
     <Compile Include="Assets\App\Model\IHandModel.cs" />
+    <Compile Include="Assets\App\Model\IItemModel.cs" />
     <Compile Include="Assets\App\Model\IModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ArbiterModel.cs" />
     <Compile Include="Assets\App\Model\Impl\BoardModel.cs" />
@@ -136,10 +134,13 @@
     <Compile Include="Assets\App\Model\Impl\ItemModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Persistent.cs" />
+    <Compile Include="Assets\App\Model\Impl\PieceModel.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerModel.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
+    <Compile Include="Assets\App\Model\IPieceModel.cs" />
     <Compile Include="Assets\App\Model\IPlayerModel.cs" />
+    <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />
     <Compile Include="Assets\App\Model\Registry.cs" />
@@ -988,10 +989,6 @@
       <Project>{587306A4-4476-5AEF-18A4-84A1E4F77EEE}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\App\Action\Impl\" />
-    <Folder Include="Assets\App\Agent\Cards\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

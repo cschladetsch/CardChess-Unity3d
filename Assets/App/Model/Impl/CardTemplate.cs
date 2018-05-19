@@ -14,6 +14,7 @@ namespace App.Model
         ICardTemplate
     {
         public ECardType Type { get; }
+        public EPieceType PieceType { get; }
         public string Description { get; }
         public string FlavourText { get; }
         public int ManaCost { get; }
@@ -23,11 +24,12 @@ namespace App.Model
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
 
-        public CardTemplate(ECardType type, string name, int manaCost, int attack,
+        public CardTemplate(ECardType type, EPieceType pieceType, string name, int manaCost, int attack,
             int health, IEnumerable<EAbility> abilities = null,
             string flavourText = "")
         {
             Type = type;
+            PieceType = pieceType;
             Name = name;
             ManaCost = manaCost;
             Attack = attack;
