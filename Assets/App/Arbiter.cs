@@ -96,10 +96,10 @@ namespace App
 
         #region Creation Methods
         public TModel NewModel<TModel>()
-            where TModel : class, ICreateWith, new()
+            where TModel : class, IConstructWith, new()
         {
             var model = new TModel();
-            if (!model.Create())
+            if (!model.Construct())
             {
                 Error("Failed to create Model {0}", typeof(TModel));
                 return null;
@@ -108,10 +108,10 @@ namespace App
         }
 
         public TModel NewModel<TModel, A0>(A0 a0)
-            where TModel : class, ICreateWith<A0>, new()
+            where TModel : class, IConstructWith<A0>, new()
         {
             var model = new TModel();
-            if (!model.Create(a0))
+            if (!model.Construct(a0))
             {
                 Error("Failed to create Model {0} with arg {1}", typeof(TModel), a0);
                 return null;
@@ -120,10 +120,10 @@ namespace App
         }
 
         public TModel NewModel<TModel, A0, A1>(A0 a0, A1 a1)
-            where TModel : class, ICreateWith<A0, A1>, new()
+            where TModel : class, IConstructWith<A0, A1>, new()
         {
             var model = new TModel();
-            if (!model.Create(a0, a1))
+            if (!model.Construct(a0, a1))
             {
                 Error("Failed to create Model {0} with args {1}, {2}", typeof(TModel), a0, a1);
                 return null;
@@ -140,7 +140,7 @@ namespace App
             where TAgent : class, IAgent<TModel>, new()
         {
             var agent = new TAgent();
-            if (!agent.Create(model))
+            if (!agent.Construct(model))
             {
                 Error("Failed to create Agent {0} for Model {1}", typeof(TAgent), typeof(TModel));
                 return null;
@@ -172,13 +172,13 @@ namespace App
         }
 
         public IEntity<TModel, TAgent> NewEntity<TModel, A0, A1, TAgent>(A0 a0, A1 a1)
-            where TModel : class, IModel, ICreateWith<A0, A1>, new()
+            where TModel : class, IModel, IConstructWith<A0, A1>, new()
             where TAgent : class, IAgent<TModel>, new()
         {
             var model = NewModel<TModel, A0, A1>(a0, a1);
             var agent = NewAgent<TAgent, TModel>(model);
             var entity = new Entity<TModel, TAgent>();
-            entity.Create(model, agent);
+            entity.Construct(model, agent);
             return entity;
         }
 

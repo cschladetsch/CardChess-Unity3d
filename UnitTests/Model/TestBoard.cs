@@ -16,6 +16,7 @@ namespace UnitTests
         {
             var reg = new Registry();
             var board = reg.New<BoardModel>(8, 8);
+            var w = reg.New<PlayerModel>(EColor.White);
         }
     }
 }

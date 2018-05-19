@@ -888,7 +888,7 @@ namespace FlyingWormConsole3.LiteNetLib
         /// <param name="port">Server Port</param>
         public void Connect(string address, int port)
         {
-            //Create target endpoint
+            //Construct target endpoint
             NetEndPoint ep = new NetEndPoint(address, port);
             Connect(ep);
         }
@@ -911,7 +911,7 @@ namespace FlyingWormConsole3.LiteNetLib
                     return;
                 }
 
-                //Create reliable connection
+                //Construct reliable connection
                 //And request connection
                 var newPeer = new NetPeer(this, target, 0);
                 _peers.Add(target, newPeer);

@@ -499,7 +499,7 @@ namespace CoLib
 			CommandDelegate currentCommand = null;
 
 			return (ref double deltaTime) => {
-				// Create our coroutine, if we don't have one.
+				// Construct our coroutine, if we don't have one.
 				if (coroutine == null) {
 					coroutine = command();
 					// Finish if we couldn't create a coroutine.

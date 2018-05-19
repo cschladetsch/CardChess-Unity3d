@@ -15,7 +15,7 @@ public class CommandBehaviour : MonoBehaviour
 	#region Public methods
 
 	/// <summary>
-	/// Create a new Queue with the specified commands. The CommandBehaviour
+	/// Construct a new Queue with the specified commands. The CommandBehaviour
 	/// will take care of updating the Queue.
 	/// </summary>
 	/// <returns> A new Queue that the Commands will run on. </returns>

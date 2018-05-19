@@ -12,7 +12,7 @@ namespace App.Model
     /// </summary>
     public interface IBoardModel
         : IModel
-        //, ICreateWith<int, int>
+        //, IConstructWith<int, int>
     {
         #region Properties
         int Width { get; }

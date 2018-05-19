@@ -11,9 +11,9 @@ namespace App.Agent
     public abstract class AgentBaseCoro<TModel> :
         AgentBase<TModel> where TModel : class, IModel
     {
-        public override bool Create(TModel a0)
+        public override bool Construct(TModel a0)
         {
-            base.Create(a0);
+            base.Construct(a0);
             Coro = New.Coroutine(Next);
             Node = New.Node(Coro);
             Kernel.Root.Add(Node);

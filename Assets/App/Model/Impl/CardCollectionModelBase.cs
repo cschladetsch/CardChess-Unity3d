@@ -1,23 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App.Model
 {
     /// <summary>
-    /// Common to other collections of cards for Models, including DeckModel, HandModel and Graveyard.
+    /// Common to other collections of cards for Models, including Deck, Hand and Graveyard.
     /// </summary>
-    public abstract class CardCollectionModelBase :
-        ModelBase,
-        Common.ICardCollection<Model.ICardModel>
+    public abstract class CardCollectionModelBase
+        : ModelBase
+        , Common.ICardCollection<Model.ICardModel>
     {
         public abstract int MaxCards { get; }
         public IEnumerable<Common.ICard> Cards => cards;
         public int NumCards => cards.Count;
         public bool Empty => NumCards == 0;
         public bool Maxxed => cards.Count == MaxCards;
-        public IPlayerModel PlayerModel => Owner as IPlayerModel;
-        public IHandModel HandModel => PlayerModel.HandModel;
-        public IDeckModel DeckModel => PlayerModel.DeckModel;
+        public IPlayerModel Player => Owner as IPlayerModel;
+        public IHandModel Hand => Player.Hand;
+        public IDeckModel Deck => Player.Deck;
+
+        public bool Has(ICardModel card)
+        {
+            return Has(card.Id);
+        }
+
+        public bool Has(Guid idCard)
+        {
+            return cards.Any(c => c.Id == idCard);
+        }
 
         public bool Add(ICardModel cardModel)
         {

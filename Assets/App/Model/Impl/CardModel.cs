@@ -31,7 +31,7 @@ namespace App.Model
         {
             Template = template;
 
-            Create(owner);
+            Construct(owner);
 
             PieceType = template.PieceType;
             Attack = template.Attack;

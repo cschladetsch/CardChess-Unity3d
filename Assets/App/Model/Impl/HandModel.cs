@@ -13,14 +13,14 @@ namespace App.Model
         {
             var count = Parameters.StartHandCardCount;
             cards = new List<ICardModel>();
-            if (DeckModel.NumCards < count)
+            if (Deck.NumCards < count)
             {
-                Error("Need more cards in DeckModel");
+                Error("Need more cards in Deck");
                 return new Response(EResponse.Fail);
             }
             while (count-- > 0)
             {
-                Add((ICardModel)DeckModel.Draw());
+                Add((ICardModel)Deck.Draw());
             }
             return Response.Ok;
         }

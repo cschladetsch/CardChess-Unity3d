@@ -29,20 +29,20 @@ namespace App.Model
             return null;
         }
 
-        public TModel New<TModel, A0, A1>(A0 a0, A1 a1) where TModel : class, IModel, ICreateWith<A0, A1>, new()
+        public TModel New<TModel, A0, A1>(A0 a0, A1 a1) where TModel : class, IModel, IConstructWith<A0, A1>, new()
         {
             var model = New<TModel>();
-            if (model.Create(a0, a1))
+            if (model.Construct(a0, a1))
                 return model;
             Error($"Failed to create instance of {typeof(TModel)} with args {a0}, {a1}");
             Destroy(model);
             return null;
         }
 
-        public TModel New<TModel, A0>(A0 a0) where TModel : class, IModel, ICreateWith<A0>, new()
+        public TModel New<TModel, A0>(A0 a0) where TModel : class, IModel, IConstructWith<A0>, new()
         {
             var model = New<TModel>();
-            if (model.Create(a0))
+            if (model.Construct(a0))
                 return model;
             Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
             Destroy(model);

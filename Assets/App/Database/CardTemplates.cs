@@ -14,13 +14,13 @@ namespace App.Database
             MockConstruct();
         }
 
-        public static Model.ICardModel New(string name, IOwner owner = null)
+        public static ICardModel New(string name, IOwner owner = null)
         {
             var tmpl = _templates.Values.FirstOrDefault(t => t.Name == name);
             return tmpl == null ? null : New(tmpl.Id, owner);
         }
 
-        public static Model.ICardModel New(Guid id, IOwner owner)
+        public static ICardModel New(Guid id, IOwner owner)
         {
             var tmp = _templates[id];
             var card = new CardModel(tmp, owner);
@@ -42,7 +42,7 @@ namespace App.Database
             _templates.Clear();
             var X = int.MaxValue;
             CardTemplate[] cards =
-            {                                                    //M, A, H
+            {                                                                        //M, A, H
                 new CardTemplate(ECardType.Piece, EPieceType.King, "King",           X, 1, 20),       // king
                 new CardTemplate(ECardType.Piece, EPieceType.Queen, "Queen",         6, 6, 7),
                 new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn

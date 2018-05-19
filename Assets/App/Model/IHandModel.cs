@@ -2,9 +2,9 @@
 {
     using Common;
 
-    public interface IHandModel :
-        IModel,
-        ICardCollection<ICardModel>
+    public interface IHandModel
+        : IModel
+        , ICardCollection<ICardModel>
     {
         Response NewGame();
     }

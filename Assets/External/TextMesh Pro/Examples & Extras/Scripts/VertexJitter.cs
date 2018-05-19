@@ -72,7 +72,7 @@ namespace TMPro.Examples
             int loopCount = 0;
             hasTextChanged = true;
 
-            // Create an Array which contains pre-computed Angle Ranges and Speeds for a bunch of characters.
+            // Construct an Array which contains pre-computed Angle Ranges and Speeds for a bunch of characters.
             VertexAnim[] vertexAnim = new VertexAnim[1024];
             for (int i = 0; i < 1024; i++)
             {

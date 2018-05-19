@@ -24,13 +24,13 @@ namespace App.Common
 
         #region Public Methods
         /// <summary>
-        /// Create an Agent by binding a Model to an Agent.
+        /// Construct an Agent by binding a Model to an Agent.
         /// Note that there can be more than one Agent for a given Model.
         /// </summary>
         /// <param name="model">The Model to bind from</param>
         /// <param name="agent">The Agent to bind to</param>
         /// <returns></returns>
-        public bool Create(TModel model, TAgent agent)
+        public bool Construct(TModel model, TAgent agent)
         {
             Assert.IsNotNull(model);
             Assert.IsNotNull(agent);

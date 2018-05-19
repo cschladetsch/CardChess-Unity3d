@@ -465,7 +465,7 @@ namespace FlyingWormConsole3.LiteNetLib
                 int firstFragmentSize = fragments[0].Size - dataOffset;
                 for (int i = 0; i < incomingFragments.ReceivedCount; i++)
                 {
-                    //Create resulting big packet
+                    //Construct resulting big packet
                     int fragmentSize = fragments[i].Size - dataOffset;
                     Buffer.BlockCopy(
                         fragments[i].RawData,

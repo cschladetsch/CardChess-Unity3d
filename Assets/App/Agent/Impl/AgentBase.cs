@@ -17,7 +17,7 @@ namespace App.Agent
         public TModel Model { get; private set; }
         public IOwner Owner => Model.Owner;
 
-        public virtual bool Create(TModel a0)
+        public virtual bool Construct(TModel a0)
         {
             Assert.IsNotNull(a0);
             Id = Guid.NewGuid();

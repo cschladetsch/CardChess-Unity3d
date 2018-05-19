@@ -86,12 +86,12 @@ namespace Adic {
         }
 
         /// <summary>
-        /// Create the EventCalledBehaviour. At any time there should be a single behaviour on the scene.
+        /// Construct the EventCalledBehaviour. At any time there should be a single behaviour on the scene.
         /// </summary>
         /// <param name="containerID">Container ID.</param>
         private void CreateBehaviour(object containerID) {
             if (behaviour == null) {
-                // Create a new game object for UpdateableBehaviour.
+                // Construct a new game object for UpdateableBehaviour.
                 var gameObject = new GameObject();
                 gameObject.name = String.Format("EventCaller ({0})", containerID);
 

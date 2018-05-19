@@ -15,7 +15,7 @@ namespace App.Agent
         public new IEnumerable<ICardAgent> Cards => base.Cards.OfType<ICardAgent>();
         public new Model.IDeckModel Model { get; private set; }
 
-        public bool Create(Model.IDeckModel a0)
+        public bool Construct(Model.IDeckModel a0)
         {
             Model = a0;
             return true;

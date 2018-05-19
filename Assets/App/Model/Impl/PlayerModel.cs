@@ -11,18 +11,19 @@ namespace App.Model
     using Action;
     using Common;
 
-    public class PlayerModel :
-        ModelBase,
-        IPlayerModel,
-        ICreateWith<EColor>
+    public class PlayerModel
+        : ModelBase
+        , IPlayerModel
     {
         #region public Fields
         public EColor Color { get; private set; }
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
         public int Health => King.Health;
-        public IHandModel HandModel { get; private set; }
-        public IDeckModel DeckModel { get; private set; }
+        public IBoardModel Board { get; }
+        public IArbiterModel Arbiter { get; }
+        public IHandModel Hand { get; private set; }
+        public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
         public IEnumerable<ICardModel> CardsOnBoard { get; }
         public IEnumerable<ICardModel> CardsInGraveyard { get; }
@@ -39,14 +40,14 @@ namespace App.Model
         public void SetDeck(IDeckModel deckModel)
         {
             Assert.IsNotNull(deckModel);
-            DeckModel = deckModel;
+            Deck = deckModel;
         }
 
         public Response NewGame()
         {
             MaxMana = 0;
-            DeckModel.NewGame();
-            HandModel.NewGame();
+            Deck.NewGame();
+            Hand.NewGame();
             King = CardTemplates.New("King", this);
             return Response.Ok;
         }
@@ -57,7 +58,27 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public Response MockMakeHand()
+        Response IPlayerModel.DrawHand()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Response AcceptHand()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Response PlayCard(ICardModel model, Coord coord)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Response MovePiece(ICardModel model, Coord coord)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Response Pass()
         {
             throw new NotImplementedException();
         }
@@ -70,13 +91,13 @@ namespace App.Model
 
         public void DrawHand()
         {
-            Assert.IsNotNull(DeckModel);
-            Assert.IsTrue(DeckModel.NumCards >= 30);
-            //TODO HandModel = Arbiter.NewModel<HandModel>(this);
-            foreach (var card in DeckModel.Cards.Take((int)Parameters.StartHandCardCount))
+            Assert.IsNotNull(Deck);
+            Assert.IsTrue(Deck.NumCards >= 30);
+            //TODO Hand = Arbiter.NewModel<Hand>(this);
+            foreach (var card in Deck.Cards.Take((int)Parameters.StartHandCardCount))
             {
-                DeckModel.Remove(card as ICardModel);
-                HandModel.Add(card as ICardModel);
+                Deck.Remove(card as ICardModel);
+                Hand.Add(card as ICardModel);
             }
         }
 

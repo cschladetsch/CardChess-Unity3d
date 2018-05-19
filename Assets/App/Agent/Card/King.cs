@@ -30,13 +30,4 @@ namespace App.Agent.Card
         public ECardType Type { get; }
         public EPieceType PieceType { get; }
     }
-
-    public class King
-        : AgentBaseCardCoro<Model.Card.King>
-    {
-        protected override IEnumerator Next(IGenerator self)
-        {
-            yield break;
-        }
-    }
 }

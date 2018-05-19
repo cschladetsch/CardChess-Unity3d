@@ -7,13 +7,13 @@ namespace App.Model
     public class DeckModel :
         CardCollectionModelBase,
         IDeckModel,
-        ICreateWith<Guid, IOwner>
+        IConstructWith<Guid, IOwner>
     {
         public override int MaxCards => Parameters.MinCardsInDeck;
 
-        public bool Create(Guid a0, IOwner owner)
+        public bool Construct(Guid a0, IOwner owner)
         {
-            base.Create(owner);
+            base.Construct(owner);
             // TODO: use guid to find the deckModel from deckModel-builder list
             return true;
         }
@@ -28,7 +28,7 @@ namespace App.Model
             }
         }
 
-        public bool Create(ITemplateDeck a0)
+        public bool Construct(ITemplateDeck a0)
         {
             throw new NotImplementedException();
         }

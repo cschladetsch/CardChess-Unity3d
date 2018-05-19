@@ -34,7 +34,7 @@ public class ChainedPath: IPath
 	#region Public methods
 
 	/// <summary>
-	/// Create a new path, using child paths. This path will use the Extrapolate overshoot mode.
+	/// Construct a new path, using child paths. This path will use the Extrapolate overshoot mode.
 	/// </summary>
 	/// <param name="paths">The child paths to chain together.</param>
 	public ChainedPath(params IPath[] paths) : this(PathOvershootMode.Extrapolate, paths)
@@ -42,7 +42,7 @@ public class ChainedPath: IPath
 	}
 
 	/// <summary>
-	/// Create a new path, using child paths. This path will use the Extrapolate overshoot mode.
+	/// Construct a new path, using child paths. This path will use the Extrapolate overshoot mode.
 	/// </summary>
 	/// <param name="paths">The child paths to chain together.</param>
 	public ChainedPath(IEnumerable<IPath> paths) : this(PathOvershootMode.Extrapolate, paths as IEnumerable<IPath>)
@@ -50,7 +50,7 @@ public class ChainedPath: IPath
 	}
 
 	/// <summary>
-	/// Create a new path, using child paths.
+	/// Construct a new path, using child paths.
 	/// </summary>
 	/// <param name="wrappedOvershoot">	Determines over/undershooting behaviour. </param>
 	/// <param name="paths">The child paths to chain together.</param>

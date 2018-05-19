@@ -311,7 +311,7 @@ public class AutoWindingPath : IPath
 		samplePoints.AddRange(extraSamplePoints);
 		samplePoints.Sort();
 
-		// Create a list of samples, with the given times.
+		// Construct a list of samples, with the given times.
 		return samplePoints
 			.Distinct()
 			.Select( t => new Sample() { StartTime = t, StartRotation = Quaternion.identity })

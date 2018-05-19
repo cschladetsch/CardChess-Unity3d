@@ -48,7 +48,9 @@ namespace App.Agent
         public ITransient StartGame()
         {
             Info($"{Color}: Start Game");
-            King = Arbiter.NewAgent<Agent.Card.King, Model.ICardModel>(Model.King);
+            // TODO: Arbiter will need its own Registry-type thing combined with
+            // Model.Registry and Flow.IFactory
+            //King = Arbiter.NewAgent<Agent.Card.King, Model.ICardModel>(Model.King);
 
             return null;
         }
@@ -99,7 +101,7 @@ namespace App.Agent
 
         IEnumerator FutureDrawCardCoro(IGenerator self)
         {
-            if (Model.DeckModel.NumCards == 0)
+            if (Model.Deck.NumCards == 0)
             {
                 Warn($"{Color}: No cards left draw");
                 yield break;
@@ -202,16 +204,16 @@ namespace App.Agent
         //private ICard Add(Model.ICard model)
         //{
         //    var card = Arbiter.NewCardAgent(model, this);
-        //    HandModel.Add(card);
+        //    Hand.Add(card);
         //    return null;
         //}
 
         //private void Remove(ICard model)
         //{
-        //    var inDeck = DeckModel.Cards.FirstOrDefault(c => c.Model == model);
+        //    var inDeck = Deck.Cards.FirstOrDefault(c => c.Model == model);
         //    Assert.IsNotNull(inDeck);
-        //    DeckModel.Remove(inDeck);
-        //    Model.DeckModel.Remove(Model.DeckModel.Cards.First(c => c.Template.Id == inDeck.Model.Template.Id));
+        //    Deck.Remove(inDeck);
+        //    Model.Deck.Remove(Model.Deck.Cards.First(c => c.Template.Id == inDeck.Model.Template.Id));
         //}
 
         /// <summary>

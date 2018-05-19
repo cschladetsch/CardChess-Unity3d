@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App.Model
 {
@@ -12,48 +13,71 @@ namespace App.Model
     public abstract class CardLibrary :
         ModelBase,
         ICardCollection<Common.ICard>,
-        ICreateWith<Guid>
+        IConstructWith<Guid>
     {
         public int MaxCards => int.MaxValue;
-
         public IEnumerable<Common.ICard> Cards => cards;
-        public int NumCards { get; }
-        public bool Empty => cards.Count == 0;
-        public bool Maxxed => cards.Count == MaxCards;
+        public int NumCards => cards.Count;
+        public bool Empty => NumCards == 0;
+        public bool Maxxed => NumCards == MaxCards;
+
+        public bool Construct(Guid id)
+        {
+            return true;
+        }
 
         public bool Add(Common.ICard card)
         {
-            throw new NotImplementedException();
+            var templ = card as ICardTemplate;
+            if (card == null)
+            {
+                Warn($"{card} is of type {card.GetType()}, but should be a {typeof(ICardTemplate)}");
+                return false;
+            }
+            cards.Add(templ);
+            return true;
         }
 
         public bool Remove(Common.ICard card)
         {
-            throw new NotImplementedException();
+            var templ = card as ICardTemplate;
+            if (card == null)
+            {
+                Warn($"{card} is of type {card.GetType()}, but should be a {typeof(ICardTemplate)}");
+                return false;
+            }
+            if (!Has(card))
+                return false;
+            cards.Remove(templ);
+            return true;
         }
 
         public bool Add(ICardTemplate card)
         {
-            throw new NotImplementedException();
+            if (Maxxed)
+                return false;
+            cards.Add(card);
+            return true;
         }
 
         public bool Remove(ICardTemplate card)
         {
-            throw new NotImplementedException();
+            return Has(card) && cards.Remove(card);
+        }
+
+        public bool Has(ICard card)
+        {
+            return Has(card.Id);
         }
 
         public bool Has(Guid id)
         {
-            throw new NotImplementedException();
+            return cards.Any(c => c.Id == id);
         }
 
         public ICardTemplate Get(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Create(Guid id)
-        {
-            return true;
+            return cards.First(c => c.Id == id);
         }
 
         protected IList<ICardTemplate> cards = new List<ICardTemplate>();

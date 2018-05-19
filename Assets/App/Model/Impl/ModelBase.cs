@@ -12,7 +12,7 @@ namespace App.Model
     public class ModelBase :
         Flow.Impl.Logger,
         IModel,
-        ICreateWith<IOwner>
+        IConstructWith<IOwner>
     {
         public bool Destroyed { get; private set; } = false;
         public Registry Registry { get; set; }
@@ -29,7 +29,7 @@ namespace App.Model
             LogPrefix = "Model";
         }
 
-        public bool Create(IOwner a0)
+        public bool Construct(IOwner a0)
         {
             Owner = a0;
             return true;
