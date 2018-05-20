@@ -30,7 +30,7 @@ namespace FlyingWormConsole3.LiteNetLib
     public interface INetEventListener
     {
         /// <summary>
-        /// New remote peer connected to host, or client connected to remote host
+        /// NewCardModel remote peer connected to host, or client connected to remote host
         /// </summary>
         /// <param name="peer">Connected peer object</param>
         void OnPeerConnected(NetPeer peer);

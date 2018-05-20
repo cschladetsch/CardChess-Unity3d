@@ -76,7 +76,7 @@ namespace App
             Assert.IsNotNull(WhitePlayerAgent);
             Assert.IsNotNull(BlackPlayerAgent);
 
-            Info("New Game");
+            Info("NewCardModel Game");
 
             _currentPlayer = 0;
             _turnNumber = 0;
@@ -160,7 +160,7 @@ namespace App
 
         public ICardAgent NewCardAgent(ICardTemplate template, IOwner owner)
         {
-            var cardInstance = Database.CardTemplates.New(template.Id, owner);
+            //var cardInstance = Database.CardTemplates.NewCardModel(Registry, template.Id, owner);
             // TODOreturn NewAgent<Card, ICard>(cardInstance);
             return null;
         }

@@ -14,16 +14,16 @@ namespace App.Database
             MockConstruct();
         }
 
-        public static ICardModel New(string name, IOwner owner = null)
+        public static ICardModel NewCardModel(IModelRegistry reg, string name, IOwner owner = null)
         {
             var tmpl = _templates.Values.FirstOrDefault(t => t.Name == name);
-            return tmpl == null ? null : New(tmpl.Id, owner);
+            return tmpl == null ? null : NewCardModel(reg, tmpl.Id, owner);
         }
 
-        public static ICardModel New(Guid id, IOwner owner)
+        public static ICardModel NewCardModel(IModelRegistry reg, Guid id, IOwner owner)
         {
             var tmp = _templates[id];
-            var card = new CardModel(tmp, owner);
+            var card = reg.New<CardModel>(tmp, owner);
             return card;
         }
 

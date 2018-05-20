@@ -15,7 +15,7 @@ namespace App.Model
         IConstructWith<IOwner>
     {
         public bool Destroyed { get; private set; } = false;
-        public Registry Registry { get; set; }
+        public IModelRegistry Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; private set; }
         public IOwner Owner { get; protected set; }

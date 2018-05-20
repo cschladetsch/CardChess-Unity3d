@@ -302,7 +302,7 @@ namespace FlyingWormConsole3.LiteNetLib
             Monitor.Enter(_outgoingAcks);
             if (relate >= _windowSize)
             {
-                //New window position
+                //NewCardModel window position
                 int newWindowStart = (_remoteWindowStart + relate - _windowSize + 1) % NetConstants.MaxSequence;
 
                 //Clean old data

@@ -48,7 +48,7 @@ namespace App.Model
             MaxMana = 0;
             Deck.NewGame();
             Hand.NewGame();
-            King = CardTemplates.New("King", this);
+            King = CardTemplates.NewCardModel(Registry, "King", this);
             return Response.Ok;
         }
 

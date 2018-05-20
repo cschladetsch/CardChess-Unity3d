@@ -7,8 +7,8 @@ namespace App.Model
 {
     using Common;
 
-    public class Registry
-        : ModelBase
+    public class ModelRegistry
+        : ModelBase, IModelRegistry
     {
         public byte[] Write()
         {
@@ -90,7 +90,7 @@ namespace App.Model
         private TModel NewModel<TModel>(object[] args) where TModel : class, IModel, new()
         {
             var ty = typeof(TModel);
-            var cons = ty.GetConstructors();//BindingFlags.NonPublic | BindingFlags.Public);
+            var cons = ty.GetConstructors();//BindingFlags.NonPublic);// | BindingFlags.Public);
             var argTypes = args.Select(a => a.GetType()).ToArray();
             foreach (var con in cons)
             {
@@ -99,11 +99,17 @@ namespace App.Model
                     continue;
                 var model = con.Invoke(args) as TModel;
                 if (model != null)
-                    return model;
+                    return AddRegistry(model);
                 break;
             }
             Error($"Couldn't create type {ty} with args {args}");
             return null;
+        }
+
+        private TModel AddRegistry<TModel>(TModel model) where TModel : IModel
+        {
+            model.Registry = this;
+            return model;
         }
 
         private readonly Dictionary<Guid, IModel> _models = new Dictionary<Guid, IModel>();

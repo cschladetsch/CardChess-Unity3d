@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using App.Model;
 
 namespace App.Model
@@ -12,7 +13,7 @@ namespace App.Model
     /// </summary>
     public interface IBoardModel
         : IModel
-        //, IConstructWith<int, int>
+        , IPrintable
     {
         #region Properties
         int Width { get; }
@@ -36,8 +37,7 @@ namespace App.Model
         IEnumerable<IPieceModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
 
-        string Print();
-		string Print(Func<Coord, string> fun);
+        string Print(Func<Coord, string> fun);
         string CardToRep(ICardModel cardModel);
         #endregion
     }

@@ -299,7 +299,7 @@ namespace App.Model
 
         IPieceModel MakePiece(ICardModel card, Coord coord)
         {
-            // return Registry.New<PieceModel>(card);
+            // return Registry.NewCardModel<PieceModel>(card);
             return null;
         }
 

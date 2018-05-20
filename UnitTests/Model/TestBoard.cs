@@ -14,8 +14,7 @@ namespace UnitTests
         [Test]
         public void TestBoardPiecePlacement()
         {
-            var reg = new Registry();
-            // TODO: use DI and map ifaces to concrete types
+            var reg = new ModelRegistry();
             var board = reg.New<BoardModel>(8, 8);
             var w = reg.New<PlayerModel>(EColor.White);
             var b = reg.New<PlayerModel>(EColor.Black);

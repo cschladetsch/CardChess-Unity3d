@@ -102,6 +102,7 @@
     <Compile Include="Assets\App\Common\IHasName.cs" />
     <Compile Include="Assets\App\Common\IOwned.cs" />
     <Compile Include="Assets\App\Common\IOwner.cs" />
+    <Compile Include="Assets\App\Common\IPrintable.cs" />
     <Compile Include="Assets\App\Common\LoggingBehavior.cs" />
     <Compile Include="Assets\App\Common\Response.cs" />
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Assets\App\Model\IHandModel.cs" />
     <Compile Include="Assets\App\Model\IItemModel.cs" />
     <Compile Include="Assets\App\Model\IModel.cs" />
+    <Compile Include="Assets\App\Model\IModelRegistry.cs" />
     <Compile Include="Assets\App\Model\Impl\ArbiterModel.cs" />
     <Compile Include="Assets\App\Model\Impl\BoardModel.cs" />
     <Compile Include="Assets\App\Model\Impl\CardCollectionDesc.cs" />
@@ -143,7 +145,7 @@
     <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />
-    <Compile Include="Assets\App\Model\Registry.cs" />
+    <Compile Include="Assets\App\Model\ModelRegistry.cs" />
     <Compile Include="Assets\App\Parameters.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\Adic\Examples\01_HelloWorld\Scripts\GameRoot.cs" />
