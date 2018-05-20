@@ -28,7 +28,7 @@ namespace App.Model
 
         public void NewGame()
         {
-            Board.NewGame();
+            Board.NewGame(this);
             foreach (var p in _players)
                 p.NewGame();
         }

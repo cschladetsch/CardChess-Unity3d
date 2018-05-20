@@ -9,6 +9,7 @@ namespace App.Agent
     public interface IHandAgent :
         IAgent<Model.IHandModel>
     {
+        void NewGame();
         void Add(ICardAgent card);
     }
 }

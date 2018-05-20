@@ -23,11 +23,6 @@ namespace App.Agent
 
         #region Public Methods
 
-        public bool SameOwner(IOwned other)
-        {
-            return Owner == other?.Owner;
-        }
-
         //public IFuture<Action.MovePiece> Move()
         //{
         //    throw new System.NotImplementedException();

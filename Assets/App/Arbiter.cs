@@ -20,13 +20,12 @@ namespace App
     /// The 'adudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     /// </summary>
-    public class Arbiter : Flow.Impl.Logger
+    public class Arbiter :
+        AgentLogger<IArbiterModel>,
+        IArbiterAgent
     {
         #region Public Fields
         public static Arbiter Instance;
-        public static IKernel Kernel;
-        public static INode Root => Kernel.Root;
-        public static IFactory New => Kernel.Factory;
         public IPlayerAgent WhitePlayerAgent => _playersAgent[0];
         public IPlayerAgent BlackPlayerAgent => _playersAgent[1];
         public IPlayerAgent CurrentPlayerAgent => _playersAgent[_currentPlayer];
@@ -34,6 +33,10 @@ namespace App
         #endregion
 
         #region Public Methods
+        public bool Construct(IArbiterModel a0)
+        {
+            throw new NotImplementedException();
+        }
         public bool CanPlaceKing(PlayerAgent playerAgent, Coord coord)
         {
             //if (!BoardAt(coord) != null)
@@ -371,5 +374,6 @@ namespace App
         private int _turnNumber;
         private bool _gameOver;
         #endregion
+
     }
 }

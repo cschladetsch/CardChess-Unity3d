@@ -4,9 +4,10 @@
     /// AgentBase for all agents. Each agent represents a model.
     /// </summary>
     public interface IAgent
+        : Common.IOwned
     {
         Model.IModel BaseModel { get; }
-        Arbiter Arbiter { get; set; }
+        IArbiterAgent Arbiter { get; set; }
     }
 
     /// <inheritdoc cref="" />

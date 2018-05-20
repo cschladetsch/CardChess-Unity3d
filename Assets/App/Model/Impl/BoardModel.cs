@@ -20,8 +20,11 @@ namespace App.Model
         ModelBase
         , IBoardModel
     {
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public int Width { get; }
+        public int Height { get; }
+        public IArbiterModel Arbiter { get; private set; }
+        public IPlayerModel WhitePlayer => Arbiter.WhitePlayer;
+        public IPlayerModel BlackPlayer => Arbiter.BlackPlayer;
 
         public BoardModel() { throw new NotImplementedException(); }
 
@@ -33,8 +36,9 @@ namespace App.Model
             ConstructBoard();
         }
 
-        public void NewGame()
+        public void NewGame(IArbiterModel arbiter)
         {
+            Arbiter = arbiter;
             ClearBoard();
             ConstructBoard();
         }
@@ -195,10 +199,14 @@ namespace App.Model
 
         public string Print()
         {
-            return Print((c) =>
+            return Print(coord =>
             {
-                var piece = At(c);
-                return piece == null ? "  " : CardToRep(piece.Card);
+                var piece = At(coord);
+                var rep = CardToRep(piece.Card);
+                var black = piece.Owner == piece.Board.Arbiter.BlackPlayer;
+                if (black)
+                    rep = rep.ToLower();
+                return piece == null ? "  " : rep;
             });
         }
 

@@ -15,6 +15,11 @@ namespace App.Agent
             yield return null;
         }
 
+        public void NewGame()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Add(ICardAgent card)
         {
             Model.Add(card.Model);

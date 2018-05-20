@@ -49,11 +49,6 @@ namespace App.Model
             return null;
         }
 
-        private void Remove(IModel model)
-        {
-            _models.Remove(model.Id);
-        }
-
         public TModel New<TModel>(params object[] args) where TModel : class, IModel, new()
         {
             var model = NewModel<TModel>(args);
@@ -72,6 +67,14 @@ namespace App.Model
             return model;
         }
 
+        private void Remove(IModel model)
+        {
+            if (!_models.ContainsKey(model.Id))
+                Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
+            else
+                _models.Remove(model.Id);
+        }
+
         private void ModelDestroyed(object sender, IModel model, object[] context)
         {
             if (model == null)
@@ -81,10 +84,7 @@ namespace App.Model
             }
 
             model.OnDestroy -= ModelDestroyed;
-            if (!_models.ContainsKey(model.Id))
-                Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
-
-            _models.Remove(model.Id);
+            Remove(model);
         }
 
         private TModel NewModel<TModel>(object[] args) where TModel : class, IModel, new()

@@ -66,7 +66,6 @@
     <Compile Include="Assets\App\Action\Impl\Pass.cs" />
     <Compile Include="Assets\App\Action\Impl\PlayCard.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
-    <Compile Include="Assets\App\Agent\Card\King.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoardAgent.cs" />
@@ -135,10 +134,12 @@
     <Compile Include="Assets\App\Model\Impl\Persistent.cs" />
     <Compile Include="Assets\App\Model\Impl\PieceModel.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerModel.cs" />
+    <Compile Include="Assets\App\Model\Impl\PlayerOwnedModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
     <Compile Include="Assets\App\Model\IPieceModel.cs" />
     <Compile Include="Assets\App\Model\IPlayerModel.cs" />
+    <Compile Include="Assets\App\Model\IPlayerOwnedModel.cs" />
     <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />

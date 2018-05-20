@@ -8,15 +8,25 @@ using Flow;
 
 namespace App.Model
 {
+    /// <summary>
+    /// Model of a piece on the board.
+    /// </summary>
     public class PieceModel
-        : ModelBase
-            , IPieceModel
+        : PlayerOwnedModelBase
+        , IPieceModel
     {
         public ICardModel Card { get; }
         public EPieceType Type => Card.PieceType;
         public IBoardModel Board { get; }
         public Coord Coord { get; }
 
+        public PieceModel(IBoardModel board, IPlayerModel player, ICardModel card, Coord coord)
+            : base(player)
+        {
+            Board = board;
+            Coord = coord;
+            Card = card;
+        }
 
         public IGenerator Battle(ICardModel other)
         {
@@ -47,5 +57,6 @@ namespace App.Model
         {
             throw new NotImplementedException();
         }
+
     }
 }

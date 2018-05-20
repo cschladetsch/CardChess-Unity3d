@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Agent;
+﻿using App.Common;
 using App.Model;
-using Flow;
 
 namespace App.Agent
 {
-    class IArbiterAgent :
-        AgentBaseCoro<Model.IArbiterModel>
+    public interface IArbiterAgent :
+        IAgent<Model.IArbiterModel>
     {
-        protected override IEnumerator Next(IGenerator self)
-        {
-            yield return null;
-        }
+        ICardAgent NewCardAgent(ICardModel cardModel, IOwner owner);
     }
 }

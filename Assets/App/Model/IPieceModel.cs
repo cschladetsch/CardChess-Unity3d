@@ -9,7 +9,7 @@ namespace App.Model
     /// A card played as a piece on the board
     /// </summary>
     public interface IPieceModel
-        : IModel
+        : IPlayerOwnedModel
     {
         ICardModel Card { get; }
         EPieceType Type { get; }

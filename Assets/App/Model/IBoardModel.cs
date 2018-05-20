@@ -17,10 +17,13 @@ namespace App.Model
         #region Properties
         int Width { get; }
         int Height { get; }
+        IArbiterModel Arbiter { get; }
+        IPlayerModel WhitePlayer { get; }
+        IPlayerModel BlackPlayer { get; }
         #endregion
 
         #region Methods
-        void NewGame();
+        void NewGame(IArbiterModel arbiter);
         IPieceModel GetContents(Coord coord);
         IPieceModel At(Coord coord);
         bool IsValidCoord(Coord coord);

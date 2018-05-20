@@ -3,6 +3,8 @@ using Flow;
 
 namespace App.Agent
 {
+    using Common;
+
     /// <summary>
     /// AgentBase for all agents. Provides a custom logger and an ITransient implementation
     /// to be used with Flow library.
@@ -13,6 +15,9 @@ namespace App.Agent
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
         public string Name { get; set; }
+        public IArbiterAgent Arbiter { get; set; }
+        public Flow.IFactory New => Kernel.Factory;
+        public Flow.INode Root => Kernel.Root;
 
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
         public object Subject { get { return _log.Subject; } set { _log.Subject = value; } }
@@ -60,4 +65,22 @@ namespace App.Agent
 
         protected readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
     }
+
+    public abstract class AgentLogger<TModel>
+        : AgentLogger
+        where TModel : Model.IModel
+    {
+        public Model.IModel BaseModel { get; private set; }
+        public TModel Model { get; private set; }
+        public IOwner Owner { get; private set; }
+
+        public bool Construct(TModel a0, IOwner owner)
+        {
+            Model = a0;
+            BaseModel = a0;
+            Owner = owner;
+            return true;
+        }
+    }
+
 }

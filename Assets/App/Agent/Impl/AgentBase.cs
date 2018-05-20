@@ -7,15 +7,23 @@ namespace App.Agent
 {
     using Common;
 
+    /// <summary>
+    /// Common for all agents that manage models in the system.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
     public abstract class AgentBase<TModel> :
         AgentLogger, IAgent<TModel>
         where TModel : class, IModel
     {
         public Guid Id { get; private set;}
         public IModel BaseModel { get; private set; }
-        public Arbiter Arbiter { get; set; }
+        public new IArbiterAgent Arbiter { get; set; }
         public TModel Model { get; private set; }
         public IOwner Owner => Model.Owner;
+        public bool SameOwner(IOwned other)
+        {
+            return Owner == other.Owner;
+        }
 
         public virtual bool Construct(TModel a0)
         {
