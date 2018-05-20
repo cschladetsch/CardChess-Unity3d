@@ -25,10 +25,10 @@ namespace App.Model
 
         #region Methods
         void NewGame(IArbiterModel arbiter);
+        IEnumerable<IPieceModel> GetContents();
         IPieceModel GetContents(Coord coord);
         IPieceModel At(Coord coord);
         bool IsValidCoord(Coord coord);
-        IEnumerable<IPieceModel> GetContents();
         IPieceModel PlaceCard(ICardModel cardModel, Coord coord);
         bool CanPlaceCard(ICardModel card, Coord coord);
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);

@@ -30,12 +30,12 @@ namespace App.Model
         public static int StartHandCardCount => Parameters.StartHandCardCount;
         #endregion
 
-        #region Public Methods
-        public bool Create(EColor color)
+        public PlayerModel(EColor color)
         {
             Color = color;
-            return true;
         }
+
+        #region Public Methods
 
         public void SetDeck(IDeckModel deckModel)
         {

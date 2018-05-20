@@ -17,7 +17,7 @@ namespace App.Model
         public bool Destroyed { get; private set; } = false;
         public IModelRegistry Registry { get; set; }
         public string Name { get; set; }
-        public Guid Id { get; private set; }
+        public Guid Id { get; /*private*/ set; }
         public IOwner Owner { get; protected set; }
 
         public event ModelDestroyedHandler OnDestroy;
@@ -25,7 +25,6 @@ namespace App.Model
         public bool Construct(IOwner owner)
         {
             Owner = owner;
-            Id = Guid.NewGuid();
             Subject = this;
             LogPrefix = "Model";
             return true;

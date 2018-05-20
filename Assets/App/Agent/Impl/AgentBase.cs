@@ -15,7 +15,7 @@ namespace App.Agent
         AgentLogger, IAgent<TModel>
         where TModel : class, IModel
     {
-        public Guid Id { get; private set;}
+        public Guid Id { get; /*private*/ set;}
         public IModel BaseModel { get; private set; }
         public new IArbiterAgent Arbiter { get; set; }
         public TModel Model { get; private set; }
