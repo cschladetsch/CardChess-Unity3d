@@ -18,19 +18,26 @@ namespace UnitTests
         private IPlayerModel _black;
         private IArbiterModel _arbiter;
 
+        // this is only place concrete types are needed
+        private void PrepareBindings()
+        {
+            _reg = new ModelRegistry();
+            _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
+            _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
+            _reg.Bind<IPlayerModel, PlayerModel>();
+        }
+
         [SetUp]
         public void Setup()
         {
-            _reg = new ModelRegistry();
-            _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8,8));
-            _reg.Bind<IArbiterModel, ArbiterModel>();
-            _reg.Bind<IPlayerModel, PlayerModel>();
-            _reg.Bind<IBoardModel, BoardModel>();
+            PrepareBindings();
 
-            _board = _reg.New<IBoardModel>(8, 8);
+            _board = _reg.New<IBoardModel>();
+            _arbiter = _reg.New<IArbiterModel>();
             _white = _reg.New<IPlayerModel>(EColor.White);
             _black = _reg.New<IPlayerModel>(EColor.Black);
-            _arbiter = _reg.New<IArbiterModel>(_board, _white, _black);
+
+            _arbiter.SetPlayers(_white, _black);
 
             Trace.WriteLine(_reg.Print());
         }

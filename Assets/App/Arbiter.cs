@@ -53,7 +53,7 @@ namespace App
         public Arbiter()
         {
             Instance = this;
-            Kernel = Create.Kernel();
+            Kernel = Flow.Create.Kernel();
         }
 
         public void Setup(IBoardAgent boardAgent, IPlayerAgent p0, IPlayerAgent p1)

@@ -5,6 +5,14 @@ namespace App.Model
 {
     using Common;
 
+    public class Inject : Attribute
+    {
+    }
+
+    public class Create : Attribute
+    {
+    }
+
     /// <summary>
     /// PlayerAgent in the game.
     /// Hopefully, these could be bots, or remote players as well
@@ -15,17 +23,17 @@ namespace App.Model
         , IOwner
     {
         #region Properties
-
         IBoardModel Board { get; }
         IArbiterModel Arbiter { get; }
-        IHandModel Hand { get; }
+
         IDeckModel Deck { get; }
+        IHandModel Hand { get; }
         ICardModel King { get; }
+
         IEnumerable<ICardModel> CardsOnBoard { get; }
         int MaxMana { get; }
         int Mana { get; }
         int Health { get; }
-
         #endregion // Properties
 
         #region Methods
@@ -34,13 +42,11 @@ namespace App.Model
         Response ChangeMana(int mana);
 
         #region Gameplay Methods
-
         Response DrawHand();
         Response AcceptHand();
         Response PlayCard(ICardModel model, Coord coord);
         Response MovePiece(ICardModel model, Coord coord);
         Response Pass();
-
         #endregion // Gameplay Methods
 
         #endregion // Methods

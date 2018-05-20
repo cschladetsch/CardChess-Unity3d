@@ -7,6 +7,7 @@
         IPlayerModel WhitePlayer { get; }
         IPlayerModel BlackPlayer { get; }
 
+        void SetPlayers(IPlayerModel white, IPlayerModel black);
         void NewGame();
         void Endame();
 

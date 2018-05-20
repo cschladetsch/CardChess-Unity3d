@@ -1,29 +1,30 @@
-﻿using System;
-using App.Common;
+﻿using App.Common;
+
+// DI fails this inspection test
+// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace App.Model
 {
     public class ArbiterModel
-        : ModelBase,
-        IOwner,
-        IArbiterModel
+        : ModelBase
+        , IOwner
+        , IArbiterModel
     {
+        [Inject] public IBoardModel Board { get; }
         public EColor Color => EColor.Neutral;
-        public IBoardModel Board { get; }
-        public IPlayerModel WhitePlayer { get; }
-        public IPlayerModel BlackPlayer { get; }
+        public IPlayerModel WhitePlayer { get; private set; }
+        public IPlayerModel BlackPlayer { get; private set; }
 
         public ArbiterModel()
         {
         }
 
-        public ArbiterModel(IBoardModel board, IPlayerModel w, IPlayerModel b)
+        public void SetPlayers(IPlayerModel w, IPlayerModel b)
         {
-            Construct(this);
-            Board = board;
             WhitePlayer = w;
             BlackPlayer = b;
             _players = new[] {w, b};
+            Construct(this);
         }
 
         public void NewGame()

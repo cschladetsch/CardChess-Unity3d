@@ -20,8 +20,8 @@ namespace App.Model
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
         public int Health => King.Health;
-        public IBoardModel Board { get; }
-        public IArbiterModel Arbiter { get; }
+        [Inject] public IBoardModel Board { get; }
+        [Inject] public IArbiterModel Arbiter { get; }
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
