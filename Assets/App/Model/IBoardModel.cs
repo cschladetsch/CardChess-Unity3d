@@ -21,6 +21,7 @@ namespace App.Model
         IArbiterModel Arbiter { get; }
         IPlayerModel WhitePlayer { get; }
         IPlayerModel BlackPlayer { get; }
+        IEnumerable<IPieceModel> Pieces { get; }
         #endregion
 
         #region Methods

@@ -39,7 +39,6 @@ namespace UnitTests
             _arbiter = _reg.New<IArbiterModel>();
             _white = _reg.New<IPlayerModel>(EColor.White);
             _black = _reg.New<IPlayerModel>(EColor.Black);
-
             _arbiter.SetPlayers(_white, _black);
 
             Info(_reg.Print());
@@ -64,15 +63,24 @@ namespace UnitTests
             Assert.IsNotNull(_board);
             Assert.IsTrue(_board.Width == 8);
             Assert.IsTrue(_board.Height == 8);
-            Assert.IsTrue(!_board.GetContents().Any());
+            Assert.IsTrue(!_board.Pieces.Any());
 
             Assert.IsNotNull(_arbiter);
             Assert.AreSame(_reg.New<IBoardModel>(), _board);
-            Assert.AreSame(_reg.New<IBoardModel>(), _board);
-            Assert.AreNotSame(_reg.New<IArbiterModel>(), _arbiter);
+            Assert.AreSame(_reg.New<IArbiterModel>(), _board.Arbiter);
+            Assert.AreSame(_reg.New<IArbiterModel>(), _arbiter);
 
             Assert.IsNotNull(_white);
             Assert.IsNotNull(_black);
+
+            Assert.AreSame(_white.Arbiter, _black.Arbiter);
+            Assert.AreSame(_white.Board, _black.Board);
+            Assert.AreSame(_arbiter.WhitePlayer, _white);
+            Assert.AreSame(_arbiter.BlackPlayer, _black);
+            Assert.AreSame(_board.WhitePlayer, _black.Arbiter.Board.WhitePlayer);
+            Assert.AreNotSame(_board.WhitePlayer, _black.Arbiter.Board.BlackPlayer);
+            Assert.AreNotSame(_arbiter.Board.Arbiter.WhitePlayer, _board.Arbiter.Board.BlackPlayer);
+            Assert.AreSame(_arbiter.Board.Arbiter.WhitePlayer, _board.Arbiter.Board.BlackPlayer.Board.WhitePlayer);
         }
 
         [Test]

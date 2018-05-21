@@ -25,6 +25,7 @@ namespace App.Model
         [Inject] public IArbiterModel Arbiter { get; set; }
         public IPlayerModel WhitePlayer => Arbiter.WhitePlayer;
         public IPlayerModel BlackPlayer => Arbiter.BlackPlayer;
+        public IEnumerable<IPieceModel> Pieces => GetContents();
 
         public BoardModel() { throw new NotImplementedException(); }
 
@@ -168,7 +169,7 @@ namespace App.Model
             }
         }
 
-        IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
+        private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
         {
             for (int n = 1; n < Max(Width, Height); ++n)
             {
@@ -287,7 +288,7 @@ namespace App.Model
 
         public IEnumerable<IPieceModel> GetContents()
         {
-            return _contents.SelectMany(row => row);
+            return _contents.SelectMany(row => row).Where(c => c != null);
         }
 
         public IPieceModel PlaceCard(ICardModel card, Coord coord)
