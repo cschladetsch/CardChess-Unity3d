@@ -23,7 +23,7 @@ namespace App.Model
 
         #region Methods
         string Print(Func<Coord, string> fun);
-        void NewGame(IArbiterModel arbiter);
+        void NewGame();
         IEnumerable<IPieceModel> GetContents();
         IPieceModel GetContents(Coord coord);
         IPieceModel At(Coord coord);

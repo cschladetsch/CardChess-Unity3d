@@ -38,9 +38,8 @@ namespace App.Model
             ConstructBoard();
         }
 
-        public void NewGame(IArbiterModel arbiter)
+        public void NewGame()
         {
-            Arbiter = arbiter;
             ClearBoard();
             ConstructBoard();
         }
@@ -239,6 +238,7 @@ namespace App.Model
         #endregion
 
         #region Private Methods
+
         private void ClearBoard()
         {
             foreach (var card in GetContents())
@@ -307,7 +307,6 @@ namespace App.Model
         #region Private Fields
         private List<List<IPieceModel>> _contents;
         static int Max(int a, int b) { return a > b ? a : b; }
-
         #endregion
     }
 }

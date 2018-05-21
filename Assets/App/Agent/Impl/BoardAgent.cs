@@ -20,7 +20,7 @@ namespace App.Agent
 
         public void NewGame()
         {
-            Model.NewGame(Arbiter.Model);
+            Model.NewGame();
         }
 
         public IGenerator PlaceCard(ICardAgent cardAgent, Coord coord)

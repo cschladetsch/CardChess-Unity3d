@@ -32,7 +32,7 @@ namespace App.Model
 
         public void NewGame()
         {
-            Board.NewGame(this);
+            Board.NewGame();
             foreach (var p in _players)
                 p.NewGame();
         }
