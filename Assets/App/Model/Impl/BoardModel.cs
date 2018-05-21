@@ -8,25 +8,26 @@ namespace App.Model
 {
     using Common;
 
-    // boards do not store model cards
-
     /// <summary>
     /// The main playing board Can be of arbitrary dimention.
     /// Contents are stored as row-major. the bottom left corner for white is at contents[0][0]
     /// the topright corner for white is at contents[Height - 1][Width - 1]
     /// Both Black and White use the same coordinate system.
     /// </summary>
-    public class BoardModel :
-        ModelBase
+    public class BoardModel
+        : ModelBase
         , IBoardModel
     {
+        #region Public Properties
         public int Width { get; }
         public int Height { get; }
         [Inject] public IArbiterModel Arbiter { get; set; }
         public IPlayerModel WhitePlayer => Arbiter.WhitePlayer;
         public IPlayerModel BlackPlayer => Arbiter.BlackPlayer;
         public IEnumerable<IPieceModel> Pieces => GetContents();
+        #endregion
 
+        #region Public Methods
         public BoardModel() { throw new NotImplementedException(); }
 
         public BoardModel(int width, int height)
@@ -44,23 +45,16 @@ namespace App.Model
             ConstructBoard();
         }
 
-        private void ClearBoard()
-        {
-            foreach (var card in GetContents())
-            {
-                RemovePiece(card.Coord);
-                card.Destroy();
-            }
-        }
-
-        void RemovePiece(Coord coord)
+        public IPieceModel RemovePiece(Coord coord)
         {
             if (!IsValid(coord))
             {
                 Warn($"Attempt to remove from invalid {coord}");
-                return;
+                return null;
             }
+            var current = _contents[coord.y][coord.x];
             _contents[coord.y][coord.x] = null;
+            return current;
         }
 
         private void ConstructBoard()
@@ -142,62 +136,6 @@ namespace App.Model
             }
         }
 
-        static int Max(int a, int b) { return a > b ? a : b; }
-
-        IEnumerable<Coord> OrthoAndDiags(Coord orig)
-        {
-            return Orthogonals(orig).Concat(Diagonals(orig));
-        }
-
-        IEnumerable<Coord> Orthogonals(Coord orig)
-        {
-            for (var y = Max(orig.y - Height, 0); y < Height; ++y)
-            {
-                var coord = new Coord(orig.x, y);
-                if (!IsValid(coord))
-                    continue;
-                if (!Equals(coord, orig))
-                    yield return coord;
-            }
-            for (var x = Max(orig.x - Width, 0); x < Width; ++x)
-            {
-                var coord = new Coord(x, orig.y);
-                if (!IsValid(coord))
-                    continue;
-                if (!Equals(coord, orig))
-                    yield return coord;
-            }
-        }
-
-        private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
-        {
-            for (int n = 1; n < Max(Width, Height); ++n)
-            {
-                var x = n * dx;
-                var y = n * dy;
-                var d = new Coord(x, y);
-                var c = orig + d;
-                if (!IsValid(c))
-                    continue;
-                yield return c;
-            }
-        }
-
-        IEnumerable<Coord> Diagonals(Coord orig)
-        {
-            for (int dx = -1; dx < 2; dx++)
-            {
-                if (dx == 0) continue;
-                for (int dy = -1; dy < 2; dy++)
-                {
-                    if (dy == 0) continue;
-                    foreach (var c in TestCoords(orig, dx, dy))
-                        yield return c;
-                }
-            }
-            yield break;
-        }
-
         public string Print()
         {
             return Print(coord =>
@@ -207,7 +145,7 @@ namespace App.Model
                 var black = piece.Owner == piece.Board.Arbiter.BlackPlayer;
                 if (black)
                     rep = rep.ToLower();
-                return piece == null ? "  " : rep;
+                return rep;
             });
         }
 
@@ -243,11 +181,6 @@ namespace App.Model
             if (model == null) return "  ";
             var ch = $"{model.PieceType.ToString()[0]} ";
             return ch;
-        }
-
-        private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
-        {
-            return null;
         }
 
         public IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood)
@@ -293,28 +226,88 @@ namespace App.Model
 
         public IPieceModel PlaceCard(ICardModel card, Coord coord)
         {
-            Info("BoardAgent: Placed {card.Owner.Color} {card} at {coord}");
+            Info($"Placed {card.Owner.Color} {card} at {coord}");
             //_contents[coord.y][coord.x] = MakePiece(card, coord);
-            return null;
-        }
-
-        IPieceModel MakePiece(ICardModel card, Coord coord)
-        {
-            // return Registry.NewCardModel<PieceModel>(card);
             return null;
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
         {
             var card = _contents[coord.y][coord.x];
-            if (card == null)
-                return null;
-            return Diagonals(coord);
+            return card == null ? null : Diagonals(coord);
         }
+        #endregion
+
+        #region Private Methods
+        private void ClearBoard()
+        {
+            foreach (var card in GetContents())
+            {
+                RemovePiece(card.Coord);
+                card.Destroy();
+            }
+        }
+
+        private IEnumerable<Coord> Orthogonals(Coord orig)
+        {
+            for (var y = Max(orig.y - Height, 0); y < Height; ++y)
+            {
+                var coord = new Coord(orig.x, y);
+                if (!IsValid(coord))
+                    continue;
+                if (!Equals(coord, orig))
+                    yield return coord;
+            }
+
+            for (var x = Max(orig.x - Width, 0); x < Width; ++x)
+            {
+                var coord = new Coord(x, orig.y);
+                if (!IsValid(coord))
+                    continue;
+                if (!Equals(coord, orig))
+                    yield return coord;
+            }
+        }
+
+        private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
+        {
+            for (int n = 1; n < Max(Width, Height); ++n)
+            {
+                var x = n * dx;
+                var y = n * dy;
+                var d = new Coord(x, y);
+                var c = orig + d;
+                if (!IsValid(c))
+                    continue;
+                yield return c;
+            }
+        }
+
+        private IEnumerable<Coord> Diagonals(Coord orig)
+        {
+            for (int dx = -1; dx < 2; dx++)
+            {
+                if (dx == 0) continue;
+                for (int dy = -1; dy < 2; dy++)
+                {
+                    if (dy == 0) continue;
+                    foreach (var c in TestCoords(orig, dx, dy))
+                        yield return c;
+                }
+            }
+            yield break;
+        }
+
+        private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
+        {
+            return null;
+        }
+        #endregion
 
         #region Private Fields
         private List<List<IPieceModel>> _contents;
+        static int Max(int a, int b) { return a > b ? a : b; }
+
         #endregion
     }
 }
-

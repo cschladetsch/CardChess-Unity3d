@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.Database;
-using Flow;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace App.Model
 {
-    using Action;
     using Common;
 
     public class PlayerModel
@@ -16,7 +14,7 @@ namespace App.Model
         , IPlayerModel
     {
         #region public Fields
-        public EColor Color { get; private set; }
+        public EColor Color { get; }
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
         public int Health => King.Health;
@@ -30,17 +28,18 @@ namespace App.Model
         public static int StartHandCardCount => Parameters.StartHandCardCount;
         #endregion
 
+        #region Public Methods
+
         public PlayerModel(EColor color)
         {
             Color = color;
         }
 
-        #region Public Methods
-
         public void SetDeck(IDeckModel deckModel)
         {
             Assert.IsNotNull(deckModel);
             Deck = deckModel;
+            Hand = Registry.New<IHandModel>(this);
         }
 
         public Response NewGame()
@@ -80,7 +79,7 @@ namespace App.Model
 
         public Response Pass()
         {
-            throw new NotImplementedException();
+            return Response.Ok;
         }
 
         public Response ChangeMaxMana(int change)

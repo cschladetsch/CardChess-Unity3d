@@ -9,26 +9,25 @@ namespace App.Agent
     /// AgentBase for all agents. Provides a custom logger and an ITransient implementation
     /// to be used with Flow library.
     /// </summary>
-    public class AgentLogger : ITransient, ILogger
+    public class AgentLogger
+        : ITransient
+        , ILogger
     {
         public event TransientHandler Completed;
+
+        #region Public Properties
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
         public string Name { get; set; }
         public IArbiterAgent Arbiter { get; set; }
         public Flow.IFactory New => Kernel.Factory;
         public Flow.INode Root => Kernel.Root;
-
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
         public object Subject { get { return _log.Subject; } set { _log.Subject = value; } }
         public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
+        #endregion
 
-        protected AgentLogger()
-        {
-            _log.Subject = this;
-            _log.LogPrefix = "Agent";
-        }
-
+        #region Public Methods
         public ITransient Named(string name)
         {
             Name = name;
@@ -62,8 +61,18 @@ namespace App.Agent
         {
             _log.Verbose(level, fmt, args);
         }
+        #endregion
+
+        #region Protected
+        protected AgentLogger()
+        {
+            _log.Subject = this;
+            _log.LogPrefix = "Agent";
+
+        }
 
         protected readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
+        #endregion
     }
 
     public abstract class AgentLogger<TModel>

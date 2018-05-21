@@ -13,6 +13,7 @@ namespace App.Model
         ModelBase,
         ICardModel
     {
+        #region Public Properties
         public ECardType Type => Template.Type;
         public ICardTemplate Template { get; }
         public string Description => Template.FlavourText;
@@ -22,7 +23,9 @@ namespace App.Model
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
         public EPieceType PieceType { get; }
+        #endregion
 
+        #region Public Methods
         public CardModel()
         {
         }
@@ -65,10 +68,13 @@ namespace App.Model
         {
             throw new NotImplementedException("ChangeAttack");
         }
+        #endregion
 
+        #region Private Methods
         private void Die()
         {
             //Died?.Invoke(this, this);
         }
+        #endregion
     }
 }

@@ -14,14 +14,17 @@ namespace App.Model
         IModel,
         IConstructWith<IOwner>
     {
+        public event ModelDestroyedHandler OnDestroy;
+
+        #region Public Properties
         public bool Destroyed { get; private set; } = false;
         public IModelRegistry Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
         public IOwner Owner { get; protected set; }
+        #endregion
 
-        public event ModelDestroyedHandler OnDestroy;
-
+        #region Public Methods
         public bool Construct(IOwner owner)
         {
             Owner = owner;
@@ -48,5 +51,6 @@ namespace App.Model
             Destroyed = true;
             Id = Guid.Empty;
         }
+        #endregion
     }
 }

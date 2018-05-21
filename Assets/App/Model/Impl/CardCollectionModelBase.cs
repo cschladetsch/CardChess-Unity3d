@@ -12,6 +12,7 @@ namespace App.Model
         : ModelBase
         , Common.ICardCollection<Model.ICardModel>
     {
+        #region Public Properties
         public abstract int MaxCards { get; }
         public IEnumerable<Common.ICard> Cards => cards;
         public int NumCards => cards.Count;
@@ -20,12 +21,9 @@ namespace App.Model
         public IPlayerModel Player => Owner as IPlayerModel;
         public IHandModel Hand => Player.Hand;
         public IDeckModel Deck => Player.Deck;
+        #endregion
 
-        protected CardCollectionModelBase(IOwner owner)
-        {
-            Construct(owner);
-        }
-
+        #region Public Methods
         public bool Has(ICardModel card)
         {
             return Has(card.Id);
@@ -52,6 +50,15 @@ namespace App.Model
             return true;
         }
 
+        #endregion
+
+        #region Protected
+        protected CardCollectionModelBase(IOwner owner)
+        {
+            Construct(owner);
+        }
+
         protected List<ICardModel> cards = new List<ICardModel>();
+        #endregion
     }
 }
