@@ -5,14 +5,6 @@ namespace App.Model
 {
     using Common;
 
-    public class Inject : Attribute
-    {
-    }
-
-    public class Create : Attribute
-    {
-    }
-
     /// <summary>
     /// PlayerAgent in the game.
     /// Hopefully, these could be bots, or remote players as well

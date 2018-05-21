@@ -10,7 +10,7 @@ namespace App.Model
         , IOwner
         , IArbiterModel
     {
-        [Inject] public IBoardModel Board { get; }
+        [Inject] public IBoardModel Board { get; set;}
         public EColor Color => EColor.Neutral;
         public IPlayerModel WhitePlayer { get; private set; }
         public IPlayerModel BlackPlayer { get; private set; }

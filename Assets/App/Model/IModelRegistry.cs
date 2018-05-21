@@ -21,5 +21,6 @@ namespace App.Model
         bool Bind<TInterface, TImpl, A0, A1>(Func<A0, A1, TImpl> creator) where TInterface : IModel where TImpl  : TInterface;
         bool Bind<TInterface, TImpl>(TImpl single) where TInterface : IModel where TImpl  : TInterface;
         bool Bind<TInterface, TImpl>() where TInterface : IModel where TImpl  : TInterface;
+        bool Resolve();
     }
 }

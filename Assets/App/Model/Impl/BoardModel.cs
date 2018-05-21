@@ -22,7 +22,7 @@ namespace App.Model
     {
         public int Width { get; }
         public int Height { get; }
-        public IArbiterModel Arbiter { get; private set; }
+        [Inject] public IArbiterModel Arbiter { get; set; }
         public IPlayerModel WhitePlayer => Arbiter.WhitePlayer;
         public IPlayerModel BlackPlayer => Arbiter.BlackPlayer;
 

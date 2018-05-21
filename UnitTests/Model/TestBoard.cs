@@ -10,7 +10,8 @@ using App.Model;
 
 namespace UnitTests
 {
-    class TestBoard
+    [TestFixture]
+    class TestBoard : Flow.Impl.Logger
     {
         private IModelRegistry _reg;
         private IBoardModel _board;
@@ -25,6 +26,8 @@ namespace UnitTests
             _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
             _reg.Bind<IPlayerModel, PlayerModel>();
+
+            _reg.Resolve();
         }
 
         [SetUp]
@@ -39,20 +42,20 @@ namespace UnitTests
 
             _arbiter.SetPlayers(_white, _black);
 
-            Trace.WriteLine(_reg.Print());
+            Info(_reg.Print());
         }
 
         [TearDown]
         public void TearDown()
         {
-            Console.WriteLine(_reg.NumModels);
+            Info($"{_reg.NumModels}");
             _reg.Print();
             _arbiter.Destroy();
             _white.Destroy();
             _black.Destroy();
             _arbiter.Destroy();
             _reg.Print();
-            Console.WriteLine(_reg.NumModels);
+            Info($"{_reg.NumModels}");
         }
 
         [Test]

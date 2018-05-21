@@ -16,6 +16,10 @@ namespace App.Model
         public int NumModels => _models.Count;
         #endregion
 
+        public ModelRegistry()
+        {
+            Verbosity = 100;
+        }
         public byte[] Write()
         {
             return null;
@@ -42,7 +46,7 @@ namespace App.Model
             IModel model;
             if (_models.TryGetValue(id, out model))
                 return model;
-            Warn($"Failed to find model with id {id}");
+            Warn($"Failed to find targetModel with id {id}");
             return null;
         }
 
@@ -68,40 +72,43 @@ namespace App.Model
 
         public bool Bind<TInterface, TImpl>() where TInterface : IModel where TImpl : TInterface
         {
-            if (_bindings.ContainsKey(typeof(TInterface)))
+            var ity = typeof(TInterface);
+            if (_bindings.ContainsKey(ity))
             {
-                Warn($"Registry has already bound {typeof(TInterface)} to {typeof(TImpl)}");
+                Warn($"Registry has already bound {ity} to {typeof(TImpl)}");
                 return false;
             }
 
             // TODO: combine these to one lookup.
             // That is, put the TImpl into PrepareModel, and parameterise it.
-            _bindings[typeof(TInterface)] = typeof(TImpl);
-            _preparers[typeof(TInterface)] = new PrepareModel(this, typeof(TImpl));
+            _bindings[ity] = typeof(TImpl);
+            _preparers[ity] = new PrepareModel(this, typeof(TImpl));
 
             return true;
         }
 
-        public TModel New<TModel>(params object[] args) where TModel : class, IModel
+        public TIModel New<TIModel>(params object[] args) where TIModel : class, IModel
         {
-            var ty = typeof(TModel);
+            var ty = typeof(TIModel);
             var single = GetSingle(ty);
             if (single != null)
             {
                 if (args.Length != 0)
-                    Error($"Attempt to get singleton {ty}, when passing arguments {ToArgList(args)}");
-                var result = single as TModel;
+                    Error($"Attempt to get singleton {ty}, when passing arguments {ToArgTypeList(args)}");
+                var result = single as TIModel;
                 if (result == null)
-                    Error($"Couldn't convert singleton {single.GetType()} to {typeof(TModel)}");
+                    Error($"Couldn't convert singleton {single.GetType()} to {typeof(TIModel)}");
                 return result;
             }
 
-            var model = NewModel(typeof(TModel), args) as TModel;
+            var model = NewModel(typeof(TIModel), args) as TIModel;
             if (model == null)
             {
-                Warn($"Failed to make instance for interface {typeof(TModel)}");
+                Warn($"Failed to make instance for interface {typeof(TIModel)}");
                 return null;
             }
+
+            // store types for persistence
             _models[model.Id] = model;
             if (!_typeToGuid.ContainsKey(ty))
             {
@@ -114,6 +121,11 @@ namespace App.Model
             model.Registry = this;
             model.OnDestroy += ModelDestroyed;
             return model;
+        }
+
+        private static string ToArgTypeList(IEnumerable<object> args)
+        {
+            return string.Join(", ", args.Select(a => a.GetType().Name));
         }
 
         private static string ToArgList(IEnumerable<object> args)
@@ -144,7 +156,8 @@ namespace App.Model
                 Warn($"Already have singleton valuye for {ity}");
                 return false;
             }
-            _singles[ity] = single;
+            var prep = new PrepareModel(this, typeof(TImpl));
+            _singles[ity] = prep.Prepare(single, typeof(TInterface), single);
             return true;
         }
 
@@ -163,7 +176,7 @@ namespace App.Model
         {
             if (model == null)
             {
-                Verbose(10, "Attempt to destroy null model");
+                Verbose(10, "Attempt to destroy null targetModel");
                 return;
             }
 
@@ -181,13 +194,7 @@ namespace App.Model
             return null;
         }
 
-        /// <summary>
-        /// All Models start their life here
-        /// </summary>
-        /// <param name="ity">the interface type given as input</param>
-        /// <param name="args">construction args if any</param>
-        /// <returns>a prepared model</returns>
-        private IModel NewModel(Type ity, object[] args)
+        internal IModel NewModel(Type ity, object[] args)
         {
             Type ty;
             if (!_bindings.TryGetValue(ity, out ty))
@@ -195,26 +202,32 @@ namespace App.Model
                 Warn($"Registry has no binding for {ity}");
                 return null;
             }
-            var cons = ty.GetConstructors();//BindingFlags.NonPublic);// | BindingFlags.Public);
-            var argTypes = args.Select(a => a.GetType()).ToArray();
+            var cons = ty.GetConstructors();
             foreach (var con in cons)
             {
-                var paramTypes = con.GetParameters().Select(p => p.ParameterType).ToArray();
-                int n = 0;
-                foreach (var param in paramTypes)
-                {
-                    if (!param.IsInstanceOfType(args[n]))
-                        break;
-                    ++n;
-                }
-                if (n != args.Length)
+                if (!MatchingConstructor(args, con))
                     continue;
                 var model = con.Invoke(args) as IModel;
                 if (model != null)
                     return Prepare(ity, model);
             }
-            Error($"Couldn't create type {ty} with args {ToArgList(args)}");
+            Error($"No mathching Constructor for {ty} with args {ToArgTypeList(args)}");
             return null;
+        }
+
+        private static bool MatchingConstructor(object[] args, ConstructorInfo con)
+        {
+            var ctorParams = con.GetParameters().ToArray();
+            if (ctorParams.Length != args.Length)
+                return false;
+            var n = 0;
+            foreach (var param in ctorParams.Select(p => p.ParameterType))
+            {
+                if (!param.IsInstanceOfType(args[n]))
+                    break;
+                ++n;
+            }
+            return n == args.Length;
         }
 
         IModel Prepare(Type ity, IModel model)
@@ -247,50 +260,118 @@ namespace App.Model
         }
         #endregion
 
-        // TODO: fast way to set properties with private setters
+        public bool Resolve()
+        {
+            var pendingInjections = _pendingInjections.ToArray();
+            foreach (var pi in pendingInjections)
+            {
+                if (pi.Single != null)
+                {
+                    Verbose(50, $"Setting delayed singleton for {pi.Interface}");
+                    _singles[pi.Interface] = pi.Single;
+                }
+                else
+                {
+                    _bindings[pi.Interface] = pi.ModelType;
+                }
+            }
+
+            foreach (var pi in pendingInjections)
+            {
+                var inject = pi.Injection;
+                var val = GetSingle(pi.Injection.ValueType);
+                if (val == null)
+                {
+                    val = NewModel(inject.ValueType, inject.Args);
+                    if (val == null)
+                    {
+                        Error($"Failed to resolve deferred dependancy {pi}");
+                        continue;
+                    }
+                }
+                inject.PropertyType.SetValue(pi.TargetModel, val);
+                _pendingInjections.Remove(pi);
+            }
+            foreach (var pi in _pendingInjections)
+            {
+                Warn($"Failed to resolve for {pi}");
+            }
+
+            return _pendingInjections.Count == 0;
+        }
+
+        #region Private Fields
+
+        // TODO: fast way to set properties with private setters. Not possible?
         // Current work-around is to make the setters public.
         class PrepareModel
         {
             private PropertyInfo _setRegistry;
             private PropertyInfo _setId;
-            private IModelRegistry _reg;
-            private Type _modelType;
+            private readonly ModelRegistry _reg;
+            private readonly Type _modelType;
+            private readonly List<Inject> _injections = new List<Inject>();
 
-            internal PrepareModel(IModelRegistry reg, Type ty)
+            internal PrepareModel(ModelRegistry reg, Type ty)
             {
                 _modelType = ty;
                 _reg = reg;
-                //foreach (var prop in ty.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-                //{
-                //    if (typeof(Guid) == prop.PropertyType && "Id" == prop.Name)
-                //    {
-                //        _setId = prop;
-                //    }
-                //    if (typeof(IModelRegistry) == prop.PropertyType && "Registry" == prop.Name)
-                //    {
-                //        _setRegistry = prop;
-                //    }
-                //}
-
-                //Assert.IsNotNull(_setRegistry);
-                //Assert.IsNotNull(_setId);
+                foreach (var prop in ty.GetProperties(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    var inject = prop.GetCustomAttribute<Inject>();
+                    if (inject == null)
+                        continue;
+                    inject.PropertyType = prop;
+                    inject.ValueType = prop.PropertyType;
+                    _injections.Add(inject);
+                }
             }
 
-            public IModel Prepare(IModel model)
+            public IModel Prepare(IModel model, Type iface = null, IModel single = null)
             {
-                // TODO: cache these
-                //_modelType.InvokeMember("Id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
-                //    null, model, new object[] { Guid.NewGuid() });
-                //_modelType.InvokeMember("Registry", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
-                //    null, model, new object[] { _reg });
-                //return model;
                 model.Id = Guid.NewGuid();
                 model.Registry = _reg;
+                foreach (var inject in _injections)
+                {
+                    var val = _reg.NewModel(inject.ValueType, inject.Args);
+                    if (val == null)
+                    {
+                        var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
+                        _reg.Warn($"Adding {pi}");
+                        _reg._pendingInjections.Add(pi);
+                        continue;
+                    }
+                    inject.PropertyType.SetValue(model, val);
+                }
                 return model;
             }
         }
 
-        #region Private Fields
+        private class PendingInjection
+        {
+            internal readonly IModel TargetModel;
+            internal readonly Inject Injection;
+            internal readonly IModel Single;
+            internal readonly Type Interface;
+            internal readonly Type ModelType;
+
+            public PendingInjection(IModel targetModel, Inject inject, Type modelType, Type iface = null, IModel single = null)
+            {
+                TargetModel = targetModel;
+                Injection = inject;
+                ModelType = modelType;
+                Interface = iface;
+                Single = single;
+            }
+
+            public override string ToString()
+            {
+                return $"PendingInject: {Injection.ValueType} into {TargetModel}";
+            }
+        }
+
+        private readonly List<PendingInjection> _pendingInjections = new List<PendingInjection>();
         private readonly Dictionary<Guid, IModel> _models = new Dictionary<Guid, IModel>();
         private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
         private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
