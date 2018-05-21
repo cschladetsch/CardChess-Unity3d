@@ -61,14 +61,6 @@
     <Compile Include="Assets\App\Tests\Editor\TestBoard.cs" />
     <Compile Include="Assets\App\Tests\Editor\TestKingPlacement.cs" />
     <Compile Include="Assets\App\Tests\Editor\TestPlayer.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\BindingsPrinter\Editor\EditorStyles.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\ContextRoot\Editor\ContextRootEditor.cs" />
-    <Compile Include="Assets\External\Adic\Scripts\Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs" />
     <Compile Include="Assets\External\colib\colib\Scripts\Path\Behaviours\Editor\PathBehaviourEditor.cs" />
     <Compile Include="Assets\External\colib\colib\Scripts\Path\Behaviours\Editor\PathPreviewBehaviourEditor.cs" />
     <Compile Include="Assets\External\colib\Test\Editor\Tests\TestBezier.cs" />
