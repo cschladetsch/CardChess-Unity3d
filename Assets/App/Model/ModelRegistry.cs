@@ -112,9 +112,8 @@ namespace App.Model
             _models[model.Id] = model;
             if (!_typeToGuid.ContainsKey(ty))
             {
-                var id = Guid.NewGuid();
-                _idToType[id] = ty;
-                _typeToGuid[ty] = id;
+                _idToType[model.Id] = ty;
+                _typeToGuid[ty] = model.Id;
             }
 
             Verbose(10, $"Made an instance of {ty} with Id={model.Id}");
@@ -262,6 +261,12 @@ namespace App.Model
 
         public bool Resolve()
         {
+            if (_resolved)
+            {
+                Error("Registry already resolved");
+                return false;
+            }
+            _resolved = true;
             var pendingInjections = _pendingInjections.ToArray();
             foreach (var pi in pendingInjections)
             {
@@ -334,13 +339,22 @@ namespace App.Model
                 model.Registry = _reg;
                 foreach (var inject in _injections)
                 {
-                    var val = _reg.NewModel(inject.ValueType, inject.Args);
+                    var val = _reg.GetSingle(inject.ValueType);
                     if (val == null)
                     {
-                        var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
-                        _reg.Warn($"Adding {pi}");
-                        _reg._pendingInjections.Add(pi);
-                        continue;
+                        val = _reg.NewModel(inject.ValueType, inject.Args);
+                        if (val == null)
+                        {
+                            if (_reg._resolved)
+                            {
+                                _reg.Error($"Cannot resolve interface {iface}");
+                                return null;
+                            }
+                            var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
+                            _reg.Warn($"Adding {pi}");
+                            _reg._pendingInjections.Add(pi);
+                            continue;
+                        }
                     }
                     inject.PropertyType.SetValue(model, val);
                 }
@@ -371,6 +385,7 @@ namespace App.Model
             }
         }
 
+        private bool _resolved;
         private readonly List<PendingInjection> _pendingInjections = new List<PendingInjection>();
         private readonly Dictionary<Guid, IModel> _models = new Dictionary<Guid, IModel>();
         private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
