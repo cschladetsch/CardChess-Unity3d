@@ -12,6 +12,7 @@ namespace App.Model
         public HandModel(IOwner owner) : base(owner)
         {
         }
+
         public Response NewGame()
         {
             var count = Parameters.StartHandCardCount;

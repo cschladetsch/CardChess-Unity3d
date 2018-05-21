@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using App.Model;
 
 namespace App.Model
 {
-    using Action;
     using Common;
 
     /// <summary>
@@ -25,6 +22,7 @@ namespace App.Model
         #endregion
 
         #region Methods
+        string Print(Func<Coord, string> fun);
         void NewGame(IArbiterModel arbiter);
         IEnumerable<IPieceModel> GetContents();
         IPieceModel GetContents(Coord coord);
@@ -37,8 +35,6 @@ namespace App.Model
         IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
         IEnumerable<IPieceModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
-
-        string Print(Func<Coord, string> fun);
         string CardToRep(ICardModel cardModel);
         #endregion
     }

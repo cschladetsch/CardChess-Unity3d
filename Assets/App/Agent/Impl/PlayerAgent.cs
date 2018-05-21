@@ -29,7 +29,6 @@ namespace App.Agent
         public int Health => King.Health;
         public IDeckAgent Deck { get; private set; }
         public IHandAgent Hand { get; private set; }
-
         #endregion
 
         #region Startup Methods

@@ -16,10 +16,12 @@ namespace App.Model
         public int NumModels => _models.Count;
         #endregion
 
+        #region Public Methods
         public ModelRegistry()
         {
             Verbosity = 100;
         }
+
         public byte[] Write()
         {
             return null;
@@ -30,7 +32,6 @@ namespace App.Model
             return false;
         }
 
-        #region Public Methods
         public bool HasModel(IModel model)
         {
             return Models.Contains(model);
@@ -160,6 +161,52 @@ namespace App.Model
             return true;
         }
 
+        public bool Resolve()
+        {
+            if (_resolved)
+            {
+                Error("Registry already resolved");
+                return false;
+            }
+            _resolved = true;
+            var pendingInjections = _pendingInjections.ToArray();
+            foreach (var pi in pendingInjections)
+            {
+                if (pi.Single != null)
+                {
+                    Verbose(50, $"Setting delayed singleton for {pi.Interface}");
+                    _singles[pi.Interface] = pi.Single;
+                }
+                else
+                {
+                    _bindings[pi.Interface] = pi.ModelType;
+                }
+            }
+
+            foreach (var pi in pendingInjections)
+            {
+                var inject = pi.Injection;
+                var val = GetSingle(pi.Injection.ValueType);
+                if (val == null)
+                {
+                    val = NewModel(inject.ValueType, inject.Args);
+                    if (val == null)
+                    {
+                        Error($"Failed to resolve deferred dependancy {pi}");
+                        continue;
+                    }
+                }
+                inject.PropertyType.SetValue(pi.TargetModel, val);
+                _pendingInjections.Remove(pi);
+            }
+            foreach (var pi in _pendingInjections)
+            {
+                Warn($"Failed to resolve for {pi}");
+            }
+
+            return _pendingInjections.Count == 0;
+        }
+
         #endregion
 
         #region Private Methods
@@ -258,52 +305,6 @@ namespace App.Model
             return sb.ToString();
         }
         #endregion
-
-        public bool Resolve()
-        {
-            if (_resolved)
-            {
-                Error("Registry already resolved");
-                return false;
-            }
-            _resolved = true;
-            var pendingInjections = _pendingInjections.ToArray();
-            foreach (var pi in pendingInjections)
-            {
-                if (pi.Single != null)
-                {
-                    Verbose(50, $"Setting delayed singleton for {pi.Interface}");
-                    _singles[pi.Interface] = pi.Single;
-                }
-                else
-                {
-                    _bindings[pi.Interface] = pi.ModelType;
-                }
-            }
-
-            foreach (var pi in pendingInjections)
-            {
-                var inject = pi.Injection;
-                var val = GetSingle(pi.Injection.ValueType);
-                if (val == null)
-                {
-                    val = NewModel(inject.ValueType, inject.Args);
-                    if (val == null)
-                    {
-                        Error($"Failed to resolve deferred dependancy {pi}");
-                        continue;
-                    }
-                }
-                inject.PropertyType.SetValue(pi.TargetModel, val);
-                _pendingInjections.Remove(pi);
-            }
-            foreach (var pi in _pendingInjections)
-            {
-                Warn($"Failed to resolve for {pi}");
-            }
-
-            return _pendingInjections.Count == 0;
-        }
 
         #region Private Fields
 

@@ -15,11 +15,15 @@ namespace App.Agent
         AgentLogger, IAgent<TModel>
         where TModel : class, IModel
     {
+        #region Public Properties
         public Guid Id { get; /*private*/ set;}
         public IModel BaseModel { get; private set; }
         public new IArbiterAgent Arbiter { get; set; }
         public TModel Model { get; private set; }
         public IOwner Owner => Model.Owner;
+        #endregion
+
+        #region Public Methods
         public bool SameOwner(IOwned other)
         {
             return Owner == other.Owner;
@@ -32,5 +36,6 @@ namespace App.Agent
             BaseModel = Model = a0;
             return true;
         }
+        #endregion
     }
 }

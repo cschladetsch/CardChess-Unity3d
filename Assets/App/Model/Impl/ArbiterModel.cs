@@ -10,11 +10,14 @@ namespace App.Model
         , IOwner
         , IArbiterModel
     {
+        #region Public Properties
         [Inject] public IBoardModel Board { get; set;}
         public EColor Color => EColor.Neutral;
         public IPlayerModel WhitePlayer { get; private set; }
         public IPlayerModel BlackPlayer { get; private set; }
+        #endregion
 
+        #region Public Methods
         public ArbiterModel()
         {
         }
@@ -53,7 +56,10 @@ namespace App.Model
         {
             throw new System.NotImplementedException();
         }
+        #endregion
 
+        #region Private Fields
         private IPlayerModel[] _players;
+        #endregion
     }
 }
