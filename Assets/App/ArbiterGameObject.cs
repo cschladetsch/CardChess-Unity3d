@@ -28,6 +28,6 @@ namespace App
             //a.Setup(c0, p0, p1);
         }
 
-        private Arbiter _arbiter;
+        private ArbiterAgent _arbiterAgent;
     }
 }

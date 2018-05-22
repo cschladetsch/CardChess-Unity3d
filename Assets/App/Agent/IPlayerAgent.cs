@@ -14,6 +14,7 @@ namespace App.Agent
         IOwner
     {
         #region Properties
+        ///*[Inject]*/ IArbiterAgent Arbiter { get; set; }
         ICardAgent King { get; }
         int Health { get; }
         IDeckAgent Deck { get; }

@@ -8,16 +8,28 @@ namespace App.Model
 {
     using Common;
 
-    public class ModelRegistry
-        : ModelBase, IModelRegistry
+    public interface IKnown : IHasId, IOwned, IHasName
+    {
+    }
+
+    public interface IHasRegistry<IBase>
+        where IBase : class, IHasDestroyHandler<IBase>, IKnown
+    {
+        IBaseRegistry<IBase> Registry { get; set; }
+    }
+
+    public class BaseRegistry<IBase>
+        : ModelBase
+        , IBaseRegistry<IBase>
+        where IBase : class, IKnown, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
     {
         #region Public Properties
-        public IEnumerable<IModel> Models => _models.Values;
+        public IEnumerable<IBase> Models => _models.Values;
         public int NumModels => _models.Count;
         #endregion
 
         #region Public Methods
-        public ModelRegistry()
+        public BaseRegistry()
         {
             Verbosity = 100;
         }
@@ -32,26 +44,30 @@ namespace App.Model
             return false;
         }
 
-        public bool HasModel(IModel model)
+        public bool Has(IBase model)
         {
             return Models.Contains(model);
         }
 
-        public bool HasModel(Guid id)
+        public bool Has(Guid id)
         {
             return Models.Any(m => m.Id == id);
         }
 
-        public IModel Get(Guid id)
+        public IBase Get(Guid id)
         {
-            IModel model;
+            IBase model;
             if (_models.TryGetValue(id, out model))
                 return model;
             Warn($"Failed to find targetModel with id {id}");
             return null;
         }
 
-        public TModel New<TModel, A0, A1>(A0 a0, A1 a1) where TModel : class, IModel, IConstructWith<A0, A1>, new()
+        public TModel New<TModel, A0, A1>(A0 a0, A1 a1)
+            where TModel
+            : class, IBase, IHasRegistry<TModel>,
+            IConstructWith<A0, A1>,
+            IHasDestroyHandler<TModel>, new()
         {
             var model = New<TModel>();
             if (model.Construct(a0, a1))
@@ -61,7 +77,10 @@ namespace App.Model
             return null;
         }
 
-        public TModel New<TModel, A0>(A0 a0) where TModel : class, IModel, IConstructWith<A0>, new()
+        public TModel New<TModel, A0>(A0 a0)
+            where TModel
+            : class, IBase, IConstructWith<A0>, IHasRegistry<TModel>,
+            IHasDestroyHandler<TModel>, new()
         {
             var model = New<TModel>();
             if (model.Construct(a0))
@@ -71,7 +90,7 @@ namespace App.Model
             return null;
         }
 
-        public bool Bind<TInterface, TImpl>() where TInterface : IModel where TImpl : TInterface
+        public bool Bind<TInterface, TImpl>() where TInterface : IBase where TImpl : TInterface
         {
             var ity = typeof(TInterface);
             if (_bindings.ContainsKey(ity))
@@ -88,24 +107,26 @@ namespace App.Model
             return true;
         }
 
-        public TIModel New<TIModel>(params object[] args) where TIModel : class, IModel
+        public TIBase New<TIBase>(params object[] args)
+            where TIBase
+            : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
         {
-            var ty = typeof(TIModel);
+            var ty = typeof(TIBase);
             var single = GetSingle(ty);
             if (single != null)
             {
                 if (args.Length != 0)
                     Error($"Attempt to get singleton {ty}, when passing arguments {ToArgTypeList(args)}");
-                var result = single as TIModel;
+                var result = single as TIBase;
                 if (result == null)
-                    Error($"Couldn't convert singleton {single.GetType()} to {typeof(TIModel)}");
+                    Error($"Couldn't convert singleton {single.GetType()} to {typeof(TIBase)}");
                 return result;
             }
 
-            var model = NewModel(typeof(TIModel), args) as TIModel;
+            var model = NewModel(typeof(TIBase), args) as TIBase;
             if (model == null)
             {
-                Warn($"Failed to make instance for interface {typeof(TIModel)}");
+                Warn($"Failed to make instance for interface {typeof(TIBase)}");
                 return null;
             }
 
@@ -133,22 +154,22 @@ namespace App.Model
             return string.Join(", ",  args.Select(a => a.ToString()));
         }
 
-        public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IModel where TImpl : TInterface
+        public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IBase where TImpl : TInterface
         {
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl, A0>(Func<A0, TImpl> creator) where TInterface : IModel where TImpl : TInterface
+        public bool Bind<TInterface, TImpl, A0>(Func<A0, TImpl> creator) where TInterface : IBase where TImpl : TInterface
         {
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl, A0, A1>(Func<A0, A1, TImpl> creator) where TInterface : IModel where TImpl : TInterface
+        public bool Bind<TInterface, TImpl, A0, A1>(Func<A0, A1, TImpl> creator) where TInterface : IBase where TImpl : TInterface
         {
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl>(TImpl single) where TInterface : IModel where TImpl  : TInterface
+        public bool Bind<TInterface, TImpl>(TImpl single) where TInterface : IBase where TImpl  : TInterface
         {
             var ity = typeof(TInterface);
             if (_singles.ContainsKey(ity))
@@ -210,7 +231,7 @@ namespace App.Model
         #endregion
 
         #region Private Methods
-        private void Remove(IModel model)
+        private void Remove(IBase model)
         {
             if (!_models.ContainsKey(model.Id))
                 Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
@@ -218,21 +239,24 @@ namespace App.Model
                 _models.Remove(model.Id);
         }
 
-        private void ModelDestroyed(object sender, IModel model, object[] context)
+        private void ModelDestroyed<TIBase>(TIBase model)
+            where TIBase
+            : class, IBase,
+            IHasRegistry<IBase>,
+            IHasDestroyHandler<IBase>
         {
             if (model == null)
             {
                 Verbose(10, "Attempt to destroy null targetModel");
                 return;
             }
-
             model.OnDestroy -= ModelDestroyed;
             Remove(model);
         }
 
-        private IModel GetSingle(Type ty)
+        private IBase GetSingle(Type ty)
         {
-            IModel single;
+            IBase single;
             if (_singles.TryGetValue(ty, out single))
             {
                 return single;
@@ -240,7 +264,7 @@ namespace App.Model
             return null;
         }
 
-        internal IModel NewModel(Type ity, object[] args)
+        internal IBase NewModel(Type ity, object[] args)
         {
             Type ty;
             if (!_bindings.TryGetValue(ity, out ty))
@@ -253,7 +277,7 @@ namespace App.Model
             {
                 if (!MatchingConstructor(args, con))
                     continue;
-                var model = con.Invoke(args) as IModel;
+                var model = con.Invoke(args) as IBase;
                 if (model != null)
                     return Prepare(ity, model);
             }
@@ -276,7 +300,7 @@ namespace App.Model
             return n == args.Length;
         }
 
-        IModel Prepare(Type ity, IModel model)
+        IBase Prepare(Type ity, IBase model)
         {
             PrepareModel prep;
             if (!_preparers.TryGetValue(ity, out prep))
@@ -308,17 +332,15 @@ namespace App.Model
 
         #region Private Fields
 
-        // TODO: fast way to set properties with private setters. Not possible?
-        // Current work-around is to make the setters public.
         class PrepareModel
         {
             private PropertyInfo _setRegistry;
             private PropertyInfo _setId;
-            private readonly ModelRegistry _reg;
+            private readonly IBaseRegistry<IBase> _reg;
             private readonly Type _modelType;
             private readonly List<Inject> _injections = new List<Inject>();
 
-            internal PrepareModel(ModelRegistry reg, Type ty)
+            internal PrepareModel(IBaseRegistry<IBase> reg, Type ty)
             {
                 _modelType = ty;
                 _reg = reg;
@@ -334,44 +356,50 @@ namespace App.Model
                 }
             }
 
-            public IModel Prepare(IModel model, Type iface = null, IModel single = null)
+            //public IBase Prepare(IBase model, Type iface = null, IBase single = null)
+            public IBase Prepare(IBase model, Type iface = null, IBase single = null)
             {
                 model.Id = Guid.NewGuid();
                 model.Registry = _reg;
                 foreach (var inject in _injections)
                 {
-                    var val = _reg.GetSingle(inject.ValueType);
-                    if (val == null)
-                    {
-                        val = _reg.NewModel(inject.ValueType, inject.Args);
-                        if (val == null)
-                        {
-                            if (_reg._resolved)
-                            {
-                                _reg.Error($"Cannot resolve interface {iface}");
-                                return null;
-                            }
-                            var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
-                            _reg.Warn($"Adding {pi}");
-                            _reg._pendingInjections.Add(pi);
-                            continue;
-                        }
-                    }
-                    inject.PropertyType.SetValue(model, val);
+                    _reg.Inject(model, inject, iface, single);
                 }
                 return model;
             }
         }
 
+        public IBase Inject(IBase model, Inject inject, Type iface, IBase single)
+        {
+            var val = GetSingle(inject.ValueType);
+            if (val == null)
+            {
+                val = NewModel(inject.ValueType, inject.Args);
+                if (val == null)
+                {
+                    if (_resolved)
+                    {
+                        Error($"Cannot resolve interface {iface}");
+                        return null;
+                    }
+                    var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
+                    Warn($"Adding {pi}");
+                    _pendingInjections.Add(pi);
+                }
+            }
+            inject.PropertyType.SetValue(model, val);
+            return model;
+        }
+
         private class PendingInjection
         {
-            internal readonly IModel TargetModel;
+            internal readonly IBase TargetModel;
             internal readonly Inject Injection;
-            internal readonly IModel Single;
+            internal readonly IBase Single;
             internal readonly Type Interface;
             internal readonly Type ModelType;
 
-            public PendingInjection(IModel targetModel, Inject inject, Type modelType, Type iface = null, IModel single = null)
+            public PendingInjection(IBase targetModel, Inject inject, Type modelType, Type iface = null, IBase single = null)
             {
                 TargetModel = targetModel;
                 Injection = inject;
@@ -388,12 +416,15 @@ namespace App.Model
 
         private bool _resolved;
         private readonly List<PendingInjection> _pendingInjections = new List<PendingInjection>();
-        private readonly Dictionary<Guid, IModel> _models = new Dictionary<Guid, IModel>();
+        private readonly Dictionary<Guid, IBase> _models = new Dictionary<Guid, IBase>();
         private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
         private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
         private readonly Dictionary<Type, Type> _bindings = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, PrepareModel> _preparers = new Dictionary<Type, PrepareModel>();
-        private readonly Dictionary<Type, IModel> _singles = new Dictionary<Type, IModel>();
+        private readonly Dictionary<Type, IBase> _singles = new Dictionary<Type, IBase>();
+        private IBaseRegistry<IBase> _registry;
+
         #endregion
+
     }
 }

@@ -13,7 +13,7 @@ namespace UnitTests
     [TestFixture]
     class TestBoard : Flow.Impl.Logger
     {
-        private IModelRegistry _reg;
+        private IBaseRegistry<IModel> _reg;
         private IBoardModel _board;
         private IPlayerModel _white;
         private IPlayerModel _black;
@@ -22,7 +22,7 @@ namespace UnitTests
         // this is only place concrete types are needed
         private void PrepareBindings()
         {
-            _reg = new ModelRegistry();
+            _reg = new BaseRegistry<IModel>();
             _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
             _reg.Bind<IPlayerModel, PlayerModel>();
@@ -39,7 +39,7 @@ namespace UnitTests
             _arbiter = _reg.New<IArbiterModel>();
             _white = _reg.New<IPlayerModel>(EColor.White);
             _black = _reg.New<IPlayerModel>(EColor.Black);
-            _arbiter.SetPlayers(_white, _black);
+            _arbiter.NewGame(_white, _black);
 
             Info(_reg.Print());
         }
@@ -86,8 +86,6 @@ namespace UnitTests
         [Test]
         public void TestBoardPiecePlacement()
         {
-            _arbiter.NewGame();
-
             var wk = _white.King;
             var bk = _black.King;
 

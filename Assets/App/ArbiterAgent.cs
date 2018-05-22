@@ -20,16 +20,15 @@ namespace App
     /// The 'adudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     /// </summary>
-    public class Arbiter :
+    public class ArbiterAgent :
         AgentLogger<IArbiterModel>,
         IArbiterAgent
     {
         #region Public Fields
-        public static Arbiter Instance;
-        public IPlayerAgent WhitePlayerAgent => _playersAgent[0];
-        public IPlayerAgent BlackPlayerAgent => _playersAgent[1];
-        public IPlayerAgent CurrentPlayerAgent => _playersAgent[_currentPlayer];
-        public IBoardModel BoardModel => _boardModel;
+        public IPlayerAgent WhitePlayer => _players[0];
+        public IPlayerAgent BlackPlayer => _players[1];
+        public IPlayerAgent CurrentPlayerAgent => _players[_currentPlayer];
+        [Inject] public IBoardAgent Board { get; set; }
         #endregion
 
         #region Public Methods
@@ -50,39 +49,23 @@ namespace App
 
         }
 
-        public Arbiter()
+        public ArbiterAgent()
         {
-            Instance = this;
             Kernel = Flow.Create.Kernel();
         }
 
-        public void Setup(IBoardAgent boardAgent, IPlayerAgent p0, IPlayerAgent p1)
+        public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
         {
-            _boardAgent = boardAgent;
-            SetPlayers(p0, p1);
-        }
+            Info("StartGame");
 
-        public void SetPlayers(IPlayerAgent p0, IPlayerAgent p1)
-        {
-            Assert.IsNotNull(p0);
-            Assert.IsNotNull(p1);
-            _playersAgent[0] = p0;
-            _playersAgent[1] = p1;
-        }
-
-        public void NewGame()
-        {
-            Assert.IsNotNull(_boardAgent);
-            Assert.IsNotNull(WhitePlayerAgent);
-            Assert.IsNotNull(BlackPlayerAgent);
-
-            Info("NewCardModel Game");
+            _players[0] = p0;
+            _players[1] = p1;
 
             _currentPlayer = 0;
             _turnNumber = 0;
 
-            _boardAgent.NewGame();
-            foreach (var player in _playersAgent)
+            Board.NewGame();
+            foreach (var player in _players)
             {
                 Assert.IsNotNull(player);
                 player.NewGame();
@@ -205,22 +188,22 @@ namespace App
         {
             var start = New.Sequence(
                 New.Barrier(
-                    WhitePlayerAgent.StartGame(),
-                    BlackPlayerAgent.StartGame()
+                    WhitePlayer.StartGame(),
+                    BlackPlayer.StartGame()
                 ).Named("Init Game"),
                 New.Barrier(
-                    WhitePlayerAgent.DrawInitialCards(),
-                    BlackPlayerAgent.DrawInitialCards()
+                    WhitePlayer.DrawInitialCards(),
+                    BlackPlayer.DrawInitialCards()
                 ).Named("Deal Cards"),
                 New.Barrier(
                     New.TimedBarrier(
                         TimeSpan.FromSeconds(Parameters.MulliganTimer),
-                        WhitePlayerAgent.FutureAcceptCards(),
-                        BlackPlayerAgent.FutureAcceptCards()
+                        WhitePlayer.FutureAcceptCards(),
+                        BlackPlayer.FutureAcceptCards()
                     ).Named("Mulligan"),
                     New.Sequence( // TODO: TimedSequence
-                        WhitePlayerAgent.FuturePlaceKing(),
-                        BlackPlayerAgent.FuturePlaceKing()
+                        WhitePlayer.FuturePlaceKing(),
+                        BlackPlayer.FuturePlaceKing()
                     ).Named("Place Kings")
                 ).Named("Preceedings")
             ).Named("Start Game");
@@ -331,7 +314,7 @@ namespace App
         }
         private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayerAgent playerAgent, PlayCard playCard, IFuture<bool> canPlay)
         {
-            var current = BoardModel.At(playCard.Coord);
+            var current = Board.At(playCard.Coord);
             if (current == null)
             {
                 Info($"{playCard} for playerAgent {playerAgent.Color} is VALID");
@@ -366,14 +349,11 @@ namespace App
         #endregion
 
         #region Private Fields
-        private readonly IPlayerAgent[] _playersAgent = new IPlayerAgent[2];
-        private Model.BoardModel _boardModel;
-        private IBoardAgent _boardAgent;
+        private readonly IPlayerAgent[] _players = new IPlayerAgent[2];
         private int _currentPlayer;
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
         private bool _gameOver;
         #endregion
-
     }
 }

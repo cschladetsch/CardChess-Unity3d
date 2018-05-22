@@ -11,18 +11,13 @@ namespace App.Model
     /// </summary>
     public class ModelBase :
         Flow.Impl.Logger,
-        IModel,
-        IConstructWith<IOwner>
+        IModel
     {
-        public event ModelDestroyedHandler OnDestroy;
-
-        #region Public Properties
         public bool Destroyed { get; private set; } = false;
-        public IModelRegistry Registry { get; set; }
+        public IBaseRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
         public IOwner Owner { get; protected set; }
-        #endregion
 
         #region Public Methods
         public bool Construct(IOwner owner)
@@ -47,10 +42,12 @@ namespace App.Model
                 return;
             }
 
-            OnDestroy?.Invoke(this, this);
+            OnDestroy?.Invoke(this);
             Destroyed = true;
             Id = Guid.Empty;
         }
         #endregion
+
+        public event DestroyedHandler<IModel> OnDestroy;
     }
 }

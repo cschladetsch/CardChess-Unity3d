@@ -11,7 +11,7 @@ namespace App.Model
 
     public class CardModel :
         ModelBase,
-        ICardModel
+        ICardModel, IHasRegistry<IModel>
     {
         #region Public Properties
         public ECardType Type => Template.Type;
