@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using App.Action;
 
 namespace App.Model
 {
@@ -18,6 +19,7 @@ namespace App.Model
         IBoardModel Board { get; }
         IArbiterModel Arbiter { get; }
 
+        bool AcceptedHand { get; }
         IDeckModel Deck { get; }
         IHandModel Hand { get; }
         ICardModel King { get; }
@@ -33,14 +35,11 @@ namespace App.Model
         Response ChangeMaxMana(int mana);
         Response ChangeMana(int mana);
 
-        #region Gameplay Methods
         Response DrawHand();
-        Response AcceptHand();
-        Response PlayCard(ICardModel model, Coord coord);
-        Response MovePiece(ICardModel model, Coord coord);
-        Response Pass();
-        #endregion // Gameplay Methods
+        void CardExhaustion();
+        IAction NextAction();
 
         #endregion // Methods
+
     }
 }

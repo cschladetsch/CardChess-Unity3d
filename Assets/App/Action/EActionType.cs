@@ -1,10 +1,11 @@
 ﻿namespace App.Action
 {
-    public enum EAction
+    public enum EActionType
     {
+        RejectCards,
+        AcceptCards,
         Pass,
         PlayCard,
-        CastSpell,
         MovePiece,
         Resign,
     }

@@ -58,13 +58,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\App\Action\EAction.cs" />
+    <Compile Include="Assets\App\Action\EActionType.cs" />
     <Compile Include="Assets\App\Action\IAction.cs" />
+    <Compile Include="Assets\App\Action\Impl\AcceptCards.cs" />
     <Compile Include="Assets\App\Action\Impl\ActionBase.cs" />
     <Compile Include="Assets\App\Action\Impl\CastSpell.cs" />
     <Compile Include="Assets\App\Action\Impl\MovePiece.cs" />
     <Compile Include="Assets\App\Action\Impl\Pass.cs" />
+    <Compile Include="Assets\App\Action\Impl\PlaceKing.cs" />
     <Compile Include="Assets\App\Action\Impl\PlayCard.cs" />
+    <Compile Include="Assets\App\Action\Impl\RejectCards.cs" />
+    <Compile Include="Assets\App\Action\Impl\Resign.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IArbiterAgent.cs" />
@@ -108,6 +112,7 @@
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\GameRoot.cs" />
+    <Compile Include="Assets\App\Model\EGameState.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />
     <Compile Include="Assets\App\Model\ICardCollection.cs" />

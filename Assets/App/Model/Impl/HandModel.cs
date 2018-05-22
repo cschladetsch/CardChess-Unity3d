@@ -22,10 +22,7 @@ namespace App.Model
                 Error("Need more cards in Deck");
                 return new Response(EResponse.Fail);
             }
-            while (count-- > 0)
-            {
-                Add((ICardModel)Deck.Draw());
-            }
+            Add(Deck.Draw(count));
             return Response.Ok;
         }
 

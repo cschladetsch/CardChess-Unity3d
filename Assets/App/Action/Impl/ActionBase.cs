@@ -8,6 +8,14 @@ namespace App.Action
     public class ActionBase : IAction
     {
         public IPlayerModel Player { get; }
-        public EAction Type { get; }
+        public EActionType Action { get; }
+
+        public ActionBase() {}
+
+        public ActionBase(IPlayerModel player, EActionType actionType)
+        {
+            Player = player;
+            Action = actionType;
+        }
     }
 }

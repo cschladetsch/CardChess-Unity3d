@@ -8,6 +8,6 @@ namespace App.Action
     public interface IAction
     {
         IPlayerModel Player { get; }
-        EAction Type { get; }
+        EActionType Action { get; }
     }
 }

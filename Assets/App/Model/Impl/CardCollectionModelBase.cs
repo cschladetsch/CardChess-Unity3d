@@ -42,6 +42,12 @@ namespace App.Model
             return true;
         }
 
+        public void Add(IEnumerable<ICardModel> cards)
+        {
+            foreach (var card in cards)
+                Add(card);
+        }
+
         public bool Remove(ICardModel cardModel)
         {
             if (cards.Count == 0)

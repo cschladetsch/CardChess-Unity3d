@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace App.Model
 {
@@ -37,21 +39,31 @@ namespace App.Model
             cards.Shuffle();
         }
 
-        ICardModel IDeckModel.Draw()
-        {
-            return Draw() as ICardModel;
-        }
-
-        public ICard Draw()
+        public ICardModel Draw()
         {
             if (Empty)
             {
-                Warn("Empty");
+                Warn("Empty Deck");
+                Player.CardExhaustion();
                 return null;
             }
             var card = cards[0];
             cards.RemoveAt(0);
             return card;
+        }
+
+        public IEnumerable<ICardModel> Draw(int count)
+        {
+            foreach (var card in cards.Take(count))
+            {
+                if (card == null)
+                {
+                    Player.CardExhaustion();
+                    yield break;
+                }
+                cards.Remove(card);
+                yield return card;
+            }
         }
 
         public bool AddToBottom(ICardModel cardModel)
