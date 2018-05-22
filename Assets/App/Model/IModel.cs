@@ -1,13 +1,8 @@
 ﻿namespace App.Model
 {
     using Common;
-
-    public delegate void DestroyedHandler<T>(T model);
-
-    public interface IHasDestroyHandler<T>
-    {
-        event DestroyedHandler<T> OnDestroy;
-    }
+    using Model;
+    using Registry;
 
     public interface IModel
         : Flow.ILogger

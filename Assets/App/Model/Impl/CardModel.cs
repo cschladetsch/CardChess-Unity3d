@@ -8,10 +8,11 @@ using System.Linq;
 namespace App.Model
 {
     using Common;
+    using Registry;
 
     public class CardModel :
         ModelBase,
-        ICardModel, IHasRegistry<IModel>
+        ICardModel
     {
         #region Public Properties
         public ECardType Type => Template.Type;

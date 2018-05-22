@@ -4,32 +4,27 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace App.Model
+namespace App.Registry
 {
     using Common;
+    using Model;
 
-    public interface IKnown : IHasId, IOwned, IHasName
-    {
-    }
-
-    public interface IHasRegistry<IBase>
-        where IBase : class, IHasDestroyHandler<IBase>, IKnown
-    {
-        IBaseRegistry<IBase> Registry { get; set; }
-    }
-
-    public class BaseRegistry<IBase>
+    public class Registry<IBase>
         : ModelBase
-        , IBaseRegistry<IBase>
-        where IBase : class, IKnown, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
+        , IRegistry<IBase>
+        where IBase
+            : class
+            , IKnown
+            , IHasRegistry<IBase>
+            , IHasDestroyHandler<IBase>
     {
         #region Public Properties
-        public IEnumerable<IBase> Models => _models.Values;
-        public int NumModels => _models.Count;
+        public IEnumerable<IBase> Instances => _models.Values;
+        public int NumInstances => _models.Count;
         #endregion
 
         #region Public Methods
-        public BaseRegistry()
+        public Registry()
         {
             Verbosity = 100;
         }
@@ -44,14 +39,14 @@ namespace App.Model
             return false;
         }
 
-        public bool Has(IBase model)
+        public bool Has(IBase instance)
         {
-            return Models.Contains(model);
+            return Instances.Contains(instance);
         }
 
         public bool Has(Guid id)
         {
-            return Models.Any(m => m.Id == id);
+            return Instances.Any(m => m.Id == id);
         }
 
         public IBase Get(Guid id)
@@ -126,7 +121,7 @@ namespace App.Model
             var model = NewModel(typeof(TIBase), args) as TIBase;
             if (model == null)
             {
-                Warn($"Failed to make instance for interface {typeof(TIBase)}");
+                Error($"Failed to make instance for interface {typeof(TIBase)}");
                 return null;
             }
 
@@ -146,12 +141,12 @@ namespace App.Model
 
         private static string ToArgTypeList(IEnumerable<object> args)
         {
-            return string.Join(", ", args.Select(a => a.GetType().Name));
+            return args == null ? "" : string.Join(", ", args.Select(a => a.GetType().Name));
         }
 
         private static string ToArgList(IEnumerable<object> args)
         {
-            return string.Join(", ",  args.Select(a => a.ToString()));
+            return args == null ? "" : string.Join(", ",  args.Select(a => a.ToString()));
         }
 
         public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IBase where TImpl : TInterface
@@ -288,6 +283,8 @@ namespace App.Model
         private static bool MatchingConstructor(object[] args, ConstructorInfo con)
         {
             var ctorParams = con.GetParameters().ToArray();
+            if (args == null)
+                return ctorParams.Length == 0;
             if (ctorParams.Length != args.Length)
                 return false;
             var n = 0;
@@ -300,7 +297,7 @@ namespace App.Model
             return n == args.Length;
         }
 
-        IBase Prepare(Type ity, IBase model)
+        private IBase Prepare(Type ity, IBase model)
         {
             PrepareModel prep;
             if (!_preparers.TryGetValue(ity, out prep))
@@ -316,15 +313,15 @@ namespace App.Model
         public string Print()
         {
             var sb = new StringBuilder();
-            sb.Append($"{NumModels} Models:\n");
+            sb.Append($"{NumInstances} Models:\n");
             foreach (var kv in _models)
             {
                 sb.Append($"\t{kv.Key} -> {kv.Value}\n");
             }
-            sb.Append($"\n{_idToType.Count} Types:");
+            sb.Append($"\n{_idToType.Count} Types:\n");
             foreach (var kv in _idToType)
             {
-                sb.Append($"\t{kv.Value}");
+                sb.Append($"\t{kv.Value}\n");
             }
             return sb.ToString();
         }
@@ -336,11 +333,11 @@ namespace App.Model
         {
             private PropertyInfo _setRegistry;
             private PropertyInfo _setId;
-            private readonly IBaseRegistry<IBase> _reg;
+            private readonly IRegistry<IBase> _reg;
             private readonly Type _modelType;
             private readonly List<Inject> _injections = new List<Inject>();
 
-            internal PrepareModel(IBaseRegistry<IBase> reg, Type ty)
+            internal PrepareModel(IRegistry<IBase> reg, Type ty)
             {
                 _modelType = ty;
                 _reg = reg;
@@ -379,7 +376,7 @@ namespace App.Model
                 {
                     if (_resolved)
                     {
-                        Error($"Cannot resolve interface {iface}");
+                        Error($"Cannot resolve interface {inject.ValueType}");
                         return null;
                     }
                     var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
@@ -422,9 +419,8 @@ namespace App.Model
         private readonly Dictionary<Type, Type> _bindings = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, PrepareModel> _preparers = new Dictionary<Type, PrepareModel>();
         private readonly Dictionary<Type, IBase> _singles = new Dictionary<Type, IBase>();
-        private IBaseRegistry<IBase> _registry;
+        private IRegistry<IBase> _registry;
 
         #endregion
-
     }
 }

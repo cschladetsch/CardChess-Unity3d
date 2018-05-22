@@ -6,6 +6,7 @@ using App.Model;
 namespace App.Database
 {
     using Common;
+    using Registry;
 
     static class CardTemplates
     {
@@ -14,13 +15,13 @@ namespace App.Database
             MockConstruct();
         }
 
-        public static ICardModel NewCardModel(IBaseRegistry<IModel> reg, string name, IOwner owner = null)
+        public static ICardModel NewCardModel(IRegistry<IModel> reg, string name, IOwner owner = null)
         {
             var tmpl = _templates.Values.FirstOrDefault(t => t.Name == name);
             return tmpl == null ? null : NewCardModel(reg, tmpl.Id, owner);
         }
 
-        public static ICardModel NewCardModel(IBaseRegistry<IModel> reg, Guid id, IOwner owner)
+        public static ICardModel NewCardModel(IRegistry<IModel> reg, Guid id, IOwner owner)
         {
             var tmp = _templates[id];
             var card = reg.New<CardModel>(tmp, owner);

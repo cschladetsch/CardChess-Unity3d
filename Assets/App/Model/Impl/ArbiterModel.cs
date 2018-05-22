@@ -6,6 +6,8 @@ using App.Common;
 
 namespace App.Model
 {
+    using Registry;
+
     public class ArbiterModel
         : ModelBase
         , IOwner

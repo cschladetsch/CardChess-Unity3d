@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 namespace App.Model
 {
     using Common;
+    using Registry;
 
     /// <summary>
     /// The main playing board Can be of arbitrary dimention.

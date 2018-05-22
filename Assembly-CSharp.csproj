@@ -112,7 +112,6 @@
     <Compile Include="Assets\App\Database\BaseMovementOptions.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\GameRoot.cs" />
-    <Compile Include="Assets\App\Model\BaseRegistry.cs" />
     <Compile Include="Assets\App\Model\EGameState.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />
@@ -127,7 +126,6 @@
     <Compile Include="Assets\App\Model\IHandModel.cs" />
     <Compile Include="Assets\App\Model\IItemModel.cs" />
     <Compile Include="Assets\App\Model\IModel.cs" />
-    <Compile Include="Assets\App\Model\IModelRegistry.cs" />
     <Compile Include="Assets\App\Model\Impl\ArbiterModel.cs" />
     <Compile Include="Assets\App\Model\Impl\BoardModel.cs" />
     <Compile Include="Assets\App\Model\Impl\CardCollectionDesc.cs" />
@@ -145,7 +143,6 @@
     <Compile Include="Assets\App\Model\Impl\PlayerOwnedModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
-    <Compile Include="Assets\App\Model\Inject.cs" />
     <Compile Include="Assets\App\Model\IPieceModel.cs" />
     <Compile Include="Assets\App\Model\IPlayerModel.cs" />
     <Compile Include="Assets\App\Model\IPlayerOwnedModel.cs" />
@@ -153,6 +150,12 @@
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />
     <Compile Include="Assets\App\Parameters.cs" />
+    <Compile Include="Assets\App\Registry\IHasDestroyHandler.cs" />
+    <Compile Include="Assets\App\Registry\IHasRegistry.cs" />
+    <Compile Include="Assets\App\Registry\IKnown.cs" />
+    <Compile Include="Assets\App\Registry\Inject.cs" />
+    <Compile Include="Assets\App\Registry\IRegistry.cs" />
+    <Compile Include="Assets\App\Registry\Registry.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\colib\colib\Examples\CommandQueueExample.cs" />
     <Compile Include="Assets\External\colib\colib\Examples\EaseExample.cs" />

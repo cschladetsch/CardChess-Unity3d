@@ -6,11 +6,15 @@ using App.Database;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// Reflection deals with this
+// ReSharper disable PublicConstructorInAbstractClass
+
 namespace App.Model
 {
     using Common;
+    using Registry;
 
-    public abstract class PlayerModel
+    public /*abstract*/ class PlayerModel
         : ModelBase
         , IPlayerModel
     {
@@ -35,22 +39,18 @@ namespace App.Model
 
         #region Public Methods
 
-        protected PlayerModel(EColor color)
+        public PlayerModel(EColor color)
         {
             Color = color;
-        }
-
-        public void SetDeck(IDeckModel deckModel)
-        {
-            Assert.IsNotNull(deckModel);
-            Deck = deckModel;
-            Hand = Registry.New<IHandModel>(this);
         }
 
         public Response NewGame()
         {
             AcceptedHand = false;
             MaxMana = 0;
+            // TODO: pass Guid of a pre-built player deck
+            Deck = Registry.New<IDeckModel>(Guid.Empty, this);
+            Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
             King = CardTemplates.NewCardModel(Registry, "King", this);
@@ -98,9 +98,24 @@ namespace App.Model
             return new Action.Pass(this);
         }
 
-        protected abstract IAction Mulligan();
-        protected abstract IAction PlaceKing();
-        protected abstract IAction DecideTurn();
+        // TODO: make MockPlayer that implements these
+        //protected abstract IAction Mulligan();
+        //protected abstract IAction PlaceKing();
+        //protected abstract IAction DecideTurn();
+
+        protected IAction Mulligan()
+        {
+            return null;
+        }
+        protected IAction PlaceKing()
+        {
+            return null;
+        }
+
+        protected IAction DecideTurn()
+        {
+            return null;
+        }
 
         public Response ChangeMana(int change)
         {

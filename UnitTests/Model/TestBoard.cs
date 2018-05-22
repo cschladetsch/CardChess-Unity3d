@@ -7,13 +7,14 @@ using NUnit.Framework;
 
 using App.Common;
 using App.Model;
+using App.Registry;
 
 namespace UnitTests
 {
     [TestFixture]
     class TestBoard : Flow.Impl.Logger
     {
-        private IBaseRegistry<IModel> _reg;
+        private IRegistry<IModel> _reg;
         private IBoardModel _board;
         private IPlayerModel _white;
         private IPlayerModel _black;
@@ -22,10 +23,14 @@ namespace UnitTests
         // this is only place concrete types are needed
         private void PrepareBindings()
         {
-            _reg = new BaseRegistry<IModel>();
+            _reg = new Registry<IModel>();
             _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
             _reg.Bind<IPlayerModel, PlayerModel>();
+
+            _reg.Bind<ICardModel, CardModel>();
+            _reg.Bind<IDeckModel, DeckModel>();
+            _reg.Bind<IHandModel, HandModel>();
 
             _reg.Resolve();
         }
@@ -47,14 +52,14 @@ namespace UnitTests
         [TearDown]
         public void TearDown()
         {
-            Info($"{_reg.NumModels}");
+            Info($"{_reg.NumInstances}");
             _reg.Print();
             _arbiter.Destroy();
             _white.Destroy();
             _black.Destroy();
             _arbiter.Destroy();
             _reg.Print();
-            Info($"{_reg.NumModels}");
+            Info($"{_reg.NumInstances}");
         }
 
         [Test]

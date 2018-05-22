@@ -3,6 +3,7 @@ using System;
 namespace App.Model
 {
     using Common;
+    using Registry;
 
     /// <summary>
     /// Common for all Models.
@@ -14,7 +15,7 @@ namespace App.Model
         IModel
     {
         public bool Destroyed { get; private set; } = false;
-        public IBaseRegistry<IModel> Registry { get; set; }
+        public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
         public IOwner Owner { get; protected set; }

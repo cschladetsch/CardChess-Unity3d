@@ -23,9 +23,9 @@ namespace App.Model
             for (var n = 0; n < MaxCards; ++n)
             {
                 // LATER: use a pre-made deck (CardLibrary)
-                //var tmpl = Database.CardTemplates.GetRandom();
-                //var card = Arbiter.NewCardModel(tmpl, Owner);
-                //Add(card);
+                var tmpl = Database.CardTemplates.GetRandom();
+                var card = Registry.New<ICardModel>(tmpl, Owner);
+                Add(card);
             }
         }
 

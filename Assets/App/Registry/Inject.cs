@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace App.Model
+namespace App.Registry
 {
     public class Inject : Attribute
     {

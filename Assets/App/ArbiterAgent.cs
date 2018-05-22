@@ -14,6 +14,7 @@ namespace App
     using Agent;
     using Model;
     using Action;
+    using Registry;
 
     /// <inheritdoc />
     /// <summary>
