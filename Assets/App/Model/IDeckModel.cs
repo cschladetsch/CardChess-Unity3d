@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace App.Model
 {
@@ -15,6 +16,7 @@ namespace App.Model
         void NewGame();
         void Shuffle();
         ICardModel Draw();
+        IEnumerable<ICardModel> Draw(int count);
         bool AddToBottom(ICardModel cardModel);
 
         /// <summary>

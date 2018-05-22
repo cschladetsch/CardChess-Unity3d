@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.Action;
 using App.Database;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,12 +10,13 @@ namespace App.Model
 {
     using Common;
 
-    public class PlayerModel
+    public abstract class PlayerModel
         : ModelBase
         , IPlayerModel
     {
         #region public Fields
         public EColor Color { get; }
+        public bool AcceptedHand { get; private set; }
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
         public int Health => King.Health;
@@ -23,14 +25,17 @@ namespace App.Model
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
-        public IEnumerable<ICardModel> CardsOnBoard { get; }
+
+        public IEnumerable<ICardModel> CardsOnBoard =>
+            Board.Pieces.
+            Where(p => p.Owner == this).
+            Select(p => p.Card);
         public IEnumerable<ICardModel> CardsInGraveyard { get; }
-        public static int StartHandCardCount => Parameters.StartHandCardCount;
         #endregion
 
         #region Public Methods
 
-        public PlayerModel(EColor color)
+        protected PlayerModel(EColor color)
         {
             Color = color;
         }
@@ -44,6 +49,7 @@ namespace App.Model
 
         public Response NewGame()
         {
+            AcceptedHand = false;
             MaxMana = 0;
             Deck.NewGame();
             Hand.NewGame();
@@ -51,34 +57,60 @@ namespace App.Model
             return Response.Ok;
         }
 
+        public void CardExhaustion()
+        {
+            King.ChangeHealth(-1, null);
+        }
+
+        public virtual IAction NextAction()
+        {
+            switch (Arbiter.GameState)
+            {
+                case EGameState.None:
+                    break;
+                case EGameState.Shuffling:
+                    Deck.Shuffle();
+                    break;
+                case EGameState.Dealing:
+                    DrawHand();
+                    break;
+                case EGameState.Mulligan:
+                    return Mulligan();
+                case EGameState.Ready:
+                    break;
+                case EGameState.PlaceKing:
+                    return PlaceKing();
+                case EGameState.TurnStart:
+                    Hand.Add(Deck.Draw());
+                    break;
+                case EGameState.TurnPlay:
+                    return DecideTurn();
+                case EGameState.Battle:
+                    break;
+                case EGameState.TurnEnd:
+                    break;
+                case EGameState.Completed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return new Action.Pass(this);
+        }
+
+        protected abstract IAction Mulligan();
+        protected abstract IAction PlaceKing();
+        protected abstract IAction DecideTurn();
+
         public Response ChangeMana(int change)
         {
             Mana = Mathf.Clamp(0, 12, Mana + change);
             return Response.Ok;
         }
 
-        Response IPlayerModel.DrawHand()
+        public Response DrawHand()
         {
-            throw new NotImplementedException();
-        }
-
-        public Response AcceptHand()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Response PlayCard(ICardModel model, Coord coord)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Response MovePiece(ICardModel model, Coord coord)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Response Pass()
-        {
+            Hand.Add(Deck.Draw(Parameters.StartHandCardCount));
             return Response.Ok;
         }
 
@@ -86,18 +118,6 @@ namespace App.Model
         {
             MaxMana = Mathf.Clamp(0, 12, Mana + change);
             return Response.Ok;
-        }
-
-        public void DrawHand()
-        {
-            Assert.IsNotNull(Deck);
-            Assert.IsTrue(Deck.NumCards >= 30);
-            //TODO Hand = Arbiter.NewModel<Hand>(this);
-            foreach (var card in Deck.Cards.Take((int)Parameters.StartHandCardCount))
-            {
-                Deck.Remove(card as ICardModel);
-                Hand.Add(card as ICardModel);
-            }
         }
 
         public void AddMaxMana(int mana)

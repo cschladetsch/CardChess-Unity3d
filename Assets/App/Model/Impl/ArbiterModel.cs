@@ -1,4 +1,5 @@
-﻿using App.Common;
+﻿using System;
+using App.Common;
 
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -11,10 +12,14 @@ namespace App.Model
         , IArbiterModel
     {
         #region Public Properties
+
+        public EGameState GameState { get; private set;}
         [Inject] public IBoardModel Board { get; set;}
         public EColor Color => EColor.Neutral;
         public IPlayerModel WhitePlayer { get; private set; }
         public IPlayerModel BlackPlayer { get; private set; }
+        public IPlayerModel CurrentPlayer => _players[_currentPlayer];
+        public IPlayerModel OtherPlayer => _players[(_currentPlayer + 1)%2];
         #endregion
 
         #region Public Methods
@@ -22,44 +27,32 @@ namespace App.Model
         {
         }
 
-        public void SetPlayers(IPlayerModel w, IPlayerModel b)
+        public void NewGame(IPlayerModel w, IPlayerModel b)
         {
             WhitePlayer = w;
             BlackPlayer = b;
             _players = new[] {w, b};
-            Construct(this);
-        }
+            _currentPlayer = 0;
 
-        public void NewGame()
-        {
+            Construct(this);
             Board.NewGame();
             foreach (var p in _players)
                 p.NewGame();
+
+            GameState = EGameState.Ready;
         }
 
         public void Endame()
         {
-            throw new System.NotImplementedException();
+            GameState = EGameState.Completed;
         }
 
-        public void PrepareDecks()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void DrawCards()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlayerTurn()
-        {
-            throw new System.NotImplementedException();
-        }
         #endregion
 
         #region Private Fields
         private IPlayerModel[] _players;
+        private int _currentPlayer;
+
         #endregion
     }
 }

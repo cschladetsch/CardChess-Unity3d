@@ -21,6 +21,7 @@ namespace App.Common
         bool Has(TCard card);
         bool Has(Guid idCard);
         bool Add(TCard card);
+        void Add(IEnumerable<TCard> cards);
         bool Remove(TCard card);
     }
 }

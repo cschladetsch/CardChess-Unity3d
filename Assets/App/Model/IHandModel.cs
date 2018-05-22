@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using System.Collections.Generic;
+
+namespace App.Model
 {
     using Common;
 

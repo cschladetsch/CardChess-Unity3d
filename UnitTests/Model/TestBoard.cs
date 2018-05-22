@@ -86,28 +86,16 @@ namespace UnitTests
         [Test]
         public void TestBoardPiecePlacement()
         {
-            //var reg = new ModelRegistry();
-            //var board = reg.New<BoardModel>(8, 8);
-            //var w = reg.New<PlayerModel>(EColor.White);
-            //var b = reg.New<PlayerModel>(EColor.Black);
-            //var a = reg.New<ArbiterModel>(board, w, b);
+            _arbiter.NewGame();
 
-            //a.NewGame();
+            var wk = _white.King;
+            var bk = _black.King;
 
-            //w.DrawHand();
-            //b.DrawHand();
+            //_white.PlayCard(wk, new Coord(3, 2));
+            //_white.Pass();
 
-            //w.AcceptHand();
-            //b.AcceptHand();
-
-            //var wk = w.King;
-            //var bk = b.King;
-
-            //w.PlayCard(wk, new Coord(3, 2));
-            //w.Pass();
-
-            //b.PlayCard(bk, new Coord(4, 6));
-            //b.Pass();
+            //_black.PlayCard(bk, new Coord(4, 6));
+            //_black.Pass();
 
             //Console.WriteLine(board.Print());
         }

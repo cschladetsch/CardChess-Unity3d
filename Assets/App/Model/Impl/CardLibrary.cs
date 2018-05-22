@@ -38,6 +38,19 @@ namespace App.Model
             return true;
         }
 
+        public void Add(IEnumerable<ICard> cards)
+        {
+            foreach (var card in cards)
+            {
+                if (card == null)
+                {
+                    Warn($"Attempt to add null card");
+                    continue;
+                }
+                Add(card);
+            }
+        }
+
         public bool Remove(Common.ICard card)
         {
             var templ = card as ICardTemplate;

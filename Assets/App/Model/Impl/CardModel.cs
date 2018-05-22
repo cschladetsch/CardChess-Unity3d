@@ -22,6 +22,7 @@ namespace App.Model
         public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
+        public IPlayerModel Player => Owner as IPlayerModel;
         public EPieceType PieceType { get; }
         #endregion
 
