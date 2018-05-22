@@ -14,11 +14,15 @@ namespace App.Model
         Flow.Impl.Logger,
         IModel
     {
+        public event DestroyedHandler<IModel> OnDestroy;
+
+        #region Public Properties
         public bool Destroyed { get; private set; } = false;
         public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
         public IOwner Owner { get; protected set; }
+        #endregion
 
         #region Public Methods
         public bool Construct(IOwner owner)
@@ -48,7 +52,5 @@ namespace App.Model
             Id = Guid.Empty;
         }
         #endregion
-
-        public event DestroyedHandler<IModel> OnDestroy;
     }
 }

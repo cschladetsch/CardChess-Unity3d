@@ -8,7 +8,6 @@ using System.Linq;
 namespace App.Model
 {
     using Common;
-    using Registry;
 
     public class CardModel :
         ModelBase,

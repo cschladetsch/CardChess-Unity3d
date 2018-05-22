@@ -185,7 +185,21 @@ namespace App.Registry
                 return false;
             }
             _resolved = true;
-            var pendingInjections = _pendingInjections.ToArray();
+
+            var pi = _pendingInjections.ToArray();
+            AddPendingBindings(pi);
+            ApplyInjections(pi);
+
+            foreach (var p in _pendingInjections)
+            {
+                Warn($"Failed to resolve for {p}");
+            }
+
+            return _pendingInjections.Count == 0;
+        }
+
+        private void AddPendingBindings(PendingInjection[] pendingInjections)
+        {
             foreach (var pi in pendingInjections)
             {
                 if (pi.Single != null)
@@ -198,7 +212,10 @@ namespace App.Registry
                     _bindings[pi.Interface] = pi.ModelType;
                 }
             }
+        }
 
+        private void ApplyInjections(PendingInjection[] pendingInjections)
+        {
             foreach (var pi in pendingInjections)
             {
                 var inject = pi.Injection;
@@ -215,12 +232,6 @@ namespace App.Registry
                 inject.PropertyType.SetValue(pi.TargetModel, val);
                 _pendingInjections.Remove(pi);
             }
-            foreach (var pi in _pendingInjections)
-            {
-                Warn($"Failed to resolve for {pi}");
-            }
-
-            return _pendingInjections.Count == 0;
         }
 
         #endregion
