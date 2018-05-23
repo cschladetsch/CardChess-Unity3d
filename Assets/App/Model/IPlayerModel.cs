@@ -39,6 +39,9 @@ namespace App.Model
         void CardExhaustion();
         IAction NextAction();
 
+		//Response<IPieceModel> PlayCard(ICardModel card, Coord coord);
+		//Response MoveCard(ICardModel card, Coord coord);
+
         #endregion // Methods
 
     }

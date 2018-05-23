@@ -21,6 +21,10 @@ namespace App.Model
         void NewGame(IPlayerModel white, IPlayerModel black);
         void Endame();
 
+		Response RequestPlayCard(IPlayerModel player, ICardModel card);
+		Response RequestPlayCard(IPlayerModel player, ICardModel card, Coord coord);
+		Response RequestMovePiece(IPlayerModel player, IPieceModel piece, Coord coord);
+
         #endregion
     }
 }
