@@ -139,6 +139,7 @@ namespace App.Model
         {
             MaxMana = Mathf.Clamp(MaxMana + mana, 0, (int)Parameters.MaxManaCap);
         }
+
         #endregion
     }
 }

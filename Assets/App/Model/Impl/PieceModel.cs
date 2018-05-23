@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Common;
 using Flow;
 
 namespace App.Model
 {
+	using Common;
+	using Registry;
+
     /// <summary>
     /// Model of a piece on the board.
     /// </summary>
@@ -15,17 +14,16 @@ namespace App.Model
         : PlayerOwnedModelBase
         , IPieceModel
     {
-        public ICardModel Card { get; }
+		public ICardModel Card { get; private set; }
         public EPieceType Type => Card.PieceType;
-        public IBoardModel Board { get; }
+        [Inject] public IBoardModel Board { get; }
         public Coord Coord { get; }
 
-        public PieceModel(IBoardModel board, IPlayerModel player, ICardModel card, Coord coord)
-            : base(player)
+		public bool Construct(IPlayerModel a0, ICardModel a1)
         {
-            Board = board;
-            Coord = coord;
-            Card = card;
+			base.Construct(a0);
+			Card = a1;
+			return true;
         }
 
         public IGenerator Battle(ICardModel other)
@@ -58,5 +56,5 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-    }
+	}
 }

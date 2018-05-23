@@ -12,7 +12,7 @@ using App.Registry;
 namespace UnitTests
 {
     [TestFixture]
-    class TestBoard : Flow.Impl.Logger
+    class TestModel : Flow.Impl.Logger
     {
         private IRegistry<IModel> _reg;
         private IBoardModel _board;
@@ -94,7 +94,8 @@ namespace UnitTests
             var wk = _white.King;
             var bk = _black.King;
 
-            //_white.PlayCard(wk, new Coord(3, 2));
+			_arbiter.RequestPlayCard(wk, new Coord(4, 1));
+
             //_white.Pass();
 
             //_black.PlayCard(bk, new Coord(4, 6));

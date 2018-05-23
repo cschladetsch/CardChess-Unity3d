@@ -11,6 +11,8 @@ namespace App.Common
     {
         None,
         InvalidArgs,
+		InvalidSource,
+		InvalidTarget,
         OutOfSequence,
         NoChange
     }
@@ -34,7 +36,8 @@ namespace App.Common
         public EError Error { get; }
         public string Text { get; }
 
-        public static Response Ok = new Response();
+		public static Response Ok = new Response(EResponse.Ok);
+		public static Response Fail = new Response(EResponse.Fail);
 
         public Response(EResponse response = EResponse.Ok, EError err = EError.None)
         {

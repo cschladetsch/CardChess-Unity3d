@@ -6,6 +6,25 @@ namespace App.Common
     {
 		public int x, y;
 
+		public int ManhattanDistance(Coord other)
+		{
+    		var d = this - other;
+			d.x = System.Math.Abs(d.x);
+			d.y = System.Math.Abs(d.y);
+			return d.x + d.y;
+		}
+
+		public static int ManhattanDistance(Coord a, Coord b)
+		{
+			return a.ManhattanDistance(b);
+		}
+
+		public int MaxOrthoDistance(Coord other)
+		{
+			var d = this - other;
+			return System.Math.Max(System.Math.Abs(d.x), System.Math.Abs(d.y));
+		}
+
         public Coord(int x, int y)
         {
 			this.x = x;

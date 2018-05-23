@@ -10,11 +10,12 @@ namespace App.Model
     /// </summary>
     public interface IPieceModel
         : IPlayerOwnedModel
+	    , IConstructWith<IPlayerModel, ICardModel>
     {
         ICardModel Card { get; }
         EPieceType Type { get; }
         IBoardModel Board { get; }
-        Coord Coord { get; }
+		Coord Coord { get; }
 
         IGenerator Battle(ICardModel other);
 

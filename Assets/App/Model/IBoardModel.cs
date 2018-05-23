@@ -25,11 +25,11 @@ namespace App.Model
         string Print(Func<Coord, string> fun);
         void NewGame();
         IEnumerable<IPieceModel> GetContents();
+		IEnumerable<IPieceModel> GetPieces(EPieceType type);
         IPieceModel GetContents(Coord coord);
         IPieceModel At(Coord coord);
         bool IsValidCoord(Coord coord);
-        IPieceModel PlaceCard(ICardModel cardModel, Coord coord);
-        bool CanPlaceCard(ICardModel card, Coord coord);
+		bool PlacePiece(IPieceModel piece, Coord coord);
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
         IEnumerable<IPieceModel> AttackedCards(Coord cood);
         IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
