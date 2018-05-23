@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+<<<<<<< HEAD
 # Visual Studio for Mac
+=======
+# Visual Studio 15
+>>>>>>> 0c4423f498a56f0e7b2ab05fe9149b554f07e84a
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess2", "Assembly-CSharp.csproj", "{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess2", "Assembly-CSharp-firstpass.csproj", "{587306A4-4476-5AEF-18A4-84A1E4F77EEE}"
@@ -8,6 +12,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess2", "Assembly-CSharp-Editor.csproj", "{956D885B-4293-F724-972B-BD6F0B169B94}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess2", "Assembly-CSharp-Editor-firstpass.csproj", "{32BE77A5-2E31-C41C-A550-D40453E18E62}"
+<<<<<<< HEAD
+=======
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{96FC7521-12D9-4AE4-8B5B-D8100DE805BA}"
+>>>>>>> 0c4423f498a56f0e7b2ab05fe9149b554f07e84a
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

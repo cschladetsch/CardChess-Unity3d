@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace App.Model
@@ -30,6 +31,7 @@ namespace App.Model
         {
             Type = type;
             PieceType = pieceType;
+            Id = Guid.NewGuid();
             Name = name;
             ManaCost = manaCost;
             Attack = attack;

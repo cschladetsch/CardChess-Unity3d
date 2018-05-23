@@ -1,24 +1,20 @@
-﻿using App.Common;
-
-namespace App.Model
+﻿namespace App.Model
 {
 	using Common;
-
-	public class PlayerOwnedModelBase
-		: ModelBase
+=======
+        : ModelBase
         , IPlayerOwnedModel
-    	, IConstructWith<IPlayerModel>
+        , IConstructWith<IPlayerModel>
     {
-		public IPlayerModel Player { get; private set; }
+        public IPlayerModel Player => Owner as IPlayerModel;
         public EColor Color => Player.Color;
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
 
         public bool Construct(IPlayerModel player)
         {
-			//Assert.IsNotNull(player);
-            Player = player;
-			return true;
+            Owner = player;
+            return true;
         }
     }
 }

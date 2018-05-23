@@ -106,34 +106,34 @@ namespace App.Registry
             where TIBase
             : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
         {
-            var ty = typeof(TIBase);
-            var single = GetSingle(ty);
+            var type = typeof(TIBase);
+            var single = GetSingle(type);
             if (single != null)
             {
                 if (args.Length != 0)
-                    Error($"Attempt to get singleton {ty}, when passing arguments {ToArgTypeList(args)}");
+                    Error($"Attempt to get singleton {type}, when passing arguments {ToArgTypeList(args)}");
                 var result = single as TIBase;
                 if (result == null)
-                    Error($"Couldn't convert singleton {single.GetType()} to {typeof(TIBase)}");
+                    Error($"Couldn't convert singleton {single.GetType()} to {type}");
                 return result;
             }
 
-            var model = NewModel(typeof(TIBase), args) as TIBase;
+            var model = NewModel(type, args) as TIBase;
             if (model == null)
             {
-                Error($"Failed to make instance for interface {typeof(TIBase)}");
+                Error($"Failed to make instance for interface {type}");
                 return null;
             }
 
             // store types for persistence
             _models[model.Id] = model;
-            if (!_typeToGuid.ContainsKey(ty))
+            if (!_typeToGuid.ContainsKey(type))
             {
-                _idToType[model.Id] = ty;
-                _typeToGuid[ty] = model.Id;
+                _idToType[model.Id] = type;
+                _typeToGuid[type] = model.Id;
             }
 
-            Verbose(10, $"Made an instance of {ty} with Id={model.Id}");
+            Verbose(10, $"Made a {model} of {type} with Id={model.Id}");
             model.Registry = this;
             model.OnDestroy += ModelDestroyed;
             return model;
@@ -169,11 +169,11 @@ namespace App.Registry
             var ity = typeof(TInterface);
             if (_singles.ContainsKey(ity))
             {
-                Warn($"Already have singleton valuye for {ity}");
+                Warn($"Already have singleton value for {ity}");
                 return false;
             }
             var prep = new PrepareModel(this, typeof(TImpl));
-            _singles[ity] = prep.Prepare(single, typeof(TInterface), single);
+            _singles[ity] = prep.Prepare(single, ity, single);
             return true;
         }
 
@@ -324,11 +324,17 @@ namespace App.Registry
         public string Print()
         {
             var sb = new StringBuilder();
-            sb.Append($"{NumInstances} Models:\n");
+            sb.Append($"{_singles.Count} Singletons:\n");
+            foreach (var s in _singles)
+            {
+                sb.Append($"\t{s.Key} -> {s.Value}\n");
+            }
+            sb.Append($"{NumInstances} Instances:\n");
             foreach (var kv in _models)
             {
                 sb.Append($"\t{kv.Key} -> {kv.Value}\n");
             }
+
             sb.Append($"\n{_idToType.Count} Types:\n");
             foreach (var kv in _idToType)
             {

@@ -28,6 +28,7 @@ namespace App.Model
         int MaxMana { get; }
         int Mana { get; }
         int Health { get; }
+
         #endregion // Properties
 
         #region Methods

@@ -20,6 +20,8 @@ namespace App.Model
     {
         #region public Fields
         public EColor Color { get; }
+        public bool IsWhite => Color == EColor.White;
+        public bool IsBlack => Color == EColor.Black;
         public bool AcceptedHand { get; private set; }
         public int MaxMana { get; private set; }
         public int Mana { get; private set; } = 1;
@@ -39,9 +41,15 @@ namespace App.Model
 
         #region Public Methods
 
+        public override string ToString()
+        {
+            return $"{Color}";
+        }
+
         public PlayerModel(EColor color)
         {
             Color = color;
+            Owner = this;
         }
 
         public Response NewGame()
@@ -53,7 +61,8 @@ namespace App.Model
             Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
-            King = CardTemplates.NewCardModel(Registry, "King", this);
+            var tmpl = Database.CardTemplates.OfType(EPieceType.King).First();
+            King = Registry.New<ICardModel>(tmpl, this);
             return Response.Ok;
         }
 
@@ -67,17 +76,10 @@ namespace App.Model
             switch (Arbiter.GameState)
             {
                 case EGameState.None:
-                    break;
-                case EGameState.Shuffling:
-                    Deck.Shuffle();
-                    break;
-                case EGameState.Dealing:
-                    DrawHand();
+                    Assert.Throw();
                     break;
                 case EGameState.Mulligan:
                     return Mulligan();
-                case EGameState.Ready:
-                    break;
                 case EGameState.PlaceKing:
                     return PlaceKing();
                 case EGameState.TurnStart:
@@ -105,7 +107,7 @@ namespace App.Model
 
         protected IAction Mulligan()
         {
-            return null;
+            return new Pass(this);
         }
         protected IAction PlaceKing()
         {

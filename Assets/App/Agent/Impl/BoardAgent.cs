@@ -25,10 +25,10 @@ namespace App.Agent
 
         public IGenerator PlaceCard(ICardAgent cardAgent, Coord coord)
         {
-			//if (!Model.CanPlaceCard(cardAgent.Model, coord))
-			//    return null;
-			//return New.Do(() => Model.PlaceCard(cardAgent.Model, coord));
-			return null;
+            //if (!Model.CanPlaceCard(cardAgent.Model, coord))
+            //    return null;
+            //return New.Do(() => Model.PlaceCard(cardAgent.Model, coord));
+            return null;
         }
 
         public ICardAgent At(Coord coord)

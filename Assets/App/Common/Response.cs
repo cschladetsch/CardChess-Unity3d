@@ -35,8 +35,9 @@ namespace App.Common
         public EResponse Type { get; }
         public EError Error { get; }
         public string Text { get; }
+        public bool Success => Type == EResponse.Ok;
 
-		public static Response Ok = new Response(EResponse.Ok);
+        public static Response Ok = new Response(EResponse.Ok);
 		public static Response Fail = new Response(EResponse.Fail);
 
         public Response(EResponse response = EResponse.Ok, EError err = EError.None)
