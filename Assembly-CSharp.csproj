@@ -89,6 +89,7 @@
     <Compile Include="Assets\App\Agent\IPlayerAgent.cs" />
     <Compile Include="Assets\App\ArbiterAgent.cs" />
     <Compile Include="Assets\App\ArbiterGameObject.cs" />
+    <Compile Include="Assets\App\Common\Assert.cs" />
     <Compile Include="Assets\App\Common\CollectionExtentions.cs" />
     <Compile Include="Assets\App\Common\Coord.cs" />
     <Compile Include="Assets\App\Common\EAbility.cs" />

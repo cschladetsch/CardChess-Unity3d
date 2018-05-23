@@ -37,5 +37,8 @@ namespace App.Model
         IEnumerable<Coord> GetMovements(Coord cood);
         string CardToRep(ICardModel cardModel);
         #endregion
+
+        int NumPieces(EPieceType type);
+        Response TryMovePiece(IPieceModel piece, Coord coord);
     }
 }

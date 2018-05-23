@@ -18,8 +18,11 @@ namespace App.Model
         public EPieceType Type => Card.PieceType;
         [Inject] public IBoardModel Board { get; }
         public Coord Coord { get; }
+        public int Damage { get; }
+        public int Health { get; }
+        public bool Alive { get; }
 
-		public bool Construct(IPlayerModel a0, ICardModel a1)
+        public bool Construct(IPlayerModel a0, ICardModel a1)
         {
 			base.Construct(a0);
 			Card = a1;
@@ -56,5 +59,14 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-	}
+        public void Respond(IPieceModel attacker)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Attack(IPieceModel defender)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

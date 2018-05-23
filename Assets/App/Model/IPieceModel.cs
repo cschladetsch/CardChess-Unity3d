@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Flow;
 
 namespace App.Model
 {
@@ -10,19 +9,23 @@ namespace App.Model
     /// </summary>
     public interface IPieceModel
         : IPlayerOwnedModel
-	    , IConstructWith<IPlayerModel, ICardModel>
+        , IConstructWith<IPlayerModel, ICardModel>
     {
         ICardModel Card { get; }
         EPieceType Type { get; }
         IBoardModel Board { get; }
-		Coord Coord { get; }
-
-        IGenerator Battle(ICardModel other);
+        Coord Coord { get; }
+        int Damage { get; }
+        int Health { get; }
+        bool Alive { get; }
 
         IEnumerable<IPieceModel> Attacking();
         IEnumerable<IPieceModel> Defending();
         IEnumerable<IPieceModel> Attackers();
         IEnumerable<IPieceModel> Defenders();
         IEnumerable<IPieceModel> Neareby(int distance);
+
+        void Respond(IPieceModel attacker);
+        void Attack(IPieceModel defender);
     }
 }

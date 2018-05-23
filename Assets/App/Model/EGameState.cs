@@ -3,12 +3,10 @@
     public enum EGameState
     {
         None,
-        Shuffling,
-        Dealing,
+        Start,
         Mulligan,
 
         PlaceKing,
-        Ready,
 
         TurnStart,
         TurnPlay,

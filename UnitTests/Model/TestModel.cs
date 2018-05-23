@@ -78,6 +78,9 @@ namespace UnitTests
             Assert.IsNotNull(_white);
             Assert.IsNotNull(_black);
 
+            Assert.AreSame(_white, _arbiter.WhitePlayer);
+            Assert.AreEqual(_white, _arbiter.WhitePlayer);
+            Assert.AreSame(_black, _arbiter.BlackPlayer);
             Assert.AreSame(_white.Arbiter, _black.Arbiter);
             Assert.AreSame(_white.Board, _black.Board);
             Assert.AreSame(_arbiter.WhitePlayer, _white);
@@ -94,7 +97,8 @@ namespace UnitTests
             var wk = _white.King;
             var bk = _black.King;
 
-			_arbiter.RequestPlayCard(wk, new Coord(4, 1));
+            _arbiter.NewGame(_white, _black);
+            _arbiter.RequestPlayCard(_white, wk, new Coord(4, 1));
 
             //_white.Pass();
 

@@ -1,4 +1,6 @@
-﻿using App.Common;
+﻿using System.Collections.Generic;
+using App.Common;
+using JetBrains.Annotations;
 
 namespace App.Model
 {
@@ -19,11 +21,13 @@ namespace App.Model
         #region Methods
 
         void NewGame(IPlayerModel white, IPlayerModel black);
+        void PlayerMulligan(IPlayerModel player, IEnumerable<ICardModel> cards);
+        void PlayerAcceptCards(IPlayerModel player);
         void Endame();
 
-		Response RequestPlayCard(IPlayerModel player, ICardModel card);
-		Response RequestPlayCard(IPlayerModel player, ICardModel card, Coord coord);
-		Response RequestMovePiece(IPlayerModel player, IPieceModel piece, Coord coord);
+        Response RequestPlayCard(IPlayerModel player, ICardModel card);
+        Response RequestPlayCard(IPlayerModel player, ICardModel card, Coord coord);
+        Response RequestMovePiece(IPlayerModel player, IPieceModel piece, Coord coord);
 
         #endregion
     }

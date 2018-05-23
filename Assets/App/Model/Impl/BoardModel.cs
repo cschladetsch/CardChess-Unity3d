@@ -45,6 +45,11 @@ namespace App.Model
             ConstructBoard();
         }
 
+        public int NumPieces(EPieceType type)
+        {
+            return Pieces.Count(p => p.Type == type);
+        }
+
         public IPieceModel RemovePiece(Coord coord)
         {
             if (!IsValid(coord))
@@ -106,6 +111,11 @@ namespace App.Model
                 return mountable.CanMount(card);
 
             return false;
+        }
+
+        public Response TryMovePiece(IPieceModel piece, Coord coord)
+        {
+            return Response.Fail;
         }
 
         public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
