@@ -152,7 +152,7 @@ namespace App
         public ICardAgent NewCardAgent(ICardModel model, IOwner owner)
             => NewCardAgent(model.Template, owner);
 
-        public ICardAgent NewCardAgent(ECardType type, IOwner owner)
+        public ICardAgent NewCardAgent(EPieceType type, IOwner owner)
         {
             var template = Database.CardTemplates.OfType(type).FirstOrDefault();
             return template == null ? null : NewCardAgent(template, owner);

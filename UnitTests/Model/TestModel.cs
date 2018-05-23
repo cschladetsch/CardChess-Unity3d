@@ -31,6 +31,7 @@ namespace UnitTests
             _reg.Bind<ICardModel, CardModel>();
             _reg.Bind<IDeckModel, DeckModel>();
             _reg.Bind<IHandModel, HandModel>();
+            _reg.Bind<IPieceModel, PieceModel>();
 
             _reg.Resolve();
         }
@@ -44,22 +45,17 @@ namespace UnitTests
             _arbiter = _reg.New<IArbiterModel>();
             _white = _reg.New<IPlayerModel>(EColor.White);
             _black = _reg.New<IPlayerModel>(EColor.Black);
-            _arbiter.NewGame(_white, _black);
-
-            Info(_reg.Print());
         }
 
         [TearDown]
         public void TearDown()
         {
-            Info($"{_reg.NumInstances}");
             _reg.Print();
             _arbiter.Destroy();
             _white.Destroy();
             _black.Destroy();
             _arbiter.Destroy();
             _reg.Print();
-            Info($"{_reg.NumInstances}");
         }
 
         [Test]
@@ -94,11 +90,22 @@ namespace UnitTests
         [Test]
         public void TestBoardPiecePlacement()
         {
+            _arbiter.NewGame(_white, _black);
+            Trace.WriteLine(_board.Print());
+
+            Assert.AreEqual(_white.Hand.NumCards, App.Parameters.StartHandCardCount);
+            Assert.AreEqual(_black.Hand.NumCards, App.Parameters.StartHandCardCount);
+
+            _arbiter.PlayerAcceptCards(_white);
+            _arbiter.PlayerAcceptCards(_black);
+
             var wk = _white.King;
             var bk = _black.King;
 
-            _arbiter.NewGame(_white, _black);
-            _arbiter.RequestPlayCard(_white, wk, new Coord(4, 1));
+            Assert.IsTrue(_arbiter.RequestPlayCard(_white, wk, new Coord(4, 1)).Success);
+            Assert.IsTrue(_arbiter.RequestPlayCard(_black, bk, new Coord(4, 5)).Success);
+
+            Trace.WriteLine(_board.Print());
 
             //_white.Pass();
 

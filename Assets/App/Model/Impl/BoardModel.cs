@@ -74,10 +74,10 @@ namespace App.Model
             }
         }
 
-		public IEnumerable<IPieceModel> GetPieces(EPieceType type)
-		{
-		    return GetContents().Where(c => c.Type == type);
-		}
+        public IEnumerable<IPieceModel> GetPieces(EPieceType type)
+        {
+            return GetContents().Where(c => c.Type == type);
+        }
 
         public bool IsValid(Coord coord)
         {
@@ -175,9 +175,11 @@ namespace App.Model
                 // horizontal cards
                 for (int x = 0; x < Width; ++x)
                 {
-                    var a = $"{fun(new Coord(x, y))}";
-                    //Assert.AreEqual(2, a.Length);
-                    sb.Append(a);
+                    var coord = new Coord(x, y);
+                    var rep = "  ";
+                    if (At(coord) != null)
+                        rep = $"{fun(coord)}";
+                    sb.Append(rep);
                 }
                 sb.AppendLine();
                 if (y == 0)
@@ -239,43 +241,43 @@ namespace App.Model
             return _contents.SelectMany(row => row).Where(c => c != null);
         }
 
-		public bool PlacePiece(IPieceModel piece, Coord coord)
+        public bool TryPlacePiece(IPieceModel piece, Coord coord)
         {
-			Assert.IsNotNull(piece);
-			Assert.IsTrue(IsValid(coord));
-			Assert.IsNull(At(coord));
+            Assert.IsNotNull(piece);
+            Assert.IsTrue(IsValid(coord));
+            Assert.IsNull(At(coord));
 
-			Info($"Placed {piece.Owner.Color} {piece} at {coord}");
-			_contents[coord.y][coord.x] = piece;
+            Info($"Placed {piece.Owner.Color} {piece} at {coord}");
+            _contents[coord.y][coord.x] = piece;
 
             return true;
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
         {
-			var piece = At(coord);
-			return piece == null ? null : GetMovements(piece, coord);
+            var piece = At(coord);
+            return piece == null ? null : GetMovements(piece, coord);
         }
 
-		public IEnumerable<Coord> GetMovements(IPieceModel piece, Coord coord)
+        public IEnumerable<Coord> GetMovements(IPieceModel piece, Coord coord)
         {
-			switch (piece.Type)
-			{
-				case EPieceType.King:
-					foreach (var c in Orthogonals(coord, 1))
-						yield return c;
-					break;
-				case EPieceType.Peon:
-					{
-						var delta = piece.Color == EColor.White ? 1 : -1;
-						yield return new Coord(coord.x, coord.y + delta);
-					}
-					break;
-    			case EPieceType.Archer:
-					foreach (var c in Diagonals(coord))
-						yield return c;
-					break;
-			}
+            switch (piece.Type)
+            {
+                case EPieceType.King:
+                    foreach (var c in Orthogonals(coord, 1))
+                        yield return c;
+                    break;
+                case EPieceType.Peon:
+                    {
+                        var delta = piece.Color == EColor.White ? 1 : -1;
+                        yield return new Coord(coord.x, coord.y + delta);
+                    }
+                    break;
+                case EPieceType.Archer:
+                    foreach (var c in Diagonals(coord))
+                        yield return c;
+                    break;
+            }
         }
         #endregion
 
@@ -290,16 +292,16 @@ namespace App.Model
             }
         }
 
-		private IEnumerable<Coord> Orthogonals(Coord orig)
-		{
-			return Orthogonals(orig, System.Math.Max(Width, Height));
-		}
+        private IEnumerable<Coord> Orthogonals(Coord orig)
+        {
+            return Orthogonals(orig, System.Math.Max(Width, Height));
+        }
 
-		private IEnumerable<Coord> Orthogonals(Coord orig, int dist)
+        private IEnumerable<Coord> Orthogonals(Coord orig, int dist)
         {
             for (var y = Max(orig.y - dist, 0); y < dist; ++y)
             {
-				for (var x = Max(orig.x - dist, 0); x < dist; ++x)
+                for (var x = Max(orig.x - dist, 0); x < dist; ++x)
                 {
                     var coord = new Coord(x, orig.y);
                     if (!IsValid(coord))
@@ -349,10 +351,10 @@ namespace App.Model
         private List<List<IPieceModel>> _contents;
         static int Max(int a, int b) { return a > b ? a : b; }
 
-		public bool PlaceCard(IPieceModel piece, Coord coord)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-	}
+        public bool PlaceCard(IPieceModel piece, Coord coord)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
 }

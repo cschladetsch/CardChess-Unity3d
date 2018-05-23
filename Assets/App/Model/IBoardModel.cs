@@ -29,7 +29,7 @@ namespace App.Model
         IPieceModel GetContents(Coord coord);
         IPieceModel At(Coord coord);
         bool IsValidCoord(Coord coord);
-		bool PlacePiece(IPieceModel piece, Coord coord);
+		bool TryPlacePiece(IPieceModel piece, Coord coord);
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
         IEnumerable<IPieceModel> AttackedCards(Coord cood);
         IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);

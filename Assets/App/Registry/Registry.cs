@@ -133,7 +133,7 @@ namespace App.Registry
                 _typeToGuid[type] = model.Id;
             }
 
-            Verbose(10, $"Made an instance of {type} with Id={model.Id}");
+            Verbose(10, $"Made a {model} of {type} with Id={model.Id}");
             model.Registry = this;
             model.OnDestroy += ModelDestroyed;
             return model;

@@ -7,14 +7,14 @@ namespace App.Model
         , IPlayerOwnedModel
         , IConstructWith<IPlayerModel>
     {
-        public IPlayerModel Player { get; set; }
+        public IPlayerModel Player => Owner as IPlayerModel;
         public EColor Color => Player.Color;
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
 
         public bool Construct(IPlayerModel player)
         {
-            Player = player;
+            Owner = player;
             return true;
         }
     }

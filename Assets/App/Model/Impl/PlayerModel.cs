@@ -49,6 +49,7 @@ namespace App.Model
         public PlayerModel(EColor color)
         {
             Color = color;
+            Owner = this;
         }
 
         public Response NewGame()
@@ -60,7 +61,8 @@ namespace App.Model
             Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
-            King = CardTemplates.NewCardModel(Registry, "King", this);
+            var tmpl = Database.CardTemplates.OfType(EPieceType.King).First();
+            King = Registry.New<ICardModel>(tmpl, this);
             return Response.Ok;
         }
 

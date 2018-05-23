@@ -69,6 +69,12 @@ namespace App.Model
         {
             throw new NotImplementedException("ChangeAttack");
         }
+
+        public override string ToString()
+        {
+            return $"CardModel: name={Name}, type={PieceType}";
+        }
+
         #endregion
 
         #region Private Methods

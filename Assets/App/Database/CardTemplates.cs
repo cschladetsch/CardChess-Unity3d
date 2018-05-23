@@ -33,9 +33,9 @@ namespace App.Database
             return _templates.ContainsKey(id) ? _templates[id] : null;
         }
 
-        public static IEnumerable<ICardTemplate> OfType(ECardType type)
+        public static IEnumerable<ICardTemplate> OfType(EPieceType type)
         {
-            return _templates.Select(kv => kv.Value).Where(template => template.Type == type);
+            return _templates.Select(kv => kv.Value).Where(template => template.PieceType == type);
         }
 
         private static void MockConstruct()

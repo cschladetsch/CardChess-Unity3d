@@ -48,7 +48,7 @@ namespace App.Model
             foreach (var player in _players)
                 player.NewGame();
 
-            GameState = EGameState.Start;
+            GameState = EGameState.Mulligan;
         }
 
         public void PlayerMulligan(IPlayerModel player, IEnumerable<ICardModel> cards)
@@ -59,7 +59,7 @@ namespace App.Model
         public void PlayerAcceptCards(IPlayerModel player)
         {
             Info($"Player {player} accepted cards");
-            Assert.IsTrue(GameState == EGameState.Mulligan);
+            Assert.AreEqual(GameState, EGameState.Mulligan);
             _accepted[IndexOf(player)] = true;
             if (!_accepted.All(b => b))
                 return;
@@ -79,23 +79,23 @@ namespace App.Model
 
         private Response TryPlayCard(IPlayerModel player, ICardModel card, Coord coord)
         {
-            // check for empty target square
-            var piece = Board.At(coord);
-            if (piece != null)
-            {
-                // TODO: check for mounting
-                Warn($"There is already a card at {coord}");
-                return Response.Fail;
-            }
-
             // make the piece
-            piece = Registry.New<IPieceModel>(player, card);
+            var piece = Registry.New<IPieceModel>(player, card);
             if (piece == null)
             {
                 return Failed($"Player {player} couldn't make a piece using {card}");
             }
 
-            return Board.PlacePiece(piece, coord) ? Response.Ok : Response.Fail;
+            // check for empty target square
+            var existing = Board.At(coord);
+            if (existing != null)
+            {
+                if (piece.Owner == player)
+                    return TryMount(piece, existing);
+                return Failed($"{player} can't play {card} when opponent {existing} already at {coord}");
+            }
+
+            return Board.TryPlacePiece(piece, coord) ? Response.Ok : Response.Fail;
         }
 
         public Response RequestPlayCard(IPlayerModel player, ICardModel card, Coord coord)
