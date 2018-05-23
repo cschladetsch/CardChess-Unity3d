@@ -94,7 +94,9 @@ namespace UnitTests
             var wk = _white.King;
             var bk = _black.King;
 
-			_arbiter.RequestPlayCard(wk, new Coord(4, 1));
+			Assert.AreSame(_arbiter.WhitePlayer, _white);
+
+			Assert.IsTrue(_arbiter.RequestPlayCard(_white, wk, new Coord(4, 1)).Type == EResponse.Ok);
 
             //_white.Pass();
 

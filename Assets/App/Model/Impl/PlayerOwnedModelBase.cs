@@ -2,18 +2,23 @@
 
 namespace App.Model
 {
-    public class PlayerOwnedModelBase
-        : ModelBase
-            , IPlayerOwnedModel
+	using Common;
+
+	public class PlayerOwnedModelBase
+		: ModelBase
+        , IPlayerOwnedModel
+    	, IConstructWith<IPlayerModel>
     {
-        public IPlayerModel Player { get; }
+		public IPlayerModel Player { get; private set; }
         public EColor Color => Player.Color;
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
 
-        public PlayerOwnedModelBase(IPlayerModel player)
+        public bool Construct(IPlayerModel player)
         {
+			//Assert.IsNotNull(player);
             Player = player;
+			return true;
         }
     }
 }

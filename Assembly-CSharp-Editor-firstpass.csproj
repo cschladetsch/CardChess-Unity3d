@@ -56,6 +56,12 @@
     <Reference Include="UnityEditor">
       <HintPath>/Applications/Unity/Hub/Editor/2018.1.0f2/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.StandardEvents">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.StandardEvents.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\UniRx\Test\Editor\TestCollections.cs" />
