@@ -25,6 +25,8 @@ namespace App.Agent
     {
         #region Public Fields
         public EColor Color => Model.Color;
+        public bool IsWhite => Color == EColor.White;
+        public bool IsBlack => Color == EColor.Black;
         public ICardAgent King { get; private set; }
         public int Health => King.Health;
         public IDeckAgent Deck { get; private set; }
