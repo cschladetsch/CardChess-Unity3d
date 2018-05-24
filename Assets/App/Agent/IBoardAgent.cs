@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.Action;
 using Flow;
 
 namespace App.Agent
@@ -9,7 +8,7 @@ namespace App.Agent
     using Model;
 
     public interface IBoardAgent
-        : IAgent<Model.IBoardModel>
+        : IAgent<IBoardModel>
     {
         void NewGame();
         IGenerator PlaceCard(ICardAgent cardAgent, Coord where);

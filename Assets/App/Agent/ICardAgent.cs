@@ -1,9 +1,10 @@
-﻿using App.Model;
-
+﻿
 namespace App.Agent
 {
+	using Model;
+
     public interface ICardAgent :
-        IAgent<Model.ICardModel>,
+        IAgent<ICardModel>,
         Common.ICard
     {
     }

@@ -58,11 +58,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\App\Tests\Editor\MockDeck.cs" />
     <Compile Include="Assets\App\Tests\Editor\MockPlayer.cs" />
-    <Compile Include="Assets\App\Tests\Editor\NewEditorScript.cs" />
+    <Compile Include="Assets\App\Tests\Editor\TestAgentRegistry.cs" />
     <Compile Include="Assets\App\Tests\Editor\TestBoard.cs" />
-    <Compile Include="Assets\App\Tests\Editor\TestKingPlacement.cs" />
-    <Compile Include="Assets\App\Tests\Editor\TestPlayer.cs" />
     <Compile Include="Assets\External\colib\colib\Scripts\Path\Behaviours\Editor\PathBehaviourEditor.cs" />
     <Compile Include="Assets\External\colib\colib\Scripts\Path\Behaviours\Editor\PathPreviewBehaviourEditor.cs" />
     <Compile Include="Assets\External\colib\Test\Editor\Tests\TestBezier.cs" />

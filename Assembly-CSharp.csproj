@@ -70,6 +70,8 @@
     <Compile Include="Assets\App\Action\Impl\RejectCards.cs" />
     <Compile Include="Assets\App\Action\Impl\Resign.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
+    <Compile Include="Assets\App\Agent\AgentRegistry.cs" />
+    <Compile Include="Assets\App\Agent\ArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoardAgent.cs" />
@@ -87,9 +89,6 @@
     <Compile Include="Assets\App\Agent\Impl\MoveSelector.cs" />
     <Compile Include="Assets\App\Agent\Impl\PlayerAgent.cs" />
     <Compile Include="Assets\App\Agent\IPlayerAgent.cs" />
-    <Compile Include="Assets\App\Agent\AgentRegistry.cs" />
-    <Compile Include="Assets\App\ArbiterAgent.cs" />
-    <Compile Include="Assets\App\ArbiterGameObject.cs" />
     <Compile Include="Assets\App\Common\Assert.cs" />
     <Compile Include="Assets\App\Common\CollectionExtentions.cs" />
     <Compile Include="Assets\App\Common\Coord.cs" />
@@ -112,7 +111,9 @@
     <Compile Include="Assets\App\Common\LoggingBehavior.cs" />
     <Compile Include="Assets\App\Common\Response.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
-    <Compile Include="Assets\App\GameRoot.cs" />
+    <Compile Include="Assets\App\Main\ArbiterGameObject.cs" />
+    <Compile Include="Assets\App\Main\GameRoot.cs" />
+    <Compile Include="Assets\App\Main\Parameters.cs" />
     <Compile Include="Assets\App\Model\EGameState.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />
@@ -150,7 +151,6 @@
     <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />
-    <Compile Include="Assets\App\Parameters.cs" />
     <Compile Include="Assets\App\Registry\IHasDestroyHandler.cs" />
     <Compile Include="Assets\App\Registry\IHasRegistry.cs" />
     <Compile Include="Assets\App\Registry\IKnown.cs" />

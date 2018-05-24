@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
     public interface ICardCollection :
         IAgent<Model.ICardCollection>
