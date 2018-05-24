@@ -3,7 +3,7 @@
     using Common;
 
     public interface IPlayerOwnedModel
-        : IModel
+		: IModel, IOwned
     {
         IPlayerModel Player { get; }
         EColor Color { get;}

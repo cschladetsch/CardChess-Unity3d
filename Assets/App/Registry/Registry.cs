@@ -240,7 +240,7 @@ namespace App.Registry
         private void Remove(IBase model)
         {
             if (!_models.ContainsKey(model.Id))
-                Warn($"Attempt to destroy unknown {model.GetType()} named {model.Name}");
+                Warn($"Attempt to destroy unknown {model.GetType()}");
             else
                 _models.Remove(model.Id);
         }

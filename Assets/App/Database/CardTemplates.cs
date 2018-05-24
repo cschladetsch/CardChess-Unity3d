@@ -12,7 +12,7 @@ namespace App.Database
     {
         static CardTemplates()
         {
-            MockConstruct();
+            AddBasicCards();
         }
 
         public static ICardModel NewCardModel(IRegistry<IModel> reg, string name, IOwner owner = null)
@@ -38,7 +38,7 @@ namespace App.Database
             return _templates.Select(kv => kv.Value).Where(template => template.PieceType == type);
         }
 
-        private static void MockConstruct()
+		private static void AddBasicCards()
         {
             _templates.Clear();
             var X = int.MaxValue;

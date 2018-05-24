@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using App.Model;
-using UnityEngine.Assertions;
 
 namespace App.Agent
 {

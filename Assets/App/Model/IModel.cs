@@ -1,12 +1,12 @@
 ﻿namespace App.Model
 {
     using Common;
-    using Model;
     using Registry;
 
     public interface IModel
         : Flow.ILogger
         , IKnown
+        , IOwned
         , IHasDestroyHandler<IModel>
         , IHasRegistry<IModel>
     {
