@@ -2,7 +2,8 @@
 
 namespace App.Common
 {
-    public class LoggingBehavior : MonoBehaviour, Flow.ILogger
+    public class LoggingBehavior 
+		: MonoBehaviour, Flow.ILogger
     {
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
         public object Subject { get { return _log.Subject; } set { _log.Subject = value; }}

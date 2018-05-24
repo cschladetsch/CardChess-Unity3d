@@ -4,7 +4,7 @@
     using Registry;
 
     public interface IModel
-        : Flow.ILogger
+		: Flow.ILogger
         , IKnown
         , IOwned
         , IHasDestroyHandler<IModel>

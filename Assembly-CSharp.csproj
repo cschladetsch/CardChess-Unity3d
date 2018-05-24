@@ -87,6 +87,7 @@
     <Compile Include="Assets\App\Agent\Impl\MoveSelector.cs" />
     <Compile Include="Assets\App\Agent\Impl\PlayerAgent.cs" />
     <Compile Include="Assets\App\Agent\IPlayerAgent.cs" />
+    <Compile Include="Assets\App\Agent\AgentRegistry.cs" />
     <Compile Include="Assets\App\ArbiterAgent.cs" />
     <Compile Include="Assets\App\ArbiterGameObject.cs" />
     <Compile Include="Assets\App\Common\Assert.cs" />
@@ -158,6 +159,8 @@
     <Compile Include="Assets\App\Registry\Registry.cs" />
     <Compile Include="Assets\App\Service\ICardTemplateService.cs" />
     <Compile Include="Assets\App\Service\Impl\CardTemplateService.cs" />
+    <Compile Include="Assets\App\View\IView.cs" />
+    <Compile Include="Assets\App\View\Registry.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\colib\colib\Examples\CommandQueueExample.cs" />
     <Compile Include="Assets\External\colib\colib\Examples\EaseExample.cs" />

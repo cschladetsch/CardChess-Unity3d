@@ -5,9 +5,11 @@ using Flow;
 
 namespace App.Agent
 {
-    using ICard = Common.ICard;
+	using App.Model;
+	using App.Registry;
+	using ICard = Common.ICard;
 
-    public class DeckAgent :
+	public class DeckAgent :
         CardCollection,
         IDeckAgent
     {
@@ -15,7 +17,7 @@ namespace App.Agent
         public new IEnumerable<ICardAgent> Cards => base.Cards.OfType<ICardAgent>();
         public new Model.IDeckModel Model { get; private set; }
 
-        public bool Construct(Model.IDeckModel a0)
+		public bool Construct(Model.IDeckModel a0)
         {
             Model = a0;
             return true;

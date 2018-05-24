@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
-using Flow;
+using CoLib;
 
 namespace App.View
 {
     using Common;
 
     /// <summary>
-    /// Common for all actors in the game. This is to replace
-    /// MonoBehavior and make it more rational, as well as to
+    /// Common for all Views in the game. This is to replace MonoBehavior and make it more rational, as well as to
     /// conform with Flow.ITransient.
     /// </summary>
-    public abstract class ViewBase : LoggingBehavior
+    public abstract class ViewBase 
+		: LoggingBehavior
     {
         private void Awake()
         {
@@ -68,6 +68,5 @@ namespace App.View
         private bool _paused;
         private bool _constructed;
         private float _localTime;
-        public ITransient _transient;
     }
 }

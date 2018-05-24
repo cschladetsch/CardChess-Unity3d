@@ -3,14 +3,16 @@ using App.Model;
 
 namespace App.Agent
 {
-    using Common;
+	using App.Registry;
+	using Common;
 
-    /// <summary>
-    /// Common for all agents that manage models in the system.
-    /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    public abstract class AgentBase<TModel> :
-        AgentLogger, IAgent<TModel>
+	/// <summary>
+	/// Common for all agents that manage models in the system.
+	/// </summary>
+	/// <typeparam name="TModel"></typeparam>
+	public abstract class AgentBase<TModel>
+        : AgentLogger
+	    , IAgent<TModel>
         where TModel : class, IModel
     {
         #region Public Properties
@@ -19,10 +21,15 @@ namespace App.Agent
         public new IArbiterAgent Arbiter { get; set; }
         public TModel Model { get; private set; }
         public IOwner Owner => Model.Owner;
-        #endregion
 
-        #region Public Methods
-        public bool SameOwner(IOwned other)
+		public bool Destroyed { get; private set; }
+		public IRegistry<IAgent> Registry { get; set; }
+		public event DestroyedHandler<IAgent> OnDestroy;
+
+		#endregion
+
+		#region Public Methods
+		public bool SameOwner(IOwned other)
         {
             return Owner == other.Owner;
         }
@@ -34,6 +41,11 @@ namespace App.Agent
             BaseModel = Model = a0;
             return true;
         }
-        #endregion
-    }
+
+		public void Destroy()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }
