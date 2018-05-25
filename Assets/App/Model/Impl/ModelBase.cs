@@ -24,15 +24,19 @@ namespace App.Model
         public IOwner Owner { get; protected set; }
         #endregion
 
-        #region Public Methods
-        public bool Construct(IOwner owner)
+        protected ModelBase()
         {
-            Owner = owner;
             Subject = this;
             LogPrefix = "Model";
             Verbosity = Parameters.DefaultLogVerbosity;
             ShowStack = Parameters.DefaultShowTraceStack;
             ShowSource = Parameters.DefaultShowTraceSource;
+        }
+
+        #region Public Methods
+        public bool Construct(IOwner owner)
+        {
+            Owner = owner;
             return true;
         }
 

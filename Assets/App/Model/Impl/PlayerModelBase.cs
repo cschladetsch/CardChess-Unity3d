@@ -56,7 +56,7 @@ namespace App.Model
         public virtual Response NewGame()
         {
             AcceptedHand = false;
-            MaxMana = 0;
+            Mana = MaxMana = 0;
             // TODO: pass Guid of a pre-built player deck
             Deck = Registry.New<IDeckModel>(Guid.Empty, this);
             Hand = Registry.New<IHandModel>(this);
@@ -73,13 +73,14 @@ namespace App.Model
 
         void IPlayerModel.StartTurn()
         {
+            MaxMana = (MaxMana + 1) % Parameters.MaxManaCap;
             Mana = MaxMana;
             Info($"{this} starts turn with {Mana} mana");
         }
 
         public void EndTurn()
         {
-            Info($"{this} ends turn with {Mana} mana");
+            //Info($"{this} ends turn with {Mana} mana");
         }
 
         public Response CardDrawn(ICardModel card)
