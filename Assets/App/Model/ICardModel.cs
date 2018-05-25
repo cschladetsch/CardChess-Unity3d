@@ -3,9 +3,9 @@ using App.Common;
 
 namespace App.Model
 {
-    public interface ICardModel :
-        IModel,
-        ICard
+    public interface ICardModel
+        : IModel
+        , ICard
     {
         ICardTemplate Template { get; }
         IEnumerable<ICardModel> Items { get; }

@@ -5,7 +5,7 @@ using App.Common;
 namespace App.Registry
 {
     public interface IRegistry
-		: IPrintable
+        : IPrintable
     {
         int NumInstances { get; }
         bool Has(Guid id);
@@ -13,11 +13,11 @@ namespace App.Registry
     }
 
     public interface IRegistry<IBase>
-	    : IRegistry
-        where IBase 
-		    : class
-	        , IKnown
-	        , IHasDestroyHandler<IBase>
+        : IRegistry
+        where IBase
+            : class
+            , IKnown
+            , IHasDestroyHandler<IBase>
     {
         IEnumerable<IBase> Instances { get; }
 
@@ -29,17 +29,12 @@ namespace App.Registry
             where TInterface : IBase where TImpl : TInterface;
 
         // bind an interface to a singleton
-		bool Bind<TInterface, TImpl>(TImpl single)
+        bool Bind<TInterface, TImpl>(TImpl single)
             where TInterface : IBase where TImpl : TInterface;
 
         // make a new instance given interface
-		TIBase New<TIBase>(params object[] args)
+        TIBase New<TIBase>(params object[] args)
             where TIBase : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>;
-
-        //// override for impmentations of abstract types
-        //TIBase New<TIBase, TImpl>(params object[] args)
-            //where TIBase : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
-            //where TImpl : class, TIBase;
 
         IBase Inject(IBase model, Inject inject, Type iface, IBase single);
 

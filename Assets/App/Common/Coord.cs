@@ -2,33 +2,31 @@
 
 namespace App.Common
 {
+    /// <summary>
+    /// A coordinate on the board.
+    /// </summary>
     public struct Coord
     {
-        public int x, y;
-
-        public int ManhattanDistance(Coord other)
-        {
-            var d = this - other;
-            d.x = System.Math.Abs(d.x);
-            d.y = System.Math.Abs(d.y);
-            return d.x + d.y;
-        }
-
-        public static int ManhattanDistance(Coord a, Coord b)
-        {
-            return a.ManhattanDistance(b);
-        }
-
-        public int MaxOrthoDistance(Coord other)
-        {
-            var d = this - other;
-            return System.Math.Max(System.Math.Abs(d.x), System.Math.Abs(d.y));
-        }
+        public readonly int x;
+        public readonly int y;
 
         public Coord(int x, int y)
         {
             this.x = x;
             this.y = y;
+        }
+
+        public int ManhattanDistance(Coord other)
+        {
+            var d = this - other;
+            var dx = System.Math.Abs(d.x);
+            var dy = System.Math.Abs(d.y);
+            return dx + dy;
+        }
+
+        public static int ManhattanDistance(Coord a, Coord b)
+        {
+            return a.ManhattanDistance(b);
         }
 
         public static Coord operator +(Coord a, Coord b)
@@ -49,6 +47,12 @@ namespace App.Common
         public static bool operator !=(Coord c1, Coord c2)
         {
             return !c1.Equals(c2);
+        }
+
+        public int MaxOrthoDistance(Coord other)
+        {
+            var d = this - other;
+            return System.Math.Max(System.Math.Abs(d.x), System.Math.Abs(d.y));
         }
 
         public override bool Equals(object obj)

@@ -41,9 +41,9 @@ namespace App.Model
             FlavourText = flavourText;
         }
 
-        public ICardModel New()
+        public ICardModel New(IPlayerModel player)
         {
-            return null;
+            return Registry.New<ICardModel>(this, player);
         }
     }
 }

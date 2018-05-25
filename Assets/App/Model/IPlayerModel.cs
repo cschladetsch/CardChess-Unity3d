@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using App.Action;
 
 namespace App.Model
@@ -34,14 +33,11 @@ namespace App.Model
         Response NewGame();
         Response ChangeMaxMana(int mana);
         Response ChangeMana(int mana);
-
         Response DrawHand();
         void CardExhaustion();
-
         void StartTurn();
         IRequest NextAction();
         void EndTurn();
-
         Response CardDrawn(ICardModel card);
 
         /// <summary>
@@ -55,11 +51,6 @@ namespace App.Model
         /// </summary>
         /// <param name="req"></param>
         void RequestSuccess(IRequest req);
-
-        //Response<IPieceModel> PlayCard(ICardModel card, Coord coord);
-        //Response MoveCard(ICardModel card, Coord coord);
-
         #endregion // Methods
-
     }
 }

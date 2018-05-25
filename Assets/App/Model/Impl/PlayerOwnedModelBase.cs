@@ -7,7 +7,6 @@
     /// </summary>
     public class PlayerOwnedModelBase
         : ModelBase
-        , IPlayerOwnedModel
         , IConstructWith<IPlayerModel>
     {
         public IPlayerModel Player => Owner as IPlayerModel;

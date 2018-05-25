@@ -39,6 +39,8 @@ namespace App.Model.Test
         public override void RequestFailed(IRequest req)
         {
             Verbose(10, $"{this} action failed: {req.Action}");
+
+            // if these actions failed, return the cards to Hand
             switch (req.Action)
             {
                 case EActionType.CastSpell:
@@ -60,7 +62,7 @@ namespace App.Model.Test
             var card = Hand.Cards.FirstOrDefault(c => c.PieceType == type);
             if (card == null)
             {
-                Error("Don't have a {type} in hand!");
+                Error($"Don't have a {type} in hand!");
                 return null;
             }
             Hand.Remove(card);

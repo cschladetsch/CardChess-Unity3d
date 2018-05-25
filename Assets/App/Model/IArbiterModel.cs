@@ -2,6 +2,9 @@
 
 namespace App.Model
 {
+    /// <summary>
+    /// The referee for the game.
+    /// </summary>
     public interface IArbiterModel
         : IModel
     {

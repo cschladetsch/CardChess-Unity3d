@@ -62,14 +62,7 @@ namespace App.Registry
             return null;
         }
 
-		//public TIBase New<TIBase, TImpl>(params object[] args)
-  //          where TIBase : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
-  //          where TImpl : class, TIBase
-		//{
-		//	return New<TImpl>(args);
-		//}
-
-		public TModel New<TModel, A0>(A0 a0)
+        public TModel New<TModel, A0>(A0 a0)
             where TModel
             : class, IBase, IConstructWith<A0>, IHasRegistry<TModel>,
             IHasDestroyHandler<TModel>, new()
@@ -157,7 +150,7 @@ namespace App.Registry
 
         private static string ToArgList(IEnumerable<object> args)
         {
-            return args == null ? "" : string.Join(", ",  args.Select(a => a.ToString()));
+            return args == null ? "" : string.Join(", ", args.Select(a => a.ToString()));
         }
 
         public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IBase where TImpl : TInterface
@@ -175,7 +168,7 @@ namespace App.Registry
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl>(TImpl single) where TInterface : IBase where TImpl  : TInterface
+        public bool Bind<TInterface, TImpl>(TImpl single) where TInterface : IBase where TImpl : TInterface
         {
             var ity = typeof(TInterface);
             if (_singles.ContainsKey(ity))
@@ -240,10 +233,10 @@ namespace App.Registry
                         continue;
                     }
                 }
-				if (inject.PropertyInfo != null)
-					inject.PropertyInfo.SetValue(pi.TargetModel, val);
-				else
-					inject.FieldInfo.SetValue(pi.TargetModel, val);
+                if (inject.PropertyInfo != null)
+                    inject.PropertyInfo.SetValue(pi.TargetModel, val);
+                else
+                    inject.FieldInfo.SetValue(pi.TargetModel, val);
                 _pendingInjections.Remove(pi);
             }
         }
@@ -382,19 +375,18 @@ namespace App.Registry
                     inject.ValueType = prop.PropertyType;
                     _injections.Add(inject);
                 }
-				foreach (var field in ty.GetFields(
+                foreach (var field in ty.GetFields(
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     var inject = field.GetCustomAttribute<Inject>();
                     if (inject == null)
                         continue;
-					inject.FieldInfo = field;
-					inject.ValueType = field.FieldType;
+                    inject.FieldInfo = field;
+                    inject.ValueType = field.FieldType;
                     _injections.Add(inject);
                 }
             }
 
-            //public IBase Prepare(IBase model, Type iface = null, IBase single = null)
             public IBase Prepare(IBase model, Type iface = null, IBase single = null)
             {
                 model.Id = Guid.NewGuid();
@@ -426,10 +418,10 @@ namespace App.Registry
                 }
             }
 
-			if (inject.PropertyInfo != null)
-				inject.PropertyInfo.SetValue(model, val);
-			else
-				inject.FieldInfo.SetValue(model, val);
+            if (inject.PropertyInfo != null)
+                inject.PropertyInfo.SetValue(model, val);
+            else
+                inject.FieldInfo.SetValue(model, val);
 
             return model;
         }

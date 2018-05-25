@@ -58,22 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\App\Action\EActionType.cs" />
-    <Compile Include="Assets\App\Action\Impl\AcceptCards.cs" />
-    <Compile Include="Assets\App\Action\Impl\Battle.cs" />
-    <Compile Include="Assets\App\Action\Impl\CastSpell.cs" />
-    <Compile Include="Assets\App\Action\Impl\DrawCard.cs" />
-    <Compile Include="Assets\App\Action\Impl\MovePiece.cs" />
-    <Compile Include="Assets\App\Action\Impl\Pass.cs" />
-    <Compile Include="Assets\App\Action\Impl\PlaceKing.cs" />
-    <Compile Include="Assets\App\Action\Impl\PlayCard.cs" />
-    <Compile Include="Assets\App\Action\Impl\RejectCards.cs" />
-    <Compile Include="Assets\App\Action\Impl\RequestBase.cs" />
-    <Compile Include="Assets\App\Action\Impl\Resign.cs" />
-    <Compile Include="Assets\App\Action\Impl\TurnEnd.cs" />
-    <Compile Include="Assets\App\Action\Impl\TurnStart.cs" />
-    <Compile Include="Assets\App\Action\IRequest.cs" />
-    <Compile Include="Assets\App\Action\IResponse.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
     <Compile Include="Assets\App\Agent\AgentRegistry.cs" />
     <Compile Include="Assets\App\Agent\ArbiterAgent.cs" />
@@ -100,11 +84,9 @@
     <Compile Include="Assets\App\Common\EAbility.cs" />
     <Compile Include="Assets\App\Common\ECardType.cs" />
     <Compile Include="Assets\App\Common\EColor.cs" />
-    <Compile Include="Assets\App\Common\EError.cs" />
     <Compile Include="Assets\App\Common\EGameResult.cs" />
     <Compile Include="Assets\App\Common\Entity.cs" />
     <Compile Include="Assets\App\Common\EPieceType.cs" />
-    <Compile Include="Assets\App\Common\EResponse.cs" />
     <Compile Include="Assets\App\Common\ICard.cs" />
     <Compile Include="Assets\App\Common\ICardCollection.cs" />
     <Compile Include="Assets\App\Common\IConstructWith.cs" />
@@ -115,13 +97,29 @@
     <Compile Include="Assets\App\Common\IOwned.cs" />
     <Compile Include="Assets\App\Common\IOwner.cs" />
     <Compile Include="Assets\App\Common\IPrintable.cs" />
-    <Compile Include="Assets\App\Common\IResponse.cs" />
     <Compile Include="Assets\App\Common\LoggingBehavior.cs" />
-    <Compile Include="Assets\App\Common\Response.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />
     <Compile Include="Assets\App\Main\ArbiterGameObject.cs" />
     <Compile Include="Assets\App\Main\GameRoot.cs" />
     <Compile Include="Assets\App\Main\Parameters.cs" />
+    <Compile Include="Assets\App\Message\EActionType.cs" />
+    <Compile Include="Assets\App\Message\EError.cs" />
+    <Compile Include="Assets\App\Message\EResponse.cs" />
+    <Compile Include="Assets\App\Message\Impl\AcceptCards.cs" />
+    <Compile Include="Assets\App\Message\Impl\Battle.cs" />
+    <Compile Include="Assets\App\Message\Impl\CastSpell.cs" />
+    <Compile Include="Assets\App\Message\Impl\DrawCard.cs" />
+    <Compile Include="Assets\App\Message\Impl\MovePiece.cs" />
+    <Compile Include="Assets\App\Message\Impl\Pass.cs" />
+    <Compile Include="Assets\App\Message\Impl\PlaceKing.cs" />
+    <Compile Include="Assets\App\Message\Impl\PlayCard.cs" />
+    <Compile Include="Assets\App\Message\Impl\RejectCards.cs" />
+    <Compile Include="Assets\App\Message\Impl\RequestBase.cs" />
+    <Compile Include="Assets\App\Message\Impl\Resign.cs" />
+    <Compile Include="Assets\App\Message\Impl\TurnEnd.cs" />
+    <Compile Include="Assets\App\Message\IRequest.cs" />
+    <Compile Include="Assets\App\Message\IResponse.cs" />
+    <Compile Include="Assets\App\Message\Response.cs" />
     <Compile Include="Assets\App\Model\EGameState.cs" />
     <Compile Include="Assets\App\Model\IArbiterModel.cs" />
     <Compile Include="Assets\App\Model\IBoardModel.cs" />

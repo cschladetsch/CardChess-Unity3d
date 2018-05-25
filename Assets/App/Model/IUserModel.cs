@@ -2,12 +2,11 @@
 
 namespace App.Model
 {
-    using Common;
-
     /// <summary>
     /// A Persistent user.
     /// </summary>
-    public interface IUserModel : IModel
+    public interface IUserModel
+        : IModel
     {
         #region Properties
         string Handle { get; }
