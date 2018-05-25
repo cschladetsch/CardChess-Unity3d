@@ -245,7 +245,7 @@ namespace App.Model
             Assert.IsTrue(IsValid(coord));
             Assert.IsNull(At(coord));
 
-            Info($"{piece.Owner.Color} placed {piece.Type} at {coord}");
+            Verbose(20, $"{piece.Owner.Color} placed {piece.Type} at {coord}");
             _contents[coord.y][coord.x] = piece;
 
             return true;

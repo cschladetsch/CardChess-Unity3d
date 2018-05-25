@@ -179,7 +179,7 @@ namespace App.Model
 
         public Response Arbitrate(IRequest request)
         {
-            Info($"Handling {request} when in state {GameState}");
+            Info($"{request} in state {GameState}");
             switch (GameState)
             {
                 case EGameState.None:
