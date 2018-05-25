@@ -28,7 +28,4 @@
     <Compile Remove="Mock\MockWhitePlayerAgent.cs" />
     <Compile Remove="Model\MockPlayerBase.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Mock\" />
-  </ItemGroup>
 </Project>

@@ -12,8 +12,8 @@ using App.Registry;
 namespace App.Model.Test
 {
     [TestFixture]
-	class TestBoard : TestBase
-	{
+    class TestBoard : TestBase
+    {
         [Test]
         public void TestBoardCreation()
         {
@@ -30,7 +30,7 @@ namespace App.Model.Test
             Assert.IsNotNull(_white);
             Assert.IsNotNull(_black);
 
-			_arbiter.NewGame(_white, _black);
+            _arbiter.NewGame(_white, _black);
             Assert.AreSame(_white, _arbiter.WhitePlayer);
             Assert.AreEqual(_white, _arbiter.WhitePlayer);
             Assert.AreSame(_black, _arbiter.BlackPlayer);
@@ -59,7 +59,7 @@ namespace App.Model.Test
             var wk = _white.King;
             var bk = _black.King;
 
-			Assert.AreSame(_arbiter.WhitePlayer, _white);
+            Assert.AreSame(_arbiter.WhitePlayer, _white);
 
             //Assert.IsTrue(_arbiter.RequestPlayCard(_white, wk, new Coord(4, 1)).Success);
             //Assert.IsTrue(_arbiter.RequestPlayCard(_black, bk, new Coord(4, 5)).Success);
