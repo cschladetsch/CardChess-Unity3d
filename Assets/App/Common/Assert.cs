@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.Common
 {
@@ -14,6 +12,10 @@ namespace App.Common
         }
     }
 
+    /// <summary>
+    /// I just wanted one simple set of runtime assertions I can use on any platform, with or
+    /// without Unity or Nuint or any other dependancies.
+    /// </summary>
     static class Assert
     {
         public static Flow.Impl.Logger Log = new Flow.Impl.Logger("Assert", true, true);
@@ -79,28 +81,28 @@ namespace App.Common
         {
             if (a.Equals(b))
                 return;
-            Error("{a} != {b}");
+            Error($"{a} != {b}");
         }
 
         public static void AreNotEqual<T>(T a, T b)
         {
             if (!a.Equals(b))
                 return;
-            Error("{a} == {b}");
+            Error($"{a} == {b}");
         }
 
         public static void AreSame<T>(T a, T b) where T : class
         {
             if (ReferenceEquals(a, b))
                 return;
-            Error("Expect same objects");
+            Error("$Expect same objects");
         }
 
         public static void AreNotSame<T>(T a, T b) where T : class
         {
             if (!ReferenceEquals(a, b))
                 return;
-            Error("Expect not same objects");
+            Error($"Expect not same objects");
         }
 
         public static void IsLess(int a, int b)

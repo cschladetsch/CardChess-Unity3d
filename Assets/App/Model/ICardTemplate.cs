@@ -16,6 +16,6 @@ namespace App.Model
         IEnumerable<EAbility> Abilities { get; }
 
         // make a new card from this template
-        ICardModel New();
+        ICardModel New(IPlayerModel player);
     }
 }

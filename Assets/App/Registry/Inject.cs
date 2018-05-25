@@ -7,11 +7,11 @@ namespace App.Registry
     {
         public object[] Args;
         public PropertyInfo PropertyInfo;
-		public FieldInfo FieldInfo;
+        public FieldInfo FieldInfo;
         public Type ValueType;
         public Inject(params object[] args)
         {
-			Args = args;
+            Args = args;
         }
     }
 }

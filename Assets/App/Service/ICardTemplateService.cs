@@ -2,18 +2,16 @@
 
 namespace App.Service
 {
-	using Model;
-	using Common;
-	using Registry;
+    using Model;
+    using Common;
 
     public interface ICardTemplateService
-		: IKnown
-	    , IModel
+        : IModel
     {
-		ICardTemplate GetCardTemplate(EPieceType pieceType);
-		ICardTemplate GetCardTemplate(Guid id);
+        ICardTemplate GetCardTemplate(EPieceType pieceType);
+        ICardTemplate GetCardTemplate(Guid id);
 
-		ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
-		ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
+        ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
+        ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
     }
 }

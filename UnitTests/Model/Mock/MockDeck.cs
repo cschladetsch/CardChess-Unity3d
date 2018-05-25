@@ -1,5 +1,7 @@
 ﻿using System;
 
+#pragma warning disable 649
+
 namespace App.Model.Test
 {
     using Common;
@@ -18,7 +20,7 @@ namespace App.Model.Test
 
         public override void NewGame()
         {
-            foreach (var pt in pieceTypes)
+            foreach (var pt in _pieceTypes)
             {
                 Add(_cardTemplateService.NewCardModel(Player, pt));
             }
@@ -39,7 +41,7 @@ namespace App.Model.Test
             return n;
         }
 
-        private readonly EPieceType[] pieceTypes =
+        private readonly EPieceType[] _pieceTypes =
         {
             EPieceType.Peon,
             EPieceType.Peon,

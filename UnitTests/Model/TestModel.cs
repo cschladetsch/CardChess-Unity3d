@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-
-using App.Common;
-using App.Model;
-using App.Registry;
 
 namespace App.Model.Test
 {
@@ -31,41 +24,21 @@ namespace App.Model.Test
             Assert.IsNotNull(_black);
 
             _arbiter.NewGame(_white, _black);
-            //Assert.AreSame(_white, _arbiter.WhitePlayer);
-            //Assert.AreEqual(_white, _arbiter.WhitePlayer);
-            //Assert.AreSame(_black, _arbiter.BlackPlayer);
             Assert.AreSame(_white.Arbiter, _black.Arbiter);
             Assert.AreSame(_white.Board, _black.Board);
-            //Assert.AreSame(_arbiter.WhitePlayer, _white);
-            //Assert.AreSame(_arbiter.BlackPlayer, _black);
-            //Assert.AreSame(_board.WhitePlayer, _black.Arbiter.Board.WhitePlayer);
-            //Assert.AreNotSame(_board.WhitePlayer, _black.Arbiter.Board.BlackPlayer);
-            //Assert.AreNotSame(_arbiter.Board.Arbiter.WhitePlayer, _board.Arbiter.Board.BlackPlayer);
-            //Assert.AreSame(_arbiter.Board.Arbiter.WhitePlayer, _board.Arbiter.Board.BlackPlayer.Board.WhitePlayer);
+            Assert.AreSame(_white.Board.Arbiter.CurrentPlayer, _black.Board.Arbiter.Board.Arbiter.CurrentPlayer);
         }
 
         [Test]
         public void TestGame()
         {
             _arbiter.NewGame(_white, _black);
-            Trace.WriteLine(_board.Print());
-
-            Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);
-            Assert.IsTrue(_arbiter.Arbitrate(_black.NextAction()).Success);
-            Trace.WriteLine(_board.Print());
-
-            Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);
-            Assert.IsTrue(_arbiter.Arbitrate(_black.NextAction()).Success);
-            Trace.WriteLine(_board.Print());
-
-            _arbiter.Arbitrate(_white.NextAction());
-            _arbiter.Arbitrate(_black.NextAction());
-            Trace.WriteLine(_board.Print());
-
-            _arbiter.Arbitrate(_white.NextAction());
-            _arbiter.Arbitrate(_black.NextAction());
-            Trace.WriteLine(_board.Print());
-
+            for (var n = 0; n < 4; ++n)
+            {
+                Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);
+                Assert.IsTrue(_arbiter.Arbitrate(_black.NextAction()).Success);
+                Trace.WriteLine(_board.Print());
+            }
         }
     }
 }

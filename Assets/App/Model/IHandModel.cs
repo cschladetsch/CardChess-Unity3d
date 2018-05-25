@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace App.Model
+﻿namespace App.Model
 {
     using Common;
 
@@ -11,6 +8,5 @@ namespace App.Model
     {
         ICardModel this[int index] { get; set; }
         Response NewGame();
-        //new IEnumerable<ICardModel> Cards => Cards.Cast<ICardModel>();
     }
 }
