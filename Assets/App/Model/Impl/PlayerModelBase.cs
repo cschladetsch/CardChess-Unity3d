@@ -79,6 +79,16 @@ namespace App.Model
             return Hand.Add(card) ? Response.Ok : Response.Fail;
         }
 
+        public virtual void RequestFailed(IRequest req)
+        {
+            Warn($"{req} Failed");
+        }
+
+        public virtual void RequestSuccess(IRequest req)
+        {
+            Verbose(10, $"{req} succeeded");
+        }
+
         public abstract IRequest Mulligan();
         public abstract IRequest StartTurn();
         public abstract IRequest NextAction();

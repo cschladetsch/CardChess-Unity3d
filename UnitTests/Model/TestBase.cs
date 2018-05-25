@@ -24,8 +24,8 @@ namespace App.Model.Test
 			_reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
 			_reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
 			_reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-			_reg.Bind<IWhitePlayer, Test.MockPlayerWhite>();
-			_reg.Bind<Test.IBlackPlayer, Test.MockPlayerBlack>();
+			_reg.Bind<IWhitePlayer, Test.WhitePlayer>();
+			_reg.Bind<Test.IBlackPlayer, Test.BlackPlayer>();
 
 			_reg.Bind<ICardModel, CardModel>();
 			_reg.Bind<IDeckModel, DeckModel>();

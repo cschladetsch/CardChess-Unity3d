@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.Action;
 using App.Common;
 
 // DI fails this inspection test
@@ -72,13 +73,12 @@ namespace App.Model
             GameState = EGameState.Completed;
         }
 
-        public Response RequestPlayCard(IPlayerModel player, ICardModel card)
+        private Response TryPlayCard(Action.PlayCard act)
         {
-            return Failed("No spells yet");
-        }
+            var player = act.Player;
+            var coord = act.Coord;
+            var card = act.Card;
 
-        private Response TryPlayCard(IPlayerModel player, ICardModel card, Coord coord)
-        {
             // make the piece
             var piece = Registry.New<IPieceModel>(player, card);
             if (piece == null)
@@ -98,18 +98,17 @@ namespace App.Model
             return Board.TryPlacePiece(piece, coord) ? Response.Ok : Response.Fail;
         }
 
-        public Response RequestPlayCard(IPlayerModel player, ICardModel card, Coord coord)
+        public Response RequestPlayCard(Action.PlayCard act)
         {
-            Assert.IsNotNull(player);
-            Assert.IsNotNull(card);
-            Assert.IsNotNull(coord);
-            Assert.IsTrue(Board.IsValidCoord(coord));
+            Assert.IsNotNull(act);
+            Assert.IsNotNull(act.Player);
+            Assert.IsNotNull(act.Card);
 
             switch (GameState)
             {
                 case EGameState.PlaceKing:
                 {
-                    var resp = TryPlayCard(player, card, coord);
+                    var resp = TryPlayCard(act);
                     if (resp.Type == EResponse.Ok && Board.NumPieces(EPieceType.King) == 2)
                     {
                         _currentPlayer = 0;
@@ -118,14 +117,18 @@ namespace App.Model
                     return resp;
                 }
                 case EGameState.TurnPlay:
-                    return TryPlayCard(player, card, coord);
+                    return TryPlayCard(act);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        public Response RequestMovePiece(IPlayerModel player, IPieceModel piece, Coord coord)
+        Response TryMovePiece(MovePiece act)
         {
+            var player = act.Player;
+            var coord = act.Coord;
+            var piece = act.Piece;
+
             if (GameState != EGameState.TurnPlay)
             {
                 return Failed($"Current game state is {GameState}, {player} cannot move {piece}");
@@ -142,7 +145,7 @@ namespace App.Model
             }
 
             // check that the piece can actually move there
-            if (!Board.GetMovements(coord).Contains(coord))
+            if (!Board.GetMovements(piece.Coord).Contains(coord))
             {
                 return Failed($"{player} cannot move {piece} to {coord}");
             }
@@ -156,6 +159,53 @@ namespace App.Model
             }
 
             return Board.TryMovePiece(piece, coord);
+        }
+
+        public Response Arbitrate(IRequest request)
+        {
+            switch (GameState)
+            {
+                case EGameState.None:
+                    break;
+                case EGameState.Start:
+                    break;
+                case EGameState.Mulligan:
+                    break;
+                case EGameState.PlaceKing:
+                    return RequestPlayCard(request as PlayCard);
+                    break;
+                case EGameState.TurnStart:
+                    break;
+                case EGameState.TurnPlay:
+                    switch (request.Action)
+                    {
+                        case EActionType.CastSpell:
+                            return TryCastSpell(request as CastSpell);
+                        case EActionType.PlayCard:
+                            return TryPlayCard(request as PlayCard);
+                        case EActionType.MovePiece:
+                            return TryMovePiece(request as MovePiece);
+                        default:
+                            NotImplemented($"{request}");
+                            break;
+                    }
+                    break;
+                case EGameState.Battle:
+                    break;
+                case EGameState.TurnEnd:
+                    break;
+                case EGameState.Completed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return NotImplemented($"{request}");
+        }
+
+        Response TryCastSpell(CastSpell castSpell)
+        {
+            return NotImplemented($"{castSpell}");
         }
 
         private Response TryMount(IPieceModel piece, IPieceModel existing)
