@@ -28,8 +28,8 @@ namespace App.Model.Test
 			_reg.Bind<Test.IBlackPlayer, Test.BlackPlayer>();
 
 			_reg.Bind<ICardModel, CardModel>();
-			_reg.Bind<IDeckModel, DeckModel>();
-			_reg.Bind<IHandModel, HandModel>();
+			_reg.Bind<IDeckModel, MockDeck>();
+			_reg.Bind<IHandModel, MockHand>();
 			_reg.Bind<IPieceModel, PieceModel>();
 
 			_reg.Resolve();

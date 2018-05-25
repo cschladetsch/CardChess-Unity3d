@@ -163,19 +163,22 @@ namespace App.Model
 
         public Response Arbitrate(IRequest request)
         {
+            Verbose(10, $"Handling {request} when in state {GameState}");
             switch (GameState)
             {
                 case EGameState.None:
-                    break;
+                    return Response.Ok;
                 case EGameState.Start:
-                    break;
+                    return Response.Ok;
                 case EGameState.Mulligan:
-                    break;
+                    _accepted[IndexOf(request.Player)] = true;
+                    if (_accepted.All(a => a))
+                        GameState = EGameState.PlaceKing;
+                    return Response.Ok;
                 case EGameState.PlaceKing:
                     return RequestPlayCard(request as PlayCard);
-                    break;
                 case EGameState.TurnStart:
-                    break;
+                    return Response.Ok;
                 case EGameState.TurnPlay:
                     switch (request.Action)
                     {
@@ -187,13 +190,14 @@ namespace App.Model
                             return TryMovePiece(request as MovePiece);
                         default:
                             NotImplemented($"{request}");
-                            break;
+                            return Response.NotImplemented;
                     }
-                    break;
+                    return Response.Ok;
                 case EGameState.Battle:
                     break;
                 case EGameState.TurnEnd:
-                    break;
+                    _currentPlayer = (_currentPlayer + 1) % _players.Length;
+                    return Response.Ok;
                 case EGameState.Completed:
                     break;
                 default:

@@ -62,8 +62,7 @@ namespace App.Model
             Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
-            var tmpl = Database.CardTemplates.OfType(EPieceType.King).First();
-            King = Registry.New<ICardModel>(tmpl, this);
+            King = _cardtemplateService.NewCardModel(this, EPieceType.King);
             return Response.Ok;
         }
 

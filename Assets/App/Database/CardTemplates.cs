@@ -44,9 +44,10 @@ namespace App.Database
             var X = int.MaxValue;
             CardTemplate[] cards =
             {                                                                        //M, A, H
+                new CardTemplate(ECardType.Piece, EPieceType.Peon, "Peon",           X, 1, 1),       // pawn
                 new CardTemplate(ECardType.Piece, EPieceType.King, "King",           X, 1, 20),       // king
                 new CardTemplate(ECardType.Piece, EPieceType.Queen, "Queen",         6, 6, 7),
-                new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn
+                new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn after Barracks
                 new CardTemplate(ECardType.Piece, EPieceType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight
                 new CardTemplate(ECardType.Piece, EPieceType.Archer, "Archer",       3, 2, 3),        // bishop
                 new CardTemplate(ECardType.Piece, EPieceType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
