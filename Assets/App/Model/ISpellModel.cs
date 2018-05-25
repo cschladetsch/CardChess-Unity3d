@@ -5,7 +5,7 @@
     public interface ISpellModel
         : ICardModel
     {
-        EResponse Cast(Coord where);
-        EResponse Cast();
+        Response Cast(Coord where);
+        Response Cast();
     }
 }
