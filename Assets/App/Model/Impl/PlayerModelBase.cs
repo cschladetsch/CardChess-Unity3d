@@ -71,6 +71,17 @@ namespace App.Model
             King.ChangeHealth(-1, null);
         }
 
+        void IPlayerModel.StartTurn()
+        {
+            Mana = MaxMana;
+            Info($"{this} starts turn with {Mana} mana");
+        }
+
+        public void EndTurn()
+        {
+            Info($"{this} ends turn with {Mana} mana");
+        }
+
         public Response CardDrawn(ICardModel card)
         {
             if (Hand.NumCards == Hand.MaxCards)

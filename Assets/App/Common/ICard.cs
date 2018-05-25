@@ -11,6 +11,7 @@ namespace App.Common
         IHasName
     {
         string Description { get; }
+        int ManaCost { get; }
         int Attack { get; }
         int Health { get; }
         IEnumerable<IEffect> Effects { get; }

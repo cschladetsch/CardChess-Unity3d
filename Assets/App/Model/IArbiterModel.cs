@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using App.Action;
-using App.Common;
-using JetBrains.Annotations;
+﻿using App.Common;
 
 namespace App.Model
 {
@@ -11,10 +8,7 @@ namespace App.Model
         #region Properties
 
         IBoardModel Board { get; }
-        IPlayerModel WhitePlayer { get; }
-        IPlayerModel BlackPlayer { get; }
         IPlayerModel CurrentPlayer { get; }
-        IPlayerModel OtherPlayer { get; }
         EGameState GameState { get; }
 
         #endregion
@@ -22,10 +16,8 @@ namespace App.Model
         #region Methods
 
         void NewGame(IPlayerModel white, IPlayerModel black);
-        void PlayerMulligan(IPlayerModel player, IEnumerable<ICardModel> cards);
-        void Endame();
-
         Response Arbitrate(Action.IRequest request);
+        void Endame();
 
         #endregion
     }

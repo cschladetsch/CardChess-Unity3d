@@ -21,12 +21,7 @@ namespace App.Model
         public EGameState GameState { get; private set; }
         [Inject] public IBoardModel Board { get; set; }
         public EColor Color => EColor.Neutral;
-        public bool IsWhite => Color == EColor.White;
-        public bool IsBlack => Color == EColor.Black;
-        public IPlayerModel WhitePlayer { get; private set; }
-        public IPlayerModel BlackPlayer { get; private set; }
-        public IPlayerModel CurrentPlayer => _players[_currentPlayer];
-        public IPlayerModel OtherPlayer => _players[(_currentPlayer + 1) % 2];
+        public IPlayerModel CurrentPlayer => _players[_currentPlayer].Player;
 
         #endregion
 
@@ -34,20 +29,23 @@ namespace App.Model
 
         public ArbiterModel()
         {
+            Subject = this;
+            LogPrefix = "Arbiter";
         }
 
         public void NewGame(IPlayerModel w, IPlayerModel b)
         {
-            WhitePlayer = w;
-            BlackPlayer = b;
-            _players = new[] { w, b };
-            _accepted = new[] {false, false};
+            _players = new List<PlayerEntry>()
+            {
+                new PlayerEntry(w),
+                new PlayerEntry(b),
+            };
             _currentPlayer = 0;
 
             Construct(this);
             Board.NewGame();
-            foreach (var player in _players)
-                player.NewGame();
+            foreach (var entry in _players)
+                entry.Player.NewGame();
 
             GameState = EGameState.Mulligan;
         }
@@ -55,16 +53,6 @@ namespace App.Model
         public void PlayerMulligan(IPlayerModel player, IEnumerable<ICardModel> cards)
         {
             NotImplemented();
-        }
-
-        public void PlayerAcceptCards(IPlayerModel player)
-        {
-            Info($"Player {player} accepted cards");
-            Assert.AreEqual(GameState, EGameState.Mulligan);
-            _accepted[IndexOf(player)] = true;
-            if (!_accepted.All(b => b))
-                return;
-            GameState = EGameState.PlaceKing;
         }
 
         public void Endame()
@@ -112,11 +100,12 @@ namespace App.Model
                     if (resp.Type == EResponse.Ok && Board.NumPieces(EPieceType.King) == 2)
                     {
                         _currentPlayer = 0;
-                        GameState = EGameState.TurnStart;
+                        CurrentPlayer.StartTurn();
+                        GameState = EGameState.PlayTurn;
                     }
                     return resp;
                 }
-                case EGameState.TurnPlay:
+                case EGameState.PlayTurn:
                     return TryPlayCard(act);
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -129,7 +118,7 @@ namespace App.Model
             var coord = act.Coord;
             var piece = act.Piece;
 
-            if (GameState != EGameState.TurnPlay)
+            if (GameState != EGameState.PlayTurn)
             {
                 return Failed($"Current game state is {GameState}, {player} cannot move {piece}");
             }
@@ -161,9 +150,36 @@ namespace App.Model
             return Board.TryMovePiece(piece, coord);
         }
 
+        //Response TryTurnStart(TurnStart turnStart)
+        //{
+        //    if (turnStart.Player == CurrentPlayer)
+        //    {
+        //        GameState = EGameState.TurnPlay;
+        //        return Response.Ok;
+        //    }
+        //    return Failed($"It is {CurrentPlayer}'s turn to start; not {turnStart.Player}'s");
+        //}
+
+        Response TryRejectCards(IRequest request)
+        {
+            // TODO: deal with mulligan of type RejectCards
+            var entry = GetEntry(request.Player);
+            if (entry.AcceptedCards)
+            {
+                Error($"Player {request.Player} cannot Accept twice");
+                //return Response.Fail;
+            }
+            // TODO: give player different cards in response
+            entry.AcceptedCards = true;
+            if (_players.All(a => a.AcceptedCards))
+                GameState = EGameState.PlaceKing;
+
+            return Response.Ok;
+        }
+
         public Response Arbitrate(IRequest request)
         {
-            Verbose(10, $"Handling {request} when in state {GameState}");
+            Info($"Handling {request} when in state {GameState}");
             switch (GameState)
             {
                 case EGameState.None:
@@ -171,17 +187,16 @@ namespace App.Model
                 case EGameState.Start:
                     return Response.Ok;
                 case EGameState.Mulligan:
-                    _accepted[IndexOf(request.Player)] = true;
-                    if (_accepted.All(a => a))
-                        GameState = EGameState.PlaceKing;
-                    return Response.Ok;
+                    return TryRejectCards(request);
                 case EGameState.PlaceKing:
                     return RequestPlayCard(request as PlayCard);
-                case EGameState.TurnStart:
-                    return Response.Ok;
-                case EGameState.TurnPlay:
+                case EGameState.PlayTurn:
                     switch (request.Action)
                     {
+                        case EActionType.TurnEnd:
+                            return TryTurnEnd(request as TurnEnd);
+                        case EActionType.Resign:
+                            return TryResign(request as Resign);
                         case EActionType.CastSpell:
                             return TryCastSpell(request as CastSpell);
                         case EActionType.PlayCard:
@@ -192,12 +207,8 @@ namespace App.Model
                             NotImplemented($"{request}");
                             return Response.NotImplemented;
                     }
-                    return Response.Ok;
                 case EGameState.Battle:
-                    break;
-                case EGameState.TurnEnd:
-                    _currentPlayer = (_currentPlayer + 1) % _players.Length;
-                    return Response.Ok;
+                    return TryBattle(request as Battle);
                 case EGameState.Completed:
                     break;
                 default:
@@ -205,6 +216,36 @@ namespace App.Model
             }
 
             return NotImplemented($"{request}");
+        }
+
+        Response TryResign(Resign resign)
+        {
+            return NotImplemented("Resignation");
+        }
+
+        Response TryBattle(Battle battle)
+        {
+            return NotImplemented("Battles");
+        }
+
+        Response TryTurnEnd(TurnEnd turnEnd)
+        {
+            Assert.IsNotNull(turnEnd);
+            if (turnEnd.Player != CurrentPlayer)
+            {
+                Warn($"It's not {turnEnd.Player}'s turn to end");
+                return Response.Fail;
+            }
+
+            CurrentPlayer.EndTurn();
+            _currentPlayer = (_currentPlayer + 1) % _players.Count;
+            _turnNumber++;
+            CurrentPlayer.StartTurn();
+
+            Verbose(10, $"Next turn #{_turnNumber} for {CurrentPlayer}");
+
+            GameState = EGameState.PlayTurn;
+            return Response.Ok;
         }
 
         Response TryCastSpell(CastSpell castSpell)
@@ -234,27 +275,37 @@ namespace App.Model
             return Failed($"Not Implemented {text}");
         }
 
-        private Response Failed(string text)
+        private Response Failed(string text = "")
         {
             Warn(text);
             return Response.Fail;
         }
 
-        private int IndexOf(IPlayerModel player)
+        private PlayerEntry GetEntry(IPlayerModel player)
         {
-            for (int n = 0; n < _players.Length; ++n)
-                if (_players[n] == player)
-                    return n;
-            throw new System.Exception();
+            Assert.IsNotNull(player);
+            Assert.IsTrue(_players.Any(p => p.Player == player));
+            return _players.First(p => p.Player == player);
         }
 
         #endregion
 
+        class PlayerEntry
+        {
+            public bool AcceptedCards;
+            public readonly IPlayerModel Player;
+
+            public PlayerEntry(IPlayerModel player)
+            {
+                Player = player;
+            }
+        }
+
         #region Private Fields
 
-        bool[] _accepted = new bool[2] { false, false};
-        private IPlayerModel[] _players;
+        private List<PlayerEntry> _players;
         private int _currentPlayer;
+        private int _turnNumber;
 
         #endregion
     }

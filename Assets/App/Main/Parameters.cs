@@ -5,6 +5,10 @@
     /// </summary>
     public static class Parameters
     {
+        public static bool DefaultShowTraceStack = false;
+        public static bool DefaultShowTraceSource = true;
+        public static int DefaultLogVerbosity = 5;
+
         /// <summary>
         /// Number of cards to start with (excluding King)
         /// </summary>

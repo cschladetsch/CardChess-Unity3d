@@ -29,7 +29,7 @@ namespace App.Action
 
         public override string ToString()
         {
-            return $"{Player} plays {Card.Type} @{Coord}";
+            return $"{Player} plays {Card.PieceType} @{Coord}";
         }
     }
 }

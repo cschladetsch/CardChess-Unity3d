@@ -17,6 +17,7 @@ namespace App.Model
         public ECardType Type => Template.Type;
         public ICardTemplate Template { get; }
         public string Description => Template.FlavourText;
+        public int ManaCost { get; }
         public int Attack { get; }
         public int Health { get; private set; }
         public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
@@ -34,16 +35,21 @@ namespace App.Model
         public CardModel(ICardTemplate template, IOwner owner)
         {
             Template = template;
-
             Construct(owner);
 
             PieceType = template.PieceType;
             Attack = template.Attack;
             Health = template.Health;
+            ManaCost = template.ManaCost;
 
+            if (template.Effects != null)
+                Effects = template.Effects.ToList();
+            if (template.Items != null)
+                Items = template.Items.ToList();
             if (template.Abilities != null)
                 Abilities = template.Abilities.ToList();
         }
+
 
         public Response ChangeHealth(int value, ICardModel cause)
         {

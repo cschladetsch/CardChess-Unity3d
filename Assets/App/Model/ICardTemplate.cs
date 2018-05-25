@@ -11,7 +11,6 @@ namespace App.Model
         : IModel
         , ICard
     {
-        int ManaCost { get; }
         string FlavourText { get; }
         IEnumerable<ICardModel> Items { get; }
         IEnumerable<EAbility> Abilities { get; }

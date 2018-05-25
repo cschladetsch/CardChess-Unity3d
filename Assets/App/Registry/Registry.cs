@@ -26,7 +26,11 @@ namespace App.Registry
         #region Public Methods
         public Registry()
         {
-            Verbosity = 100;
+            Verbosity = 2;
+            ShowStack = false;
+            ShowSource = true;
+            Subject = this;
+            LogPrefix = "Registry";
         }
 
         public byte[] Write()
@@ -140,7 +144,7 @@ namespace App.Registry
                 _typeToGuid[type] = model.Id;
             }
 
-            Verbose(10, $"Made a {model} of {type} with Id={model.Id}");
+            Verbose(10, $"Made a {model}");
             model.Registry = this;
             model.OnDestroy += ModelDestroyed;
             return model;
