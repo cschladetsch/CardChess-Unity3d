@@ -52,7 +52,7 @@ namespace App.Model.Test
 			_arbiter.Destroy();
 			_white.Destroy();
 			_black.Destroy();
-			_arbiter.Destroy();
+			_board.Destroy();
 		}
 	}
 }

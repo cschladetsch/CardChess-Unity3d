@@ -11,8 +11,8 @@ namespace App.Model.Test
     class BlackPlayer
         : MockPlayerBase, IBlackPlayer
     {
-        public BlackPlayer(EColor color)
-            : base(color)
+        public BlackPlayer()
+            : base(EColor.Black)
         {
         }
 

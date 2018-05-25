@@ -297,7 +297,7 @@ namespace App.Registry
                 if (model != null)
                     return Prepare(ity, model);
             }
-            Error($"No mathching Constructor for {ty} with args {ToArgTypeList(args)}");
+            Error($"No mathching Constructor for {ty} with args '{ToArgTypeList(args)}'");
             return null;
         }
 

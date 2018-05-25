@@ -9,8 +9,8 @@ namespace App.Model.Test
         : MockPlayerBase
         , IWhitePlayer
     {
-        public WhitePlayer(EColor color)
-            : base(color)
+        public WhitePlayer()
+            : base(EColor.White)
         {
         }
 
