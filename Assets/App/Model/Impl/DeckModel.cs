@@ -17,7 +17,7 @@ namespace App.Model
         {
         }
 
-        public void NewGame()
+        public virtual void NewGame()
         {
             cards.Clear();
             for (var n = 0; n < MaxCards; ++n)
@@ -34,7 +34,7 @@ namespace App.Model
             throw new NotImplementedException();
         }
 
-        public void Shuffle()
+        public virtual void Shuffle()
         {
             cards.Shuffle();
         }
@@ -77,10 +77,10 @@ namespace App.Model
             return true;
         }
 
-        public int ShuffleIn(params ICardModel[] cardsModel)
+        public virtual int ShuffleIn(params ICardModel[] models)
         {
             var added = 0;
-            foreach (var card in cardsModel)
+            foreach (var card in models)
             {
                 if (Maxxed)
                     return added;

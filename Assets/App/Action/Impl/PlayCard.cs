@@ -9,7 +9,8 @@ namespace App.Action
     /// <summary>
     /// Play a card from a PlayerAgent's Hand onto the Board
     /// </summary>
-    public class PlayCard : ActionBase
+    public class PlayCard
+        : ActionBase
     {
         public ICardModel Card { get; }
         public Coord Coord { get; }
@@ -18,7 +19,8 @@ namespace App.Action
         {
         }
 
-        public PlayCard(ICardModel card, Coord coord)
+        public PlayCard(IPlayerModel player, ICardModel card, Coord coord)
+            : base(player, EActionType.PlayCard)
         {
             Assert.IsNotNull(card);
             Card = card;
@@ -27,7 +29,7 @@ namespace App.Action
 
         public override string ToString()
         {
-            return $"Play {Card.Type} @{Coord}";
+            return $"{Player} plays {Card.Type} @{Coord}";
         }
     }
 }

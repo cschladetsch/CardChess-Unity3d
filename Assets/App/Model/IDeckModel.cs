@@ -15,6 +15,11 @@ namespace App.Model
     {
         void NewGame();
         void Shuffle();
+
+        /// <summary>
+        /// Draw from the top of the deck
+        /// </summary>
+        /// <returns></returns>
         ICardModel Draw();
         IEnumerable<ICardModel> Draw(int count);
         bool AddToBottom(ICardModel cardModel);
@@ -22,8 +27,8 @@ namespace App.Model
         /// <summary>
         /// Adds a number of cards to random locations in the deckModel.
         /// </summary>
-        /// <param name="cardModel"></param>
+        /// <param name="models"></param>
         /// <returns>the number of cards added</returns>
-        int ShuffleIn(params ICardModel[] cardModel);
+        int ShuffleIn(params ICardModel[] models);
     }
 }

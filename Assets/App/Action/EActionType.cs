@@ -7,6 +7,7 @@
         Pass,
         PlayCard,
         MovePiece,
+        CastSpell,
         Resign,
     }
 }

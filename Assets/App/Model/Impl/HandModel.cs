@@ -3,13 +3,14 @@ using App.Common;
 
 namespace App.Model
 {
-    public class HandModel :
-        CardCollectionModelBase,
-        IHandModel
+    public class HandModel
+        : CardCollectionModelBase
+        , IHandModel
     {
         public override int MaxCards => Parameters.MaxCardsInHand;
 
-        public HandModel(IOwner owner) : base(owner)
+        public HandModel(IOwner owner)
+            : base(owner)
         {
         }
 
@@ -25,6 +26,5 @@ namespace App.Model
             Add(Deck.Draw(count));
             return Response.Ok;
         }
-
     }
 }
