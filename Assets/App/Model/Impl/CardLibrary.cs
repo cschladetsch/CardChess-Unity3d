@@ -12,7 +12,7 @@ namespace App.Model
     /// </summary>
     public abstract class CardLibrary :
         ModelBase,
-        ICardCollection<Common.ICard>,
+        ICardCollection<ICard>,
         IConstructWith<Guid>
     {
         public int MaxCards => int.MaxValue;
@@ -26,10 +26,11 @@ namespace App.Model
             return true;
         }
 
-        public bool Add(Common.ICard card)
+        public bool Add(ICard card)
         {
+            Assert.IsNotNull(card);
             var templ = card as ICardTemplate;
-            if (card == null)
+            if (templ == null)
             {
                 Warn($"{card} is of type {card.GetType()}, but should be a {typeof(ICardTemplate)}");
                 return false;
@@ -38,23 +39,23 @@ namespace App.Model
             return true;
         }
 
-        public void Add(IEnumerable<ICard> cards)
+        public void Add(IEnumerable<ICard> cads)
         {
             foreach (var card in cards)
             {
                 if (card == null)
                 {
-                    Warn($"Attempt to add null card");
+                    Warn($"Attempt to add null card to {this}");
                     continue;
                 }
                 Add(card);
             }
         }
 
-        public bool Remove(Common.ICard card)
+        public bool Remove(ICard card)
         {
             var templ = card as ICardTemplate;
-            if (card == null)
+            if (templ == null)
             {
                 Warn($"{card} is of type {card.GetType()}, but should be a {typeof(ICardTemplate)}");
                 return false;

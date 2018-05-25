@@ -61,7 +61,7 @@ namespace App.Model
             GameState = EGameState.Completed;
         }
 
-        private Response TryPlayCard(Action.PlayCard act)
+        private Response TryPlayCard(PlayCard act)
         {
             var player = act.Player;
             var coord = act.Coord;
@@ -150,16 +150,6 @@ namespace App.Model
             return Board.TryMovePiece(piece, coord);
         }
 
-        //Response TryTurnStart(TurnStart turnStart)
-        //{
-        //    if (turnStart.Player == CurrentPlayer)
-        //    {
-        //        GameState = EGameState.TurnPlay;
-        //        return Response.Ok;
-        //    }
-        //    return Failed($"It is {CurrentPlayer}'s turn to start; not {turnStart.Player}'s");
-        //}
-
         Response TryRejectCards(IRequest request)
         {
             // TODO: deal with mulligan of type RejectCards
@@ -204,8 +194,7 @@ namespace App.Model
                         case EActionType.MovePiece:
                             return TryMovePiece(request as MovePiece);
                         default:
-                            NotImplemented($"{request}");
-                            return Response.NotImplemented;
+                            return NotImplemented($"{request}");
                     }
                 case EGameState.Battle:
                     return TryBattle(request as Battle);

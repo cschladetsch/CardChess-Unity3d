@@ -30,7 +30,7 @@ namespace App.Model.Test
         }
 
         [Test]
-        public void TestGame()
+        public void TestBasicTurns()
         {
             _arbiter.NewGame(_white, _black);
             for (var n = 0; n < 4; ++n)
