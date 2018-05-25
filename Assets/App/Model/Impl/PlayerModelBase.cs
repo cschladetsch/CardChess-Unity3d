@@ -28,7 +28,7 @@ namespace App.Model
         public int Health => King.Health;
         [Inject] public IBoardModel Board { get; set; }
         [Inject] public IArbiterModel Arbiter { get; set; }
-		[Inject] public Service.ICardTemplateService _cardtemplateService;
+        [Inject] public Service.ICardTemplateService _cardtemplateService;
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
@@ -53,7 +53,7 @@ namespace App.Model
             Owner = this;
         }
 
-        public Response NewGame()
+        public virtual Response NewGame()
         {
             AcceptedHand = false;
             MaxMana = 0;
@@ -72,10 +72,16 @@ namespace App.Model
             King.ChangeHealth(-1, null);
         }
 
-        public abstract IAction Mulligan();
-        public abstract IAction PlaceKing();
-		public abstract IAction StartTurn();
-        public abstract IAction NextAction();
+        public Response CardDrawn(ICardModel card)
+        {
+            if (Hand.NumCards == Hand.MaxCards)
+                return Response.Fail;
+            return Hand.Add(card) ? Response.Ok : Response.Fail;
+        }
+
+        public abstract IRequest Mulligan();
+        public abstract IRequest StartTurn();
+        public abstract IRequest NextAction();
 
         public Response ChangeMana(int change)
         {

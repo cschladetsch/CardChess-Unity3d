@@ -2,7 +2,7 @@
 
 namespace App.Action
 {
-    public class Resign : ActionBase
+    public class Resign : RequestBase
     {
         public Resign(IPlayerModel player)
             : base(player, EActionType.Resign)

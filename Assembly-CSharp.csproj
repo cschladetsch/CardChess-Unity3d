@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{627EE5B9-8A24-4082-A3C7-B8E467A8FB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -59,16 +60,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\App\Action\EActionType.cs" />
-    <Compile Include="Assets\App\Action\IAction.cs" />
     <Compile Include="Assets\App\Action\Impl\AcceptCards.cs" />
-    <Compile Include="Assets\App\Action\Impl\ActionBase.cs" />
     <Compile Include="Assets\App\Action\Impl\CastSpell.cs" />
+    <Compile Include="Assets\App\Action\Impl\DrawCard.cs" />
     <Compile Include="Assets\App\Action\Impl\MovePiece.cs" />
     <Compile Include="Assets\App\Action\Impl\Pass.cs" />
     <Compile Include="Assets\App\Action\Impl\PlaceKing.cs" />
     <Compile Include="Assets\App\Action\Impl\PlayCard.cs" />
     <Compile Include="Assets\App\Action\Impl\RejectCards.cs" />
+    <Compile Include="Assets\App\Action\Impl\RequestBase.cs" />
     <Compile Include="Assets\App\Action\Impl\Resign.cs" />
+    <Compile Include="Assets\App\Action\IRequest.cs" />
+    <Compile Include="Assets\App\Action\IResponse.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
     <Compile Include="Assets\App\Agent\AgentRegistry.cs" />
     <Compile Include="Assets\App\Agent\ArbiterAgent.cs" />
@@ -95,9 +98,11 @@
     <Compile Include="Assets\App\Common\EAbility.cs" />
     <Compile Include="Assets\App\Common\ECardType.cs" />
     <Compile Include="Assets\App\Common\EColor.cs" />
+    <Compile Include="Assets\App\Common\EError.cs" />
     <Compile Include="Assets\App\Common\EGameResult.cs" />
     <Compile Include="Assets\App\Common\Entity.cs" />
     <Compile Include="Assets\App\Common\EPieceType.cs" />
+    <Compile Include="Assets\App\Common\EResponse.cs" />
     <Compile Include="Assets\App\Common\ICard.cs" />
     <Compile Include="Assets\App\Common\ICardCollection.cs" />
     <Compile Include="Assets\App\Common\IConstructWith.cs" />
@@ -108,6 +113,7 @@
     <Compile Include="Assets\App\Common\IOwned.cs" />
     <Compile Include="Assets\App\Common\IOwner.cs" />
     <Compile Include="Assets\App\Common\IPrintable.cs" />
+    <Compile Include="Assets\App\Common\IResponse.cs" />
     <Compile Include="Assets\App\Common\LoggingBehavior.cs" />
     <Compile Include="Assets\App\Common\Response.cs" />
     <Compile Include="Assets\App\Database\CardTemplates.cs" />

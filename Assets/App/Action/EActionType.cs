@@ -4,6 +4,7 @@
     {
         RejectCards,
         AcceptCards,
+        DrawCard,
         Pass,
         PlayCard,
         MovePiece,

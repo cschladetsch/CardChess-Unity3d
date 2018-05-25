@@ -12,22 +12,22 @@ namespace App.Model
 		{
 		}
 
-		public override IAction Mulligan()
+		public override IRequest Mulligan()
 		{
 			throw new NotImplementedException();
 		}
 
-		public override IAction PlaceKing()
+		public override IRequest PlaceKing()
 		{
 			throw new NotImplementedException();
 		}
 
-		public override IAction StartTurn()
+		public override IRequest StartTurn()
 		{
 			throw new NotImplementedException();
 		}
 
-		public override IAction NextAction()
+		public override IRequest NextAction()
 		{
 			throw new NotImplementedException();
 		}

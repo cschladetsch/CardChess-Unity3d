@@ -4,7 +4,7 @@ using App.Model;
 
 namespace App.Action
 {
-    public class RejectCards : ActionBase
+    public class RejectCards : RequestBase
     {
         public ICardModel[] Rejected { get; }
 

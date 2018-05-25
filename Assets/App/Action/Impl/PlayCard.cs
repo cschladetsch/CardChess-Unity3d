@@ -10,7 +10,7 @@ namespace App.Action
     /// Play a card from a PlayerAgent's Hand onto the Board
     /// </summary>
     public class PlayCard
-        : ActionBase
+        : RequestBase
     {
         public ICardModel Card { get; }
         public Coord Coord { get; }

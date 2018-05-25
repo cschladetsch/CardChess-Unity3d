@@ -17,7 +17,7 @@ namespace App.Common
         bool Empty { get; }
         bool Maxxed { get; }
 
-        IEnumerable<ICard> Cards { get; }
+        IEnumerable<TCard> Cards { get; }
         bool Has(TCard card);
         bool Has(Guid idCard);
         bool Add(TCard card);
