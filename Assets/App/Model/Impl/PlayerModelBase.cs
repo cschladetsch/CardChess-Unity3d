@@ -14,7 +14,7 @@ namespace App.Model
     using Common;
     using Registry;
 
-    public /*abstract*/ class PlayerModel
+    public abstract class PlayerModelBase
         : ModelBase
         , IPlayerModel
     {
@@ -28,6 +28,7 @@ namespace App.Model
         public int Health => King.Health;
         [Inject] public IBoardModel Board { get; set; }
         [Inject] public IArbiterModel Arbiter { get; set; }
+		[Inject] public Service.ICardTemplateService _cardtemplateService;
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
@@ -46,7 +47,7 @@ namespace App.Model
             return $"{Color}";
         }
 
-        public PlayerModel(EColor color)
+        public PlayerModelBase(EColor color)
         {
             Color = color;
             Owner = this;
@@ -71,57 +72,14 @@ namespace App.Model
             King.ChangeHealth(-1, null);
         }
 
-        public virtual IAction NextAction()
-        {
-            switch (Arbiter.GameState)
-            {
-                case EGameState.None:
-                    Assert.Throw();
-                    break;
-                case EGameState.Mulligan:
-                    return Mulligan();
-                case EGameState.PlaceKing:
-                    return PlaceKing();
-                case EGameState.TurnStart:
-                    Hand.Add(Deck.Draw());
-                    break;
-                case EGameState.TurnPlay:
-                    return DecideTurn();
-                case EGameState.Battle:
-                    break;
-                case EGameState.TurnEnd:
-                    break;
-                case EGameState.Completed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return new Action.Pass(this);
-        }
-
-        // TODO: make MockPlayer that implements these
-        //protected abstract IAction Mulligan();
-        //protected abstract IAction PlaceKing();
-        //protected abstract IAction DecideTurn();
-
-        protected IAction Mulligan()
-        {
-            return new Pass(this);
-        }
-        protected IAction PlaceKing()
-        {
-            return null;
-        }
-
-        protected IAction DecideTurn()
-        {
-            return null;
-        }
+        public abstract IAction Mulligan();
+        public abstract IAction PlaceKing();
+		public abstract IAction StartTurn();
+        public abstract IAction NextAction();
 
         public Response ChangeMana(int change)
         {
-            Mana = Mathf.Clamp(0, 12, Mana + change);
+            Mana = Mathf.Max(0, 12, Mana + change);
             return Response.Ok;
         }
 

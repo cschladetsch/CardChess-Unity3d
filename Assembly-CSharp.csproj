@@ -141,7 +141,8 @@
     <Compile Include="Assets\App\Model\Impl\ModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Persistent.cs" />
     <Compile Include="Assets\App\Model\Impl\PieceModel.cs" />
-    <Compile Include="Assets\App\Model\Impl\PlayerModel.cs" />
+    <Compile Include="Assets\App\Model\Impl\PlayerMockModel.cs" />
+    <Compile Include="Assets\App\Model\Impl\PlayerModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerOwnedModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Assets\App\Service\ICardTemplateService.cs" />
     <Compile Include="Assets\App\Service\Impl\CardTemplateService.cs" />
     <Compile Include="Assets\App\View\IView.cs" />
+    <Compile Include="Assets\App\View\PieceView.cs" />
     <Compile Include="Assets\App\View\Registry.cs" />
     <Compile Include="Assets\App\View\ViewBase.cs" />
     <Compile Include="Assets\External\colib\colib\Examples\CommandQueueExample.cs" />

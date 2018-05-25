@@ -6,7 +6,7 @@ using App.Common;
 using App.Model;
 using App.Registry;
 
-namespace App.Model.Tests
+namespace App.Model.Test
 {
 	[TestFixture]
 	class TestBase : Flow.Impl.Logger
@@ -21,9 +21,11 @@ namespace App.Model.Tests
 		private void PrepareBindings()
 		{
 			_reg = new Registry<IModel>();
+			_reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
 			_reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
 			_reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-			_reg.Bind<IPlayerModel, PlayerModel>();
+			_reg.Bind<IWhitePlayer, Test.MockPlayerWhite>();
+			_reg.Bind<Test.IBlackPlayer, Test.MockPlayerBlack>();
 
 			_reg.Bind<ICardModel, CardModel>();
 			_reg.Bind<IDeckModel, DeckModel>();
@@ -40,19 +42,17 @@ namespace App.Model.Tests
 
 			_board = _reg.New<IBoardModel>();
 			_arbiter = _reg.New<IArbiterModel>();
-			_white = _reg.New<IPlayerModel>(EColor.White);
-			_black = _reg.New<IPlayerModel>(EColor.Black);
+			_white = _reg.New<Test.IWhitePlayer>();
+			_black = _reg.New<Test.IBlackPlayer>();
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			_reg.Print();
 			_arbiter.Destroy();
 			_white.Destroy();
 			_black.Destroy();
 			_arbiter.Destroy();
-			_reg.Print();
 		}
 	}
 }

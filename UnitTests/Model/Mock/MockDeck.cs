@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App.Test
+namespace App.Model.Test
 {
     using Common;
 	using Model;

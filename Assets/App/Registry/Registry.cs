@@ -58,6 +58,13 @@ namespace App.Registry
             return null;
         }
 
+		//public TIBase New<TIBase, TImpl>(params object[] args)
+  //          where TIBase : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
+  //          where TImpl : class, TIBase
+		//{
+		//	return New<TImpl>(args);
+		//}
+
 		public TModel New<TModel, A0>(A0 a0)
             where TModel
             : class, IBase, IConstructWith<A0>, IHasRegistry<TModel>,
