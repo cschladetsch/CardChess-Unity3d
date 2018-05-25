@@ -26,5 +26,9 @@
     <Compile Remove="Old\TestAgents.cs" />
     <Compile Remove="Mock\MockBlackPlayerAgent.cs" />
     <Compile Remove="Mock\MockWhitePlayerAgent.cs" />
+    <Compile Remove="Model\MockPlayerBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Mock\" />
   </ItemGroup>
 </Project>

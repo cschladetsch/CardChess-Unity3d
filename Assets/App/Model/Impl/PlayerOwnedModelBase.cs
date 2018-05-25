@@ -1,6 +1,10 @@
 ﻿namespace App.Model
 {
 	using Common;
+
+    /// <summary>
+    /// Common for all models that are owned by a Player
+    /// </summary>
     public class PlayerOwnedModelBase
         : ModelBase
         , IPlayerOwnedModel

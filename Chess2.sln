@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{32BE77A5-2E31-C41C-A550-D40453E18E62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{8F3AAEEF-AA72-4AA5-8FEA-CE386602A372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{D045E86F-7C59-4D10-BDD4-BDAB5B83B80A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,10 @@ Global
 		{32BE77A5-2E31-C41C-A550-D40453E18E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32BE77A5-2E31-C41C-A550-D40453E18E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32BE77A5-2E31-C41C-A550-D40453E18E62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F3AAEEF-AA72-4AA5-8FEA-CE386602A372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F3AAEEF-AA72-4AA5-8FEA-CE386602A372}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F3AAEEF-AA72-4AA5-8FEA-CE386602A372}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F3AAEEF-AA72-4AA5-8FEA-CE386602A372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D045E86F-7C59-4D10-BDD4-BDAB5B83B80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D045E86F-7C59-4D10-BDD4-BDAB5B83B80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D045E86F-7C59-4D10-BDD4-BDAB5B83B80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D045E86F-7C59-4D10-BDD4-BDAB5B83B80A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

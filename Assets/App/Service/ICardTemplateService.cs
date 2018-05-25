@@ -7,9 +7,13 @@ namespace App.Service
 	using Registry;
 
     public interface ICardTemplateService
-		: IKnown, IHasDestroyHandler<ICardTemplateService>
+		: IKnown
+	    , IModel
     {
-		ICardTemplate GetCard(EPieceType pieceType);
-		ICardTemplate GetCard(Guid id);
+		ICardTemplate GetCardTemplate(EPieceType pieceType);
+		ICardTemplate GetCardTemplate(Guid id);
+
+		ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
+		ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
     }
 }

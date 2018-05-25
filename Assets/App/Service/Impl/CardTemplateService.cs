@@ -3,25 +3,33 @@ using System.Linq;
 
 namespace App.Service.Impl
 {
-	using App.Model;
-	using App.Common;
-	using App.Registry;
+	using Model;
+	using Common;
+	using Registry;
     
-	internal class CardTemplateService
-		: ICardTemplateService
-	    , IKnown, IHasDestroyHandler<ICardTemplateService>
+	public class CardTemplateService
+		: ModelBase
+	    , ICardTemplateService
+	    , IKnown
     {
-		public Guid Id { get; set; }
-		public event DestroyedHandler<ICardTemplateService> OnDestroy;
-
-		public ICardTemplate GetCard(EPieceType pieceType)
+		public ICardTemplate GetCardTemplate(EPieceType pieceType)
 		{
 			return Database.CardTemplates.OfType(pieceType).First();
 		}
 
-        public ICardTemplate GetCard(Guid id)
+        public ICardTemplate GetCardTemplate(Guid id)
 		{
 			return Database.CardTemplates.Get(id);
 		}
-    }
+
+		public ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl)
+		{
+			return Registry.New<ICardModel>(tmpl, owner);
+		}
+
+		public ICardModel NewCardModel(IPlayerModel owner, EPieceType type)
+		{
+			return Registry.New<ICardModel>(GetCardTemplate(type), owner);
+		}
+	}
 }
