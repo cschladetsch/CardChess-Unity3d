@@ -18,6 +18,7 @@ namespace App.Model.Test
             : base(color)
         {
             _pass = new Pass(this);
+            _endTurn = new TurnEnd(this);
         }
 
         public override Response NewGame()
@@ -54,7 +55,7 @@ namespace App.Model.Test
             Verbose(10, $"{this} action success: {req.Action}");
         }
 
-        protected ICardModel GetACardPiece(EPieceType type)
+        protected ICardModel MakePiece(EPieceType type)
         {
             var card = Hand.Cards.FirstOrDefault(c => c.PieceType == type);
             if (card == null)
@@ -84,6 +85,7 @@ namespace App.Model.Test
 
         private int _next = 0;
         protected IRequest _pass;
+        protected IRequest _endTurn;
         protected List<Func<IRequest>> _requests;
         protected List<Guid> _requestIds;
     }

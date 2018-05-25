@@ -9,6 +9,8 @@
         PlayCard,
         MovePiece,
         CastSpell,
+        Battle,
         Resign,
+        TurnEnd,
     }
 }

@@ -23,8 +23,6 @@ namespace App.Model
         public int Width { get; }
         public int Height { get; }
         [Inject] public IArbiterModel Arbiter { get; set; }
-        public IPlayerModel WhitePlayer => Arbiter.WhitePlayer;
-        public IPlayerModel BlackPlayer => Arbiter.BlackPlayer;
         public IEnumerable<IPieceModel> Pieces => GetContents();
         #endregion
 
@@ -157,7 +155,7 @@ namespace App.Model
             {
                 var piece = At(coord);
                 var rep = CardToRep(piece.Card);
-                var black = piece.Owner == piece.Board.Arbiter.BlackPlayer;
+                var black = piece.Owner.Color != EColor.White;
                 if (black)
                     rep = rep.ToLower();
                 return rep;
@@ -247,7 +245,7 @@ namespace App.Model
             Assert.IsTrue(IsValid(coord));
             Assert.IsNull(At(coord));
 
-            Info($"Placed {piece.Owner.Color} {piece} at {coord}");
+            Info($"{piece.Owner.Color} placed {piece.Type} at {coord}");
             _contents[coord.y][coord.x] = piece;
 
             return true;

@@ -8,8 +8,7 @@
 
         PlaceKing,
 
-        TurnStart,
-        TurnPlay,
+        PlayTurn,
         Battle,
         TurnEnd,
 

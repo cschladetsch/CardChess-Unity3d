@@ -1,4 +1,14 @@
 ﻿namespace App.Common
 {
-    public enum EColor { White, Black, Neutral, None }
+    public enum EColor
+    {
+        None,
+        White,
+        Black,
+        Red,
+        Blue,
+        Yellow,
+        Green,
+        Neutral,
+    }
 }

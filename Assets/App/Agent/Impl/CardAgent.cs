@@ -13,6 +13,7 @@ namespace App.Agent
         ICardAgent
     {
         #region Public Fields
+        public int ManaCost => Model.ManaCost;
         public int Attack => Model.Attack;
         public int Health => Model.Health;
         public string Description => Model.Description;

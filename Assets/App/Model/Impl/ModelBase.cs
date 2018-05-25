@@ -30,7 +30,9 @@ namespace App.Model
             Owner = owner;
             Subject = this;
             LogPrefix = "Model";
-            Verbosity = 100;
+            Verbosity = Parameters.DefaultLogVerbosity;
+            ShowStack = Parameters.DefaultShowTraceStack;
+            ShowSource = Parameters.DefaultShowTraceSource;
             return true;
         }
 

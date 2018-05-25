@@ -37,7 +37,10 @@ namespace App.Model
 
         Response DrawHand();
         void CardExhaustion();
+
+        void StartTurn();
         IRequest NextAction();
+        void EndTurn();
 
         Response CardDrawn(ICardModel card);
 

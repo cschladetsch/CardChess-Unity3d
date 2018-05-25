@@ -20,10 +20,10 @@ namespace App.Model.Test
             {
                 () => new AcceptCards(this),
                 () => new PlayCard(this, King, new Coord(4, 2)),
-
+                () => _endTurn,
                 () =>
                 {
-                    var peon = GetACardPiece(EPieceType.Peon);
+                    var peon = MakePiece(EPieceType.Peon);
                     return new PlayCard(this, peon, new Coord(4, 3));
                 },
                 () => _pass,

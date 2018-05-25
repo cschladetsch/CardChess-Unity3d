@@ -5,9 +5,6 @@ using App.Common;
 
 namespace App.Model.Test
 {
-    public interface IBlackPlayer : IPlayerModel { }
-    public interface IWhitePlayer : IPlayerModel { }
-
     class BlackPlayer
         : MockPlayerBase, IBlackPlayer
     {
@@ -22,10 +19,10 @@ namespace App.Model.Test
             {
                 () => new AcceptCards(this),
                 () => new PlayCard(this, King, new Coord(4, 5)),
-
+                () => _endTurn,
                 () =>
                 {
-                    var peon = GetACardPiece(EPieceType.Peon);
+                    var peon = MakePiece(EPieceType.Peon);
                     return new PlayCard(this, peon, new Coord(3, 3));
                 },
                 () => _pass,

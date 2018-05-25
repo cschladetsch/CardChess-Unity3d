@@ -16,8 +16,6 @@ namespace App.Model
         int Width { get; }
         int Height { get; }
         IArbiterModel Arbiter { get; }
-        IPlayerModel WhitePlayer { get; }
-        IPlayerModel BlackPlayer { get; }
         IEnumerable<IPieceModel> Pieces { get; }
         #endregion
 

@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assets\App\Action\EActionType.cs" />
     <Compile Include="Assets\App\Action\Impl\AcceptCards.cs" />
+    <Compile Include="Assets\App\Action\Impl\Battle.cs" />
     <Compile Include="Assets\App\Action\Impl\CastSpell.cs" />
     <Compile Include="Assets\App\Action\Impl\DrawCard.cs" />
     <Compile Include="Assets\App\Action\Impl\MovePiece.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="Assets\App\Action\Impl\RejectCards.cs" />
     <Compile Include="Assets\App\Action\Impl\RequestBase.cs" />
     <Compile Include="Assets\App\Action\Impl\Resign.cs" />
+    <Compile Include="Assets\App\Action\Impl\TurnEnd.cs" />
+    <Compile Include="Assets\App\Action\Impl\TurnStart.cs" />
     <Compile Include="Assets\App\Action\IRequest.cs" />
     <Compile Include="Assets\App\Action\IResponse.cs" />
     <Compile Include="Assets\App\Agent\AgentLogger.cs" />
