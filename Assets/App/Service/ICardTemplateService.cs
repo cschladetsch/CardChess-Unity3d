@@ -9,7 +9,7 @@ namespace App.Service
     public interface ICardTemplateService
 		: IKnown, IHasDestroyHandler<ICardTemplateService>
     {
-		ICardModel GetCard(EPieceType pieceType);
-		ICardModel GetCard(Guid id);
+		ICardTemplate GetCard(EPieceType pieceType);
+		ICardTemplate GetCard(Guid id);
     }
 }

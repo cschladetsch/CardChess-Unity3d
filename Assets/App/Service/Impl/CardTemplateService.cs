@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace App.Service.Impl
 {
@@ -13,19 +14,14 @@ namespace App.Service.Impl
 		public Guid Id { get; set; }
 		public event DestroyedHandler<ICardTemplateService> OnDestroy;
 
-		public ICardModel GetCard(EPieceType pieceType)
+		public ICardTemplate GetCard(EPieceType pieceType)
 		{
-			return null;
+			return Database.CardTemplates.OfType(pieceType).First();
 		}
 
-        public ICardModel GetCard(Guid id)
+        public ICardTemplate GetCard(Guid id)
 		{
-			return null;
-		}
-
-		static void Register<T>(IRegistry<T> registry) where T : class, IKnown, IHasDestroyHandler<T>
-		{
-			//registry.Bind<ICardTemplateService, CardTemplateService>(new CardTemplateService());
+			return Database.CardTemplates.Get(id);
 		}
     }
 }

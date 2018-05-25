@@ -58,6 +58,19 @@ namespace App.Registry
             return null;
         }
 
+		public TModel New<TModel, A0>(A0 a0)
+            where TModel
+            : class, IBase, IConstructWith<A0>, IHasRegistry<TModel>,
+            IHasDestroyHandler<TModel>, new()
+        {
+            var model = New<TModel>();
+            if (model.Construct(a0))
+                return model;
+            Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
+            Remove(model);
+            return null;
+        }
+
         public TModel New<TModel, A0, A1>(A0 a0, A1 a1)
             where TModel
             : class, IBase, IHasRegistry<TModel>,
@@ -68,19 +81,6 @@ namespace App.Registry
             if (model.Construct(a0, a1))
                 return model;
             Error($"Failed to create instance of {typeof(TModel)} with args {a0}, {a1}");
-            Remove(model);
-            return null;
-        }
-
-        public TModel New<TModel, A0>(A0 a0)
-            where TModel
-            : class, IBase, IConstructWith<A0>, IHasRegistry<TModel>,
-            IHasDestroyHandler<TModel>, new()
-        {
-            var model = New<TModel>();
-            if (model.Construct(a0))
-                return model;
-            Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
             Remove(model);
             return null;
         }
@@ -229,7 +229,10 @@ namespace App.Registry
                         continue;
                     }
                 }
-                inject.PropertyType.SetValue(pi.TargetModel, val);
+				if (inject.PropertyInfo != null)
+					inject.PropertyInfo.SetValue(pi.TargetModel, val);
+				else
+					inject.FieldInfo.SetValue(pi.TargetModel, val);
                 _pendingInjections.Remove(pi);
             }
         }
@@ -364,8 +367,18 @@ namespace App.Registry
                     var inject = prop.GetCustomAttribute<Inject>();
                     if (inject == null)
                         continue;
-                    inject.PropertyType = prop;
+                    inject.PropertyInfo = prop;
                     inject.ValueType = prop.PropertyType;
+                    _injections.Add(inject);
+                }
+				foreach (var field in ty.GetFields(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    var inject = field.GetCustomAttribute<Inject>();
+                    if (inject == null)
+                        continue;
+					inject.FieldInfo = field;
+					inject.ValueType = field.FieldType;
                     _injections.Add(inject);
                 }
             }
@@ -401,7 +414,12 @@ namespace App.Registry
                     _pendingInjections.Add(pi);
                 }
             }
-            inject.PropertyType.SetValue(model, val);
+
+			if (inject.PropertyInfo != null)
+				inject.PropertyInfo.SetValue(model, val);
+			else
+				inject.FieldInfo.SetValue(model, val);
+
             return model;
         }
 

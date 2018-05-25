@@ -9,55 +9,11 @@ using App.Common;
 using App.Model;
 using App.Registry;
 
-namespace UnitTests
+namespace App.Model.Tests
 {
     [TestFixture]
-    class TestModel : Flow.Impl.Logger
-    {
-        private IRegistry<IModel> _reg;
-        private IBoardModel _board;
-        private IPlayerModel _white;
-        private IPlayerModel _black;
-        private IArbiterModel _arbiter;
-
-        // this is only place concrete types are needed
-        private void PrepareBindings()
-        {
-            _reg = new Registry<IModel>();
-            _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
-            _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-            _reg.Bind<IPlayerModel, PlayerModel>();
-
-            _reg.Bind<ICardModel, CardModel>();
-            _reg.Bind<IDeckModel, DeckModel>();
-            _reg.Bind<IHandModel, HandModel>();
-            _reg.Bind<IPieceModel, PieceModel>();
-
-            _reg.Resolve();
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            PrepareBindings();
-
-            _board = _reg.New<IBoardModel>();
-            _arbiter = _reg.New<IArbiterModel>();
-            _white = _reg.New<IPlayerModel>(EColor.White);
-            _black = _reg.New<IPlayerModel>(EColor.Black);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _reg.Print();
-            _arbiter.Destroy();
-            _white.Destroy();
-            _black.Destroy();
-            _arbiter.Destroy();
-            _reg.Print();
-        }
-
+	class TestBoard : TestBase
+	{
         [Test]
         public void TestBoardCreation()
         {
@@ -74,6 +30,7 @@ namespace UnitTests
             Assert.IsNotNull(_white);
             Assert.IsNotNull(_black);
 
+			_arbiter.NewGame(_white, _black);
             Assert.AreSame(_white, _arbiter.WhitePlayer);
             Assert.AreEqual(_white, _arbiter.WhitePlayer);
             Assert.AreSame(_black, _arbiter.BlackPlayer);

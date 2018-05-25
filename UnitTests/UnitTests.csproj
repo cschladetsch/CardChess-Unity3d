@@ -22,4 +22,9 @@
     <ProjectReference Include="..\Assembly-CSharp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Old\TestAgents.cs" />
+    <Compile Remove="Mock\MockBlackPlayerAgent.cs" />
+    <Compile Remove="Mock\MockWhitePlayerAgent.cs" />
+  </ItemGroup>
 </Project>
