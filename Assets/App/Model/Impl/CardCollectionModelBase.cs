@@ -10,11 +10,11 @@ namespace App.Model
     /// </summary>
     public abstract class CardCollectionModelBase
         : ModelBase
-        , Common.ICardCollection<Model.ICardModel>
+        , ICardCollection<ICardModel>
     {
         #region Public Properties
         public abstract int MaxCards { get; }
-        public IEnumerable<Common.ICard> Cards => cards;
+        public IEnumerable<ICardModel> Cards => cards;
         public int NumCards => cards.Count;
         public bool Empty => NumCards == 0;
         public bool Maxxed => cards.Count == MaxCards;

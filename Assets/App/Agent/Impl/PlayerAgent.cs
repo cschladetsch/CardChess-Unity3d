@@ -168,7 +168,6 @@ namespace App.Agent
 
         public void PlaceKing(Coord coord)
         {
-            _placeKing.Value = new PlayCard(King.Model, coord);
         }
 
         public void PlayCard(PlayCard playCard)

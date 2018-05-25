@@ -10,6 +10,6 @@
     public class MovePiece : RequestBase
     {
         public IPieceModel Piece;
-        public Coord Target;
+        public Coord Coord;
     }
 }

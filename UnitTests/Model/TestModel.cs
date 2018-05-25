@@ -45,33 +45,27 @@ namespace App.Model.Test
         }
 
         [Test]
-        public void TestBoardPiecePlacement()
+        public void TestGame()
         {
             _arbiter.NewGame(_white, _black);
             Trace.WriteLine(_board.Print());
 
-            Assert.AreEqual(_white.Hand.NumCards, App.Parameters.StartHandCardCount);
-            Assert.AreEqual(_black.Hand.NumCards, App.Parameters.StartHandCardCount);
-
-            _arbiter.PlayerAcceptCards(_white);
-            _arbiter.PlayerAcceptCards(_black);
-
-            var wk = _white.King;
-            var bk = _black.King;
-
-            Assert.AreSame(_arbiter.WhitePlayer, _white);
-
-            //Assert.IsTrue(_arbiter.RequestPlayCard(_white, wk, new Coord(4, 1)).Success);
-            //Assert.IsTrue(_arbiter.RequestPlayCard(_black, bk, new Coord(4, 5)).Success);
-
+            _arbiter.Arbitrate(_white.NextAction());
+            _arbiter.Arbitrate(_black.NextAction());
             Trace.WriteLine(_board.Print());
 
-            //_white.Pass();
+            _arbiter.Arbitrate(_white.NextAction());
+            _arbiter.Arbitrate(_black.NextAction());
+            Trace.WriteLine(_board.Print());
 
-            //_black.PlayCard(bk, new Coord(4, 6));
-            //_black.Pass();
+            _arbiter.Arbitrate(_white.NextAction());
+            _arbiter.Arbitrate(_black.NextAction());
+            Trace.WriteLine(_board.Print());
 
-            //Console.WriteLine(board.Print());
+            _arbiter.Arbitrate(_white.NextAction());
+            _arbiter.Arbitrate(_black.NextAction());
+            Trace.WriteLine(_board.Print());
+
         }
     }
 }
