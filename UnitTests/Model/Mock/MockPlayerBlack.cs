@@ -20,40 +20,37 @@ namespace App.Model.Test
 
             // play king, accept
 
-            _actions = new List<IAction>()
-            {
-                new PlayCard(King, new Coord(4, 5)),
-                new AcceptCards(this),
-
-
-            };
         }
 
-        public override IAction Mulligan()
+        public override Response NewGame()
+        {
+            base.NewGame();
+
+            _actions = new List<IRequest>()
+            {
+                new PlayCard(this, King, new Coord(4, 5)),
+                new AcceptCards(this),
+            };
+            return Response.Ok;
+        }
+
+        public override IRequest Mulligan()
         {
             return _pass;
         }
 
-        public override IAction NextAction()
+        public override IRequest NextAction()
         {
-            // first action is to play King
             return null;
         }
 
-
-
-        public override IAction PlaceKing()
-        {
-            return new Action.PlayCard(King, new Coord(4, 2));
-        }
-
-        public override IAction StartTurn()
+        public override IRequest StartTurn()
         {
             return new Action.Pass(this);
         }
 
-        private IAction _pass;
-        private List<IAction> _actions = new List<IAction>();
+        private IRequest _pass;
+        private List<IRequest> _actions = new List<IRequest>();
 
     }
 }

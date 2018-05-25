@@ -19,7 +19,6 @@ namespace App.Model
         IBoardModel Board { get; }
         IArbiterModel Arbiter { get; }
 
-        bool AcceptedHand { get; }
         IDeckModel Deck { get; }
         IHandModel Hand { get; }
         ICardModel King { get; }
@@ -38,10 +37,24 @@ namespace App.Model
 
         Response DrawHand();
         void CardExhaustion();
-        IAction NextAction();
+        IRequest NextAction();
 
-		//Response<IPieceModel> PlayCard(ICardModel card, Coord coord);
-		//Response MoveCard(ICardModel card, Coord coord);
+        Response CardDrawn(ICardModel card);
+
+        /// <summary>
+        /// Sent by Arbiter when an action failed.
+        /// </summary>
+        /// <param name="req"></param>
+        void RequestFailed(IRequest req);
+
+        /// <summary>
+        /// Sent by Arbiter when action succeeded.
+        /// </summary>
+        /// <param name="req"></param>
+        void RequestSuccess(IRequest req);
+
+        //Response<IPieceModel> PlayCard(ICardModel card, Coord coord);
+        //Response MoveCard(ICardModel card, Coord coord);
 
         #endregion // Methods
 

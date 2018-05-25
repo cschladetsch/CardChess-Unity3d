@@ -14,6 +14,12 @@ namespace App.Model
         {
         }
 
+        public ICardModel this[int key]
+        {
+            get { return cards[key]; }
+            set { cards[key] = value; }
+        }
+
         public Response NewGame()
         {
             var count = Parameters.StartHandCardCount;

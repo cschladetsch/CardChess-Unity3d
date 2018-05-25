@@ -5,7 +5,7 @@ namespace App.Action
 {
     using Model;
 
-    public class CastSpell : ActionBase
+    public class CastSpell : RequestBase
     {
         public ISpellModel Spell;
 

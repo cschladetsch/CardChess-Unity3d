@@ -2,7 +2,7 @@
 
 namespace App.Action
 {
-    public class AcceptCards : ActionBase
+    public class AcceptCards : RequestBase
     {
         public AcceptCards(IPlayerModel player)
             : base(player, EActionType.AcceptCards)
