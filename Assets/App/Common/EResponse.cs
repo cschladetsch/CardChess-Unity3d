@@ -7,5 +7,6 @@ namespace App.Common
         BadOrder,
         BadContext,
         TimedOut,
+        NotImplemented
     }
 }

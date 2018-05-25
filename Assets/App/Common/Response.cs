@@ -11,6 +11,7 @@ namespace App.Common
         public bool Success => Type == EResponse.Ok;
         public string Text { get; }
 
+        public static Response NotImplemented = new Response(EResponse.NotImplemented);
         public static Response Ok = new Response(EResponse.Ok);
         public static Response Fail = new Response(EResponse.Fail);
 
