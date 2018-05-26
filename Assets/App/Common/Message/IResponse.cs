@@ -1,6 +1,6 @@
 using System;
 
-namespace App.Common
+namespace App.Common.Message
 {
     public interface IResponse
     {

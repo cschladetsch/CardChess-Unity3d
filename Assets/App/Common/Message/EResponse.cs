@@ -1,4 +1,4 @@
-namespace App.Common
+namespace App.Common.Message
 {
     public enum EResponse
     {

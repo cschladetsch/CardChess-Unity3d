@@ -1,6 +1,7 @@
 ﻿namespace App.Model
 {
     using Common;
+    using Common.Message;
 
     public interface IHandModel
         : IModel

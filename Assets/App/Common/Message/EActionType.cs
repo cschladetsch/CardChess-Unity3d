@@ -1,4 +1,4 @@
-﻿namespace App.Action
+﻿namespace App.Common.Message
 {
     /// <summary>
     /// The different actions a player can perform at certain times.

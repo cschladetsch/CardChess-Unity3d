@@ -6,6 +6,7 @@ using System.Linq;
 namespace App.Model
 {
     using Common;
+    using Common.Message;
     using Registry;
 
     /// <summary>

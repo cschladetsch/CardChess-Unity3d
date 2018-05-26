@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.Action;
 using App.Common;
+using App.Common.Message;
 
 namespace App.Model.Test
 {

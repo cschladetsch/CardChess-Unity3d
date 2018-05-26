@@ -1,7 +1,7 @@
-﻿using App.Common;
+﻿using App.Common.Message;
 using App.Model;
 
-namespace App.Action
+namespace App.Common.Message
 {
     public class Battle
         : RequestBase

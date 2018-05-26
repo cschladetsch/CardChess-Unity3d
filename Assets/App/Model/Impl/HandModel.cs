@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
-using App.Common;
 
 namespace App.Model
 {
+    using Common;
+    using Common.Message;
+
     public class HandModel
         : CardCollectionModelBase
         , IHandModel

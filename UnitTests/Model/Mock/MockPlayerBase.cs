@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace App.Model.Test
 {
-    using Action;
     using Common;
+    using Common.Message;
     using Model;
 
     /// <summary>

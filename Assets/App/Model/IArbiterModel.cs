@@ -1,4 +1,4 @@
-﻿using App.Common;
+﻿using App.Common.Message;
 
 namespace App.Model
 {
@@ -19,7 +19,7 @@ namespace App.Model
         #region Methods
 
         void NewGame(IPlayerModel white, IPlayerModel black);
-        Response Arbitrate(Action.IRequest request);
+        Response Arbitrate(IRequest request);
         void Endame();
 
         #endregion
