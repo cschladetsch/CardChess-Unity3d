@@ -15,10 +15,11 @@ namespace App.Common
         public static Response Ok = new Response(EResponse.Ok);
         public static Response Fail = new Response(EResponse.Fail);
 
-        public Response(EResponse response = EResponse.Ok, EError err = EError.None)
+        public Response(EResponse response = EResponse.Ok, EError err = EError.Error, string text = "")
         {
             Type = response;
             Error = EError.None;
+            Text = text;
         }
     }
 

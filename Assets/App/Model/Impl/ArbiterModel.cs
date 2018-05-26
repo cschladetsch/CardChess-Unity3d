@@ -29,7 +29,7 @@ namespace App.Model
 
         public ArbiterModel()
         {
-            Subject = this;
+            LogSubject = this;
             LogPrefix = "Arbiter";
         }
 
@@ -86,7 +86,7 @@ namespace App.Model
             return Board.TryPlacePiece(piece, coord) ? Response.Ok : Response.Fail;
         }
 
-        public Response RequestPlayCard(Action.PlayCard act)
+        public Response RequestPlayCard(PlayCard act)
         {
             Assert.IsNotNull(act);
             Assert.IsNotNull(act.Player);
@@ -120,7 +120,7 @@ namespace App.Model
 
             if (GameState != EGameState.PlayTurn)
             {
-                return Failed($"Current game state is {GameState}, {player} cannot move {piece}");
+                return Failed($"Currently in {GameState}, {player} cannot move {piece}");
             }
 
             if (CurrentPlayer != player)
@@ -169,7 +169,7 @@ namespace App.Model
 
         public Response Arbitrate(IRequest request)
         {
-            Info($"{request} in state {GameState}");
+            Info($"{request} in {GameState}");
             switch (GameState)
             {
                 case EGameState.None:
@@ -266,8 +266,8 @@ namespace App.Model
 
         private Response Failed(string text = "")
         {
-            Warn(text);
-            return Response.Fail;
+            Error(text);
+            return new Response(EResponse.Fail, EError.Error, text);
         }
 
         private PlayerEntry GetEntry(IPlayerModel player)

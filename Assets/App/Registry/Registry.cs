@@ -29,7 +29,7 @@ namespace App.Registry
             Verbosity = 2;
             ShowStack = false;
             ShowSource = true;
-            Subject = this;
+            LogSubject = this;
             LogPrefix = "Registry";
         }
 
