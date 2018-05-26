@@ -34,9 +34,9 @@ namespace App.Agent
 
         #region Turn Options
         IFuture<ICardAgent> FutureDrawCard();
-        IFuture<PlayCard> FuturePlaceKing();
+        IFuture<PlacePiece> FuturePlaceKing();
         IFuture<bool> FutureAcceptCards();
-        IFuture<PlayCard> FuturePlayCard();
+        IFuture<PlacePiece> FuturePlayCard();
         IFuture<MovePiece> FutureMovePiece();
         IFuture<bool> FuturePass();
         #endregion
@@ -45,7 +45,7 @@ namespace App.Agent
         void RedrawCards(params Guid[] rejected);
         void AcceptCards();
         void PlaceKing(Coord coord);
-        void PlayCard(PlayCard playCard);
+        void PlacePiece(PlacePiece placePiece);
         void MovePiece(MovePiece move);
         void Pass();
         #endregion

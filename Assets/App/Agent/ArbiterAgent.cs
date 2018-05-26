@@ -313,9 +313,9 @@ namespace App
 
         // wrappers to create coroutines
         private IGenerator PlayerTimedOut(IPlayerAgent playerAgent) { return New.Coroutine(PlayerTimedOutCoro, playerAgent); }
-        private IGenerator TestCanPlayCard(IPlayerAgent playerAgent, PlayCard play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, playerAgent, play, future); }
+        private IGenerator TestCanPlayCard(IPlayerAgent playerAgent, PlacePiece play, IFuture<bool> future) { return New.Coroutine(TestCanPlayCardCoro, playerAgent, play, future); }
         private IGenerator TestCanMovePiece(IPlayerAgent playerAgent, MovePiece move, IFuture<bool> future) { return New.Coroutine(TestCanMovePieceCoro, playerAgent, move, future); }
-        private IGenerator PerformPlayCard(PlayCard playCard) { return New.Coroutine(PlayCardCoro, playCard); }
+        private IGenerator PerformPlayCard(PlacePiece placePiece) { return New.Coroutine(PlayCardCoro, placePiece); }
         private IGenerator PerformMovePiece(MovePiece move) { return New.Coroutine(MovePieceCoro, move); }
         private IEnumerator PlayerLostCoro(IGenerator self, IPlayerAgent loser)
         {
@@ -330,12 +330,12 @@ namespace App
             //yield return self.After(_view.PlayerTimedOut(playerAgent));
             yield break;
         }
-        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayerAgent playerAgent, PlayCard playCard, IFuture<bool> canPlay)
+        private IEnumerator TestCanPlayCardCoro(IGenerator self, IPlayerAgent playerAgent, PlacePiece placePiece, IFuture<bool> canPlay)
         {
-            var current = Board.At(playCard.Coord);
+            var current = Board.At(placePiece.Coord);
             if (current == null)
             {
-                Info($"{playCard} for playerAgent {playerAgent.Color} is VALID");
+                Info($"{placePiece} for playerAgent {playerAgent.Color} is VALID");
                 canPlay.Value = true;
                 yield break;
             }
@@ -351,11 +351,11 @@ namespace App
             canMove.Value = false;
             yield break;
         }
-        private IEnumerator PlayCardCoro(IGenerator self, PlayCard playCard)
+        private IEnumerator PlayCardCoro(IGenerator self, PlacePiece placePiece)
         {
             // TODO: play the card
-            Info($"PlayCard: {playCard}");
-            //yield return self.After(_view.PlayCard(playCard));
+            Info($"PlacePiece: {placePiece}");
+            //yield return self.After(_view.PlacePiece(playCard));
             yield break;
         }
         private IEnumerator MovePieceCoro(IGenerator self, MovePiece move)

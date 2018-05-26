@@ -15,17 +15,9 @@ namespace App.Model
         EPieceType Type { get; }
         IBoardModel Board { get; }
         Coord Coord { get; }
-        int Damage { get; }
+        int Power { get; }
         int Health { get; }
-        bool Alive { get; }
 
-        IEnumerable<IPieceModel> Attacking();
-        IEnumerable<IPieceModel> Defending();
-        IEnumerable<IPieceModel> Attackers();
-        IEnumerable<IPieceModel> Defenders();
-        IEnumerable<IPieceModel> Neareby(int distance);
-
-        void Respond(IPieceModel attacker);
         void Attack(IPieceModel defender);
     }
 }

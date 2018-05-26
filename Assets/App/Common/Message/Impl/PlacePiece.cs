@@ -20,7 +20,7 @@ namespace App.Common.Message
         }
 
         public PlacePiece(IPlayerModel player, ICardModel card, Coord coord)
-            : base(player, EActionType.PlayCard)
+            : base(player, EActionType.PlacePiece)
         {
             Assert.IsNotNull(card);
             Card = card;

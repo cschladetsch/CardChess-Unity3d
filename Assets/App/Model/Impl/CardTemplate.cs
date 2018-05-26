@@ -19,7 +19,7 @@ namespace App.Model
         public string Description { get; }
         public string FlavourText { get; }
         public int ManaCost { get; }
-        public int Attack { get; }
+        public int Power { get; }
         public int Health { get; }
         public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
@@ -34,7 +34,7 @@ namespace App.Model
             Id = Guid.NewGuid();
             Name = name;
             ManaCost = manaCost;
-            Attack = attack;
+            Power = attack;
             Health = health;
             if (abilities != null)
                 Abilities = abilities.ToList();

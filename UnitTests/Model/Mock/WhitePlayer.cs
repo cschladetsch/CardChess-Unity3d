@@ -21,12 +21,12 @@ namespace App.Model.Test
             _requests = new List<Func<IRequest>>()
             {
                 () => new AcceptCards(this),
-                () => new PlayCard(this, King, new Coord(4, 2)),
+                () => new PlacePiece(this, King, new Coord(4, 2)),
                 () => _endTurn,
                 () =>
                 {
                     var peon = MakePiece(EPieceType.Peon);
-                    return new PlayCard(this, peon, new Coord(4, 3));
+                    return new PlacePiece(this, peon, new Coord(4, 3));
                 },
                 () => _pass,
             };

@@ -19,7 +19,7 @@ namespace App.Model
         public ICardTemplate Template { get; }
         public string Description => Template.FlavourText;
         public int ManaCost { get; }
-        public int Attack { get; }
+        public int Power { get; }
         public int Health { get; private set; }
         public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
@@ -39,7 +39,7 @@ namespace App.Model
             Construct(owner);
 
             PieceType = template.PieceType;
-            Attack = template.Attack;
+            Power = template.Power;
             Health = template.Health;
             ManaCost = template.ManaCost;
 

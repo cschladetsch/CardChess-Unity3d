@@ -1,4 +1,5 @@
 using System;
+using FlyingWormConsole3.LiteNetLib;
 
 namespace App.Common.Message
 {
@@ -10,6 +11,7 @@ namespace App.Common.Message
         public Guid RequestId { get; set; }
         public bool Success => Type == EResponse.Ok;
         public string Text { get; }
+        public bool Failed => !Success;
 
         public static Response NotImplemented = new Response(EResponse.NotImplemented);
         public static Response Ok = new Response(EResponse.Ok);

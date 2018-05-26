@@ -16,7 +16,7 @@ namespace App.Common
     /// I just wanted one simple set of runtime assertions I can use on any platform, with or
     /// without Unity or Nuint or any other dependancies.
     /// </summary>
-    static class Assert
+    public static class Assert
     {
         public static Flow.Impl.Logger Log = new Flow.Impl.Logger("Assert", true, true);
         public static bool AssertionsThrow = false;
@@ -91,14 +91,14 @@ namespace App.Common
             Error($"{a} == {b}");
         }
 
-        public static void AreSame<T>(T a, T b) where T : class
+        public static void AreSame(object a, object b)
         {
             if (ReferenceEquals(a, b))
                 return;
             Error("$Expect same objects");
         }
 
-        public static void AreNotSame<T>(T a, T b) where T : class
+        public static void AreNotSame(object a, object b)
         {
             if (!ReferenceEquals(a, b))
                 return;

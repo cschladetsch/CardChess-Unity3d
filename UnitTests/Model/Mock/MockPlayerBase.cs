@@ -38,18 +38,6 @@ namespace App.Model.Test
 
         public override void RequestFailed(IRequest req)
         {
-            Verbose(10, $"{this} action failed: {req.Action}");
-
-            // if these actions failed, return the cards to Hand
-            switch (req.Action)
-            {
-                case EActionType.CastSpell:
-                    Hand.Add((req as CastSpell)?.Spell);
-                    break;
-                case EActionType.PlayCard:
-                    Hand.Add((req as PlayCard)?.Card);
-                    break;
-            }
         }
 
         public override void RequestSuccess(IRequest req)

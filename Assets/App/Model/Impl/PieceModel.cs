@@ -8,6 +8,7 @@ namespace App.Model
     using Registry;
 
     /// <summary>
+    /// <summary>
     /// Model of a piece on the board.
     /// </summary>
     public class PieceModel
@@ -17,10 +18,9 @@ namespace App.Model
         public ICardModel Card { get; private set; }
         public EPieceType Type => Card.PieceType;
         [Inject] public IBoardModel Board { get; set; }
-        public Coord Coord { get; }
-        public int Damage { get; }
-        public int Health { get; }
-        public bool Alive { get; }
+        public Coord Coord { get; private set; }
+        public int Power => Card.Power;
+        public int Health => Card.Health;
 
         public PieceModel(IPlayerModel a0, ICardModel a1)
         {
@@ -32,41 +32,6 @@ namespace App.Model
             base.Construct(a0);
             Card = a1;
             return true;
-        }
-
-        public IGenerator Battle(ICardModel other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IPieceModel> Attacking()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IPieceModel> Defending()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IPieceModel> Attackers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IPieceModel> Defenders()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IPieceModel> Neareby(int distance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Respond(IPieceModel attacker)
-        {
-            throw new NotImplementedException();
         }
 
         public void Attack(IPieceModel defender)

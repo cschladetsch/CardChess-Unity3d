@@ -92,7 +92,30 @@ namespace App.Model
 
         public virtual void RequestFailed(IRequest req)
         {
-            Warn($"{req} Failed");
+            Warn($"{this} action failed: {req.Action}");
+
+            // if these actions failed, return the cards to Hand
+            switch (req.Action)
+            {
+                case EActionType.CastSpell:
+                    var cast = req as CastSpell;
+                    Assert.IsNotNull(cast);
+                    Hand.Add(cast.Spell);
+                    ChangeMana(cast.Spell.ManaCost);
+                    break;
+                case EActionType.PlacePiece:
+                    var place = req as PlacePiece;
+                    Assert.IsNotNull(place);
+                    Hand.Add(place.Card);
+                    ChangeMana(place.Card.ManaCost);
+                    break;
+                case EActionType.GiveItem:
+                    var item = req as GiveItem;
+                    Assert.IsNotNull(item);
+                    Hand.Add(item.Item);
+                    ChangeMana(item.Item.ManaCost);
+                    break;
+            }
         }
 
         public virtual void RequestSuccess(IRequest req)
