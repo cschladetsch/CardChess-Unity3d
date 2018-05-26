@@ -26,6 +26,13 @@ namespace App.Model.Test
                     return new PlacePiece(this, peon, new Coord(3, 3));
                 },
                 () => _pass,
+                () => _endTurn,
+                () => _pass,
+                () => _endTurn,
+                () => _pass,
+                () => _endTurn,
+                () => _pass,
+                () => _endTurn,
             };
         }
     }

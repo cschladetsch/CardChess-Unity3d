@@ -8,6 +8,8 @@ namespace App.Common.Message
         InvalidTarget,
         OutOfSequence,
         Error,
-        NoChange
+        NoChange,
+        TooClose,
+        NotImplemented
     }
 }

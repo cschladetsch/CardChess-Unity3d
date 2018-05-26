@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.Common.Message;
-using App.Common;
 
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -10,9 +8,11 @@ using App.Common;
 namespace App.Model
 {
     using Registry;
+    using Common.Message;
+    using Common;
 
     public class ArbiterModel
-        : ModelBase
+        : DecidingModelBase
         , IOwner
         , IArbiterModel
     {
@@ -29,8 +29,8 @@ namespace App.Model
 
         public ArbiterModel()
         {
-            LogSubject = this;
             LogPrefix = "Arbiter";
+            Verbosity = 100;
         }
 
         public void NewGame(IPlayerModel w, IPlayerModel b)
@@ -58,25 +58,7 @@ namespace App.Model
 
         private Response TryPlacePiece(PlacePiece act)
         {
-            var player = act.Player;
-            var coord = act.Coord;
-            var card = act.Card;
-
-            // make the piece
-            var piece = Registry.New<IPieceModel>(player, card);
-            if (piece == null)
-            {
-                return Failed(act, $"Player {player} couldn't make a piece using {card}");
-            }
-
-            // check for empty target square
-            var existing = Board.At(coord);
-            if (existing != null)
-            {
-                return Failed(act, $"{player} can't play {card} when {existing} already at {coord}");
-            }
-
-            return !Board.TryPlacePiece(piece, coord) ? Failed(act) : Response.Ok;
+            return Board.TryPlacePiece(act);
         }
 
         public Response TryPlaceKing(PlacePiece act)
@@ -87,55 +69,46 @@ namespace App.Model
             Assert.AreEqual(EGameState.PlaceKing, GameState);
             Assert.AreEqual(act.Card.PieceType, EPieceType.King);
 
-            var resp = TryPlacePiece(act);
-            if (resp.Type == EResponse.Ok && Board.NumPieces(EPieceType.King) == 2)
+            if (Board.GetAdjacent(act.Coord, 2).Any(k => k.Type == EPieceType.King))
             {
-                _currentPlayer = 0;
-                CurrentPlayer.StartTurn();
-                GameState = EGameState.PlayTurn;
+                return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
+            }
+
+            var resp = TryPlacePiece(act);
+            if (resp.Type != EResponse.Ok)
+                return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
+
+            act.Player.KingPiece = Board.GetPieces(EPieceType.King).First(k => k.Owner == act.Player);
+            if (Board.NumPieces(EPieceType.King) == 2)
+            {
+                StartFirstTurn();
             }
 
             return Response.Ok;
         }
 
-        Response TryMovePiece(MovePiece act)
+        private void StartFirstTurn()
         {
-            var player = act.Player;
-            var coord = act.Coord;
-            var piece = act.Piece;
+            _currentPlayer = 0;
+            CurrentPlayer.StartTurn();
+            GameState = EGameState.PlayTurn;
+        }
 
+        Response TryMovePiece(MovePiece move)
+        {
+            var player = move.Player;
+            var piece = move.Piece;
             if (GameState != EGameState.PlayTurn)
             {
-                return Failed(act, $"Currently in {GameState}, {player} cannot move {piece}");
+                return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
             }
 
             if (CurrentPlayer != player)
             {
-                return Failed(act, $"Not {player}'s turn");
+                return Failed(move, $"Not {player}'s turn");
             }
 
-            if (player != piece.Player)
-            {
-                return Failed(act, $"No spells to allow you to move other player's pieces yet");
-            }
-
-            // check that the piece can actually move there
-            if (!Board.GetMovements(piece.Coord).Contains(coord))
-            {
-                return Failed(act, $"{player} cannot move {piece} to {coord}");
-            }
-
-            var existing = Board.At(coord);
-            if (existing != null)
-            {
-                return Failed(act, $"{coord} is occupied by {existing}");
-            }
-
-            var moved = Board.TryMovePiece(piece, coord);
-            if (moved.Failed)
-                Failed(act);
-
-            return moved;
+            return Board.TryMovePiece(move);
         }
 
         Response TryRejectCards(IRequest request)
@@ -145,7 +118,7 @@ namespace App.Model
             if (entry.AcceptedCards)
             {
                 Error($"Player {request.Player} cannot Accept twice");
-                //return Response.Fail;
+                return Response.Fail;
             }
             // TODO: give player different cards in response
             entry.AcceptedCards = true;
@@ -171,6 +144,8 @@ namespace App.Model
                 case EGameState.PlayTurn:
                     switch (request.Action)
                     {
+                        //case EActionType.Pass:
+                        //    return TryTurnPass(request as TurnPass());
                         case EActionType.TurnEnd:
                             return TryTurnEnd(request as TurnEnd);
                         case EActionType.Resign:
@@ -202,7 +177,11 @@ namespace App.Model
 
         Response TryBattle(Battle battle)
         {
-            return NotImplemented(battle);
+            Assert.IsNotNull(battle);
+            Assert.IsNotNull(battle.Attacker);
+            Assert.IsNotNull(battle.Defender);
+
+            return battle.Attacker.Attack(battle.Defender);
         }
 
         Response TryTurnEnd(TurnEnd turnEnd)
@@ -214,15 +193,22 @@ namespace App.Model
                 return Response.Fail;
             }
 
+            EndTurn();
+
+            return Response.Ok;
+        }
+
+        private void EndTurn()
+        {
             CurrentPlayer.EndTurn();
             _currentPlayer = (_currentPlayer + 1) % _players.Count;
             _turnNumber++;
             CurrentPlayer.StartTurn();
+            foreach (var entry in _players)
+                entry.NewTurn();
 
             Verbose(10, $"Next turn #{_turnNumber} for {CurrentPlayer}");
-
             GameState = EGameState.PlayTurn;
-            return Response.Ok;
         }
 
         Response TryCastSpell(CastSpell castSpell)
@@ -241,22 +227,10 @@ namespace App.Model
             return Response.Ok;
         }
 
-        private Response NotImplemented(IRequest req, string text = "")
-        {
-            return Failed(req, $"Not Implemented {text}");
-        }
-
-        private Response Failed(IRequest req, string text = "")
-        {
-            Error(text);
-            req.Player.RequestFailed(req);
-            return new Response(EResponse.Fail, EError.Error, text);
-        }
-
         private PlayerEntry GetEntry(IPlayerModel player)
         {
             Assert.IsNotNull(player);
-            Assert.IsTrue(_players.Any(p => p.Player == player));
+            Assert.IsTrue(_players.Count(p => p.Player == player) == 1);
             return _players.First(p => p.Player == player);
         }
 
@@ -265,11 +239,17 @@ namespace App.Model
         class PlayerEntry
         {
             public bool AcceptedCards;
+            public bool MovedPiece;
             public readonly IPlayerModel Player;
 
             public PlayerEntry(IPlayerModel player)
             {
                 Player = player;
+            }
+
+            public void NewTurn()
+            {
+                MovedPiece = false;
             }
         }
 

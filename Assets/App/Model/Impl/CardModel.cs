@@ -25,6 +25,7 @@ namespace App.Model
         public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
         public IPlayerModel Player => Owner as IPlayerModel;
+
         public EPieceType PieceType { get; }
         #endregion
 
@@ -51,15 +52,17 @@ namespace App.Model
                 Abilities = template.Abilities.ToList();
         }
 
-
-        public Response ChangeHealth(int value, ICardModel cause)
+        public Response TakeDamage(IPieceModel self, IPieceModel attacker)
         {
-            if (Health == value)
+            return ChangeHealth(-attacker.Power, attacker);
+        }
+
+        public Response ChangeHealth(int change, IPieceModel cause)
+        {
+            if (Health + change == Health)
                 return new Response(EResponse.Ok, EError.NoChange);
 
-            Health = value;
-
-            //HealthChanged?.Invoke(this, cause);
+            Health += change;
 
             if (Health <= 0)
                 Die();
@@ -79,7 +82,7 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"CardModel: name={Name}, type={PieceType}";
+            return $"{Player}'s {PieceType}";
         }
 
         #endregion
@@ -87,7 +90,7 @@ namespace App.Model
         #region Private Methods
         private void Die()
         {
-            //Died?.Invoke(this, this);
+            Info($"{this} died");
         }
         #endregion
     }

@@ -129,6 +129,7 @@
     <Compile Include="Assets\App\Model\ICardModel.cs" />
     <Compile Include="Assets\App\Model\ICardModelMountable.cs" />
     <Compile Include="Assets\App\Model\ICardTemplate.cs" />
+    <Compile Include="Assets\App\Model\IDecidingModelBase.cs" />
     <Compile Include="Assets\App\Model\IDeckModel.cs" />
     <Compile Include="Assets\App\Model\IEffectModel.cs" />
     <Compile Include="Assets\App\Model\IGameHistory.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Assets\App\Model\Impl\CardLibrary.cs" />
     <Compile Include="Assets\App\Model\Impl\CardModel.cs" />
     <Compile Include="Assets\App\Model\Impl\CardTemplate.cs" />
+    <Compile Include="Assets\App\Model\Impl\DecidingModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\DeckModel.cs" />
     <Compile Include="Assets\App\Model\Impl\HandModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ItemModel.cs" />

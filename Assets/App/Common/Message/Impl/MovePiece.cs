@@ -16,6 +16,8 @@
         public MovePiece(IPlayerModel player, IPieceModel piece, Coord coord)
             : base(player, EActionType.MovePiece)
         {
+            Piece = piece;
+            Coord = coord;
         }
 
         public override string ToString()

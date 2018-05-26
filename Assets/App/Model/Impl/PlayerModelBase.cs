@@ -32,6 +32,7 @@ namespace App.Model
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
+        public IPieceModel KingPiece { get; set; }
 
         public IEnumerable<ICardModel> CardsOnBoard =>
             Board.Pieces.
@@ -68,7 +69,7 @@ namespace App.Model
 
         public void CardExhaustion()
         {
-            King.ChangeHealth(-1, null);
+            // TODO: King loses health
         }
 
         void IPlayerModel.StartTurn()

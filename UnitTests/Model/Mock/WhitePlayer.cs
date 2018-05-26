@@ -28,7 +28,15 @@ namespace App.Model.Test
                     var peon = MakePiece(EPieceType.Peon);
                     return new PlacePiece(this, peon, new Coord(4, 3));
                 },
+                () => new Battle(this, KingPiece, Board.At(3,3)),
                 () => _pass,
+                () => _endTurn,
+                () => _pass,
+                () => _endTurn,
+                () => _pass,
+                () => _endTurn,
+                () => _pass,
+                () => _endTurn,
             };
         }
     }
