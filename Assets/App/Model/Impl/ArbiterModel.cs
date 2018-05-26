@@ -94,24 +94,23 @@ namespace App.Model
             GameState = EGameState.PlayTurn;
         }
 
-        Response TryMovePiece(MovePiece move)
+        private Response TryMovePiece(MovePiece move)
         {
             var player = move.Player;
             var piece = move.Piece;
             if (GameState != EGameState.PlayTurn)
-            {
                 return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
-            }
 
             if (CurrentPlayer != player)
-            {
                 return Failed(move, $"Not {player}'s turn");
-            }
+
+            if (GetEntry(move.Player).MovedPiece)
+                return Failed(move, $"{player} has already moved a piece this turn");
 
             return Board.TryMovePiece(move);
         }
 
-        Response TryRejectCards(IRequest request)
+        private Response TryRejectCards(IRequest request)
         {
             // TODO: deal with mulligan of type RejectCards
             var entry = GetEntry(request.Player);
@@ -236,6 +235,8 @@ namespace App.Model
 
         #endregion
 
+        #region Private Fields
+
         class PlayerEntry
         {
             public bool AcceptedCards;
@@ -252,8 +253,6 @@ namespace App.Model
                 MovedPiece = false;
             }
         }
-
-        #region Private Fields
 
         private List<PlayerEntry> _players;
         private int _currentPlayer;
