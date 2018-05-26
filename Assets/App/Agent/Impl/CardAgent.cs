@@ -14,7 +14,7 @@ namespace App.Agent
     {
         #region Public Fields
         public int ManaCost => Model.ManaCost;
-        public int Attack => Model.Attack;
+        public int Power => Model.Power;
         public int Health => Model.Health;
         public string Description => Model.Description;
         public ECardType Type => Model.Type;

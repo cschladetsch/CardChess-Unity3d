@@ -12,7 +12,7 @@ namespace App.Common
     {
         string Description { get; }
         int ManaCost { get; }
-        int Attack { get; }
+        int Power { get; }
         int Health { get; }
         IEnumerable<IEffect> Effects { get; }
         ECardType Type { get; }

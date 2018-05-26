@@ -106,11 +106,11 @@
     <Compile Include="Assets\App\Common\Message\Impl\CastSpell.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\DrawCard.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\GiveItem.cs" />
+    <Compile Include="Assets\App\Common\Message\Impl\Mount.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\MovePiece.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\Pass.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\PlaceKing.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\PlacePiece.cs" />
-    <Compile Include="Assets\App\Common\Message\Impl\PlayCard.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\RejectCards.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\RequestBase.cs" />
     <Compile Include="Assets\App\Common\Message\Impl\Resign.cs" />

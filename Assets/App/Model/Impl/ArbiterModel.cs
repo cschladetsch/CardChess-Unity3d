@@ -50,18 +50,13 @@ namespace App.Model
             GameState = EGameState.Mulligan;
         }
 
-        public void PlayerMulligan(IPlayerModel player, IEnumerable<ICardModel> cards)
-        {
-            NotImplemented();
-        }
-
         public void Endame()
         {
             Info("EndGame");
             GameState = EGameState.Completed;
         }
 
-        private Response TryPlayCard(PlayCard act)
+        private Response TryPlacePiece(PlacePiece act)
         {
             var player = act.Player;
             var coord = act.Coord;
@@ -71,45 +66,36 @@ namespace App.Model
             var piece = Registry.New<IPieceModel>(player, card);
             if (piece == null)
             {
-                return Failed($"Player {player} couldn't make a piece using {card}");
+                return Failed(act, $"Player {player} couldn't make a piece using {card}");
             }
 
             // check for empty target square
             var existing = Board.At(coord);
             if (existing != null)
             {
-                if (piece.Owner == player)
-                    return TryMount(piece, existing);
-                return Failed($"{player} can't play {card} when opponent {existing} already at {coord}");
+                return Failed(act, $"{player} can't play {card} when {existing} already at {coord}");
             }
 
-            return Board.TryPlacePiece(piece, coord) ? Response.Ok : Response.Fail;
+            return !Board.TryPlacePiece(piece, coord) ? Failed(act) : Response.Ok;
         }
 
-        public Response RequestPlayCard(PlayCard act)
+        public Response TryPlaceKing(PlacePiece act)
         {
             Assert.IsNotNull(act);
             Assert.IsNotNull(act.Player);
             Assert.IsNotNull(act.Card);
+            Assert.AreEqual(EGameState.PlaceKing, GameState);
+            Assert.AreEqual(act.Card.PieceType, EPieceType.King);
 
-            switch (GameState)
+            var resp = TryPlacePiece(act);
+            if (resp.Type == EResponse.Ok && Board.NumPieces(EPieceType.King) == 2)
             {
-                case EGameState.PlaceKing:
-                {
-                    var resp = TryPlayCard(act);
-                    if (resp.Type == EResponse.Ok && Board.NumPieces(EPieceType.King) == 2)
-                    {
-                        _currentPlayer = 0;
-                        CurrentPlayer.StartTurn();
-                        GameState = EGameState.PlayTurn;
-                    }
-                    return resp;
-                }
-                case EGameState.PlayTurn:
-                    return TryPlayCard(act);
-                default:
-                    throw new ArgumentOutOfRangeException();
+                _currentPlayer = 0;
+                CurrentPlayer.StartTurn();
+                GameState = EGameState.PlayTurn;
             }
+
+            return Response.Ok;
         }
 
         Response TryMovePiece(MovePiece act)
@@ -120,34 +106,36 @@ namespace App.Model
 
             if (GameState != EGameState.PlayTurn)
             {
-                return Failed($"Currently in {GameState}, {player} cannot move {piece}");
+                return Failed(act, $"Currently in {GameState}, {player} cannot move {piece}");
             }
 
             if (CurrentPlayer != player)
             {
-                return Failed($"Not {player}'s turn");
+                return Failed(act, $"Not {player}'s turn");
             }
 
             if (player != piece.Player)
             {
-                return Failed($"No spells to allow you to move other player's pieces yet");
+                return Failed(act, $"No spells to allow you to move other player's pieces yet");
             }
 
             // check that the piece can actually move there
             if (!Board.GetMovements(piece.Coord).Contains(coord))
             {
-                return Failed($"{player} cannot move {piece} to {coord}");
+                return Failed(act, $"{player} cannot move {piece} to {coord}");
             }
 
             var existing = Board.At(coord);
             if (existing != null)
             {
-                return existing.Player != player
-                    ? Battle(piece, existing)
-                    : TryMount(piece, existing);
+                return Failed(act, $"{coord} is occupied by {existing}");
             }
 
-            return Board.TryMovePiece(piece, coord);
+            var moved = Board.TryMovePiece(piece, coord);
+            if (moved.Failed)
+                Failed(act);
+
+            return moved;
         }
 
         Response TryRejectCards(IRequest request)
@@ -179,7 +167,7 @@ namespace App.Model
                 case EGameState.Mulligan:
                     return TryRejectCards(request);
                 case EGameState.PlaceKing:
-                    return RequestPlayCard(request as PlayCard);
+                    return TryPlaceKing(request as PlacePiece);
                 case EGameState.PlayTurn:
                     switch (request.Action)
                     {
@@ -189,32 +177,32 @@ namespace App.Model
                             return TryResign(request as Resign);
                         case EActionType.CastSpell:
                             return TryCastSpell(request as CastSpell);
-                        case EActionType.PlayCard:
-                            return TryPlayCard(request as PlayCard);
+                        case EActionType.PlacePiece:
+                            return TryPlacePiece(request as PlacePiece);
+                        case EActionType.Battle:
+                            return TryBattle(request as Battle);
                         case EActionType.MovePiece:
                             return TryMovePiece(request as MovePiece);
                         default:
-                            return NotImplemented($"{request}");
+                            return NotImplemented(request, $"{request}");
                     }
-                case EGameState.Battle:
-                    return TryBattle(request as Battle);
                 case EGameState.Completed:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            return NotImplemented($"{request}");
+            return NotImplemented(request);
         }
 
         Response TryResign(Resign resign)
         {
-            return NotImplemented("Resignation");
+            return NotImplemented(resign);
         }
 
         Response TryBattle(Battle battle)
         {
-            return NotImplemented("Battles");
+            return NotImplemented(battle);
         }
 
         Response TryTurnEnd(TurnEnd turnEnd)
@@ -239,34 +227,29 @@ namespace App.Model
 
         Response TryCastSpell(CastSpell castSpell)
         {
-            return NotImplemented($"{castSpell}");
+            return NotImplemented(castSpell, $"{castSpell}");
         }
 
-        private Response TryMount(IPieceModel piece, IPieceModel existing)
-        {
-            return NotImplemented("Mounting");
-        }
-
-        public Response Battle(IPieceModel attacker, IPieceModel defender)
+        public Response Battle(Battle battle, IPieceModel attacker, IPieceModel defender)
         {
             Assert.IsNotNull(attacker);
             Assert.IsNotNull(defender);
-            Assert.AreNotSame(attacker.Owner, defender.Owner);
+            Assert.AreNotSame(attacker, defender);
 
             attacker.Attack(defender);
-            defender.Respond(attacker);
 
             return Response.Ok;
         }
 
-        private Response NotImplemented(string text = "")
+        private Response NotImplemented(IRequest req, string text = "")
         {
-            return Failed($"Not Implemented {text}");
+            return Failed(req, $"Not Implemented {text}");
         }
 
-        private Response Failed(string text = "")
+        private Response Failed(IRequest req, string text = "")
         {
             Error(text);
+            req.Player.RequestFailed(req);
             return new Response(EResponse.Fail, EError.Error, text);
         }
 

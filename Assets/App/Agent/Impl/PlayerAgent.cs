@@ -124,18 +124,18 @@ namespace App.Agent
             Hand.Add(agent);
         }
 
-        public virtual IFuture<PlayCard> FuturePlaceKing()
+        public virtual IFuture<PlacePiece> FuturePlaceKing()
         {
             Info($"{Color}: FuturePlaceKing");
             _placeKing?.Complete();
-            return _placeKing = New.NamedFuture<PlayCard>("PlaceKing");
+            return _placeKing = New.NamedFuture<PlacePiece>("PlaceKing");
         }
 
-        public virtual IFuture<PlayCard> FuturePlayCard()
+        public virtual IFuture<PlacePiece> FuturePlayCard()
         {
             Info($"{Color}: FuturePlayCard");
             _playCard?.Complete();
-            return _playCard = New.NamedFuture<PlayCard>("PlayCard");
+            return _playCard = New.NamedFuture<PlacePiece>("PlacePiece");
         }
 
         public virtual IFuture<MovePiece> FutureMovePiece()
@@ -171,9 +171,9 @@ namespace App.Agent
         {
         }
 
-        public void PlayCard(PlayCard playCard)
+        public void PlacePiece(PlacePiece placePiece)
         {
-            _playCard.Value = playCard;
+            _playCard.Value = placePiece;
         }
 
         public void MovePiece(MovePiece move)
@@ -186,10 +186,10 @@ namespace App.Agent
             _pass.Value = true;
         }
 
-        public void CardPlayed(PlayCard playCard)
+        public void CardPlayed(PlacePiece placePiece)
         {
             Assert.IsNotNull(_playCard);
-            _playCard.Value = playCard;
+            _playCard.Value = placePiece;
         }
 
         public void PieceMoved(MovePiece move)
@@ -234,8 +234,8 @@ namespace App.Agent
         private IFuture<bool> _acceptCards;
         private IFuture<bool> _pass;
         private IFuture<ICardAgent> _drawCard;
-        private IFuture<PlayCard> _placeKing;
-        private IFuture<PlayCard> _playCard;
+        private IFuture<PlacePiece> _placeKing;
+        private IFuture<PlacePiece> _playCard;
         private IFuture<MovePiece> _movePiece;
         #endregion
     }
