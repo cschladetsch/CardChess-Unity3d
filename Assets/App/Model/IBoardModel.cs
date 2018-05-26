@@ -24,13 +24,17 @@ namespace App.Model
         string Print(Func<Coord, string> fun);
         void NewGame();
         bool IsValidCoord(Coord coord);
-        bool TryPlacePiece(IPieceModel piece, Coord coord);
         string CardToRep(ICardModel cardModel);
         int NumPieces(EPieceType type);
-        Response TryMovePiece(IPieceModel piece, Coord coord);
+
+        Response Remove(IPieceModel pieceModel);
+        Response TryPlacePiece(PlacePiece act);
+        Response TryMovePiece(MovePiece act);
+
         IEnumerable<IPieceModel> GetContents();
         IEnumerable<IPieceModel> GetPieces(EPieceType type);
         IPieceModel GetContents(Coord coord);
+        IPieceModel At(int x, int y);
         IPieceModel At(Coord coord);
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
         IEnumerable<IPieceModel> AttackedCards(Coord cood);

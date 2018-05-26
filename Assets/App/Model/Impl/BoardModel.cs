@@ -16,7 +16,7 @@ namespace App.Model
     /// Both Black and White use the same coordinate system.
     /// </summary>
     public class BoardModel
-        : ModelBase
+        : DecidingModelBase
         , IBoardModel
     {
         #region Public Properties
@@ -46,6 +46,13 @@ namespace App.Model
         public int NumPieces(EPieceType type)
         {
             return Pieces.Count(p => p.Type == type);
+        }
+
+        public Response Remove(IPieceModel pieceModel)
+        {
+            Assert.IsNotNull(pieceModel);
+            Verbose(5, $"Removing {pieceModel} from board");
+            return SetPieceAt(pieceModel.Coord, null);
         }
 
         public IPieceModel RemovePiece(Coord coord)
@@ -82,38 +89,23 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public bool CanPlaceCard(ICardModel card, Coord coord)
+        public Response TryMovePiece(MovePiece move)
         {
-            Assert.IsNotNull(card);
-            Assert.IsTrue(IsValid(coord));
+            var coord = move.Coord;
+            var piece = move.Piece;
 
-            // can play on empty square...
-            var existing = At(coord);
-            if (existing == null)
-            {
-                // ...unless within 4 squares of enemy king
-                var adj = GetAdjacent(coord, Parameters.EnemyKingClosestPlacement).ToArray();
-                return false;
-                //return
-                //    adj.Length == 0 ||
-                //    adj.Any(c => c.Card.Type == ECardType.Piece && ((IPieceModel)c.Card).Type  == EPieceType.King && !c.Card.SameOwner(card.Owner));
-            }
-
-            // this is actually a battle
-            if (existing.Owner != card.Owner)
-                return true;
-
-            // true if we can mount an existing card there
-            var mountable = card as ICardModelMountable;
-            if (mountable != null)
-                return mountable.CanMount(card);
-
-            return false;
+            return GetMovements(piece.Coord).Any(c => At(c) == null)
+                ? MovePieceTo(coord, piece)
+                : Failed(move, $"{move.Player} cannot move {piece} to {coord}: illegal movmenet");
         }
 
-        public Response TryMovePiece(IPieceModel piece, Coord coord)
+        private Response MovePieceTo(Coord coord, IPieceModel piece)
         {
-            return Response.Fail;
+            var old = piece.Coord;
+            var resp = SetPieceAt(coord, piece);
+            if (resp.Success)
+                SetPieceAt(old, null);
+            return resp;
         }
 
         public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
@@ -239,16 +231,21 @@ namespace App.Model
             return _contents.SelectMany(row => row).Where(c => c != null);
         }
 
-        public bool TryPlacePiece(IPieceModel piece, Coord coord)
+        public Response TryPlacePiece(PlacePiece act)
         {
-            Assert.IsNotNull(piece);
+            Assert.IsNotNull(act);
+            var coord = act.Coord;
             Assert.IsTrue(IsValid(coord));
-            Assert.IsNull(At(coord));
 
-            Verbose(20, $"{piece.Owner.Color} placed {piece.Type} at {coord}");
-            _contents[coord.y][coord.x] = piece;
+            if (At(coord) != null)
+                return Failed(act, $"Already {At(coord)}, cannot {act}");
 
-            return true;
+            var set = SetPieceAt(coord, Registry.New<IPieceModel>(act.Player, act.Card));
+            if (set.Failed)
+                return set;
+
+            Verbose(20, $"{act}");
+            return Response.Ok;
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
@@ -257,12 +254,18 @@ namespace App.Model
             return piece == null ? null : GetMovements(piece, coord);
         }
 
+        public Response Remove(PieceModel piece)
+        {
+            Assert.IsNotNull(piece);
+            return SetPieceAt(piece.Coord, null);
+        }
+
         public IEnumerable<Coord> GetMovements(IPieceModel piece, Coord coord)
         {
             switch (piece.Type)
             {
                 case EPieceType.King:
-                    foreach (var c in Orthogonals(coord, 1))
+                    foreach (var c in Nearby(coord, 1))
                         yield return c;
                     break;
                 case EPieceType.Peon:
@@ -272,7 +275,7 @@ namespace App.Model
                     }
                     break;
                 case EPieceType.Archer:
-                    foreach (var c in Diagonals(coord))
+                    foreach (var c in Diagonals(coord, Max(Width, Height)))
                         yield return c;
                     break;
             }
@@ -280,6 +283,15 @@ namespace App.Model
         #endregion
 
         #region Private Methods
+
+        Response SetPieceAt(Coord coord, IPieceModel piece)
+        {
+            Assert.IsTrue(IsValid(coord));
+            if (piece != null)
+                piece.Coord = coord;    // C# needs friend classes
+            _contents[coord.y][coord.x] = piece;
+            return Response.Ok;
+        }
 
         private void ClearBoard()
         {
@@ -290,29 +302,44 @@ namespace App.Model
             }
         }
 
-        private IEnumerable<Coord> Orthogonals(Coord orig)
+        private IEnumerable<Coord> Nearby(Coord orig)
         {
-            return Orthogonals(orig, System.Math.Max(Width, Height));
+            return Nearby(orig, System.Math.Max(Width, Height));
         }
 
-        private IEnumerable<Coord> Orthogonals(Coord orig, int dist)
+        private IEnumerable<Coord> Nearby(Coord orig, int dist)
         {
-            for (var y = Max(orig.y - dist, 0); y < dist; ++y)
+            var y = Max(orig.y - dist, 0);
+            for (; y <= orig.y + dist; ++y)
             {
-                for (var x = Max(orig.x - dist, 0); x < dist; ++x)
+                for (var x = Max(orig.x - dist, 0); x <= orig.x + dist; ++x)
                 {
-                    var coord = new Coord(x, orig.y);
+                    var coord = new Coord(x, y);
                     if (!IsValid(coord))
-                        continue;
+                        break;
                     if (!Equals(coord, orig))
                         yield return coord;
                 }
             }
         }
 
-        private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy)
+        private IEnumerable<Coord> Diagonals(Coord orig, int dist)
         {
-            for (int n = 1; n < Max(Width, Height); ++n)
+            for (int dx = -1; dx < 2; dx++)
+            {
+                if (dx == 0) continue;
+                for (int dy = -1; dy < 2; dy++)
+                {
+                    if (dy == 0) continue;
+                    foreach (var c in TestCoords(orig, dx, dy, dist))
+                        yield return c;
+                }
+            }
+        }
+
+        private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy, int dist)
+        {
+            for (int n = 1; n < Max(Min(Width, dist), Min(Height, dist)); ++n)
             {
                 var x = n * dx;
                 var y = n * dy;
@@ -324,20 +351,6 @@ namespace App.Model
             }
         }
 
-        private IEnumerable<Coord> Diagonals(Coord orig)
-        {
-            for (int dx = -1; dx < 2; dx++)
-            {
-                if (dx == 0) continue;
-                for (int dy = -1; dy < 2; dy++)
-                {
-                    if (dy == 0) continue;
-                    foreach (var c in TestCoords(orig, dx, dy))
-                        yield return c;
-                }
-            }
-            yield break;
-        }
 
         private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
         {
@@ -348,6 +361,7 @@ namespace App.Model
         #region Private Fields
         private List<List<IPieceModel>> _contents;
         static int Max(int a, int b) { return a > b ? a : b; }
+        static int Min(int a, int b) { return a < b ? a : b; }
 
         public bool PlaceCard(IPieceModel piece, Coord coord)
         {

@@ -21,6 +21,7 @@ namespace App.Model
         IDeckModel Deck { get; }
         IHandModel Hand { get; }
         ICardModel King { get; }
+        IPieceModel KingPiece { get; set; }
 
         IEnumerable<ICardModel> CardsOnBoard { get; }
         int MaxMana { get; }

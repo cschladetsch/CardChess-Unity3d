@@ -13,7 +13,7 @@ namespace App.Common.Message
         : RequestBase
     {
         public ICardModel Card { get; }
-        public Common.Coord Coord { get; }
+        public Coord Coord { get; }
 
         public PlacePiece()
         {

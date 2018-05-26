@@ -6,10 +6,10 @@ namespace App.Common.Message
     public class Battle
         : RequestBase
     {
-        public ICardModel Attacker;
-        public ICardModel Defender;
+        public IPieceModel Attacker;
+        public IPieceModel Defender;
 
-        public Battle(IPlayerModel player, ICardModel attacker, ICardModel defender)
+        public Battle(IPlayerModel player, IPieceModel attacker, IPieceModel defender)
             : base(player, EActionType.Battle)
         {
             Attacker = attacker;
@@ -18,7 +18,7 @@ namespace App.Common.Message
 
         public override string ToString()
         {
-            return $"{Player} {Attacker} attacks {Defender}";
+            return $"{Attacker} attacks {Defender}";
         }
     }
 }

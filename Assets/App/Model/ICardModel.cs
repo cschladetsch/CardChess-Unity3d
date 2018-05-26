@@ -5,6 +5,9 @@ namespace App.Model
     using Common;
     using Common.Message;
 
+    /// <summary>
+    /// A Card in a Deck, Hand, Graveyard or on a Board
+    /// </summary>
     public interface ICardModel
         : IModel
         , ICard
@@ -14,6 +17,6 @@ namespace App.Model
         IEnumerable<EAbility> Abilities { get; }
         IPlayerModel Player { get; }
 
-        Response ChangeHealth(int amount, ICardModel cause);
+        Response TakeDamage(IPieceModel self, IPieceModel attacker);
     }
 }

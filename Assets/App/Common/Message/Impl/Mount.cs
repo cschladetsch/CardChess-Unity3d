@@ -6,10 +6,10 @@ namespace App.Common.Message
 
     public class MountPiece : RequestBase
     {
-        public ICardModel Mount;
-        public ICardModel Rider;
+        public IPieceModel Mount;
+        public IPieceModel Rider;
 
-        public MountPiece(IPlayerModel player, ICardModel mount, ICardModel rider)
+        public MountPiece(IPlayerModel player, IPieceModel mount, IPieceModel rider)
             : base(player, EActionType.Mount)
         {
             Mount = mount;

@@ -3,6 +3,7 @@
 namespace App.Model
 {
     using Common;
+    using Common.Message;
 
     /// <summary>
     /// A card played as a piece on the board
@@ -14,10 +15,13 @@ namespace App.Model
         ICardModel Card { get; }
         EPieceType Type { get; }
         IBoardModel Board { get; }
-        Coord Coord { get; }
+        Coord Coord { get; set; }
         int Power { get; }
         int Health { get; }
+        bool Dead { get; }
+        bool Alive { get; }
 
-        void Attack(IPieceModel defender);
+        Response Attack(IPieceModel piece);
+        Response TakeDamage(IPieceModel piece);
     }
 }
