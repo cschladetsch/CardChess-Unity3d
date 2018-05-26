@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.Action;
+using App.Common.Message;
 using App.Common;
 
 // DI fails this inspection test

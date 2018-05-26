@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.Action;
 using App.Common;
 
 namespace App.Model.Test
 {
+    using Common;
+    using Common.Message;
+
     class WhitePlayer
         : MockPlayerBase
         , IWhitePlayer

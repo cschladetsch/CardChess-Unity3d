@@ -1,6 +1,6 @@
 ﻿using App.Model;
 
-namespace App.Action
+namespace App.Common.Message
 {
     public class AcceptCards : RequestBase
     {

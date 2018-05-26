@@ -3,6 +3,8 @@ using System.Collections;
 using System.Linq;
 using Flow;
 
+using App.Common.Message;
+
 #if VS
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else
@@ -11,7 +13,6 @@ using UnityEngine.Assertions;
 
 namespace App.Agent
 {
-    using Action;
     using Common;
 
     /// <inheritdoc cref="IPlayerAgent" />

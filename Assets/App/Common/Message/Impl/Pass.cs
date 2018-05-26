@@ -1,4 +1,4 @@
-﻿namespace App.Action
+﻿namespace App.Common.Message
 {
     using Model;
 

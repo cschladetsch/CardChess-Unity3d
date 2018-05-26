@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using App.Action;
+using App.Common.Message;
 
 namespace App.Model
 {

@@ -1,7 +1,7 @@
-﻿using App.Common;
+﻿using App.Common.Message;
 using App.Model.Card;
 
-namespace App.Action
+namespace App.Common.Message
 {
     using Model;
 

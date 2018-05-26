@@ -11,33 +11,33 @@ using Flow;
 namespace App
 {
     using Common;
+    using Common.Message;
     using Agent;
     using Model;
-    using Action;
     using Registry;
 
-	/// <inheritdoc />
-	/// <summary>
-	/// The 'adudicator' of the game: controls the sequencing of the events
-	/// but not all the rules.
-	/// </summary>
-	public class ArbiterAgent
+    /// <inheritdoc />
+    /// <summary>
+    /// The 'adudicator' of the game: controls the sequencing of the events
+    /// but not all the rules.
+    /// </summary>
+    public class ArbiterAgent
         : AgentLogger<IArbiterModel>
         , IArbiterAgent
-	{
-		#region Public Fields
-		public IPlayerAgent WhitePlayer => _players[0];
-		public IPlayerAgent BlackPlayer => _players[1];
-		public IPlayerAgent CurrentPlayerAgent => _players[_currentPlayer];
-		[Inject] public IBoardAgent Board { get; set; }
+    {
+        #region Public Fields
+        public IPlayerAgent WhitePlayer => _players[0];
+        public IPlayerAgent BlackPlayer => _players[1];
+        public IPlayerAgent CurrentPlayerAgent => _players[_currentPlayer];
+        [Inject] public IBoardAgent Board { get; set; }
 
-		public bool Destroyed { get; private set; }
-		public Guid Id { get; set; }
-		public IRegistry<IAgent> Registry { get; set; }
-		#endregion
+        public bool Destroyed { get; private set; }
+        public Guid Id { get; set; }
+        public IRegistry<IAgent> Registry { get; set; }
+        #endregion
 
-		#region Public Methods
-		public bool Construct(IArbiterModel a0)
+        #region Public Methods
+        public bool Construct(IArbiterModel a0)
         {
             throw new NotImplementedException();
         }
@@ -59,20 +59,20 @@ namespace App
             Kernel = Flow.Create.Kernel();
         }
 
-		event DestroyedHandler<IAgent> IHasDestroyHandler<IAgent>.OnDestroy
-		{
-			add
-			{
-				throw new NotImplementedException();
-			}
+        event DestroyedHandler<IAgent> IHasDestroyHandler<IAgent>.OnDestroy
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-			remove
-			{
-				throw new NotImplementedException();
-			}
-		}
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-		public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
+        public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
         {
             Info("StartGame");
 
@@ -365,20 +365,20 @@ namespace App
             yield break;
         }
 
-		public void Destroy()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        public void Destroy()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
-		#region Private Fields
-		private readonly IPlayerAgent[] _players = new IPlayerAgent[2];
+        #region Private Fields
+        private readonly IPlayerAgent[] _players = new IPlayerAgent[2];
         private int _currentPlayer;
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
         private bool _gameOver;
 
-		public event DestroyedHandler<IAgent<IArbiterModel>> OnDestroy;
-		#endregion
-	}
+        public event DestroyedHandler<IAgent<IArbiterModel>> OnDestroy;
+        #endregion
+    }
 }

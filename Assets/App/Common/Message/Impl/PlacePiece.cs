@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Assertions;
 
-namespace App.Action
+namespace App.Common.Message
 {
     using Model;
     using Common;
@@ -9,17 +9,17 @@ namespace App.Action
     /// <summary>
     /// Play a card from a PlayerAgent's Hand onto the Board
     /// </summary>
-    public class PlayCard
+    public class PlacePiece
         : RequestBase
     {
         public ICardModel Card { get; }
-        public Coord Coord { get; }
+        public Common.Coord Coord { get; }
 
-        public PlayCard()
+        public PlacePiece()
         {
         }
 
-        public PlayCard(IPlayerModel player, ICardModel card, Coord coord)
+        public PlacePiece(IPlayerModel player, ICardModel card, Coord coord)
             : base(player, EActionType.PlayCard)
         {
             Assert.IsNotNull(card);

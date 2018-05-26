@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace App.Model
 {
     using Common;
+    using Common.Message;
 
     /// <summary>
     /// The NxM playing board. Typically 6x6, 10x10, or 12x12
