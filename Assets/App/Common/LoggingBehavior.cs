@@ -6,12 +6,12 @@ namespace App.Common
 		: MonoBehaviour, Flow.ILogger
     {
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
-        public object Subject { get { return _log.Subject; } set { _log.Subject = value; }}
+        public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; }}
         public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
 
         protected LoggingBehavior()
         {
-            _log.Subject = this;
+            _log.LogSubject = this;
         }
         public void Info(string fmt, params object[] args)
         {

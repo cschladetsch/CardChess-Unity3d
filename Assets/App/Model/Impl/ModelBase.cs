@@ -26,7 +26,7 @@ namespace App.Model
 
         protected ModelBase()
         {
-            Subject = this;
+            LogSubject = this;
             LogPrefix = "Model";
             Verbosity = Parameters.DefaultLogVerbosity;
             ShowStack = Parameters.DefaultShowTraceStack;

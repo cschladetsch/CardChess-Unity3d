@@ -7,6 +7,7 @@ namespace App.Common
         InvalidSource,
         InvalidTarget,
         OutOfSequence,
+        Error,
         NoChange
     }
 }
