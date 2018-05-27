@@ -67,7 +67,7 @@ namespace App.View.Impl
 
         public override string ToString()
         {
-            return $"Monobehavior named '{name}' of type {GetType()}";
+            return $"Monobehavior '{name}' of type {GetType()}";
         }
 
         private bool _paused;
