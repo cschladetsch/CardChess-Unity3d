@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
-using CoLib;
 
-namespace App.View
+namespace App.View.Impl
 {
     using Common;
+    using Agent;
 
     /// <summary>
     /// Common for all Views in the game. This is to replace MonoBehavior and make it more rational, as well as to
     /// conform with Flow.ITransient.
     /// </summary>
-    public abstract class ViewBase 
-		: LoggingBehavior
+    public abstract class ViewBase
+        : LoggingBehavior
     {
         private void Awake()
         {
@@ -21,8 +21,7 @@ namespace App.View
         {
             if (!_constructed)
             {
-                Warn("Construction failed for {0}", this);
-                //Object.Destroy(this);
+                Warn($"Construction failed for {this}");
                 return;
             }
 
@@ -63,10 +62,23 @@ namespace App.View
 
         protected virtual void Destroy()
         {
+            Verbose(20, $"{this} destroyed");
+        }
+
+        public override string ToString()
+        {
+            return $"Monobehavior named '{name}' of type {GetType()}";
         }
 
         private bool _paused;
         private bool _constructed;
         private float _localTime;
+    }
+
+    public class ViewBase<TIAgent>
+        : ViewBase
+        where TIAgent : IAgent
+    {
+        public TIAgent Agent { get; set; }
     }
 }
