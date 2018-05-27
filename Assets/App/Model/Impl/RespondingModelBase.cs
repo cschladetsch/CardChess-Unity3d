@@ -8,11 +8,11 @@ namespace App.Model
     /// <summary>
     /// Base for classes that have methods that produce methods returning Response
     /// </summary>
-    public class DecidingModelBase
+    public class RespondingModelBase
         : ModelBase
         , IDecidingModelBase
     {
-        protected DecidingModelBase()
+        protected RespondingModelBase()
         {
             LogSubject = this;
         }

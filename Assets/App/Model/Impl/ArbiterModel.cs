@@ -12,7 +12,7 @@ namespace App.Model
     using Common;
 
     public class ArbiterModel
-        : DecidingModelBase
+        : RespondingModelBase
         , IOwner
         , IArbiterModel
     {
@@ -189,7 +189,7 @@ namespace App.Model
             if (turnEnd.Player != CurrentPlayer)
             {
                 Warn($"It's not {turnEnd.Player}'s turn to end");
-                return Response.Fail;
+                return Response.Ok;
             }
 
             EndTurn();

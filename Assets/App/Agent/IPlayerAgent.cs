@@ -1,10 +1,12 @@
 using System;
 using App.Common.Message;
+using App.Model;
 using Flow;
 
 namespace App.Agent
 {
     using Common;
+    using Registry;
 
     /// <summary>
     /// Agent for a PlayerAgent. Responsible for reacting to changes in Model state.
@@ -14,42 +16,21 @@ namespace App.Agent
         IOwner
     {
         #region Properties
-        ///*[Inject]*/ IArbiterAgent Arbiter { get; set; }
         ICardAgent King { get; }
         int Health { get; }
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }
         #endregion
 
-        #region Methods
-
-        #region State
-        IFuture<EResponse> NewGame();
-        IFuture<int> RollDice();
+        void NewGame();
         ITransient StartGame();
-        IGenerator DrawInitialCards();
-        IFuture<EResponse> ChangeMaxMana(int delta);
-        IFuture<EResponse> ChangeMana(int delta);
-        #endregion
-
-        #region Turn Options
-        IFuture<ICardAgent> FutureDrawCard();
-        IFuture<PlacePiece> FuturePlaceKing();
-        IFuture<bool> FutureAcceptCards();
-        IFuture<PlacePiece> FuturePlayCard();
-        IFuture<MovePiece> FutureMovePiece();
-        IFuture<bool> FuturePass();
-        #endregion
-
-        #region Command Methods
-        void RedrawCards(params Guid[] rejected);
-        void AcceptCards();
-        void PlaceKing(Coord coord);
-        void PlacePiece(PlacePiece placePiece);
-        void MovePiece(MovePiece move);
-        void Pass();
-        #endregion
-
-        #endregion
+        ITransient DrawInitialCards();
+        IFuture<bool> AcceptCards();
+        IFuture<PlacePiece> PlaceKing();
+        ITransient ChangeMaxMana(int i);
+        IFuture<ICardModel> DrawCard();
+        IFuture<PlacePiece> PlayCard();
+        IFuture<MovePiece> MovePiece();
+        IFuture<Pass> Pass();
     }
 }

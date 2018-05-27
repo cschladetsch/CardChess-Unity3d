@@ -4,6 +4,7 @@ using Flow;
 namespace App.Agent
 {
     using Common;
+    using Registry;
 
     /// <summary>
     /// AgentBase for all agents. Provides a custom logger and an ITransient implementation
@@ -19,7 +20,8 @@ namespace App.Agent
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
         public string Name { get; set; }
-        public IArbiterAgent Arbiter { get; set; }
+        [Inject] public IBoardAgent Board { get; set; }
+        [Inject] public IArbiterAgent Arbiter { get; set; }
         public Flow.IFactory New => Kernel.Factory;
         public Flow.INode Root => Kernel.Root;
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
