@@ -2,10 +2,10 @@
 
 namespace App.View
 {
-	using Registry;
+    using Registry;
 
-	public class ViewRegistry
-		: Registry<IView>
+    public class ViewRegistry
+        : Registry<IView>
     {
     }
 }

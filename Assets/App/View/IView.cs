@@ -1,13 +1,26 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.View
 {
-	using Common;
-	using Registry;
+    using Registry;
+    using Agent;
 
-	public interface IView : IKnown, IHasDestroyHandler<IView>, IHasRegistry<IView>
+    /// <summary>
+    /// Common interface for all views
+    /// </summary>
+    public interface IView
+        : IKnown
+        , IHasDestroyHandler<IView>
+        , IHasRegistry<IView>
     {
-		GameObject GameObject { get; }
+        IAgent AgentBase { get; set; }
+        GameObject GameObject { get; }
+    }
+
+    public interface IView<TIAgent>
+        : IView
+        where TIAgent : IAgent
+    {
+        TIAgent Agent { get; set; }
     }
 }
