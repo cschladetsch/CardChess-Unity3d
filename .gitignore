@@ -8,3 +8,11 @@ bin/
 
 # Unified line endings plugin for VS
 .leu
+
+*.user
+*.sln
+*.csproj
+!UnitTests/
+
+
+
