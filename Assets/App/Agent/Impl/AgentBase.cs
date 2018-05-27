@@ -3,33 +3,33 @@ using App.Model;
 
 namespace App.Agent
 {
-	using App.Registry;
-	using Common;
+    using App.Registry;
+    using Common;
 
-	/// <summary>
-	/// Common for all agents that manage models in the system.
-	/// </summary>
-	/// <typeparam name="TModel"></typeparam>
-	public abstract class AgentBase<TModel>
+    /// <summary>
+    /// Common for all agents that manage models in the system.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    public abstract class AgentBase<TModel>
         : AgentLogger
-	    , IAgent<TModel>
+        , IAgent<TModel>
         where TModel : class, IModel
     {
         #region Public Properties
-        public Guid Id { get; /*private*/ set;}
+        public IRegistry<IAgent> Registry { get; set; }
+        public Guid Id { get; /*private*/ set; }
+
         public IModel BaseModel { get; private set; }
-        public new IArbiterAgent Arbiter { get; set; }
         public TModel Model { get; private set; }
         public IOwner Owner => Model.Owner;
 
-		public bool Destroyed { get; private set; }
-		public IRegistry<IAgent> Registry { get; set; }
-		public event DestroyedHandler<IAgent> OnDestroy;
+        public bool Destroyed { get; private set; }
+        public event DestroyedHandler<IAgent> OnDestroy;
 
-		#endregion
+        #endregion
 
-		#region Public Methods
-		public bool SameOwner(IOwned other)
+        #region Public Methods
+        public bool SameOwner(IOwned other)
         {
             return Owner == other.Owner;
         }
@@ -42,10 +42,11 @@ namespace App.Agent
             return true;
         }
 
-		public void Destroy()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-	}
+        public void Destroy()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+    }
 }

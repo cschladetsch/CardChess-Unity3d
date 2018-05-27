@@ -6,6 +6,7 @@ namespace App.Agent.Test
     using App.Test;
     using Model;
 
+    [TestFixture]
     class TestAgentBase : App.Model.Test.TestBaseModel
     {
         protected TestAgentBase()
@@ -20,25 +21,21 @@ namespace App.Agent.Test
         protected IPlayerModel _blackAgent;
         protected IArbiterModel _arbiterAgent;
 
-        [SetUp]
-        public override void Setup()
+        protected override void SetupTest()
         {
-            base.Setup();
-
-            PrepareBindings();
+            base.SetupTest();
         }
 
-        [TearDown]
-        public override void TearDown()
+        protected override void TearDownTest()
         {
-            base.TearDown();
+            base.TearDownTest();
         }
 
-        public override void PrepareBindings()
+        protected override void PrepareBindings()
         {
             base.PrepareBindings();
-            _agency = new AgentRegistry();
 
+            _agency = new AgentRegistry();
             _agency.Bind<IBoardAgent, BoardAgent>(new BoardAgent());
             _agency.Bind<IArbiterAgent, ArbiterAgent>(new ArbiterAgent());
             _agency.Bind<IWhitePlayerAgent, WhitePlayerAgent>();
@@ -47,7 +44,7 @@ namespace App.Agent.Test
             //_reg.Bind<IDeckModel, MockDeck>();
             //_reg.Bind<IHandModel, MockHand>();
             //_reg.Bind<IPieceModel, PieceModel>();
-            _reg.Resolve();
+            _agency.Resolve();
         }
 
     }

@@ -76,7 +76,9 @@
     <Compile Include="Assets\App\Agent\Impl\DeckAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\HandAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\MoveSelector.cs" />
+    <Compile Include="Assets\App\Agent\Impl\PieceAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\PlayerAgent.cs" />
+    <Compile Include="Assets\App\Agent\IPieceAgent.cs" />
     <Compile Include="Assets\App\Agent\IPlayerAgent.cs" />
     <Compile Include="Assets\App\Common\Assert.cs" />
     <Compile Include="Assets\App\Common\CollectionExtentions.cs" />
@@ -144,7 +146,6 @@
     <Compile Include="Assets\App\Model\Impl\CardLibrary.cs" />
     <Compile Include="Assets\App\Model\Impl\CardModel.cs" />
     <Compile Include="Assets\App\Model\Impl\CardTemplate.cs" />
-    <Compile Include="Assets\App\Model\Impl\DecidingModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\DeckModel.cs" />
     <Compile Include="Assets\App\Model\Impl\HandModel.cs" />
     <Compile Include="Assets\App\Model\Impl\ItemModel.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Assets\App\Model\Impl\PieceModel.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\PlayerOwnedModelBase.cs" />
+    <Compile Include="Assets\App\Model\Impl\RespondingModelBase.cs" />
     <Compile Include="Assets\App\Model\Impl\Spell.cs" />
     <Compile Include="Assets\App\Model\Impl\Void.cs" />
     <Compile Include="Assets\App\Model\IPieceModel.cs" />

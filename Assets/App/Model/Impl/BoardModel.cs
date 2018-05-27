@@ -16,7 +16,7 @@ namespace App.Model
     /// Both Black and White use the same coordinate system.
     /// </summary>
     public class BoardModel
-        : DecidingModelBase
+        : RespondingModelBase
         , IBoardModel
     {
         #region Public Properties
@@ -65,18 +65,6 @@ namespace App.Model
             var current = _contents[coord.y][coord.x];
             _contents[coord.y][coord.x] = null;
             return current;
-        }
-
-        private void ConstructBoard()
-        {
-            _contents = new List<List<IPieceModel>>();
-            for (var n = 0; n < Height; ++n)
-            {
-                var row = new List<IPieceModel>();
-                for (var m = 0; m < Width; ++m)
-                    row.Add(null);
-                _contents.Add(row);
-            }
         }
 
         public IEnumerable<IPieceModel> GetPieces(EPieceType type)
@@ -141,55 +129,6 @@ namespace App.Model
             }
         }
 
-        public string Print()
-        {
-            return Print(coord =>
-            {
-                var piece = At(coord);
-                var rep = CardToRep(piece.Card);
-                var black = piece.Owner.Color != EColor.White;
-                if (black)
-                    rep = rep.ToLower();
-                return rep;
-            });
-        }
-
-        public string Print(Func<Coord, string> fun)
-        {
-            var sb = new StringBuilder();
-            for (int y = Height - 1; y >= 0; --y)
-            {
-                // vertical axis
-                sb.Append($" {y}:");
-
-                // horizontal cards
-                for (int x = 0; x < Width; ++x)
-                {
-                    var coord = new Coord(x, y);
-                    var rep = "  ";
-                    if (At(coord) != null)
-                        rep = $"{fun(coord)}";
-                    sb.Append(rep);
-                }
-                sb.AppendLine();
-                if (y == 0)
-                {
-                    // write the bottom axis
-                    sb.Append("   ");
-                    for (int x = 0; x < Width; ++x)
-                        sb.Append($"{x} ");
-                }
-            }
-            return sb.ToString();
-        }
-
-        public string CardToRep(ICardModel model)
-        {
-            if (model == null) return "  ";
-            var ch = $"{model.PieceType.ToString()[0]} ";
-            return ch;
-        }
-
         public IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood)
         {
             throw new NotImplementedException();
@@ -248,16 +187,16 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public IEnumerable<Coord> GetMovements(Coord coord)
-        {
-            var piece = At(coord);
-            return piece == null ? null : GetMovements(piece, coord);
-        }
-
         public Response Remove(PieceModel piece)
         {
             Assert.IsNotNull(piece);
             return SetPieceAt(piece.Coord, null);
+        }
+
+        public IEnumerable<Coord> GetMovements(Coord coord)
+        {
+            var piece = At(coord);
+            return piece == null ? null : GetMovements(piece, coord);
         }
 
         public IEnumerable<Coord> GetMovements(IPieceModel piece, Coord coord)
@@ -280,9 +219,71 @@ namespace App.Model
                     break;
             }
         }
+
+        public string Print()
+        {
+            return Print(coord =>
+            {
+                var piece = At(coord);
+                var rep = CardToRep(piece.Card);
+                var black = piece.Owner.Color != EColor.White;
+                if (black)
+                    rep = rep.ToLower();
+                return rep;
+            });
+        }
+
+        public string Print(Func<Coord, string> fun)
+        {
+            var sb = new StringBuilder();
+            for (int y = Height - 1; y >= 0; --y)
+            {
+                // vertical axis
+                sb.Append($" {y}:");
+
+                // horizontal cards
+                for (int x = 0; x < Width; ++x)
+                {
+                    var coord = new Coord(x, y);
+                    var rep = "  ";
+                    if (At(coord) != null)
+                        rep = $"{fun(coord)}";
+                    sb.Append(rep);
+                }
+                sb.AppendLine();
+                if (y == 0)
+                {
+                    // write the bottom axis
+                    sb.Append("   ");
+                    for (int x = 0; x < Width; ++x)
+                        sb.Append($"{x} ");
+                }
+            }
+            return sb.ToString();
+        }
+
+        public string CardToRep(ICardModel model)
+        {
+            if (model == null) return "  ";
+            var ch = $"{model.PieceType.ToString()[0]} ";
+            return ch;
+        }
+
         #endregion
 
         #region Private Methods
+
+        private void ConstructBoard()
+        {
+            _contents = new List<List<IPieceModel>>();
+            for (var n = 0; n < Height; ++n)
+            {
+                var row = new List<IPieceModel>();
+                for (var m = 0; m < Width; ++m)
+                    row.Add(null);
+                _contents.Add(row);
+            }
+        }
 
         Response SetPieceAt(Coord coord, IPieceModel piece)
         {
@@ -346,6 +347,8 @@ namespace App.Model
             }
         }
 
+        static int Max(int a, int b) { return a > b ? a : b; }
+        static int Min(int a, int b) { return a < b ? a : b; }
 
         private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
         {
@@ -355,13 +358,6 @@ namespace App.Model
 
         #region Private Fields
         private List<List<IPieceModel>> _contents;
-        static int Max(int a, int b) { return a > b ? a : b; }
-        static int Min(int a, int b) { return a < b ? a : b; }
-
-        public bool PlaceCard(IPieceModel piece, Coord coord)
-        {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }

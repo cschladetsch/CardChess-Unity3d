@@ -8,7 +8,19 @@ namespace App.Agent.Test
     using Common.Message;
     using Registry;
 
-    class TestAgent : App.Model.Test.TestBaseModel
+    [TestFixture]
+    class TestAgent : App.Agent.Test.TestAgentBase
     {
+        [Test]
+        public void TestBoardAgentCreation()
+        {
+
+        }
+
+        [Test]
+        public void TestBasicAgentTurns()
+        {
+
+        }
     }
 }

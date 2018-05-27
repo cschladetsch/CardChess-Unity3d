@@ -29,7 +29,6 @@ namespace App
         public IPlayerAgent WhitePlayer => _players[0];
         public IPlayerAgent BlackPlayer => _players[1];
         public IPlayerAgent CurrentPlayerAgent => _players[_currentPlayer];
-        [Inject] public IBoardAgent Board { get; set; }
 
         public bool Destroyed { get; private set; }
         public Guid Id { get; set; }
@@ -216,12 +215,12 @@ namespace App
                 New.Barrier(
                     New.TimedBarrier(
                         TimeSpan.FromSeconds(Parameters.MulliganTimer),
-                        WhitePlayer.FutureAcceptCards(),
-                        BlackPlayer.FutureAcceptCards()
+                        WhitePlayer.AcceptCards(),
+                        BlackPlayer.AcceptCards()
                     ).Named("Mulligan"),
                     New.Sequence( // TODO: TimedSequence
-                        WhitePlayer.FuturePlaceKing(),
-                        BlackPlayer.FuturePlaceKing()
+                        WhitePlayer.PlaceKing(),
+                        BlackPlayer.PlaceKing()
                     ).Named("Place Kings")
                 ).Named("Preceedings")
             ).Named("Start Game");
@@ -239,7 +238,7 @@ namespace App
             yield return self.After(
                 New.Barrier(
                     player.ChangeMaxMana(1).Named("AddMaxMana"),
-                    player.FutureDrawCard().Named("DrawCard")
+                    player.DrawCard().Named("DrawCard")
                 )
             );
 
@@ -248,9 +247,9 @@ namespace App
             while (true)
             {
                 // the options a playerAgent has
-                var playCard = player.FuturePlayCard();
-                var movePiece = player.FutureMovePiece();
-                var pass = player.FuturePass();
+                var playCard = player.PlayCard();
+                var movePiece = player.MovePiece();
+                var pass = player.Pass();
                 var trigger = New.TimedTrigger(
                     TimeSpan.FromSeconds(timeOut),
                     playCard,
