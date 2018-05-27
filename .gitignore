@@ -15,6 +15,7 @@ bin/
 !UnitTests/
 
 
+Packages/
 Assets/Packages/
 Assets/[Pp]ackages.*
 
