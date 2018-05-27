@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace App.Model.Test
 {
     [TestFixture]
-    class TestBoard : TestBase
+    class TestBoard : TestBaseModel
     {
         [Test]
         public void TestBoardCreation()

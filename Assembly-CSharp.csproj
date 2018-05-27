@@ -161,6 +161,7 @@
     <Compile Include="Assets\App\Model\ISpellModel.cs" />
     <Compile Include="Assets\App\Model\ITemplateDeck.cs" />
     <Compile Include="Assets\App\Model\IUserModel.cs" />
+    <Compile Include="Assets\App\Model\ModelRegistry.cs" />
     <Compile Include="Assets\App\Registry\IHasDestroyHandler.cs" />
     <Compile Include="Assets\App\Registry\IHasRegistry.cs" />
     <Compile Include="Assets\App\Registry\IKnown.cs" />

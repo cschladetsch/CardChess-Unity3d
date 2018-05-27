@@ -302,11 +302,6 @@ namespace App.Model
             }
         }
 
-        private IEnumerable<Coord> Nearby(Coord orig)
-        {
-            return Nearby(orig, System.Math.Max(Width, Height));
-        }
-
         private IEnumerable<Coord> Nearby(Coord orig, int dist)
         {
             var y = Max(orig.y - dist, 0);
