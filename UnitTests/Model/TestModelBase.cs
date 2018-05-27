@@ -3,9 +3,10 @@
 namespace App.Model.Test
 {
     using Registry;
+    using App.Test;
 
     [TestFixture]
-    class TestBase : Flow.Impl.Logger
+    class TestBaseModel : Flow.Impl.Logger
     {
         protected IRegistry<IModel> _reg;
         protected IBoardModel _board;
@@ -14,34 +15,33 @@ namespace App.Model.Test
         protected IArbiterModel _arbiter;
 
         // this is only place concrete types are needed
-        private void PrepareBindings()
+        public virtual void PrepareBindings()
         {
             _reg = new Registry<IModel>();
             _reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
             _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-            _reg.Bind<IWhitePlayer, WhitePlayer>();
-            _reg.Bind<IBlackPlayer, BlackPlayer>();
+            _reg.Bind<IWhitePlayerModel, WhitePlayerModel>();
+            _reg.Bind<IBlackPlayerModel, BlackPlayerModel>();
             _reg.Bind<ICardModel, CardModel>();
             _reg.Bind<IDeckModel, MockDeck>();
             _reg.Bind<IHandModel, MockHand>();
             _reg.Bind<IPieceModel, PieceModel>();
-            _reg.Resolve();
         }
 
         [SetUp]
-        public void Setup()
+        public virtual void Setup()
         {
             PrepareBindings();
 
             _board = _reg.New<IBoardModel>();
             _arbiter = _reg.New<IArbiterModel>();
-            _white = _reg.New<IWhitePlayer>();
-            _black = _reg.New<IBlackPlayer>();
+            _white = _reg.New<IWhitePlayerModel>();
+            _black = _reg.New<IBlackPlayerModel>();
         }
 
         [TearDown]
-        public void TearDown()
+        public virtual void TearDown()
         {
             _arbiter.Destroy();
             _white.Destroy();

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using App.Common;
+using App.Common.Message;
 
 namespace App.Model.Test
 {
-    using Common;
-    using Common.Message;
+    using App.Test;
 
-    class WhitePlayer
+    class BlackPlayerModel
         : MockPlayerBase
-        , IWhitePlayer
+        , IBlackPlayerModel
     {
-        public WhitePlayer()
-            : base(EColor.White)
+        public BlackPlayerModel()
+            : base(EColor.Black)
         {
         }
 
@@ -21,21 +21,16 @@ namespace App.Model.Test
             _requests = new List<Func<IRequest>>()
             {
                 () => new AcceptCards(this),
-                () => new PlacePiece(this, King, new Coord(4, 2)),
+                () => new PlacePiece(this, King, new Coord(4, 5)),
                 () => _endTurn,
                 () =>
                 {
                     var peon = MakePiece(EPieceType.Peon);
-                    return new PlacePiece(this, peon, new Coord(4, 3));
+                    return new PlacePiece(this, peon, new Coord(3, 3));
                 },
-                () => new Battle(this, KingPiece, Board.At(3,3)),
-                () => _pass,
                 () => _endTurn,
-                () => _pass,
                 () => _endTurn,
-                () => _pass,
                 () => _endTurn,
-                () => _pass,
                 () => _endTurn,
             };
         }
