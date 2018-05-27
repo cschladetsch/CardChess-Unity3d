@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using App.Registry;
 
 namespace App.Model
 {
@@ -16,7 +17,7 @@ namespace App.Model
         #region Properties
         int Width { get; }
         int Height { get; }
-        IArbiterModel Arbiter { get; }
+        [Inject] IArbiterModel Arbiter { get; set; }
         IEnumerable<IPieceModel> Pieces { get; }
         #endregion
 

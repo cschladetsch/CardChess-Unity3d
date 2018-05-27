@@ -55,6 +55,7 @@ namespace App.Model.Test
             _reg.Bind<IDeckModel, MockDeck>();
             _reg.Bind<IHandModel, MockHand>();
             _reg.Bind<IPieceModel, PieceModel>();
+            _reg.Resolve();
         }
     }
 }
