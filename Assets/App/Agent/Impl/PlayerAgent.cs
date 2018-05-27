@@ -21,7 +21,7 @@ namespace App.Agent
     /// </summary>
     public class PlayerAgent
         : AgentBaseCoro<Model.IPlayerModel>
-        , IPlayerAgent
+            , IPlayerAgent
     {
         public EColor Color => Model.Color;
         public ICardAgent King { get; }
@@ -34,32 +34,22 @@ namespace App.Agent
 
         }
 
-        public ITransient StartGame()
+        public ITimer StartGame()
         {
             throw new NotImplementedException();
         }
 
-        public ITransient DrawInitialCards()
+        public ITimer DrawInitialCards()
         {
             throw new NotImplementedException();
         }
 
-        IFuture<bool> IPlayerAgent.AcceptCards()
+        public ITimedFuture<bool> AcceptCards()
         {
             throw new NotImplementedException();
         }
 
-        IFuture<PlacePiece> IPlayerAgent.PlaceKing()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransient AcceptCards()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransient PlaceKing()
+        public ITimedFuture<PlacePiece> PlaceKing()
         {
             throw new NotImplementedException();
         }
@@ -69,35 +59,29 @@ namespace App.Agent
             throw new NotImplementedException();
         }
 
-        IFuture<ICardModel> IPlayerAgent.DrawCard()
+        public ITimedFuture<ICardModel> DrawCard()
         {
             throw new NotImplementedException();
         }
 
-        public IFuture<PlacePiece> PlayCard()
+        public ITimedFuture<PlacePiece> PlayCard()
         {
             throw new NotImplementedException();
         }
 
-        public IFuture<MovePiece> MovePiece()
+        public ITimedFuture<MovePiece> MovePiece()
         {
             throw new NotImplementedException();
         }
 
-        public IFuture<Pass> Pass()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransient DrawCard()
+        public ITimedFuture<Pass> Pass()
         {
             throw new NotImplementedException();
         }
 
         protected override IEnumerator Next(IGenerator self)
         {
-            yield return null;
+            throw new NotImplementedException();
         }
-
     }
 }

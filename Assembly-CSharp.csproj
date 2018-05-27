@@ -58,9 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\App\Agent\AgentLogger.cs" />
-    <Compile Include="Assets\App\Agent\AgentRegistry.cs" />
-    <Compile Include="Assets\App\Agent\ArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IAgent.cs" />
     <Compile Include="Assets\App\Agent\IArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\IBoardAgent.cs" />
@@ -70,6 +67,9 @@
     <Compile Include="Assets\App\Agent\IHandAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\AgentBase.cs" />
     <Compile Include="Assets\App\Agent\Impl\AgentBaseCoro.cs" />
+    <Compile Include="Assets\App\Agent\Impl\AgentLogger.cs" />
+    <Compile Include="Assets\App\Agent\Impl\AgentRegistry.cs" />
+    <Compile Include="Assets\App\Agent\Impl\ArbiterAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\BoardAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\CardAgent.cs" />
     <Compile Include="Assets\App\Agent\Impl\CardCollection.cs" />

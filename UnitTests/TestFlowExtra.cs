@@ -19,13 +19,13 @@ namespace App
             var k = Flow.Create.Kernel();
             var f = k.Factory;
 
-            var t0 = f.Transient("Trans0");
-            var t1 = f.Transient("Trans1");
-            var t2 = f.Transient("Trans2");
-            var r0 = f.Trigger("Trigger0", t2, t1);
-            var b0 = f.Barrier("Barrier0", t0, r0);
-            var f0 = f.NamedFuture<int>("Future<int>");
-            var g0 = f.Group("Group0", f0, b0);
+            var t0 = f.Transient().Named("T0");
+            var t1 = f.Transient().Named("Trans1");
+            var t2 = f.Transient().Named("Trans2");
+            var r0 = f.Trigger(t2, t1).Named("Barrier0");
+            var b0 = f.Barrier(t0, r0).Named("Barrier1");
+            var f0 = f.Future<int>().Named("Future<int>");
+            var g0 = f.Group(f0, b0).Named("Group");
 
             k.Root.Add(g0);
 

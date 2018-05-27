@@ -23,14 +23,14 @@ namespace App.Agent
         #endregion
 
         void NewGame();
-        ITransient StartGame();
-        ITransient DrawInitialCards();
-        IFuture<bool> AcceptCards();
-        IFuture<PlacePiece> PlaceKing();
+        ITimer StartGame();
+        ITimer DrawInitialCards();
+        ITimedFuture<bool> AcceptCards();
+        ITimedFuture<PlacePiece> PlaceKing();
         ITransient ChangeMaxMana(int i);
-        IFuture<ICardModel> DrawCard();
-        IFuture<PlacePiece> PlayCard();
-        IFuture<MovePiece> MovePiece();
-        IFuture<Pass> Pass();
+        ITimedFuture<ICardModel> DrawCard();
+        ITimedFuture<PlacePiece> PlayCard();
+        ITimedFuture<MovePiece> MovePiece();
+        ITimedFuture<Pass> Pass();
     }
 }
