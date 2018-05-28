@@ -12,6 +12,8 @@ namespace App.Agent
         : IAgent<ICardModel>
     {
         ICardTemplate Template { get; }
+        ReactiveProperty<int> Health { get; }
+        ReactiveProperty<int> Power { get; }
         ReactiveProperty<IPlayerModel> Player { get; }
         ReactiveCollection<IEnumerable<IEffect>> Effects { get; }
         ReactiveCollection<IEnumerable<ItemModel>> Items { get; }

@@ -9,7 +9,7 @@ namespace App.View
     /// transitioning into a Piece, Item or Spell
     /// on the board
     /// </summary>
-    public interface ICardView
+    public interface ICardAgentView
         : IView<ICardAgent>
     {
     }

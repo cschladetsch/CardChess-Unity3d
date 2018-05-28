@@ -14,7 +14,7 @@ namespace App.View.Impl
     {
         private void Awake()
         {
-            _constructed = Construct();
+            _constructed = Create();
         }
 
         private void Start()
@@ -37,7 +37,7 @@ namespace App.View.Impl
             _localTime += Time.deltaTime;
         }
 
-        protected virtual bool Construct()
+        protected virtual bool Create()
         {
             return true;
         }
@@ -77,8 +77,18 @@ namespace App.View.Impl
 
     public class ViewBase<TIAgent>
         : ViewBase
+        , IConstructWith<TIAgent>
         where TIAgent : IAgent
     {
         public TIAgent Agent { get; set; }
+
+        public virtual bool Construct(TIAgent a0)
+        {
+            Assert.IsNotNull(a0);
+            if (a0 == null)
+                return false;
+            Agent = a0;
+            return true;
+        }
     }
 }

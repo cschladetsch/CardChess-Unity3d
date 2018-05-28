@@ -13,20 +13,16 @@ namespace App.Agent
         AgentBaseCoro<Model.ICardModel>,
         ICardAgent
     {
-        private ReactiveProperty<IPlayerModel> _player;
-
         #region Public Fields
         public int ManaCost => Model.ManaCost;
-        public int Power => Model.Power;
-        public int Health => Model.Health;
         public string Description => Model.Description;
         public ECardType Type => Model.Type;
         public EPieceType PieceType => Model.PieceType;
-
         public ICardTemplate Template => Model.Template;
 
+        public ReactiveProperty<int> Power { get; }
+        public ReactiveProperty<int> Health { get; private set; }
         public ReactiveProperty<IPlayerModel> Player { get; }
-
         public ReactiveCollection<IEnumerable<IEffect>> Effects { get; }
         public ReactiveCollection<IEnumerable<ItemModel>> Items { get; }
         public ReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
@@ -34,37 +30,18 @@ namespace App.Agent
 
         #region Public Methods
 
-        //public IFuture<Action.MovePiece> Move()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public override bool Construct(ICardModel model)
+        {
+            base.Construct(model);
+            Health = new ReactiveProperty<int>(model.Health);
+            return true;
+        }
 
-        //#region Abstract Methods
-        ///// <summary>
-        ///// Where this card can move to
-        ///// </summary>
-        //public abstract IEnumerable<Coord> PotentialCoords();
-
-        ///// <summary>
-        ///// What attacks this card from the given coord
-        ///// </summary>
-        ///// <param name="coord">From this coord</param>
-        //public abstract IEnumerable<ICardAgent> Attackers(Coord coord);
-
-        ///// <summary>
-        ///// What this card can attack
-        ///// </summary>
-        ///// <param name="coord"></param>
-        //public abstract IEnumerable<ICardAgent> Defenders(Coord coord);
-
-        ///// <summary>
-        ///// Guards defending this piece from the given coord
-        ///// </summary>
-        ///// <param name="coord"></param>
-        ///// <returns></returns>
-        //public abstract IEnumerable<ICardAgent> Guards(Coord coord);
-        //#endregion
-
+        public ITransient TakeDamage(IPieceAgent self, IPieceAgent attacker)
+        {
+            var response = Model.TakeDamage(self.Model, attacker.Model);
+            return null;
+        }
         #endregion
 
         #region Protected Methods
@@ -77,9 +54,5 @@ namespace App.Agent
         #region Private Fields
         #endregion
 
-        public ITransient TakeDamage(IPieceAgent self, IPieceAgent attacker)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

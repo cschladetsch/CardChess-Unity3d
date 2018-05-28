@@ -34,6 +34,6 @@ namespace App.Common
             _log.Verbose(level, fmt, args);
         }
 
-        private readonly Flow.Impl.Logger _log = new Flow.Impl.Logger("UNITY");
+        private readonly Flow.Impl.Logger _log = new Flow.Impl.Logger("");
     }
 }
