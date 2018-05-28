@@ -3,7 +3,8 @@
 namespace App.Model.Test
 {
     using Registry;
-    using App.Test;
+    using Mock;
+    using Mock.Model;
 
     [TestFixture]
     class TestBaseModel : Flow.Impl.Logger

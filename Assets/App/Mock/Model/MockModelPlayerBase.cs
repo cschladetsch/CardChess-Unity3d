@@ -2,39 +2,19 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace App.Model.Test
+namespace App.Mock.Model
 {
     using Common;
     using Common.Message;
-    using Model;
+    using App.Model;
 
     /// <summary>
     /// Common to all Mock players
     /// </summary>
-    public abstract class MockPlayerBase
-        : PlayerModelBase
+    public abstract class MockModelPlayerBase
+        : App.Model.PlayerModelBase
     {
-        protected MockPlayerBase(EColor color)
-            : base(color)
-        {
-            _pass = new Pass(this);
-            _endTurn = new TurnEnd(this);
-        }
-
-        public override Response NewGame()
-        {
-            var response = base.NewGame();
-            if (response.Success)
-                CreateActionList();
-            return response;
-        }
-
-        protected abstract void CreateActionList();
-
-        public void RequestFailed(Guid req)
-        {
-            Error("Not Implemented");
-        }
+        #region Public Methods
 
         public override void RequestFailed(IRequest req)
         {
@@ -43,18 +23,6 @@ namespace App.Model.Test
         public override void RequestSuccess(IRequest req)
         {
             Verbose(10, $"{this} action success: {req.Action}");
-        }
-
-        protected ICardModel MakePiece(EPieceType type)
-        {
-            var card = Hand.Cards.FirstOrDefault(c => c.PieceType == type);
-            if (card == null)
-            {
-                Error($"Don't have a {type} in hand!");
-                return null;
-            }
-            Hand.Remove(card);
-            return card;
         }
 
         public override IRequest Mulligan()
@@ -73,10 +41,52 @@ namespace App.Model.Test
             return _pass;
         }
 
+        public override Response NewGame()
+        {
+            var response = base.NewGame();
+            if (response.Success)
+                CreateActionList();
+            return response;
+        }
+
+        public void RequestFailed(Guid req)
+        {
+            Error("Not Implemented");
+        }
+
+        #endregion // Public Methods
+
+        #region Protected Methods
+
+        protected abstract void CreateActionList();
+
+        protected MockModelPlayerBase(EColor color)
+            : base(color)
+        {
+            _pass = new Pass(this);
+            _endTurn = new TurnEnd(this);
+        }
+
+        protected ICardModel MakePiece(EPieceType type)
+        {
+            var card = Hand.Cards.FirstOrDefault(c => c.PieceType == type);
+            if (card == null)
+            {
+                Error($"Don't have a {type} in hand!");
+                return null;
+            }
+            Hand.Remove(card);
+            return card;
+        }
+        #endregion
+
         private int _next = 0;
+
+        #region protected Fields
         protected IRequest _pass;
         protected IRequest _endTurn;
         protected List<Func<IRequest>> _requests;
         protected List<Guid> _requestIds;
+        #endregion
     }
 }

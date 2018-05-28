@@ -44,8 +44,9 @@ namespace App.Agent
 
         public void Destroy()
         {
-            throw new NotImplementedException();
+            TransientCompleted();
         }
+
         #endregion
 
     }
