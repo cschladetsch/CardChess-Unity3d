@@ -12,8 +12,11 @@ namespace App.View.Impl
     public class CardAgentView
         : ViewBase<ICardAgent>
     {
-        public TMPro.TextMeshPro Health;
-        public TMPro.TextMeshPro Attack;
+        public TMPro.TextMeshProUGUI Health;
+        public TMPro.TextMeshProUGUI Power;
+
+        public Button Give;
+        public Button Take;
 
         protected override bool Create()
         {
@@ -27,8 +30,8 @@ namespace App.View.Impl
             if (!base.Construct(agent))
                 return false;
 
-            Agent.Health.DistinctUntilChanged(h => Health.text = $"h");
-            Agent.Health.DistinctUntilChanged(h => Attack.text = $"h");
+            Agent.Health.DistinctUntilChanged(h => Health.text = $"Health: {h}");
+            //Agent.Health.DistinctUntilChanged(h => Attack.text = $"h");
             return true;
         }
     }
