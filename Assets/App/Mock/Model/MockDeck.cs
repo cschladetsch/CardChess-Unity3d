@@ -28,6 +28,7 @@ namespace App.Mock.Model
 
         public override void Shuffle()
         {
+            // intentionally do not shuffle
         }
 
         public override int ShuffleIn(params ICardModel[] models)
