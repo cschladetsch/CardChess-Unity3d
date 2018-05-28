@@ -33,6 +33,7 @@ namespace App.Agent
         public ReactiveProperty<int> MaxMana { get; private set; }
         public ReactiveProperty<int> Mana { get; private set; }
         public ReactiveProperty<int> Health { get; private set; }
+        public ReactiveProperty<bool> Dead { get; private set; }
 
         [Inject] private Service.ICardTemplateService _cardTemplateService;
 
@@ -42,6 +43,11 @@ namespace App.Agent
             Hand.NewGame();
             var kingModel = _cardTemplateService.NewCardModel(Model, EPieceType.King);
             King = Registry.New<ICardAgent>(kingModel);
+
+            MaxMana = new ReactiveProperty<int>(Model.MaxMana);
+            Mana = new ReactiveProperty<int>(Model.Mana);
+            Health = new ReactiveProperty<int>(Model.Health);
+            Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
         }
 
         public ITimer StartGameTimer { get; private set; }
