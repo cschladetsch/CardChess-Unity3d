@@ -27,18 +27,18 @@ namespace App.Mock.Model
 
         public override IRequest Mulligan()
         {
-            return _pass;
+            return _Pass;
         }
 
         public override IRequest NextAction()
         {
-            return _next == _requests.Count ? null : _requests[_next++]();
+            return _next == _Requests.Count ? null : _Requests[_next++]();
         }
 
         public override IRequest StartTurn()
         {
             Hand.Add(Deck.Draw());
-            return _pass;
+            return _Pass;
         }
 
         public override Response NewGame()
@@ -63,8 +63,8 @@ namespace App.Mock.Model
         protected MockModelPlayerBase(EColor color)
             : base(color)
         {
-            _pass = new Pass(this);
-            _endTurn = new TurnEnd(this);
+            _Pass = new Pass(this);
+            _EndTurn = new TurnEnd(this);
         }
 
         protected ICardModel MakePiece(EPieceType type)
@@ -83,10 +83,10 @@ namespace App.Mock.Model
         private int _next = 0;
 
         #region protected Fields
-        protected IRequest _pass;
-        protected IRequest _endTurn;
-        protected List<Func<IRequest>> _requests;
-        protected List<Guid> _requestIds;
+        protected IRequest _Pass;
+        protected IRequest _EndTurn;
+        protected List<Func<IRequest>> _Requests;
+        protected List<Guid> _RequestIds;
         #endregion
     }
 }

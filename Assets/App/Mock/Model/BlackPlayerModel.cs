@@ -18,20 +18,20 @@ namespace App.Mock.Model
 
         protected override void CreateActionList()
         {
-            _requests = new List<Func<IRequest>>()
+            _Requests = new List<Func<IRequest>>()
             {
                 () => new AcceptCards(this),
                 () => new PlacePiece(this, King, new Coord(4, 5)),
-                () => _endTurn,
+                () => _EndTurn,
                 () =>
                 {
                     var peon = MakePiece(EPieceType.Peon);
                     return new PlacePiece(this, peon, new Coord(3, 3));
                 },
-                () => _endTurn,
-                () => _endTurn,
-                () => _endTurn,
-                () => _endTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
             };
         }
     }
