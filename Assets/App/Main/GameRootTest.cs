@@ -1,30 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using App.Agent;
-using App.Model;
-using UnityEngine;
-using UnityEngine.UI;
-
-using CoLib;
-using Flow;
+﻿using UnityEngine.UI;
 
 namespace App
 {
-    using Common;
-    using Common.Message;
+    using Mock;
+    using Model;
+    using Agent;
+    using Mock.Model;
+    using Mock.Agent;
 
     public class GameRootTest
     {
         public Button Give;
         public Button Take;
 
-        private App.Model.ModelRegistry _models;
+        private App.Registry.Registry<IModel> _models;
         private App.Agent.AgentRegistry _agents;
 
         private Model.ICardModel _cardModel;
         private Agent.ICardAgent _cardAgent;
         private View.ICardAgentView _cardView;
 
+        void PrepareModel()
+        {
+            _models = new App.Registry.Registry<IModel>();
+            _models.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
+            _models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
+            _models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
+            _models.Bind<IWhitePlayerModel, WhitePlayerModel>();
+            _models.Bind<IBlackPlayerModel, BlackPlayerModel>();
+            _models.Bind<ICardModel, CardModel>();
+            _models.Bind<IDeckModel, MockDeck>();
+            _models.Bind<IHandModel, MockHand>();
+            _models.Bind<IPieceModel, PieceModel>();
+            _models.Resolve();
+
+        }
         void Start()
         {
             _models = new ModelRegistry();

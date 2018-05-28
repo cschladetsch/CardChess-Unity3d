@@ -74,6 +74,11 @@ namespace App.Agent
 
         }
 
+        protected void TransientCompleted()
+        {
+            Completed?.Invoke(this);
+        }
+
         protected readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
         #endregion
     }

@@ -3,10 +3,14 @@
 namespace App.Agent.Test
 {
     using App;
-    using App.Test;
-    using Model;
-    using Agent;
+    using App.Mock;
+    using App.Mock.Agent;
 
+    /// <summary>
+    /// Common for all tests that use agents.
+    ///
+    /// Based on the common test base for models
+    /// </summary>
     [TestFixture]
     class TestAgentBase : App.Model.Test.TestBaseModel
     {
@@ -15,12 +19,6 @@ namespace App.Agent.Test
             LogSubject = this;
             LogPrefix = "AgentTest";
         }
-
-        protected AgentRegistry _agency;
-        protected IBoardAgent _boardAgent;
-        protected IPlayerAgent _whiteAgent;
-        protected IPlayerAgent _blackAgent;
-        protected IArbiterAgent _arbiterAgent;
 
         protected override void SetupTest()
         {
@@ -56,5 +54,10 @@ namespace App.Agent.Test
             _agency.Resolve();
         }
 
+        protected AgentRegistry _agency;
+        protected IBoardAgent _boardAgent;
+        protected IPlayerAgent _whiteAgent;
+        protected IPlayerAgent _blackAgent;
+        protected IArbiterAgent _arbiterAgent;
     }
 }

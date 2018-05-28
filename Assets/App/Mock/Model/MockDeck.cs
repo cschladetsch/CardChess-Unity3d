@@ -2,11 +2,11 @@
 
 #pragma warning disable 649
 
-namespace App.Model.Test
+namespace App.Mock.Model
 {
     using Common;
-    using Model;
     using Registry;
+    using App.Model;
 
     public class MockDeck
         : DeckModel
@@ -70,6 +70,5 @@ namespace App.Model.Test
             EPieceType.Queen,
             EPieceType.Queen,
         };
-
     }
 }

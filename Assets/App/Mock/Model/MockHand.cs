@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace App.Model.Test
+namespace App.Mock.Model
 {
     using Common;
-    using Model;
+    using App.Model;
 
     public class MockHand
         : HandModel

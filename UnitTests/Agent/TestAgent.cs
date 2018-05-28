@@ -1,15 +1,9 @@
 ﻿using NUnit.Framework;
-using App.Test;
 
 namespace App.Agent.Test
 {
-    using Model;
-    using Common;
-    using Common.Message;
-    using Registry;
-
     [TestFixture]
-    class TestAgent : App.Agent.Test.TestAgentBase
+    class TestAgent : TestAgentBase
     {
         [Test]
         public void TestBoardAgentCreation()

@@ -1,8 +1,7 @@
-﻿
-namespace App.Test
+﻿namespace App.Mock
 {
-    using Model;
-    using Agent;
+    using App.Agent;
+    using App.Model;
 
     public interface IBlackPlayerModel : IPlayerModel { }
     public interface IWhitePlayerModel : IPlayerModel { }

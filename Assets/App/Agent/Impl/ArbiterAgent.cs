@@ -337,7 +337,7 @@ namespace App
 
         public void Destroy()
         {
-            throw new NotImplementedException();
+            TransientCompleted();
         }
         #endregion
 
