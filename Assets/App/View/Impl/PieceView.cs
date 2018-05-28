@@ -5,5 +5,9 @@
     public class PieceView
         : ViewBase<IPieceAgent>
     {
+        public void Construct(IPieceAgent agent)
+        {
+
+        }
     }
 }

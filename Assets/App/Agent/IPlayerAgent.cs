@@ -1,10 +1,11 @@
 using System;
-using App.Common.Message;
-using App.Model;
 using Flow;
+using UniRx;
 
 namespace App.Agent
 {
+    using Common.Message;
+    using Model;
     using Common;
     using Registry;
 
@@ -12,19 +13,23 @@ namespace App.Agent
     /// Agent for a PlayerAgent. Responsible for reacting to changes in Model state.
     /// </summary>
     public interface IPlayerAgent :
-        IAgent<Model.IPlayerModel>,
+        IAgent<IPlayerModel>,
         IOwner
     {
         #region Properties
         ICardAgent King { get; }
-        int Health { get; }
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }
+
+        ReactiveProperty<int> Health { get; }
+        ReactiveProperty<int> MaxMana { get; }
+        ReactiveProperty<int> Mana { get; }
+
         #endregion
 
         void NewGame();
         ITimer StartGame();
-        ITimer DrawInitialCards();
+        ITransient DrawInitialCards();
         ITimedFuture<bool> AcceptCards();
         ITimedFuture<PlacePiece> PlaceKing();
         ITransient ChangeMaxMana(int i);

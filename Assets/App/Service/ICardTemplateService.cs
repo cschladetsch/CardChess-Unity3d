@@ -3,6 +3,7 @@
 namespace App.Service
 {
     using Model;
+    using Agent;
     using Common;
 
     public interface ICardTemplateService

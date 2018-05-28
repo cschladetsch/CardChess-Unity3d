@@ -5,6 +5,8 @@ using Flow;
 
 using App.Common.Message;
 using App.Model;
+using App.Registry;
+using UniRx;
 #if VS
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else
@@ -19,27 +21,36 @@ namespace App.Agent
     /// <summary>
     /// The agent that represents a playerAgent in the game.
     /// </summary>
-    public class PlayerAgent
-        : AgentBaseCoro<Model.IPlayerModel>
-            , IPlayerAgent
+    public class PlayerAgentBase
+        : AgentBaseCoro<IPlayerModel>
+        , IPlayerAgent
     {
         public EColor Color => Model.Color;
-        public ICardAgent King { get; }
-        public int Health => Model.Health;
-        public IDeckAgent Deck { get; private set; }
-        public IHandAgent Hand { get; private set; }
+        public ICardAgent King { get; private set; }
+        public IDeckAgent Deck { get; set; }
+        public IHandAgent Hand { get; set; }
 
-        public void NewGame()
+        public ReactiveProperty<int> MaxMana { get; private set; }
+        public ReactiveProperty<int> Mana { get; private set; }
+        public ReactiveProperty<int> Health { get; private set; }
+
+        [Inject] private Service.ICardTemplateService _cardTemplateService;
+
+        public virtual void NewGame()
         {
-
+            Deck.NewGame();
+            Hand.NewGame();
+            var kingModel = _cardTemplateService.NewCardModel(Model, EPieceType.King);
+            King = Registry.New<ICardAgent>(kingModel);
         }
 
+        public ITimer StartGameTimer { get; private set; }
         public ITimer StartGame()
         {
-            throw new NotImplementedException();
+            return StartGameTimer = Factory.OneShotTimer(TimeSpan.FromSeconds(20));
         }
 
-        public ITimer DrawInitialCards()
+        public ITransient DrawInitialCards()
         {
             throw new NotImplementedException();
         }

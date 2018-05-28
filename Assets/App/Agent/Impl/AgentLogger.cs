@@ -19,11 +19,12 @@ namespace App.Agent
         #region Public Properties
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
+        public IFactory Factory => Kernel.Factory;
+        public Flow.IFactory New => Kernel.Factory;
+        public Flow.INode Root => Kernel.Root;
         public string Name { get; set; }
         [Inject] public IBoardAgent Board { get; set; }
         [Inject] public IArbiterAgent Arbiter { get; set; }
-        public Flow.IFactory New => Kernel.Factory;
-        public Flow.INode Root => Kernel.Root;
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
         public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; } }
         public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
@@ -81,6 +82,8 @@ namespace App.Agent
         : AgentLogger
         where TModel : Model.IModel
     {
+        public event DestroyedHandler<IAgent> OnDestroy;
+
         public Model.IModel BaseModel { get; private set; }
         public TModel Model { get; private set; }
         public IOwner Owner { get; private set; }

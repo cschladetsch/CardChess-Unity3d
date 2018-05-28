@@ -23,5 +23,7 @@ namespace App.Model
 
         Response Attack(IPieceModel piece);
         Response TakeDamage(IPieceModel piece);
+
+        //Response TakeDamage(IPieceModel self, IPieceModel attacker);
     }
 }

@@ -4,15 +4,15 @@ using Flow;
 
 namespace App.Agent
 {
-	using Registry;
+    using Registry;
 
-	/// <summary>
+    /// <summary>
     /// Base for agents that perform actions over time.
     /// </summary>
     /// <typeparam name="TModel">The model that this Agent represents</typeparam>
-    public abstract class AgentBaseCoro<TModel> 
-        : AgentBase<TModel> 
-		where TModel : class, IModel
+    public abstract class AgentBaseCoro<TModel>
+        : AgentBase<TModel>
+        where TModel : class, IModel
     {
         public override bool Construct(TModel a0)
         {
