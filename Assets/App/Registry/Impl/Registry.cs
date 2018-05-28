@@ -89,7 +89,9 @@ namespace App.Registry
             return null;
         }
 
-        public bool Bind<TInterface, TImpl>() where TInterface : IBase where TImpl : TInterface
+        public bool Bind<TInterface, TImpl>()
+            where TInterface
+                : IBase where TImpl : TInterface
         {
             var ity = typeof(TInterface);
             if (_bindings.ContainsKey(ity))
@@ -143,15 +145,6 @@ namespace App.Registry
             return model;
         }
 
-        private static string ToArgTypeList(IEnumerable<object> args)
-        {
-            return args == null ? "" : string.Join(", ", args.Select(a => a.GetType().Name));
-        }
-
-        private static string ToArgList(IEnumerable<object> args)
-        {
-            return args == null ? "" : string.Join(", ", args.Select(a => a.ToString()));
-        }
 
         public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IBase where TImpl : TInterface
         {
@@ -202,6 +195,25 @@ namespace App.Registry
             return _pendingInjections.Count == 0;
         }
 
+        public virtual IBase Prepare(IBase model)
+        {
+            return model;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static string ToArgTypeList(IEnumerable<object> args)
+        {
+            return args == null ? "" : string.Join(", ", args.Select(a => a.GetType().Name));
+        }
+
+        private static string ToArgList(IEnumerable<object> args)
+        {
+            return args == null ? "" : string.Join(", ", args.Select(a => a.ToString()));
+        }
+
         private void AddPendingBindings(PendingInjection[] pendingInjections)
         {
             foreach (var pi in pendingInjections)
@@ -241,9 +253,6 @@ namespace App.Registry
             }
         }
 
-        #endregion
-
-        #region Private Methods
         private void Remove(IBase model)
         {
             if (!_models.ContainsKey(model.Id))
@@ -423,6 +432,11 @@ namespace App.Registry
             else
                 inject.FieldInfo.SetValue(model, val);
 
+            return model;
+        }
+
+        public virtual TBase Prepare<TBase>(TBase model)
+        {
             return model;
         }
 

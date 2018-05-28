@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using App.Agent;
 
 namespace App.Service.Impl
 {
@@ -47,5 +48,6 @@ namespace App.Service.Impl
             }
             return Registry.New<ICardModel>(template, owner);
         }
+
     }
 }

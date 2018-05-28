@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using App.Common.Message;
 using App.Model;
 using Flow;
 
@@ -6,23 +7,24 @@ namespace App.Agent
 {
     using Common;
 
-    public class HandAgent :
-        AgentBaseCoro<Model.IHandModel>,
-        IHandAgent
+    public class HandAgent
+        : AgentBaseCoro<Model.IHandModel>
+        , IHandAgent
     {
         protected override IEnumerator Next(IGenerator self)
         {
             yield return null;
         }
 
-        public void NewGame()
+        public Response NewGame()
         {
-            throw new System.NotImplementedException();
+            return Model.NewGame();
         }
 
-        public void Add(ICardAgent card)
+        public Response Add(ICardAgent card)
         {
-            Model.Add(card.Model);
+            Assert.IsNotNull(card);
+            return Model.Add(card.Model) ? Response.Ok : Response.Fail;
         }
     }
 }

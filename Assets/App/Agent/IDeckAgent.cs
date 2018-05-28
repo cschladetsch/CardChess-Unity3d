@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using Flow;
+﻿using Flow;
 
 namespace App.Agent
 {
-    public interface IDeckAgent :
-        IAgent<Model.IDeckModel>
-    {
-        int NumCards { get; }
-        IEnumerable<ICardAgent> Cards { get; }
+    using Common;
 
+    public interface IDeckAgent
+        : IAgent<Model.IDeckModel>
+        //, ICardCollection<ICardAgent>
+    {
+        void NewGame();
         IFuture<ICardAgent> Draw();
-        void Remove(ICardAgent card);
     }
 }

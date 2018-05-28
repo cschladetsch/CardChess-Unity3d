@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using App.Common.Message;
 using Flow;
-using UniRx;
 
 namespace App.Agent
 {

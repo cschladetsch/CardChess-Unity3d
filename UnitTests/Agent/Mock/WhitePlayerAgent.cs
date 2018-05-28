@@ -5,7 +5,7 @@ namespace App.Agent.Test
     using Agent;
 
     class WhitePlayerAgent
-        : PlayerAgent
+        : PlayerAgentBase
         , IWhitePlayerAgent
     {
     }

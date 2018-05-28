@@ -5,6 +5,7 @@ namespace App.Agent.Test
     using App;
     using App.Test;
     using Model;
+    using Agent;
 
     [TestFixture]
     class TestAgentBase : App.Model.Test.TestBaseModel
@@ -17,17 +18,25 @@ namespace App.Agent.Test
 
         protected AgentRegistry _agency;
         protected IBoardAgent _boardAgent;
-        protected IPlayerModel _whiteAgent;
-        protected IPlayerModel _blackAgent;
-        protected IArbiterModel _arbiterAgent;
+        protected IPlayerAgent _whiteAgent;
+        protected IPlayerAgent _blackAgent;
+        protected IArbiterAgent _arbiterAgent;
 
         protected override void SetupTest()
         {
             base.SetupTest();
+            _boardAgent = _agency.New<IBoardAgent>();
+            _arbiterAgent = _agency.New<IArbiterAgent>();
+            _whiteAgent = _agency.New<IWhitePlayerAgent>();
+            _blackAgent = _agency.New<IBlackPlayerAgent>();
         }
 
         protected override void TearDownTest()
         {
+            _boardAgent.Destroy();
+            _arbiterAgent.Destroy();
+            _blackAgent.Destroy();
+            _whiteAgent.Destroy();
             base.TearDownTest();
         }
 

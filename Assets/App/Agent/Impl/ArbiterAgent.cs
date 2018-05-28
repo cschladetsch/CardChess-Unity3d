@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 #endif
 
 using Flow;
+using UniRx;
 
 namespace App
 {
@@ -39,36 +40,6 @@ namespace App
         public bool Construct(IArbiterModel a0)
         {
             throw new NotImplementedException();
-        }
-        public bool CanPlaceKing(PlayerAgent playerAgent, Coord coord)
-        {
-            //if (!BoardAt(coord) != null)
-            //    return false;
-
-            //foreach (var adj in BoardAdjacentTo(coord))
-            //{
-            //    adj.Color
-            //}
-            throw new NotImplementedException();
-
-        }
-
-        public ArbiterAgent()
-        {
-            Kernel = Flow.Create.Kernel();
-        }
-
-        event DestroyedHandler<IAgent> IHasDestroyHandler<IAgent>.OnDestroy
-        {
-            add
-            {
-                throw new NotImplementedException();
-            }
-
-            remove
-            {
-                throw new NotImplementedException();
-            }
         }
 
         public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
@@ -301,7 +272,7 @@ namespace App
                 }
             }
 
-            _gameOver = CurrentPlayerAgent.Health <= 0;
+            _gameOver = CurrentPlayerAgent.Health.Value <= 0;
             _currentPlayer = (_currentPlayer + 1) % 2;
         }
         private IEnumerator EndGame(IGenerator self)
@@ -376,8 +347,8 @@ namespace App
         private ICoroutine _playerTimerCountdown;
         private int _turnNumber;
         private bool _gameOver;
+        //private Observable.
 
-        public event DestroyedHandler<IAgent<IArbiterModel>> OnDestroy;
         #endregion
     }
 }

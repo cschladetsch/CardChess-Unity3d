@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using App.Common.Message;
 using App.Model;
 using Flow;
+using UniRx;
 
 namespace App.Agent
 {
@@ -12,6 +13,8 @@ namespace App.Agent
         AgentBaseCoro<Model.ICardModel>,
         ICardAgent
     {
+        private ReactiveProperty<IPlayerModel> _player;
+
         #region Public Fields
         public int ManaCost => Model.ManaCost;
         public int Power => Model.Power;
@@ -19,7 +22,14 @@ namespace App.Agent
         public string Description => Model.Description;
         public ECardType Type => Model.Type;
         public EPieceType PieceType => Model.PieceType;
-        public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
+
+        public ICardTemplate Template => Model.Template;
+
+        public ReactiveProperty<IPlayerModel> Player { get; }
+
+        public ReactiveCollection<IEnumerable<IEffect>> Effects { get; }
+        public ReactiveCollection<IEnumerable<ItemModel>> Items { get; }
+        public ReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
         #endregion
 
         #region Public Methods
@@ -66,5 +76,10 @@ namespace App.Agent
 
         #region Private Fields
         #endregion
+
+        public ITransient TakeDamage(IPieceAgent self, IPieceAgent attacker)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

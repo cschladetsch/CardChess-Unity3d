@@ -9,9 +9,9 @@ namespace App.Agent
 	using App.Registry;
 	using ICard = Common.ICard;
 
-	public class DeckAgent :
-        CardCollection,
-        IDeckAgent
+	public class DeckAgent
+        : CardCollection
+        , IDeckAgent
     {
         public new int MaxCards => Parameters.MinCardsInDeck;
         public new IEnumerable<ICardAgent> Cards => base.Cards.OfType<ICardAgent>();
@@ -41,6 +41,11 @@ namespace App.Agent
                 channel.Insert(card.Value);
                 yield return card;
             }
+        }
+
+        public void NewGame()
+        {
+            throw new System.NotImplementedException();
         }
 
         public IFuture<ICardAgent> Draw()
