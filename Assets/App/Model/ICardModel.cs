@@ -16,13 +16,17 @@ namespace App.Model
         EPieceType PieceType { get; }
 
         IReactiveProperty<IPlayerModel> Player { get; }
-        IReactiveProperty<int> ManaCost { get; }
-        IReactiveProperty<int> Power { get; }
-        IReactiveProperty<int> Health { get; }
+        IReadOnlyReactiveProperty<int> ManaCost { get; }
+        IReadOnlyReactiveProperty<int> Power { get; }
+        IReadOnlyReactiveProperty<int> Health { get; }
         IReactiveCollection<IItemModel> Items { get; }
         IReactiveCollection<EAbility> Abilities { get; }
         IReactiveCollection<IEffectModel> Effects { get; }
 
-        //Response TakeDamage(IPieceModel self, IPieceModel attacker);
+        void ChangeHealth(int change);
+        void ChangeManaCost(int change);
+        void ChangePower(int change);
+
+        Response TakeDamage(ICardModel other);
     }
 }

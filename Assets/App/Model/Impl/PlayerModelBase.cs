@@ -66,7 +66,7 @@ namespace App.Model
 
         public void CardExhaustion()
         {
-            King.Health.Value -= 2;
+            King.ChangeHealth(-2);
         }
 
         public virtual void StartTurn()

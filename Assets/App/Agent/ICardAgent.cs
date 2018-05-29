@@ -1,7 +1,5 @@
-﻿
-using System.Collections.Generic;
-using App.Common;
-using Flow;
+﻿using App.Common;
+using App.Common.Message;
 using UniRx;
 
 namespace App.Agent
@@ -12,13 +10,13 @@ namespace App.Agent
         : IAgent<ICardModel>
     {
         ICardTemplate Template { get; }
-        IReactiveProperty<int> Health { get; }
-        IReactiveProperty<int> Power { get; }
+        IReadOnlyReactiveProperty<int> Health { get; }
+        IReadOnlyReactiveProperty<int> Power { get; }
         IReactiveProperty<IPlayerModel> Player { get; }
-        IReactiveCollection<IEnumerable<IEffectModel>> Effects { get; }
-        IReactiveCollection<IEnumerable<ItemModel>> Items { get; }
-        IReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
+        IReactiveCollection<IEffectModel> Effects { get; }
+        IReactiveCollection<IItemModel> Items { get; }
+        IReactiveCollection<EAbility> Abilities { get; }
 
-        ITransient TakeDamage(IPieceAgent self, IPieceAgent attacker);
+        Response TakeDamage(ICardAgent other);
     }
 }

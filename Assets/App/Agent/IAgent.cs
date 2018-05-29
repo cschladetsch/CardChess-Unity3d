@@ -19,7 +19,7 @@
         bool Destroyed { get; }
         void Destroy();
         IModel BaseModel { get; }
-        [Inject] IArbiterAgent Arbiter { get; set; }
+        IArbiterAgent Arbiter { get; set; }
     }
 
     /// <summary>

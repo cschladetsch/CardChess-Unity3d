@@ -8,9 +8,9 @@ namespace App.Mock.Model
     public class MockHand
         : HandModel
     {
-        public MockHand(IOwner owner)
-            : base(owner)
-        {
-        }
+        //public MockHand(IOwner owner)
+        //    : base(owner)
+        //{
+        //}
     }
 }

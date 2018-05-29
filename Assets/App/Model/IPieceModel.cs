@@ -18,8 +18,8 @@ namespace App.Model
         EPieceType Type { get; }
         IBoardModel Board { get; }
         IReactiveProperty<Coord> Coord { get; }
-        IReactiveProperty<int> Power { get; }
-        IReactiveProperty<int> Health { get; }
+        IReadOnlyReactiveProperty<int> Power { get; }
+        IReadOnlyReactiveProperty<int> Health { get; }
         IReactiveProperty<bool> Dead { get; }
 
         Response Attack(IPieceModel piece);

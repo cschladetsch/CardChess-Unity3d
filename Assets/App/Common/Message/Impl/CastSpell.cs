@@ -1,4 +1,5 @@
-﻿using App.Common.Message;
+﻿using App.Agent;
+using App.Common.Message;
 using App.Model.Card;
 
 namespace App.Common.Message
@@ -10,10 +11,10 @@ namespace App.Common.Message
         public ISpellModel Spell;
 
         // can be one or the other
-        public ICard Target;
+        public IPieceAgent Target;
         public Coord Coord;
 
-        public CastSpell(IPlayerModel player, ISpellModel spell, ICardModel target)
+        public CastSpell(IPlayerModel player, ISpellModel spell, IPieceAgent target)
             : base(player, EActionType.Resign)
         {
             Spell = spell;

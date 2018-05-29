@@ -24,12 +24,16 @@ namespace App.Model
         public string Description => Template.FlavourText;
 
         public IReactiveProperty<IPlayerModel> Player => _player;
-        public IReactiveProperty<int> ManaCost => _manaCost;
-        public IReactiveProperty<int> Power => _power;
-        public IReactiveProperty<int> Health => _health;
+        public IReadOnlyReactiveProperty<int> ManaCost => _manaCost;
+        public IReadOnlyReactiveProperty<int> Power => _power;
+        public IReadOnlyReactiveProperty<int> Health => _health;
         public IReactiveCollection<IItemModel> Items => _items;
         public IReactiveCollection<EAbility> Abilities => _abilities;
         public IReactiveCollection<IEffectModel> Effects => _effects;
+        public Response TakeDamage(ICardModel other)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -41,6 +45,11 @@ namespace App.Model
             SetOwner(owner);
         }
 
+        int Clamp(int min, int max, int val)
+        {
+            return val < min ? min : (val > max ? max : val);
+        }
+
         public override bool Construct(IOwner owner)
         {
             if (!base.Construct(owner))
@@ -49,6 +58,8 @@ namespace App.Model
             _power = new IntReactiveProperty(Template.Power);
             _health = new IntReactiveProperty(Template.Health);
             _manaCost = new IntReactiveProperty(Template.ManaCost);
+
+            //_power.SkipWhile(n => n < 0).SkipWhile(n => n > 10).AsObservable().
 
             // make copies as the effects, abilities and items on a card model
             // may change during the game.
@@ -63,7 +74,7 @@ namespace App.Model
             _abilities = new ReactiveCollection<EAbility>(_abilityList);
             _effects = new ReactiveCollection<IEffectModel>(_effectList);
 
-            _health.Subscribe(h => { if (h == 0) Info("Died"); });
+            _health.Subscribe(h => { if (h <= 0) Info("Died"); });
 
             _effects.ObserveAdd().Subscribe(e => Info($"Added Effect {e}"));
             _items.ObserveAdd().Subscribe(e => Info($"Added Item {e}"));
@@ -73,10 +84,26 @@ namespace App.Model
             _items.ObserveRemove().Subscribe(e => Info($"Removed Item {e}"));
             _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e}"));
 
-            Health.Subscribe(h => { if (h == 0) Info($"{this} died"); }).AddTo(this);
             return true;
         }
 
+        int Min(int a, int b) { return a < b ? a : b; }
+        int Max(int a, int b) { return a > b ? a : b; }
+
+        public void ChangeHealth(int change)
+        {
+            _health.Value += change;
+        }
+
+        public void ChangeManaCost(int change)
+        {
+            _manaCost.Value = Max(0, _manaCost.Value + change);
+        }
+
+        public void ChangePower(int change)
+        {
+            _power.Value = Max(0, _power.Value + change);
+        }
 
         public override string ToString()
         {

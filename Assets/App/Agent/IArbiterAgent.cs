@@ -6,6 +6,6 @@ namespace App.Agent
     public interface IArbiterAgent
         : IAgent<IArbiterModel>
     {
-        ICardAgent NewCardAgent(ICardModel cardModel, IOwner owner);
+        //ICardAgent NewCardAgent(ICardModel cardModel, IOwner owner);
     }
 }

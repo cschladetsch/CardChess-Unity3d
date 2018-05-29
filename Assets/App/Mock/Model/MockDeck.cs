@@ -13,10 +13,10 @@ namespace App.Mock.Model
     {
         [Inject] private Service.ICardTemplateService _cardTemplateService;
 
-        public MockDeck(Guid a0, IOwner owner)
-            : base(a0, owner)
-        {
-        }
+        //public MockDeck(Guid a0, IOwner owner)
+        //    : base(a0, owner)
+        //{
+        //}
 
         public override void NewGame()
         {

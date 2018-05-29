@@ -17,6 +17,7 @@ namespace App.Model
         int Power { get; }
         int Health { get; }
 
+        string Name { get; }
         string FlavourText { get; }
         IEnumerable<IItemModel> Items { get; }
         IEnumerable<EAbility> Abilities { get; }

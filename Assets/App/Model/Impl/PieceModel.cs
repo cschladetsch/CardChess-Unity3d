@@ -17,8 +17,8 @@ namespace App.Model
         public EPieceType Type => Card.PieceType;
         [Inject] public IBoardModel Board { get; set; }
         public IReactiveProperty<Coord> Coord => _coord;
-        public IReactiveProperty<int> Power => Card.Power;
-        public IReactiveProperty<int> Health => Card.Health;
+        public IReadOnlyReactiveProperty<int> Power => Card.Power;
+        public IReadOnlyReactiveProperty<int> Health => Card.Health;
         public IReactiveProperty<bool> Dead => _dead;
 
         public bool Construct(IPlayerModel player, ICardModel card)
@@ -55,9 +55,9 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public Response TakeDamage(IPieceModel defender)
+        public Response TakeDamage(IPieceModel attacker)
         {
-            return Card.TakeDamage(this, defender);
+            return Card.TakeDamage(attacker.Card);
         }
 
         public override string ToString()
