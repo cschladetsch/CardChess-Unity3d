@@ -14,8 +14,8 @@ namespace App.Agent
         ICardAgent
     {
         #region Public Fields
-        public int ManaCost => Model.ManaCost;
-        public string Description => Model.Description;
+        public int ManaCost => Model.ManaCost.Value;
+        public string Description => Model.Template.FlavourText;
         public ECardType Type => Model.Type;
         public EPieceType PieceType => Model.PieceType;
         public ICardTemplate Template => Model.Template;
@@ -23,7 +23,7 @@ namespace App.Agent
         public ReactiveProperty<int> Power { get; }
         public ReactiveProperty<int> Health { get; private set; }
         public ReactiveProperty<IPlayerModel> Player { get; }
-        public ReactiveCollection<IEnumerable<IEffect>> Effects { get; }
+        public ReactiveCollection<IEffectModel> Effects { get; }
         public ReactiveCollection<IEnumerable<ItemModel>> Items { get; }
         public ReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
         #endregion

@@ -5,18 +5,16 @@ using System.Linq;
 namespace App.Model
 {
     using Common;
-    using ICard = Common.ICard;
 
     /// <summary>
     /// All cards owned by a playerAgent
     /// </summary>
     public abstract class CardLibrary :
         ModelBase,
-        ICardCollection<ICard>,
         IConstructWith<Guid>
     {
         public int MaxCards => int.MaxValue;
-        public IEnumerable<Common.ICard> Cards => cards;
+        public List<ICardTemplate> Cards = new List<ICardTemplate>();
         public int NumCards => cards.Count;
         public bool Empty => NumCards == 0;
         public bool Maxxed => NumCards == MaxCards;
@@ -26,7 +24,7 @@ namespace App.Model
             return true;
         }
 
-        public bool Add(ICard card)
+        public bool Add(ICardTemplate card)
         {
             Assert.IsNotNull(card);
             var templ = card as ICardTemplate;
@@ -39,7 +37,7 @@ namespace App.Model
             return true;
         }
 
-        public void Add(IEnumerable<ICard> cads)
+        public void Add(IEnumerable<ICardTemplate> cads)
         {
             foreach (var card in cards)
             {
@@ -52,9 +50,9 @@ namespace App.Model
             }
         }
 
-        public bool Remove(ICard card)
+        public bool Remove(ICardTemplate card)
         {
-            var templ = card as ICardTemplate;
+            var templ = card;
             if (templ == null)
             {
                 Warn($"{card} is of type {card.GetType()}, but should be a {typeof(ICardTemplate)}");
@@ -66,20 +64,7 @@ namespace App.Model
             return true;
         }
 
-        public bool Add(ICardTemplate card)
-        {
-            if (Maxxed)
-                return false;
-            cards.Add(card);
-            return true;
-        }
-
-        public bool Remove(ICardTemplate card)
-        {
-            return Has(card) && cards.Remove(card);
-        }
-
-        public bool Has(ICard card)
+        public bool Has(ICardTemplate card)
         {
             return Has(card.Id);
         }

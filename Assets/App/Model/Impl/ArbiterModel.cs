@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -18,12 +19,17 @@ namespace App.Model
     {
         #region Public Properties
 
-        public EGameState GameState { get; private set; }
         [Inject] public IBoardModel Board { get; set; }
         public EColor Color => EColor.Neutral;
-        public IPlayerModel CurrentPlayer => _players[_currentPlayer].Player;
+
+        public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
+        public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
 
         #endregion
+
+        private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
+        private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Start);
 
         #region Public Methods
 
@@ -40,20 +46,19 @@ namespace App.Model
                 new PlayerEntry(w),
                 new PlayerEntry(b),
             };
-            _currentPlayer = 0;
+            _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
+            _currentPlayerIndex.Value = 0;
 
             Construct(this);
             Board.NewGame();
             foreach (var entry in _players)
                 entry.Player.NewGame();
-
-            GameState = EGameState.Mulligan;
         }
 
         public void Endame()
         {
             Info("EndGame");
-            GameState = EGameState.Completed;
+            _gameState.Value = EGameState.Completed;
         }
 
         private Response TryPlacePiece(PlacePiece act)
@@ -66,7 +71,7 @@ namespace App.Model
             Assert.IsNotNull(act);
             Assert.IsNotNull(act.Player);
             Assert.IsNotNull(act.Card);
-            Assert.AreEqual(EGameState.PlaceKing, GameState);
+            Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
             Assert.AreEqual(act.Card.PieceType, EPieceType.King);
 
             if (Board.GetAdjacent(act.Coord, 2).Any(k => k.Type == EPieceType.King))
@@ -78,7 +83,7 @@ namespace App.Model
             if (resp.Type != EResponse.Ok)
                 return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
 
-            act.Player.KingPiece = Board.GetPieces(EPieceType.King).First(k => k.Owner == act.Player);
+            act.Player.KingPiece = Board.GetPiecesOfType(EPieceType.King).First(k => k.Owner == act.Player);
             if (Board.NumPieces(EPieceType.King) == 2)
             {
                 StartFirstTurn();
@@ -89,19 +94,19 @@ namespace App.Model
 
         private void StartFirstTurn()
         {
-            _currentPlayer = 0;
-            CurrentPlayer.StartTurn();
-            GameState = EGameState.PlayTurn;
+            _currentPlayerIndex.Value = 0;
+            CurrentPlayer.Value.StartTurn();
+            _gameState.Value = EGameState.PlayTurn;
         }
 
         private Response TryMovePiece(MovePiece move)
         {
             var player = move.Player;
             var piece = move.Piece;
-            if (GameState != EGameState.PlayTurn)
+            if (GameState.Value != EGameState.PlayTurn)
                 return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
 
-            if (CurrentPlayer != player)
+            if (CurrentPlayer.Value != player)
                 return Failed(move, $"Not {player}'s turn");
 
             if (GetEntry(move.Player).MovedPiece)
@@ -122,7 +127,7 @@ namespace App.Model
             // TODO: give player different cards in response
             entry.AcceptedCards = true;
             if (_players.All(a => a.AcceptedCards))
-                GameState = EGameState.PlaceKing;
+                _gameState.Value = EGameState.PlaceKing;
 
             return Response.Ok;
         }
@@ -130,7 +135,7 @@ namespace App.Model
         public Response Arbitrate(IRequest request)
         {
             Info($"{request} in {GameState}");
-            switch (GameState)
+            switch (GameState.Value)
             {
                 case EGameState.None:
                     return Response.Ok;
@@ -199,15 +204,15 @@ namespace App.Model
 
         private void EndTurn()
         {
-            CurrentPlayer.EndTurn();
-            _currentPlayer = (_currentPlayer + 1) % _players.Count;
+            CurrentPlayer.Value.EndTurn();
+            _currentPlayerIndex.Value = (_currentPlayerIndex.Value + 1) % _players.Count;
             _turnNumber++;
-            CurrentPlayer.StartTurn();
+            CurrentPlayer.Value.StartTurn();
             foreach (var entry in _players)
                 entry.NewTurn();
 
             Verbose(10, $"Next turn #{_turnNumber} for {CurrentPlayer}");
-            GameState = EGameState.PlayTurn;
+            _gameState.Value = EGameState.PlayTurn;
         }
 
         Response TryCastSpell(CastSpell castSpell)
@@ -255,7 +260,6 @@ namespace App.Model
         }
 
         private List<PlayerEntry> _players;
-        private int _currentPlayer;
         private int _turnNumber;
 
         #endregion

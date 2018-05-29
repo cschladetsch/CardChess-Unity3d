@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
+using UniRx;
 
 namespace App.Model
 {
@@ -15,15 +17,12 @@ namespace App.Model
         ICardModel Card { get; }
         EPieceType Type { get; }
         IBoardModel Board { get; }
-        Coord Coord { get; set; }
-        int Power { get; }
-        int Health { get; }
-        bool Dead { get; }
-        bool Alive { get; }
+        IReactiveProperty<Coord> Coord { get; }
+        IReactiveProperty<int> Power { get; }
+        IReactiveProperty<int> Health { get; }
+        IReactiveProperty<bool> Dead { get; }
 
         Response Attack(IPieceModel piece);
         Response TakeDamage(IPieceModel piece);
-
-        //Response TakeDamage(IPieceModel self, IPieceModel attacker);
     }
 }

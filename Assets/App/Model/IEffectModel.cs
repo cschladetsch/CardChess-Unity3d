@@ -1,8 +1,9 @@
 ﻿namespace App.Model
 {
-    using Common;
-
-    public interface IEffectModel : IHasId
+    public interface IEffectModel
+        : ICardModel
     {
+        int Radius { get; }
+        int NumTurns { get; }
     }
 }

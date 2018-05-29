@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using UniRx;
 
 namespace App.Model
 {
@@ -10,13 +10,19 @@ namespace App.Model
     /// </summary>
     public interface ICardModel
         : IModel
-        , ICard
     {
         ICardTemplate Template { get; }
-        IEnumerable<ICardModel> Items { get; }
-        IEnumerable<EAbility> Abilities { get; }
-        IPlayerModel Player { get; }
+        ECardType Type { get; }
+        EPieceType PieceType { get; }
 
-        Response TakeDamage(IPieceModel self, IPieceModel attacker);
+        IReactiveProperty<IPlayerModel> Player { get; }
+        IReactiveProperty<int> ManaCost { get; }
+        IReactiveProperty<int> Power { get; }
+        IReactiveProperty<int> Health { get; }
+        IReactiveCollection<IItemModel> Items { get; }
+        IReactiveCollection<EAbility> Abilities { get; }
+        IReactiveCollection<IEffectModel> Effects { get; }
+
+        //Response TakeDamage(IPieceModel self, IPieceModel attacker);
     }
 }

@@ -1,9 +1,7 @@
-﻿namespace App.Model.Card
+﻿namespace App.Model
 {
     public interface IItemModel
         : ICardModel
     {
-        bool Equip(ICardModel target);
-        bool UnEquip(ICardModel target);
     }
 }

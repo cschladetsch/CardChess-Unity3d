@@ -1,4 +1,6 @@
 ﻿using App.Common.Message;
+using JetBrains.Annotations;
+using UniRx;
 
 namespace App.Model
 {
@@ -11,8 +13,8 @@ namespace App.Model
         #region Properties
 
         IBoardModel Board { get; }
-        IPlayerModel CurrentPlayer { get; }
-        EGameState GameState { get; }
+        IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
+        IReadOnlyReactiveProperty<EGameState> GameState { get; }
 
         #endregion
 

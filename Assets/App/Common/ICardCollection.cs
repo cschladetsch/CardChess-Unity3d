@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UniRx;
 
 namespace App.Common
 {
@@ -10,14 +11,14 @@ namespace App.Common
 
     public interface ICardCollection<TCard>
         : ICardCollectionBase
-        where TCard : class, ICard
+        where TCard : class
     {
         int MaxCards { get; }
-        int NumCards { get; }
-        bool Empty { get; }
-        bool Maxxed { get; }
+        IReadOnlyReactiveProperty<int> NumCards { get; }
+        IReadOnlyReactiveProperty<bool> Empty { get; }
+        IReadOnlyReactiveProperty<bool> Maxxed { get; }
+        IReadOnlyCollection<TCard> Cards { get; }
 
-        IEnumerable<TCard> Cards { get; }
         bool Has(TCard card);
         bool Has(Guid idCard);
         bool Add(TCard card);

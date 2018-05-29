@@ -11,22 +11,17 @@ namespace App.Model
     {
         public override int MaxCards => Parameters.MaxCardsInHand;
 
-        public HandModel(IOwner owner)
-            : base(owner)
+        public ICardModel this[int index]
         {
-        }
-
-        public ICardModel this[int key]
-        {
-            get { return cards[key]; }
-            set { cards[key] = value; }
+            get { return _Cards[index]; }
+            set { _Cards[index] = value; }
         }
 
         public Response NewGame()
         {
             var count = Parameters.StartHandCardCount;
-            cards = new List<ICardModel>();
-            if (Deck.NumCards < count)
+            _Cards.Clear();
+            if (Deck.NumCards.Value < count)
             {
                 Error("Need more cards in Deck");
                 return new Response(EResponse.Fail);

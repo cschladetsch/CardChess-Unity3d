@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.Common;
+using UniRx;
 
 namespace App.Model
 {
@@ -14,16 +15,39 @@ namespace App.Model
     {
         #region Public Properties
         public abstract int MaxCards { get; }
-        public IEnumerable<ICardModel> Cards => cards;
-        public int NumCards => cards.Count;
-        public bool Empty => NumCards == 0;
-        public bool Maxxed => cards.Count == MaxCards;
         public IPlayerModel Player => Owner as IPlayerModel;
         public IHandModel Hand => Player.Hand;
         public IDeckModel Deck => Player.Deck;
+
+        public IReadOnlyReactiveProperty<int> NumCards => _numCards;
+        public IReadOnlyReactiveProperty<bool> Empty => _empty;
+        public IReadOnlyReactiveProperty<bool> Maxxed => _maxxed;
+        public IReadOnlyCollection<ICardModel> Cards => _Cards;
         #endregion
 
         #region Public Methods
+
+        public override bool Construct(IOwner owner)
+        {
+            if (base.Construct(owner))
+                return false;
+            _numCards = new IntReactiveProperty(0);
+            _empty = new BoolReactiveProperty(true);
+            _maxxed = new BoolReactiveProperty(false);
+            _cardList = new List<ICardModel>();
+            _Cards = new ReactiveCollection<ICardModel>(_cardList);
+            _Cards.ObserveCountChanged().Subscribe(
+                n =>
+                {
+                    _numCards.Value = n;
+                    _maxxed.Value = n == MaxCards;
+                    _empty.Value = n == 0;
+                }
+            );
+
+            return true;
+        }
+
         public bool Has(ICardModel card)
         {
             return Has(card.Id);
@@ -31,14 +55,14 @@ namespace App.Model
 
         public bool Has(Guid idCard)
         {
-            return cards.Any(c => c.Id == idCard);
+            return _Cards.Any(c => c.Id == idCard);
         }
 
         public bool Add(ICardModel cardModel)
         {
-            if (cards.Count == MaxCards)
+            if (Maxxed.Value)
                 return false;
-            cards.Add(cardModel);
+            _Cards.Add(cardModel);
             return true;
         }
 
@@ -50,21 +74,23 @@ namespace App.Model
 
         public bool Remove(ICardModel cardModel)
         {
-            if (cards.Count == 0)
+            if (Empty.Value)
                 return false;
-            cards.Add(cardModel);
+            _Cards.Add(cardModel);
             return true;
         }
 
         #endregion
 
-        #region Protected
-        protected CardCollectionModelBase(IOwner owner)
-        {
-            Construct(owner);
-        }
+        protected UniRx.ReactiveCollection<ICardModel> _Cards;
 
-        protected List<ICardModel> cards = new List<ICardModel>();
+        #region Private Fields
+
+        private List<ICardModel> _cardList;
+        private IntReactiveProperty _numCards;
+        private BoolReactiveProperty _empty;
+        private BoolReactiveProperty _maxxed;
+
         #endregion
     }
 }

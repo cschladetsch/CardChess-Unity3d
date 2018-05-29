@@ -1,10 +1,11 @@
-﻿namespace App.Model
+﻿using UniRx;
+
+namespace App.Model
 {
     using Common;
     using Common.Message;
     using Registry;
 
-    /// <summary>
     /// <summary>
     /// Model of a piece on the board.
     /// </summary>
@@ -15,22 +16,26 @@
         public ICardModel Card { get; private set; }
         public EPieceType Type => Card.PieceType;
         [Inject] public IBoardModel Board { get; set; }
-        public Coord Coord { get; set; }
-        public int Power => Card.Power;
-        public int Health => Card.Health;
-        public bool Dead => Health <= 0;
-        public bool Alive => !Dead;
+        public IReactiveProperty<Coord> Coord => _coord;
+        public IReactiveProperty<int> Power => Card.Power;
+        public IReactiveProperty<int> Health => Card.Health;
+        public IReactiveProperty<bool> Dead => _dead;
 
-        public PieceModel(IPlayerModel a0, ICardModel a1)
+        public bool Construct(IPlayerModel player, ICardModel card)
         {
-            Construct(a0, a1);
+            if (!base.Construct(player))
+                return false;
+
+            Card = card;
+            Health.Subscribe(h => Dead.Value = h <= 0).AddTo(this);
+            Dead.Subscribe(d => Died()).AddTo(this);
+            return true;
         }
 
-        public bool Construct(IPlayerModel a0, ICardModel a1)
+        void Died()
         {
-            base.Construct(a0);
-            Card = a1;
-            return true;
+            Info($"{this} died");
+            Board.Remove(this);
         }
 
         public Response Attack(IPieceModel defender)
@@ -41,24 +46,26 @@
             var defend = TakeDamage(defender);
             if (defend.Failed)
                 return defend;
-            if (Dead)
-                return Board.Remove(this);
-            return Board.TryMovePiece(new MovePiece(Player, this, defender.Coord));
+            if (defender.Dead.Value && !Dead.Value)
+            {
+                return Board.TryMovePiece(
+                    new MovePiece(Player, this, defender.Coord.Value));
+            }
+
+            return Response.Ok;
         }
 
         public Response TakeDamage(IPieceModel defender)
         {
-            var resp = Card.TakeDamage(this, defender);
-            if (resp.Failed)
-                return resp;
-            if (Health <= 0)
-                Board.Remove(this);
-            return Response.Ok;
+            return Card.TakeDamage(this, defender);
         }
 
         public override string ToString()
         {
             return $"{Player}'s {Type} @{Coord} with {Power}/{Health}";
         }
+
+        private readonly ReactiveProperty<Coord> _coord = new ReactiveProperty<Coord>();
+        readonly BoolReactiveProperty _dead = new BoolReactiveProperty(false);
     }
 }

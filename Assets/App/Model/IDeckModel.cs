@@ -9,7 +9,7 @@ namespace App.Model
     /// </summary>
     public interface IDeckModel
         : ICardCollection<ICardModel>
-        , IConstructWith<ITemplateDeck>
+        , IConstructWith<ITemplateDeck, IOwner>
         , IModel
     {
         void NewGame();

@@ -1,7 +1,9 @@
-﻿namespace App.Common
+﻿using UniRx;
+
+namespace App.Common
 {
     public interface IOwned
     {
-        IOwner Owner { get; }
+        IReadOnlyReactiveProperty<IOwner> Owner { get; }
     }
 }

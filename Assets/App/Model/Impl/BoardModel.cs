@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 
 namespace App.Model
 {
@@ -23,7 +24,8 @@ namespace App.Model
         public int Width { get; }
         public int Height { get; }
         [Inject] public IArbiterModel Arbiter { get; set; }
-        public IEnumerable<IPieceModel> Pieces => GetContents();
+        public UniRx.IReadOnlyReactiveCollection<IPieceModel> Pieces => _pieces;
+
         #endregion
 
         #region Public Methods
@@ -52,7 +54,7 @@ namespace App.Model
         {
             Assert.IsNotNull(pieceModel);
             Verbose(5, $"Removing {pieceModel} from board");
-            return SetPieceAt(pieceModel.Coord, null);
+            return SetPieceAt(pieceModel.Coord.Value, null);
         }
 
         public IPieceModel RemovePiece(Coord coord)
@@ -62,14 +64,14 @@ namespace App.Model
                 Warn($"Attempt to remove from invalid {coord}");
                 return null;
             }
-            var current = _contents[coord.y][coord.x];
-            _contents[coord.y][coord.x] = null;
+            var current = At(coord);
+            Set(coord, null);
             return current;
         }
 
-        public IEnumerable<IPieceModel> GetPieces(EPieceType type)
+        public IEnumerable<IPieceModel> GetPiecesOfType(EPieceType type)
         {
-            return GetContents().Where(c => c.Type == type);
+            return _contents.Where(c => c.Type == type);
         }
 
         public bool IsValid(Coord coord)
@@ -82,14 +84,14 @@ namespace App.Model
             var coord = move.Coord;
             var piece = move.Piece;
 
-            return GetMovements(piece.Coord).Any(c => At(c) == null)
+            return GetMovements(piece.Coord.Value).Any(c => At(c) == null)
                 ? MovePieceTo(coord, piece)
                 : Failed(move, $"{move.Player} cannot move {piece} to {coord}: illegal movmenet");
         }
 
         private Response MovePieceTo(Coord coord, IPieceModel piece)
         {
-            var old = piece.Coord;
+            var old = piece.Coord.Value;
             var resp = SetPieceAt(coord, piece);
             if (resp.Success)
                 SetPieceAt(old, null);
@@ -146,9 +148,8 @@ namespace App.Model
 
         public IPieceModel At(Coord coord)
         {
-            var valid = IsValidCoord(coord);
-            Assert.IsTrue(valid);
-            return !valid ? null : _contents[coord.y][coord.x];
+            Assert.IsTrue(IsValid(coord));
+            return At(coord.x, coord.y);
         }
 
         public IPieceModel At(int x, int y)
@@ -157,17 +158,12 @@ namespace App.Model
                 return null;
             if (x >= Width || y >= Height)
                 return null;
-            return _contents[y][x];
+            return _contents[y * Width + x];
         }
 
         public bool IsValidCoord(Coord coord)
         {
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
-        }
-
-        public IEnumerable<IPieceModel> GetContents()
-        {
-            return _contents.SelectMany(row => row).Where(c => c != null);
         }
 
         public Response TryPlacePiece(PlacePiece act)
@@ -190,7 +186,7 @@ namespace App.Model
         public Response Remove(PieceModel piece)
         {
             Assert.IsNotNull(piece);
-            return SetPieceAt(piece.Coord, null);
+            return SetPieceAt(piece.Coord.Value, null);
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
@@ -226,7 +222,7 @@ namespace App.Model
             {
                 var piece = At(coord);
                 var rep = CardToRep(piece.Card);
-                var black = piece.Owner.Color != EColor.White;
+                var black = piece.Owner.Value.Color != EColor.White;
                 if (black)
                     rep = rep.ToLower();
                 return rep;
@@ -275,30 +271,30 @@ namespace App.Model
 
         private void ConstructBoard()
         {
-            _contents = new List<List<IPieceModel>>();
-            for (var n = 0; n < Height; ++n)
-            {
-                var row = new List<IPieceModel>();
-                for (var m = 0; m < Width; ++m)
-                    row.Add(null);
-                _contents.Add(row);
-            }
+            _contents = new List<IPieceModel>(Width*Height);
+            _pieces = new ReactiveCollection<IPieceModel>(_contents);
+            for (var n = 0; n < Width*Height; ++n)
+                _contents.Add(null);
         }
 
         Response SetPieceAt(Coord coord, IPieceModel piece)
         {
             Assert.IsTrue(IsValid(coord));
             if (piece != null)
-                piece.Coord = coord;    // C# needs friend classes
-            _contents[coord.y][coord.x] = piece;
+                piece.Coord.Value = coord;    // C# needs friend classes
             return Response.Ok;
+        }
+
+        private void Set(Coord coord, IPieceModel piece)
+        {
+            _contents[coord.y*Width + coord.x] = piece;
         }
 
         private void ClearBoard()
         {
-            foreach (var card in GetContents())
+            foreach (var card in _contents)
             {
-                RemovePiece(card.Coord);
+                RemovePiece(card.Coord.Value);
                 card.Destroy();
             }
         }
@@ -357,7 +353,8 @@ namespace App.Model
         #endregion
 
         #region Private Fields
-        private List<List<IPieceModel>> _contents;
+        private List<IPieceModel> _contents;
+        private IReactiveCollection<IPieceModel> _pieces;
         #endregion
     }
 }
