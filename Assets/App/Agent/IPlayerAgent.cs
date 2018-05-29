@@ -9,7 +9,9 @@ namespace App.Agent
     using Common;
 
     /// <summary>
-    /// Agent for a PlayerAgent. Responsible for reacting to changes in Model state.
+    /// Agent for a Player.
+    ///
+    /// Responsible for reacting to changes in Model state.
     /// </summary>
     public interface IPlayerAgent
         : IAgent<IPlayerModel>
