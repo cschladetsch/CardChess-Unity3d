@@ -92,10 +92,8 @@ namespace App.Model
         private Response MovePieceTo(Coord coord, IPieceModel piece)
         {
             var old = piece.Coord.Value;
-            var resp = SetPieceAt(coord, piece);
-            if (resp.Success)
-                SetPieceAt(old, null);
-            return resp;
+            var resp = Set(coord, piece);
+            return resp.Success ? Set(old, null) : resp;
         }
 
         public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
@@ -166,27 +164,26 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public Response TryPlacePiece(PlacePiece act)
+        public Response<IPieceModel> TryPlacePiece(PlacePiece placePiece)
         {
-            Assert.IsNotNull(act);
-            var coord = act.Coord;
+            Assert.IsNotNull(placePiece);
+            var coord = placePiece.Coord;
             Assert.IsTrue(IsValid(coord));
 
             if (At(coord) != null)
-                return Failed(act, $"Already {At(coord)}, cannot {act}");
+                return new Response<IPieceModel>(null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot {placePiece}");
 
-            var set = SetPieceAt(coord, Registry.New<IPieceModel>(act.Player, act.Card));
-            if (set.Failed)
-                return set;
+            var piece = Registry.New<IPieceModel>(placePiece.Player, placePiece.Card);
+            Set(coord, piece);
 
-            Verbose(20, $"{act}");
-            return Response.Ok;
+            Verbose(20, $"{placePiece}");
+            return new Response<IPieceModel>(piece);
         }
 
         public Response Remove(PieceModel piece)
         {
             Assert.IsNotNull(piece);
-            return SetPieceAt(piece.Coord.Value, null);
+            return Set(piece.Coord.Value, null);
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
@@ -277,17 +274,13 @@ namespace App.Model
                 _contents.Add(null);
         }
 
-        Response SetPieceAt(Coord coord, IPieceModel piece)
+        private Response Set(Coord coord, IPieceModel piece)
         {
             Assert.IsTrue(IsValid(coord));
+            _contents[coord.y * Width + coord.x] = piece;
             if (piece != null)
-                piece.Coord.Value = coord;    // C# needs friend classes
+                piece.Coord.Value = coord;
             return Response.Ok;
-        }
-
-        private void Set(Coord coord, IPieceModel piece)
-        {
-            _contents[coord.y*Width + coord.x] = piece;
         }
 
         private void ClearBoard()

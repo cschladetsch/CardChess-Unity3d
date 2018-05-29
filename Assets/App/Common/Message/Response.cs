@@ -31,8 +31,8 @@ namespace App.Common.Message
     {
         public TPayload Payload { get; }
 
-        public Response(TPayload load, EResponse response = EResponse.Ok, EError err = EError.None)
-            : base(response, err)
+        public Response(TPayload load, EResponse response = EResponse.Ok, EError err = EError.None, string text = "")
+            : base(response, err, text)
         {
             Payload = load;
         }
