@@ -30,7 +30,7 @@ namespace App.Model
         string Print(Func<Coord, string> fun);
 
         Response Remove(IPieceModel pieceModel);
-        Response TryPlacePiece(PlacePiece act);
+        Response<IPieceModel> TryPlacePiece(PlacePiece placePiece);
         Response TryMovePiece(MovePiece act);
 
         IEnumerable<IPieceModel> GetPiecesOfType(EPieceType type);
