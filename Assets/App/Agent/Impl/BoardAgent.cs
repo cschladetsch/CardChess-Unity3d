@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using App.Common.Message;
-using App.Model;
 using Flow;
 
 namespace App.Agent
 {
     using Common;
-    using Model;
 
     public class BoardAgent :
         AgentBaseCoro<Model.IBoardModel>,

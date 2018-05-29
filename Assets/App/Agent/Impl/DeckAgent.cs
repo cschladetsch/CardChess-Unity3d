@@ -7,26 +7,19 @@ namespace App.Agent
 {
 	using App.Model;
 	using App.Registry;
-	using ICard = Common.ICard;
 
 	public class DeckAgent
-        : CardCollection
-        , IDeckAgent
+        //: CardCollection
+        //, IDeckAgent
+        : AgentBaseCoro<IDeckModel>
     {
-        public new int MaxCards => Parameters.MinCardsInDeck;
-        public new IEnumerable<ICardAgent> Cards => base.Cards.OfType<ICardAgent>();
-        public new Model.IDeckModel Model { get; private set; }
-
-		public bool Construct(Model.IDeckModel a0)
-        {
-            Model = a0;
-            return true;
-        }
+        public int MaxCards => Parameters.MinCardsInDeck;
+        public IEnumerable<ICardAgent> Cards => null;//base.Cards.OfType<ICardAgent>();
 
         public IChannel<ICardAgent> DrawCards(uint n)
         {
             var channel = New.Channel<ICardAgent>();
-            Node.Add(New.Coroutine(DrawCardsCoro, n, channel));
+            //Node.Add(New.Coroutine(DrawCardsCoro, n, channel));
             return channel;
         }
 
@@ -52,7 +45,7 @@ namespace App.Agent
         {
             var cardModel = Model.Draw();
             var futureAgent = New.Future<ICardAgent>();
-            futureAgent.Value = Arbiter.NewCardAgent(cardModel, Owner);
+            //futureAgent.Value = Arbiter.NewCardAgent(cardModel, Owner);
             return futureAgent;
         }
 

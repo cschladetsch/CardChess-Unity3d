@@ -20,7 +20,7 @@ namespace App.Mock.Model
         {
         }
 
-        public override void RequestSuccess(IRequest req)
+        public override void RequestSucceeded(IRequest req)
         {
             Verbose(10, $"{this} action success: {req.Action}");
         }
@@ -35,10 +35,10 @@ namespace App.Mock.Model
             return _next == _Requests.Count ? null : _Requests[_next++]();
         }
 
-        public override IRequest StartTurn()
+        public override void StartTurn()
         {
+            base.StartTurn();
             Hand.Add(Deck.Draw());
-            return _Pass;
         }
 
         public override Response NewGame()

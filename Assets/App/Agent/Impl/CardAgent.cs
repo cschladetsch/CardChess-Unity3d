@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using App.Common.Message;
 using App.Model;
 using Flow;
@@ -9,23 +8,23 @@ namespace App.Agent
 {
     using Common;
 
-    public abstract class CardAgent :
-        AgentBaseCoro<Model.ICardModel>,
-        ICardAgent
+    public abstract class CardAgent
+        : AgentBaseCoro<Model.ICardModel>
+        , ICardAgent
     {
         #region Public Fields
-        public int ManaCost => Model.ManaCost.Value;
-        public string Description => Model.Template.FlavourText;
         public ECardType Type => Model.Type;
         public EPieceType PieceType => Model.PieceType;
         public ICardTemplate Template => Model.Template;
 
-        public ReactiveProperty<int> Power { get; }
-        public ReactiveProperty<int> Health { get; private set; }
-        public ReactiveProperty<IPlayerModel> Player { get; }
-        public ReactiveCollection<IEffectModel> Effects { get; }
-        public ReactiveCollection<IEnumerable<ItemModel>> Items { get; }
-        public ReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
+        public IReactiveProperty<IPlayerModel> Player => Model.Player;
+        public IReadOnlyReactiveProperty<int> ManaCost => Model.Power;
+        public IReadOnlyReactiveProperty<int> Power => Model.Power;
+        public IReadOnlyReactiveProperty<int> Health => Model.Health;
+        public IReactiveCollection<IItemModel> Items => Model.Items;
+        public IReactiveCollection<EAbility> Abilities => Model.Abilities;
+
+        public IReactiveCollection<IEffectModel> Effects => Model.Effects;
         #endregion
 
         #region Public Methods
@@ -33,15 +32,14 @@ namespace App.Agent
         public override bool Construct(ICardModel model)
         {
             base.Construct(model);
-            Health = new ReactiveProperty<int>(model.Health);
             return true;
         }
 
-        public ITransient TakeDamage(IPieceAgent self, IPieceAgent attacker)
+        public Response TakeDamage(ICardAgent other)
         {
-            var response = Model.TakeDamage(self.Model, attacker.Model);
-            return null;
+            return Model.TakeDamage(other.Model);
         }
+
         #endregion
 
         #region Protected Methods
@@ -53,6 +51,5 @@ namespace App.Agent
 
         #region Private Fields
         #endregion
-
     }
 }

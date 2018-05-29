@@ -1,5 +1,6 @@
 ﻿using System;
 using App.Model;
+using UniRx;
 
 namespace App.Agent
 {
@@ -21,7 +22,7 @@ namespace App.Agent
 
         public IModel BaseModel { get; private set; }
         public TModel Model { get; private set; }
-        public IOwner Owner => Model.Owner;
+        public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
 
         public bool Destroyed { get; private set; }
         public event DestroyedHandler<IAgent> OnDestroy;

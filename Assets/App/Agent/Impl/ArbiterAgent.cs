@@ -17,13 +17,12 @@ namespace App
     using Model;
     using Registry;
 
-    /// <inheritdoc />
     /// <summary>
     /// The 'adudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     /// </summary>
     public class ArbiterAgent
-        : AgentLogger<IArbiterModel>
+        : AgentBase<IArbiterModel>
         , IArbiterAgent
     {
         #region Public Fields
@@ -35,12 +34,6 @@ namespace App
         public Guid Id { get; set; }
         public IRegistry<IAgent> Registry { get; set; }
         #endregion
-
-        #region Public Methods
-        public bool Construct(IArbiterModel a0)
-        {
-            throw new NotImplementedException();
-        }
 
         public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
         {
@@ -68,7 +61,7 @@ namespace App
             Kernel.Step();
         }
 
-        #region Creation Methods
+        /*
         public TModel NewModel<TModel>()
             where TModel : class, IConstructWith, new()
         {
@@ -158,6 +151,8 @@ namespace App
 
         #endregion
         #endregion
+        */
+
 
         #region Private Methods
         public void GameLoop()
@@ -210,7 +205,7 @@ namespace App
                 New.Barrier(
                     player.ChangeMaxMana(1).Named("AddMaxMana"),
                     player.DrawCard().Named("DrawCard")
-                )
+                ).Named("Upkeep")
             );
 
             var timeOut = Parameters.GameTurnTimer;
