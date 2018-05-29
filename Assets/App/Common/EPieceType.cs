@@ -3,16 +3,16 @@
     public enum EPieceType
     {
         None,
-		Peon,
+        Peon,
         Paladin,
-		Priest,
+        Priest,
         King,
         Queen,
         Castle,
         Archer,
-		Ballista,
+        Ballista,
         Gryphon,
-		Dragon,
+        Dragon,
 
         Barricade,
         Siege,

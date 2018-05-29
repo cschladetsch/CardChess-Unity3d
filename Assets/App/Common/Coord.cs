@@ -1,6 +1,4 @@
-﻿using UnityEngine.Assertions;
-
-namespace App.Common
+﻿namespace App.Common
 {
     /// <summary>
     /// A coordinate on the board.

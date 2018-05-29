@@ -29,10 +29,6 @@ namespace App
         public IPlayerAgent WhitePlayer => _players[0];
         public IPlayerAgent BlackPlayer => _players[1];
         public IPlayerAgent CurrentPlayerAgent => _players[_currentPlayer];
-
-        public bool Destroyed { get; private set; }
-        public Guid Id { get; set; }
-        public IRegistry<IAgent> Registry { get; set; }
         #endregion
 
         public void StartGame(IPlayerAgent p0, IPlayerAgent p1)

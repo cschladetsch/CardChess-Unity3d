@@ -19,14 +19,11 @@ namespace App.Agent
         #region Public Properties
         public IRegistry<IAgent> Registry { get; set; }
         public Guid Id { get; /*private*/ set; }
-
         public IModel BaseModel { get; private set; }
         public TModel Model { get; private set; }
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
-
         public bool Destroyed { get; private set; }
         public event DestroyedHandler<IAgent> OnDestroy;
-
         #endregion
 
         #region Public Methods
@@ -47,8 +44,6 @@ namespace App.Agent
         {
             TransientCompleted();
         }
-
         #endregion
-
     }
 }

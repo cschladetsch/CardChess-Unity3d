@@ -7,7 +7,7 @@ namespace App.Model
     using Common;
 
     /// <summary>
-    /// PlayerAgent in the game.
+    /// A Player in the game.
     /// Hopefully, these could be bots, or remote players as well
     /// as simple hotseat players at the same local device.
     /// </summary>
@@ -18,12 +18,10 @@ namespace App.Model
         #region Properties
         IBoardModel Board { get; }
         IArbiterModel Arbiter { get; }
-
         IDeckModel Deck { get; }
         IHandModel Hand { get; }
         ICardModel King { get; }
         IPieceModel KingPiece { get; set; }
-
         IReactiveProperty<int> MaxMana { get; }
         IReactiveProperty<int> Mana { get; }
         IReactiveProperty<int> Health { get; }
@@ -37,8 +35,8 @@ namespace App.Model
         void CardExhaustion();
         void StartTurn();
         void EndTurn();
-        void RequestFailed(IRequest req);
-        void RequestSucceeded(IRequest req);
+        void RequestFailed(IRequest req/*, Response response*/);
+        void RequestSucceeded(IRequest req/*, Response response*/);
         #endregion // Methods
     }
 }

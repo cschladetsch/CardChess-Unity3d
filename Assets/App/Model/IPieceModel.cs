@@ -8,7 +8,7 @@ namespace App.Model
     using Common.Message;
 
     /// <summary>
-    /// A card played as a piece on the board
+    /// A card in play as a piece on the board.
     /// </summary>
     public interface IPieceModel
         : IPlayerOwnedModel

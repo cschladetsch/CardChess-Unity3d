@@ -17,9 +17,9 @@ namespace App.Agent
         public override bool Construct(TModel a0)
         {
             base.Construct(a0);
-            Coro = New.Coroutine(Next);
-            Node = New.Node(Coro);
-            Kernel.Root.Add(Node);
+            _Coro = New.Coroutine(Next);
+            _Node = New.Node(_Coro);
+            Kernel.Root.Add(_Node);
             return Construct();
         }
 
@@ -30,7 +30,7 @@ namespace App.Agent
 
         protected abstract IEnumerator Next(IGenerator self);
 
-        protected IGenerator Coro;
-        protected INode Node;
+        protected IGenerator _Coro;
+        protected INode _Node;
     }
 }

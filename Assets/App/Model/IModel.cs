@@ -5,8 +5,11 @@ namespace App.Model
     using Common;
     using Registry;
 
+    /// <summary>
+    /// Base for all persistent models.
+    /// </summary>
     public interface IModel
-		: Flow.ILogger
+        : Flow.ILogger
         , IKnown
         , IOwned
         , IHasDestroyHandler<IModel>

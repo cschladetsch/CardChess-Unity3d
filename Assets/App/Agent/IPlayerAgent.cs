@@ -7,14 +7,13 @@ namespace App.Agent
     using Common.Message;
     using Model;
     using Common;
-    using Registry;
 
     /// <summary>
     /// Agent for a PlayerAgent. Responsible for reacting to changes in Model state.
     /// </summary>
-    public interface IPlayerAgent :
-        IAgent<IPlayerModel>,
-        IOwner
+    public interface IPlayerAgent
+        : IAgent<IPlayerModel>
+        , IOwner
     {
         #region Properties
         ICardAgent King { get; }
@@ -24,7 +23,6 @@ namespace App.Agent
         ReactiveProperty<int> Health { get; }
         ReactiveProperty<int> MaxMana { get; }
         ReactiveProperty<int> Mana { get; }
-
         #endregion
 
         void NewGame();
