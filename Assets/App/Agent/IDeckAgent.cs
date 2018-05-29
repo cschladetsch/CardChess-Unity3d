@@ -6,7 +6,6 @@ namespace App.Agent
 
     public interface IDeckAgent
         : IAgent<Model.IDeckModel>
-        //, ICardCollection<ICardAgent>
     {
         void NewGame();
         IFuture<ICardAgent> Draw();

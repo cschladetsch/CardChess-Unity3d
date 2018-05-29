@@ -3,9 +3,9 @@
     using Common;
 
     public interface IPlayerOwnedModel
-		: IModel
+        : IModel
     {
         IPlayerModel Player { get; }
-        EColor Color { get;}
+        EColor Color { get; }
     }
 }

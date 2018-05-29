@@ -2,8 +2,8 @@
 
 namespace App.Agent
 {
-    public interface IHandAgent :
-        IAgent<Model.IHandModel>
+    public interface IHandAgent
+        : IAgent<Model.IHandModel>
     {
         Response NewGame();
         Response Add(ICardAgent card);

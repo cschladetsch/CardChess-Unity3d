@@ -1,10 +1,15 @@
-﻿namespace App
+﻿// ReSharper disable InconsistentNaming
+
+namespace App
 {
     /// <summary>
     /// Global game parameters.
     /// </summary>
     public static class Parameters
     {
+        /// <summary>
+        /// DEfault logging values.
+        /// </summary>
         public static bool DefaultShowTraceStack = false;
         public static bool DefaultShowTraceSource = false;
         public static int DefaultLogVerbosity = 4;
@@ -13,11 +18,8 @@
         /// Number of cards to start with (excluding King)
         /// </summary>
         public static int StartHandCardCount = 6;
-
         public static int MaxCardsInHand = 10;
-
         public static int MaxCardsInDeck = 60;
-
         public static int MinCardsInDeck = 30;
 
         /// <summary>

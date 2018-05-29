@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace App.Mock.Model
 {
-    using App.Agent;
     using Common;
     using Common.Message;
 

@@ -6,9 +6,9 @@ namespace App.Agent
 {
     using Common;
 
-    public class BoardAgent :
-        AgentBaseCoro<Model.IBoardModel>,
-        IBoardAgent
+    public class BoardAgent
+        : AgentBaseCoro<Model.IBoardModel>
+        , IBoardAgent
     {
         protected override IEnumerator Next(IGenerator self)
         {
@@ -22,7 +22,8 @@ namespace App.Agent
 
         public IPieceAgent At(Coord coord)
         {
-            throw new NotImplementedException();
+            return null;
+            //return Model.At(coord);
         }
     }
 }
