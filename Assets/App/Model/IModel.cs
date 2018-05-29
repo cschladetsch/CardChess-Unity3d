@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using UniRx;
+
+namespace App.Model
 {
     using Common;
     using Registry;
@@ -10,7 +12,7 @@
         , IHasDestroyHandler<IModel>
         , IHasRegistry<IModel>
     {
-        bool Destroyed { get; }
+        IReadOnlyReactiveProperty<bool> Destroyed { get; }
         void Destroy();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using UniRx;
 
 namespace App.Model
 {
@@ -17,13 +18,41 @@ namespace App.Model
         public event DestroyedHandler<IModel> OnDestroy;
 
         #region Public Properties
-        public bool Destroyed { get; private set; } = false;
         public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
-        public IOwner Owner { get; protected set; }
+
+        public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
+        public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
         #endregion
 
+        #region Public Methods
+        public virtual bool Construct(IOwner owner)
+        {
+            _owner = new ReactiveProperty<IOwner>(owner);
+            return true;
+        }
+
+        public bool SameOwner(IOwned other)
+        {
+            return Owner.Value == other.Owner.Value;
+        }
+
+        public virtual void Destroy()
+        {
+            if (Destroyed.Value)
+            {
+                Warn($"Attempt to destroy {this} twice");
+                return;
+            }
+
+            OnDestroy?.Invoke(this);
+            _destroyed.Value = true;
+            Id = Guid.Empty;
+        }
+        #endregion
+
+        #region Protected Methods
         protected ModelBase()
         {
             LogSubject = this;
@@ -33,30 +62,30 @@ namespace App.Model
             ShowSource = Parameters.DefaultShowTraceSource;
         }
 
-        #region Public Methods
-        public bool Construct(IOwner owner)
+        protected void SetOwner(IOwner owner)
         {
-            Owner = owner;
-            return true;
+            _owner.Value = owner;
         }
 
-        public bool SameOwner(IOwned other)
+        protected void NotImplemented(string text)
         {
-            return Owner == other.Owner;
-        }
-
-        public virtual void Destroy()
-        {
-            if (Destroyed)
-            {
-                Warn($"Attempt to destroy {this} twice");
-                return;
-            }
-
-            OnDestroy?.Invoke(this);
-            Destroyed = true;
-            Id = Guid.Empty;
+            Error($"Not {text} implemented");
         }
         #endregion
+
+        #region Private Fields
+        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
+        private ReactiveProperty<IOwner> _owner = new ReactiveProperty<IOwner>();
+        #endregion
+    }
+}
+
+static class ModelExt
+{
+    public static T AddTo<T>(this T disposable, App.Model.IModel model)
+        where T : IDisposable
+    {
+        model.OnDestroy += (m) => disposable.Dispose();
+        return disposable;
     }
 }

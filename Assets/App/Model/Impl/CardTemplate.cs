@@ -21,9 +21,9 @@ namespace App.Model
         public int ManaCost { get; }
         public int Power { get; }
         public int Health { get; }
-        public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
+        public IEnumerable<IItemModel> Items { get; } = new List<IItemModel>();
         public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
-        public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
+        public IEnumerable<IEffectModel> Effects { get; } = new List<IEffectModel>();
 
         public CardTemplate(ECardType type, EPieceType pieceType, string name, int manaCost, int attack,
             int health, IEnumerable<EAbility> abilities = null,

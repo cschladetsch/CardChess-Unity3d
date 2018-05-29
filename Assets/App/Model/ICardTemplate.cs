@@ -9,11 +9,18 @@ namespace App.Model
     /// </summary>
     public interface ICardTemplate
         : IModel
-        , ICard
     {
+        ECardType Type { get; }
+        EPieceType PieceType { get; }
+
+        int ManaCost { get; }
+        int Power { get; }
+        int Health { get; }
+
         string FlavourText { get; }
-        IEnumerable<ICardModel> Items { get; }
+        IEnumerable<IItemModel> Items { get; }
         IEnumerable<EAbility> Abilities { get; }
+        IEnumerable<IEffectModel> Effects { get; }
 
         // make a new card from this template
         ICardModel New(IPlayerModel player);

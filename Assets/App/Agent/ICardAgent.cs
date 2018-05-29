@@ -12,12 +12,12 @@ namespace App.Agent
         : IAgent<ICardModel>
     {
         ICardTemplate Template { get; }
-        ReactiveProperty<int> Health { get; }
-        ReactiveProperty<int> Power { get; }
-        ReactiveProperty<IPlayerModel> Player { get; }
-        ReactiveCollection<IEnumerable<IEffect>> Effects { get; }
-        ReactiveCollection<IEnumerable<ItemModel>> Items { get; }
-        ReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
+        IReactiveProperty<int> Health { get; }
+        IReactiveProperty<int> Power { get; }
+        IReactiveProperty<IPlayerModel> Player { get; }
+        IReactiveCollection<IEnumerable<IEffectModel>> Effects { get; }
+        IReactiveCollection<IEnumerable<ItemModel>> Items { get; }
+        IReactiveProperty<IEnumerable<EAbility>> Abilities { get; }
 
         ITransient TakeDamage(IPieceAgent self, IPieceAgent attacker);
     }

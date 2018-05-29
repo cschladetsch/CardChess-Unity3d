@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using App.Registry;
+using UniRx;
 
 namespace App.Model
 {
@@ -18,23 +19,21 @@ namespace App.Model
         int Width { get; }
         int Height { get; }
         [Inject] IArbiterModel Arbiter { get; set; }
-        IEnumerable<IPieceModel> Pieces { get; }
+        IReadOnlyReactiveCollection<IPieceModel> Pieces { get; }
         #endregion
 
         #region Methods
-        string Print(Func<Coord, string> fun);
         void NewGame();
         bool IsValidCoord(Coord coord);
         string CardToRep(ICardModel cardModel);
         int NumPieces(EPieceType type);
+        string Print(Func<Coord, string> fun);
 
         Response Remove(IPieceModel pieceModel);
         Response TryPlacePiece(PlacePiece act);
         Response TryMovePiece(MovePiece act);
 
-        IEnumerable<IPieceModel> GetContents();
-        IEnumerable<IPieceModel> GetPieces(EPieceType type);
-        IPieceModel GetContents(Coord coord);
+        IEnumerable<IPieceModel> GetPiecesOfType(EPieceType type);
         IPieceModel At(int x, int y);
         IPieceModel At(Coord coord);
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);

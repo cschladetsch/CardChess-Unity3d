@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.Model.Card;
+using UniRx;
 
 // event not used
 #pragma warning disable 67
@@ -15,70 +17,66 @@ namespace App.Model
         ICardModel
     {
         #region Public Properties
-        public ECardType Type => Template.Type;
-        public ICardTemplate Template { get; }
-        public string Description => Template.FlavourText;
-        public int ManaCost { get; }
-        public int Power { get; }
-        public int Health { get; private set; }
-        public IEnumerable<ICardModel> Items { get; } = new List<ICardModel>();
-        public IEnumerable<IEffect> Effects { get; } = new List<IEffect>();
-        public IEnumerable<EAbility> Abilities { get; } = new List<EAbility>();
-        public IPlayerModel Player => Owner as IPlayerModel;
 
-        public EPieceType PieceType { get; }
+        public ICardTemplate Template { get; }
+        public ECardType Type => Template.Type;
+        public EPieceType PieceType => Template.PieceType;
+        public string Description => Template.FlavourText;
+
+        public IReactiveProperty<IPlayerModel> Player => _player;
+        public IReactiveProperty<int> ManaCost => _manaCost;
+        public IReactiveProperty<int> Power => _power;
+        public IReactiveProperty<int> Health => _health;
+        public IReactiveCollection<IItemModel> Items => _items;
+        public IReactiveCollection<EAbility> Abilities => _abilities;
+        public IReactiveCollection<IEffectModel> Effects => _effects;
+
         #endregion
 
         #region Public Methods
-        public CardModel()
-        {
-        }
-
         public CardModel(ICardTemplate template, IOwner owner)
         {
+            LogSubject = this;
             Template = template;
-            Construct(owner);
-
-            PieceType = template.PieceType;
-            Power = template.Power;
-            Health = template.Health;
-            ManaCost = template.ManaCost;
-
-            if (template.Effects != null)
-                Effects = template.Effects.ToList();
-            if (template.Items != null)
-                Items = template.Items.ToList();
-            if (template.Abilities != null)
-                Abilities = template.Abilities.ToList();
+            SetOwner(owner);
         }
 
-        public Response TakeDamage(IPieceModel self, IPieceModel attacker)
+        public override bool Construct(IOwner owner)
         {
-            return ChangeHealth(-attacker.Power, attacker);
+            if (!base.Construct(owner))
+                return false;
+
+            _power = new IntReactiveProperty(Template.Power);
+            _health = new IntReactiveProperty(Template.Health);
+            _manaCost = new IntReactiveProperty(Template.ManaCost);
+
+            // make copies as the effects, abilities and items on a card model
+            // may change during the game.
+            if (Template.Items != null)
+                _itemList = Template.Items.ToList();
+            if (Template.Abilities != null)
+                _abilityList = Template.Abilities.ToList();
+            if (Template.Effects != null)
+                _effectList = Template.Effects.ToList();
+
+            _items = new ReactiveCollection<IItemModel>(_itemList);
+            _abilities = new ReactiveCollection<EAbility>(_abilityList);
+            _effects = new ReactiveCollection<IEffectModel>(_effectList);
+
+            _health.Subscribe(h => { if (h == 0) Info("Died"); });
+
+            _effects.ObserveAdd().Subscribe(e => Info($"Added Effect {e}"));
+            _items.ObserveAdd().Subscribe(e => Info($"Added Item {e}"));
+            _abilities.ObserveAdd().Subscribe(e => Info($"Added Ability {e}"));
+
+            _effects.ObserveRemove().Subscribe(e => Info($"Removed Effect {e}"));
+            _items.ObserveRemove().Subscribe(e => Info($"Removed Item {e}"));
+            _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e}"));
+
+            Health.Subscribe(h => { if (h == 0) Info($"{this} died"); }).AddTo(this);
+            return true;
         }
 
-        public Response ChangeHealth(int change, IPieceModel cause)
-        {
-            if (Health + change == Health)
-                return new Response(EResponse.Ok, EError.NoChange);
-
-            Health += change;
-
-            if (Health <= 0)
-                Die();
-
-            return Response.Ok;
-        }
-
-        public static ICardModel New(ICardTemplate template, IOwner owner)
-        {
-            return new CardModel(template, owner);
-        }
-
-        public void ChangeAttack(int value, ICardModel cause)
-        {
-            throw new NotImplementedException("ChangeAttack");
-        }
 
         public override string ToString()
         {
@@ -87,11 +85,21 @@ namespace App.Model
 
         #endregion
 
-        #region Private Methods
-        private void Die()
-        {
-            Info($"{this} died");
-        }
+        #region Private Fields
+        private IntReactiveProperty _power;
+        private IntReactiveProperty _health;
+        private IntReactiveProperty _manaCost;
+        private ReactiveProperty<IPlayerModel> _player;
+
+        private ReactiveCollection<IItemModel> _items;
+        private ReactiveCollection<EAbility> _abilities;
+        private ReactiveCollection<IEffectModel> _effects;
+
+        private List<IItemModel> _itemList;
+        private List<EAbility> _abilityList;
+        private List<IEffectModel> _effectList;
         #endregion
     }
 }
+
+

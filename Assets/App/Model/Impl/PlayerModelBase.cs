@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using App.Common.Message;
 using App.Database;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -23,22 +24,16 @@ namespace App.Model
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
         public bool AcceptedHand { get; private set; }
-        public int MaxMana { get; private set; }
-        public int Mana { get; private set; } = 1;
-        public int Health => King.Health;
+        public IReactiveProperty<int> MaxMana => _maxMana;
+        public IReactiveProperty<int> Mana => _mana;
+        public IReactiveProperty<int> Health => _health;
         [Inject] public IBoardModel Board { get; set; }
         [Inject] public IArbiterModel Arbiter { get; set; }
-        [Inject] public Service.ICardTemplateService _cardtemplateService;
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
         public IPieceModel KingPiece { get; set; }
-
-        public IEnumerable<ICardModel> CardsOnBoard =>
-            Board.Pieces.
-            Where(p => p.Owner == this).
-            Select(p => p.Card);
-        public IEnumerable<ICardModel> CardsInGraveyard { get; }
+        [Inject] public Service.ICardTemplateService _CardtemplateService;
         #endregion
 
         #region Public Methods
@@ -51,32 +46,34 @@ namespace App.Model
         public PlayerModelBase(EColor color)
         {
             Color = color;
-            Owner = this;
+            SetOwner(this);
         }
 
         public virtual Response NewGame()
         {
             AcceptedHand = false;
-            Mana = MaxMana = 0;
-            // TODO: pass Guid of a pre-built player deck
-            Deck = Registry.New<IDeckModel>(Guid.Empty, this);
+            _mana.Value = 0;
+            _maxMana.Value = 0;
+
+            // TODO: pass a deck template
+            Deck = Registry.New<IDeckModel>(null, this);
             Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
-            King = _cardtemplateService.NewCardModel(this, EPieceType.King);
+            King = _CardtemplateService.NewCardModel(this, EPieceType.King);
             return Response.Ok;
         }
 
         public void CardExhaustion()
         {
-            // TODO: King loses health
+            King.Health.Value -= 2;
         }
 
-        void IPlayerModel.StartTurn()
+        public virtual void StartTurn()
         {
-            MaxMana = (MaxMana + 1) % Parameters.MaxManaCap;
-            Mana = MaxMana;
-            Info($"{this} starts turn with {Mana} mana");
+            MaxMana.Value = (MaxMana.Value + 1) % Parameters.MaxManaCap;
+            Mana.Value = MaxMana.Value;
+            Info($"{this} starts turn with {Mana.Value} mana");
         }
 
         public void EndTurn()
@@ -86,7 +83,7 @@ namespace App.Model
 
         public Response CardDrawn(ICardModel card)
         {
-            if (Hand.NumCards == Hand.MaxCards)
+            if (Hand.NumCards.Value == Hand.MaxCards)
                 return Response.Fail;
             return Hand.Add(card) ? Response.Ok : Response.Fail;
         }
@@ -102,35 +99,40 @@ namespace App.Model
                     var cast = req as CastSpell;
                     Assert.IsNotNull(cast);
                     Hand.Add(cast.Spell);
-                    ChangeMana(cast.Spell.ManaCost);
+                    ChangeMana(cast.Spell.ManaCost.Value);
                     break;
                 case EActionType.PlacePiece:
                     var place = req as PlacePiece;
                     Assert.IsNotNull(place);
                     Hand.Add(place.Card);
-                    ChangeMana(place.Card.ManaCost);
+                    ChangeMana(place.Card.ManaCost.Value);
                     break;
                 case EActionType.GiveItem:
                     var item = req as GiveItem;
                     Assert.IsNotNull(item);
                     Hand.Add(item.Item);
-                    ChangeMana(item.Item.ManaCost);
+                    ChangeMana(item.Item.ManaCost.Value);
                     break;
             }
         }
 
-        public virtual void RequestSuccess(IRequest req)
+        public virtual void RequestSucceeded(IRequest req)
         {
             Verbose(10, $"{req} succeeded");
         }
 
         public abstract IRequest Mulligan();
-        public abstract IRequest StartTurn();
         public abstract IRequest NextAction();
 
         public Response ChangeMana(int change)
         {
-            Mana = Mathf.Max(0, 12, Mana + change);
+            return Response.Ok;
+        }
+
+        public Response ChangeMaxMana(int change)
+        {
+            // TODO: set this via Rx
+            MaxMana.Value = Mathf.Clamp(0, Parameters.MaxManaCap, MaxMana.Value + change);
             return Response.Ok;
         }
 
@@ -140,17 +142,12 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public Response ChangeMaxMana(int change)
-        {
-            MaxMana = Mathf.Clamp(0, 12, Mana + change);
-            return Response.Ok;
-        }
+        #endregion
 
-        public void AddMaxMana(int mana)
-        {
-            MaxMana = Mathf.Clamp(MaxMana + mana, 0, (int)Parameters.MaxManaCap);
-        }
-
+        #region Private Fields
+        private readonly IntReactiveProperty _maxMana = new IntReactiveProperty(Parameters.MaxManaCap);
+        private readonly IntReactiveProperty _mana = new IntReactiveProperty(0);
+        private readonly IntReactiveProperty _health = new IntReactiveProperty(0);
         #endregion
     }
 }

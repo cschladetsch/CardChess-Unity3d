@@ -12,14 +12,18 @@ namespace App.Model
     {
         public override int MaxCards => Parameters.MinCardsInDeck;
 
-        public DeckModel(Guid a0, IOwner owner)
-            : base(owner)
+        public bool Construct(ITemplateDeck templateDeck, IOwner owner)
         {
+            if (!base.Construct(owner))
+                return false;
+
+            // TODO: store and use templateDeck
+            return true;
         }
 
         public virtual void NewGame()
         {
-            cards.Clear();
+            _Cards.Clear();
             for (var n = 0; n < MaxCards; ++n)
             {
                 // LATER: use a pre-made deck (CardLibrary)
@@ -36,44 +40,44 @@ namespace App.Model
 
         public virtual void Shuffle()
         {
-            cards.Shuffle();
+            _Cards.Shuffle();
         }
 
         public ICardModel Draw()
         {
-            if (Empty)
+            if (Empty.Value)
             {
                 Warn("Empty Deck");
                 Player.CardExhaustion();
                 return null;
             }
-            var card = cards[0];
-            cards.RemoveAt(0);
+            var card = _Cards[0];
+            _Cards.RemoveAt(0);
             return card;
         }
 
         public IEnumerable<ICardModel> Draw(int count)
         {
-            foreach (var card in cards.Take(count))
+            foreach (var card in _Cards.Take(count))
             {
                 if (card == null)
                 {
                     Player.CardExhaustion();
                     yield break;
                 }
-                cards.Remove(card);
+                _Cards.Remove(card);
                 yield return card;
             }
         }
 
         public bool AddToBottom(ICardModel cardModel)
         {
-            if (Maxxed)
+            if (Maxxed.Value)
             {
                 Warn("Maxxed");
                 return false;
             }
-            cards.Insert(cards.Count, cardModel);
+            _Cards.Insert(_Cards.Count, cardModel);
             return true;
         }
 
@@ -82,7 +86,7 @@ namespace App.Model
             var added = 0;
             foreach (var card in models)
             {
-                if (Maxxed)
+                if (Maxxed.Value)
                     return added;
                 ShuffleIn(card);
                 ++added;

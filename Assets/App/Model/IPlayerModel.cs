@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using App.Common.Message;
+using UniRx;
 
 namespace App.Model
 {
@@ -23,35 +24,21 @@ namespace App.Model
         ICardModel King { get; }
         IPieceModel KingPiece { get; set; }
 
-        IEnumerable<ICardModel> CardsOnBoard { get; }
-        int MaxMana { get; }
-        int Mana { get; }
-        int Health { get; }
-
-        #endregion // Properties
+        IReactiveProperty<int> MaxMana { get; }
+        IReactiveProperty<int> Mana { get; }
+        IReactiveProperty<int> Health { get; }
+        #endregion
 
         #region Methods
+        IRequest NextAction();
         Response NewGame();
-        Response ChangeMaxMana(int mana);
-        Response ChangeMana(int mana);
         Response DrawHand();
+        Response CardDrawn(ICardModel card);
         void CardExhaustion();
         void StartTurn();
-        IRequest NextAction();
         void EndTurn();
-        Response CardDrawn(ICardModel card);
-
-        /// <summary>
-        /// Sent by Arbiter when an action failed.
-        /// </summary>
-        /// <param name="req"></param>
         void RequestFailed(IRequest req);
-
-        /// <summary>
-        /// Sent by Arbiter when action succeeded.
-        /// </summary>
-        /// <param name="req"></param>
-        void RequestSuccess(IRequest req);
+        void RequestSucceeded(IRequest req);
         #endregion // Methods
     }
 }
