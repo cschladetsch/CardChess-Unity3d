@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using App.Model.Card;
-using UniRx;
+﻿using UniRx;
 
 // event not used
 #pragma warning disable 67
@@ -36,35 +32,25 @@ namespace App.Model
         public CardModel(IOwner owner, ICardTemplate template)
             : base(owner)
         {
-            LogSubject = this;
             Template = template;
+
             _player = new ReactiveProperty<IPlayerModel>(owner as IPlayerModel);
             _power = new IntReactiveProperty(Template.Power);
             _health = new IntReactiveProperty(Template.Health);
             _manaCost = new IntReactiveProperty(Template.ManaCost);
 
-            // make copies as the effects, abilities and items on a card model
-            // may change during the game.
-            if (Template.Items != null)
-                _itemList = Template.Items.ToList();
-            if (Template.Abilities != null)
-                _abilityList = Template.Abilities.ToList();
-            if (Template.Effects != null)
-                _effectList = Template.Effects.ToList();
-
-            _items = new ReactiveCollection<IItemModel>(_itemList);
-            _abilities = new ReactiveCollection<EAbility>(_abilityList);
-            _effects = new ReactiveCollection<IEffectModel>(_effectList);
+            _items = new ReactiveCollection<IItemModel>(Template.Items);
+            _abilities = new ReactiveCollection<EAbility>(Template.Abilities);
+            _effects = new ReactiveCollection<IEffectModel>(Template.Effects);
 
             _health.Subscribe(h => { if (h <= 0) Die(); });
 
-            _effects.ObserveAdd().Subscribe(e => Info($"Added Effect {e}"));
-            _items.ObserveAdd().Subscribe(e => Info($"Added Item {e}"));
-            _abilities.ObserveAdd().Subscribe(e => Info($"Added Ability {e}"));
-
-            _effects.ObserveRemove().Subscribe(e => Info($"Removed Effect {e}"));
-            _items.ObserveRemove().Subscribe(e => Info($"Removed Item {e}"));
-            _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e}"));
+            _effects.ObserveAdd().Subscribe(e => Info($"Added Effect {e} from {this}")).AddTo(this);
+            _items.ObserveAdd().Subscribe(e => Info($"Added Item {e} from {this}")).AddTo(this);
+            _abilities.ObserveAdd().Subscribe(e => Info($"Added Ability {e} from {this}")).AddTo(this);
+            _effects.ObserveRemove().Subscribe(e => Info($"Removed Effect {e} from {this}")).AddTo(this);
+            _items.ObserveRemove().Subscribe(e => Info($"Removed Item {e} from {this}")).AddTo(this);
+            _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e} from {this}")).AddTo(this);
         }
 
         void Die()
@@ -95,9 +81,8 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"{Player}'s {PieceType}";
+            return $"{Player}'s {Type}";
         }
-
         #endregion
 
         #region Private Fields
@@ -109,12 +94,6 @@ namespace App.Model
         private readonly ReactiveCollection<IItemModel> _items;
         private readonly ReactiveCollection<EAbility> _abilities;
         private readonly ReactiveCollection<IEffectModel> _effects;
-
-        private readonly List<IItemModel> _itemList;
-        private readonly List<EAbility> _abilityList;
-        private readonly List<IEffectModel> _effectList;
         #endregion
     }
 }
-
-

@@ -30,10 +30,10 @@ namespace App.Model
 
         protected ModelBase(IOwner owner)
         {
-            _owner = new ReactiveProperty<IOwner>(owner);
-            _destroyed = new BoolReactiveProperty(false);
             LogSubject = this;
             LogPrefix = "Model";
+            _owner = new ReactiveProperty<IOwner>(owner);
+            _destroyed = new BoolReactiveProperty(false);
             Verbosity = Parameters.DefaultLogVerbosity;
             ShowStack = Parameters.DefaultShowTraceStack;
             ShowSource = Parameters.DefaultShowTraceSource;
@@ -61,6 +61,10 @@ namespace App.Model
         #region Protected Methods
         protected void SetOwner(IOwner owner)
         {
+            if (_owner.Value == owner)
+                return;
+
+            Verbose(20, $"{this} changes ownership from {Owner} to {owner}");
             _owner.Value = owner;
         }
 
@@ -71,8 +75,8 @@ namespace App.Model
         #endregion
 
         #region Private Fields
-        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
-        private readonly ReactiveProperty<IOwner> _owner = new ReactiveProperty<IOwner>();
+        private readonly BoolReactiveProperty _destroyed;
+        private readonly ReactiveProperty<IOwner> _owner;
         #endregion
     }
 }

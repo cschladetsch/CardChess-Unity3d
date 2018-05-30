@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #pragma warning disable 649
 
@@ -11,9 +12,9 @@ namespace App.Mock.Model
     public class MockDeck
         : DeckModel
     {
-        [Inject] public Service.ICardTemplateService _cardTemplateService;
+        [Inject] public Service.ICardTemplateService CardTemplateService;
 
-        public MockDeck(ITemplateDeck templateDeck, IOwner owner)
+        public MockDeck(ITemplateDeck templateDeck, IPlayerModel owner)
             : base(templateDeck, owner)
         {
         }
@@ -22,24 +23,13 @@ namespace App.Mock.Model
         {
             foreach (var pt in _pieceTypes)
             {
-                Add(_cardTemplateService.NewCardModel(Player, pt));
+                Add(CardTemplateService.NewCardModel(Player, pt));
             }
         }
 
         public override void Shuffle()
         {
             // intentionally do not shuffle
-        }
-
-        public override int ShuffleIn(params ICardModel[] models)
-        {
-            int n = 0;
-            foreach (var card in models)
-            {
-                AddToBottom(card);
-                ++n;
-            }
-            return n;
         }
 
         private readonly EPieceType[] _pieceTypes =
