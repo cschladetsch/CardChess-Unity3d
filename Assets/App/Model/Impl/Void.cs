@@ -1,6 +1,6 @@
 ﻿namespace App.Model
 {
-    public class Void : ModelBase
-    {
-    }
+    //public class Void : ModelBase
+    //{
+    //}
 }

@@ -35,7 +35,7 @@ namespace App.Agent
         public ReactiveProperty<int> Health { get; private set; }
         public ReactiveProperty<bool> Dead { get; private set; }
 
-        [Inject] private Service.ICardTemplateService _cardTemplateService;
+        [Inject] public Service.ICardTemplateService _cardTemplateService;
 
         public virtual void NewGame()
         {

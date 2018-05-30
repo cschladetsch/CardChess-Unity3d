@@ -25,6 +25,7 @@ namespace App.Registry
 
         #region Public Methods
         public Registry()
+            : base(null)
         {
             Verbosity = 2;
             ShowStack = false;
@@ -206,7 +207,20 @@ namespace App.Registry
 
         private static string ToArgTypeList(IEnumerable<object> args)
         {
-            return args == null ? "" : string.Join(", ", args.Select(a => a.GetType().Name));
+            if (args == null)
+                return "";
+            string result = "";
+            string comma = "";
+            foreach (var a in args)
+            {
+                result += comma;
+                if (a == null)
+                    result += "null";
+                else
+                    result += a.GetType().Name;
+                comma = ", ";
+            }
+            return result;
         }
 
         private static string ToArgList(IEnumerable<object> args)
@@ -297,26 +311,51 @@ namespace App.Registry
             var cons = ty.GetConstructors();
             foreach (var con in cons)
             {
-                if (!MatchingConstructor(args, con))
+                if (!MatchingConstructor(args, con.GetParameters()))
                     continue;
                 var model = con.Invoke(args) as IBase;
                 if (model != null)
                     return Prepare(ity, model);
             }
+            foreach (var method in ty.GetMethods(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (method.Name != "Construct")
+                    continue;
+                if (!MatchingConstructor(args, method.GetParameters()))
+                    continue;
+                var model = Activator.CreateInstance(ty) as IBase;
+                if (model == null)
+                {
+                    Error($"Couldn't make a {ty} of type {typeof(IBase).Name}");
+                    return null;
+                }
+                var created = (bool) method.Invoke(model, args);
+                if (!created)
+                {
+                    Error($"Create method failed for type {ty} with args {ToArgTypeList(args)}");
+                    return null;
+                }
+
+                return Prepare(ity, model);
+            }
             Error($"No mathching Constructor for {ty} with args '{ToArgTypeList(args)}'");
             return null;
         }
 
-        private static bool MatchingConstructor(object[] args, ConstructorInfo con)
+        private static bool MatchingConstructor(object[] args, ParameterInfo[] pars)
         {
-            var ctorParams = con.GetParameters().ToArray();
             if (args == null)
-                return ctorParams.Length == 0;
-            if (ctorParams.Length != args.Length)
+                return pars.Length == 0;
+            if (pars.Length != args.Length)
                 return false;
             var n = 0;
-            foreach (var param in ctorParams.Select(p => p.ParameterType))
+            foreach (var param in pars.Select(p => p.ParameterType))
             {
+                if (args[n] == null)
+                {
+                    ++n;
+                    continue;
+                }
                 if (!param.IsInstanceOfType(args[n]))
                     break;
                 ++n;
@@ -375,7 +414,7 @@ namespace App.Registry
                 _modelType = ty;
                 _reg = reg;
                 foreach (var prop in ty.GetProperties(
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     var inject = prop.GetCustomAttribute<Inject>();
                     if (inject == null)
@@ -385,7 +424,7 @@ namespace App.Registry
                     _injections.Add(inject);
                 }
                 foreach (var field in ty.GetFields(
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     var inject = field.GetCustomAttribute<Inject>();
                     if (inject == null)

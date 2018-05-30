@@ -6,19 +6,16 @@ namespace App.Model
 {
     using Common;
 
-    public class DeckModel :
-        CardCollectionModelBase,
-        IDeckModel
+    public class DeckModel
+        : CardCollectionModelBase
+        , IDeckModel
     {
         public override int MaxCards => Parameters.MinCardsInDeck;
 
-        public bool Construct(ITemplateDeck templateDeck, IOwner owner)
+        public DeckModel(ITemplateDeck templateDeck, IOwner owner)
+            : base(owner)
         {
-            if (!base.Construct(owner))
-                return false;
-
             // TODO: store and use templateDeck
-            return true;
         }
 
         public virtual void NewGame()

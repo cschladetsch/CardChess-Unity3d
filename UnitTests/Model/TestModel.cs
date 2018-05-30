@@ -33,7 +33,7 @@ namespace App.Model.Test
         public void TestBasicTurns()
         {
             _arbiter.NewGame(_white, _black);
-            for (var n = 0; n < 6; ++n)
+            for (var n = 0; n < 8; ++n)
             {
                 Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);
                 Trace.WriteLine(_board.Print());

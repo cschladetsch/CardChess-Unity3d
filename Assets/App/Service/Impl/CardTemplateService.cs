@@ -12,6 +12,11 @@ namespace App.Service.Impl
         : ModelBase
         , ICardTemplateService
     {
+        public CardTemplateService()
+            : base(null)
+        {
+        }
+
         public ICardTemplate GetCardTemplate(EPieceType pieceType)
         {
             var templates = Database.CardTemplates.OfType(pieceType).ToArray();
@@ -46,7 +51,7 @@ namespace App.Service.Impl
                 Error($"Failed to find card template {type} for {owner}");
                 return null;
             }
-            return Registry.New<ICardModel>(template, owner);
+            return Registry.New<ICardModel>(owner, template);
         }
 
     }

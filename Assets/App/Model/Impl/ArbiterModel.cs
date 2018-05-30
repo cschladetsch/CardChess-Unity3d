@@ -29,11 +29,12 @@ namespace App.Model
 
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
-        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Start);
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Mulligan);
 
         #region Public Methods
 
         public ArbiterModel()
+            : base(null)
         {
             LogPrefix = "Arbiter";
             Verbosity = 100;
@@ -49,7 +50,7 @@ namespace App.Model
             _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
             _currentPlayerIndex.Value = 0;
 
-            Construct(this);
+            //Construct(this);
             Board.NewGame();
             foreach (var entry in _players)
                 entry.Player.NewGame();
@@ -61,7 +62,7 @@ namespace App.Model
             _gameState.Value = EGameState.Completed;
         }
 
-        private Response TryPlacePiece(PlacePiece act)
+        private Response<IPieceModel> TryPlacePiece(PlacePiece act)
         {
             return Board.TryPlacePiece(act);
         }
@@ -83,7 +84,7 @@ namespace App.Model
             if (resp.Type != EResponse.Ok)
                 return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
 
-            act.Player.KingPiece = Board.GetPiecesOfType(EPieceType.King).First(k => k.Owner == act.Player);
+            act.Player.KingPiece = resp.Payload;
             if (Board.NumPieces(EPieceType.King) == 2)
             {
                 StartFirstTurn();
@@ -115,7 +116,7 @@ namespace App.Model
             return Board.TryMovePiece(move);
         }
 
-        private Response TryRejectCards(IRequest request)
+        private Response TryAcceptCards(IRequest request)
         {
             // TODO: deal with mulligan of type RejectCards
             var entry = GetEntry(request.Player);
@@ -134,7 +135,7 @@ namespace App.Model
 
         public Response Arbitrate(IRequest request)
         {
-            Info($"{request} in {GameState}");
+            Info($"{request} in {GameState} #{_turnNumber}");
             switch (GameState.Value)
             {
                 case EGameState.None:
@@ -142,7 +143,7 @@ namespace App.Model
                 case EGameState.Start:
                     return Response.Ok;
                 case EGameState.Mulligan:
-                    return TryRejectCards(request);
+                    return TryAcceptCards(request);
                 case EGameState.PlaceKing:
                     return TryPlaceKing(request as PlacePiece);
                 case EGameState.PlayTurn:
@@ -191,7 +192,7 @@ namespace App.Model
         Response TryTurnEnd(TurnEnd turnEnd)
         {
             Assert.IsNotNull(turnEnd);
-            if (turnEnd.Player != CurrentPlayer)
+            if (turnEnd.Player != CurrentPlayer.Value)
             {
                 Warn($"It's not {turnEnd.Player}'s turn to end");
                 return Response.Ok;
@@ -261,6 +262,7 @@ namespace App.Model
 
         private List<PlayerEntry> _players;
         private int _turnNumber;
+        private int _playerTurnFinished;
 
         #endregion
     }

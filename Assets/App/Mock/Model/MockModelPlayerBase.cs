@@ -18,6 +18,7 @@ namespace App.Mock.Model
 
         public override void RequestFailed(IRequest req)
         {
+            Warn($"Request {req} failed");
         }
 
         public override void RequestSucceeded(IRequest req)

@@ -9,35 +9,33 @@ namespace App.Model
     /// <summary>
     /// All cards owned by a playerAgent
     /// </summary>
-    public abstract class CardLibrary :
-        ModelBase,
-        IConstructWith<Guid>
+    public class CardLibrary
+        : ModelBase
     {
         public int MaxCards => int.MaxValue;
         public List<ICardTemplate> Cards = new List<ICardTemplate>();
-        public int NumCards => cards.Count;
+        public int NumCards => _cards.Count;
         public bool Empty => NumCards == 0;
         public bool Maxxed => NumCards == MaxCards;
 
-        public bool Construct(Guid id)
+        protected CardLibrary(IOwner owner, Guid id)
+            : base(owner)
         {
-            return true;
         }
 
         public bool Add(ICardTemplate card)
         {
             Assert.IsNotNull(card);
-            var templ = card as ICardTemplate;
-            if (templ == null)
+            if (_cards.Count(c => c.Id == card.Id) > 2)
             {
-                Warn($"{card} is of type {card.GetType()}, but should be a {typeof(ICardTemplate)}");
+                Warn($"Cannot have more than three instances of {card} in your library");
                 return false;
             }
-            cards.Add(templ);
+            _cards.Add(card);
             return true;
         }
 
-        public void Add(IEnumerable<ICardTemplate> cads)
+        public void Add(IEnumerable<ICardTemplate> cards)
         {
             foreach (var card in cards)
             {
@@ -60,7 +58,7 @@ namespace App.Model
             }
             if (!Has(card))
                 return false;
-            cards.Remove(templ);
+            _cards.Remove(templ);
             return true;
         }
 
@@ -71,14 +69,14 @@ namespace App.Model
 
         public bool Has(Guid id)
         {
-            return cards.Any(c => c.Id == id);
+            return _cards.Any(c => c.Id == id);
         }
 
         public ICardTemplate Get(Guid id)
         {
-            return cards.First(c => c.Id == id);
+            return _cards.First(c => c.Id == id);
         }
 
-        protected IList<ICardTemplate> cards = new List<ICardTemplate>();
+        protected IList<ICardTemplate> _cards = new List<ICardTemplate>();
     }
 }

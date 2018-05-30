@@ -30,36 +30,18 @@ namespace App.Model
         public IReactiveCollection<IItemModel> Items => _items;
         public IReactiveCollection<EAbility> Abilities => _abilities;
         public IReactiveCollection<IEffectModel> Effects => _effects;
-        public Response TakeDamage(ICardModel other)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region Public Methods
-        public CardModel(ICardTemplate template, IOwner owner)
+        public CardModel(IOwner owner, ICardTemplate template)
+            : base(owner)
         {
             LogSubject = this;
             Template = template;
-            SetOwner(owner);
-        }
-
-        int Clamp(int min, int max, int val)
-        {
-            return val < min ? min : (val > max ? max : val);
-        }
-
-        public override bool Construct(IOwner owner)
-        {
-            if (!base.Construct(owner))
-                return false;
-
+            _player = new ReactiveProperty<IPlayerModel>(owner as IPlayerModel);
             _power = new IntReactiveProperty(Template.Power);
             _health = new IntReactiveProperty(Template.Health);
             _manaCost = new IntReactiveProperty(Template.ManaCost);
-
-            //_power.SkipWhile(n => n < 0).SkipWhile(n => n > 10).AsObservable().
 
             // make copies as the effects, abilities and items on a card model
             // may change during the game.
@@ -83,12 +65,7 @@ namespace App.Model
             _effects.ObserveRemove().Subscribe(e => Info($"Removed Effect {e}"));
             _items.ObserveRemove().Subscribe(e => Info($"Removed Item {e}"));
             _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e}"));
-
-            return true;
         }
-
-        int Min(int a, int b) { return a < b ? a : b; }
-        int Max(int a, int b) { return a > b ? a : b; }
 
         public void ChangeHealth(int change)
         {
@@ -97,12 +74,18 @@ namespace App.Model
 
         public void ChangeManaCost(int change)
         {
-            _manaCost.Value = Max(0, _manaCost.Value + change);
+            _manaCost.Value = Math.Max(0, _manaCost.Value + change);
         }
 
         public void ChangePower(int change)
         {
-            _power.Value = Max(0, _power.Value + change);
+            _power.Value = Math.Max(0, _power.Value + change);
+        }
+
+        public Response TakeDamage(ICardModel other)
+        {
+            ChangeHealth(-other.Power.Value);
+            return Response.Ok;
         }
 
         public override string ToString()
@@ -113,18 +96,18 @@ namespace App.Model
         #endregion
 
         #region Private Fields
-        private IntReactiveProperty _power;
-        private IntReactiveProperty _health;
-        private IntReactiveProperty _manaCost;
-        private ReactiveProperty<IPlayerModel> _player;
+        private readonly IntReactiveProperty _power;
+        private readonly IntReactiveProperty _health;
+        private readonly IntReactiveProperty _manaCost;
+        private readonly ReactiveProperty<IPlayerModel> _player;
 
-        private ReactiveCollection<IItemModel> _items;
-        private ReactiveCollection<EAbility> _abilities;
-        private ReactiveCollection<IEffectModel> _effects;
+        private readonly ReactiveCollection<IItemModel> _items;
+        private readonly ReactiveCollection<EAbility> _abilities;
+        private readonly ReactiveCollection<IEffectModel> _effects;
 
-        private List<IItemModel> _itemList;
-        private List<EAbility> _abilityList;
-        private List<IEffectModel> _effectList;
+        private readonly List<IItemModel> _itemList;
+        private readonly List<EAbility> _abilityList;
+        private readonly List<IEffectModel> _effectList;
         #endregion
     }
 }
