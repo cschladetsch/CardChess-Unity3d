@@ -14,30 +14,20 @@ namespace App.Model
 
     public class ArbiterModel
         : RespondingModelBase
-        , IOwner
         , IArbiterModel
     {
         #region Public Properties
-
-        [Inject] public IBoardModel Board { get; set; }
         public EColor Color => EColor.Neutral;
-
         public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
         public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
-
+        [Inject] public IBoardModel Board { get; set; }
         #endregion
 
-        private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
-        private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
-        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Mulligan);
-
         #region Public Methods
-
         public ArbiterModel()
             : base(null)
         {
             LogPrefix = "Arbiter";
-            Verbosity = 100;
         }
 
         public void NewGame(IPlayerModel w, IPlayerModel b)
@@ -50,104 +40,9 @@ namespace App.Model
             _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
             _currentPlayerIndex.Value = 0;
 
-            //Construct(this);
             Board.NewGame();
             foreach (var entry in _players)
                 entry.Player.NewGame();
-        }
-
-        public void Endame()
-        {
-            Info("EndGame");
-            _gameState.Value = EGameState.Completed;
-        }
-
-        private Response<IPieceModel> TryPlacePiece(PlacePiece act)
-        {
-            var playerMana = act.Player.Mana;
-            var manaCost = act.Card.ManaCost;
-            if (playerMana.Value - manaCost.Value < 0)
-            {
-                Warn($"{act.Player} deoesn't have mana to play {act.Card}");
-                return new Response<IPieceModel>(null, EResponse.Fail, EError.NotEnoughMana, $"Attempted {act}");
-            }
-
-            var resp = Board.TryPlacePiece(act);
-            if (resp.Failed)
-                return resp;
-
-            playerMana.Value -= manaCost.Value;
-            EndTurn();
-            return resp;
-        }
-
-        public Response TryPlaceKing(PlacePiece act)
-        {
-            Assert.IsNotNull(act);
-            Assert.IsNotNull(act.Player);
-            Assert.IsNotNull(act.Card);
-            Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
-            Assert.AreEqual(act.Card.PieceType, EPieceType.King);
-
-            if (Board.GetAdjacent(act.Coord, 2).Any(k => k.Type == EPieceType.King))
-            {
-                return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
-            }
-
-            var resp = TryPlacePiece(act);
-            if (resp.Type != EResponse.Ok)
-                return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
-
-            act.Player.KingPiece = resp.Payload;
-            if (Board.NumPieces(EPieceType.King) == 2)
-            {
-                StartFirstTurn();
-            }
-
-            return Response.Ok;
-        }
-
-        private void StartFirstTurn()
-        {
-            _currentPlayerIndex.Value = 0;
-            CurrentPlayer.Value.StartTurn();
-            _gameState.Value = EGameState.PlayTurn;
-        }
-
-        private Response TryMovePiece(MovePiece move)
-        {
-            var player = move.Player;
-            var piece = move.Piece;
-            if (GameState.Value != EGameState.PlayTurn)
-                return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
-
-            if (CurrentPlayer.Value != player)
-                return Failed(move, $"Not {player}'s turn");
-
-            if (GetEntry(move.Player).MovedPiece)
-                return Failed(move, $"{player} has already moved a piece this turn");
-
-            var resp = Board.TryMovePiece(move);
-            if (resp.Success)
-                EndTurn();
-            return resp;
-        }
-
-        private Response TryAcceptCards(IRequest request)
-        {
-            // TODO: deal with mulligan of type RejectCards
-            var entry = GetEntry(request.Player);
-            if (entry.AcceptedCards)
-            {
-                Error($"Player {request.Player} cannot Accept twice");
-                return Response.Fail;
-            }
-            // TODO: give player different cards in response
-            entry.AcceptedCards = true;
-            if (_players.All(a => a.AcceptedCards))
-                _gameState.Value = EGameState.PlaceKing;
-
-            return Response.Ok;
         }
 
         public Response Arbitrate(IRequest request)
@@ -180,6 +75,8 @@ namespace App.Model
                             return TryBattle(request as Battle);
                         case EActionType.MovePiece:
                             return TryMovePiece(request as MovePiece);
+                        case EActionType.GiveItem:
+                            return TryGiveItem(request as GiveItem);
                         default:
                             return NotImplemented(request, $"{request}");
                     }
@@ -192,32 +89,14 @@ namespace App.Model
             return NotImplemented(request);
         }
 
-        Response TryResign(Resign resign)
+        #endregion
+
+        #region Private Methods
+        private void StartFirstTurn()
         {
-            return NotImplemented(resign);
-        }
-
-        Response TryBattle(Battle battle)
-        {
-            Assert.IsNotNull(battle);
-            Assert.IsNotNull(battle.Attacker);
-            Assert.IsNotNull(battle.Defender);
-
-            return battle.Attacker.Attack(battle.Defender);
-        }
-
-        Response TryTurnEnd(TurnEnd turnEnd)
-        {
-            Assert.IsNotNull(turnEnd);
-            if (turnEnd.Player != CurrentPlayer.Value)
-            {
-                Warn($"It's not {turnEnd.Player}'s turn to end");
-                return Response.Ok;
-            }
-
-            EndTurn();
-
-            return Response.Ok;
+            _currentPlayerIndex.Value = 0;
+            CurrentPlayer.Value.StartTurn();
+            _gameState.Value = EGameState.PlayTurn;
         }
 
         private void EndTurn()
@@ -233,20 +112,130 @@ namespace App.Model
             _gameState.Value = EGameState.PlayTurn;
         }
 
-        Response TryCastSpell(CastSpell castSpell)
+        private void Endame()
         {
+            Info("EndGame");
+            _gameState.Value = EGameState.Completed;
+        }
+
+        private Response TryAcceptCards(IRequest request)
+        {
+            // TODO: deal with mulligan of type RejectCards
+            var entry = GetEntry(request.Player);
+            if (entry.AcceptedCards)
+            {
+                Error($"Player {request.Player} cannot Accept twice");
+                return Response.Fail;
+            }
+            // TODO: give player different cards in response
+            entry.AcceptedCards = true;
+            if (_players.All(a => a.AcceptedCards))
+                _gameState.Value = EGameState.PlaceKing;
+
+            return Response.Ok;
+        }
+
+        private Response TryPlaceKing(PlacePiece act)
+        {
+            Assert.IsNotNull(act);
+            Assert.IsNotNull(act.Player);
+            Assert.IsNotNull(act.Card);
+            Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
+            Assert.AreEqual(act.Card.PieceType, EPieceType.King);
+
+            if (Board.GetAdjacent(act.Coord, 2).Any(k => k.Type == EPieceType.King))
+            {
+                return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
+            }
+
+            var resp = TryPlacePiece(act);
+            if (resp.Type != EResponse.Ok)
+                return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
+
+            act.Player.KingPiece = resp.Payload;
+            if (Board.NumPieces(EPieceType.King) == 2)
+            {
+                StartFirstTurn();
+            }
+
+            return Response.Ok;
+        }
+
+        private Response TryMovePiece(MovePiece move)
+        {
+            var player = move.Player;
+            var piece = move.Piece;
+            if (GameState.Value != EGameState.PlayTurn)
+                return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
+
+            if (CurrentPlayer.Value != player)
+                return Failed(move, $"Not {player}'s turn");
+
+            if (GetEntry(move.Player).MovedPiece)
+                return Failed(move, $"{player} has already moved a piece this turn");
+
+            var resp = Board.TryMovePiece(move);
+            if (resp.Success)
+                EndTurn();
+            return resp;
+        }
+
+        private Response<IPieceModel> TryPlacePiece(PlacePiece act)
+        {
+            var playerMana = act.Player.Mana;
+            var manaCost = act.Card.ManaCost;
+            if (playerMana.Value - manaCost.Value < 0)
+            {
+                Warn($"{act.Player} deoesn't have mana to play {act.Card}");
+                return new Response<IPieceModel>(null, EResponse.Fail, EError.NotEnoughMana, $"Attempted {act}");
+            }
+
+            var resp = Board.TryPlacePiece(act);
+            if (resp.Failed)
+                return resp;
+
+            playerMana.Value -= manaCost.Value;
+            EndTurn();
+            return resp;
+        }
+
+        private Response TryResign(Resign resign)
+        {
+            return NotImplemented(resign);
+        }
+
+        private Response TryBattle(Battle battle)
+        {
+            Assert.IsNotNull(battle);
+            Assert.IsNotNull(battle.Attacker);
+            Assert.IsNotNull(battle.Defender);
+
+            return battle.Attacker.Attack(battle.Defender);
+        }
+
+        private Response TryTurnEnd(TurnEnd turnEnd)
+        {
+            Assert.IsNotNull(turnEnd);
+            if (turnEnd.Player != CurrentPlayer.Value)
+            {
+                Warn($"It's not {turnEnd.Player}'s turn to end");
+                return Response.Ok;
+            }
+
+            EndTurn();
+
+            return Response.Ok;
+        }
+
+        private Response TryCastSpell(CastSpell castSpell)
+        {
+            Assert.IsNotNull(castSpell);
             return NotImplemented(castSpell, $"{castSpell}");
         }
 
-        public Response Battle(Battle battle, IPieceModel attacker, IPieceModel defender)
+        private Response TryGiveItem(GiveItem giveItem)
         {
-            Assert.IsNotNull(attacker);
-            Assert.IsNotNull(defender);
-            Assert.AreNotSame(attacker, defender);
-
-            attacker.Attack(defender);
-
-            return Response.Ok;
+            return NotImplemented(giveItem);
         }
 
         private PlayerEntry GetEntry(IPlayerModel player)
@@ -255,7 +244,6 @@ namespace App.Model
             Assert.IsTrue(_players.Count(p => p.Player == player) == 1);
             return _players.First(p => p.Player == player);
         }
-
         #endregion
 
         #region Private Fields
@@ -279,8 +267,9 @@ namespace App.Model
 
         private List<PlayerEntry> _players;
         private int _turnNumber;
-        private int _playerTurnFinished;
-
+        private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
+        private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Mulligan);
         #endregion
     }
 }
