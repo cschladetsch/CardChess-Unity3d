@@ -44,6 +44,7 @@ namespace App.Model
         }
 
         public PlayerModelBase(EColor color)
+            : base(null)
         {
             Color = color;
             SetOwner(this);
@@ -54,13 +55,13 @@ namespace App.Model
             AcceptedHand = false;
             _mana.Value = 0;
             _maxMana.Value = 0;
+            King = _CardtemplateService.NewCardModel(this, EPieceType.King);
 
             // TODO: pass a deck template
             Deck = Registry.New<IDeckModel>(null, this);
             Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
-            King = _CardtemplateService.NewCardModel(this, EPieceType.King);
             return Response.Ok;
         }
 

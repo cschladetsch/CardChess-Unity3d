@@ -24,19 +24,16 @@ namespace App.Model
         public int Width { get; }
         public int Height { get; }
         [Inject] public IArbiterModel Arbiter { get; set; }
-        public UniRx.IReadOnlyReactiveCollection<IPieceModel> Pieces => _pieces;
-
+        public IEnumerable<IPieceModel> Pieces => _pieces.Where(p => p != null);
         #endregion
 
         #region Public Methods
-        public BoardModel() { throw new NotImplementedException(); }
 
         public BoardModel(int width, int height)
+            : base(null)
         {
             Width = width;
             Height = height;
-
-            ConstructBoard();
         }
 
         public void NewGame()
@@ -45,16 +42,21 @@ namespace App.Model
             ConstructBoard();
         }
 
+        public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
+        {
+            return Pieces.Where(p => p.Type == type);
+        }
+
         public int NumPieces(EPieceType type)
         {
-            return Pieces.Count(p => p.Type == type);
+            return PiecesOfType(type).Count();
         }
 
         public Response Remove(IPieceModel pieceModel)
         {
             Assert.IsNotNull(pieceModel);
             Verbose(5, $"Removing {pieceModel} from board");
-            return SetPieceAt(pieceModel.Coord.Value, null);
+            return Set(pieceModel.Coord.Value, null);
         }
 
         public IPieceModel RemovePiece(Coord coord)
@@ -67,11 +69,6 @@ namespace App.Model
             var current = At(coord);
             Set(coord, null);
             return current;
-        }
-
-        public IEnumerable<IPieceModel> GetPiecesOfType(EPieceType type)
-        {
-            return _contents.Where(c => c.Type == type);
         }
 
         public bool IsValid(Coord coord)
@@ -156,7 +153,7 @@ namespace App.Model
                 return null;
             if (x >= Width || y >= Height)
                 return null;
-            return _contents[y * Width + x];
+            return _pieces[y * Width + x];
         }
 
         public bool IsValidCoord(Coord coord)
@@ -207,7 +204,7 @@ namespace App.Model
                     }
                     break;
                 case EPieceType.Archer:
-                    foreach (var c in Diagonals(coord, Max(Width, Height)))
+                    foreach (var c in Diagonals(coord, Math.Max(Width, Height)))
                         yield return c;
                     break;
             }
@@ -268,16 +265,15 @@ namespace App.Model
 
         private void ConstructBoard()
         {
-            _contents = new List<IPieceModel>(Width*Height);
-            _pieces = new ReactiveCollection<IPieceModel>(_contents);
+            _pieces = new ReactiveCollection<IPieceModel>();
             for (var n = 0; n < Width*Height; ++n)
-                _contents.Add(null);
+                _pieces.Add(null);  // TODO: use empty PieceModels
         }
 
         private Response Set(Coord coord, IPieceModel piece)
         {
             Assert.IsTrue(IsValid(coord));
-            _contents[coord.y * Width + coord.x] = piece;
+            _pieces[coord.y * Width + coord.x] = piece;
             if (piece != null)
                 piece.Coord.Value = coord;
             return Response.Ok;
@@ -285,8 +281,13 @@ namespace App.Model
 
         private void ClearBoard()
         {
-            foreach (var card in _contents)
+            if (_pieces == null)
+                return;
+
+            foreach (var card in _pieces)
             {
+                if (card == null)
+                    continue;
                 RemovePiece(card.Coord.Value);
                 card.Destroy();
             }
@@ -294,10 +295,10 @@ namespace App.Model
 
         private IEnumerable<Coord> Nearby(Coord orig, int dist)
         {
-            var y = Max(orig.y - dist, 0);
+            var y = Math.Max(orig.y - dist, 0);
             for (; y <= orig.y + dist; ++y)
             {
-                for (var x = Max(orig.x - dist, 0); x <= orig.x + dist; ++x)
+                for (var x = Math.Max(orig.x - dist, 0); x <= orig.x + dist; ++x)
                 {
                     var coord = new Coord(x, y);
                     if (!IsValid(coord))
@@ -324,7 +325,7 @@ namespace App.Model
 
         private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy, int dist)
         {
-            for (int n = 1; n < Max(Min(Width, dist), Min(Height, dist)); ++n)
+            for (int n = 1; n < Math.Max(Math.Min(Width, dist), Math.Min(Height, dist)); ++n)
             {
                 var x = n * dx;
                 var y = n * dy;
@@ -336,9 +337,6 @@ namespace App.Model
             }
         }
 
-        static int Max(int a, int b) { return a > b ? a : b; }
-        static int Min(int a, int b) { return a < b ? a : b; }
-
         private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
         {
             return null;
@@ -346,7 +344,6 @@ namespace App.Model
         #endregion
 
         #region Private Fields
-        private List<IPieceModel> _contents;
         private IReactiveCollection<IPieceModel> _pieces;
         #endregion
     }

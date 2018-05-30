@@ -18,8 +18,8 @@ namespace App.Model
         #region Properties
         int Width { get; }
         int Height { get; }
-        [Inject] IArbiterModel Arbiter { get; set; }
-        IReadOnlyReactiveCollection<IPieceModel> Pieces { get; }
+        IArbiterModel Arbiter { get; set; }
+        IEnumerable<IPieceModel> Pieces { get; }
         #endregion
 
         #region Methods
@@ -33,7 +33,7 @@ namespace App.Model
         Response<IPieceModel> TryPlacePiece(PlacePiece placePiece);
         Response TryMovePiece(MovePiece act);
 
-        IEnumerable<IPieceModel> GetPiecesOfType(EPieceType type);
+        IEnumerable<IPieceModel> PiecesOfType(EPieceType type);
         IPieceModel At(int x, int y);
         IPieceModel At(Coord coord);
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);

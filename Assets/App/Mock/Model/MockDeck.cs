@@ -11,12 +11,12 @@ namespace App.Mock.Model
     public class MockDeck
         : DeckModel
     {
-        [Inject] private Service.ICardTemplateService _cardTemplateService;
+        [Inject] public Service.ICardTemplateService _cardTemplateService;
 
-        //public MockDeck(Guid a0, IOwner owner)
-        //    : base(a0, owner)
-        //{
-        //}
+        public MockDeck(ITemplateDeck templateDeck, IOwner owner)
+            : base(templateDeck, owner)
+        {
+        }
 
         public override void NewGame()
         {

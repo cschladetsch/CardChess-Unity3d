@@ -11,7 +11,7 @@ namespace App.Model
     ///
     /// Models are created from a Registry, have an OnDestroyed event, and are persistent by default.
     /// </summary>
-    public class ModelBase :
+    public abstract class ModelBase :
         Flow.Impl.Logger,
         IModel
     {
@@ -27,10 +27,16 @@ namespace App.Model
         #endregion
 
         #region Public Methods
-        public virtual bool Construct(IOwner owner)
+
+        protected ModelBase(IOwner owner)
         {
             _owner = new ReactiveProperty<IOwner>(owner);
-            return true;
+            _destroyed = new BoolReactiveProperty(false);
+            LogSubject = this;
+            LogPrefix = "Model";
+            Verbosity = Parameters.DefaultLogVerbosity;
+            ShowStack = Parameters.DefaultShowTraceStack;
+            ShowSource = Parameters.DefaultShowTraceSource;
         }
 
         public bool SameOwner(IOwned other)
@@ -53,15 +59,6 @@ namespace App.Model
         #endregion
 
         #region Protected Methods
-        protected ModelBase()
-        {
-            LogSubject = this;
-            LogPrefix = "Model";
-            Verbosity = Parameters.DefaultLogVerbosity;
-            ShowStack = Parameters.DefaultShowTraceStack;
-            ShowSource = Parameters.DefaultShowTraceSource;
-        }
-
         protected void SetOwner(IOwner owner)
         {
             _owner.Value = owner;
@@ -75,7 +72,7 @@ namespace App.Model
 
         #region Private Fields
         private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
-        private ReactiveProperty<IOwner> _owner = new ReactiveProperty<IOwner>();
+        private readonly ReactiveProperty<IOwner> _owner = new ReactiveProperty<IOwner>();
         #endregion
     }
 }

@@ -15,7 +15,7 @@ namespace App.Model
     {
         #region Public Properties
         public abstract int MaxCards { get; }
-        public IPlayerModel Player => Owner as IPlayerModel;
+        public IPlayerModel Player => Owner.Value as IPlayerModel;
         public IHandModel Hand => Player.Hand;
         public IDeckModel Deck => Player.Deck;
 
@@ -27,10 +27,10 @@ namespace App.Model
 
         #region Public Methods
 
-        public override bool Construct(IOwner owner)
+        protected CardCollectionModelBase(IOwner owner)
+            : base(owner)
         {
-            if (base.Construct(owner))
-                return false;
+            SetOwner(owner);
             _numCards = new IntReactiveProperty(0);
             _empty = new BoolReactiveProperty(true);
             _maxxed = new BoolReactiveProperty(false);
@@ -44,8 +44,6 @@ namespace App.Model
                     _empty.Value = n == 0;
                 }
             );
-
-            return true;
         }
 
         public bool Has(ICardModel card)

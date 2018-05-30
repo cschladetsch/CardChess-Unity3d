@@ -12,7 +12,8 @@ namespace App.Model
         : ModelBase
         , IDecidingModelBase
     {
-        protected RespondingModelBase()
+        protected RespondingModelBase(IOwner owner)
+            : base(owner)
         {
             LogSubject = this;
         }

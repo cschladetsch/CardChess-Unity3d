@@ -28,6 +28,7 @@ namespace App.Model
         public CardTemplate(ECardType type, EPieceType pieceType, string name, int manaCost, int attack,
             int health, IEnumerable<EAbility> abilities = null,
             string flavourText = "")
+            : base(null)
         {
             Type = type;
             PieceType = pieceType;

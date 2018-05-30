@@ -12,5 +12,10 @@
         public EColor Color => Player.Color;
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
+
+        public PlayerOwnedModelBase(IOwner owner)
+            : base(owner)
+        {
+        }
     }
 }

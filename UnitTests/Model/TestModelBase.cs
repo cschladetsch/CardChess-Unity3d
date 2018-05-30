@@ -47,7 +47,7 @@ namespace App.Model.Test
         protected virtual void PrepareBindings()
         {
             _reg = new Registry<IModel>();
-            _reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
+            _reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>(new Service.Impl.CardTemplateService());
             _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
             _reg.Bind<IWhitePlayerModel, WhitePlayerModel>();

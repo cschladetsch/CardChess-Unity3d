@@ -13,7 +13,7 @@ namespace App.Model
         : PlayerOwnedModelBase
         , IPieceModel
     {
-        public ICardModel Card { get; private set; }
+        public ICardModel Card { get; }
         public EPieceType Type => Card.PieceType;
         [Inject] public IBoardModel Board { get; set; }
         public IReactiveProperty<Coord> Coord => _coord;
@@ -21,15 +21,12 @@ namespace App.Model
         public IReadOnlyReactiveProperty<int> Health => Card.Health;
         public IReactiveProperty<bool> Dead => _dead;
 
-        public bool Construct(IPlayerModel player, ICardModel card)
+        public PieceModel(IPlayerModel player, ICardModel card)
+            : base(player)
         {
-            if (!base.Construct(player))
-                return false;
-
             Card = card;
             Health.Subscribe(h => Dead.Value = h <= 0).AddTo(this);
-            Dead.Subscribe(d => Died()).AddTo(this);
-            return true;
+            Dead.Subscribe(dead => { if (dead) Died(); }).AddTo(this);
         }
 
         void Died()

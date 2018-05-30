@@ -12,7 +12,6 @@ namespace App.Model
     /// </summary>
     public interface IPieceModel
         : IPlayerOwnedModel
-        , IConstructWith<IPlayerModel, ICardModel>
     {
         ICardModel Card { get; }
         EPieceType Type { get; }

@@ -2,6 +2,17 @@
 
 namespace App
 {
+    public static class Math
+    {
+        public static int Max(int a, int b) { return a > b ? a : b; }
+        public static int Min(int a, int b) { return a < b ? a : b; }
+
+        public static int Clamp(int min, int max, int val)
+        {
+            return val < min ? min : (val > max ? max : val);
+        }
+    }
+
     /// <summary>
     /// Global game parameters.
     /// </summary>
@@ -10,9 +21,9 @@ namespace App
         /// <summary>
         /// DEfault logging values.
         /// </summary>
-        public static bool DefaultShowTraceStack = false;
-        public static bool DefaultShowTraceSource = false;
-        public static int DefaultLogVerbosity = 4;
+        public static bool DefaultShowTraceStack = true;
+        public static bool DefaultShowTraceSource = true;
+        public static int DefaultLogVerbosity = 100;
 
         /// <summary>
         /// Number of cards to start with (excluding King)
