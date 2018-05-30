@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using App.Model;
 
 namespace App.Mock.Model
 {
@@ -27,6 +28,14 @@ namespace App.Mock.Model
                     var peon = MakePiece(EPieceType.Peon);
                     return new PlacePiece(this, peon, new Coord(3, 3));
                 },
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
+                () => _EndTurn,
                 () => _EndTurn,
                 () => _EndTurn,
                 () => _EndTurn,

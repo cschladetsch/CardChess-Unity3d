@@ -77,6 +77,7 @@ namespace App.Model
                 return resp;
 
             playerMana.Value -= manaCost.Value;
+            EndTurn();
             return resp;
         }
 
@@ -126,7 +127,10 @@ namespace App.Model
             if (GetEntry(move.Player).MovedPiece)
                 return Failed(move, $"{player} has already moved a piece this turn");
 
-            return Board.TryMovePiece(move);
+            var resp = Board.TryMovePiece(move);
+            if (resp.Success)
+                EndTurn();
+            return resp;
         }
 
         private Response TryAcceptCards(IRequest request)
