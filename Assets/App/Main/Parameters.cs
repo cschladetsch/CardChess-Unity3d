@@ -19,7 +19,7 @@ namespace App
         public static int DefaultLogVerbosity = 100;
 #else
         public static bool DefaultShowTraceStack = false;
-        public static bool DefaultShowTraceSource = false;
+        public static bool DefaultShowTraceSource = true;
         public static int DefaultLogVerbosity = 4;
 #endif
 
