@@ -13,10 +13,7 @@ namespace App.Model
         , IModel
     {
         void NewGame();
-        void Shuffle();
         ICardModel Draw();
         IEnumerable<ICardModel> Draw(int count);
-        bool AddToBottom(ICardModel cardModel);
-        int ShuffleIn(params ICardModel[] models);
     }
 }

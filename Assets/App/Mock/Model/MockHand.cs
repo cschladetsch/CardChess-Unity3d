@@ -7,7 +7,7 @@ namespace App.Mock.Model
     public class MockHand
         : HandModel
     {
-        public MockHand(IOwner owner)
+        public MockHand(IPlayerModel owner)
             : base(owner)
         {
         }

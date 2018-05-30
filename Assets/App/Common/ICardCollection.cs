@@ -13,6 +13,7 @@ namespace App.Common
         : ICardCollectionBase
         where TCard : class
     {
+        event Action<ICardCollectionBase> Overflow;
         int MaxCards { get; }
         IReadOnlyReactiveProperty<int> NumCards { get; }
         IReadOnlyReactiveProperty<bool> Empty { get; }
@@ -22,7 +23,11 @@ namespace App.Common
         bool Has(TCard card);
         bool Has(Guid idCard);
         bool Add(TCard card);
-        void Add(IEnumerable<TCard> cards);
+        int Add(IEnumerable<TCard> cards);
         bool Remove(TCard card);
+        void Shuffle();
+        int ShuffleIn(IEnumerable<TCard> cards);
+        bool ShuffleIn(TCard card);
+        bool AddToBottom(TCard cardModel);
     }
 }

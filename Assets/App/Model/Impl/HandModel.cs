@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace App.Model
+﻿namespace App.Model
 {
-    using Common;
     using Common.Message;
 
     public class HandModel
@@ -17,7 +14,7 @@ namespace App.Model
             set { _Cards[index] = value; }
         }
 
-        public HandModel(IOwner owner)
+        public HandModel(IPlayerModel owner)
             : base(owner)
         {
         }
@@ -28,8 +25,8 @@ namespace App.Model
             _Cards.Clear();
             if (Deck.NumCards.Value < count)
             {
-                Error("Need more cards in Deck");
-                return new Response(EResponse.Fail);
+                Error($"Need more cards in {Deck}");
+                return Response.Fail;
             }
             Add(Deck.Draw(count));
             return Response.Ok;

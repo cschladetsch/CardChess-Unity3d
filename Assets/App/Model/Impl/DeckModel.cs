@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace App.Model
 {
-    using Common;
-
     public class DeckModel
         : CardCollectionModelBase
         , IDeckModel
     {
         public override int MaxCards => Parameters.MinCardsInDeck;
 
-        public DeckModel(ITemplateDeck templateDeck, IOwner owner)
+        public DeckModel(ITemplateDeck templateDeck, IPlayerModel owner)
             : base(owner)
         {
             // TODO: store and use templateDeck
@@ -30,16 +26,6 @@ namespace App.Model
             }
         }
 
-        public bool Construct(ITemplateDeck a0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Shuffle()
-        {
-            _Cards.Shuffle();
-        }
-
         public ICardModel Draw()
         {
             if (Empty.Value)
@@ -55,40 +41,10 @@ namespace App.Model
 
         public IEnumerable<ICardModel> Draw(int count)
         {
-            foreach (var card in _Cards.Take(count))
+            for (var n = 0; n < count; ++n)
             {
-                if (card == null)
-                {
-                    Player.CardExhaustion();
-                    yield break;
-                }
-                _Cards.Remove(card);
-                yield return card;
+                yield return Draw();
             }
-        }
-
-        public bool AddToBottom(ICardModel cardModel)
-        {
-            if (Maxxed.Value)
-            {
-                Warn("Maxxed");
-                return false;
-            }
-            _Cards.Insert(_Cards.Count, cardModel);
-            return true;
-        }
-
-        public virtual int ShuffleIn(params ICardModel[] models)
-        {
-            var added = 0;
-            foreach (var card in models)
-            {
-                if (Maxxed.Value)
-                    return added;
-                ShuffleIn(card);
-                ++added;
-            }
-            return added;
         }
     }
 }

@@ -13,6 +13,8 @@ namespace App.Model
         : ModelBase
         , ICardCollection<ICardModel>
     {
+        public event Action<ICardCollectionBase> Overflow;
+
         #region Public Properties
         public abstract int MaxCards { get; }
         public IPlayerModel Player => Owner.Value as IPlayerModel;
@@ -26,18 +28,15 @@ namespace App.Model
         #endregion
 
         #region Public Methods
-
-        protected CardCollectionModelBase(IOwner owner)
+        protected CardCollectionModelBase(IPlayerModel owner)
             : base(owner)
         {
             SetOwner(owner);
             _numCards = new IntReactiveProperty(0);
             _empty = new BoolReactiveProperty(true);
             _maxxed = new BoolReactiveProperty(false);
-            _cardList = new List<ICardModel>();
-            _Cards = new ReactiveCollection<ICardModel>(_cardList);
-            _Cards.ObserveCountChanged().Subscribe(
-                n =>
+            _Cards = new ReactiveCollection<ICardModel>();
+            _Cards.ObserveCountChanged().Subscribe(n =>
                 {
                     _numCards.Value = n;
                     _maxxed.Value = n == MaxCards;
@@ -59,22 +58,67 @@ namespace App.Model
         public bool Add(ICardModel cardModel)
         {
             if (Maxxed.Value)
+            {
+                Overflow?.Invoke(this);
                 return false;
+            }
             _Cards.Add(cardModel);
             return true;
         }
 
-        public void Add(IEnumerable<ICardModel> cards)
+        public int Add(IEnumerable<ICardModel> cards)
         {
+            var n = 0;
             foreach (var card in cards)
-                Add(card);
+            {
+                if (!Add(card))
+                    return n;
+                ++n;
+            }
+            return n;
         }
 
-        public bool Remove(ICardModel cardModel)
+        public bool Remove(ICardModel card)
         {
-            if (Empty.Value)
+            Assert.IsNotNull(card);
+            if (Has(card.Id) && !Empty.Value)
+                return _Cards.Remove(card);
+            Warn($"Attempt to remove {card} that doesn't exist in {this}");
+            return false;
+        }
+
+        public virtual void Shuffle()
+        {
+            _Cards.Shuffle();
+        }
+
+        public bool ShuffleIn(ICardModel card)
+        {
+            if (Maxxed.Value)
                 return false;
-            _Cards.Add(cardModel);
+            var index = Math.RandomRanged(0, _Cards.Count);
+            _Cards.Insert(index, card);
+            return true;
+        }
+
+        public int ShuffleIn(IEnumerable<ICardModel> models)
+        {
+            var n = 0;
+            foreach (var card in models)
+            {
+                if (!ShuffleIn(card))
+                    return n;
+                ++n;
+            }
+            return n;
+        }
+
+
+        public bool AddToBottom(ICardModel card)
+        {
+            if (Maxxed.Value)
+                return false;
+            _Cards.Insert(_Cards.Count, card);
             return true;
         }
 
@@ -83,12 +127,9 @@ namespace App.Model
         protected UniRx.ReactiveCollection<ICardModel> _Cards;
 
         #region Private Fields
-
-        private List<ICardModel> _cardList;
-        private IntReactiveProperty _numCards;
-        private BoolReactiveProperty _empty;
-        private BoolReactiveProperty _maxxed;
-
+        private readonly IntReactiveProperty _numCards;
+        private readonly BoolReactiveProperty _empty;
+        private readonly BoolReactiveProperty _maxxed;
         #endregion
     }
 }
