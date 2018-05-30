@@ -66,7 +66,6 @@ namespace App.Model
         {
             var playerMana = act.Player.Mana;
             var manaCost = act.Card.ManaCost;
-
             if (playerMana.Value - manaCost.Value < 0)
             {
                 Warn($"{act.Player} deoesn't have mana to play {act.Card}");

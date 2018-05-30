@@ -326,10 +326,6 @@ namespace App
             yield break;
         }
 
-        public void Destroy()
-        {
-            TransientCompleted();
-        }
         #endregion
 
         #region Private Fields
