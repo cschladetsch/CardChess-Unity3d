@@ -5,9 +5,5 @@
     public class CardPieceView
         : ViewBase<IPieceAgent>
     {
-        public void Construct(IPieceAgent agent)
-        {
-
-        }
     }
 }
