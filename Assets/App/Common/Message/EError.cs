@@ -10,6 +10,7 @@ namespace App.Common.Message
         Error,
         NoChange,
         TooClose,
-        NotImplemented
+        NotImplemented,
+        NotEnoughMana
     }
 }

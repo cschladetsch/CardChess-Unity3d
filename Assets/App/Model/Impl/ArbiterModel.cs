@@ -64,7 +64,21 @@ namespace App.Model
 
         private Response<IPieceModel> TryPlacePiece(PlacePiece act)
         {
-            return Board.TryPlacePiece(act);
+            var playerMana = act.Player.Mana;
+            var manaCost = act.Card.ManaCost;
+
+            if (playerMana.Value - manaCost.Value < 0)
+            {
+                Warn($"{act.Player} deoesn't have mana to play {act.Card}");
+                return new Response<IPieceModel>(null, EResponse.Fail, EError.NotEnoughMana, $"Attempted {act}");
+            }
+
+            var resp = Board.TryPlacePiece(act);
+            if (resp.Failed)
+                return resp;
+
+            playerMana.Value -= manaCost.Value;
+            return resp;
         }
 
         public Response TryPlaceKing(PlacePiece act)
