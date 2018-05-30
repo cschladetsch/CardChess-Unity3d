@@ -56,7 +56,7 @@ namespace App.Model
             _abilities = new ReactiveCollection<EAbility>(_abilityList);
             _effects = new ReactiveCollection<IEffectModel>(_effectList);
 
-            _health.Subscribe(h => { if (h <= 0) Info("Died"); });
+            _health.Subscribe(h => { if (h <= 0) Die(); });
 
             _effects.ObserveAdd().Subscribe(e => Info($"Added Effect {e}"));
             _items.ObserveAdd().Subscribe(e => Info($"Added Item {e}"));
@@ -65,6 +65,11 @@ namespace App.Model
             _effects.ObserveRemove().Subscribe(e => Info($"Removed Effect {e}"));
             _items.ObserveRemove().Subscribe(e => Info($"Removed Item {e}"));
             _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e}"));
+        }
+
+        void Die()
+        {
+            Info($"{this} died");
         }
 
         public void ChangeHealth(int change)

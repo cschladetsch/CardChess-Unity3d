@@ -22,7 +22,7 @@
 
         public override string ToString()
         {
-            return $"{Player} {Piece} move to {Coord}";
+            return $"{Piece} move to {Coord}";
         }
     }
 }

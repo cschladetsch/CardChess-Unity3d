@@ -14,13 +14,13 @@ namespace App
         /// DEfault logging values.
         /// </summary>
 #if LOG_TRACE_VERBOSE
-        public static bool DefaultShowTraceStack = false;
-        public static bool DefaultShowTraceSource = false;
-        public static int DefaultLogVerbosity = 4;
-#else
         public static bool DefaultShowTraceStack = true;
         public static bool DefaultShowTraceSource = true;
         public static int DefaultLogVerbosity = 100;
+#else
+        public static bool DefaultShowTraceStack = false;
+        public static bool DefaultShowTraceSource = false;
+        public static int DefaultLogVerbosity = 4;
 #endif
 
         /// <summary>
