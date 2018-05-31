@@ -31,6 +31,12 @@ namespace App
         public IPlayerAgent CurrentPlayerAgent => _players[_currentPlayer];
         #endregion
 
+        public ArbiterAgent(IArbiterModel model)
+            : base(model)
+        {
+
+        }
+
         public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
         {
             Info("StartGame");

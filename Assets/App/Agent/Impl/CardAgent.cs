@@ -8,7 +8,7 @@ namespace App.Agent
 {
     using Common;
 
-    public abstract class CardAgent
+    public class CardAgent
         : AgentBaseCoro<Model.ICardModel>
         , ICardAgent
     {
@@ -29,10 +29,9 @@ namespace App.Agent
 
         #region Public Methods
 
-        public override bool Construct(ICardModel model)
+        public CardAgent(ICardModel model)
+            : base(model)
         {
-            base.Construct(model);
-            return true;
         }
 
         public Response TakeDamage(ICardAgent other)

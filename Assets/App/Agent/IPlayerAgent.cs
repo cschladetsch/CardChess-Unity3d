@@ -22,9 +22,9 @@ namespace App.Agent
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }
 
-        ReactiveProperty<int> Health { get; }
-        ReactiveProperty<int> MaxMana { get; }
-        ReactiveProperty<int> Mana { get; }
+        IReadOnlyReactiveProperty<int> MaxMana { get; }
+        IReadOnlyReactiveProperty<int> Mana { get; }
+        IReadOnlyReactiveProperty<int> Health { get; }
         #endregion
 
         void NewGame();

@@ -20,16 +20,18 @@
         void Destroy();
         IModel BaseModel { get; }
         IArbiterAgent Arbiter { get; set; }
+
+        void Construct();
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// A type-specific agent.
     /// </summary>
     /// <typeparam name="TModel">The type of the model this agent represents</typeparam>
-    public interface IAgent<TModel>
-        : IConstructWith<TModel>
-        , IAgent
-        where TModel : Model.IModel
+    public interface IAgent<out TModel>
+        : IAgent
+        where TModel : IModel
     {
         TModel Model { get; }
     }

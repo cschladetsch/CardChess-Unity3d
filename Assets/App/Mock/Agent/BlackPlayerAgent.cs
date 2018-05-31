@@ -1,4 +1,6 @@
-﻿namespace App.Mock.Agent
+﻿using App.Model;
+
+namespace App.Mock.Agent
 {
     using App.Agent;
 
@@ -6,5 +8,8 @@
         : PlayerAgentBase
         , IBlackPlayerAgent
     {
+        public BlackPlayerAgent(IPlayerModel model) : base(model)
+        {
+        }
     }
 }
