@@ -13,7 +13,6 @@ namespace App.Model.Test
             Assert.IsNotNull(_board);
             Assert.IsTrue(_board.Width == 8);
             Assert.IsTrue(_board.Height == 8);
-            Assert.IsTrue(!_board.Pieces.Any());
 
             Assert.IsNotNull(_arbiter);
             Assert.AreSame(_reg.New<IBoardModel>(), _board);
