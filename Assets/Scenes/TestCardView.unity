@@ -405,6 +405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Arbiter: {fileID: 993328273}
+  Startup: []
 --- !u!1 &424366547
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,7 +1198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 38, y: -28}
+  m_AnchoredPosition: {x: 101, y: -44.102}
   m_SizeDelta: {x: -491.8, y: -258.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2086867230
