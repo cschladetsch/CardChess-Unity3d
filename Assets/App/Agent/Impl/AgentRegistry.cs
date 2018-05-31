@@ -29,9 +29,11 @@ namespace App.Agent
         public override IAgent Prepare(IAgent agent)
         {
             agent.OnDestroy += (a) => a.Complete();
-            agent.Completed += (a) => (a as IAgent)?.Destroy();
+            //agent.Completed += (a) => (a as IAgent)?.Destroy();
 
             agent.Kernel = Kernel;
+            agent.Construct();
+
             return Factory.Prepare(agent);
         }
     }

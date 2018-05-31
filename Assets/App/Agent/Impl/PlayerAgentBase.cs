@@ -24,22 +24,21 @@ namespace App.Agent
         public IDeckAgent Deck { get; set; }
         public IHandAgent Hand { get; set; }
 
-        public ReactiveProperty<int> MaxMana { get; private set; }
-        public ReactiveProperty<int> Mana { get; private set; }
-        public ReactiveProperty<int> Health { get; private set; }
+        public IReadOnlyReactiveProperty<int> MaxMana => Model.MaxMana;
+        public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
+        public IReadOnlyReactiveProperty<int> Health => Model.Health;
         public ReactiveProperty<bool> Dead { get; private set; }
 
-        [Inject] public Service.ICardTemplateService _cardTemplateService;
+        public PlayerAgentBase(IPlayerModel model)
+            : base(model)
+        {
+        }
 
         public virtual void NewGame()
         {
             Deck.NewGame();
             Hand.NewGame();
             King = Registry.New<ICardAgent>(Model.King);
-
-            MaxMana = new ReactiveProperty<int>(Model.MaxMana);
-            Mana = new ReactiveProperty<int>(Model.Mana);
-            Health = new ReactiveProperty<int>(Model.Health);
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
         }
 

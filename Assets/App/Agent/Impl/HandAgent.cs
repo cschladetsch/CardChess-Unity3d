@@ -11,6 +11,11 @@ namespace App.Agent
         : AgentBaseCoro<Model.IHandModel>
         , IHandAgent
     {
+        public HandAgent(IHandModel model)
+            : base(model)
+        {
+        }
+
         protected override IEnumerator Next(IGenerator self)
         {
             yield return null;
@@ -26,5 +31,6 @@ namespace App.Agent
             Assert.IsNotNull(card);
             return Model.Add(card.Model) ? Response.Ok : Response.Fail;
         }
+
     }
 }

@@ -7,5 +7,6 @@ namespace App.Agent
         : IAgent<IArbiterModel>
     {
         //ICardAgent NewCardAgent(ICardModel cardModel, IOwner owner);
+        void StartGame(IPlayerAgent p0, IPlayerAgent p1);
     }
 }

@@ -1,7 +1,13 @@
-﻿namespace App.Agent
+﻿using App.Model;
+
+namespace App.Agent
 {
     class PieceAgent
-        : AgentBase<Model.PieceModel>
+        : AgentBase<Model.IPieceModel>
+        , IPieceAgent
     {
+        public PieceAgent(PieceModel model) : base(model)
+        {
+        }
     }
 }

@@ -91,13 +91,6 @@ namespace App.Agent
         public Model.IModel BaseModel { get; private set; }
         public TModel Model { get; private set; }
 
-        public bool Construct(TModel a0, IOwner owner)
-        {
-            Model = a0;
-            BaseModel = a0;
-            //Owner = owner;
-            return true;
-        }
     }
 
 }

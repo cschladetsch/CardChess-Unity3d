@@ -104,7 +104,7 @@ namespace App.Registry
             // TODO: combine these to one lookup.
             // That is, put the TImpl into PrepareModel, and parameterise it.
             _bindings[ity] = typeof(TImpl);
-            _preparers[ity] = new PrepareModel(this, typeof(TImpl));
+            _preparers[ity] = new Injector(this, typeof(TImpl));
 
             return true;
         }
@@ -170,8 +170,8 @@ namespace App.Registry
                 Warn($"Already have singleton value for {ity}");
                 return false;
             }
-            var prep = new PrepareModel(this, typeof(TImpl));
-            _singles[ity] = prep.Prepare(single, ity, single);
+            var prep = new Injector(this, typeof(TImpl));
+            _singles[ity] = Prepare(prep.Inject(single, ity, single));
             return true;
         }
 
@@ -365,12 +365,12 @@ namespace App.Registry
 
         private IBase Prepare(Type ity, IBase model)
         {
-            PrepareModel prep;
+            Injector prep;
             if (!_preparers.TryGetValue(ity, out prep))
             {
                 throw new Exception($"No preparer for type {ity}");
             }
-            return prep.Prepare(model);
+            return prep.Inject(model);
         }
 
         #endregion
@@ -401,7 +401,7 @@ namespace App.Registry
 
         #region Private Fields
 
-        class PrepareModel
+        class Injector
         {
             private PropertyInfo _setRegistry;
             private PropertyInfo _setId;
@@ -409,7 +409,7 @@ namespace App.Registry
             private readonly Type _modelType;
             private readonly List<Inject> _injections = new List<Inject>();
 
-            internal PrepareModel(IRegistry<IBase> reg, Type ty)
+            internal Injector(IRegistry<IBase> reg, Type ty)
             {
                 _modelType = ty;
                 _reg = reg;
@@ -435,9 +435,8 @@ namespace App.Registry
                 }
             }
 
-            public IBase Prepare(IBase model, Type iface = null, IBase single = null)
+            public IBase Inject(IBase model, Type iface = null, IBase single = null)
             {
-                model.Id = Guid.NewGuid();
                 model.Registry = _reg;
                 foreach (var inject in _injections)
                 {
@@ -508,7 +507,7 @@ namespace App.Registry
         private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
         private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
         private readonly Dictionary<Type, Type> _bindings = new Dictionary<Type, Type>();
-        private readonly Dictionary<Type, PrepareModel> _preparers = new Dictionary<Type, PrepareModel>();
+        private readonly Dictionary<Type, Injector> _preparers = new Dictionary<Type, Injector>();
         private readonly Dictionary<Type, IBase> _singles = new Dictionary<Type, IBase>();
         private IRegistry<IBase> _registry;
 

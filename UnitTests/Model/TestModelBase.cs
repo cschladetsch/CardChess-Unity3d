@@ -18,7 +18,6 @@ namespace App.Model.Test
         [SetUp]
         public void Setup()
         {
-            PrepareBindings();
             SetupTest();
         }
 
@@ -30,6 +29,18 @@ namespace App.Model.Test
 
         protected virtual void SetupTest()
         {
+            _reg = new Registry<IModel>();
+            _reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>(new Service.Impl.CardTemplateService());
+            _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
+            _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
+            _reg.Bind<IWhitePlayerModel, WhitePlayerModel>();
+            _reg.Bind<IBlackPlayerModel, BlackPlayerModel>();
+            _reg.Bind<ICardModel, CardModel>();
+            _reg.Bind<IDeckModel, MockDeck>();
+            _reg.Bind<IHandModel, MockHand>();
+            _reg.Bind<IPieceModel, PieceModel>();
+            _reg.Resolve();
+
             _board = _reg.New<IBoardModel>();
             _arbiter = _reg.New<IArbiterModel>();
             _white = _reg.New<IWhitePlayerModel>();
@@ -46,17 +57,6 @@ namespace App.Model.Test
 
         protected virtual void PrepareBindings()
         {
-            _reg = new Registry<IModel>();
-            _reg.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>(new Service.Impl.CardTemplateService());
-            _reg.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
-            _reg.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-            _reg.Bind<IWhitePlayerModel, WhitePlayerModel>();
-            _reg.Bind<IBlackPlayerModel, BlackPlayerModel>();
-            _reg.Bind<ICardModel, CardModel>();
-            _reg.Bind<IDeckModel, MockDeck>();
-            _reg.Bind<IHandModel, MockHand>();
-            _reg.Bind<IPieceModel, PieceModel>();
-            _reg.Resolve();
         }
     }
 }

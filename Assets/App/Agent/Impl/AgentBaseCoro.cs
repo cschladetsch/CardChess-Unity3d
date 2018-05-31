@@ -14,18 +14,16 @@ namespace App.Agent
         : AgentBase<TModel>
         where TModel : class, IModel
     {
-        public override bool Construct(TModel a0)
+        protected AgentBaseCoro(TModel model)
+            : base(model)
         {
-            base.Construct(a0);
+        }
+
+        public override void Construct()
+        {
             _Coro = New.Coroutine(Next);
             _Node = New.Node(_Coro);
             Kernel.Root.Add(_Node);
-            return Construct();
-        }
-
-        protected virtual bool Construct()
-        {
-            return true;
         }
 
         protected abstract IEnumerator Next(IGenerator self);

@@ -16,6 +16,10 @@ namespace App.Agent
         public int MaxCards => Parameters.MinCardsInDeck;
         public IEnumerable<ICardAgent> Cards => null;//base.Cards.OfType<ICardAgent>();
 
+        public DeckAgent(IDeckModel model) : base(model)
+        {
+        }
+
         public IChannel<ICardAgent> DrawCards(uint n)
         {
             var channel = New.Channel<ICardAgent>();
@@ -58,5 +62,6 @@ namespace App.Agent
         {
             yield return null;
         }
+
     }
 }
