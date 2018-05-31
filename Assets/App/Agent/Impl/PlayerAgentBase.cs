@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using Flow;
 
 using App.Common.Message;
 using App.Model;
 using App.Registry;
 using UniRx;
-#if VS
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#else
-using UnityEngine.Assertions;
-#endif
 
 namespace App.Agent
 {
@@ -41,8 +35,7 @@ namespace App.Agent
         {
             Deck.NewGame();
             Hand.NewGame();
-            var kingModel = _cardTemplateService.NewCardModel(Model, EPieceType.King);
-            King = Registry.New<ICardAgent>(kingModel);
+            King = Registry.New<ICardAgent>(Model.King);
 
             MaxMana = new ReactiveProperty<int>(Model.MaxMana);
             Mana = new ReactiveProperty<int>(Model.Mana);
@@ -50,55 +43,54 @@ namespace App.Agent
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
         }
 
-        public ITimer StartGameTimer { get; private set; }
         public ITimer StartGame()
         {
-            return StartGameTimer = Factory.OneShotTimer(TimeSpan.FromSeconds(20));
+            return null;
         }
 
         public ITransient DrawInitialCards()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITimedFuture<bool> AcceptCards()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITimedFuture<PlacePiece> PlaceKing()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITransient ChangeMaxMana(int i)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITimedFuture<ICardModel> DrawCard()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITimedFuture<PlacePiece> PlayCard()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITimedFuture<MovePiece> MovePiece()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ITimedFuture<Pass> Pass()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         protected override IEnumerator Next(IGenerator self)
         {
-            throw new NotImplementedException();
+            yield break;
         }
     }
 }

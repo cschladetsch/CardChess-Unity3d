@@ -10,8 +10,8 @@ namespace App.Agent
 
 	public class DeckAgent
         //: CardCollection
-        //, IDeckAgent
         : AgentBaseCoro<IDeckModel>
+        , IDeckAgent
     {
         public int MaxCards => Parameters.MinCardsInDeck;
         public IEnumerable<ICardAgent> Cards => null;//base.Cards.OfType<ICardAgent>();
