@@ -40,6 +40,11 @@ namespace App.Agent
             return Model.TakeDamage(other.Model);
         }
 
+        public void ChangeHealth(int change)
+        {
+            Model.ChangeHealth(change);
+        }
+
         #endregion
 
         #region Protected Methods
