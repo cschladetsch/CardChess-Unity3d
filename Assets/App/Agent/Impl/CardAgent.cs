@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using App.Common.Message;
 using App.Model;
 using Flow;
 using UniRx;
@@ -9,51 +8,28 @@ namespace App.Agent
     using Common;
 
     public class CardAgent
-        : AgentBaseCoro<Model.ICardModel>
+        : AgentBaseCoro<ICardModel>
         , ICardAgent
     {
-        #region Public Fields
         public ECardType Type => Model.Type;
         public EPieceType PieceType => Model.PieceType;
         public ICardTemplate Template => Model.Template;
-
         public IReactiveProperty<IPlayerModel> Player => Model.Player;
         public IReadOnlyReactiveProperty<int> ManaCost => Model.Power;
         public IReadOnlyReactiveProperty<int> Power => Model.Power;
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
         public IReactiveCollection<IItemModel> Items => Model.Items;
         public IReactiveCollection<EAbility> Abilities => Model.Abilities;
-
         public IReactiveCollection<IEffectModel> Effects => Model.Effects;
-        #endregion
-
-        #region Public Methods
 
         public CardAgent(ICardModel model)
             : base(model)
         {
         }
 
-        public Response TakeDamage(ICardAgent other)
-        {
-            return Model.TakeDamage(other.Model);
-        }
-
-        public void ChangeHealth(int change)
-        {
-            Model.ChangeHealth(change);
-        }
-
-        #endregion
-
-        #region Protected Methods
         protected override IEnumerator Next(IGenerator self)
         {
             yield break;
         }
-        #endregion
-
-        #region Private Fields
-        #endregion
     }
 }

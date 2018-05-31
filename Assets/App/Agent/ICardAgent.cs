@@ -4,7 +4,7 @@ using UniRx;
 
 namespace App.Agent
 {
-	using Model;
+    using Model;
 
     public interface ICardAgent
         : IAgent<ICardModel>
@@ -16,8 +16,5 @@ namespace App.Agent
         IReactiveCollection<IEffectModel> Effects { get; }
         IReactiveCollection<IItemModel> Items { get; }
         IReactiveCollection<EAbility> Abilities { get; }
-
-        Response TakeDamage(ICardAgent other);
-        void ChangeHealth(int change);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using App.Common.Message;
+using Flow;
 
 namespace App.Agent
 {
@@ -11,7 +13,8 @@ namespace App.Agent
     public interface IBoardAgent
         : IAgent<IBoardModel>
     {
-        void NewGame();
+        ITransient NewGame();
         IPieceAgent At(Coord coord);
+        Response Set(IPieceAgent piece, Coord cood);
     }
 }

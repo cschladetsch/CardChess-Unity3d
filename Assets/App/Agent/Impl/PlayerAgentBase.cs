@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Flow;
 
 using App.Common.Message;
@@ -15,7 +16,7 @@ namespace App.Agent
     /// <summary>
     /// The agent that represents a playerAgent in the game.
     /// </summary>
-    public class PlayerAgentBase
+    public abstract class PlayerAgentBase
         : AgentBaseCoro<IPlayerModel>
         , IPlayerAgent
     {
@@ -29,63 +30,39 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
         public ReactiveProperty<bool> Dead { get; private set; }
 
-        public PlayerAgentBase(IPlayerModel model)
+        protected PlayerAgentBase(IPlayerModel model)
             : base(model)
         {
         }
 
-        public virtual void NewGame()
+        public virtual ITransient NewGame()
         {
-            Deck.NewGame();
-            Hand.NewGame();
+            Deck = Registry.New<IDeckAgent>(Model.Deck);
+            Hand = Registry.New<IHandAgent>(Model.Hand);
             King = Registry.New<ICardAgent>(Model.King);
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
-        }
 
-        public ITimer StartGame()
-        {
+            Deck.NewGame();
+            Hand.NewGame();
+
             return null;
         }
 
         public ITransient DrawInitialCards()
         {
+            Model.DrawHand();
+            foreach (var card in Model.Hand.Cards)
+            {
+            }
             return null;
         }
 
-        public ITimedFuture<bool> AcceptCards()
-        {
-            return null;
-        }
-
-        public ITimedFuture<PlacePiece> PlaceKing()
-        {
-            return null;
-        }
-
-        public ITransient ChangeMaxMana(int i)
-        {
-            return null;
-        }
-
-        public ITimedFuture<ICardModel> DrawCard()
-        {
-            return null;
-        }
-
-        public ITimedFuture<PlacePiece> PlayCard()
-        {
-            return null;
-        }
-
-        public ITimedFuture<MovePiece> MovePiece()
-        {
-            return null;
-        }
-
-        public ITimedFuture<Pass> Pass()
-        {
-            return null;
-        }
+        public abstract ITransient StartGame();
+        public abstract IFuture<List<ICardModel>> Mulligan();
+        public abstract IFuture<MovePiece> PlaceKing();
+        public abstract ITransient TurnStart();
+        public abstract IFuture<IRequest> NextRequest();
+        public abstract ITransient TurnEnd();
 
         protected override IEnumerator Next(IGenerator self)
         {
