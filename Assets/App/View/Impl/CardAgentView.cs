@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Agent;
+﻿using App.Agent;
 using UniRx;
 using UnityEngine.UI;
 
 namespace App.View.Impl
 {
+
     public class CardAgentView
         : ViewBase<ICardAgent>
     {
@@ -30,8 +26,10 @@ namespace App.View.Impl
             if (!base.Construct(agent))
                 return false;
 
+            Give.Bind(() => Agent.ChangeHealth(10));
+            Take.Bind(() => Agent.ChangeHealth(-10));
+
             Agent.Health.DistinctUntilChanged(h => Health.text = $"Health: {h}");
-            //Agent.Health.DistinctUntilChanged(h => Attack.text = $"h");
             return true;
         }
     }

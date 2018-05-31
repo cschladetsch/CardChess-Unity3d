@@ -18,5 +18,6 @@ namespace App.Agent
         IReactiveCollection<EAbility> Abilities { get; }
 
         Response TakeDamage(ICardAgent other);
+        void ChangeHealth(int change);
     }
 }

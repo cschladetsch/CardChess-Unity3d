@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using App.View.Impl;
+using UnityEngine.UI;
 
 namespace App
 {
@@ -8,21 +9,15 @@ namespace App
     using Mock.Model;
     using Mock.Agent;
 
-    public class GameRootTest
+    public class GameRootTest : ViewBase
     {
-        public Button Give;
-        public Button Take;
-
-        private App.Registry.Registry<IModel> _models;
+        private App.Model.ModelRegistry _models;
         private App.Agent.AgentRegistry _agents;
-
-        private Model.ICardModel _cardModel;
-        private Agent.ICardAgent _cardAgent;
-        private View.ICardAgentView _cardView;
+        private App.View.ViewRegistry _views;
 
         void PrepareModel()
         {
-            _models = new App.Registry.Registry<IModel>();
+            _models = new ModelRegistry();
             _models.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
             _models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
@@ -33,8 +28,8 @@ namespace App
             _models.Bind<IHandModel, MockHand>();
             _models.Bind<IPieceModel, PieceModel>();
             _models.Resolve();
-
         }
+
         void Start()
         {
             _models = new ModelRegistry();
