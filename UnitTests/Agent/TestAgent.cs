@@ -14,7 +14,8 @@ namespace App.Agent.Test
         [Test]
         public void TestBasicAgentTurns()
         {
-            //_arbiterAgent.
+            _arbiterAgent.StartGame(_whiteAgent, _blackAgent);
+
         }
     }
 }

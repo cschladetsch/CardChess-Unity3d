@@ -26,8 +26,8 @@ namespace App.View.Impl
             if (!base.Construct(agent))
                 return false;
 
-            Give.Bind(() => Agent.ChangeHealth(10));
-            Take.Bind(() => Agent.ChangeHealth(-10));
+            //Give.Bind(() => Agent.ChangeHealth(10));
+            //Take.Bind(() => Agent.ChangeHealth(-10));
 
             Agent.Health.DistinctUntilChanged(h => Health.text = $"Health: {h}");
             return true;

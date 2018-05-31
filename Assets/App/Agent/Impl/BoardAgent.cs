@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using App.Common.Message;
 using App.Model;
 using Flow;
 
@@ -11,7 +12,8 @@ namespace App.Agent
         : AgentBaseCoro<Model.IBoardModel>
         , IBoardAgent
     {
-        public BoardAgent(IBoardModel model) : base(model)
+        public BoardAgent(IBoardModel model)
+            : base(model)
         {
         }
 
@@ -20,16 +22,20 @@ namespace App.Agent
             yield break;
         }
 
-        public void NewGame()
+        public ITransient NewGame()
         {
             Model.NewGame();
+            return null;
         }
 
         public IPieceAgent At(Coord coord)
         {
             return null;
-            //return Model.At(coord);
         }
 
+        public Response Set(IPieceAgent piece, Coord cood)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
