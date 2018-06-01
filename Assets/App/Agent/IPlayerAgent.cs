@@ -38,7 +38,7 @@ namespace App.Agent
         IFuture<PlacePiece> PlaceKing();
 
         ITransient TurnStart();
-        IFuture<IRequest> NextRequest();
+        ITimedFuture<IRequest> NextRequest(float timeOut);
         ITransient TurnEnd();
     }
 }

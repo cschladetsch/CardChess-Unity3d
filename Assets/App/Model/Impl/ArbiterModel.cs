@@ -270,8 +270,8 @@ namespace App.Model
             }
         }
 
-        private List<PlayerEntry> _players;
         private int _turnNumber;
+        private List<PlayerEntry> _players;
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
         private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Mulligan);
