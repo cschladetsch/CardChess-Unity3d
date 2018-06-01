@@ -21,9 +21,9 @@ namespace App.Agent
         {
             Kernel = Flow.Create.Kernel();
             Factory = Kernel.Factory;
-            Agents = Factory.Node();
-            Agents.Name = "Agents";
-            Kernel.Root.Add(Agents);
+            //Agents = Factory.Node();
+            //Agents.Name = "Agents";
+            //Kernel.Root.Add(Agents);
         }
 
         public override IAgent Prepare(IAgent agent)

@@ -59,6 +59,7 @@ namespace App
                         _players.Select(p => p.StartGame())
                     ).Named("PlayersStartGame")
                 ).Named("Setup"),
+                New.Log("...Entering main game loop..."),
                 GameLoop()
             );
         }
@@ -66,7 +67,7 @@ namespace App
         public ITransient GameLoop()
         {
             return New.Sequence(
-                New.Coroutine(StartGame),
+                StartGame(),
                 New.While(() => Model.GameState.Value != EGameState.Completed,
                     New.Coroutine(PlayerTurn).Named("Turn")
                 ).Named("While"),
@@ -82,12 +83,12 @@ namespace App
             return New.TimedBarrier(span, futures).ForEach(act);
         }
 
-        private IEnumerator StartGame(IGenerator self)
+        private IGenerator StartGame()
         {
             var rejectTime = TimeSpan.FromSeconds(Parameters.MulliganTimer);
             var kingPlaceTime = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
 
-            var start = New.Barrier(
+            return New.Barrier(
                 New.Sequence(
                     New.Barrier(
                         _players.Select(p => p.StartGame())
@@ -99,15 +100,16 @@ namespace App
                 TimedFutureBarrier(
                     rejectTime,
                     _players.Select(p => p.Mulligan()),
-                    f => { if (f.Available) Model.Arbitrate(f.Value); }
+                    f => { if (f.Available)
+                        Model.Arbitrate(f.Value); }
                 ).Named("Mulligan"),
                 TimedFutureBarrier(
                     kingPlaceTime,
                     _players.Select(p => p.PlaceKing()),
-                    f => { if (f.Available) Model.Arbitrate(f.Value); }
+                    f => { if (f.Available)
+                        Model.Arbitrate(f.Value); }
                 ).Named("PlaceKings")
             ).Named("StartGame");
-            yield return start;
         }
 
         private IEnumerator PlayerTurn(IGenerator self)

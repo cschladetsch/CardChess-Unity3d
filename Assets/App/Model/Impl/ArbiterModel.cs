@@ -151,6 +151,9 @@ namespace App.Model
             }
 
             var resp = TryPlacePiece(act);
+
+            // force back to PlaceKingState unless all kings have been placed
+            _gameState.Value = EGameState.PlaceKing;
             if (resp.Type != EResponse.Ok)
                 return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
 
