@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using App.Mock;
+using App.Model;
 
 namespace App.Mock.Model
 {
@@ -20,14 +21,10 @@ namespace App.Mock.Model
         {
             _Requests = new List<Func<IRequest>>()
             {
-                () => new AcceptCards(this),
+                () => new RejectCards(this),
                 () => new PlacePiece(this, King, new Coord(4, 2)),
                 () => _EndTurn,
-                () =>
-                {
-                    var peon = MakePiece(EPieceType.Peon);
-                    return new PlacePiece(this, peon, new Coord(4, 3));
-                },
+                () => new PlacePiece(this, MakePiece(EPieceType.Peon), new Coord(4, 3)),
                 () => new Battle(this, KingPiece, Board.At(3,3)),
                 () => new MovePiece(this, Board.At(4,3), new Coord(4,4)),
                 () => new Battle(this, Board.At(4,4), Board.At(4,5)),
