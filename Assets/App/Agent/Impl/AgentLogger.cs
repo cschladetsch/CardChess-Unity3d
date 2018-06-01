@@ -27,6 +27,8 @@ namespace App.Agent
         [Inject] public IArbiterAgent Arbiter { get; set; }
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
         public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; } }
+        public bool ShowSource { get; set; }
+        public bool ShowStack { get; set; }
         public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
         #endregion
 

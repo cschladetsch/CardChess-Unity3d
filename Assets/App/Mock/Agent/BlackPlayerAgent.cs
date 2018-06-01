@@ -23,14 +23,15 @@ namespace App.Mock.Agent
             return base.StartGame();
         }
 
-        public override IFuture<List<ICardModel>> Mulligan()
+        public override IFuture<RejectCards> Mulligan()
         {
             // keep all cards
-            return null;
+            return New.Future(new RejectCards(Model));
         }
 
         public override IFuture<PlacePiece> PlaceKing()
         {
+            Info($"{this} places king");
             return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 5)));
         }
 

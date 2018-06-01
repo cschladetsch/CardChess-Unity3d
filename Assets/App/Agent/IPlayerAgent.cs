@@ -34,7 +34,7 @@ namespace App.Agent
 
         ITransient StartGame();
         ITransient DrawInitialCards();
-        IFuture<List<ICardModel>> Mulligan();
+        IFuture<RejectCards> Mulligan();
         IFuture<PlacePiece> PlaceKing();
 
         ITransient TurnStart();

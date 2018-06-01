@@ -62,7 +62,7 @@ namespace App.Model
             Hand = Registry.New<IHandModel>(this);
             Deck.NewGame();
             Hand.NewGame();
-            return Response.Ok;
+            return Common.Message.Response.Ok;
         }
 
         public void CardExhaustion()
@@ -85,17 +85,22 @@ namespace App.Model
         public Response CardDrawn(ICardModel card)
         {
             if (Hand.NumCards.Value == Hand.MaxCards)
-                return Response.Fail;
-            return Hand.Add(card) ? Response.Ok : Response.Fail;
+                return Common.Message.Response.Fail;
+            return Hand.Add(card) ? Common.Message.Response.Ok : Common.Message.Response.Fail;
         }
 
-        public virtual void RequestFailed(IRequest req)
+        public virtual void Response(IRequest req)
         {
             Warn($"{this} action failed: {req.Action}");
 
             // if these actions failed, return the cards to Hand
             switch (req.Action)
             {
+                case EActionType.RejectCards:
+                    // TODO:
+                    //var cards = (req as IRequest<IList<ICardModel>>)
+                    Info("Got cards back from mulligan request (somehow)....");
+                    break;
                 case EActionType.CastSpell:
                     var cast = req as CastSpell;
                     Assert.IsNotNull(cast);
@@ -127,20 +132,20 @@ namespace App.Model
 
         public Response ChangeMana(int change)
         {
-            return Response.Ok;
+            return Common.Message.Response.Ok;
         }
 
         public Response ChangeMaxMana(int change)
         {
             // TODO: set this via Rx
             MaxMana.Value = Mathf.Clamp(0, Parameters.MaxManaCap, MaxMana.Value + change);
-            return Response.Ok;
+            return Common.Message.Response.Ok;
         }
 
         public Response DrawHand()
         {
             Hand.Add(Deck.Draw(Parameters.StartHandCardCount));
-            return Response.Ok;
+            return Common.Message.Response.Ok;
         }
 
         #endregion

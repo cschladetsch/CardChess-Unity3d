@@ -8,12 +8,17 @@ namespace App.Common
     {
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; } }
         public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; } }
+        public bool ShowSource { get; set; }
+        public bool ShowStack { get; set; }
         public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; } }
 
         protected LoggingBehavior()
         {
             _log.LogSubject = this;
+            _log.ShowStack = Parameters.DefaultShowTraceStack;
+            _log.ShowSource = Parameters.DefaultShowTraceSource;
         }
+
         public void Info(string fmt, params object[] args)
         {
             _log.Info(fmt, args);

@@ -37,6 +37,7 @@ namespace App.Agent
 
         public virtual ITransient StartGame()
         {
+            Info($"{this} StartGame");
             Model.NewGame();
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
             return null;
@@ -44,11 +45,12 @@ namespace App.Agent
 
         public ITransient DrawInitialCards()
         {
+            Info($"{this} Draws first cards");
             Model.DrawHand();
             return null;
         }
 
-        public abstract IFuture<List<ICardModel>> Mulligan();
+        public abstract IFuture<RejectCards> Mulligan();
         public abstract IFuture<PlacePiece> PlaceKing();
         public abstract ITransient TurnStart();
         public abstract IFuture<IRequest> NextRequest();

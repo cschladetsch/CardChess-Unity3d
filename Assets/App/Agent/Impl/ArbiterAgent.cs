@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using CoLib;
 using Flow;
 
 namespace App
@@ -34,6 +34,11 @@ namespace App
             Kernel.Step();
         }
 
+        public ITransient NewGame()
+        {
+            return null;
+        }
+
         public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
         {
             Info("StartGame");
@@ -41,6 +46,8 @@ namespace App
             _players.Add(p0);
             _players.Add(p1);
             _currentPlayer = 0;
+
+            Model.NewGame(p0.Model, p1.Model);
 
             _Node.Add(
                 New.Sequence(
@@ -56,11 +63,6 @@ namespace App
             );
         }
 
-        public ITransient NewGame()
-        {
-            return null;
-        }
-
         public ITransient GameLoop()
         {
             return New.Sequence(
@@ -72,26 +74,39 @@ namespace App
             ).Named("GameLoop");
         }
 
+        IGenerator TimedFutureBarrier<T>(
+            TimeSpan span,
+            IEnumerable<IFuture<T>> futures,
+            Action<IFuture<T>> act)
+        {
+            return New.TimedBarrier(span, futures).ForEach(act);
+        }
+
         private IEnumerator StartGame(IGenerator self)
         {
-            var start = New.Sequence(
-                New.Barrier(
-                    _players.Select(p => p.StartGame())
-                ).Named("InitGame"),
-                New.Barrier(
-                    _players.Select(p => p.DrawInitialCards())
-                ).Named("DealCards"),
-                New.Barrier(
-                    New.TimedBarrier(
-                        TimeSpan.FromSeconds(Parameters.MulliganTimer),
-                        _players.Select(p => p.Mulligan())
-                    ).Named("Mulligan"),
-                    New.Barrier( // TODO: TimedOrderedNode or something...
-                        _players.Select(p => p.PlaceKing())
-                    ).Named("PlaceKings")
-                ).Named("Preceedings")
-            ).Named("Start Game");
-            start.Completed += (tr) => Info("StartGameCompleted");
+            var rejectTime = TimeSpan.FromSeconds(Parameters.MulliganTimer);
+            var kingPlaceTime = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
+
+            var start = New.Barrier(
+                New.Sequence(
+                    New.Barrier(
+                        _players.Select(p => p.StartGame())
+                    ).Named("InitGame"),
+                    New.Barrier(
+                        _players.Select(p => p.DrawInitialCards())
+                    ).Named("DealCards")
+                ),
+                TimedFutureBarrier(
+                    rejectTime,
+                    _players.Select(p => p.Mulligan()),
+                    f => { if (f.Available) Model.Arbitrate(f.Value); }
+                ).Named("Mulligan"),
+                TimedFutureBarrier(
+                    kingPlaceTime,
+                    _players.Select(p => p.PlaceKing()),
+                    f => { if (f.Available) Model.Arbitrate(f.Value); }
+                ).Named("PlaceKings")
+            ).Named("StartGame");
             yield return start;
         }
 
@@ -102,19 +117,24 @@ namespace App
 
             while (true)
             {
-                var future = New.TimedFuture<IRequest>(TimeSpan.FromSeconds(timeOut));
+                var future = CurrentPlayer.NextRequest();
+                if (future == null)
+                    break;
+
                 yield return self.After(future);
 
-                if (future.HasTimedOut)
-                {
-                    Warn($"{CurrentPlayer.Model} Timed out");
-                    yield return self.After(New.Coroutine(PlayerTimedOut));
-                    break;
-                }
+                //if (future.HasTimedOut)
+                //{
+                //    Warn($"{CurrentPlayer.Model} Timed out");
+                //    yield return self.After(New.Coroutine(PlayerTimedOut));
+                //    break;
+                //}
 
                 var response = Model.Arbitrate(future.Value);
 
                 timeOut -= Kernel.Time.Delta.Seconds;
+
+                break;
             }
 
             _currentPlayer = (_currentPlayer + 1) % _players.Count;

@@ -14,6 +14,15 @@ namespace App
     public class TestFlowExtra
     {
         [TestMethod]
+        public void TestWhile()
+        {
+            var k = Flow.Create.Kernel();
+            var f = k.Factory;
+
+
+        }
+
+        [TestMethod]
         public void TestBasicPrint()
         {
             var k = Flow.Create.Kernel();
