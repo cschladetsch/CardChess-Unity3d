@@ -101,7 +101,7 @@ namespace App
             ).Named("StartGame");
         }
 
-        private ITransient GameLoop()
+        public ITransient GameLoop()
         {
             return New.Sequence(
                 StartGame(),
@@ -130,7 +130,6 @@ namespace App
                     Warn($"{Player} passed");
                     break;
                 }
-
                 yield return self.After(request);
 
                 if (request.HasTimedOut)
@@ -139,7 +138,6 @@ namespace App
                     yield return self.After(New.Coroutine(PlayerTimedOut));
                     break;
                 }
-
                 if (!request.Available)
                     Warn($"{Player} didn't make a request");
 
