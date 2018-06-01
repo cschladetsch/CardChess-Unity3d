@@ -6,7 +6,6 @@
     public enum EActionType
     {
         RejectCards,
-        AcceptCards,
         DrawCard,
         PlacePiece,
         MovePiece,

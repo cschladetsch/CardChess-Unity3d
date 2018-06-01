@@ -53,7 +53,7 @@ namespace App.Agent
         public abstract IFuture<RejectCards> Mulligan();
         public abstract IFuture<PlacePiece> PlaceKing();
         public abstract ITransient TurnStart();
-        public abstract IFuture<IRequest> NextRequest();
+        public abstract ITimedFuture<IRequest> NextRequest(float seconds);
         public abstract ITransient TurnEnd();
 
         protected override IEnumerator Next(IGenerator self)

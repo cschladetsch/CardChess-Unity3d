@@ -40,7 +40,7 @@ namespace App.Mock.Agent
             return null;//New.Nop();
         }
 
-        public override IFuture<IRequest> NextRequest()
+        public override ITimedFuture<IRequest> NextRequest(float seconds)
         {
             Info($"{this} passes");
             return null;
