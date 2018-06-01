@@ -8,5 +8,6 @@ namespace App.Agent
     {
         void StartGame(IPlayerAgent p0, IPlayerAgent p1);
         ITransient NewGame();
+        void Step();
     }
 }

@@ -21,7 +21,7 @@ namespace App
         : AgentBaseCoro<IArbiterModel>
         , IArbiterAgent
     {
-        public IPlayerAgent CurrentPlayer;
+        public IPlayerAgent CurrentPlayer => _players[_currentPlayer];
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -40,6 +40,7 @@ namespace App
 
             _players.Add(p0);
             _players.Add(p1);
+            _currentPlayer = 0;
 
             _Node.Add(
                 New.Sequence(
@@ -50,10 +51,9 @@ namespace App
                     New.Barrier(
                         _players.Select(p => p.StartGame())
                     ).Named("PlayersStartGame")
-                ).Named("StartGame")
+                ).Named("Setup"),
+                GameLoop()
             );
-
-            GameLoop();
         }
 
         public ITransient NewGame()
@@ -61,16 +61,15 @@ namespace App
             return null;
         }
 
-        public void GameLoop()
+        public ITransient GameLoop()
         {
-            _Node.Add(
-                New.Sequence(
-                    New.Coroutine(StartGame).Named("StartGame"),
-                    New.While(() => Model.GameState.Value != EGameState.Completed),
-                        New.Coroutine(PlayerTurn).Named("Turn").Named("While"),
-                    New.Coroutine(EndGame).Named("EndGame")
-                ).Named("GameLoop")
-            );
+            return New.Sequence(
+                New.Coroutine(StartGame),
+                New.While(() => Model.GameState.Value != EGameState.Completed,
+                    New.Coroutine(PlayerTurn).Named("Turn")
+                ).Named("While"),
+                New.Coroutine(EndGame).Named("EndGame")
+            ).Named("GameLoop");
         }
 
         private IEnumerator StartGame(IGenerator self)
@@ -87,7 +86,7 @@ namespace App
                         TimeSpan.FromSeconds(Parameters.MulliganTimer),
                         _players.Select(p => p.Mulligan())
                     ).Named("Mulligan"),
-                    New.Sequence( // TODO: TimedSequence
+                    New.Barrier( // TODO: TimedOrderedNode or something...
                         _players.Select(p => p.PlaceKing())
                     ).Named("PlaceKings")
                 ).Named("Preceedings")
@@ -117,6 +116,8 @@ namespace App
 
                 timeOut -= Kernel.Time.Delta.Seconds;
             }
+
+            _currentPlayer = (_currentPlayer + 1) % _players.Count;
         }
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
@@ -137,5 +138,6 @@ namespace App
         }
 
         readonly List<IPlayerAgent> _players = new List<IPlayerAgent>();
+        private int _currentPlayer = 0;
     }
 }

@@ -315,7 +315,7 @@ namespace App.Registry
                     continue;
                 var model = con.Invoke(args) as IBase;
                 if (model != null)
-                    return Prepare(ity, model);
+                    return Prepare(Prepare(ity, model));
             }
             foreach (var method in ty.GetMethods(BindingFlags.Instance | BindingFlags.Public))
             {
@@ -336,7 +336,7 @@ namespace App.Registry
                     return null;
                 }
 
-                return Prepare(ity, model);
+                return Prepare(Prepare(ity, model));
             }
             Error($"No mathching Constructor for {ty} with args '{ToArgTypeList(args)}'");
             return null;

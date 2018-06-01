@@ -32,5 +32,10 @@ namespace App.Agent
             return Model.Add(card.Model) ? Response.Ok : Response.Fail;
         }
 
+        public Response<ICardAgent> DrawCard()
+        {
+            return null;
+        }
+
     }
 }
