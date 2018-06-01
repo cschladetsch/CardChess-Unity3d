@@ -7,5 +7,6 @@ namespace App.Agent
     {
         Response NewGame();
         Response Add(ICardAgent card);
+        Response<ICardAgent> DrawCard();
     }
 }

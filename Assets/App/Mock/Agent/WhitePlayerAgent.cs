@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using App.Common;
 using App.Common.Message;
 using App.Model;
 using Flow;
@@ -11,38 +12,43 @@ namespace App.Mock.Agent
         : PlayerAgentBase
         , IWhitePlayerAgent
     {
-        public WhitePlayerAgent(IPlayerModel model) : base(model)
+        public WhitePlayerAgent(IPlayerModel model)
+            : base(model)
         {
         }
 
         public override ITransient StartGame()
         {
-            throw new System.NotImplementedException();
+            // TODO: Some sort of animation
+            return base.StartGame();
         }
 
         public override IFuture<List<ICardModel>> Mulligan()
         {
-            throw new System.NotImplementedException();
+            // keep all cards
+            return null;
         }
 
-        public override IFuture<MovePiece> PlaceKing()
+        public override IFuture<PlacePiece> PlaceKing()
         {
-            throw new System.NotImplementedException();
+            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 2)));
         }
 
         public override ITransient TurnStart()
         {
-            throw new System.NotImplementedException();
+            return null;//New.Nop();
         }
 
         public override IFuture<IRequest> NextRequest()
         {
-            throw new System.NotImplementedException();
+            Info($"{this} passes");
+            return null;
         }
 
         public override ITransient TurnEnd()
         {
-            throw new System.NotImplementedException();
+            Info("Turn End");
+            return null;
         }
     }
 }

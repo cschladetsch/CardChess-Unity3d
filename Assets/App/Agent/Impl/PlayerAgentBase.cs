@@ -21,9 +21,9 @@ namespace App.Agent
         , IPlayerAgent
     {
         public EColor Color => Model.Color;
-        public ICardAgent King { get; private set; }
-        public IDeckAgent Deck { get; set; }
-        public IHandAgent Hand { get; set; }
+        public ICardModel King { get; private set; }
+        public IDeckModel Deck { get; set; }
+        public IHandModel Hand { get; set; }
 
         public IReadOnlyReactiveProperty<int> MaxMana => Model.MaxMana;
         public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
@@ -35,31 +35,21 @@ namespace App.Agent
         {
         }
 
-        public virtual ITransient NewGame()
+        public virtual ITransient StartGame()
         {
-            Deck = Registry.New<IDeckAgent>(Model.Deck);
-            Hand = Registry.New<IHandAgent>(Model.Hand);
-            King = Registry.New<ICardAgent>(Model.King);
+            Model.NewGame();
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
-
-            Deck.NewGame();
-            Hand.NewGame();
-
             return null;
         }
 
         public ITransient DrawInitialCards()
         {
             Model.DrawHand();
-            foreach (var card in Model.Hand.Cards)
-            {
-            }
             return null;
         }
 
-        public abstract ITransient StartGame();
         public abstract IFuture<List<ICardModel>> Mulligan();
-        public abstract IFuture<MovePiece> PlaceKing();
+        public abstract IFuture<PlacePiece> PlaceKing();
         public abstract ITransient TurnStart();
         public abstract IFuture<IRequest> NextRequest();
         public abstract ITransient TurnEnd();
