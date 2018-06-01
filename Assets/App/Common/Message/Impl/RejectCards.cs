@@ -8,10 +8,11 @@ namespace App.Common.Message
     {
         public ICardModel[] Rejected { get; }
 
-        public RejectCards(IPlayerModel player, IEnumerable<ICardModel> rejected)
+        public RejectCards(IPlayerModel player, IEnumerable<ICardModel> rejected = null)
             : base(player, EActionType.RejectCards)
         {
-            Rejected = rejected.ToArray();
+            if (rejected != null)
+                Rejected = rejected.ToArray();
         }
     }
 }

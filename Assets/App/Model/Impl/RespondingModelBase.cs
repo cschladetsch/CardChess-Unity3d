@@ -29,7 +29,7 @@ namespace App.Model
             Assert.IsNotNull(req.Player);
 
             Error(text);
-            req.Player.RequestFailed(req);
+            req.Player.Response(req);
             return new Response(EResponse.Fail, error, text);
         }
     }

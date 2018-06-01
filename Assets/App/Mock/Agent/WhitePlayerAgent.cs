@@ -3,6 +3,7 @@ using App.Common;
 using App.Common.Message;
 using App.Model;
 using Flow;
+using Flow.Impl;
 
 namespace App.Mock.Agent
 {
@@ -23,14 +24,14 @@ namespace App.Mock.Agent
             return base.StartGame();
         }
 
-        public override IFuture<List<ICardModel>> Mulligan()
+        public override IFuture<RejectCards> Mulligan()
         {
-            // keep all cards
-            return null;
+            return New.Future(new RejectCards(Model));
         }
 
         public override IFuture<PlacePiece> PlaceKing()
         {
+            Info($"{this} places king");
             return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 2)));
         }
 

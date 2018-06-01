@@ -16,7 +16,7 @@ namespace App.Mock.Model
     {
         #region Public Methods
 
-        public override void RequestFailed(IRequest req)
+        public override void Response(IRequest req)
         {
             Warn($"Request {req} failed");
         }

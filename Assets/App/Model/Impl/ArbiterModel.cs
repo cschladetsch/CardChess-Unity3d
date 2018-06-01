@@ -55,7 +55,7 @@ namespace App.Model
                 case EGameState.Start:
                     return Response.Ok;
                 case EGameState.Mulligan:
-                    return TryAcceptCards(request);
+                    return TryRejectCards(request as RejectCards);
                 case EGameState.PlaceKing:
                     return TryPlaceKing(request as PlacePiece);
                 case EGameState.PlayTurn:
@@ -118,18 +118,20 @@ namespace App.Model
             _gameState.Value = EGameState.Completed;
         }
 
-        private Response TryAcceptCards(IRequest request)
+        private Response TryRejectCards(RejectCards rejections)
         {
+            Assert.IsNotNull(rejections);
+
             // TODO: deal with mulligan of type RejectCards
-            var entry = GetEntry(request.Player);
-            if (entry.AcceptedCards)
+            var entry = GetEntry(rejections.Player);
+            if (entry.RejectedCards)
             {
-                Error($"Player {request.Player} cannot Accept twice");
+                Error($"Player {rejections.Player} cannot reject twice");
                 return Response.Fail;
             }
             // TODO: give player different cards in response
-            entry.AcceptedCards = true;
-            if (_players.All(a => a.AcceptedCards))
+            entry.RejectedCards = true;
+            if (_players.All(a => a.RejectedCards))
                 _gameState.Value = EGameState.PlaceKing;
 
             return Response.Ok;
@@ -250,7 +252,7 @@ namespace App.Model
 
         class PlayerEntry
         {
-            public bool AcceptedCards;
+            public bool RejectedCards;
             public bool MovedPiece;
             public readonly IPlayerModel Player;
 

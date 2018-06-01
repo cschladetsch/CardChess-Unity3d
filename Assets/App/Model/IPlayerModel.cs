@@ -35,7 +35,7 @@ namespace App.Model
         void CardExhaustion();
         void StartTurn();
         void EndTurn();
-        void RequestFailed(IRequest req/*, Response response*/);
+        void Response(IRequest req/*, Response response*/);
         void RequestSucceeded(IRequest req/*, Response response*/);
         #endregion // Methods
     }
