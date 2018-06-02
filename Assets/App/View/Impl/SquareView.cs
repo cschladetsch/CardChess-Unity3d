@@ -59,7 +59,7 @@ namespace App.View.Impl
 
         public override string ToString()
         {
-            return $"{Color}-square at {Coord} (WP={transform.position})";
+            return $"{Color}-square at {Coord}";// (WP={transform.position})";
         }
 
         private int _layerBitMask;
