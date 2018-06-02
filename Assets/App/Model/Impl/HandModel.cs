@@ -28,8 +28,13 @@
                 Error($"Need more cards in {Deck}");
                 return Response.Fail;
             }
-            Add(Deck.Draw(count));
+            DrawInitialCards(count);
             return Response.Ok;
+        }
+
+        protected virtual void DrawInitialCards(int count)
+        {
+            Add(Deck.Draw(count));
         }
     }
 }
