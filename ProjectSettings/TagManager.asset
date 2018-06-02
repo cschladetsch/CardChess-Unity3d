@@ -25,9 +25,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - BoardSquare
+  - Piece
+  - Card
   - 
   - 
   - 
