@@ -28,6 +28,8 @@ namespace App.View.Impl
             _selectedSquare.DistinctUntilChanged().Subscribe(sq => _currentSquare.Value = sq);
             CurrentSquare.Subscribe(sq => Info($"Over {sq}"));
 
+            CreateBoard();
+
             return true;
         }
 
