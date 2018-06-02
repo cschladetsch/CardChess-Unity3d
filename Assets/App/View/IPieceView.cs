@@ -2,7 +2,7 @@
 {
     using Agent;
 
-    public interface ICardPieceView
+    interface IPieceView
         : IView<IPieceAgent>
     {
     }

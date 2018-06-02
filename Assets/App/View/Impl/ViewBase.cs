@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CoLib;
+using UnityEngine;
 
 namespace App.View.Impl
 {
@@ -12,6 +13,9 @@ namespace App.View.Impl
     public abstract class ViewBase
         : LoggingBehavior
     {
+        public ViewBase PrefabBase;
+        public IAgent AgentBase;
+
         private void Awake()
         {
             _constructed = Create();
@@ -67,12 +71,14 @@ namespace App.View.Impl
 
         public override string ToString()
         {
-            return $"Monobehavior '{name}' of type {GetType()}";
+            return $"View {name} of type {GetType()}";
         }
 
         private bool _paused;
         private bool _constructed;
         private float _localTime;
+
+        CoLib.CommandQueue _queue = new CommandQueue();
     }
 
     public class ViewBase<TIAgent>
@@ -80,14 +86,15 @@ namespace App.View.Impl
         , IConstructWith<TIAgent>
         where TIAgent : IAgent
     {
+        public ViewBase<TIAgent> Pefab;
         public TIAgent Agent { get; set; }
 
-        public virtual bool Construct(TIAgent a0)
+        public virtual bool Construct(TIAgent agent)
         {
-            Assert.IsNotNull(a0);
-            if (a0 == null)
+            Assert.IsNotNull(agent);
+            if (agent == null)
                 return false;
-            Agent = a0;
+            AgentBase = Agent = agent;
             return true;
         }
     }
