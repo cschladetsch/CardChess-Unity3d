@@ -68,7 +68,7 @@ namespace App.Mock.Model
             _EndTurn = new TurnEnd(this);
         }
 
-        protected ICardModel MakePiece(EPieceType type)
+        protected ICardModel GetCardFromHand(EPieceType type)
         {
             var card = Hand.Cards.FirstOrDefault(c => c.PieceType == type);
             if (card == null)

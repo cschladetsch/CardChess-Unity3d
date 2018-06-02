@@ -81,9 +81,17 @@ namespace App.Model
             var coord = move.Coord;
             var piece = move.Piece;
 
-            return GetMovements(piece.Coord.Value).Any(c => At(c) == null)
-                ? MovePieceTo(coord, piece)
-                : Failed(move, $"{move.Player} cannot move {piece} to {coord}: illegal movmenet");
+            if (At(move.Coord) != null)
+                return Failed(move, "Cannot move onto another piece (yet)");
+
+            var movements = GetMovements(piece.Coord.Value).ToList();
+            if (movements.Count == 0)
+                return Failed(move, "No valid coords");
+
+            if (!movements.Select(c => c != move.Coord).Any())
+                return Failed(move, $"Cannot move {move.Piece} move to {move.Coord}");
+
+            return MovePieceTo(coord, piece);
         }
 
         private Response MovePieceTo(Coord coord, IPieceModel piece)
