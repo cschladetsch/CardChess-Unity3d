@@ -14,7 +14,7 @@ namespace App.View.Impl
     {
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
-        public IReadOnlyReactiveProperty<SquareView> SelectedSquare => _selectedSquare;
+        public IReadOnlyReactiveProperty<SquareView> CurrentSquare => _currentSquare;
 
         [ContextMenu("Board-Clear")]
         protected override bool Create()
@@ -25,8 +25,9 @@ namespace App.View.Impl
             }
 
             _squareBitMask = LayerMask.GetMask("BoardSquare");
-            _selectedSquare.DistinctUntilChanged().Subscribe(
-                sq => Info($"Over {sq}"));
+            _selectedSquare.DistinctUntilChanged().Subscribe(sq => _currentSquare.Value = sq);
+            CurrentSquare.Subscribe(sq => Info($"Over {sq}"));
+
             return true;
         }
 
@@ -88,6 +89,20 @@ namespace App.View.Impl
         {
             base.Step();
 
+            SelectBoardSquare();
+        }
+
+        public SquareView At(Coord c)
+        {
+            return At(c.x, c.y);
+        }
+
+        public void Place(IPieceView piece)
+        {
+        }
+
+        private void SelectBoardSquare()
+        {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _squareBitMask))
@@ -101,19 +116,11 @@ namespace App.View.Impl
             }
         }
 
-        public SquareView At(Coord c)
-        {
-            return At(c.x, c.y);
-        }
-
-        public void Place(IPieceView piece)
-        {
-        }
-
         private List<SquareView> _squares;
         private GameObject _boardRoot;
         private int _width = 4, _height = 4;
         private int _squareBitMask;
         private readonly ReactiveProperty<SquareView> _selectedSquare = new ReactiveProperty<SquareView>();
+        private readonly ReactiveProperty<SquareView> _currentSquare = new ReactiveProperty<SquareView>();
     }
 }
