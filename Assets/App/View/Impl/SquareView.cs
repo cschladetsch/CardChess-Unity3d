@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Common;
-using UniRx;
+﻿using App.Common;
 using UnityEngine;
 
 #pragma warning disable 649
@@ -12,31 +6,12 @@ using UnityEngine;
 namespace App.View.Impl
 {
     class SquareView
-        : ViewBase
+        : MonoBehaviour
+        , ISquareView
     {
-        public EColor Color;
+        public EColor Color { get; set; }
+        public Coord Coord { get; internal set; }
         public float Length;
-        public Coord Coord;
-
-        public IReadOnlyReactiveProperty<bool> MouseOver => _mouseOver;
-
-        protected override void Begin()
-        {
-            _mouseOver = new BoolReactiveProperty(false);
-            base.Begin();
-            //_layerBitMask = 1 << gameObject.layer;//LayerMask.NameToLayer("BoardSquare");
-        }
-
-        protected override void Step()
-        {
-            base.Step();
-        }
-
-        public void EnterMouseOver()
-        {
-            Info("Enter {this}");
-            _mouseOver.Value = true;
-        }
 
         public override int GetHashCode()
         {
@@ -51,18 +26,9 @@ namespace App.View.Impl
             return Coord == sq.Coord;
         }
 
-        public void LeaveMouseOver()
-        {
-            Info("Leave {this}");
-            _mouseOver.Value = false;
-        }
-
         public override string ToString()
         {
-            return $"{Color}-square at {Coord}";// (WP={transform.position})";
+            return $"{Color} square at {Coord}";
         }
-
-        private int _layerBitMask;
-        private BoolReactiveProperty _mouseOver;
     }
 }
