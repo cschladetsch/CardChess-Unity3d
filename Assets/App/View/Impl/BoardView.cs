@@ -120,7 +120,7 @@ namespace App.View.Impl
 
         private List<SquareView> _squares;
         private GameObject _boardRoot;
-        private int _width = 4, _height = 4;
+        private int _width = 5, _height = 5;
         private int _squareBitMask;
         private readonly ReactiveProperty<SquareView> _selectedSquare = new ReactiveProperty<SquareView>();
         private readonly ReactiveProperty<SquareView> _currentSquare = new ReactiveProperty<SquareView>();
