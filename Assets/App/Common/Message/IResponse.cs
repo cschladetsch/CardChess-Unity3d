@@ -8,6 +8,7 @@ namespace App.Common.Message
         EError Error { get; }
         Guid RequestId { get; }
         string Text { get;}
+        object PayloadObject { get; }
     }
 
     public interface IResponse<TPayload>

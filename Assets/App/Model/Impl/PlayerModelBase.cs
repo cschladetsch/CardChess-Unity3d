@@ -132,6 +132,10 @@ namespace App.Model
 
         public Response ChangeMana(int change)
         {
+            var result = Mana.Value + change;
+            if (result < 0)
+                return new Response(EResponse.Fail, EError.NotEnoughMana);
+            Mana.Value = Math.Clamp(0, Parameters.MaxManaCap, result);
             return Common.Message.Response.Ok;
         }
 

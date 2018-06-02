@@ -12,6 +12,7 @@ namespace App.Common.Message
         public bool Success => Type == EResponse.Ok;
         public string Text { get; }
         public bool Failed => !Success;
+        public object PayloadObject { get; protected set; }
 
         public static Response NotImplemented = new Response(EResponse.NotImplemented);
         public static Response Ok = new Response(EResponse.Ok);
@@ -20,6 +21,7 @@ namespace App.Common.Message
         public Response(EResponse response = EResponse.Ok, EError err = EError.Error, string text = "")
         {
             Type = response;
+            Error = err;
             Error = EError.None;
             Text = text;
         }
@@ -34,7 +36,7 @@ namespace App.Common.Message
         public Response(TPayload load, EResponse response = EResponse.Ok, EError err = EError.None, string text = "")
             : base(response, err, text)
         {
-            Payload = load;
+            PayloadObject = Payload = load;
         }
     }
 }
