@@ -47,6 +47,14 @@ namespace App.Model
 
         public Response Arbitrate(IRequest request)
         {
+            Assert.IsNotNull(request);
+            var response = ProcessRequest(request);
+            request.Player?.Result(request, response);
+            return response;
+        }
+
+        private Response ProcessRequest(IRequest request)
+        {
             Info($"{request} in {GameState} #{_turnNumber}");
             switch (GameState.Value)
             {

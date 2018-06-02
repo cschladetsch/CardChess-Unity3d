@@ -16,16 +16,6 @@ namespace App.Mock.Model
     {
         #region Public Methods
 
-        public override void Response(IRequest req)
-        {
-            Warn($"Request {req} failed");
-        }
-
-        public override void RequestSucceeded(IRequest req)
-        {
-            Verbose(10, $"{this} action success: {req.Action}");
-        }
-
         public override IRequest Mulligan()
         {
             return _Pass;

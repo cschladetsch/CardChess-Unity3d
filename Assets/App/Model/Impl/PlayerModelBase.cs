@@ -89,9 +89,9 @@ namespace App.Model
             return Hand.Add(card) ? Common.Message.Response.Ok : Common.Message.Response.Fail;
         }
 
-        public virtual void Response(IRequest req)
+        public virtual void Result(IRequest req, IResponse response)
         {
-            Warn($"{this} action failed: {req.Action}");
+            Verbose(5, $"{this}: {req} -> {response}");
 
             // if these actions failed, return the cards to Hand
             switch (req.Action)
@@ -120,11 +120,6 @@ namespace App.Model
                     ChangeMana(item.Item.ManaCost.Value);
                     break;
             }
-        }
-
-        public virtual void RequestSucceeded(IRequest req)
-        {
-            Verbose(10, $"{req} succeeded");
         }
 
         public abstract IRequest Mulligan();
