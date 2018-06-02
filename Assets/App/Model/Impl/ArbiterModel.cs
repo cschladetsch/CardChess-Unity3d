@@ -176,12 +176,18 @@ namespace App.Model
             if (CurrentPlayer.Value != player)
                 return Failed(move, $"Not {player}'s turn");
 
+            if (player.Mana.Value < 1)
+                return Failed(move, "Requires 1 mana to move a piece");
+
             if (GetEntry(move.Player).MovedPiece)
                 return Failed(move, $"{player} has already moved a piece this turn");
 
             var resp = Board.TryMovePiece(move);
             if (resp.Success)
+            {
+                player.ChangeMana(-1);
                 EndTurn();
+            }
             return resp;
         }
 
