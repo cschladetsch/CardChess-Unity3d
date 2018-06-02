@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using App.Common;
+using UniRx;
 using UnityEngine;
 
 #pragma warning disable 649
@@ -13,6 +14,7 @@ namespace App.View.Impl
     {
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
+        public IReadOnlyReactiveProperty<SquareView> SelectedSquare => _selectedSquare;
 
         [ContextMenu("Board-Clear")]
         protected override bool Create()
@@ -21,6 +23,10 @@ namespace App.View.Impl
             {
                 Destroy(tr.gameObject);
             }
+
+            _squareBitMask = LayerMask.GetMask("BoardSquare");
+            _selectedSquare.DistinctUntilChanged().Subscribe(
+                sq => Info($"Over {sq}"));
             return true;
         }
 
@@ -60,6 +66,7 @@ namespace App.View.Impl
                     square.transform.localPosition = Vector3.zero;
                     square.transform.SetParent(_boardRoot.transform);
                     square.transform.position = pos;
+                    square.Coord = new Coord(nx, ny);
 
                     _squares.Add(square);
                 }
@@ -77,6 +84,23 @@ namespace App.View.Impl
             return _squares[y * _width + x];
         }
 
+        protected override void Step()
+        {
+            base.Step();
+
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _squareBitMask))
+            {
+                var square = hit.transform.gameObject.GetComponent<SquareView>();
+                _selectedSquare.Value = square;
+            }
+            else
+            {
+                _selectedSquare.Value = null;
+            }
+        }
+
         public SquareView At(Coord c)
         {
             return At(c.x, c.y);
@@ -89,5 +113,7 @@ namespace App.View.Impl
         private List<SquareView> _squares;
         private GameObject _boardRoot;
         private int _width = 4, _height = 4;
+        private int _squareBitMask;
+        private readonly ReactiveProperty<SquareView> _selectedSquare = new ReactiveProperty<SquareView>();
     }
 }

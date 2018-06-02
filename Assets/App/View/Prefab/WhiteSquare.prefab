@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23412956282825932}
   - component: {fileID: 65039944023532386}
   - component: {fileID: 114648388359582158}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: WhiteSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,8 +36,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1671427261967688}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.482, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
