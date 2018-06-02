@@ -28,9 +28,9 @@ namespace App.Model
             Assert.IsNotNull(req);
             Assert.IsNotNull(req.Player);
 
-            Error(text);
-            req.Player.Response(req);
-            return new Response(EResponse.Fail, error, text);
+            var resp = new Response(EResponse.Fail, error, text);
+            Verbose(10, "Request {req} failed: {resp}");
+            return resp;
         }
     }
 }
