@@ -14,7 +14,9 @@ namespace App.View.Impl
     {
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
-        public IReadOnlyReactiveProperty<SquareView> CurrentSquare => _currentSquare;
+        public IReadOnlyReactiveProperty<SquareView> HoverSquare => _hoverSquare;
+        public int Width = 8;
+        public int Height = 8;
 
         [ContextMenu("Board-Clear")]
         protected override bool Create()
@@ -25,8 +27,8 @@ namespace App.View.Impl
             }
 
             _squareBitMask = LayerMask.GetMask("BoardSquare");
-            _selectedSquare.DistinctUntilChanged().Subscribe(sq => _currentSquare.Value = sq);
-            CurrentSquare.Subscribe(sq => Info($"Over {sq}"));
+            _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
+            HoverSquare.Subscribe(sq => Info($"Over {sq}"));
 
             CreateBoard();
 
@@ -39,11 +41,11 @@ namespace App.View.Impl
                 return false;
 
             var board = Agent.Model;
-            _width = board.Width;
-            _height = board.Height;
+            Width = board.Width;
+            Height = board.Height;
 
             return CreateBoard();
-       }
+        }
 
         [ContextMenu("Board-Create")]
         bool CreateBoard()
@@ -55,12 +57,12 @@ namespace App.View.Impl
             var length = BlackPrefab.Length;
             Assert.AreEqual(BlackPrefab.Length, WhitePrefab.Length);
             var z = 0.0f;
-            var origin = new Vector3(-length*(_width/2.0f - 1/2.0f), -length*(_height/2.0f - 1/2.0f), 0);
+            var origin = new Vector3(-length*(Width/2.0f - 1/2.0f), -length*(Height/2.0f - 1/2.0f), 0);
             var c = 1;
-            _squares = new List<SquareView>(_width * _height);
-            for (var ny = 0; ny < _height; ++ny)
+            _squares = new List<SquareView>(Width * Height);
+            for (var ny = 0; ny < Height; ++ny)
             {
-                for (var nx = 0; nx < _width; ++nx)
+                for (var nx = 0; nx < Width; ++nx)
                 {
                     var prefab = ((c + nx) % 2) == 1 ? WhitePrefab : BlackPrefab;
                     var square = Instantiate(prefab);
@@ -82,9 +84,9 @@ namespace App.View.Impl
 
         public SquareView At(int x, int y)
         {
-            Assert.IsTrue(x >= 0 && x < _width);
-            Assert.IsTrue(y >= 0 && x < _height);
-            return _squares[y * _width + x];
+            Assert.IsTrue(x >= 0 && x < Width);
+            Assert.IsTrue(y >= 0 && x < Height);
+            return _squares[y * Width + x];
         }
 
         protected override void Step()
@@ -110,19 +112,18 @@ namespace App.View.Impl
             if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _squareBitMask))
             {
                 var square = hit.transform.gameObject.GetComponent<SquareView>();
-                _selectedSquare.Value = square;
+                _hoveredSquare.Value = square;
             }
             else
             {
-                _selectedSquare.Value = null;
+                _hoveredSquare.Value = null;
             }
         }
 
         private List<SquareView> _squares;
         private GameObject _boardRoot;
-        private int _width = 5, _height = 5;
         private int _squareBitMask;
-        private readonly ReactiveProperty<SquareView> _selectedSquare = new ReactiveProperty<SquareView>();
-        private readonly ReactiveProperty<SquareView> _currentSquare = new ReactiveProperty<SquareView>();
+        private readonly ReactiveProperty<SquareView> _hoveredSquare = new ReactiveProperty<SquareView>();
+        private readonly ReactiveProperty<SquareView> _hoverSquare = new ReactiveProperty<SquareView>();
     }
 }
