@@ -2,7 +2,7 @@
 {
     using Agent;
 
-    public class CardPieceView
+    public class PieceView
         : ViewBase<IPieceAgent>
     {
     }

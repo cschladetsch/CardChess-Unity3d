@@ -8,17 +8,17 @@ namespace App.View
     /// <summary>
     /// Common interface for all views
     /// </summary>
-    public interface IView
+    public interface IViewBase
         : IKnown
-        , IHasDestroyHandler<IView>
-        , IHasRegistry<IView>
+        , IHasDestroyHandler<IViewBase>
+        , IHasRegistry<IViewBase>
     {
         IAgent AgentBase { get; set; }
         GameObject GameObject { get; }
     }
 
     public interface IView<TIAgent>
-        : IView
+        : IViewBase
         where TIAgent : IAgent
     {
         TIAgent Agent { get; set; }

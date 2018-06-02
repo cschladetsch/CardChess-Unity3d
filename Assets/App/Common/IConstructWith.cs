@@ -10,7 +10,7 @@
 
     public interface IConstructWith<in A0>
     {
-        bool Construct(A0 a0);
+        bool Construct(A0 agent);
     }
 
     public interface IConstructWith<in A0, in A1>

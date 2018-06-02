@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace App.View.Impl
 {
 
-    public class CardAgentView
+    public class CardView
         : ViewBase<ICardAgent>
     {
         public TMPro.TextMeshProUGUI Health;
