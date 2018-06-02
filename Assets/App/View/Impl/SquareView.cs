@@ -12,7 +12,7 @@ namespace App.View.Impl
     class SquareView
         : ViewBase
     {
-        public EColor Color { get; }
+        public EColor Color;
         public float Length;
     }
 }

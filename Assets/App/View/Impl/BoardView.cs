@@ -14,26 +14,51 @@ namespace App.View.Impl
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
 
+        [ContextMenu("Board-Clear")]
+        protected override bool Create()
+        {
+            foreach (Transform tr in transform)
+            {
+                Destroy(tr.gameObject);
+            }
+            return true;
+        }
+
         public override bool Construct(IBoardAgent agent)
         {
             if (!base.Construct(agent))
                 return false;
 
-            var board = agent.Model;
+            var board = Agent.Model;
             _width = board.Width;
             _height = board.Height;
+
+            return CreateBoard();
+       }
+
+        [ContextMenu("Board-Create")]
+        bool CreateBoard()
+        {
+            Destroy(_boardRoot);
+            _boardRoot = new GameObject("Root");
+            _boardRoot.transform.SetParent(gameObject.transform);
+
+            var length = BlackPrefab.Length;
+            Assert.AreEqual(BlackPrefab.Length, WhitePrefab.Length);
             var z = 0.0f;
-            var origin = new Vector3(0,0,0);
+            var origin = new Vector3(-length*(_width/2.0f - 1/2.0f), -length*(_height/2.0f - 1/2.0f), 0);
             var c = 1;
             _squares = new List<SquareView>(_width * _height);
-            for (var ny = 1; ny <= _height; ++ny)
+            for (var ny = 0; ny < _height; ++ny)
             {
-                for (var nx = 1; nx <= _width; ++nx)
+                for (var nx = 0; nx < _width; ++nx)
                 {
-                    var prefab = (c + nx % 2) == 0 ? WhitePrefab : BlackPrefab;
+                    var prefab = ((c + nx) % 2) == 1 ? WhitePrefab : BlackPrefab;
                     var square = Instantiate(prefab);
-                    var pos = origin + new Vector3(nx * prefab.Length, ny * prefab.Length, z);
-                    square.transform.SetParent(gameObject.transform);
+                    Assert.IsNotNull(square.GetComponent<Collider>());
+                    var pos = origin + new Vector3(nx * length, ny * length, z);
+                    square.transform.localPosition = Vector3.zero;
+                    square.transform.SetParent(_boardRoot.transform);
                     square.transform.position = pos;
 
                     _squares.Add(square);
@@ -62,6 +87,7 @@ namespace App.View.Impl
         }
 
         private List<SquareView> _squares;
-        private int _width, _height;
+        private GameObject _boardRoot;
+        private int _width = 4, _height = 4;
     }
 }
