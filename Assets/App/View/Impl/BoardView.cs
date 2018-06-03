@@ -18,15 +18,10 @@ namespace App.View.Impl
         public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
         public int Width = 8;
         public int Height = 8;
+        public Transform Root;
 
-        [ContextMenu("Board-Clear")]
         protected override bool Create()
         {
-            foreach (Transform tr in transform)
-            {
-                Destroy(tr.gameObject);
-            }
-
             _squareBitMask = LayerMask.GetMask("BoardSquare");
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq => Info($"Over {sq}"));
@@ -34,6 +29,15 @@ namespace App.View.Impl
             CreateBoard();
 
             return true;
+        }
+
+        [ContextMenu("Board-Clear")]
+        public void Clear()
+        {
+            foreach (Transform tr in Root.transform)
+            {
+                Destroy(tr.gameObject);
+            }
         }
 
         public override bool Construct(IBoardAgent agent)
@@ -51,10 +55,7 @@ namespace App.View.Impl
         [ContextMenu("Board-Create")]
         bool CreateBoard()
         {
-            Destroy(_boardRoot);
-            _boardRoot = new GameObject("Root");
-            _boardRoot.transform.SetParent(gameObject.transform);
-
+            Clear();
             var length = BlackPrefab.Length;
             Assert.AreEqual(BlackPrefab.Length, WhitePrefab.Length);
             var z = 0.0f;
@@ -70,7 +71,7 @@ namespace App.View.Impl
                     Assert.IsNotNull(square.GetComponent<Collider>());
                     var pos = origin + new Vector3(nx * length, ny * length, z);
                     square.transform.localPosition = Vector3.zero;
-                    square.transform.SetParent(_boardRoot.transform);
+                    square.transform.SetParent(Root.transform);
                     square.transform.position = pos;
                     square.Coord = new Coord(nx, ny);
 
@@ -122,7 +123,6 @@ namespace App.View.Impl
         }
 
         private List<SquareView> _squares;
-        private GameObject _boardRoot;
         private int _squareBitMask;
         private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
