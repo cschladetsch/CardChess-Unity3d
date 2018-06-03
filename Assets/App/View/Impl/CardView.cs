@@ -1,5 +1,6 @@
 ﻿using App.Agent;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace App.View.Impl
@@ -10,6 +11,8 @@ namespace App.View.Impl
     {
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
+        public GameObject ModelPrefab;
+        public float Width;
 
         protected override bool Create()
         {
