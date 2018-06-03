@@ -11,10 +11,11 @@ namespace App.View.Impl
 
     class BoardView
         : ViewBase<IBoardAgent>
+        , IBoardView
     {
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
-        public IReadOnlyReactiveProperty<SquareView> HoverSquare => _hoverSquare;
+        public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
         public int Width = 8;
         public int Height = 8;
 
@@ -123,7 +124,7 @@ namespace App.View.Impl
         private List<SquareView> _squares;
         private GameObject _boardRoot;
         private int _squareBitMask;
-        private readonly ReactiveProperty<SquareView> _hoveredSquare = new ReactiveProperty<SquareView>();
-        private readonly ReactiveProperty<SquareView> _hoverSquare = new ReactiveProperty<SquareView>();
+        private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
+        private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
     }
 }

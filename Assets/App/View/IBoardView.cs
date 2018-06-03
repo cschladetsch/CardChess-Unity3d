@@ -7,6 +7,6 @@ namespace App.View
     public interface IBoardView
         : IView<IBoardAgent>
     {
-        IReadOnlyReactiveProperty<ISquareView> CurrentSquare { get; }
+        IReadOnlyReactiveProperty<ISquareView> HoverSquare { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CoLib;
+﻿using System;
+using App.Registry;
+using CoLib;
 using UnityEngine;
 
 namespace App.View.Impl
@@ -12,9 +14,13 @@ namespace App.View.Impl
     /// </summary>
     public abstract class ViewBase
         : LoggingBehavior
+        , IHasId
+        , IHasName
+        , IHasDestroyHandler<IViewBase>
+        , IHasRegistry<IViewBase>
     {
-        public ViewBase PrefabBase;
-        public IAgent AgentBase;
+        //public ViewBase PrefabBase;
+        public IAgent AgentBase { get; set; }
 
         private void Awake()
         {
@@ -79,6 +85,10 @@ namespace App.View.Impl
         private float _localTime;
 
         CoLib.CommandQueue _queue = new CommandQueue();
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public event DestroyedHandler<IViewBase> OnDestroy;
+        public IRegistry<IViewBase> Registry { get; set; }
     }
 
     public class ViewBase<TIAgent>
