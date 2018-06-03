@@ -73,6 +73,7 @@ namespace App
             Agents.Bind<IHandAgent, HandAgent>();
             Agents.Bind<IHandAgent, HandAgent>();
             Agents.Bind<IPieceAgent, PieceAgent>();
+            Agents.Bind<IPlayerAgent, PlayerAgent>();
             Agents.Resolve();
 
             BoardAgent = Agents.New<IBoardAgent>();
