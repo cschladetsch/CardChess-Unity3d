@@ -1,6 +1,5 @@
 ﻿using App.Agent;
 using App.Model;
-using UnityEngine.Assertions;
 
 namespace App.Common
 {

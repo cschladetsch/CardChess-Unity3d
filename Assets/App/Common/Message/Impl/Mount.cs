@@ -1,6 +1,4 @@
-﻿using App.Model.Card;
-
-namespace App.Common.Message
+﻿namespace App.Common.Message
 {
     using Model;
 

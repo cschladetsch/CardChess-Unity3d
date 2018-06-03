@@ -1,8 +1,9 @@
 ﻿using System;
-using App.Model;
 
 namespace App.Common.Message
 {
+    using Model;
+
     /// <summary>
     /// Common to all Actions requested by player
     /// </summary>

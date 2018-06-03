@@ -1,6 +1,4 @@
-﻿using UnityEngine.Assertions;
-
-namespace App.Common.Message
+﻿namespace App.Common.Message
 {
     using Model;
     using Common;
