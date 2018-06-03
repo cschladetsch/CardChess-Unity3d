@@ -2,7 +2,7 @@
 {
     using Agent;
 
-    interface IPieceView
+    public interface IPieceView
         : IView<IPieceAgent>
     {
     }

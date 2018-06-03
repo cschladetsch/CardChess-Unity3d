@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace App.View.Impl
+namespace App.View.Impl1
 {
     using Agent;
 

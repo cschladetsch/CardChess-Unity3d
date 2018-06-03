@@ -14,7 +14,7 @@ namespace App
     /// The intended root of all non-canvas objects in the scene.
     /// </summary>
     class GameRoot
-        : View.Impl.ViewBase
+        : View.Impl1.ViewBase
     {
         public IPlayerAgent WhitePlayerAgent;
         public IPlayerModel BlackPlayerAgent;
@@ -84,7 +84,7 @@ namespace App
         void CreateViews()
         {
             Views = new View.ViewRegistry();
-            Views.Bind<IBoardView, App.View.Impl.BoardView>();
+            Views.Bind<IBoardView, App.View.Impl1.BoardView>();
         }
 
         protected override void Step()

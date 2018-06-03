@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace App.View.Impl
+namespace App.View.Impl1
 {
 
     public class CardView

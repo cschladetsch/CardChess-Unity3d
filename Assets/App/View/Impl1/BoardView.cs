@@ -5,11 +5,11 @@ using UnityEngine;
 
 #pragma warning disable 649
 
-namespace App.View.Impl
+namespace App.View.Impl1
 {
     using Agent;
 
-    class BoardView
+    public class BoardView
         : ViewBase<IBoardAgent>
         , IBoardView
     {
