@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace App.View.Impl
+namespace App.View.Impl1
 {
     using Agent;
 

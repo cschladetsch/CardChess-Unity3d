@@ -3,7 +3,7 @@ using App.Registry;
 using CoLib;
 using UnityEngine;
 
-namespace App.View.Impl
+namespace App.View.Impl1
 {
     using Common;
     using Agent;
