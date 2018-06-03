@@ -1,8 +1,8 @@
-﻿using App.Agent;
-using App.Model;
-
-namespace App.Common
+﻿namespace App.Common
 {
+    using Agent;
+    using Model;
+
     public interface IEntity
     {
         IModel BaseModel { get; }

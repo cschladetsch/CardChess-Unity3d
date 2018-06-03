@@ -1,5 +1,4 @@
-﻿using App.Common.Message;
-using App.Model;
+﻿using App.Model;
 
 namespace App.Common.Message
 {
