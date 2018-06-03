@@ -14,7 +14,7 @@ namespace App.View
         , IHasRegistry<IViewBase>
     {
         IAgent AgentBase { get; set; }
-        GameObject GameObject { get; }
+        //GameObject GameObject { get; }
     }
 
     public interface IView<TIAgent>

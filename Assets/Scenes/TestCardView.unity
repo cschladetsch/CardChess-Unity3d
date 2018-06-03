@@ -404,6 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939dab88e06d4ac49be66c1a019f4867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrefabBase: {fileID: 0}
   Arbiter: {fileID: 993328273}
   Startup: []
 --- !u!1 &424366547
@@ -1212,6 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b4fce2e2bf88349a8a3f1072b8dd15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrefabBase: {fileID: 0}
   Health: {fileID: 424366549}
   Power: {fileID: 0}
   Give: {fileID: 2052452674}

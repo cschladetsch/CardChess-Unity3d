@@ -122,8 +122,15 @@ namespace App.Model
             }
         }
 
-        public abstract IRequest Mulligan();
-        public abstract IRequest NextAction();
+        public virtual IRequest Mulligan()
+        {
+            return null;
+        }
+
+        public virtual IRequest NextAction()
+        {
+            return null;
+        }
 
         public Response ChangeMana(int change)
         {

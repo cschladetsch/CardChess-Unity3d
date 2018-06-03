@@ -24,6 +24,17 @@ Can't use numbers. Show 'health' via vertical scaling?
 
 How about using WASD and moving around the battlefeld? You only see the gneral overview from the top-down view, but can zoom in to units (pieces) to see statistics and effects, abilities. 
 
+### Zooming
+
+Can't show all information all the time. But, the world is 3D!
+
+Tap a piece to see its stats.
+
+Can double-tap a piece to see all the pieces it can 'see'.
+
+Use WASD + Mouse to move around.
+
+
 ## Upgrades
 
 Idea is that buildings can be made which automatically upgrade existing units and items and spells.

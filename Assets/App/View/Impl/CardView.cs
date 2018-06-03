@@ -11,9 +11,6 @@ namespace App.View.Impl
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
 
-        public Button Give;
-        public Button Take;
-
         protected override bool Create()
         {
             if (!base.Create())
@@ -25,9 +22,6 @@ namespace App.View.Impl
         {
             if (!base.Construct(agent))
                 return false;
-
-            //Give.Bind(() => Agent.ChangeHealth(10));
-            //Take.Bind(() => Agent.ChangeHealth(-10));
 
             Agent.Health.DistinctUntilChanged(h => Health.text = $"Health: {h}");
             return true;
