@@ -66,7 +66,8 @@ namespace App.View.Impl1
             {
                 for (var nx = 0; nx < Width; ++nx)
                 {
-                    var prefab = ((c + nx) % 2) == 1 ? WhitePrefab : BlackPrefab;
+                    var white = ((c + nx) % 2) == 1;
+                    var prefab = white ? WhitePrefab : BlackPrefab;
                     var square = Instantiate(prefab);
                     Assert.IsNotNull(square.GetComponent<Collider>());
                     var pos = origin + new Vector3(nx * length, ny * length, z);
@@ -74,6 +75,7 @@ namespace App.View.Impl1
                     square.transform.SetParent(Root.transform);
                     square.transform.position = pos;
                     square.Coord = new Coord(nx, ny);
+                    square.Color = white ? EColor.White : EColor.Black;
 
                     _squares.Add(square);
                 }
