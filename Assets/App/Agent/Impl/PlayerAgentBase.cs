@@ -21,9 +21,10 @@ namespace App.Agent
         , IPlayerAgent
     {
         public EColor Color => Model.Color;
-        public ICardModel King { get; private set; }
-        public IDeckModel Deck { get; set; }
-        public IHandModel Hand { get; set; }
+        public ICardAgent King { get; private set; }
+        public IPieceAgent KingPiece { get; set; }
+        public IDeckAgent Deck { get; set; }
+        public IHandAgent Hand { get; set; }
 
         public IReadOnlyReactiveProperty<int> MaxMana => Model.MaxMana;
         public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
@@ -33,6 +34,10 @@ namespace App.Agent
         protected PlayerAgentBase(IPlayerModel model)
             : base(model)
         {
+            King = Registry.New<ICardAgent>(model.King);
+            KingPiece = Registry.New<IPieceAgent>(King);
+            Deck = Registry.New<IDeckAgent>(model.Deck);
+            Hand = Registry.New<IHandAgent>(model.Hand);
         }
 
         public virtual ITransient StartGame()

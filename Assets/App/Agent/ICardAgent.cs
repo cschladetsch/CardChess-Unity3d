@@ -10,6 +10,7 @@ namespace App.Agent
         : IAgent<ICardModel>
     {
         ICardTemplate Template { get; }
+
         IReadOnlyReactiveProperty<int> Health { get; }
         IReadOnlyReactiveProperty<int> Power { get; }
         IReactiveProperty<IPlayerModel> Player { get; }

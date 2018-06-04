@@ -17,17 +17,11 @@ namespace App.Agent
         : IAgent<IPlayerModel>
         , IOwner
     {
-        ICardModel King { get; }
-        IDeckModel Deck { get; }
-        IHandModel Hand { get; }
+        ICardAgent King { get; }
+        IPieceAgent KingPiece { get; set; }
+        IDeckAgent Deck { get; }
+        IHandAgent Hand { get; }
 
-        // TODO: will we ever need CardAgents? Why?
-        // We will need them when they have their own behavior,
-        // like idle/attack animations etc. For now, we'll use
-        // static models.
-        //ICardAgent King { get; }
-        //IDeckAgent Deck { get; }
-        //IHandAgent Hand { get; }
         IReadOnlyReactiveProperty<int> MaxMana { get; }
         IReadOnlyReactiveProperty<int> Mana { get; }
         IReadOnlyReactiveProperty<int> Health { get; }

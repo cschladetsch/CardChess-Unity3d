@@ -6,13 +6,13 @@ namespace App.View.Impl1
 
     public class DeckView
         : ViewBase<IDeckAgent>
+        , IDeckView
     {
         public Transform CardsRoot;
         public CardView CardViewPrefab;
 
         protected override void Begin()
         {
-            MockShow();
         }
 
         [ContextMenu("DeckView-MockShow")]
