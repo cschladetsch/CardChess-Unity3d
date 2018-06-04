@@ -12,6 +12,7 @@ namespace App.View.Impl1
         public IPlayerAgent Player;
         public ManaElement ManaElementPrefab;
         public Transform Root;
+        public bool Reverse;
 
         protected override void Begin()
         {
@@ -58,7 +59,8 @@ namespace App.View.Impl1
         private ManaElement MakeManaElement(int n, bool active)
         {
             var elem = Instantiate(ManaElementPrefab);
-            var pos = new Vector3(n * elem.Width, 0, 0);
+            var sign = Reverse ? -1 : 1;
+            var pos = new Vector3(n * elem.Width*sign, 0, 0);
             elem.transform.SetParent(Root);
             elem.transform.localPosition = pos;
             elem.SetActive(active);
