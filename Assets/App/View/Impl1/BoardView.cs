@@ -24,7 +24,11 @@ namespace App.View.Impl1
         {
             _squareBitMask = LayerMask.GetMask("BoardSquare");
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
-            HoverSquare.Subscribe(sq => Info($"Over {sq}"));
+            HoverSquare.Subscribe(sq =>
+            {
+                if (sq != null)
+                    Info($"Over {sq}");
+            });
 
             CreateBoard();
 

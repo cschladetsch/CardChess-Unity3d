@@ -19,7 +19,7 @@ namespace App.Common
     public static class Assert
     {
         public static Flow.Impl.Logger Log = new Flow.Impl.Logger("Assert", true, true);
-        public static bool AssertionsThrow = false;
+        public static bool AssertionsThrow = true;
 
         public static void Throw(string text = "")
         {

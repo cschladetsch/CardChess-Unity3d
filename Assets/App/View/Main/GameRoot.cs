@@ -5,7 +5,7 @@ using App.Model;
 using App.View;
 
 // field not assigned - because it is assigned in Unity3d editor
-#pragma warning disable CS0649
+#pragma warning disable 649
 
 namespace App
 {
@@ -13,7 +13,7 @@ namespace App
     /// <summary>
     /// The intended root of all non-canvas objects in the scene.
     /// </summary>
-    class GameRoot
+    public class GameRoot
         : View.Impl1.ViewBase
     {
         public IPlayerAgent WhitePlayerAgent;
@@ -38,10 +38,22 @@ namespace App
             base.Create();
 
             CreateModels();
+
+            _arbiterModel.NewGame(_whitePlayerModel, _blackPlayerModel);
+
             CreateAgents();
-            CreateViews();
+
+            ArbiterAgent.StartGame(WhiteAgent, BlackAgent);
 
             return true;
+        }
+
+        protected override void Begin()
+        {
+            base.Begin();
+
+
+            CreateViews();
         }
 
         void CreateModels()
@@ -71,7 +83,6 @@ namespace App
             Agents.Bind<IArbiterAgent, ArbiterAgent>(new ArbiterAgent(_arbiterModel));
             Agents.Bind<ICardAgent, CardAgent>();
             Agents.Bind<IHandAgent, HandAgent>();
-            Agents.Bind<IHandAgent, HandAgent>();
             Agents.Bind<IPieceAgent, PieceAgent>();
             Agents.Bind<IPlayerAgent, PlayerAgent>();
             Agents.Resolve();
@@ -86,6 +97,13 @@ namespace App
         {
             Views = new View.ViewRegistry();
             Views.Bind<IBoardView, App.View.Impl1.BoardView>();
+            Views.Bind<ICardView, View.Impl1.CardView>();
+            Views.Bind<IDeckView, View.Impl1.DeckView>();
+            Views.Bind<IHandView, View.Impl1.HandView>();
+            Views.Bind<IPieceView, View.Impl1.PieceView>();
+            Views.Bind<IPlayerView, View.Impl1.PlayerView>();
+
+            Views.Resolve();
         }
 
         protected override void Step()

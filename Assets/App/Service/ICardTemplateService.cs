@@ -15,4 +15,5 @@ namespace App.Service
         ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
         ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
     }
+
 }

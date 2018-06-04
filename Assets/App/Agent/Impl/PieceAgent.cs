@@ -6,7 +6,7 @@ namespace App.Agent
         : AgentBase<Model.IPieceModel>
         , IPieceAgent
     {
-        public PieceAgent(PieceModel model) : base(model)
+        public PieceAgent(IPieceModel model) : base(model)
         {
         }
     }

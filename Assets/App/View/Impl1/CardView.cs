@@ -8,6 +8,7 @@ namespace App.View.Impl1
 
     public class CardView
         : ViewBase<ICardAgent>
+        , ICardView
     {
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
