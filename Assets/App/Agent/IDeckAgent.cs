@@ -3,11 +3,12 @@
 namespace App.Agent
 {
     using Common;
+    using Common.Message;
 
     public interface IDeckAgent
         : IAgent<Model.IDeckModel>
     {
-        void NewGame();
+        IFuture<Response> NewGame();
         IFuture<ICardAgent> Draw();
     }
 }

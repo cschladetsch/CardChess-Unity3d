@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using App.Common.Message;
 using App.Model;
 using Flow;
@@ -25,17 +26,25 @@ namespace App.Agent
         public ITransient NewGame()
         {
             Model.NewGame();
+            _idToPiece.Clear();
             return null;
         }
 
-        public IPieceAgent At(Coord coord)
+        public IFuture<IPieceAgent> At(Coord coord)
         {
-            return null;
+            return New.Future(GetAgent(Model.At(coord)));
         }
 
-        public Response Set(IPieceAgent piece, Coord cood)
+        private IPieceAgent GetAgent(IPieceModel model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+                return null;
+            IPieceAgent piece;
+            if (_idToPiece.TryGetValue(model.Id, out piece))
+                return piece;
+            return _idToPiece[model.Id] = Registry.New<IPieceAgent>(model);
         }
+
+        private readonly Dictionary<Guid, IPieceAgent> _idToPiece = new Dictionary<Guid, IPieceAgent>();
     }
 }

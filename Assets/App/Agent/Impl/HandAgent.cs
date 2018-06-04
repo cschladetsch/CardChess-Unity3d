@@ -2,6 +2,7 @@
 using App.Common.Message;
 using App.Model;
 using Flow;
+using UniRx;
 
 namespace App.Agent
 {
@@ -14,6 +15,7 @@ namespace App.Agent
         public HandAgent(IHandModel model)
             : base(model)
         {
+            //model.Cards.ObserveAdd().Subscribe(async
         }
 
         protected override IEnumerator Next(IGenerator self)
@@ -21,21 +23,20 @@ namespace App.Agent
             yield return null;
         }
 
-        public Response NewGame()
+        public IFuture<Response> NewGame()
         {
-            return Model.NewGame();
+            return New.Future(Model.NewGame());
         }
 
-        public Response Add(ICardAgent card)
+        public IFuture<Response> Add(ICardAgent card)
         {
             Assert.IsNotNull(card);
-            return Model.Add(card.Model) ? Response.Ok : Response.Fail;
+            return New.Future(Model.Add(card.Model) ? Response.Ok : Response.Fail);
         }
 
-        public Response<ICardAgent> DrawCard()
+        public IFuture<Response> Remove(ICardAgent agent)
         {
-            return null;
+            return New.Future(Response.Ok);
         }
-
     }
 }

@@ -24,7 +24,7 @@ namespace App.Model
         public IReadOnlyReactiveProperty<int> NumCards => _numCards;
         public IReadOnlyReactiveProperty<bool> Empty => _empty;
         public IReadOnlyReactiveProperty<bool> Maxxed => _maxxed;
-        public IReadOnlyCollection<ICardModel> Cards => _Cards;
+        public IReadOnlyReactiveCollection<ICardModel> Cards => _Cards;
         #endregion
 
         #region Public Methods

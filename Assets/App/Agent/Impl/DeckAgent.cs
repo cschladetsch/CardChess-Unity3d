@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using App.Common.Message;
 using Flow;
 
 namespace App.Agent
@@ -40,9 +41,10 @@ namespace App.Agent
             }
         }
 
-        public void NewGame()
+        public IFuture<Response> NewGame()
         {
-            throw new System.NotImplementedException();
+            Model.NewGame();
+            return null;
         }
 
         public IFuture<ICardAgent> Draw()
