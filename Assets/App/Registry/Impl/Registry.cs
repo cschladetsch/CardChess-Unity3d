@@ -305,7 +305,7 @@ namespace App.Registry
             Type ty;
             if (!_bindings.TryGetValue(ity, out ty))
             {
-                Warn($"Registry has no binding for {ity}");
+                Verbose(30, $"Registry has no binding for {ity}");
                 return null;
             }
             var cons = ty.GetConstructors();
@@ -460,7 +460,7 @@ namespace App.Registry
                         return null;
                     }
                     var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
-                    Warn($"Adding {pi}");
+                    Verbose(30, $"Adding {pi}");
                     _pendingInjections.Add(pi);
                 }
             }

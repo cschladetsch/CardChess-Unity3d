@@ -1,4 +1,7 @@
-﻿using App.Common;
+﻿using System;
+using App.Agent;
+using App.Common;
+using App.Registry;
 using UnityEngine;
 
 #pragma warning disable 649
@@ -30,5 +33,10 @@ namespace App.View.Impl1
         {
             return $"{Color} square at {Coord}";
         }
+
+        public Guid Id { get; set; }
+        public event DestroyedHandler<IViewBase> OnDestroy;
+        public IRegistry<IViewBase> Registry { get; set; }
+        public IAgent AgentBase { get; set; }
     }
 }

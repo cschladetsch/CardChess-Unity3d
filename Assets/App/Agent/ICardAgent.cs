@@ -8,6 +8,7 @@ namespace App.Agent
 
     public interface ICardAgent
         : IAgent<ICardModel>
+        , IConstructWith<ICardModel>
     {
         ICardTemplate Template { get; }
 

@@ -34,10 +34,19 @@ namespace App.Agent
         protected PlayerAgentBase(IPlayerModel model)
             : base(model)
         {
-            King = Registry.New<ICardAgent>(model.King);
-            KingPiece = Registry.New<IPieceAgent>(King);
-            Deck = Registry.New<IDeckAgent>(model.Deck);
-            Hand = Registry.New<IHandAgent>(model.Hand);
+        }
+
+        public override void Construct()
+        {
+            base.Construct();
+            Assert.IsNotNull(Model);
+            Assert.IsNotNull(Model.King);
+            Assert.IsNotNull(Model.Deck);
+            Assert.IsNotNull(Model.Hand);
+
+            King = Registry.New<ICardAgent>(Model.King);
+            Deck = Registry.New<IDeckAgent>(Model.Deck);
+            Hand = Registry.New<IHandAgent>(Model.Hand);
         }
 
         public virtual ITransient StartGame()

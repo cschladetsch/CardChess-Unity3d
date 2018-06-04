@@ -21,7 +21,7 @@ namespace App.Model
             {
                 // LATER: use a pre-made deck (CardLibrary)
                 var tmpl = Database.CardTemplates.GetRandom();
-                var card = Registry.New<ICardModel>(tmpl, Owner);
+                var card = Registry.New<ICardModel>(Owner.Value, tmpl);
                 Add(card);
             }
         }

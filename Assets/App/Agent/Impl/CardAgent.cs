@@ -31,5 +31,12 @@ namespace App.Agent
         {
             yield break;
         }
+
+        public bool Construct(ICardModel model)
+        {
+            Assert.IsNotNull(model);
+            base.Construct();
+            return true;
+        }
     }
 }

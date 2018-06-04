@@ -4,6 +4,7 @@
 
     public class PieceView
         : ViewBase<IPieceAgent>
+        , IPieceView
     {
     }
 }
