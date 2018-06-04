@@ -14,7 +14,6 @@ namespace App.Agent
         : IAgent<IBoardModel>
     {
         ITransient NewGame();
-        IPieceAgent At(Coord coord);
-        Response Set(IPieceAgent piece, Coord cood);
+        IFuture<IPieceAgent> At(Coord coord);
     }
 }
