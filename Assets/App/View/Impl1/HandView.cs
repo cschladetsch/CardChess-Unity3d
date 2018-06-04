@@ -7,17 +7,20 @@ namespace App.View.Impl1
 
     public class HandView
         : ViewBase<IHandAgent>
+        , IHandView
     {
         public CardView CardViewPrefab;
         public Transform CardsRoot;
         public int MockNumCards = 4;
 
-        protected override bool Create()
+        public override bool Construct(IHandAgent hand)
         {
+            if (!base.Construct(hand))
+                return false;
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
-            return base.Create();
+            return true;
         }
 
         [ContextMenu("CardHand-MockShow")]

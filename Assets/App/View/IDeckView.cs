@@ -1,4 +1,6 @@
-﻿namespace App.View
+﻿using App.Common;
+
+namespace App.View
 {
     using Agent;
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using App.Common;
+using UnityEngine;
 
 namespace App.View
 {
@@ -19,6 +20,7 @@ namespace App.View
 
     public interface IView<TIAgent>
         : IViewBase
+        , IConstructWith<TIAgent>
         where TIAgent : IAgent
     {
         TIAgent Agent { get; set; }
