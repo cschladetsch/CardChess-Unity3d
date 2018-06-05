@@ -11,9 +11,9 @@ namespace App.Model
     ///
     /// Models are created from a Registry, have an OnDestroyed event, and are persistent by default.
     /// </summary>
-    public abstract class ModelBase :
-        Flow.Impl.Logger,
-        IModel
+    public abstract class ModelBase
+        : Flow.Impl.Logger
+        , IModel
     {
         public event DestroyedHandler<IModel> OnDestroy;
 
@@ -45,6 +45,10 @@ namespace App.Model
             return Owner.Value == other.Owner.Value;
         }
 
+        public virtual void CreateModels()
+        {
+        }
+
         public virtual void Destroy()
         {
             if (Destroyed.Value)
@@ -65,7 +69,7 @@ namespace App.Model
             if (_owner.Value == owner)
                 return;
 
-            Verbose(20, $"{this} changes ownership from {Owner} to {owner}");
+            //Verbose(20, $"{this} changes ownership from {Owner.Value} to {owner}");
             _owner.Value = owner;
         }
 

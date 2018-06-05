@@ -7106,6 +7106,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &923239607 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114636297863371878, guid: db048127caa5ecc47b32c359d8f39207,
+    type: 2}
+  m_PrefabInternal: {fileID: 686220566}
+  m_Script: {fileID: 11500000, guid: a25d5ef5756a18942977034b74eab0ff, type: 3}
 --- !u!1 &928111689
 GameObject:
   m_ObjectHideFlags: 0
@@ -9317,6 +9323,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1132784695}
+--- !u!114 &1151641162 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114636297863371878, guid: db048127caa5ecc47b32c359d8f39207,
+    type: 2}
+  m_PrefabInternal: {fileID: 288919287}
+  m_Script: {fileID: 11500000, guid: a25d5ef5756a18942977034b74eab0ff, type: 3}
 --- !u!1 &1155980427
 GameObject:
   m_ObjectHideFlags: 0
@@ -15295,9 +15307,10 @@ MonoBehaviour:
   Board: {fileID: 389148}
   WhiteHand: {fileID: 1030165180}
   BlackHand: {fileID: 362237150}
-  WhiteDeck: {fileID: 0}
-  BlackDeck: {fileID: 0}
+  WhiteDeck: {fileID: 1151641162}
+  BlackDeck: {fileID: 923239607}
   CurrentPlayerText: {fileID: 858521117}
+  Root: {fileID: 296395987}
 --- !u!1 &1912446592
 GameObject:
   m_ObjectHideFlags: 0

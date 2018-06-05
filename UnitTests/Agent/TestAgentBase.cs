@@ -29,12 +29,13 @@ namespace App.Agent.Test
             _agency = new AgentRegistry();
             _agency.Bind<IBoardAgent, BoardAgent>(new BoardAgent(_board));
             _agency.Bind<IArbiterAgent, ArbiterAgent>(new ArbiterAgent(_arbiter));
+            _agency.Bind<ICardAgent, CardAgent>();
+            _agency.Bind<IDeckAgent, DeckAgent>();
+            _agency.Bind<IHandAgent, HandAgent>();
+            _agency.Bind<IPieceAgent, PieceAgent>();
+            _agency.Bind<IPlayerAgent, PlayerAgent>();
             _agency.Bind<IWhitePlayerAgent, WhitePlayerAgent>();
             _agency.Bind<IBlackPlayerAgent, BlackPlayerAgent>();
-            //_reg.Bind<ICardModel, CardModel>();
-            //_reg.Bind<IDeckModel, MockDeck>();
-            //_reg.Bind<IHandModel, MockHand>();
-            //_reg.Bind<IPieceModel, PieceModel>();
             _agency.Resolve();
 
             _boardAgent = _agency.New<IBoardAgent>();

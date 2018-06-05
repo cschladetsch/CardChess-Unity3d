@@ -16,6 +16,7 @@ namespace App.Model
         , IHasRegistry<IModel>
     {
         IReadOnlyReactiveProperty<bool> Destroyed { get; }
+        void CreateModels();
         void Destroy();
     }
 }

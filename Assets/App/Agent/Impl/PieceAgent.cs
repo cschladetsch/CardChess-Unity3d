@@ -2,7 +2,7 @@
 
 namespace App.Agent
 {
-    class PieceAgent
+    public class PieceAgent
         : AgentBase<Model.IPieceModel>
         , IPieceAgent
     {

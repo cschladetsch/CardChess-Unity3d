@@ -260,6 +260,8 @@ namespace App.Model
         private PlayerEntry GetEntry(IPlayerModel player)
         {
             Assert.IsNotNull(player);
+            Assert.IsNotNull(_players);
+            Assert.IsTrue(_players.Count == 2);
             Assert.IsTrue(_players.Count(p => p.Player == player) == 1);
             return _players.First(p => p.Player == player);
         }

@@ -28,8 +28,8 @@ namespace App.Model
         #endregion
 
         #region Methods
-        IRequest NextAction();
         Response NewGame();
+        IRequest NextAction();
         Response DrawHand();
         Response CardDrawn(ICardModel card);
         void CardExhaustion();

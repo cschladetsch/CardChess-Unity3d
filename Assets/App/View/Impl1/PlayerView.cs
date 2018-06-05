@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Agent;
-using UnityEngine;
+﻿using App.Agent;
+using App.Common;
 
 namespace App.View.Impl1
 {
@@ -12,47 +7,27 @@ namespace App.View.Impl1
         : ViewBase<IPlayerAgent>
         , IPlayerView
     {
-        public ManaBar ManaBar;
-        public IHandView Hand;
-        public IDeckView Deck;
+        // I really wish these could be interfaces.
+        // They should probably end up being Prefabs that can be
+        // searched for Components that implement the correct interfaces.
+        public ManaView ManaView;
+        public HandView Hand;
+        public DeckView Deck;
 
         public override bool Construct(IPlayerAgent agent)
         {
+            Assert.IsNotNull(agent);
+            Assert.IsNotNull(agent.Hand);
+            Assert.IsNotNull(agent.Deck);
+
             if (!base.Construct(agent))
-                return false;
-
-            ManaBar = FindChild<ManaBar>();
-            Hand = FindChild<IHandView>();
-            Deck = FindChild<IDeckView>();
-
-            if (ManaBar == null)
-                return false;
-            if (Hand == null)
-                return false;
-            if (Deck == null)
                 return false;
 
             Deck.Construct(Agent.Deck);
             Hand.Construct(Agent.Hand);
-            //ManaBar.Construct(Agent);
+            ManaView.Construct(Agent);
 
-            return false;
-        }
-
-        T FindChild<T>() where T : class
-        {
-            foreach (Transform ch in transform)
-            {
-                foreach (var comp in ch.GetComponents<Component>())
-                {
-                    if (comp is T)
-                    {
-                        return comp as T;
-                    }
-                }
-            }
-
-            return null;
+            return true;
         }
     }
 }

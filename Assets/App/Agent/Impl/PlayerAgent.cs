@@ -5,7 +5,7 @@ using Flow;
 
 namespace App.Agent
 {
-    class PlayerAgent
+    public class PlayerAgent
         : PlayerAgentBase
     {
         public PlayerAgent(IPlayerModel model)

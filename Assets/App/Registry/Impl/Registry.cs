@@ -140,7 +140,7 @@ namespace App.Registry
                 _typeToGuid[type] = model.Id;
             }
 
-            Verbose(10, $"Made a {model}");
+            Verbose(10, $"Made a {typeof(TIBase)}");
             model.Registry = this;
             model.OnDestroy += ModelDestroyed;
             return model;
@@ -305,7 +305,7 @@ namespace App.Registry
             Type ty;
             if (!_bindings.TryGetValue(ity, out ty))
             {
-                Verbose(30, $"Registry has no binding for {ity}");
+                Warn($"Registry has no binding for {ity}");
                 return null;
             }
             var cons = ty.GetConstructors();

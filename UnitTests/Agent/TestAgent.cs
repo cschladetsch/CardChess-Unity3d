@@ -15,7 +15,8 @@ namespace App.Agent.Test
         [Test]
         public void TestBasicAgentTurns()
         {
-            _arbiterAgent.StartGame(_whiteAgent, _blackAgent);
+            _arbiterAgent.NewGame(_whiteAgent, _blackAgent);
+            _arbiterAgent.StartGame();
             Trace.WriteLine(_arbiterAgent.Kernel.Root);
 
             _arbiterAgent.Step();

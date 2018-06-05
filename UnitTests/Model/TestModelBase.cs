@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace App.Model.Test
 {
@@ -45,6 +46,9 @@ namespace App.Model.Test
             _arbiter = _reg.New<IArbiterModel>();
             _white = _reg.New<IWhitePlayerModel>();
             _black = _reg.New<IBlackPlayerModel>();
+
+            foreach (var model in _reg.Instances.ToList())
+                model.CreateModels();
         }
 
         protected virtual void TearDownTest()
