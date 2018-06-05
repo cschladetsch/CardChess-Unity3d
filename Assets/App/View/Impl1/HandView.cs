@@ -42,22 +42,17 @@ namespace App.View.Impl1
         {
             Clear();
 
-            var root = FindObjectOfType<GameRoot>();
-            var playerAgent = root.WhiteAgent;
-            var playerModel = playerAgent.Model;
-            var playerModelHand = playerModel.Hand;
-            //var playerAgentHand = playerAgent.Hand;
             var width = GetCardWidth();
-            var xs = -playerModelHand.NumCards.Value / 2.0f * width + width/2.0f;
+            var xs = -Agent.Model.NumCards.Value / 2.0f * width + width/2.0f;
             var n = 0;
-            foreach (var card in playerModelHand.Cards)
+            foreach (var card in Agent.Model.Cards)
             {
                 var pos = new Vector3(xs + n*width, 0, 0);
                 var obj = Instantiate(CardViewPrefab);
                 obj.transform.SetParent(CardsRoot);
                 obj.transform.localPosition = pos;
 
-                var agentCard = playerAgent.Registry.New<ICardAgent>(card);
+                var agentCard = Agent.Registry.New<ICardAgent>(card);
                 agentCard.Construct(card);
                 obj.Construct(agentCard);
             }

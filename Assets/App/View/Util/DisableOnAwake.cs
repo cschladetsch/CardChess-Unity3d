@@ -15,11 +15,3 @@ namespace Assets.App.View.Util
         }
     }
 }
-
-public static class TransformExt
-{
-    public static T FindComponentInChildren<T>(this Transform tr) where T : class
-    {
-        return null;
-    }
-}

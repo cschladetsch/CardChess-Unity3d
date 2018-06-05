@@ -41,8 +41,14 @@ namespace App
             Kernel.Step();
         }
 
-        public ITransient NewGame()
+        public ITransient NewGame(IPlayerAgent p0, IPlayerAgent p1)
         {
+            Assert.IsNotNull(p0);
+            Assert.IsNotNull(p1);
+
+            Model.NewGame(p0.Model, p1.Model);
+
+            _players = new List<IPlayerAgent> {p0, p1};
             _currentPlayerIndex.Subscribe(n => _playerAgent.Value = _players[n]);
             _currentPlayerIndex.Value = 0;
             Player = PlayerAgent.Select(x => x.Model).ToReactiveProperty();
@@ -51,19 +57,19 @@ namespace App
             return null;
         }
 
-        public void StartGame(IPlayerAgent p0, IPlayerAgent p1)
+        private ITransient NewGameWork()
         {
-            Assert.IsNotNull(p0);
-            Assert.IsNotNull(p1);
+            return null;
+        }
 
-            Info("StartGame");
-            _players = new List<IPlayerAgent> {p0, p1};
-            Model.NewGame(p0.Model, p1.Model);
+        public void StartGame()
+        {
+            Info($"{this} StartGame");
 
             _Node.Add(
                 New.Sequence(
                     New.Barrier(
-                        NewGame(),
+                        NewGameWork(),
                         Board.NewGame()
                     ).Named("NewGame"),
                     New.Barrier(
@@ -75,7 +81,7 @@ namespace App
             );
         }
 
-        private IGenerator StartGame()
+        private IGenerator StartGameCoro()
         {
             var rejectTimeOut = TimeSpan.FromSeconds(Parameters.MulliganTimer);
             var kingPlaceTimeOut = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
@@ -103,7 +109,7 @@ namespace App
         public ITransient GameLoop()
         {
             return New.Sequence(
-                StartGame(),
+                StartGameCoro(),
                 New.While(() => Model.GameState.Value != EGameState.Completed,
                     New.Coroutine(PlayerTurn).Named("Turn")
                 ).Named("GameLoop"),

@@ -1,18 +1,31 @@
 ﻿using System.Collections.Generic;
 using App.Agent;
+using Assets.App.View;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace App.View.Impl1
 {
-    public class ManaBar
-        : ViewBase
+    public class ManaView
+        : ViewBase<IPlayerAgent>
+        , IManaView
     {
         public IPlayerAgent Player;
         public ManaElement ManaElementPrefab;
         public Transform Root;
         public bool Reverse;
+
+        public override bool Construct(IPlayerAgent agent)
+        {
+            if (!base.Construct(agent))
+                return false;
+
+            Player.MaxMana.Subscribe(m => Redraw(Player.Mana.Value, m)).AddTo(this);
+            Player.Mana.Subscribe(m => Redraw(m, Player.MaxMana.Value)).AddTo(this);
+
+            return true;
+        }
 
         protected override void Begin()
         {
@@ -50,7 +63,6 @@ namespace App.View.Impl1
             Assert.IsTrue(maxMana <= Parameters.MaxManaCap);
 
             Clear();
-            _manaIndicators = new List<ManaElement>(maxMana);
             var n = 0;
             for (; n < maxMana; ++n)
                 MakeManaElement(n, n <= mana);
@@ -67,7 +79,5 @@ namespace App.View.Impl1
             elem.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
             return elem;
         }
-
-        private List<ManaElement> _manaIndicators;
     }
 }

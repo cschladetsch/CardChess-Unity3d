@@ -40,7 +40,7 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"{Color}";
+            return $"{Color}: {MaxMana.Value} MaxMana, {Mana.Value} Mana, {Deck.NumCards} in Deck, {Hand.NumCards} in Hand";
         }
 
         public PlayerModelBase(EColor color)
@@ -50,8 +50,10 @@ namespace App.Model
             SetOwner(this);
         }
 
-        public virtual Response NewGame()
+        public override void CreateModels()
         {
+            base.CreateModels();
+
             AcceptedHand = false;
             _mana.Value = 0;
             _maxMana.Value = 0;
@@ -60,9 +62,14 @@ namespace App.Model
             // TODO: pass a deck template
             Deck = Registry.New<IDeckModel>(null, this);
             Hand = Registry.New<IHandModel>(this);
+        }
+
+        public virtual Response NewGame()
+        {
+            Info($"{this} NewGame");
             Deck.NewGame();
             Hand.NewGame();
-            return Common.Message.Response.Ok;
+            return Response.Ok;
         }
 
         public void CardExhaustion()

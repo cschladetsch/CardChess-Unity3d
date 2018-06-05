@@ -11,8 +11,8 @@ namespace App.Agent
         IReadOnlyReactiveProperty<IPlayerModel> Player { get; }
         IBoardAgent BoardAgent { get; }
 
-        void StartGame(IPlayerAgent p0, IPlayerAgent p1);
-        ITransient NewGame();
+        ITransient NewGame(IPlayerAgent p0, IPlayerAgent p1);
+        void StartGame();
         void Step();
     }
 }

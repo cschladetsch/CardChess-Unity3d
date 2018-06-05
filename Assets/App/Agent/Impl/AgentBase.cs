@@ -29,6 +29,7 @@ namespace App.Agent
         protected AgentBase(TModel a0)
         {
             Assert.IsNotNull(a0);
+            Info($"{this} Construct with {a0}");
             Id = Guid.NewGuid();
             BaseModel = a0;
             Model = a0;

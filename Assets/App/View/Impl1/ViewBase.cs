@@ -54,6 +54,7 @@ namespace App.View.Impl1
 
         protected virtual void Begin()
         {
+            Info($"{this} Begin");
         }
 
         protected virtual void Step()
@@ -104,6 +105,7 @@ namespace App.View.Impl1
             Assert.IsNotNull(agent);
             if (agent == null)
                 return false;
+            Info($"{this} Construct");
             AgentBase = Agent = agent;
             return true;
         }

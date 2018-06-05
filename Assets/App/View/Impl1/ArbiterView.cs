@@ -7,10 +7,8 @@ namespace App.View.Impl1
         : ViewBase<IArbiterAgent>
     {
         public BoardView Board;
-        public HandView WhiteHand;
-        public HandView BlackHand;
-        public DeckView WhiteDeck;
-        public DeckView BlackDeck;
+        public PlayerView White;
+        public PlayerView Black;
         public TMPro.TextMeshPro CurrentPlayerText;
         public GameRoot Root;
 
@@ -18,10 +16,8 @@ namespace App.View.Impl1
         {
             base.Begin();
 
-            WhiteHand.Construct(Root.WhiteAgent.Hand);
-            BlackHand.Construct(Root.BlackAgent.Hand);
-            WhiteDeck.Construct(Root.WhiteAgent.Deck);
-            BlackDeck.Construct(Root.BlackAgent.Deck);
+            White.Construct(Root.WhiteAgent);
+            Black.Construct(Root.BlackAgent);
         }
     }
 }
