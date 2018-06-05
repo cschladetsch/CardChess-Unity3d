@@ -35,10 +35,12 @@ namespace App.View.Impl1
                 .AddTo(this)
                 ;
 
+            CreateHandView();
+
             return true;
         }
 
-        protected override void Begin()
+        void CreateHandView()
         {
             Clear();
 
