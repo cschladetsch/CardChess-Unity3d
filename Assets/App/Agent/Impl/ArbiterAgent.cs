@@ -28,6 +28,8 @@ namespace App
         public IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent => _playerAgent;
         public IReadOnlyReactiveProperty<IPlayerModel> Player { get; private set; }
         [Inject] public IBoardAgent BoardAgent { get; set; }
+        public IPlayerAgent WhitePlayer => _players[0];
+        public IPlayerAgent BlackPlayer => _players[1];
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)

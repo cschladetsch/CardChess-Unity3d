@@ -4,6 +4,7 @@ using App.Common;
 using App.Agent;
 using App.Model;
 using App.View;
+using App.View.Impl1;
 
 // field not assigned - because it is assigned in Unity3d editor
 #pragma warning disable 649
@@ -18,7 +19,7 @@ namespace App
         : View.Impl1.ViewBase
     {
         public IPlayerAgent WhitePlayerAgent;
-        public IPlayerModel BlackPlayerAgent;
+        public IPlayerAgent BlackPlayerAgent;
 
         public App.Model.ModelRegistry Models;
         public App.Agent.AgentRegistry Agents;
@@ -26,8 +27,8 @@ namespace App
 
         public IBoardAgent BoardAgent;
         public IArbiterAgent ArbiterAgent;
-        public IPlayerAgent WhiteAgent;
-        public IPlayerAgent BlackAgent;
+
+        public ArbiterView Arbiter;
 
         /// <summary>
         /// What makes the decisions.
@@ -50,6 +51,10 @@ namespace App
             foreach (var agent in Agents.Instances)
                 Assert.IsNotNull(agent.BaseModel);
 
+            CreateViews();
+
+            Arbiter.Construct(ArbiterAgent);
+            Arbiter.Agent.NewGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
 
             return true;
@@ -59,7 +64,6 @@ namespace App
         {
             base.Begin();
 
-            CreateViews();
         }
 
         void CreateModels()
@@ -102,8 +106,8 @@ namespace App
 
             BoardAgent = Agents.New<IBoardAgent>();
             ArbiterAgent = Agents.New<IArbiterAgent>();
-            WhiteAgent = Agents.New<IPlayerAgent>(_whitePlayerModel);
-            BlackAgent = Agents.New<IPlayerAgent>(_blackPlayerModel);
+            WhitePlayerAgent = Agents.New<IPlayerAgent>(_whitePlayerModel);
+            BlackPlayerAgent = Agents.New<IPlayerAgent>(_blackPlayerModel);
         }
 
         void CreateViews()

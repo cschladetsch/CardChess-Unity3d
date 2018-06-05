@@ -10,14 +10,20 @@ namespace App.View.Impl1
         public PlayerView White;
         public PlayerView Black;
         public TMPro.TextMeshPro CurrentPlayerText;
-        public GameRoot Root;
+
+        public override bool Construct(IArbiterAgent agent)
+        {
+            if (!base.Construct(agent))
+                return false;
+
+            White.Construct(Agent.WhitePlayer);
+            Black.Construct(Agent.BlackPlayer);
+            return true;
+        }
 
         protected override void Begin()
         {
             base.Begin();
-
-            White.Construct(Root.WhiteAgent);
-            Black.Construct(Root.BlackAgent);
         }
     }
 }
