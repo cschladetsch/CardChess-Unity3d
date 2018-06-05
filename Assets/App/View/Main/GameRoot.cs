@@ -28,7 +28,7 @@ namespace App
         public IBoardAgent BoardAgent;
         public IArbiterAgent ArbiterAgent;
 
-        public ArbiterView Arbiter;
+        public ArbiterView ArbiterView;
 
         /// <summary>
         /// What makes the decisions.
@@ -53,8 +53,8 @@ namespace App
 
             CreateViews();
 
-            Arbiter.Construct(ArbiterAgent);
-            Arbiter.Agent.NewGame(WhitePlayerAgent, BlackPlayerAgent);
+            ArbiterAgent.NewGame(WhitePlayerAgent, BlackPlayerAgent);
+            ArbiterView.Construct(ArbiterAgent);
             ArbiterAgent.StartGame();
 
             return true;

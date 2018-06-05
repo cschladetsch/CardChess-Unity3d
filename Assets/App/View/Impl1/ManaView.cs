@@ -24,20 +24,13 @@ namespace App.View.Impl1
             Player.MaxMana.Subscribe(m => Redraw(Player.Mana.Value, m)).AddTo(this);
             Player.Mana.Subscribe(m => Redraw(m, Player.MaxMana.Value)).AddTo(this);
 
-            return true;
-        }
-
-        protected override void Begin()
-        {
             Assert.IsNotNull(ManaElementPrefab);
             Assert.IsNotNull(Root);
-            base.Begin();
 
-            if (Player != null)
-            {
-                Player.Mana.DistinctUntilChanged().Subscribe(n => Redraw());
-                Player.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw());
-            }
+            Player.Mana.DistinctUntilChanged().Subscribe(n => Redraw());
+            Player.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw());
+
+            return true;
         }
 
         public void Clear()
