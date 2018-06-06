@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using JetBrains.Annotations;
-using UniRx;
+﻿using UniRx;
 
 namespace App.Model
 {
@@ -11,11 +9,11 @@ namespace App.Model
     /// A card in play as a piece on the board.
     /// </summary>
     public interface IPieceModel
-        : IPlayerOwnedModel
+        : IModel
     {
         ICardModel Card { get; }
-        EPieceType Type { get; }
-        IBoardModel Board { get; }
+        EPieceType PieceType { get; }
+        EColor Color { get; }
         IReactiveProperty<Coord> Coord { get; }
         IReadOnlyReactiveProperty<int> Power { get; }
         IReadOnlyReactiveProperty<int> Health { get; }

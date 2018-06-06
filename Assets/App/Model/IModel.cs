@@ -12,10 +12,13 @@
         , IHasDestroyHandler<IModel>
         , IHasRegistry<IModel>
     {
+        /// <summary>
+        /// If true, this model has already been prepared.
+        /// </summary>
         bool Prepared { get; }
 
         /// <summary>
-        /// Create other models required by this one.
+        /// Create all other models required by this one.
         ///
         /// Should only be called once.
         /// </summary>
