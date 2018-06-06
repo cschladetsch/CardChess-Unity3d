@@ -1,4 +1,5 @@
-﻿using App.Common.Message;
+﻿using App.Common;
+using App.Common.Message;
 using JetBrains.Annotations;
 using UniRx;
 
@@ -9,6 +10,7 @@ namespace App.Model
     /// </summary>
     public interface IArbiterModel
         : IModel
+        , IGameActor
     {
         IBoardModel Board { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }

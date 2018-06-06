@@ -16,5 +16,6 @@
         Pass,
         TurnEnd,
         Resign,
+        StartGame
     }
 }

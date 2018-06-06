@@ -45,6 +45,14 @@ namespace App.Model
             );
         }
 
+        public void Clear()
+        {
+            foreach (var c in Cards.ToList())
+            {
+                Remove(c);
+            }
+        }
+
         public bool Has(ICardModel card)
         {
             return Has(card.Id);

@@ -81,7 +81,7 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"{Player}'s {Type}";
+            return $"{Player}'s {PieceType}";
         }
         #endregion
 

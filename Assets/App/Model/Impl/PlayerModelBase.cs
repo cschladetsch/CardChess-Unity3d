@@ -40,7 +40,7 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"{Color}: {MaxMana.Value} MaxMana, {Mana.Value} Mana, {Deck.NumCards} in Deck, {Hand.NumCards} in Hand";
+            return $"{Color}";//: {MaxMana.Value} MaxMana, {Mana.Value} Mana, {Deck.NumCards} in Deck, {Hand.NumCards} in Hand";
         }
 
         public PlayerModelBase(EColor color)
@@ -70,13 +70,22 @@ namespace App.Model
 
         public override void Prepare()
         {
-            Info($"{this} Prepare");
+            base.Prepare();
             Deck.Prepare();
             Hand.Prepare();
-            Mana.Value = 0;
-            MaxMana.Value = Parameters.MaxManaCap;
         }
 
+        public void NewGame()
+        {
+            Mana.Value = 0;
+            MaxMana.Value = Parameters.MaxManaCap;
+            Deck.NewGame();
+            Hand.NewGame();
+        }
+
+        public void EndGame()
+        {
+        }
         public void CardExhaustion()
         {
             King.ChangeHealth(-2);
@@ -175,5 +184,6 @@ namespace App.Model
         private readonly IntReactiveProperty _mana = new IntReactiveProperty(0);
         private readonly IntReactiveProperty _health = new IntReactiveProperty(0);
         #endregion
+
     }
 }
