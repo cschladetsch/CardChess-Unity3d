@@ -88,11 +88,7 @@ namespace App.Agent
         : AgentLogger
         where TModel : Model.IModel
     {
-        public event DestroyedHandler<IAgent> OnDestroy;
-
-        public Model.IModel BaseModel { get; private set; }
-        public TModel Model { get; private set; }
-
+        public Model.IModel BaseModel { get; protected set; }
+        public TModel Model { get; protected set; }
     }
-
 }

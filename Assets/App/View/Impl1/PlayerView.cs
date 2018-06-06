@@ -14,20 +14,17 @@ namespace App.View.Impl1
         public HandView Hand;
         public DeckView Deck;
 
-        public override bool Construct(IPlayerAgent agent)
+        public override void SetAgent(IPlayerAgent agent)
         {
             Assert.IsNotNull(agent);
             Assert.IsNotNull(agent.Hand);
             Assert.IsNotNull(agent.Deck);
 
-            if (!base.Construct(agent))
-                return false;
+            base.SetAgent(agent);
 
-            Deck.Construct(Agent.Deck);
-            Hand.Construct(Agent.Hand);
-            ManaView.Construct(Agent);
-
-            return true;
+            Deck.SetAgent(Agent.Deck);
+            Hand.SetAgent(Agent.Hand);
+            ManaView.SetAgent(Agent);
         }
     }
 }

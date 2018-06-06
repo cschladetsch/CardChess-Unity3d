@@ -19,7 +19,7 @@ namespace App.Mock.Model
         {
         }
 
-        public override void NewGame()
+        public override void Prepare()
         {
             foreach (var pt in _pieceTypes)
             {

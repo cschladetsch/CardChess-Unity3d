@@ -10,19 +10,18 @@ namespace App.View
     /// Common interface for all views
     /// </summary>
     public interface IViewBase
-        : IKnown
+        : IEntity
         , IHasDestroyHandler<IViewBase>
         , IHasRegistry<IViewBase>
     {
         IAgent AgentBase { get; set; }
-        //GameObject GameObject { get; }
     }
 
     public interface IView<TIAgent>
         : IViewBase
-        , IConstructWith<TIAgent>
         where TIAgent : IAgent
     {
         TIAgent Agent { get; set; }
+        void SetAgent(TIAgent agent);
     }
 }

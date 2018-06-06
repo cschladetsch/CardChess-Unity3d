@@ -10,18 +10,13 @@
     /// </summary>
     public interface IAgent
         : ILogger
-        , IKnown
-        , IOwned
         , ITransient
+        , IEntity
         , IHasRegistry<IAgent>
         , IHasDestroyHandler<IAgent>
     {
-        bool Destroyed { get; }
-        void Destroy();
         IModel BaseModel { get; }
         IArbiterAgent Arbiter { get; set; }
-
-        void Construct();
     }
 
     /// <inheritdoc />

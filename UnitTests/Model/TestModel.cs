@@ -22,7 +22,6 @@ namespace App.Model.Test
             Assert.IsNotNull(_white);
             Assert.IsNotNull(_black);
 
-            _arbiter.NewGame(_white, _black);
             Assert.AreSame(_white.Arbiter, _black.Arbiter);
             Assert.AreSame(_white.Board, _black.Board);
             Assert.AreSame(_white.Board.Arbiter.CurrentPlayer, _black.Board.Arbiter.Board.Arbiter.CurrentPlayer);
@@ -31,7 +30,7 @@ namespace App.Model.Test
         [Test]
         public void TestBasicGame()
         {
-            _arbiter.NewGame(_white, _black);
+            _arbiter.PrepareGame(_white, _black);
             for (var n = 0; n < 12; ++n)
             {
                 Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);

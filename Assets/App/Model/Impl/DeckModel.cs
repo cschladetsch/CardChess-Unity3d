@@ -14,7 +14,7 @@ namespace App.Model
             // TODO: store and use templateDeck
         }
 
-        public virtual void NewGame()
+        public override void Create()
         {
             _Cards.Clear();
             for (var n = 0; n < MaxCards; ++n)

@@ -12,7 +12,6 @@ namespace App.Model
         : ICardCollection<ICardModel>
         , IModel
     {
-        void NewGame();
         ICardModel Draw();
         IEnumerable<ICardModel> Draw(int count);
     }

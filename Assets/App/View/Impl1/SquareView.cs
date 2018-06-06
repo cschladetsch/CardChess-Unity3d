@@ -9,7 +9,7 @@ using UnityEngine;
 namespace App.View.Impl1
 {
     public class SquareView
-        : MonoBehaviour
+        : ViewBase
         , ISquareView
     {
         public EColor Color { get; set; }
@@ -33,10 +33,5 @@ namespace App.View.Impl1
         {
             return $"{Color} square at {Coord}";
         }
-
-        public Guid Id { get; set; }
-        public event DestroyedHandler<IViewBase> OnDestroy;
-        public IRegistry<IViewBase> Registry { get; set; }
-        public IAgent AgentBase { get; set; }
     }
 }

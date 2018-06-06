@@ -35,15 +35,12 @@ namespace App
         /// </summary>
         public GameObject[] Startup;
 
-        protected override bool Create()
+        public override void Create()
         {
-            if (!base.Create())
-                return false;
+            base.Create();
 
             // create *all* models required for startup here
             CreateModels();
-
-            _arbiterModel.NewGame(_whitePlayerModel, _blackPlayerModel);
 
             // create *all* agents
             CreateAgents();
@@ -51,19 +48,19 @@ namespace App
             foreach (var agent in Agents.Instances)
                 Assert.IsNotNull(agent.BaseModel);
 
-            CreateViews();
+            RegisterViews();
 
-            ArbiterAgent.NewGame(WhitePlayerAgent, BlackPlayerAgent);
-            ArbiterView.Construct(ArbiterAgent);
+            WhitePlayerAgent.Create();
+            BlackPlayerAgent.Create();
+            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
+            ArbiterView.SetAgent(ArbiterAgent);
+
             ArbiterAgent.StartGame();
-
-            return true;
         }
 
         protected override void Begin()
         {
             base.Begin();
-
         }
 
         void CreateModels()
@@ -72,7 +69,7 @@ namespace App
             Models.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
             Models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             Models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-            Models.Bind<ICardModel, CardModel>();
+            Models.Bind<Model.ICardModel, Model.CardModel>();
             Models.Bind<IDeckModel, DeckModel>();
             Models.Bind<IHandModel, HandModel>();
             Models.Bind<IPieceModel, PieceModel>();
@@ -86,7 +83,7 @@ namespace App
 
             // make all models required
             foreach (var model in Models.Instances.ToList())
-                model.CreateModels();
+                model.Create();
 
             Info($"Models: {Models.Print()}");
         }
@@ -110,7 +107,7 @@ namespace App
             BlackPlayerAgent = Agents.New<IPlayerAgent>(_blackPlayerModel);
         }
 
-        void CreateViews()
+        void RegisterViews()
         {
             Views = new View.ViewRegistry();
             Views.Bind<IBoardView, App.View.Impl1.BoardView>();

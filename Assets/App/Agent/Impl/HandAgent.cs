@@ -25,7 +25,8 @@ namespace App.Agent
 
         public IFuture<Response> NewGame()
         {
-            return New.Future(Model.NewGame());
+            Model.NewGame();
+            return null;
         }
 
         public IFuture<Response> Add(ICardAgent card)
@@ -34,7 +35,7 @@ namespace App.Agent
             return New.Future(Model.Add(card.Model) ? Response.Ok : Response.Fail);
         }
 
-        public IFuture<Response> Remove(ICardAgent agent)
+        public IFuture<Response> Remove(ICardAgent model)
         {
             return New.Future(Response.Ok);
         }

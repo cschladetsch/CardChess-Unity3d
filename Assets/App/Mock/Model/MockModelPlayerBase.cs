@@ -14,7 +14,9 @@ namespace App.Mock.Model
     public abstract class MockModelPlayerBase
         : App.Model.PlayerModelBase
     {
-        #region Public Methods
+        public override void StartGame()
+        {
+        }
 
         public override IRequest Mulligan()
         {
@@ -32,22 +34,16 @@ namespace App.Mock.Model
             Hand.Add(Deck.Draw());
         }
 
-        public override Response NewGame()
+        public override void Prepare()
         {
-            var response = base.NewGame();
-            if (response.Success)
-                CreateActionList();
-            return response;
+            base.Prepare();
+            CreateActionList();
         }
 
         public void RequestFailed(Guid req)
         {
             Error("Not Implemented");
         }
-
-        #endregion // Public Methods
-
-        #region Protected Methods
 
         protected abstract void CreateActionList();
 
@@ -69,15 +65,12 @@ namespace App.Mock.Model
             Hand.Remove(card);
             return card;
         }
-        #endregion
 
         private int _next = 0;
 
-        #region protected Fields
         protected IRequest _Pass;
         protected IRequest _EndTurn;
         protected List<Func<IRequest>> _Requests;
         protected List<Guid> _RequestIds;
-        #endregion
     }
 }

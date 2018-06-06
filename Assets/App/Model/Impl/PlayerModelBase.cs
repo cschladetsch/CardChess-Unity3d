@@ -50,9 +50,9 @@ namespace App.Model
             SetOwner(this);
         }
 
-        public override void CreateModels()
+        public override void Create()
         {
-            base.CreateModels();
+            base.Create();
 
             AcceptedHand = false;
             _mana.Value = 0;
@@ -62,14 +62,19 @@ namespace App.Model
             // TODO: pass a deck template
             Deck = Registry.New<IDeckModel>(null, this);
             Hand = Registry.New<IHandModel>(this);
+
+            King.Create();
+            Deck.Create();
+            Hand.Create();
         }
 
-        public virtual Response NewGame()
+        public override void Prepare()
         {
-            Info($"{this} NewGame");
-            Deck.NewGame();
-            Hand.NewGame();
-            return Response.Ok;
+            Info($"{this} Prepare");
+            Deck.Prepare();
+            Hand.Prepare();
+            Mana.Value = 0;
+            MaxMana.Value = Parameters.MaxManaCap;
         }
 
         public void CardExhaustion()
@@ -133,6 +138,8 @@ namespace App.Model
         {
             return null;
         }
+
+        public abstract void StartGame();
 
         public virtual IRequest NextAction()
         {

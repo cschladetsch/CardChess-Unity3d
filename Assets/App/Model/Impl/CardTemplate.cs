@@ -10,9 +10,9 @@ namespace App.Model
     /// A description of a card. Used to make other cards in the game.
     /// These are stored in the Players' CardLibrary.
     /// </summary>
-    public class CardTemplate :
-        ModelBase,
-        ICardTemplate
+    public class CardTemplate
+        : ModelBase
+        , ICardTemplate
     {
         public ECardType Type { get; }
         public EPieceType PieceType { get; }

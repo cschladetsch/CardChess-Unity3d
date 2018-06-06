@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using App.Common.Message;
 using App.Model;
 using Flow;
 
@@ -10,7 +9,7 @@ namespace App.Agent
     using Common;
 
     public class BoardAgent
-        : AgentBaseCoro<Model.IBoardModel>
+        : AgentBaseCoro<IBoardModel>
         , IBoardAgent
     {
         public BoardAgent(IBoardModel model)
@@ -23,16 +22,25 @@ namespace App.Agent
             yield break;
         }
 
-        public ITransient NewGame()
+        public void NewGame()
         {
             Model.NewGame();
             _idToPiece.Clear();
-            return null;
+        }
+
+        public void EndGame()
+        {
         }
 
         public IFuture<IPieceAgent> At(Coord coord)
         {
             return New.Future(GetAgent(Model.At(coord)));
+        }
+
+        public ITransient NewGameAction()
+        {
+            // move all pieces back to deck, shuffle
+            return null;
         }
 
         private IPieceAgent GetAgent(IPieceModel model)

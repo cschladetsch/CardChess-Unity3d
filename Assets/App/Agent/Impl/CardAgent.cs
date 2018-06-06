@@ -8,7 +8,7 @@ namespace App.Agent
     using Common;
 
     public class CardAgent
-        : AgentBaseCoro<ICardModel>
+        : AgentBaseCoro<Model.ICardModel>
         , ICardAgent
     {
         public ECardType Type => Model.Type;
@@ -22,7 +22,7 @@ namespace App.Agent
         public IReactiveCollection<EAbility> Abilities => Model.Abilities;
         public IReactiveCollection<IEffectModel> Effects => Model.Effects;
 
-        public CardAgent(ICardModel model)
+        public CardAgent(Model.ICardModel model)
             : base(model)
         {
         }
@@ -32,10 +32,9 @@ namespace App.Agent
             yield break;
         }
 
-        public bool Construct(ICardModel model)
+        public bool SetModel(Model.ICardModel model)
         {
             Assert.IsNotNull(model);
-            base.Construct();
             return true;
         }
     }

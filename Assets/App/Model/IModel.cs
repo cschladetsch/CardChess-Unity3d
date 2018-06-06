@@ -1,6 +1,4 @@
-﻿using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
     using Common;
     using Registry;
@@ -10,13 +8,13 @@ namespace App.Model
     /// </summary>
     public interface IModel
         : Flow.ILogger
-        , IKnown
-        , IOwned
+        , IEntity
         , IHasDestroyHandler<IModel>
         , IHasRegistry<IModel>
     {
-        IReadOnlyReactiveProperty<bool> Destroyed { get; }
-        void CreateModels();
-        void Destroy();
+        /// <summary>
+        /// Create other models required by this one.
+        /// </summary>
+        void Prepare();
     }
 }

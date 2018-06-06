@@ -1,5 +1,5 @@
 ﻿using App.Agent;
-using UnityEditor;
+using App.Common;
 
 namespace App.View.Impl1
 {
@@ -11,14 +11,16 @@ namespace App.View.Impl1
         public PlayerView Black;
         public TMPro.TextMeshPro CurrentPlayerText;
 
-        public override bool Construct(IArbiterAgent agent)
+        public override void SetAgent(IArbiterAgent agent)
         {
-            if (!base.Construct(agent))
-                return false;
+            base.SetAgent(agent);
 
-            White.Construct(Agent.WhitePlayer);
-            Black.Construct(Agent.BlackPlayer);
-            return true;
+            Assert.IsNotNull(agent);
+            Assert.IsNotNull(agent.WhitePlayer);
+            Assert.IsNotNull(agent.BlackPlayer);
+
+            White.SetAgent(Agent.WhitePlayer);
+            Black.SetAgent(Agent.BlackPlayer);
         }
 
         protected override void Begin()
