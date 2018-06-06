@@ -38,6 +38,7 @@ namespace App.Model
 
         public override void Prepare()
         {
+            base.Prepare();
         }
 
         public void NewGame()

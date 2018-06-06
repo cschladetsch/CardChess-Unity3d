@@ -19,8 +19,9 @@ namespace App.Mock.Model
         {
         }
 
-        public override void Prepare()
+        public override void NewGame()
         {
+            Clear();
             foreach (var pt in _pieceTypes)
             {
                 Add(CardTemplateService.NewCardModel(Player, pt));

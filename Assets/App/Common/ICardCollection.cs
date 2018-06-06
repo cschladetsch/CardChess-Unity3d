@@ -20,6 +20,7 @@ namespace App.Common
         IReadOnlyReactiveProperty<bool> Maxxed { get; }
         IReadOnlyReactiveCollection<TCard> Cards { get; }
 
+        void Clear();
         bool Has(TCard card);
         bool Has(Guid idCard);
         bool Add(TCard card);

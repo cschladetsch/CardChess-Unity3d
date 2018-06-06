@@ -16,8 +16,8 @@ namespace App.Model
         : Flow.Impl.Logger
         , IModel
     {
-        #region Public Properties
         public bool IsValid { get; protected set; }
+        public bool Prepared { get; protected set; }
 
         public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
@@ -26,9 +26,6 @@ namespace App.Model
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public event Action<IModel> OnDestroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
-        #endregion
-
-        #region Public Methods
 
         protected ModelBase(IOwner owner)
         {
@@ -53,6 +50,13 @@ namespace App.Model
 
         public virtual void Prepare()
         {
+            Assert.IsFalse(_prepared);
+            if (_prepared)
+            {
+                Error($"{this} has already been prepared");
+                return;
+            }
+            _prepared = true;
         }
 
         public virtual void Destroy()
@@ -75,19 +79,15 @@ namespace App.Model
             //Verbose(20, $"{this} changes ownership from {Owner.Value} to {owner}");
             _owner.Value = owner;
         }
-        #endregion
 
-        #region Protected Methods
         protected void NotImplemented(string text)
         {
             Error($"Not {text} implemented");
         }
-        #endregion
 
-        #region Private Fields
         private readonly BoolReactiveProperty _destroyed;
         private readonly ReactiveProperty<IOwner> _owner;
-        #endregion
+        private bool _prepared;
     }
 }
 

@@ -12,8 +12,12 @@
         , IHasDestroyHandler<IModel>
         , IHasRegistry<IModel>
     {
+        bool Prepared { get; }
+
         /// <summary>
         /// Create other models required by this one.
+        ///
+        /// Should only be called once.
         /// </summary>
         void Prepare();
     }

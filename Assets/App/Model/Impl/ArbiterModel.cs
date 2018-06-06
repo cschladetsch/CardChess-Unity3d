@@ -35,6 +35,11 @@ namespace App.Model
             base.Create();
         }
 
+        public override void Prepare()
+        {
+            base.Prepare();
+        }
+
         public void PrepareGame(IPlayerModel w, IPlayerModel b)
         {
             _players = new List<PlayerEntry>()
@@ -48,6 +53,22 @@ namespace App.Model
             Board.Prepare();
             foreach (var entry in _players)
                 entry.Player.Prepare();
+
+            NewGame();
+        }
+
+        public void NewGame()
+        {
+            _gameState.Value = EGameState.Start;
+            Board.NewGame();
+            foreach (var p in _players)
+                p.Player.NewGame();
+        }
+
+        public void EndGame()
+        {
+            _gameState.Value = EGameState.Completed;
+            Info("EndGame");
         }
 
         public Response Arbitrate(IRequest request)
@@ -66,7 +87,7 @@ namespace App.Model
                 case EGameState.None:
                     return Response.Ok;
                 case EGameState.Start:
-                    return Response.Ok;
+                    return TryStartGame(request as StartGame);
                 case EGameState.Mulligan:
                     return TryRejectCards(request as RejectCards);
                 case EGameState.PlaceKing:
@@ -100,6 +121,21 @@ namespace App.Model
             }
 
             return NotImplemented(request);
+        }
+
+        private Response TryStartGame(StartGame startGame)
+        {
+            var entry = GetEntry(startGame.Player);
+            if (entry.Started)
+            {
+                Warn($"{entry.Player} has already startd game");
+                return Response.Fail;
+            }
+            entry.Started = true;
+            if (_players.All(p => p.Started))
+                _gameState.Value = EGameState.Mulligan;
+
+            return Response.Ok;
         }
 
         #endregion
@@ -276,6 +312,7 @@ namespace App.Model
 
         class PlayerEntry
         {
+            public bool Started;
             public bool RejectedCards;
             public bool MovedPiece;
             public readonly IPlayerModel Player;
@@ -295,7 +332,8 @@ namespace App.Model
         private List<PlayerEntry> _players;
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
-        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Mulligan);
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Start);
         #endregion
+
     }
 }

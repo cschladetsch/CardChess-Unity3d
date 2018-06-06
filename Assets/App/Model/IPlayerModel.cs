@@ -14,6 +14,7 @@ namespace App.Model
     public interface IPlayerModel
         : IModel
         , IOwner
+        , IGameActor
     {
         #region Properties
         IBoardModel Board { get; }
