@@ -54,7 +54,6 @@ namespace App
             BlackPlayerAgent.Create();
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterView.SetAgent(ArbiterAgent);
-
             ArbiterAgent.StartGame();
         }
 

@@ -14,6 +14,12 @@ namespace App.Mock.Model
     public abstract class MockModelPlayerBase
         : App.Model.PlayerModelBase
     {
+        public override void Prepare()
+        {
+            base.Prepare();
+            CreateActionList();
+        }
+
         public override void StartGame()
         {
         }
@@ -32,12 +38,6 @@ namespace App.Mock.Model
         {
             base.StartTurn();
             Hand.Add(Deck.Draw());
-        }
-
-        public override void Prepare()
-        {
-            base.Prepare();
-            CreateActionList();
         }
 
         public void RequestFailed(Guid req)

@@ -194,7 +194,7 @@ namespace App.Model
             Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
             Assert.AreEqual(act.Card.PieceType, EPieceType.King);
 
-            if (Board.GetAdjacent(act.Coord, 2).Any(k => k.Type == EPieceType.King))
+            if (Board.GetAdjacent(act.Coord, 2).Any(k => k.PieceType == EPieceType.King))
             {
                 return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
             }
@@ -336,6 +336,5 @@ namespace App.Model
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
         private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Start);
         #endregion
-
     }
 }

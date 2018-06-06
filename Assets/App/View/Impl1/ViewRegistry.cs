@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace App.View
+﻿namespace App.View
 {
     using Registry;
 

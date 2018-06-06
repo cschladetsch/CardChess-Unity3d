@@ -1,7 +1,4 @@
-﻿using System;
-using App.Common;
-
-namespace App.Common
+﻿namespace App.Common
 {
     /// <summary>
     /// Something that exists in the game. Can be a Model, an Agent, a View or

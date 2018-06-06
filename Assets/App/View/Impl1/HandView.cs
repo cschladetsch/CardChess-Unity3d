@@ -1,5 +1,4 @@
-﻿using App.Model;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 

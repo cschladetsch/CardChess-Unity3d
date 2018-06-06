@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using App.Agent;
+﻿using App.Agent;
 using Assets.App.View;
 using UniRx;
 using UnityEngine;
@@ -18,16 +17,17 @@ namespace App.View.Impl1
 
         public override void SetAgent(IPlayerAgent agent)
         {
-            SetAgent(agent);
+            Assert.IsNotNull(agent);
+            Assert.IsNotNull(ManaElementPrefab);
+            Assert.IsNotNull(Root);
+
+            base.SetAgent(agent);
 
             Player.MaxMana.Subscribe(m => Redraw(Player.Mana.Value, m)).AddTo(this);
             Player.Mana.Subscribe(m => Redraw(m, Player.MaxMana.Value)).AddTo(this);
 
-            Assert.IsNotNull(ManaElementPrefab);
-            Assert.IsNotNull(Root);
-
-            Player.Mana.DistinctUntilChanged().Subscribe(n => Redraw());
-            Player.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw());
+            Player.Mana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
+            Player.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
         }
 
         public void Clear()
@@ -42,23 +42,22 @@ namespace App.View.Impl1
             Redraw(2, 5);
         }
 
-        void Redraw()
+        private void Redraw()
         {
             Redraw(Player.Mana.Value, Player.MaxMana.Value);
         }
 
-        void Redraw(int mana, int maxMana)
+        private void Redraw(int mana, int maxMana)
         {
             Assert.IsTrue(maxMana >= mana);
             Assert.IsTrue(maxMana <= Parameters.MaxManaCap);
 
             Clear();
-            var n = 0;
-            for (; n < maxMana; ++n)
+            for (var n = 0; n < maxMana; ++n)
                 MakeManaElement(n, n <= mana);
         }
 
-        private ManaElement MakeManaElement(int n, bool active)
+        private void MakeManaElement(int n, bool active)
         {
             var elem = Instantiate(ManaElementPrefab);
             var sign = Reverse ? -1 : 1;
@@ -67,7 +66,6 @@ namespace App.View.Impl1
             elem.transform.localPosition = pos;
             elem.SetActive(active);
             elem.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
-            return elem;
         }
     }
 }
