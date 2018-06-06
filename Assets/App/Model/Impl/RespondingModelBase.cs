@@ -1,6 +1,4 @@
-﻿using System.IO.Ports;
-
-namespace App.Model
+﻿namespace App.Model
 {
     using Common;
     using Common.Message;

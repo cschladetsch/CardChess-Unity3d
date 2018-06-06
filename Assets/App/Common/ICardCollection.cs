@@ -9,6 +9,9 @@ namespace App.Common
     {
     }
 
+    /// <summary>
+    /// A generic collection of cards
+    /// </summary>
     public interface ICardCollection<TCard>
         : ICardCollectionBase
         where TCard : class

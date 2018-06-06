@@ -1,6 +1,7 @@
 ﻿namespace App.Common
 {
-    public interface IHasName : Flow.INamed
+    public interface IHasName
+        : Flow.INamed
     {
     }
 }

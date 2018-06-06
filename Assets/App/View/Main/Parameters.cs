@@ -57,5 +57,10 @@ namespace App
         /// Minimum distance to enemy king when playing a new card to the boardAgent
         /// </summary>
         public static int EnemyKingClosestPlacement = 4;
+
+        /// <summary>
+        /// How much health a player loses whenever he is forced to draw from an empty deck.
+        /// </summary>
+        public static int CardExhaustionHealthLoss = -2;
     }
 }

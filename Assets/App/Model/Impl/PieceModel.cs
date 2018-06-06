@@ -14,7 +14,7 @@ namespace App.Model
         , IPieceModel
     {
         public ICardModel Card { get; }
-        public EPieceType Type => Card.PieceType;
+        public EPieceType PieceType => Card.PieceType;
         [Inject] public IBoardModel Board { get; set; }
         public IReactiveProperty<Coord> Coord => _coord;
         public IReadOnlyReactiveProperty<int> Power => Card.Power;
@@ -59,7 +59,7 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"{Player}'s {Type} @{Coord} with {Power}/{Health}";
+            return $"{Player}'s {PieceType} @{Coord} with {Power}/{Health}";
         }
 
         private readonly ReactiveProperty<Coord> _coord = new ReactiveProperty<Coord>();

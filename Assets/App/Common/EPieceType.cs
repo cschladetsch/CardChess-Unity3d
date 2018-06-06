@@ -13,7 +13,6 @@
         Ballista,
         Gryphon,
         Dragon,
-
         Barricade,
         Siege,
     }

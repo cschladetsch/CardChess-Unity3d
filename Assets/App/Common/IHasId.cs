@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace App.Common
+﻿namespace App.Common
 {
     public interface IHasId
     {
-        Guid Id { get; set; }
+        System.Guid Id { get; /* private */ set; }
     }
 }

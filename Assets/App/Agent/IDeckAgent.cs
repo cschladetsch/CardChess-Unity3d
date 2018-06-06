@@ -2,9 +2,11 @@
 
 namespace App.Agent
 {
-    using Common;
     using Common.Message;
 
+    /// <summary>
+    /// Controller for a Deck model.
+    /// </summary>
     public interface IDeckAgent
         : IAgent<Model.IDeckModel>
     {
