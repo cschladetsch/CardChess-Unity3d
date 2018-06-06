@@ -16,7 +16,7 @@ namespace App.Registry
         : IRegistry
         where IBase
             : class
-            , IKnown
+            , IHasId
             , IHasDestroyHandler<IBase>
     {
         IEnumerable<IBase> Instances { get; }

@@ -16,10 +16,9 @@ namespace App.View.Impl1
         public Transform Root;
         public bool Reverse;
 
-        public override bool Construct(IPlayerAgent agent)
+        public override void SetAgent(IPlayerAgent agent)
         {
-            if (!base.Construct(agent))
-                return false;
+            SetAgent(agent);
 
             Player.MaxMana.Subscribe(m => Redraw(Player.Mana.Value, m)).AddTo(this);
             Player.Mana.Subscribe(m => Redraw(m, Player.MaxMana.Value)).AddTo(this);
@@ -29,8 +28,6 @@ namespace App.View.Impl1
 
             Player.Mana.DistinctUntilChanged().Subscribe(n => Redraw());
             Player.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw());
-
-            return true;
         }
 
         public void Clear()

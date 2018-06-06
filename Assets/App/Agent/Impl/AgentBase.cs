@@ -16,15 +16,14 @@ namespace App.Agent
         , IAgent<TModel>
         where TModel : class, IModel
     {
-        #region Public Properties
+        public event Action<IAgent> OnDestroyed;
         public IRegistry<IAgent> Registry { get; set; }
         public Guid Id { get; /*private*/ set; }
+        public bool IsValid { get; private set;}
         public IModel BaseModel { get; }
         public TModel Model { get; }
+        public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
-        public bool Destroyed { get; private set; }
-        public event DestroyedHandler<IAgent> OnDestroy;
-        #endregion
 
         protected AgentBase(TModel a0)
         {
@@ -35,21 +34,29 @@ namespace App.Agent
             Model = a0;
         }
 
-        public virtual void Construct()
+        public virtual void Create()
         {
+            IsValid = Model != null;
         }
 
-        #region Public Methods
+        public void SetOwner(IOwner owner)
+        {
+            Model.SetOwner(owner);
+        }
+
         public bool SameOwner(IOwned other)
         {
-            return Owner == other.Owner;
+            return Owner.Value == other.Owner.Value;
         }
 
         public void Destroy()
         {
             TransientCompleted();
-            OnDestroy?.Invoke(this);
+            if (!_destroyed.Value)
+                _destroyed.Value = true;
+            OnDestroyed?.Invoke(this);
         }
-        #endregion
+
+        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
     }
 }

@@ -19,22 +19,29 @@
         {
         }
 
-        public Response NewGame()
+        public override void Prepare()
+        {
+        }
+
+        public void NewGame()
         {
             var count = Parameters.StartHandCardCount;
             _Cards.Clear();
             if (Deck.NumCards.Value < count)
             {
                 Error($"Need more cards in {Deck}");
-                return Response.Fail;
+                return;
             }
             DrawInitialCards(count);
-            return Response.Ok;
         }
 
         protected virtual void DrawInitialCards(int count)
         {
             Add(Deck.Draw(count));
+        }
+
+        public void EndGame()
+        {
         }
     }
 }

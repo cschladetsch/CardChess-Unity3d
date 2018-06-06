@@ -13,6 +13,7 @@ namespace App.Model
     /// </summary>
     public interface IBoardModel
         : IModel
+        , IGameActor
         , IPrintable
     {
         #region Properties
@@ -23,7 +24,6 @@ namespace App.Model
         #endregion
 
         #region Methods
-        void NewGame();
         bool IsValidCoord(Coord coord);
         string CardToRep(ICardModel cardModel);
         int NumPieces(EPieceType type);
@@ -42,5 +42,6 @@ namespace App.Model
         IEnumerable<IPieceModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
         #endregion
+
     }
 }

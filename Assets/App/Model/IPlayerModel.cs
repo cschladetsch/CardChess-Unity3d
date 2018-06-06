@@ -28,7 +28,7 @@ namespace App.Model
         #endregion
 
         #region Methods
-        Response NewGame();
+        void StartGame();
         IRequest NextAction();
         Response DrawHand();
         Response CardDrawn(ICardModel card);
@@ -36,8 +36,8 @@ namespace App.Model
         void StartTurn();
         void EndTurn();
         void Result(IRequest req, IResponse response);
+        Response ChangeMana(int manaChange);
         #endregion
 
-        Response ChangeMana(int manaChange);
     }
 }

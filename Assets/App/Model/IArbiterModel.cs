@@ -10,15 +10,11 @@ namespace App.Model
     public interface IArbiterModel
         : IModel
     {
-        #region Properties
         IBoardModel Board { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
         IReadOnlyReactiveProperty<EGameState> GameState { get; }
-        #endregion
 
-        #region Methods
-        void NewGame(IPlayerModel white, IPlayerModel black);
+        void PrepareGame(IPlayerModel white, IPlayerModel black);
         Response Arbitrate(IRequest request);
-        #endregion
     }
 }

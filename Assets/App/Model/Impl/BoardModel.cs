@@ -36,10 +36,19 @@ namespace App.Model
             Height = height;
         }
 
+        public override void Prepare()
+        {
+        }
+
         public void NewGame()
         {
             ClearBoard();
             ConstructBoard();
+        }
+
+        public void EndGame()
+        {
+            ClearBoard();
         }
 
         public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
@@ -61,7 +70,7 @@ namespace App.Model
 
         public IPieceModel RemovePiece(Coord coord)
         {
-            if (!IsValid(coord))
+            if (!IsValidCoord(coord))
             {
                 Warn($"Attempt to remove from invalid {coord}");
                 return null;
@@ -71,7 +80,7 @@ namespace App.Model
             return current;
         }
 
-        public bool IsValid(Coord coord)
+        public bool IsValidCoord(Coord coord)
         {
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
@@ -151,7 +160,7 @@ namespace App.Model
 
         public IPieceModel At(Coord coord)
         {
-            Assert.IsTrue(IsValid(coord));
+            Assert.IsTrue(IsValidCoord(coord));
             return At(coord.x, coord.y);
         }
 
@@ -164,16 +173,16 @@ namespace App.Model
             return _pieces[y * Width + x];
         }
 
-        public bool IsValidCoord(Coord coord)
-        {
-            return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
-        }
+        //public bool IsValidCoordCoord(Coord coord)
+        //{
+        //    return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
+        //}
 
         public Response<IPieceModel> TryPlacePiece(PlacePiece placePiece)
         {
             Assert.IsNotNull(placePiece);
             var coord = placePiece.Coord;
-            Assert.IsTrue(IsValid(coord));
+            Assert.IsTrue(IsValidCoord(coord));
 
             if (At(coord) != null)
                 return new Response<IPieceModel>(null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot {placePiece}");
@@ -275,12 +284,12 @@ namespace App.Model
         {
             _pieces = new ReactiveCollection<IPieceModel>();
             for (var n = 0; n < Width*Height; ++n)
-                _pieces.Add(null);  // TODO: use empty PieceModels
+                _pieces.Add(null);
         }
 
         private Response Set(Coord coord, IPieceModel piece)
         {
-            Assert.IsTrue(IsValid(coord));
+            Assert.IsTrue(IsValidCoord(coord));
             _pieces[coord.y * Width + coord.x] = piece;
             if (piece != null)
                 piece.Coord.Value = coord;
@@ -309,7 +318,7 @@ namespace App.Model
                 for (var x = Math.Max(orig.x - dist, 0); x <= orig.x + dist; ++x)
                 {
                     var coord = new Coord(x, y);
-                    if (!IsValid(coord))
+                    if (!IsValidCoord(coord))
                         break;
                     if (!Equals(coord, orig))
                         yield return coord;
@@ -339,7 +348,7 @@ namespace App.Model
                 var y = n * dy;
                 var d = new Coord(x, y);
                 var c = orig + d;
-                if (!IsValid(c))
+                if (!IsValidCoord(c))
                     continue;
                 yield return c;
             }
@@ -354,5 +363,6 @@ namespace App.Model
         #region Private Fields
         private IReactiveCollection<IPieceModel> _pieces;
         #endregion
+
     }
 }

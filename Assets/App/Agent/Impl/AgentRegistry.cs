@@ -1,4 +1,5 @@
-﻿using Flow;
+﻿using System;
+using Flow;
 
 namespace App.Agent
 {
@@ -24,11 +25,10 @@ namespace App.Agent
 
         public override IAgent Prepare(IAgent agent)
         {
-            agent.OnDestroy += (a) => a.Complete();
-            //agent.Completed += (a) => (a as IAgent)?.Destroy(); //< creates a recursive cycle
+            agent.OnDestroyed += a => a.Complete();
 
             agent.Kernel = Kernel;
-            agent.Construct();
+            agent.Create();
 
             return Factory.Prepare(agent);
         }

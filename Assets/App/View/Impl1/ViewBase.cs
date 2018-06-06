@@ -1,6 +1,7 @@
 ﻿using System;
 using App.Registry;
 using CoLib;
+using UniRx;
 using UnityEngine;
 
 namespace App.View.Impl1
@@ -14,27 +15,31 @@ namespace App.View.Impl1
     /// </summary>
     public abstract class ViewBase
         : LoggingBehavior
-        , IHasId
         , IHasName
-        , IHasDestroyHandler<IViewBase>
-        , IHasRegistry<IViewBase>
+        , IViewBase
     {
-        //public ViewBase PrefabBase;
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public bool IsValid { get; protected set; }
+
+        public IRegistry<IViewBase> Registry { get; set; }
+        public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
+        public void SetOwner(IOwner owner)
+        {
+            _owner.Value = owner;
+        }
+
+        public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
+        public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
 
         private void Awake()
         {
-            _constructed = Create();
+            Create();
         }
 
         private void Start()
         {
-            if (!_constructed)
-            {
-                Warn($"Construction failed for {this}");
-                return;
-            }
-
             Begin();
         }
 
@@ -47,14 +52,13 @@ namespace App.View.Impl1
             _localTime += Time.deltaTime;
         }
 
-        protected virtual bool Create()
+        public virtual void Create()
         {
-            return true;
         }
 
         protected virtual void Begin()
         {
-            Info($"{this} Begin");
+            //Verbose(50, $"{this} Begin");
         }
 
         protected virtual void Step()
@@ -71,9 +75,13 @@ namespace App.View.Impl1
             return _localTime;
         }
 
-        protected virtual void Destroy()
+        public virtual void Destroy()
         {
             Verbose(20, $"{this} destroyed");
+            if (Destroyed.Value)
+                return;
+            OnDestroyed?.Invoke(this);
+            _destroyed.Value = true;
         }
 
         public override string ToString()
@@ -81,33 +89,26 @@ namespace App.View.Impl1
             return $"View {name} of type {GetType()}";
         }
 
-        private bool _paused;
-        private bool _constructed;
-        private float _localTime;
+        protected CoLib.CommandQueue _Queue => _queue ?? (_queue = new CommandQueue());
 
-        CoLib.CommandQueue _queue = new CommandQueue();
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public event DestroyedHandler<IViewBase> OnDestroy;
-        public IRegistry<IViewBase> Registry { get; set; }
+        private readonly ReactiveProperty<IOwner> _owner = new ReactiveProperty<IOwner>();
+        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
+        private bool _paused;
+        private float _localTime;
+        private CoLib.CommandQueue _queue;
     }
 
     public class ViewBase<TIAgent>
         : ViewBase
-        , IConstructWith<TIAgent>
         where TIAgent : IAgent
     {
         public ViewBase<TIAgent> Pefab;
         public TIAgent Agent { get; set; }
 
-        public virtual bool Construct(TIAgent agent)
+        public virtual void SetAgent(TIAgent agent)
         {
-            Assert.IsNotNull(agent);
-            if (agent == null)
-                return false;
-            Info($"{this} Construct");
+            Info($"{this} SetAgent {agent}");
             AgentBase = Agent = agent;
-            return true;
         }
     }
 }

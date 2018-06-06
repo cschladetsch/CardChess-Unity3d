@@ -17,10 +17,9 @@ namespace App.View.Impl1
 
         public IReactiveProperty<ICardAgent> Hover => _hover;
 
-        public override bool Construct(IHandAgent hand)
+        public override void SetAgent(IHandAgent hand)
         {
-            if (!base.Construct(hand))
-                return false;
+            base.SetAgent(hand);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
@@ -34,13 +33,10 @@ namespace App.View.Impl1
                 .Subscribe(_ => Pickup())
                 .AddTo(this)
                 ;
-
-            CreateHandView();
-
-            return true;
         }
 
-        void CreateHandView()
+        [ContextMenu("HandView-FromModel")]
+        public void CreateHandView()
         {
             Clear();
 
@@ -54,9 +50,9 @@ namespace App.View.Impl1
                 obj.transform.SetParent(CardsRoot);
                 obj.transform.localPosition = pos;
 
-                var agentCard = Agent.Registry.New<ICardAgent>(card);
-                agentCard.Construct(card);
-                obj.Construct(agentCard);
+                //var agentCard = Agent.Registry.New<ICardModel>(card);
+                //agentCard.SetModel(card);
+                //obj.SetAgent(agentCard);
             }
         }
 
@@ -82,7 +78,7 @@ namespace App.View.Impl1
             }
         }
 
-        [ContextMenu("CardHand-MockShow")]
+        [ContextMenu("HandView-MockShow")]
         public void MockShow()
         {
             Clear();
@@ -96,8 +92,8 @@ namespace App.View.Impl1
                 var card = Instantiate(CardViewPrefab);
                 card.transform.SetParent(CardsRoot);
                 card.transform.localPosition = pos;
-                ICardAgent agent = null;
-                card.Construct(agent);
+                ICardAgent model = null;
+                card.SetAgent(model);
             }
         }
 

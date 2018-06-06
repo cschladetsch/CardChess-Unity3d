@@ -36,9 +36,9 @@ namespace App.Agent
         {
         }
 
-        public override void Construct()
+        public override void Create()
         {
-            base.Construct();
+            base.Create();
             Assert.IsNotNull(Model);
             Assert.IsNotNull(Model.King);
             Assert.IsNotNull(Model.Deck);
@@ -47,13 +47,14 @@ namespace App.Agent
             King = Registry.New<ICardAgent>(Model.King);
             Deck = Registry.New<IDeckAgent>(Model.Deck);
             Hand = Registry.New<IHandAgent>(Model.Hand);
+
+            Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
         }
 
         public virtual ITransient StartGame()
         {
             Info($"{this} StartGame");
-            Model.NewGame();
-            Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
+            Model.StartGame();
             return null;
         }
 

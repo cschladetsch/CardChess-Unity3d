@@ -1,4 +1,5 @@
 using System;
+using App.Common.Message;
 using UniRx;
 
 namespace App.Model
@@ -15,14 +16,15 @@ namespace App.Model
         : Flow.Impl.Logger
         , IModel
     {
-        public event DestroyedHandler<IModel> OnDestroy;
-
         #region Public Properties
+        public bool IsValid { get; protected set; }
+
         public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
 
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
+        public event Action<IModel> OnDestroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
         #endregion
 
@@ -45,7 +47,11 @@ namespace App.Model
             return Owner.Value == other.Owner.Value;
         }
 
-        public virtual void CreateModels()
+        public virtual void Create()
+        {
+        }
+
+        public virtual void Prepare()
         {
         }
 
@@ -57,14 +63,11 @@ namespace App.Model
                 return;
             }
 
-            OnDestroy?.Invoke(this);
             _destroyed.Value = true;
             Id = Guid.Empty;
         }
-        #endregion
 
-        #region Protected Methods
-        protected void SetOwner(IOwner owner)
+        public void SetOwner(IOwner owner)
         {
             if (_owner.Value == owner)
                 return;
@@ -72,7 +75,9 @@ namespace App.Model
             //Verbose(20, $"{this} changes ownership from {Owner.Value} to {owner}");
             _owner.Value = owner;
         }
+        #endregion
 
+        #region Protected Methods
         protected void NotImplemented(string text)
         {
             Error($"Not {text} implemented");
@@ -91,7 +96,7 @@ static class ModelExt
     public static T AddTo<T>(this T disposable, App.Model.IModel model)
         where T : IDisposable
     {
-        model.OnDestroy += (m) => disposable.Dispose();
+        model.Destroyed.Subscribe(m => disposable.Dispose());
         return disposable;
     }
 }

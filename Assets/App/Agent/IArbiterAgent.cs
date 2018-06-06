@@ -13,7 +13,7 @@ namespace App.Agent
         IPlayerAgent WhitePlayer { get; }
         IPlayerAgent BlackPlayer { get; }
 
-        ITransient NewGame(IPlayerAgent p0, IPlayerAgent p1);
+        ITransient PrepareGame(IPlayerAgent p0, IPlayerAgent p1);
         void StartGame();
         void Step();
     }

@@ -1,7 +1,12 @@
 ﻿namespace App.Registry
 {
+    using Common;
+
     public interface IHasRegistry<IBase>
-        where IBase : class, IHasDestroyHandler<IBase>, IKnown
+        where IBase
+            : class
+            , IHasId
+            , IHasDestroyHandler<IBase>
     {
         IRegistry<IBase> Registry { get; set; }
     }

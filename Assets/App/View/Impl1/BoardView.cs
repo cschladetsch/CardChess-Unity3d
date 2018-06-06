@@ -20,7 +20,7 @@ namespace App.View.Impl1
         public int Height = 8;
         public Transform Root;
 
-        protected override bool Create()
+        public override void Create()
         {
             _squareBitMask = LayerMask.GetMask("BoardSquare");
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
@@ -31,8 +31,6 @@ namespace App.View.Impl1
             });
 
             CreateBoard();
-
-            return true;
         }
 
         [ContextMenu("Board-Clear")]
@@ -44,20 +42,17 @@ namespace App.View.Impl1
             }
         }
 
-        public override bool Construct(IBoardAgent agent)
+        public override void SetAgent(IBoardAgent agent)
         {
-            if (!base.Construct(agent))
-                return false;
+            base.SetAgent(agent);
 
             var board = Agent.Model;
             Width = board.Width;
             Height = board.Height;
-
-            return CreateBoard();
         }
 
         [ContextMenu("Board-Create")]
-        bool CreateBoard()
+        void CreateBoard()
         {
             Clear();
             var length = BlackPrefab.Length;
@@ -86,8 +81,6 @@ namespace App.View.Impl1
 
                 ++c;
             }
-
-            return true;
         }
 
         public SquareView At(int x, int y)

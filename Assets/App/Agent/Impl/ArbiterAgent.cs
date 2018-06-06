@@ -43,12 +43,12 @@ namespace App
             Kernel.Step();
         }
 
-        public ITransient NewGame(IPlayerAgent p0, IPlayerAgent p1)
+        public ITransient PrepareGame(IPlayerAgent p0, IPlayerAgent p1)
         {
             Assert.IsNotNull(p0);
             Assert.IsNotNull(p1);
 
-            Model.NewGame(p0.Model, p1.Model);
+            Model.PrepareGame(p0.Model, p1.Model);
 
             _players = new List<IPlayerAgent> {p0, p1};
             _currentPlayerIndex.Subscribe(n => _playerAgent.Value = _players[n]);
@@ -72,7 +72,7 @@ namespace App
                 New.Sequence(
                     New.Barrier(
                         NewGameWork(),
-                        Board.NewGame()
+                        Board.NewGameAction()
                     ).Named("NewGame"),
                     New.Barrier(
                         _players.Select(p => p.StartGame())

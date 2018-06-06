@@ -1,9 +1,12 @@
-﻿namespace App.Registry
-{
-    public delegate void DestroyedHandler<T>(T model);
+﻿using System;
+using UniRx;
 
-    public interface IHasDestroyHandler<T>
+namespace App.Common
+{
+    public interface IHasDestroyHandler<out T>
     {
-        event DestroyedHandler<T> OnDestroy;
+        IReadOnlyReactiveProperty<bool> Destroyed { get; }
+        event Action<T> OnDestroyed;
+        void Destroy();
     }
 }

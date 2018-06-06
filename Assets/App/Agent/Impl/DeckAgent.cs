@@ -43,7 +43,7 @@ namespace App.Agent
 
         public IFuture<Response> NewGame()
         {
-            Model.NewGame();
+            Model.Prepare();
             return null;
         }
 

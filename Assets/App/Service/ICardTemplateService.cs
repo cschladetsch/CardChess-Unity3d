@@ -12,8 +12,8 @@ namespace App.Service
         ICardTemplate GetCardTemplate(EPieceType pieceType);
         ICardTemplate GetCardTemplate(Guid id);
 
-        ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
-        ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
+        Model.ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
+        Model.ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
     }
 
 }

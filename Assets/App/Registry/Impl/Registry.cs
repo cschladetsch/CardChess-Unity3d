@@ -14,7 +14,7 @@ namespace App.Registry
         , IRegistry<IBase>
         where IBase
             : class
-            , IKnown
+            , IHasId
             , IHasRegistry<IBase>
             , IHasDestroyHandler<IBase>
     {
@@ -63,32 +63,34 @@ namespace App.Registry
             return null;
         }
 
-        public TModel New<TModel, A0>(A0 a0)
-            where TModel
-            : class, IBase, IConstructWith<A0>, IHasRegistry<TModel>,
-            IHasDestroyHandler<TModel>, new()
-        {
-            var model = New<TModel>();
-            if (model.Construct(a0))
-                return model;
-            Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
-            Remove(model);
-            return null;
-        }
+        //public TModel New<TModel, A0>(A0 a0)
+        //    where TModel
+        //        : class
+        //        , IBase
+        //        , IHasRegistry<TModel>
+        //        , IHasDestroyHandler<TModel>, new()
+        //{
+        //    var model = New<TModel>();
+        //    if (model.SetModel(a0))
+        //        return model;
+        //    Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
+        //    Remove(model);
+        //    return null;
+        //}
 
-        public TModel New<TModel, A0, A1>(A0 a0, A1 a1)
-            where TModel
-            : class, IBase, IHasRegistry<TModel>,
-            IConstructWith<A0, A1>,
-            IHasDestroyHandler<TModel>, new()
-        {
-            var model = New<TModel>();
-            if (model.Construct(a0, a1))
-                return model;
-            Error($"Failed to create instance of {typeof(TModel)} with args {a0}, {a1}");
-            Remove(model);
-            return null;
-        }
+        //public TModel New<TModel, A0, A1>(A0 a0, A1 a1)
+        //    where TModel
+        //    : class, IBase, IHasRegistry<TModel>,
+        //    IConstructWith<A0, A1>,
+        //    IHasDestroyHandler<TModel>, new()
+        //{
+        //    var model = New<TModel>();
+        //    if (model.Construct(a0, a1))
+        //        return model;
+        //    Error($"Failed to create instance of {typeof(TModel)} with args {a0}, {a1}");
+        //    Remove(model);
+        //    return null;
+        //}
 
         public bool Bind<TInterface, TImpl>()
             where TInterface
@@ -142,10 +144,9 @@ namespace App.Registry
 
             Verbose(10, $"Made a {typeof(TIBase)}");
             model.Registry = this;
-            model.OnDestroy += ModelDestroyed;
+            model.OnDestroyed += ModelDestroyed;
             return model;
         }
-
 
         public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IBase where TImpl : TInterface
         {
@@ -286,7 +287,7 @@ namespace App.Registry
                 Verbose(10, "Attempt to destroy null targetModel");
                 return;
             }
-            model.OnDestroy -= ModelDestroyed;
+            model.OnDestroyed -= ModelDestroyed;
             Remove(model);
         }
 

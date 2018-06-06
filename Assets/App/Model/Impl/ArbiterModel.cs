@@ -30,7 +30,12 @@ namespace App.Model
             LogPrefix = "Arbiter";
         }
 
-        public void NewGame(IPlayerModel w, IPlayerModel b)
+        public override void Create()
+        {
+            base.Create();
+        }
+
+        public void PrepareGame(IPlayerModel w, IPlayerModel b)
         {
             _players = new List<PlayerEntry>()
             {
@@ -40,9 +45,9 @@ namespace App.Model
             _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
             _currentPlayerIndex.Value = 0;
 
-            Board.NewGame();
+            Board.Prepare();
             foreach (var entry in _players)
-                entry.Player.NewGame();
+                entry.Player.Prepare();
         }
 
         public Response Arbitrate(IRequest request)

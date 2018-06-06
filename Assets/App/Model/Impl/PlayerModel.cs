@@ -8,5 +8,9 @@ namespace App.Model
         public PlayerModel(EColor color) : base(color)
         {
         }
+
+        public override void StartGame()
+        {
+        }
     }
 }

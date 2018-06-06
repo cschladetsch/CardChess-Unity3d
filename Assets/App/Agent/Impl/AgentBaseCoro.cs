@@ -19,8 +19,9 @@ namespace App.Agent
         {
         }
 
-        public override void Construct()
+        public override void Create()
         {
+            base.Create();
             _Coro = New.Coroutine(Next);
             _Node = New.Node(_Coro);
             Kernel.Root.Add(_Node);

@@ -17,6 +17,11 @@ namespace App.Service.Impl
         {
         }
 
+        public override void Prepare()
+        {
+            base.Prepare();
+        }
+
         public ICardTemplate GetCardTemplate(EPieceType pieceType)
         {
             var templates = Database.CardTemplates.OfType(pieceType).ToArray();
