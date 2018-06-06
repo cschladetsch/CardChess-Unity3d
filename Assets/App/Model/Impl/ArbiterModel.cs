@@ -252,8 +252,10 @@ namespace App.Model
 
             var resp = Board.TryPlacePiece(act);
             if (resp.Failed)
+            {
+                Warn($"{act} failed");
                 return resp;
-
+            }
             playerMana.Value -= manaCost.Value;
             EndTurn();
             return resp;
