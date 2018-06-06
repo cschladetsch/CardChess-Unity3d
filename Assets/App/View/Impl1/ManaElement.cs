@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.View.Impl1
 {
@@ -16,8 +12,7 @@ namespace App.View.Impl1
 
         public void SetActive(bool active)
         {
-            var rend = GetComponent<Renderer>();
-            rend.material = active ? ActiveMaterial : InactiveMaterial;
+            GetComponent<Renderer>().material = active ? ActiveMaterial : InactiveMaterial;
         }
     }
 }

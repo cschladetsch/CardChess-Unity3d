@@ -1,5 +1,4 @@
-﻿
-namespace App.View
+﻿namespace App.View
 {
     using Common;
 

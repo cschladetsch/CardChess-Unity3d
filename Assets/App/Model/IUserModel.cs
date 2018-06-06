@@ -8,13 +8,11 @@ namespace App.Model
     public interface IUserModel
         : IModel
     {
-        #region Properties
         string Handle { get; }
         string Email { get; }
 
         IDictionary<CardCollectionDesc, IList<ICardTemplate>> Decks { get; }
         IEnumerable<ICardTemplate> AllCards { get; }
         IGameHistory GameHistory { get; }
-        #endregion
     }
 }

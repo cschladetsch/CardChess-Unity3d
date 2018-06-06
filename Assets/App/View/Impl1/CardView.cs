@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace App.View.Impl1
 {
-
     public class CardView
         : ViewBase<ICardAgent>
         , ICardView

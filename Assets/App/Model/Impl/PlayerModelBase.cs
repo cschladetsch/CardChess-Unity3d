@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using App.Common.Message;
-using App.Database;
+﻿using UnityEngine;
 using UniRx;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 // Reflection deals with this
 // ReSharper disable PublicConstructorInAbstractClass
@@ -13,13 +7,16 @@ using UnityEngine.Assertions;
 namespace App.Model
 {
     using Common;
+    using Common.Message;
     using Registry;
 
+    /// <summary>
+    /// Common for all PlayerModels.
+    /// </summary>
     public abstract class PlayerModelBase
         : ModelBase
         , IPlayerModel
     {
-        #region public Fields
         public EColor Color { get; }
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
@@ -34,7 +31,6 @@ namespace App.Model
         public ICardModel King { get; private set; }
         public IPieceModel KingPiece { get; set; }
         [Inject] public Service.ICardTemplateService _CardtemplateService;
-        #endregion
 
         #region Public Methods
 
@@ -85,10 +81,12 @@ namespace App.Model
 
         public void EndGame()
         {
+            Info($"{this} EndGame");
         }
+
         public void CardExhaustion()
         {
-            King.ChangeHealth(-2);
+            King.ChangeHealth(Parameters.CardExhaustionHealthLoss);
         }
 
         public virtual void StartTurn()
@@ -100,14 +98,14 @@ namespace App.Model
 
         public void EndTurn()
         {
-            //Info($"{this} ends turn with {Mana} mana");
+            Verbose(20, $"{this} ends turn with {Mana} mana");
         }
 
         public Response CardDrawn(ICardModel card)
         {
             if (Hand.NumCards.Value == Hand.MaxCards)
-                return Common.Message.Response.Fail;
-            return Hand.Add(card) ? Common.Message.Response.Ok : Common.Message.Response.Fail;
+                return Response.Fail;
+            return Hand.Add(card) ? Response.Ok : Response.Fail;
         }
 
         public virtual void Result(IRequest req, IResponse response)

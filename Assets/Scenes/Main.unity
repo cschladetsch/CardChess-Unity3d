@@ -1652,7 +1652,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de537a29950a56a4abaa62390e37d709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ManaBar: {fileID: 1302618358}
+  ManaView: {fileID: 1302618358}
+  Hand: {fileID: 1030165180}
+  Deck: {fileID: 1151641162}
 --- !u!1 &170692290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,6 +2372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939dab88e06d4ac49be66c1a019f4867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ArbiterView: {fileID: 1907898443}
   Startup: []
 --- !u!4 &296395988
 Transform:
@@ -15305,12 +15308,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Board: {fileID: 389148}
-  WhiteHand: {fileID: 1030165180}
-  BlackHand: {fileID: 362237150}
-  WhiteDeck: {fileID: 1151641162}
-  BlackDeck: {fileID: 923239607}
+  White: {fileID: 152731633}
+  Black: {fileID: 1991825314}
   CurrentPlayerText: {fileID: 858521117}
-  Root: {fileID: 296395987}
 --- !u!1 &1912446592
 GameObject:
   m_ObjectHideFlags: 0
@@ -15909,7 +15909,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de537a29950a56a4abaa62390e37d709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ManaBar: {fileID: 1518105794}
+  ManaView: {fileID: 1518105794}
+  Hand: {fileID: 362237150}
+  Deck: {fileID: 923239607}
 --- !u!1 &1997553836
 GameObject:
   m_ObjectHideFlags: 0

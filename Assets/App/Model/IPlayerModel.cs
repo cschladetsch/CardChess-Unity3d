@@ -1,10 +1,21 @@
-﻿using System.Collections.Generic;
-using App.Common.Message;
+﻿using App.Common.Message;
 using UniRx;
 
 namespace App.Model
 {
     using Common;
+
+    struct TestAction
+    {
+        public IRequest Request;
+        public IResponse ExpectedResponse;
+
+        public TestAction(IRequest request, IResponse expectedResponse)
+        {
+            Request = request;
+            ExpectedResponse = expectedResponse;
+        }
+    }
 
     /// <summary>
     /// A Player in the game.
@@ -16,7 +27,6 @@ namespace App.Model
         , IOwner
         , IGameActor
     {
-        #region Properties
         IBoardModel Board { get; }
         IArbiterModel Arbiter { get; }
         IDeckModel Deck { get; }
@@ -26,9 +36,7 @@ namespace App.Model
         IReactiveProperty<int> MaxMana { get; }
         IReactiveProperty<int> Mana { get; }
         IReactiveProperty<int> Health { get; }
-        #endregion
 
-        #region Methods
         void StartGame();
         IRequest NextAction();
         Response DrawHand();
@@ -38,7 +46,5 @@ namespace App.Model
         void EndTurn();
         void Result(IRequest req, IResponse response);
         Response ChangeMana(int manaChange);
-        #endregion
-
     }
 }

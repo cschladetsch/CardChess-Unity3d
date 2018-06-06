@@ -21,14 +21,8 @@ namespace App.View.Impl1
         public Guid Id { get; set; }
         public string Name { get; set; }
         public bool IsValid { get; protected set; }
-
         public IRegistry<IViewBase> Registry { get; set; }
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
-        public void SetOwner(IOwner owner)
-        {
-            _owner.Value = owner;
-        }
-
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
@@ -73,6 +67,11 @@ namespace App.View.Impl1
         public float LifeTime()
         {
             return _localTime;
+        }
+
+        public void SetOwner(IOwner owner)
+        {
+            _owner.Value = owner;
         }
 
         public virtual void Destroy()

@@ -1,8 +1,4 @@
-﻿using System;
-using App.Agent;
-using App.Common;
-using App.Registry;
-using UnityEngine;
+﻿using App.Common;
 
 #pragma warning disable 649
 
@@ -18,6 +14,8 @@ namespace App.View.Impl1
 
         public override int GetHashCode()
         {
+            // this is only set once, I promise.
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
             return Coord.GetHashCode();
         }
 

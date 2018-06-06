@@ -1,5 +1,4 @@
 ﻿using App.Common;
-using UnityEngine;
 
 namespace App.View
 {

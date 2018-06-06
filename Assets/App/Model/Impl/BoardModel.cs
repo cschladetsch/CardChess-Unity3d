@@ -54,7 +54,7 @@ namespace App.Model
 
         public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
         {
-            return Pieces.Where(p => p.Type == type);
+            return Pieces.Where(p => p.PieceType == type);
         }
 
         public int NumPieces(EPieceType type)
@@ -174,11 +174,6 @@ namespace App.Model
             return _pieces[y * Width + x];
         }
 
-        //public bool IsValidCoordCoord(Coord coord)
-        //{
-        //    return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
-        //}
-
         public Response<IPieceModel> TryPlacePiece(PlacePiece placePiece)
         {
             Assert.IsNotNull(placePiece);
@@ -209,7 +204,7 @@ namespace App.Model
 
         public IEnumerable<Coord> GetMovements(IPieceModel piece, Coord coord)
         {
-            switch (piece.Type)
+            switch (piece.PieceType)
             {
                 case EPieceType.King:
                     foreach (var c in Nearby(coord, 1))

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.Registry;
-using UniRx;
 
 namespace App.Model
 {
@@ -16,14 +14,11 @@ namespace App.Model
         , IGameActor
         , IPrintable
     {
-        #region Properties
         int Width { get; }
         int Height { get; }
         IArbiterModel Arbiter { get; set; }
         IEnumerable<IPieceModel> Pieces { get; }
-        #endregion
 
-        #region Methods
         bool IsValidCoord(Coord coord);
         string CardToRep(ICardModel cardModel);
         int NumPieces(EPieceType type);
@@ -41,7 +36,5 @@ namespace App.Model
         IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
         IEnumerable<IPieceModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
-        #endregion
-
     }
 }
