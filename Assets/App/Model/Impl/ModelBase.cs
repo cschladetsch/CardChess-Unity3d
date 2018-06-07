@@ -36,7 +36,6 @@ namespace App.Model
             Verbosity = Parameters.DefaultLogVerbosity;
             ShowStack = Parameters.DefaultShowTraceStack;
             ShowSource = Parameters.DefaultShowTraceSource;
-            Id = Guid.NewGuid();
         }
 
         public bool SameOwner(IOwned other)

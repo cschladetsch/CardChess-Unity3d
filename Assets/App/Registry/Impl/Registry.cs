@@ -199,6 +199,7 @@ namespace App.Registry
 
         public virtual IBase Prepare(IBase model)
         {
+            model.Id = Guid.NewGuid();
             return model;
         }
 

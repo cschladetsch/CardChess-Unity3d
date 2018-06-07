@@ -6,7 +6,7 @@ namespace App.Agent
         : AgentBase<T>
         where T : class, IModel
     {
-        public CardColletionAgentBase(T a0) : base(a0)
+        public CardColletionAgentBase(T model) : base(model)
         {
         }
     }

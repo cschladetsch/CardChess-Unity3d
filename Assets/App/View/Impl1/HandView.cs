@@ -2,7 +2,6 @@
 using App.Common;
 using UniRx;
 using UnityEngine;
-using Assert = UnityEngine.Assertions.Assert;
 
 namespace App.View.Impl1
 {
@@ -77,7 +76,7 @@ namespace App.View.Impl1
                 view.transform.SetParent(CardsRoot);
                 view.transform.localPosition = new Vector3(xs + n * width, 0, 0);
                 view.SetAgent(Agent.Registry.New<ICardAgent>(card));
-                view.name = $"{model}";
+                view.name = $"{card}";
 
                 ++n;
             }
