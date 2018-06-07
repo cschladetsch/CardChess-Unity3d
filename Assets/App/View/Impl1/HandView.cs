@@ -1,7 +1,8 @@
 ﻿using System;
+using App.Common;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Assertions;
+using Assert = UnityEngine.Assertions.Assert;
 
 namespace App.View.Impl1
 {
@@ -14,14 +15,17 @@ namespace App.View.Impl1
         public CardView CardViewPrefab;
         public Transform CardsRoot;
         public int MockNumCards = 4;
-
         public IReactiveProperty<ICardAgent> Hover => _hover;
+
+        private EColor _color;
 
         public override void SetAgent(IHandAgent hand)
         {
             base.SetAgent(hand);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
+
+            _color = hand.Owner.Value.Color;
 
             _bitMask = LayerMask.GetMask("CardInHand");
             _hovered
@@ -30,7 +34,7 @@ namespace App.View.Impl1
                 .Subscribe(sq => _hover.Value = sq);
             Hover.Subscribe(sq =>
             {
-                if (sq != null) Info($"InHand {sq.Model} #{Time.frameCount}");
+                if (sq != null) Info($"InHand {sq.Model}");
             });
 
             //Observable.EveryUpdate()
@@ -64,18 +68,16 @@ namespace App.View.Impl1
             Clear();
 
             var width = GetCardWidth();
-            var xs = -Agent.Model.NumCards.Value / 2.0f * width + width / 2.0f;
+            var model = Agent.Model;
+            var xs = -model.NumCards.Value / 2.0f * width + width / 2.0f;
             var n = 0;
-            foreach (var card in Agent.Model.Cards)
+            foreach (var card in model.Cards)
             {
-                var pos = new Vector3(xs + n * width, 0, 0);
-                var obj = Instantiate(CardViewPrefab);
-                obj.transform.SetParent(CardsRoot);
-                obj.transform.localPosition = pos;
-
-                var agentCard = Agent.Registry.New<ICardAgent>(card);
-                obj.SetAgent(agentCard);
-                obj.name = $"{agentCard.Model}";
+                var view = Instantiate(CardViewPrefab);
+                view.transform.SetParent(CardsRoot);
+                view.transform.localPosition = new Vector3(xs + n * width, 0, 0);
+                view.SetAgent(Agent.Registry.New<ICardAgent>(card));
+                view.name = $"{model}";
 
                 ++n;
             }
@@ -97,7 +99,7 @@ namespace App.View.Impl1
             transform.position = cursorPosition;
         }
 
-        protected override void Step()
+        private void Update()
         {
             base.Step();
 
@@ -111,7 +113,8 @@ namespace App.View.Impl1
             if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _bitMask))
             {
                 var parent = hit.transform.parent.GetComponent<CardView>();
-                _hovered.Value = parent.Agent;
+                if (parent.Owner.Value.Color == _color)
+                    _hovered.Value = parent.Agent;
             }
             else
             {

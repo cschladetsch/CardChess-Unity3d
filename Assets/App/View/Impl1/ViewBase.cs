@@ -22,7 +22,8 @@ namespace App.View.Impl1
         public string Name { get; set; }
         public bool IsValid { get; protected set; }
         public IRegistry<IViewBase> Registry { get; set; }
-        public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
+        public IReadOnlyReactiveProperty<IOwner> Owner => AgentBase.Owner;
+
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
@@ -71,7 +72,7 @@ namespace App.View.Impl1
 
         public void SetOwner(IOwner owner)
         {
-            _owner.Value = owner;
+            AgentBase.SetOwner(owner);
         }
 
         public virtual void Destroy()
@@ -90,7 +91,6 @@ namespace App.View.Impl1
 
         protected CoLib.CommandQueue _Queue => _queue ?? (_queue = new CommandQueue());
 
-        private readonly ReactiveProperty<IOwner> _owner = new ReactiveProperty<IOwner>();
         private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
         private bool _paused;
         private float _localTime;
