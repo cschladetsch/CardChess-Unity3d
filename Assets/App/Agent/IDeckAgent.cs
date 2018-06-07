@@ -1,4 +1,5 @@
-﻿using Flow;
+﻿using System;
+using Flow;
 
 namespace App.Agent
 {
@@ -10,7 +11,11 @@ namespace App.Agent
     public interface IDeckAgent
         : IAgent<Model.IDeckModel>
     {
+        event Action<ICardAgent> OnDraw;
+
         IFuture<Response> NewGame();
         IFuture<ICardAgent> Draw();
+
+        void AddToBottom(ICardAgent card);
     }
 }

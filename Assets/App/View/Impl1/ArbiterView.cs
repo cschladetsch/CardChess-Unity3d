@@ -15,17 +15,8 @@ namespace App.View.Impl1
         {
             base.SetAgent(agent);
 
-            Assert.IsNotNull(agent);
-            Assert.IsNotNull(agent.WhitePlayer);
-            Assert.IsNotNull(agent.BlackPlayer);
-
             White.SetAgent(Agent.WhitePlayer);
             Black.SetAgent(Agent.BlackPlayer);
-        }
-
-        protected override void Begin()
-        {
-            base.Begin();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +7,18 @@ using Flow;
 
 namespace App.Agent
 {
-	using App.Model;
-	using App.Registry;
+    using App.Model;
+    using App.Registry;
 
-	public class DeckAgent
+    public class DeckAgent
         //: CardCollection
         : AgentBaseCoro<IDeckModel>
         , IDeckAgent
     {
+        public event Action<ICardAgent> OnDraw;
+
         public int MaxCards => Parameters.MinCardsInDeck;
-        public IEnumerable<ICardAgent> Cards => null;//base.Cards.OfType<ICardAgent>();
+        //public IEnumerable<ICardAgent> Cards => null;//base.Cards.OfType<ICardAgent>();
 
         public DeckAgent(IDeckModel model) : base(model)
         {
@@ -51,8 +54,15 @@ namespace App.Agent
         {
             var cardModel = Model.Draw();
             var futureAgent = New.Future<ICardAgent>();
-            //futureAgent.Value = Arbiter.NewCardAgent(cardModel, Owner);
+            var agent = Registry.New<ICardAgent>(cardModel);
+            OnDraw?.Invoke(agent);
+            futureAgent.Value = agent;
             return futureAgent;
+        }
+
+        public void AddToBottom(ICardAgent card)
+        {
+            Model.AddToBottom(card.Model);
         }
 
         public void Remove(ICardAgent card)
