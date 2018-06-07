@@ -25,13 +25,12 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
 
-        protected AgentBase(TModel a0)
+        protected AgentBase(TModel model)
         {
-            Assert.IsNotNull(a0);
-            Info($"{this} Construct with {a0}");
-            Id = Guid.NewGuid();
-            BaseModel = a0;
-            Model = a0;
+            Assert.IsNotNull(model);
+            Verbose(30, $"{this} Construct with {model}");
+            BaseModel = model;
+            Model = model;
         }
 
         public virtual void Create()
