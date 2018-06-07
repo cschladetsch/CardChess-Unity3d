@@ -10,7 +10,6 @@ namespace App.View.Impl1
         : ViewBase<IPlayerAgent>
         , IManaView
     {
-        public IPlayerAgent Player;
         public ManaElement ManaElementPrefab;
         public Transform Root;
         public bool Reverse;
@@ -23,11 +22,11 @@ namespace App.View.Impl1
 
             base.SetAgent(agent);
 
-            Player.MaxMana.Subscribe(m => Redraw(Player.Mana.Value, m)).AddTo(this);
-            Player.Mana.Subscribe(m => Redraw(m, Player.MaxMana.Value)).AddTo(this);
+            Agent.MaxMana.Subscribe(m => Redraw(Agent.Mana.Value, m)).AddTo(this);
+            Agent.Mana.Subscribe(m => Redraw(m, Agent.MaxMana.Value)).AddTo(this);
 
-            Player.Mana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
-            Player.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
+            Agent.Mana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
+            Agent.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
         }
 
         public void Clear()
@@ -44,7 +43,7 @@ namespace App.View.Impl1
 
         private void Redraw()
         {
-            Redraw(Player.Mana.Value, Player.MaxMana.Value);
+            Redraw(Agent.Mana.Value, Agent.MaxMana.Value);
         }
 
         private void Redraw(int mana, int maxMana)
