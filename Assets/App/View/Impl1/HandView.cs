@@ -26,10 +26,11 @@ namespace App.View.Impl1
             _bitMask = LayerMask.GetMask("CardInHand");
             _hovered
                 .DistinctUntilChanged()
+                .Throttle(TimeSpan.FromSeconds(0.05))
                 .Subscribe(sq => _hover.Value = sq);
             Hover.Subscribe(sq =>
             {
-                if (sq != null) Info($"InHand {sq.Model}");
+                if (sq != null) Info($"InHand {sq.Model} #{Time.frameCount}");
             });
 
             //Observable.EveryUpdate()
