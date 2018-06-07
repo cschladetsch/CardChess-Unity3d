@@ -9,37 +9,32 @@ namespace App.View.Impl1
 {
     using Agent;
 
+    /// <summary>
+    /// View of the play board during a game.
+    /// </summary>
     public class BoardView
         : ViewBase<IBoardAgent>
         , IBoardView
     {
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
-        public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
         public int Width = 8;
         public int Height = 8;
         public Transform Root;
+        public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
 
         public override void Create()
         {
             _squareBitMask = LayerMask.GetMask("BoardSquare");
+
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq =>
             {
                 if (sq != null)
-                    Info($"Over {sq}");
+                    Info($"Over {sq}");//.AgentBase.BaseModel}");
             });
 
             CreateBoard();
-        }
-
-        [ContextMenu("Board-Clear")]
-        public void Clear()
-        {
-            foreach (Transform tr in Root.transform)
-            {
-                Destroy(tr.gameObject);
-            }
         }
 
         public override void SetAgent(IBoardAgent agent)
@@ -49,6 +44,15 @@ namespace App.View.Impl1
             var board = Agent.Model;
             Width = board.Width;
             Height = board.Height;
+        }
+
+        [ContextMenu("Board-Clear")]
+        public void Clear()
+        {
+            foreach (Transform tr in Root.transform)
+            {
+                Destroy(tr.gameObject);
+            }
         }
 
         [ContextMenu("Board-Create")]
@@ -94,7 +98,23 @@ namespace App.View.Impl1
         {
             base.Step();
 
-            SelectBoardSquare();
+            TestRayCast();
+        }
+
+        private void TestRayCast()
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _squareBitMask))
+            {
+                var square = hit.transform.gameObject.GetComponent<SquareView>();
+                if (square != null)
+                    _hoveredSquare.Value = square;
+            }
+            else
+            {
+                _hoveredSquare.Value = null;
+            }
         }
 
         public SquareView At(Coord c)
@@ -106,23 +126,8 @@ namespace App.View.Impl1
         {
         }
 
-        private void SelectBoardSquare()
-        {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _squareBitMask))
-            {
-                var square = hit.transform.gameObject.GetComponent<SquareView>();
-                _hoveredSquare.Value = square;
-            }
-            else
-            {
-                _hoveredSquare.Value = null;
-            }
-        }
-
-        private List<SquareView> _squares;
         private int _squareBitMask;
+        private List<SquareView> _squares;
         private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
     }
