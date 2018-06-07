@@ -166,13 +166,15 @@ namespace App.Model
         {
             // TODO: set this via Rx
             MaxMana.Value = Mathf.Clamp(0, Parameters.MaxManaCap, MaxMana.Value + change);
-            return Common.Message.Response.Ok;
+            return Response.Ok;
         }
 
         public Response DrawHand()
         {
             Hand.Add(Deck.Draw(Parameters.StartHandCardCount));
-            return Common.Message.Response.Ok;
+            Hand.Add(King);
+
+            return Response.Ok;
         }
 
         #endregion

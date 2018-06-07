@@ -63,7 +63,12 @@ namespace App.Database
 
         public static ICardTemplate GetRandom()
         {
-            return _templates[_templates.Keys.ElementAt(Math.RandomRanged(0, _templates.Count))];
+            ICardTemplate tmpl;
+            do
+            {
+                tmpl = _templates[_templates.Keys.ElementAt(Math.RandomRanged(0, _templates.Count))];
+            } while (tmpl.PieceType == EPieceType.King);
+            return tmpl;
         }
 
         private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();

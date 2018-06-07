@@ -27,7 +27,7 @@ namespace App
         /// <summary>
         /// Number of cards to start with (excluding King)
         /// </summary>
-        public static int StartHandCardCount = 6;
+        public static int StartHandCardCount = 3;
         public static int MaxCardsInHand = 10;
         public static int MaxCardsInDeck = 60;
         public static int MinCardsInDeck = 30;
@@ -35,7 +35,7 @@ namespace App
         /// <summary>
         /// The maximum mana a playerAgent can have
         /// </summary>
-        public static int MaxManaCap = 14;
+        public static int MaxManaCap = 12;
 
         /// <summary>
         /// How long in seconds a playerAgent has to place King on boardAgent

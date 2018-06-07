@@ -1,4 +1,5 @@
 ﻿using App.Agent;
+using UniRx;
 using UnityEngine;
 
 namespace App.View.Impl1
@@ -7,6 +8,7 @@ namespace App.View.Impl1
         : ViewBase<ICardAgent>
         , ICardView
     {
+        public TMPro.TextMeshProUGUI Mana;
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public GameObject ModelPrefab;
@@ -16,9 +18,13 @@ namespace App.View.Impl1
         {
         }
 
-        public override void SetAgent(ICardAgent model)
+        public override void SetAgent(ICardAgent agent)
         {
-            base.SetAgent(model);
+            base.SetAgent(agent);
+
+            agent.Power.DistinctUntilChanged().Subscribe(p => Power.text = $"{p}");
+            agent.Health.DistinctUntilChanged().Subscribe(p => Health.text = $"{p}");
+            agent.Model.ManaCost.DistinctUntilChanged().Subscribe(p => Mana.text = $"{p}");
         }
     }
 }

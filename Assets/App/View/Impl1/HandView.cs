@@ -24,7 +24,10 @@ namespace App.View.Impl1
 
             _bitMask = LayerMask.GetMask("CardInHand");
             _hovered.DistinctUntilChanged().Subscribe(sq => _hover.Value = sq);
-            Hover.Subscribe(sq => Info($"Hand {sq}"));
+            Hover.Subscribe(sq =>
+            {
+                if (sq != null) Info($"InHand {sq.Model}");
+            });
 
             Observable.EveryUpdate()
                 .Where(_ => Input.GetMouseButtonDown(0))
