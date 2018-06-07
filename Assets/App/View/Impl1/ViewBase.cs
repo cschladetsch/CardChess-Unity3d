@@ -106,7 +106,7 @@ namespace App.View.Impl1
 
         public virtual void SetAgent(TIAgent agent)
         {
-            Info($"{this} SetAgent {agent}");
+            //Info($"{this} SetAgent {agent}");
             AgentBase = Agent = agent;
         }
     }

@@ -28,12 +28,12 @@
         {
             var count = Parameters.StartHandCardCount;
             _Cards.Clear();
-            if (Deck.NumCards.Value < count)
-            {
-                Error($"Need more cards in {Deck}");
-                return;
-            }
-            DrawInitialCards(count);
+            //if (Deck.NumCards.Value < count)
+            //{
+            //    Error($"Need more cards in {Deck}");
+            //    return;
+            //}
+            //DrawInitialCards(count);
         }
 
         protected virtual void DrawInitialCards(int count)
