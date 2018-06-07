@@ -32,6 +32,8 @@ namespace App.View.Impl1
                 .Subscribe(_ => Pickup())
                 .AddTo(this)
                 ;
+
+            CreateHandView();
         }
 
         [ContextMenu("HandView-FromModel")]
@@ -49,15 +51,17 @@ namespace App.View.Impl1
                 obj.transform.SetParent(CardsRoot);
                 obj.transform.localPosition = pos;
 
-                //var agentCard = Agent.Registry.New<ICardModel>(card);
-                //agentCard.SetModel(card);
-                //obj.SetAgent(agentCard);
+                var agentCard = Agent.Registry.New<ICardAgent>(card);
+                obj.SetAgent(agentCard);
+                obj.name = $"{agentCard.Model}";
+
+                ++n;
             }
         }
 
         void Pickup()
         {
-            Info($"Pickup {Hover.Value}");
+            Info($"Pickup {Hover.Value.Model}");
         }
 
         protected override void Step()

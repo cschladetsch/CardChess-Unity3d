@@ -53,8 +53,8 @@ namespace App
             WhitePlayerAgent.Create();
             BlackPlayerAgent.Create();
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
-            ArbiterView.SetAgent(ArbiterAgent);
             ArbiterAgent.StartGame();
+            ArbiterView.SetAgent(ArbiterAgent);
         }
 
         protected override void Begin()
