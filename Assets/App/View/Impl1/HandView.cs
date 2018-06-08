@@ -15,6 +15,7 @@ namespace App.View.Impl1
         public Transform CardsRoot;
         public int MockNumCards = 4;
         public IReactiveProperty<ICardAgent> Hover => _hover;
+        public Vector3 Offset;
 
         private EColor _color;
 
@@ -66,15 +67,13 @@ namespace App.View.Impl1
         {
             Clear();
 
-            var width = GetCardWidth();
             var model = Agent.Model;
-            var xs = -model.NumCards.Value / 2.0f * width + width / 2.0f;
             var n = 0;
             foreach (var card in model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);
                 view.transform.SetParent(CardsRoot);
-                view.transform.localPosition = new Vector3(xs + n * width, 0, 0);
+                view.transform.localPosition = n * Offset;
                 view.SetAgent(Agent.Registry.New<ICardAgent>(card));
                 view.name = $"{card}";
 
@@ -126,37 +125,19 @@ namespace App.View.Impl1
         {
             Clear();
 
-            var width = GetCardWidth();
-            var xs = -MockNumCards / 2.0f * width + width / 2.0f;
-
             for (int n = 0; n < MockNumCards; ++n)
             {
-                var pos = new Vector3(xs + n * width, 0, 0);
                 var card = Instantiate(CardViewPrefab);
                 card.transform.SetParent(CardsRoot);
-                card.transform.localPosition = pos;
-                ICardAgent model = null;
-                card.SetAgent(model);
+                card.transform.localPosition = n * Offset;
             }
         }
 
-        private float GetCardWidth()
-        {
-            // has to be a better way...
-            var first = Instantiate(CardViewPrefab);
-            var width = first.Width;
-            first.gameObject.SetActive(false);
-            Destroy(first.gameObject);
-            return width;
-        }
-
-        [ContextMenu("CardHand-Clear")]
+        [ContextMenu("HandView-Clear")]
         public void Clear()
         {
             foreach (Transform tr in CardsRoot.transform)
-            {
-                Destroy(tr.gameObject);
-            }
+                Unity.Destroy(tr);
         }
 
         private int _bitMask;

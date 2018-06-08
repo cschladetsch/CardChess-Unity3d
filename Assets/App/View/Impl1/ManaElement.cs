@@ -10,7 +10,7 @@ namespace App.View.Impl1
         public Material ActiveMaterial;
         public Material InactiveMaterial;
 
-        public void SetActive(bool active)
+        public void SetAvailable(bool active)
         {
             GetComponent<Renderer>().material = active ? ActiveMaterial : InactiveMaterial;
         }

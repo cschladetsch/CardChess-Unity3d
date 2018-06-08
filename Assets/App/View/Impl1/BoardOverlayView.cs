@@ -19,11 +19,7 @@ namespace App.View.Impl1
         public void Clear()
         {
             foreach (Transform tr in transform)
-#if UNITY_EDITOR
-                DestroyImmediate(tr.gameObject);
-#else
-                Destroy(tr.gameObject);
-#endif
+                Unity.Destroy(tr);
         }
 
         [ContextMenu("BoardOverlay-Mock")]
