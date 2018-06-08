@@ -28,6 +28,8 @@ namespace App.View.Impl1
         public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
 
+        public GameObject GameObject => gameObject;
+
         private void Awake()
         {
             Create();

@@ -7,6 +7,6 @@ namespace App.View
     public interface IHandView
         : IView<IHandAgent>
     {
-        IReactiveProperty<ICardAgent> Hover { get; }
+        //IReactiveProperty<ICardAgent> Hover { get; }
     }
 }
