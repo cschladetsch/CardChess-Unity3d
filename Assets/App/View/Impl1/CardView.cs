@@ -34,25 +34,36 @@ namespace App.View.Impl1
 
         #region UnityCallbacks
 
+        private float _scaleTime = 0.230f;
         private void OnMouseEnter()
         {
-            //Info($"Enter {Agent.Model}");
-        }
-
-        private void OnMouseOver()
-        {
-            if (_dragging)
-                return;
-            //Info($"Over {Agent.Model}");
-            _mouseOver.Value = this;
+            if (ScaleTo(1.5f))
+                _mouseOver.Value = this;
         }
 
         private void OnMouseExit()
         {
+            if (ScaleTo(1.0f))
+                _mouseOver.Value = null;
+        }
+
+        private bool ScaleTo(float scale)
+        {
             if (_dragging)
-                return;
-            //Info($"NotOver {Agent.Model}");
-            _mouseOver.Value = null;
+                return false;
+            _Queue.RunToEnd();
+            _Queue.Enqueue(
+                Commands.ScaleTo(
+                    gameObject,
+                    scale,
+                    _scaleTime
+                )
+            );
+            return true;
+        }
+
+        private void OnMouseOver()
+        {
         }
 
         private void OnMouseDown()
@@ -64,7 +75,10 @@ namespace App.View.Impl1
                           new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
 
             _Queue.Enqueue(
-                Commands.AlphaTo(_backgroundColor, 0, _imageAlphaAnimDuration, Ease.Smooth())
+                Commands.Parallel(
+                    Commands.ScaleTo( gameObject, 1, _scaleTime ),
+                    Commands.AlphaTo(_backgroundColor, 0, _imageAlphaAnimDuration, Ease.Smooth())
+                )
             );
         }
 
@@ -88,11 +102,11 @@ namespace App.View.Impl1
                     Commands.MoveTo(
                         transform,
                         _startLocation,
-                        0.23,
+                        0.34,
                         Ease.Smooth()
-                    ),
-                    Commands.Do(() => _dragging = false)
-                )
+                    )
+                ),
+                Commands.Do(() => _dragging = false)
             );
         }
         #endregion

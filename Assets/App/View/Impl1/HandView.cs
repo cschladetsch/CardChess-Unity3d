@@ -68,31 +68,18 @@ namespace App.View.Impl1
                 tr.localPosition = n * Offset;
                 view.SetAgent(Agent.Registry.New<ICardAgent>(card));
                 view.GameObject.name = $"{card}";
-                view.MouseOver.Scan((a,b) =>
-                {
-                    _Queue.Enqueue(Commands.Parallel(
-                        Unhover(b), Hover(a)));
-                    return a;
-                });
                 _cards.Add(view);
                 ++n;
             }
         }
 
-        private CommandDelegate Unhover(ICardView card)
-        {
-            return Commands.ScaleTo(
-                    card.GameObject,
-                    1.0f,
-                    1.0
-            );
-        }
+        private IReactiveProperty<ICardView> _scaled;
 
-        private CommandDelegate Hover(ICardView card)
+        private CommandDelegate ScaleTo(ICardView card, float scale)
         {
             return Commands.ScaleTo(
                     card.GameObject,
-                    1.5f,
+                    scale,
                     1.0
             );
         }
