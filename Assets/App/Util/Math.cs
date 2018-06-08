@@ -30,11 +30,10 @@ namespace App
 
         public static void Destroy(GameObject go)
         {
-#if UNITY_EDITOR
+            if (Application.isEditor)
                 UnityEngine.Object.DestroyImmediate(go);
-#else
+            else
                 UnityEngine.Object.Destroy(go);
-#endif
         }
     }
 }
