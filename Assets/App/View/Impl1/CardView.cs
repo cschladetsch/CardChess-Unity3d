@@ -16,12 +16,11 @@ namespace App.View.Impl1
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public Image Image;
-        public IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOverFilter;
+        public IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
         public override void Create()
         {
             _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
-            _mouseOver.AsObservable().DistinctUntilChanged().Subscribe(p => _mouseOverFilter.Value = p).AddTo(this);
         }
 
         public override void SetAgent(ICardAgent agent)
@@ -37,21 +36,26 @@ namespace App.View.Impl1
 
         private void OnMouseEnter()
         {
-            Info($"Enter {Agent.Model}");
+            //Info($"Enter {Agent.Model}");
         }
 
         private void OnMouseOver()
         {
+            if (_dragging)
+                return;
             _mouseOver.Value = this;
         }
 
         private void OnMouseExit()
         {
-            Info($"Exit {Agent.Model}");
+            if (_dragging)
+                return;
+            _mouseOver.Value = null;
         }
 
         private void OnMouseDown()
         {
+            _dragging = true;
             _startLocation = transform.position;
             _screenPoint = Camera.main.WorldToScreenPoint(transform.position);
             _offset = transform.position - Camera.main.ScreenToWorldPoint(
@@ -64,6 +68,7 @@ namespace App.View.Impl1
 
         private void OnMouseDrag()
         {
+            _dragging = true;
             var cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
             var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
             transform.position = cursorPosition;
@@ -83,18 +88,19 @@ namespace App.View.Impl1
                         _startLocation,
                         0.23,
                         Ease.Smooth()
-                    )
+                    ),
+                    Commands.Do(() => _dragging = false)
                 )
             );
         }
         #endregion
 
+        private bool _dragging;
         private Vector3 _startLocation;
         private Vector3 _screenPoint;
         private Vector3 _offset;
         private double _imageAlphaAnimDuration = 0.5;
         private Ref<Color> _backgroundColor;
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
-        private readonly ReactiveProperty<ICardView> _mouseOverFilter = new ReactiveProperty<ICardView>();
     }
 }
