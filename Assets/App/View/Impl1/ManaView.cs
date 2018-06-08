@@ -12,7 +12,7 @@ namespace App.View.Impl1
     {
         public ManaElement ManaElementPrefab;
         public Transform Root;
-        public bool Reverse;
+        public Vector2 Offset;
 
         public override void SetAgent(IPlayerAgent agent)
         {
@@ -29,10 +29,15 @@ namespace App.View.Impl1
             Agent.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
         }
 
+        [ContextMenu("ManaBar-Clear")]
         public void Clear()
         {
             foreach (Transform tr in Root)
+#if UNITY_EDITOR
+                DestroyImmediate(tr.gameObject);
+#else
                 Destroy(tr.gameObject);
+#endif
         }
 
         [ContextMenu("ManaBar-MockDraw")]
@@ -52,19 +57,22 @@ namespace App.View.Impl1
             Assert.IsTrue(maxMana <= Parameters.MaxManaCap);
 
             Clear();
+
             for (var n = 0; n < maxMana; ++n)
-                MakeManaElement(n, n <= mana);
+            {
+                var active = n < mana;
+                var elem = Instantiate(ManaElementPrefab);
+                var offset = n * Offset;
+                var pos = new Vector3(offset.x, offset.y, 0);
+                elem.transform.SetParent(Root);
+                elem.transform.localPosition = pos;
+                elem.SetAvailable(active);
+                elem.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+            }
         }
 
         private void MakeManaElement(int n, bool active)
         {
-            var elem = Instantiate(ManaElementPrefab);
-            var sign = Reverse ? -1 : 1;
-            var pos = new Vector3(n * elem.Width*sign, 0, 0);
-            elem.transform.SetParent(Root);
-            elem.transform.localPosition = pos;
-            elem.SetActive(active);
-            elem.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
         }
     }
 }

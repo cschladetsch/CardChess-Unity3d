@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using Random = System.Random;
 
 namespace App
 {
@@ -16,6 +17,24 @@ namespace App
         public static int Clamp(int min, int max, int val)
         {
             return val < min ? min : (val > max ? max : val);
+        }
+    }
+
+    public static class Unity
+    {
+        public static void Destroy(Transform tr)
+        {
+            if (tr != null)
+                Destroy(tr.gameObject);
+        }
+
+        public static void Destroy(GameObject go)
+        {
+#if UNITY_EDITOR
+                UnityEngine.Object.DestroyImmediate(go);
+#else
+                UnityEngine.Object.Destroy(go);
+#endif
         }
     }
 }

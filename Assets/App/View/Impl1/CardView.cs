@@ -20,6 +20,11 @@ namespace App.View.Impl1
 
         public override void SetAgent(ICardAgent agent)
         {
+            #if UNITY_EDITOR
+            if (agent == null)
+                return;
+            #endif
+
             base.SetAgent(agent);
 
             agent.Power.DistinctUntilChanged().Subscribe(p => Power.text = $"{p}");
