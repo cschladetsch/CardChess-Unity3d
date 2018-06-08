@@ -22,10 +22,6 @@ namespace App.View.Impl1
         public override void SetAgent(IDeckAgent agent)
         {
             base.SetAgent(agent);
-            //Assert.IsNotNull(Agent.Owner.Value as IPlayerAgent);
-            //ShowDeck();
-
-            //agent.OnDraw += DrawTop();
         }
 
         void Clear()
@@ -39,10 +35,10 @@ namespace App.View.Impl1
         {
             Clear();
 
-            int nx = 0;
+            var nx = 0;
             var owner = Agent.Owner.Value as IPlayerAgent;
             Assert.IsNotNull(owner);
-            float dx = owner.Color == EColor.Black ? DeltaX : -DeltaX;
+            var dx = owner.Color == EColor.Black ? DeltaX : -DeltaX;
             foreach (var card in Agent.Model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);
