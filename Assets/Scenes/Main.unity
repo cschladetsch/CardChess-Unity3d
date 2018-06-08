@@ -371,7 +371,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4317538025777712, guid: 8da89c2da82a9ac47b897a2b500501a4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -3.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4317538025777712, guid: 8da89c2da82a9ac47b897a2b500501a4, type: 2}
       propertyPath: m_LocalRotation.x
@@ -397,6 +397,16 @@ Prefab:
       propertyPath: m_Name
       value: CardView (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114204544403389608, guid: 8da89c2da82a9ac47b897a2b500501a4,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204544403389608, guid: 8da89c2da82a9ac47b897a2b500501a4,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114677495925274708, guid: 8da89c2da82a9ac47b897a2b500501a4,
         type: 2}
       propertyPath: m_havePropertiesChanged
@@ -413,16 +423,6 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114409618072000246, guid: 8da89c2da82a9ac47b897a2b500501a4,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114204544403389608, guid: 8da89c2da82a9ac47b897a2b500501a4,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114204544403389608, guid: 8da89c2da82a9ac47b897a2b500501a4,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -844,8 +844,7 @@ MonoBehaviour:
   Mana: {fileID: 1310843740}
   Health: {fileID: 1060043193}
   Power: {fileID: 3923711}
-  ModelPrefab: {fileID: 1402232134}
-  Width: 1.7
+  Image: {fileID: 0}
 --- !u!4 &526000587
 Transform:
   m_ObjectHideFlags: 0
@@ -2382,8 +2381,7 @@ MonoBehaviour:
   Mana: {fileID: 1584355544}
   Health: {fileID: 2120968463}
   Power: {fileID: 1810386620}
-  ModelPrefab: {fileID: 575692442}
-  Width: 1.7
+  Image: {fileID: 0}
 --- !u!4 &1794898236
 Transform:
   m_ObjectHideFlags: 0

@@ -53,11 +53,11 @@ namespace App.View.Impl1
 
         protected virtual void Begin()
         {
-            //Verbose(50, $"{this} Begin");
         }
 
         protected virtual void Step()
         {
+            _queue?.Update(Time.deltaTime);
         }
 
         public void Pause(bool pause = true)

@@ -53,14 +53,14 @@ namespace App.Agent
 
         public virtual ITransient StartGame()
         {
-            Info($"{this} StartGame");
+            Verbose(60, $"{Model} StartGame");
             Model.StartGame();
             return null;
         }
 
         public ITransient DrawInitialCards()
         {
-            Info($"{this} Draws first cards");
+            Verbose(60, $"{Model} Draws first cards");
             Model.DrawHand();
             return null;
         }
