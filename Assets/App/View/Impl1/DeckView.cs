@@ -16,6 +16,7 @@ namespace App.View.Impl1
 
         protected override void Begin()
         {
+            Clear();
         }
 
         public override void SetAgent(IDeckAgent agent)

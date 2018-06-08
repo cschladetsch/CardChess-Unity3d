@@ -60,7 +60,7 @@ namespace App.View.Impl1
 
             for (var n = 0; n < maxMana; ++n)
             {
-                var active = n < mana;
+                var active = n <= mana;
                 var elem = Instantiate(ManaElementPrefab);
                 var offset = n * Offset;
                 var pos = new Vector3(offset.x, offset.y, 0);

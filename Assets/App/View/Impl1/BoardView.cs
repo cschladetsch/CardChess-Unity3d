@@ -34,6 +34,7 @@ namespace App.View.Impl1
                     Info($"Over {sq}");//.AgentBase.BaseModel}");
             });
 
+            Clear();
             CreateBoard();
         }
 
@@ -51,7 +52,7 @@ namespace App.View.Impl1
         {
             foreach (Transform tr in Root.transform)
             {
-                Destroy(tr.gameObject);
+                Unity.Destroy(tr.gameObject);
             }
         }
 

@@ -45,6 +45,7 @@ namespace App.View.Impl1
             //    .AddTo(this)
             //    ;
 
+            Clear();
             CreateHandView();
         }
 

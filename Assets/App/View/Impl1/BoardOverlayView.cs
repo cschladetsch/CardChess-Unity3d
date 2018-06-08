@@ -15,6 +15,12 @@ namespace App.View.Impl1
         public BoardOverlaySquareView BoardOverlaySquareViewPrefab;
         public float Zoffset = 1;
 
+        protected override void Begin()
+        {
+            base.Begin();
+            Clear();
+        }
+
         [ContextMenu("BoardOverlay-Clear")]
         public void Clear()
         {
