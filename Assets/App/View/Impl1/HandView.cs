@@ -1,4 +1,6 @@
-﻿using CoLib;
+﻿using System.Collections.Generic;
+using App.Model;
+using CoLib;
 using UnityEngine;
 
 using UniRx;
@@ -27,6 +29,29 @@ namespace App.View.Impl1
 
             Clear();
             CreateHandView();
+
+            // TODO: hand.Cards, not hand.Model.Cards
+            hand.Model.Cards.ObserveAdd().Subscribe(Add);
+            hand.Model.Cards.ObserveRemove().Subscribe(Remove);
+
+            _cards.ObserveCountChanged().Subscribe(_ => Redraw());
+        }
+
+        void Redraw()
+        {
+            CreateHandView();
+        }
+
+        void Add(CollectionAddEvent<ICardModel> add)
+        {
+            _cards.Insert(add.Index, Registry.New<ICardView>(add.Value));
+        }
+
+        void Remove(CollectionRemoveEvent<ICardModel> card)
+        {
+            var view = _cards[card.Index];
+            view.Destroy();
+            _cards.RemoveAt(card.Index);
         }
 
         public void CreateHandView()
@@ -37,25 +62,38 @@ namespace App.View.Impl1
             var n = 0;
             foreach (var card in model.Cards)
             {
-                var view = Instantiate(CardViewPrefab);
-                view.transform.SetParent(CardsRoot);
-                view.transform.localPosition = n * Offset;
+                var view = Instantiate(CardViewPrefab) as ICardView;
+                var tr = view.GameObject.transform;
+                tr.SetParent(CardsRoot);
+                tr.localPosition = n * Offset;
                 view.SetAgent(Agent.Registry.New<ICardAgent>(card));
-                view.name = $"{card}";
-                //CurrentHover.DistinctUntilChanged().Subscribe(Hover);
-
+                view.GameObject.name = $"{card}";
+                view.MouseOver.Scan((a,b) =>
+                {
+                    _Queue.Enqueue(Commands.Parallel(
+                        Unhover(b), Hover(a)));
+                    return a;
+                });
+                _cards.Add(view);
                 ++n;
             }
         }
 
-        private void Hover(ICardView card)
+        private CommandDelegate Unhover(ICardView card)
         {
-            _Queue.Enqueue(
-                Commands.ScaleTo(
+            return Commands.ScaleTo(
+                    card.GameObject,
+                    1.0f,
+                    1.0
+            );
+        }
+
+        private CommandDelegate Hover(ICardView card)
+        {
+            return Commands.ScaleTo(
                     card.GameObject,
                     1.5f,
                     1.0
-                )
             );
         }
 
@@ -65,5 +103,7 @@ namespace App.View.Impl1
             foreach (Transform tr in CardsRoot.transform)
                 Unity.Destroy(tr);
         }
+
+        private ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
     }
 }

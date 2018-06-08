@@ -43,6 +43,7 @@ namespace App.View.Impl1
         {
             if (_dragging)
                 return;
+            //Info($"Over {Agent.Model}");
             _mouseOver.Value = this;
         }
 
@@ -50,6 +51,7 @@ namespace App.View.Impl1
         {
             if (_dragging)
                 return;
+            //Info($"NotOver {Agent.Model}");
             _mouseOver.Value = null;
         }
 
