@@ -5,7 +5,7 @@ using CoLib;
 
 namespace App.View
 {
-    public class CardBackgroundView
+    public class CardBackgroundViewXxxx
         : ViewBase
     {
         protected override void Begin()
@@ -22,6 +22,9 @@ namespace App.View
 
         double duration = 0.23;
 
+        void OnMouseOver()
+        {
+        }
         void OnMouseDown()
         {
             var c = _renderer.material.color;

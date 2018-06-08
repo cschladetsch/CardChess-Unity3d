@@ -35,5 +35,24 @@ namespace App
             else
                 UnityEngine.Object.Destroy(go);
         }
+
+        public static void SetX(this Transform v, float x)
+        {
+            var p = v.position;
+            p.x = x;
+            v.position = p;
+        }
+        public static void SetY(this Transform v, float y)
+        {
+            var p = v.position;
+            p.y = y;
+            v.position = p;
+        }
+        public static void SetZ(this Transform v, float z)
+        {
+            var p = v.position;
+            p.z = z;
+            v.position = p;
+        }
     }
 }

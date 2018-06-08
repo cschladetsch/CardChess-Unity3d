@@ -35,7 +35,7 @@ namespace App.View.Impl1
             _startLocation = transform.position;
             _screenPoint = Camera.main.WorldToScreenPoint(transform.position);
             _offset = transform.position - Camera.main.ScreenToWorldPoint(
-                new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
+                          new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
 
             _Queue.Enqueue(
                 Commands.AlphaTo(_backgroundColor, 0, _imageAlphaAnimDuration, Ease.Smooth())
@@ -47,6 +47,7 @@ namespace App.View.Impl1
             var cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
             var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
             transform.position = cursorPosition;
+            transform.SetZ(-0.5f);
         }
 
         void OnMouseUp()
