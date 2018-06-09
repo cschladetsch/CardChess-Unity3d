@@ -26,7 +26,7 @@ namespace App.View
         : IViewBase
         where TIAgent : IAgent
     {
-        TIAgent Agent { get; set; }
+        TIAgent Agent { get; }
         void SetAgent(IPlayerView player, TIAgent agent);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using App.Agent;
 using App.Common;
 using App.Common.Message;
+using App.Registry;
 
 namespace App.View.Impl1
 {
@@ -15,6 +17,8 @@ namespace App.View.Impl1
         public ManaView ManaView;
         public HandView Hand;
         public DeckView Deck;
+
+        [Inject] public IArbiterView ArbiterView;
 
         public override void SetAgent(IPlayerView view, IPlayerAgent agent)
         {
@@ -32,6 +36,22 @@ namespace App.View.Impl1
         public void NewRequest(IRequest request, Action<IResponse> response)
         {
             Info($"{request}");
+            _requests.Add(new Turnaround(request, response));
+
         }
+
+        class Turnaround
+        {
+            public IRequest Request;
+            public Action<IResponse> Responder;
+
+            public Turnaround(IRequest request, Action<IResponse> responder)
+            {
+                Request = request;
+                Responder = responder;
+            }
+        }
+
+        private readonly List<Turnaround> _requests = new List<Turnaround>();
     }
 }
