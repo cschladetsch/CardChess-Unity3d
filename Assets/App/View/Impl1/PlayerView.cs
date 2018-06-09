@@ -36,22 +36,7 @@ namespace App.View.Impl1
         public void NewRequest(IRequest request, Action<IResponse> response)
         {
             Info($"{request}");
-            _requests.Add(new Turnaround(request, response));
-
+            Agent.PushRequest(new Turnaround(request, response));
         }
-
-        class Turnaround
-        {
-            public IRequest Request;
-            public Action<IResponse> Responder;
-
-            public Turnaround(IRequest request, Action<IResponse> responder)
-            {
-                Request = request;
-                Responder = responder;
-            }
-        }
-
-        private readonly List<Turnaround> _requests = new List<Turnaround>();
     }
 }

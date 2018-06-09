@@ -71,9 +71,16 @@ namespace App.Agent
         public abstract ITimedFuture<IRequest> NextRequest(float seconds);
         public abstract ITransient TurnEnd();
 
+        public void PushRequest(Turnaround req)
+        {
+            _Requests.Add(req);
+        }
+
         protected override IEnumerator Next(IGenerator self)
         {
             yield break;
         }
+
+        protected readonly List<Turnaround> _Requests = new List<Turnaround>();
     }
 }
