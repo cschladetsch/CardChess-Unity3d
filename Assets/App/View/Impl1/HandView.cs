@@ -21,9 +21,9 @@ namespace App.View.Impl1
 
         private ReactiveProperty<ICardView> CurrentHover = new ReactiveProperty<ICardView>();
 
-        public override void SetAgent(IHandAgent hand)
+        public override void SetAgent(IPlayerView view, IHandAgent hand)
         {
-            base.SetAgent(hand);
+            base.SetAgent(view, hand);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
@@ -62,11 +62,12 @@ namespace App.View.Impl1
             var n = 0;
             foreach (var card in model.Cards)
             {
-                var view = Instantiate(CardViewPrefab) as ICardView;
+                var view = ViewRegistry.FromPrefab<ICardView, ICardAgent, ICardModel>(
+                    Player, CardViewPrefab, card);
+
                 var tr = view.GameObject.transform;
                 tr.SetParent(CardsRoot);
                 tr.localPosition = n * Offset;
-                view.SetAgent(Agent.Registry.New<ICardAgent>(card));
                 view.GameObject.name = $"{card}";
                 _cards.Add(view);
                 ++n;

@@ -35,7 +35,7 @@ namespace App.Agent
 
         public virtual void Create()
         {
-            IsValid = Model != null;
+            IsValid = Model != null && Id != Guid.Empty;
         }
 
         public void SetOwner(IOwner owner)

@@ -22,17 +22,24 @@ namespace App.View.Impl1
         public string Name { get; set; }
         public bool IsValid { get; protected set; }
         public IRegistry<IViewBase> Registry { get; set; }
+        public IViewRegistry ViewRegistry => Registry as IViewRegistry;
         public IReadOnlyReactiveProperty<IOwner> Owner => AgentBase.Owner;
-
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
-
+        public IPlayerView Player { get; set; }
         public GameObject GameObject => gameObject;
 
         private void Awake()
         {
             Create();
+        }
+
+        public virtual void SetAgent(IPlayerView player, IAgent agent)
+        {
+            Player = player;
+            Assert.IsNotNull(agent);
+            AgentBase = agent;
         }
 
         private void Start()
@@ -101,15 +108,16 @@ namespace App.View.Impl1
 
     public class ViewBase<TIAgent>
         : ViewBase
+            , IView<TIAgent>
         where TIAgent : IAgent
     {
         public ViewBase<TIAgent> Pefab;
         public TIAgent Agent { get; set; }
 
-        public virtual void SetAgent(TIAgent agent)
+        public virtual void SetAgent(IPlayerView player, TIAgent agent)
         {
-            //Info($"{this} SetAgent {agent}");
-            AgentBase = Agent = agent;
+            base.SetAgent(player, agent);
+            Agent = agent;
         }
     }
 }

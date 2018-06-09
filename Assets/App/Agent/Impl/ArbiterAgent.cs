@@ -26,10 +26,10 @@ namespace App
         , IArbiterAgent
     {
         public IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent => _playerAgent;
-        public IReadOnlyReactiveProperty<IPlayerModel> Player { get; private set; }
+        public IReadOnlyReactiveProperty<IPlayerModel> PlayerModel { get; private set; }
         [Inject] public IBoardAgent BoardAgent { get; set; }
-        public IPlayerAgent WhitePlayer => _players[0];
-        public IPlayerAgent BlackPlayer => _players[1];
+        public IPlayerAgent WhitePlayerAgent => _players[0];
+        public IPlayerAgent BlackPlayerAgent => _players[1];
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -53,7 +53,7 @@ namespace App
             _players = new List<IPlayerAgent> {p0, p1};
             _currentPlayerIndex.Subscribe(n => _playerAgent.Value = _players[n]);
             _currentPlayerIndex.Value = 0;
-            Player = PlayerAgent.Select(x => x.Model).ToReactiveProperty();
+            PlayerModel = PlayerAgent.Select(x => x.Model).ToReactiveProperty();
 
             // TODO: do some animations etc
             return null;
@@ -67,6 +67,9 @@ namespace App
         public void StartGame()
         {
             Info($"{this} StartGame");
+            _Node.Add(GameLoop());
+            return;
+            /*
 
             _Node.Add(
                 New.Sequence(
@@ -81,6 +84,7 @@ namespace App
                 New.Log("Entering main game loop..."),
                 GameLoop()
             );
+            */
         }
 
         private IGenerator StartGameCoro()
@@ -121,9 +125,9 @@ namespace App
 
         private IEnumerator PlayerTurn(IGenerator self)
         {
-            Assert.AreSame(Player, Model.CurrentPlayer);
+            Assert.AreSame(PlayerModel, Model.CurrentPlayer);
 
-            Player.Value.StartTurn();
+            PlayerModel.Value.StartTurn();
 
             var timeOut = Parameters.GameTurnTimer;
             var timeStart = Kernel.Time.Now;
@@ -134,30 +138,30 @@ namespace App
                 var request = PlayerAgent.Value.NextRequest(timeOut);
                 if (request == null)
                 {
-                    Warn($"{Player} passed");
+                    Warn($"{PlayerModel} passed");
                     break;
                 }
                 yield return self.After(request);
 
                 if (request.HasTimedOut)
                 {
-                    Warn($"{Player} timed-out");
+                    Warn($"{PlayerModel} timed-out");
                     yield return self.After(New.Coroutine(PlayerTimedOut));
                     break;
                 }
                 if (!request.Available)
-                    Warn($"{Player} didn't make a request");
+                    Warn($"{PlayerModel} didn't make a request");
 
                 // do the arbitration before we test for time out
                 var response = Model.Arbitrate(request.Value);
                 if (response.Failed)
-                    Warn($"Request {request.Value} failed for {Player}");
+                    Warn($"Request {request.Value} failed for {PlayerModel}");
 
                 var now = Kernel.Time.Now;
                 var dt = (float)(now - timeStart).TotalSeconds;
                 if (dt < 1.0f/60.0f)    // give them a 60Hz frame of grace
                 {
-                    Warn($"{Player} ran out of time for turn");
+                    Warn($"{PlayerModel} ran out of time for turn");
                     break;
                 }
 
@@ -175,7 +179,7 @@ namespace App
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
         {
-            Warn($"{Player} TimedOut");
+            Warn($"{PlayerModel} TimedOut");
             yield break;
         }
 

@@ -8,10 +8,10 @@ namespace App.Agent
         : IAgent<IArbiterModel>
     {
         IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent { get; }
-        IReadOnlyReactiveProperty<IPlayerModel> Player { get; }
+        IReadOnlyReactiveProperty<IPlayerModel> PlayerModel { get; }
         IBoardAgent BoardAgent { get; }
-        IPlayerAgent WhitePlayer { get; }
-        IPlayerAgent BlackPlayer { get; }
+        IPlayerAgent WhitePlayerAgent { get; }
+        IPlayerAgent BlackPlayerAgent { get; }
 
         ITransient PrepareGame(IPlayerAgent p0, IPlayerAgent p1);
         void StartGame();

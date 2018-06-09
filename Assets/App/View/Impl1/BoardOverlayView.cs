@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using App.Common;
 using UnityEngine;
-using UnityEngine.UI;
-
-using CoLib;
-using Flow;
 
 namespace App.View.Impl1
 {

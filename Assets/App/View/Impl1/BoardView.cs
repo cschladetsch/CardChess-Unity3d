@@ -38,9 +38,9 @@ namespace App.View.Impl1
             CreateBoard();
         }
 
-        public override void SetAgent(IBoardAgent agent)
+        public override void SetAgent(IPlayerView view, IBoardAgent agent)
         {
-            base.SetAgent(agent);
+            base.SetAgent(view, agent);
 
             var board = Agent.Model;
             Width = board.Width;
@@ -102,7 +102,7 @@ namespace App.View.Impl1
             TestRayCast();
         }
 
-        private void TestRayCast()
+        public ISquareView TestRayCast(Vector3 screen)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -110,12 +110,19 @@ namespace App.View.Impl1
             {
                 var square = hit.transform.gameObject.GetComponent<SquareView>();
                 if (square != null)
-                    _hoveredSquare.Value = square;
+                    return _hoveredSquare.Value = square;
             }
             else
             {
-                _hoveredSquare.Value = null;
+                return _hoveredSquare.Value = null;
             }
+
+            return null;
+        }
+
+        private ISquareView TestRayCast()
+        {
+            return TestRayCast(Input.mousePosition);
         }
 
         public SquareView At(Coord c)
