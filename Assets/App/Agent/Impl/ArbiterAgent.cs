@@ -2,15 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using App.Common;
 using Flow;
 using UniRx;
 
 namespace App
 {
     using Common.Message;
+    using Common;
     using Registry;
-    using Service;
     using Agent;
     using Model;
 
@@ -165,13 +164,6 @@ namespace App
                 timeStart = now;
                 timeOut -= dt;
             }
-
-            NextPlayer();
-        }
-
-        private void NextPlayer()
-        {
-            _playerIndex = (_playerIndex + 1) % _players.Count;
         }
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
@@ -229,7 +221,6 @@ namespace App
             yield return null;
         }
 
-        private int _playerIndex = 0;
         private List<IPlayerAgent> _players = new List<IPlayerAgent>();
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();

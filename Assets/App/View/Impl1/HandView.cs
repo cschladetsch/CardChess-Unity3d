@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using App.Model;
+﻿using App.Model;
 using CoLib;
 using UnityEngine;
 
@@ -19,8 +18,6 @@ namespace App.View.Impl1
         public int MockNumCards = 4;
         public Vector3 Offset;
 
-        private ReactiveProperty<ICardView> CurrentHover = new ReactiveProperty<ICardView>();
-
         public override void SetAgent(IPlayerView view, IHandAgent hand)
         {
             base.SetAgent(view, hand);
@@ -35,23 +32,6 @@ namespace App.View.Impl1
             hand.Model.Cards.ObserveRemove().Subscribe(Remove);
 
             _cards.ObserveCountChanged().Subscribe(_ => Redraw());
-        }
-
-        void Redraw()
-        {
-            CreateHandView();
-        }
-
-        void Add(CollectionAddEvent<ICardModel> add)
-        {
-            _cards.Insert(add.Index, Registry.New<ICardView>(add.Value));
-        }
-
-        void Remove(CollectionRemoveEvent<ICardModel> card)
-        {
-            var view = _cards[card.Index];
-            view.Destroy();
-            _cards.RemoveAt(card.Index);
         }
 
         public void CreateHandView()
@@ -69,22 +49,11 @@ namespace App.View.Impl1
 
                 var tr = view.GameObject.transform;
                 tr.SetParent(CardsRoot);
-                tr.localPosition = n * Offset;
+                tr.localPosition = n*Offset;
                 view.GameObject.name = $"{card}";
                 _cards.Add(view);
                 ++n;
             }
-        }
-
-        private IReactiveProperty<ICardView> _scaled;
-
-        private CommandDelegate ScaleTo(ICardView card, float scale)
-        {
-            return Commands.ScaleTo(
-                    card.GameObject,
-                    scale,
-                    1.0
-            );
         }
 
         [ContextMenu("HandView-Clear")]
@@ -94,6 +63,25 @@ namespace App.View.Impl1
                 Unity.Destroy(tr);
         }
 
-        private ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
+        private void Redraw()
+        {
+            CreateHandView();
+        }
+
+        private void Add(CollectionAddEvent<ICardModel> add)
+        {
+            _cards.Insert(add.Index, Registry.New<ICardView>(add.Value));
+        }
+
+        private void Remove(CollectionRemoveEvent<ICardModel> card)
+        {
+            var view = _cards[card.Index];
+            view.Destroy();
+            _cards.RemoveAt(card.Index);
+        }
+
+        private IReactiveProperty<ICardView> _scaled;
+
+        private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
     }
 }

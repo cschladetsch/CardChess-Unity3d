@@ -1,7 +1,7 @@
-﻿using App.Common;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using Common;
+
     public class CardCollectionDesc :
         ModelBase
     {

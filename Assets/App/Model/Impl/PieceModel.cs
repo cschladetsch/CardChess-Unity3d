@@ -15,11 +15,11 @@ namespace App.Model
     {
         public ICardModel Card { get; }
         public EPieceType PieceType => Card.PieceType;
-        [Inject] public IBoardModel Board { get; set; }
         public IReactiveProperty<Coord> Coord => _coord;
         public IReadOnlyReactiveProperty<int> Power => Card.Power;
         public IReadOnlyReactiveProperty<int> Health => Card.Health;
         public IReactiveProperty<bool> Dead => _dead;
+        [Inject] public IBoardModel Board { get; set; }
 
         public PieceModel(IPlayerModel player, ICardModel card)
             : base(player)
@@ -63,6 +63,6 @@ namespace App.Model
         }
 
         private readonly ReactiveProperty<Coord> _coord = new ReactiveProperty<Coord>();
-        readonly BoolReactiveProperty _dead = new BoolReactiveProperty(false);
+        private readonly BoolReactiveProperty _dead = new BoolReactiveProperty(false);
     }
 }

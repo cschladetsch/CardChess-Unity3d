@@ -16,14 +16,11 @@ namespace App.Model
         : RespondingModelBase
         , IArbiterModel
     {
-        #region Public Properties
         public EColor Color => EColor.Neutral;
         public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
         public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
         [Inject] public IBoardModel Board { get; set; }
-        #endregion
 
-        #region Public Methods
         public ArbiterModel()
             : base(null)
         {
@@ -138,9 +135,6 @@ namespace App.Model
             return Response.Ok;
         }
 
-        #endregion
-
-        #region Private Methods
         private void StartFirstTurn()
         {
             _currentPlayerIndex.Value = 0;
@@ -308,9 +302,6 @@ namespace App.Model
             Assert.IsTrue(_players.Count(p => p.Player == player) == 1);
             return _players.First(p => p.Player == player);
         }
-        #endregion
-
-        #region Private Fields
 
         class PlayerEntry
         {
@@ -335,6 +326,5 @@ namespace App.Model
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
         private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlaceKing);
-        #endregion
     }
 }

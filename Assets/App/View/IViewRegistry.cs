@@ -1,11 +1,15 @@
-﻿using App.Agent;
-using App.Common;
-using App.Model;
-using App.Registry;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.View
 {
+    using Agent;
+    using Common;
+    using Model;
+    using Registry;
+
+    /// <summary>
+    /// Common registry for all objects that are in the Unity3d scene (or canvas)
+    /// </summary>
     public interface IViewRegistry
         : IRegistry<IViewBase>
     {

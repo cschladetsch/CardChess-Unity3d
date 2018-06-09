@@ -24,15 +24,13 @@ namespace App.Model
         public IReactiveProperty<int> MaxMana => _maxMana;
         public IReactiveProperty<int> Mana => _mana;
         public IReactiveProperty<int> Health => _health;
-        [Inject] public IBoardModel Board { get; set; }
-        [Inject] public IArbiterModel Arbiter { get; set; }
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
         public IPieceModel KingPiece { get; set; }
         [Inject] public Service.ICardTemplateService _CardtemplateService;
-
-        #region Public Methods
+        [Inject] public IBoardModel Board { get; set; }
+        [Inject] public IArbiterModel Arbiter { get; set; }
 
         public override string ToString()
         {
@@ -177,13 +175,8 @@ namespace App.Model
             return Response.Ok;
         }
 
-        #endregion
-
-        #region Private Fields
         private readonly IntReactiveProperty _maxMana = new IntReactiveProperty(Parameters.MaxManaCap);
         private readonly IntReactiveProperty _mana = new IntReactiveProperty(0);
         private readonly IntReactiveProperty _health = new IntReactiveProperty(0);
-        #endregion
-
     }
 }

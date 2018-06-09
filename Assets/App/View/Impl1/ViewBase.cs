@@ -112,12 +112,12 @@ namespace App.View.Impl1
             return $"View {name} of type {GetType()}";
         }
 
-        protected CoLib.CommandQueue _Queue => _queue ?? (_queue = new CommandQueue());
+        protected CommandQueue _Queue => _queue ?? (_queue = new CommandQueue());
 
         private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
         private bool _paused;
         private float _localTime;
-        private CoLib.CommandQueue _queue;
+        private CommandQueue _queue;
     }
 
     public class ViewBase<TIAgent>

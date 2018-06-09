@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+
 using UniRx;
 
 namespace App.Model
@@ -20,14 +21,10 @@ namespace App.Model
         : RespondingModelBase
         , IBoardModel
     {
-        #region Public Properties
         public int Width { get; }
         public int Height { get; }
-        [Inject] public IArbiterModel Arbiter { get; set; }
         public IEnumerable<IPieceModel> Pieces => _pieces.Where(p => p != null);
-        #endregion
-
-        #region Public Methods
+        [Inject] public IArbiterModel Arbiter { get; set; }
 
         public BoardModel(int width, int height)
             : base(null)
@@ -136,6 +133,7 @@ namespace App.Model
             var piece = At(coord);
             if (piece == null)
                 yield break;
+
             foreach (var c in GetPossibleMovements(piece))
             {
                 var attacked = At(c);
@@ -181,7 +179,8 @@ namespace App.Model
             Assert.IsTrue(IsValidCoord(coord));
 
             if (At(coord) != null)
-                return new Response<IPieceModel>(null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot {placePiece}");
+                return new Response<IPieceModel>(
+                    null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot {placePiece}");
 
             var piece = Registry.New<IPieceModel>(placePiece.Player, placePiece.Card);
             Set(coord, piece);
@@ -239,13 +238,13 @@ namespace App.Model
         public string Print(Func<Coord, string> fun)
         {
             var sb = new StringBuilder();
-            for (int y = Height - 1; y >= 0; --y)
+            for (var y = Height - 1; y >= 0; --y)
             {
                 // vertical axis
                 sb.Append($" {y}:");
 
                 // horizontal cards
-                for (int x = 0; x < Width; ++x)
+                for (var x = 0; x < Width; ++x)
                 {
                     var coord = new Coord(x, y);
                     var rep = "  ";
@@ -258,7 +257,7 @@ namespace App.Model
                 {
                     // write the bottom axis
                     sb.Append("   ");
-                    for (int x = 0; x < Width; ++x)
+                    for (var x = 0; x < Width; ++x)
                         sb.Append($"{x} ");
                 }
             }
@@ -271,10 +270,6 @@ namespace App.Model
             var ch = $"{model.PieceType.ToString()[0]} ";
             return ch;
         }
-
-        #endregion
-
-        #region Private Methods
 
         private void ConstructBoard()
         {
@@ -324,10 +319,10 @@ namespace App.Model
 
         private IEnumerable<Coord> Diagonals(Coord orig, int dist)
         {
-            for (int dx = -1; dx < 2; dx++)
+            for (var dx = -1; dx < 2; dx++)
             {
                 if (dx == 0) continue;
-                for (int dy = -1; dy < 2; dy++)
+                for (var dy = -1; dy < 2; dy++)
                 {
                     if (dy == 0) continue;
                     foreach (var c in TestCoords(orig, dx, dy, dist))
@@ -338,7 +333,7 @@ namespace App.Model
 
         private IEnumerable<Coord> TestCoords(Coord orig, int dx, int dy, int dist)
         {
-            for (int n = 1; n < Math.Max(Math.Min(Width, dist), Math.Min(Height, dist)); ++n)
+            for (var n = 1; n < Math.Max(Math.Min(Width, dist), Math.Min(Height, dist)); ++n)
             {
                 var x = n * dx;
                 var y = n * dy;
@@ -354,11 +349,7 @@ namespace App.Model
         {
             return null;
         }
-        #endregion
 
-        #region Private Fields
         private IReactiveCollection<IPieceModel> _pieces;
-        #endregion
-
     }
 }
