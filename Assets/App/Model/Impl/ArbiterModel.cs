@@ -334,7 +334,7 @@ namespace App.Model
         private List<PlayerEntry> _players;
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
-        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.Start);
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlaceKing);
         #endregion
     }
 }
