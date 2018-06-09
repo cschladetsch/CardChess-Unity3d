@@ -1,10 +1,9 @@
-﻿using App.Common;
-using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.View.Impl1
 {
     using Agent;
+    using Common;
 
     public class DeckView
         : ViewBase<IDeckAgent>

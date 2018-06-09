@@ -1,15 +1,15 @@
 ﻿using System.Collections;
-using App.Common.Message;
-using App.Model;
+
 using Flow;
-using UniRx;
 
 namespace App.Agent
 {
     using Common;
+    using Common.Message;
+    using Model;
 
     public class HandAgent
-        : AgentBaseCoro<Model.IHandModel>
+        : AgentBaseCoro<IHandModel>
         , IHandAgent
     {
         public HandAgent(IHandModel model)

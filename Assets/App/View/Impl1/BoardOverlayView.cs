@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using App.Common;
 using UnityEngine;
 
 namespace App.View.Impl1
 {
+    using Common;
+
     public class BoardOverlayView
         : ViewBase
     {

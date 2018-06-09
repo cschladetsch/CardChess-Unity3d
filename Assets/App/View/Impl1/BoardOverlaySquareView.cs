@@ -8,7 +8,6 @@ namespace App.View.Impl1
     {
         public Color Color
         {
-            //set { _image.color = value; }
             set { GetComponent<Image>().color = value; }
         }
 

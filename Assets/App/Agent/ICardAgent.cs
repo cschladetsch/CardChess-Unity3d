@@ -1,9 +1,9 @@
-﻿using App.Common;
-using UniRx;
+﻿using UniRx;
 
 namespace App.Agent
 {
     using Model;
+    using Common;
 
     public interface ICardAgent
         : IAgent<ICardModel>

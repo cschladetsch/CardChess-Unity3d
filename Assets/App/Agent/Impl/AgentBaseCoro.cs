@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using App.Model;
+
 using Flow;
 
 namespace App.Agent
 {
-    using Registry;
+    using Model;
 
     /// <summary>
     /// Base for agents that perform actions over time.

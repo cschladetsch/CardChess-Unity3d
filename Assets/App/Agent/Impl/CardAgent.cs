@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
-using App.Model;
+
 using Flow;
 using UniRx;
 
 namespace App.Agent
 {
     using Common;
+    using Model;
 
     public class CardAgent
         : AgentBaseCoro<Model.ICardModel>

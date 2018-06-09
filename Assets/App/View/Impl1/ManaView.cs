@@ -1,11 +1,11 @@
-﻿using App.Agent;
-using Assets.App.View;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace App.View.Impl1
 {
+    using Agent;
+
     public class ManaView
         : ViewBase<IPlayerAgent>
         , IManaView

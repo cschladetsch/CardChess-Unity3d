@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using App.Common.Message;
+
 using Flow;
 
 namespace App.Agent
 {
-    using App.Model;
-    using App.Registry;
+    using Model;
+    using Common.Message;
 
     public class DeckAgent
         //: CardCollection

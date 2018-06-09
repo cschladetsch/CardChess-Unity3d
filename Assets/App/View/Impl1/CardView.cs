@@ -1,7 +1,4 @@
-﻿using App.Common;
-using App.Common.Message;
-using App.Registry;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 using UniRx;
@@ -10,6 +7,9 @@ using CoLib;
 namespace App.View.Impl1
 {
     using Agent;
+    using Common;
+    using Common.Message;
+    using Registry;
 
     public class CardView
         : ViewBase<ICardAgent>
