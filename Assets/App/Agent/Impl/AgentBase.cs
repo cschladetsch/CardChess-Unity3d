@@ -39,7 +39,6 @@ namespace App.Agent
         protected AgentBase(TModel model)
         {
             Assert.IsNotNull(model);
-            Verbose(30, $"{this} Construct with {model}");
             BaseModel = model;
             Model = model;
         }
