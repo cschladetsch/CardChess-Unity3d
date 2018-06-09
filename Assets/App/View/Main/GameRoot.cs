@@ -2,55 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using App.Common;
-using App.Agent;
-using App.Model;
-using App.View;
-using App.View.Impl1;
 
 // field not assigned - because it is assigned in Unity3d editor
 #pragma warning disable 649
 
 namespace App
 {
+    using Common;
+    using Agent;
+    using Model;
+    using View;
+    using View.Impl1;
+
     /// <inheritdoc />
     /// <summary>
     /// The intended root of all non-canvas objects in the scene.
     /// </summary>
     public class GameRoot
-        : View.Impl1.ViewBase
+        : ViewBase
     {
+        public ModelRegistry Models;
+        public AgentRegistry Agents;
+        public IViewRegistry Views;
+
         public IPlayerAgent WhitePlayerAgent;
         public IPlayerAgent BlackPlayerAgent;
-
-        public App.Model.ModelRegistry Models;
-        public App.Agent.AgentRegistry Agents;
-        public App.View.ViewRegistry Views;
-
         public IBoardAgent BoardAgent;
         public IArbiterAgent ArbiterAgent;
-
         public BoardView BoardView;
         public ArbiterView ArbiterView;
-
-        /// <summary>
-        /// What makes the decisions.
-        /// </summary>
-        public GameObject[] Startup;
 
         protected override void Begin()
         {
             Registry = Views;
 
             base.Begin();
-
-            // create *all* models required for startup here
             CreateModels();
-
-            // create *all* agents
             CreateAgents();
             RegisterViews();
-
             PrepareViews(transform);
 
             BoardView.SetAgent(null, BoardAgent);
@@ -76,7 +65,7 @@ namespace App
             TestValidity("Views", Views.Instances);
         }
 
-        void TestValidity(string what, IEnumerable<IEntity> things)
+        private void TestValidity(string what, IEnumerable<IEntity> things)
         {
             Info($"TestValidity: {what}");
 
@@ -113,7 +102,7 @@ namespace App
 
         // Required to prepare views that were made at design time
         // in the editor. These have not been internally wired up yet.
-        void PrepareViews(Transform tr)
+        private void PrepareViews(Transform tr)
         {
             foreach (var c in tr.GetComponents<Component>())
             {
@@ -127,13 +116,13 @@ namespace App
                 PrepareViews(ch);
         }
 
-        void CreateModels()
+        private void CreateModels()
         {
             Models = new ModelRegistry();
             Models.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
             Models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             Models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-            Models.Bind<Model.ICardModel, Model.CardModel>();
+            Models.Bind<ICardModel, CardModel>();
             Models.Bind<IDeckModel, DeckModel>();
             Models.Bind<IHandModel, HandModel>();
             Models.Bind<IPieceModel, PieceModel>();
@@ -148,8 +137,6 @@ namespace App
             // make all models required
             foreach (var model in Models.Instances.ToList())
                 model.Create();
-
-            Info($"Models: {Models.Print()}");
         }
 
         private void CreateAgents()
@@ -171,28 +158,23 @@ namespace App
             BlackPlayerAgent = Agents.New<IPlayerAgent>(_blackPlayerModel);
         }
 
-        void RegisterViews()
+        private void RegisterViews()
         {
-            Views = new View.ViewRegistry();
-            Views.Bind<IBoardView, App.View.Impl1.BoardView>(BoardView);
+            Views = new ViewRegistry();
+            Views.Bind<IBoardView, BoardView>(BoardView);
             Views.Bind<IArbiterView, ArbiterView>(ArbiterView);
-            Views.Bind<ICardView, View.Impl1.CardView>();
-            Views.Bind<IDeckView, View.Impl1.DeckView>();
-            Views.Bind<IHandView, View.Impl1.HandView>();
-            Views.Bind<IPieceView, View.Impl1.PieceView>();
-            Views.Bind<IPlayerView, View.Impl1.PlayerView>();
+            Views.Bind<ICardView, CardView>();
+            Views.Bind<IDeckView, DeckView>();
+            Views.Bind<IHandView, HandView>();
+            Views.Bind<IPieceView, PieceView>();
+            Views.Bind<IPlayerView, PlayerView>();
 
             Views.Resolve();
         }
 
-        protected override void Step()
-        {
-            base.Step();
-        }
-
-        public Model.IBoardModel _boardModel;
-        public Model.IArbiterModel _arbiterModel;
-        public IPlayerModel _whitePlayerModel;
-        public IPlayerModel _blackPlayerModel;
+        private IBoardModel _boardModel;
+        private IArbiterModel _arbiterModel;
+        private IPlayerModel _whitePlayerModel;
+        private IPlayerModel _blackPlayerModel;
     }
 }

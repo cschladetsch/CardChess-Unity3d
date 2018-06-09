@@ -1,10 +1,10 @@
-﻿using App.Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.View
 {
     using Registry;
     using Agent;
+    using Common;
 
     /// <summary>
     /// Common interface for all views
@@ -16,7 +16,7 @@ namespace App.View
     {
         IAgent AgentBase { get; set; }
         IPlayerView Player { get; set; }
-        GameObject GameObject { get;}
+        GameObject GameObject { get; }
         IViewRegistry ViewRegistry { get; }
 
         void SetAgent(IPlayerView player, IAgent agent);

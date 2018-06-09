@@ -8,6 +8,5 @@ namespace App.View
         : IView<ICardAgent>
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
-        //IReadOnlyReactiveProperty<ICardAgent> Drop { get; }
     }
 }

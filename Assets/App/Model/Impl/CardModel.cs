@@ -12,8 +12,6 @@ namespace App.Model
         ModelBase,
         ICardModel
     {
-        #region Public Properties
-
         public ICardTemplate Template { get; }
         public ECardType Type => Template.Type;
         public EPieceType PieceType => Template.PieceType;
@@ -26,9 +24,7 @@ namespace App.Model
         public IReactiveCollection<IItemModel> Items => _items;
         public IReactiveCollection<EAbility> Abilities => _abilities;
         public IReactiveCollection<IEffectModel> Effects => _effects;
-        #endregion
 
-        #region Public Methods
         public CardModel(IOwner owner, ICardTemplate template)
             : base(owner)
         {
@@ -83,9 +79,7 @@ namespace App.Model
         {
             return $"{Player}'s {PieceType}";
         }
-        #endregion
 
-        #region Private Fields
         private readonly IntReactiveProperty _power;
         private readonly IntReactiveProperty _health;
         private readonly IntReactiveProperty _manaCost;
@@ -94,6 +88,5 @@ namespace App.Model
         private readonly ReactiveCollection<IItemModel> _items;
         private readonly ReactiveCollection<EAbility> _abilities;
         private readonly ReactiveCollection<IEffectModel> _effects;
-        #endregion
     }
 }

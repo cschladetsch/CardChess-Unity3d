@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using App.Agent;
-using App.Common;
-using App.Common.Message;
-using App.Registry;
 
 namespace App.View.Impl1
 {
+    using Agent;
+    using Common;
+    using Common.Message;
+    using Registry;
+
     public class PlayerView
         : ViewBase<IPlayerAgent>
         , IPlayerView
@@ -35,7 +35,6 @@ namespace App.View.Impl1
 
         public void NewRequest(IRequest request, Action<IResponse> response)
         {
-            Info($"{request}");
             Agent.PushRequest(new Turnaround(request, response));
         }
     }

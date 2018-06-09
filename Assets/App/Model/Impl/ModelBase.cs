@@ -1,5 +1,4 @@
 using System;
-using App.Common.Message;
 using UniRx;
 
 namespace App.Model

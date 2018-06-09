@@ -29,7 +29,7 @@ namespace App.View.Impl1
 
         public override string ToString()
         {
-            return $"{Color} square at {Coord}";
+            return $"{Color} square @{Coord}";
         }
     }
 }

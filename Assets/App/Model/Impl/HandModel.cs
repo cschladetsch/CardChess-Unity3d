@@ -1,7 +1,5 @@
 ﻿namespace App.Model
 {
-    using Common.Message;
-
     public class HandModel
         : CardCollectionModelBase
         , IHandModel

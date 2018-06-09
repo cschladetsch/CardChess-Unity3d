@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.Common;
+
 using UniRx;
 
 namespace App.Model
 {
+    using Common;
+
     /// <summary>
     /// Common to other collections of cards for Models, including Deck, Hand and Graveyard.
     /// </summary>
@@ -15,7 +17,6 @@ namespace App.Model
     {
         public event Action<ICardCollectionBase> Overflow;
 
-        #region Public Properties
         public abstract int MaxCards { get; }
         public IPlayerModel Player => Owner.Value as IPlayerModel;
         public IHandModel Hand => Player.Hand;
@@ -25,9 +26,7 @@ namespace App.Model
         public IReadOnlyReactiveProperty<bool> Empty => _empty;
         public IReadOnlyReactiveProperty<bool> Maxxed => _maxxed;
         public IReadOnlyReactiveCollection<ICardModel> Cards => _Cards;
-        #endregion
 
-        #region Public Methods
         protected CardCollectionModelBase(IPlayerModel owner)
             : base(owner)
         {
@@ -130,14 +129,10 @@ namespace App.Model
             return true;
         }
 
-        #endregion
-
         protected UniRx.ReactiveCollection<ICardModel> _Cards;
 
-        #region Private Fields
         private readonly IntReactiveProperty _numCards;
         private readonly BoolReactiveProperty _empty;
         private readonly BoolReactiveProperty _maxxed;
-        #endregion
     }
 }

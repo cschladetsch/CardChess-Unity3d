@@ -2,7 +2,8 @@ using System;
 
 namespace App.Model
 {
-    class Persistent : Attribute
+    class Persistent
+        : Attribute
     {
     }
 }

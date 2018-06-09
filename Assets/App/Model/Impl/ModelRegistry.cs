@@ -2,7 +2,8 @@
 {
     using Registry;
 
-    public class ModelRegistry : Registry<IModel>
+    public class ModelRegistry
+        : Registry<IModel>
     {
     }
 }
