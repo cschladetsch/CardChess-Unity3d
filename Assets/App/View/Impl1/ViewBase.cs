@@ -20,7 +20,6 @@ namespace App.View.Impl1
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public bool IsValid { get; protected set; }
         public IRegistry<IViewBase> Registry { get; set; }
         public IViewRegistry ViewRegistry => Registry as IViewRegistry;
         public IReadOnlyReactiveProperty<IOwner> Owner => AgentBase.Owner;
@@ -29,6 +28,21 @@ namespace App.View.Impl1
         public IAgent AgentBase { get; set; }
         public IPlayerView Player { get; set; }
         public GameObject GameObject => gameObject;
+        public bool IsValid
+        {
+            get
+            {
+                if (Registry == null) return false;
+                if (ViewRegistry == null) return false;
+                if (AgentBase == null) return false;
+                if (Id == Guid.Empty) return false;
+                if (GameObject == null) return false;
+                if (AgentBase?.BaseModel == null) return false;
+                if (!AgentBase.IsValid) return false;
+                if (!AgentBase.BaseModel.IsValid) return false;
+                return true;
+            }
+        }
 
         private void Awake()
         {

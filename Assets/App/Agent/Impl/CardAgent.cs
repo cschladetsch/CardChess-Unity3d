@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using App.Model;
 using Flow;
 using UniRx;
@@ -36,6 +37,19 @@ namespace App.Agent
         {
             Assert.IsNotNull(model);
             return true;
+        }
+
+        public override string ToString()
+        {
+            try
+            {
+                return $"{Owner.Value}s {PieceType} CardAgent, Id={Id}";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e} Printing {GetType()}");
+                throw;
+            }
         }
     }
 }

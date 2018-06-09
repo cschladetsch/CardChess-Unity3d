@@ -58,6 +58,5 @@ namespace App.Service.Impl
             }
             return Registry.New<ICardModel>(owner, template);
         }
-
     }
 }

@@ -16,16 +16,22 @@ namespace App.Model
         : Flow.Impl.Logger
         , IModel
     {
-        public bool IsValid { get; protected set; }
+        public event Action<IModel> OnDestroyed;
         public bool Prepared { get; protected set; }
-
         public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }
         public Guid Id { get; /*private*/ set; }
-
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
-        public event Action<IModel> OnDestroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
+        public bool IsValid
+        {
+            get
+            {
+                if (Registry == null) return false;
+                if (Id == Guid.Empty) return false;
+                return true;
+            }
+        }
 
         protected ModelBase(IOwner owner)
         {

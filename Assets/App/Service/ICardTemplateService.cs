@@ -3,7 +3,6 @@
 namespace App.Service
 {
     using Model;
-    using Agent;
     using Common;
 
     public interface ICardTemplateService
@@ -12,8 +11,7 @@ namespace App.Service
         ICardTemplate GetCardTemplate(EPieceType pieceType);
         ICardTemplate GetCardTemplate(Guid id);
 
-        Model.ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
-        Model.ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
+        ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl);
+        ICardModel NewCardModel(IPlayerModel owner, EPieceType type);
     }
-
 }
