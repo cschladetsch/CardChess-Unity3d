@@ -33,5 +33,11 @@ namespace App.View.Impl1
         public override void Create()
         {
         }
+
+        protected override void Step()
+        {
+            base.Step();
+            Agent.Step();
+        }
     }
 }

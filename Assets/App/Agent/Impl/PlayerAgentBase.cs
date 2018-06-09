@@ -78,7 +78,7 @@ namespace App.Agent
 
         protected override IEnumerator Next(IGenerator self)
         {
-            yield break;
+            yield return null;
         }
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();

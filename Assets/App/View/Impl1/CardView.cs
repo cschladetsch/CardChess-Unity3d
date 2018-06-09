@@ -114,16 +114,14 @@ namespace App.View.Impl1
             Player.NewRequest(
                 new PlacePiece(Player.Agent.Model, Agent.Model, square.Coord)
                 , Response);
-
-            ReturnToHand();
         }
 
-        void Response(IResponse response)
+        private void Response(IResponse obj)
         {
-            Info($"{response}");
+            Info($"{obj}");
         }
 
-        private void ReturnToHand()
+        public void ReturnToHand()
         {
             _Queue.Enqueue(
                 Commands.Parallel(
