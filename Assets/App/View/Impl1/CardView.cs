@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using App.Common;
+using App.Common.Message;
+using App.Registry;
+using UnityEngine;
 using UnityEngine.UI;
 
 using UniRx;
@@ -17,15 +20,17 @@ namespace App.View.Impl1
         public TMPro.TextMeshProUGUI Power;
         public Image Image;
         public IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
+        [Inject] private IBoardView BoardView { get; set; }
+        [Inject] private IArbiterView ArbiterView { get; set; }
 
         public override void Create()
         {
             _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
         }
 
-        public override void SetAgent(ICardAgent agent)
+        public override void SetAgent(IPlayerView view, ICardAgent agent)
         {
-            base.SetAgent(agent);
+            base.SetAgent(view, agent);
 
             agent.Power.DistinctUntilChanged().Subscribe(p => Power.text = $"{p}");
             agent.Health.DistinctUntilChanged().Subscribe(p => Health.text = $"{p}");
@@ -96,6 +101,27 @@ namespace App.View.Impl1
             // complete animating to zero-alpha background
             _Queue.RunToEnd();
 
+            var square = BoardView.TestRayCast(Input.mousePosition);
+            if (square == null)
+            {
+                ReturnToHand();
+                return;
+            }
+
+            Player.NewRequest(
+                new PlacePiece(Player.Agent.Model, Agent.Model, square.Coord)
+                , Response);
+
+            ReturnToHand();
+        }
+
+        void Response(IResponse response)
+        {
+            Info($"{response}");
+        }
+
+        private void ReturnToHand()
+        {
             _Queue.Enqueue(
                 Commands.Parallel(
                     Commands.AlphaTo(_backgroundColor, 1, _imageAlphaAnimDuration, Ease.Smooth()),
@@ -109,6 +135,7 @@ namespace App.View.Impl1
                 Commands.Do(() => _dragging = false)
             );
         }
+
         #endregion
 
         private bool _dragging;

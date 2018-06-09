@@ -28,6 +28,7 @@ namespace App
         public IBoardAgent BoardAgent;
         public IArbiterAgent ArbiterAgent;
 
+        public BoardView BoardView;
         public ArbiterView ArbiterView;
 
         /// <summary>
@@ -35,31 +36,64 @@ namespace App
         /// </summary>
         public GameObject[] Startup;
 
-        public override void Create()
+        protected override void Begin()
         {
-            base.Create();
+            base.Begin();
 
             // create *all* models required for startup here
             CreateModels();
 
             // create *all* agents
             CreateAgents();
-            Info($"Agents: {Agents.Print()}");
-            foreach (var agent in Agents.Instances)
-                Assert.IsNotNull(agent.BaseModel);
-
             RegisterViews();
 
+            PrepareViews(transform);
+
+            BoardView.SetAgent(null, BoardAgent);
             WhitePlayerAgent.Create();
             BlackPlayerAgent.Create();
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
-            ArbiterView.SetAgent(ArbiterAgent);
+            ArbiterView.SetAgent(null, ArbiterAgent);
+
+            Trace();
         }
 
-        protected override void Begin()
+        [ContextMenu("GameRoot-Trace")]
+        void Trace()
         {
-            base.Begin();
+            Info($"Models: {Models.Print()}");
+            foreach (var model in Agents.Instances)
+            {
+                Assert.IsNotNull(model);
+                Assert.IsTrue(model.IsValid);
+            }
+
+            Info($"Agents: {Agents.Print()}");
+            foreach (var agent in Agents.Instances)
+            {
+                Assert.IsNotNull(agent.BaseModel);
+                Assert.IsNotNull(agent.Arbiter);
+            }
+
+            Info($"Views: {Views.Print()}");
+            foreach (var view in Views.Instances)
+            {
+                Assert.IsNotNull(view);
+                Assert.IsNotNull(view.AgentBase);
+                Assert.IsNotNull(view.AgentBase.BaseModel);
+            }
+
+        }
+        // Required to prepare views that were made at design time
+        // in the editor. These have not been internally wired up yet.
+        void PrepareViews(Transform tr)
+        {
+            foreach (var c in tr.GetComponents<Component>().Cast<IViewBase>())
+                ViewRegistry.Prepare(c);
+
+            foreach (Transform ch in tr)
+                PrepareViews(ch);
         }
 
         void CreateModels()
@@ -109,7 +143,8 @@ namespace App
         void RegisterViews()
         {
             Views = new View.ViewRegistry();
-            Views.Bind<IBoardView, App.View.Impl1.BoardView>();
+            Views.Bind<IBoardView, App.View.Impl1.BoardView>(BoardView);
+            Views.Bind<IArbiterView, ArbiterView>(ArbiterView);
             Views.Bind<ICardView, View.Impl1.CardView>();
             Views.Bind<IDeckView, View.Impl1.DeckView>();
             Views.Bind<IHandView, View.Impl1.HandView>();

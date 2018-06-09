@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939dab88e06d4ac49be66c1a019f4867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BoardView: {fileID: 389148}
   ArbiterView: {fileID: 1907898443}
   Startup: []
 --- !u!4 &296395988
@@ -1566,9 +1567,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Board: {fileID: 389148}
-  White: {fileID: 152731633}
-  Black: {fileID: 1991825314}
+  WhitePlayerView: {fileID: 152731633}
+  BlackPlayerView: {fileID: 1991825314}
   CurrentPlayerText: {fileID: 858521117}
+  ResponseText: {fileID: 1257193234}
+  StateText: {fileID: 1019281791}
 --- !u!1 &1991825312
 GameObject:
   m_ObjectHideFlags: 0

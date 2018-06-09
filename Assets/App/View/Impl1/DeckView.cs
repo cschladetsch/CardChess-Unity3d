@@ -19,9 +19,9 @@ namespace App.View.Impl1
             Clear();
         }
 
-        public override void SetAgent(IDeckAgent agent)
+        public override void SetAgent(IPlayerView view, IDeckAgent agent)
         {
-            base.SetAgent(agent);
+            base.SetAgent(view, agent);
         }
 
         void Clear()
@@ -42,7 +42,7 @@ namespace App.View.Impl1
             foreach (var card in Agent.Model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);
-                view.SetAgent(Agent.Registry.New<ICardAgent>(card));
+                view.SetAgent(Player, Agent.Registry.New<ICardAgent>(card));
                 view.transform.SetParent(CardsRoot);
                 view.transform.localPosition = new Vector3(nx * dx, 0, 0);
                 view.transform.localRotation = Quaternion.Euler(0, 90, 0);

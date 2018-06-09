@@ -19,6 +19,7 @@ namespace App.Agent
         IPieceAgent KingPiece { get; set; }
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }
+        IBoardAgent Board { get; }
 
         IReadOnlyReactiveProperty<int> MaxMana { get; }
         IReadOnlyReactiveProperty<int> Mana { get; }

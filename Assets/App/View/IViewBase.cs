@@ -15,7 +15,11 @@ namespace App.View
         , IHasRegistry<IViewBase>
     {
         IAgent AgentBase { get; set; }
+        IPlayerView Player { get; set; }
         GameObject GameObject { get;}
+        IViewRegistry ViewRegistry { get; }
+
+        void SetAgent(IPlayerView player, IAgent agent);
     }
 
     public interface IView<TIAgent>
@@ -23,6 +27,6 @@ namespace App.View
         where TIAgent : IAgent
     {
         TIAgent Agent { get; set; }
-        void SetAgent(TIAgent agent);
+        void SetAgent(IPlayerView player, TIAgent agent);
     }
 }

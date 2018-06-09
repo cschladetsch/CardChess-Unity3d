@@ -14,13 +14,13 @@ namespace App.View.Impl1
         public Transform Root;
         public Vector2 Offset;
 
-        public override void SetAgent(IPlayerAgent agent)
+        public override void SetAgent(IPlayerView view, IPlayerAgent agent)
         {
             Assert.IsNotNull(agent);
             Assert.IsNotNull(ManaElementPrefab);
             Assert.IsNotNull(Root);
 
-            base.SetAgent(agent);
+            base.SetAgent(view, agent);
 
             Agent.MaxMana.Subscribe(m => Redraw(Agent.Mana.Value, m)).AddTo(this);
             Agent.Mana.Subscribe(m => Redraw(m, Agent.MaxMana.Value)).AddTo(this);

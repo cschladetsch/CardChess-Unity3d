@@ -1,5 +1,7 @@
-﻿using App.Agent;
+﻿using System;
+using App.Agent;
 using App.Common;
+using App.Common.Message;
 
 namespace App.View.Impl1
 {
@@ -14,17 +16,22 @@ namespace App.View.Impl1
         public HandView Hand;
         public DeckView Deck;
 
-        public override void SetAgent(IPlayerAgent agent)
+        public override void SetAgent(IPlayerView view, IPlayerAgent agent)
         {
             Assert.IsNotNull(agent);
             Assert.IsNotNull(agent.Hand);
             Assert.IsNotNull(agent.Deck);
 
-            base.SetAgent(agent);
+            base.SetAgent(view, agent);
 
-            Deck.SetAgent(Agent.Deck);
-            Hand.SetAgent(Agent.Hand);
-            ManaView.SetAgent(Agent);
+            Deck.SetAgent(this, Agent.Deck);
+            Hand.SetAgent(this, Agent.Hand);
+            ManaView.SetAgent(this, Agent);
+        }
+
+        public void NewRequest(IRequest request, Action<IResponse> response)
+        {
+            Info($"{request}");
         }
     }
 }

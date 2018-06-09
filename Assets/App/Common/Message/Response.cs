@@ -5,6 +5,7 @@ namespace App.Common.Message
     public class Response
         : IResponse
     {
+        public IRequest Request { get; }
         public EResponse Type { get; }
         public EError Error { get; }
         public Guid RequestId { get; set; }
@@ -23,6 +24,13 @@ namespace App.Common.Message
             Error = err;
             Error = EError.None;
             Text = text;
+        }
+
+        public Response(IRequest request, EResponse response = EResponse.Ok, EError err = EError.Error,
+            string text = "")
+            : this(response, err, text)
+        {
+            Request = request;
         }
     }
 

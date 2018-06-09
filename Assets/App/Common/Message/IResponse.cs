@@ -4,6 +4,7 @@ namespace App.Common.Message
 {
     public interface IResponse
     {
+        IRequest Request { get; }
         EResponse Type { get; }
         EError Error { get; }
         Guid RequestId { get; }
