@@ -29,7 +29,7 @@ namespace App.View
             Assert.IsNotNull(prefab);
             var view = Object.Instantiate(prefab) as TIView;
             Assert.IsNotNull(view);
-            return Prepare(view);
+            return Prepare(typeof(TIView), view) as TIView;
         }
 
         public TIView FromPrefab<TIView, TIAgent, TModel>(IPlayerView player, Object prefab, TModel model)

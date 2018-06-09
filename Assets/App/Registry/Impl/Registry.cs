@@ -199,7 +199,8 @@ namespace App.Registry
 
         public virtual IBase Prepare(IBase model)
         {
-            model.Id = Guid.NewGuid();
+            if (model.Id == Guid.Empty)
+                model.Id = Guid.NewGuid();
             return model;
         }
 
@@ -365,7 +366,7 @@ namespace App.Registry
             return n == args.Length;
         }
 
-        private IBase Prepare(Type ity, IBase model)
+        protected IBase Prepare(Type ity, IBase model)
         {
             Injector prep;
             if (!_preparers.TryGetValue(ity, out prep))

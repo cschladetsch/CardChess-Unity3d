@@ -19,11 +19,22 @@ namespace App.Agent
         public event Action<IAgent> OnDestroyed;
         public IRegistry<IAgent> Registry { get; set; }
         public Guid Id { get; /*private*/ set; }
-        public bool IsValid { get; private set;}
         public IModel BaseModel { get; }
         public TModel Model { get; }
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
+        public bool IsValid
+        {
+            get
+            {
+                if (Registry == null) return false;
+                if (Id == Guid.Empty) return false;
+                if (BaseModel == null) return false;
+                if (Model != BaseModel) return false;
+                if (!Model.IsValid) return false;
+                return true;
+            }
+        }
 
         protected AgentBase(TModel model)
         {
@@ -35,7 +46,6 @@ namespace App.Agent
 
         public virtual void Create()
         {
-            IsValid = Model != null && Id != Guid.Empty;
         }
 
         public void SetOwner(IOwner owner)

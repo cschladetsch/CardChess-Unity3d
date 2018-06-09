@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using App.Common;
 using App.Agent;
@@ -38,6 +40,8 @@ namespace App
 
         protected override void Begin()
         {
+            Registry = Views;
+
             base.Begin();
 
             // create *all* models required for startup here
@@ -57,40 +61,65 @@ namespace App
             ArbiterView.SetAgent(null, ArbiterAgent);
 
             Trace();
+            IsGood();
+        }
+
+        [ContextMenu("GameRoot-IsValid")]
+        public void IsGood()
+        {
+            Assert.IsNotNull(Models);
+            Assert.IsNotNull(Agents);
+            Assert.IsNotNull(Views);
+
+            TestValidity(Models.Instances);
+            TestValidity(Agents.Instances);
+            TestValidity(Views.Instances);
+        }
+
+        void TestValidity(IEnumerable<IEntity> things)
+        {
+            Info($"TestValidity: {typeof(IEntity)}");
+
+            foreach (var entity in things)
+            {
+                var valid = entity.IsValid;
+                if (!valid)
+                {
+                    Warn($"NotValid: {entity}: {entity.GetType()}");
+                    var pr = entity as IPrintable;
+                    try
+                    {
+                        if (pr != null)
+                            Warn($"\tNotValid:\n\t{pr.Print()}");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+                Assert.IsTrue(valid);
+            }
         }
 
         [ContextMenu("GameRoot-Trace")]
-        void Trace()
+        public void Trace()
         {
             Info($"Models: {Models.Print()}");
-            foreach (var model in Agents.Instances)
-            {
-                Assert.IsNotNull(model);
-                Assert.IsTrue(model.IsValid);
-            }
-
             Info($"Agents: {Agents.Print()}");
-            foreach (var agent in Agents.Instances)
-            {
-                Assert.IsNotNull(agent.BaseModel);
-                Assert.IsNotNull(agent.Arbiter);
-            }
-
             Info($"Views: {Views.Print()}");
-            foreach (var view in Views.Instances)
-            {
-                Assert.IsNotNull(view);
-                Assert.IsNotNull(view.AgentBase);
-                Assert.IsNotNull(view.AgentBase.BaseModel);
-            }
-
         }
+
         // Required to prepare views that were made at design time
         // in the editor. These have not been internally wired up yet.
         void PrepareViews(Transform tr)
         {
-            foreach (var c in tr.GetComponents<Component>().Cast<IViewBase>())
-                ViewRegistry.Prepare(c);
+            foreach (var c in tr.GetComponents<Component>())
+            {
+                var v = c as IViewBase;
+                if (v == null)
+                    continue;
+                Views.Prepare(v);
+            }
 
             foreach (Transform ch in tr)
                 PrepareViews(ch);
