@@ -1,6 +1,9 @@
 using System;
 using UniRx;
 
+// event not used
+#pragma warning disable 67
+
 namespace App.Model
 {
     using Common;
@@ -16,6 +19,7 @@ namespace App.Model
         , IModel
     {
         public event Action<IModel> OnDestroyed;
+
         public bool Prepared { get; protected set; }
         public IRegistry<IModel> Registry { get; set; }
         public string Name { get; set; }

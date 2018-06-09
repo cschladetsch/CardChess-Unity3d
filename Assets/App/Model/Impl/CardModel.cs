@@ -8,9 +8,9 @@ namespace App.Model
     using Common;
     using Common.Message;
 
-    public class CardModel :
-        ModelBase,
-        ICardModel
+    public class CardModel
+        : ModelBase
+        , ICardModel
     {
         public ICardTemplate Template { get; }
         public ECardType Type => Template.Type;
