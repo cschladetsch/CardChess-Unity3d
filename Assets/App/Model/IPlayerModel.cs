@@ -1,21 +1,10 @@
-﻿using App.Common.Message;
+﻿using System;
+using App.Common.Message;
 using UniRx;
 
 namespace App.Model
 {
     using Common;
-
-    struct TestAction
-    {
-        public IRequest Request;
-        public IResponse ExpectedResponse;
-
-        public TestAction(IRequest request, IResponse expectedResponse)
-        {
-            Request = request;
-            ExpectedResponse = expectedResponse;
-        }
-    }
 
     /// <summary>
     /// A Player in the game.
@@ -27,6 +16,10 @@ namespace App.Model
         , IOwner
         , IGameActor
     {
+        event Action<IPieceModel, IItemModel> OnEquipped;
+        event Action<IPieceModel, IItemModel> OnUnequipped;
+        event Action<ISpellModel, IModel> OnCastSpell;
+
         IBoardModel Board { get; }
         IArbiterModel Arbiter { get; }
         IDeckModel Deck { get; }

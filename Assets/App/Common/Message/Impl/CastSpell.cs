@@ -1,5 +1,4 @@
 ﻿using App.Agent;
-using App.Model.Card;
 
 namespace App.Common.Message
 {
@@ -14,13 +13,14 @@ namespace App.Common.Message
         public Coord Coord;
 
         public CastSpell(IPlayerModel player, ISpellModel spell, IPieceAgent target)
-            : base(player, EActionType.Resign)
+            : base(player, EActionType.CastSpell)
         {
             Spell = spell;
             Target = target;
         }
+
         public CastSpell(IPlayerModel player, ISpellModel spell, Coord coord)
-            : base(player, EActionType.Resign)
+            : base(player, EActionType.CastSpell)
         {
             Spell = spell;
             Coord = coord;

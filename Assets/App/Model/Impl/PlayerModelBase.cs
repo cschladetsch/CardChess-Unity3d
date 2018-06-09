@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+
 using UniRx;
 
-// Reflection deals with this
 // ReSharper disable PublicConstructorInAbstractClass
+
+// event not used
+#pragma warning disable 67
 
 namespace App.Model
 {
@@ -17,6 +21,10 @@ namespace App.Model
         : ModelBase
         , IPlayerModel
     {
+        public event Action<IPieceModel, IItemModel> OnEquipped;
+        public event Action<IPieceModel, IItemModel> OnUnequipped;
+        public event Action<ISpellModel, IModel> OnCastSpell;
+
         public EColor Color { get; }
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
@@ -28,14 +36,9 @@ namespace App.Model
         public IDeckModel Deck { get; private set; }
         public ICardModel King { get; private set; }
         public IPieceModel KingPiece { get; set; }
-        [Inject] public Service.ICardTemplateService _CardtemplateService;
         [Inject] public IBoardModel Board { get; set; }
         [Inject] public IArbiterModel Arbiter { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Color}";//: {MaxMana.Value} MaxMana, {Mana.Value} Mana, {Deck.NumCards} in Deck, {Hand.NumCards} in Hand";
-        }
+        [Inject] public Service.ICardTemplateService _CardtemplateService;
 
         public PlayerModelBase(EColor color)
             : base(null)
@@ -67,6 +70,15 @@ namespace App.Model
             base.Prepare();
             Deck.Prepare();
             Hand.Prepare();
+        }
+
+        public virtual void StartGame()
+        {
+        }
+
+        public override string ToString()
+        {
+            return $"{Color} Player";
         }
 
         public void NewGame()
@@ -143,8 +155,6 @@ namespace App.Model
         {
             return null;
         }
-
-        public abstract void StartGame();
 
         public virtual IRequest NextAction()
         {

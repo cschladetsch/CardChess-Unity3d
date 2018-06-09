@@ -1,4 +1,4 @@
-﻿namespace App.Model.Card
+﻿namespace App.Model
 {
     using Common;
     using Common.Message;
