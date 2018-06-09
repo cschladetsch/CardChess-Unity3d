@@ -53,7 +53,7 @@ namespace App
             _players = new List<IPlayerAgent> {p0, p1};
             _currentPlayerIndex.Subscribe(n => _playerAgent.Value = _players[n]);
             _currentPlayerIndex.Value = 0;
-            PlayerModel = PlayerAgent.Select(x => x.Model).ToReactiveProperty();
+            PlayerModel = PlayerAgent.Select(x => x.Model).DistinctUntilChanged().ToReactiveProperty();
 
             // TODO: do some animations etc
             return null;
@@ -112,7 +112,7 @@ namespace App
         public ITransient GameLoop()
         {
             return New.Sequence(
-                StartGameCoro(),
+                //StartGameCoro(),
                 New.While(() => Model.GameState.Value != EGameState.Completed,
                     New.Coroutine(PlayerTurn).Named("Turn")
                 ).Named("GameLoop"),
@@ -122,7 +122,7 @@ namespace App
 
         private IEnumerator PlayerTurn(IGenerator self)
         {
-            Assert.AreSame(PlayerModel, Model.CurrentPlayer);
+            Assert.AreSame(PlayerModel.Value, Model.CurrentPlayer.Value);
 
             PlayerModel.Value.StartTurn();
 

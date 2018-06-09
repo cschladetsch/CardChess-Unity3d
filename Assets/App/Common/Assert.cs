@@ -95,7 +95,7 @@ namespace App.Common
         {
             if (ReferenceEquals(a, b))
                 return;
-            Error("$Expect same objects");
+            Error($"Expect same objects: {a} and {b}");
         }
 
         public static void AreNotSame(object a, object b)
