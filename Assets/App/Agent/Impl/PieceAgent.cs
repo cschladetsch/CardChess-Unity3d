@@ -1,7 +1,7 @@
-﻿using App.Model;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using Model;
+
     public class PieceAgent
         : AgentBase<Model.IPieceModel>
         , IPieceAgent

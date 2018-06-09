@@ -1,6 +1,4 @@
-﻿using App.Model;
-using CoLib;
-using UnityEngine;
+﻿using UnityEngine;
 
 using UniRx;
 
@@ -8,6 +6,7 @@ namespace App.View.Impl1
 {
     using Agent;
     using Common;
+    using Model;
 
     public class HandView
         : ViewBase<IHandAgent>

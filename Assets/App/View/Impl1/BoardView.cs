@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using App.Common;
-using UniRx;
 using UnityEngine;
+
+using UniRx;
 
 #pragma warning disable 649
 
 namespace App.View.Impl1
 {
     using Agent;
+    using Common;
 
     /// <summary>
     /// View of the play board during a game.

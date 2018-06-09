@@ -1,9 +1,10 @@
-﻿using App.Model;
-using Flow;
+﻿using Flow;
 using UniRx;
 
 namespace App.Agent
 {
+    using Model;
+
     public interface IArbiterAgent
         : IAgent<IArbiterModel>
     {

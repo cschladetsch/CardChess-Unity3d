@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using App.Common.Message;
-using App.Model;
+
 using Flow;
 
 namespace App.Agent
 {
+    using Common.Message;
+    using Model;
+
     public class PlayerAgent
         : PlayerAgentBase
     {

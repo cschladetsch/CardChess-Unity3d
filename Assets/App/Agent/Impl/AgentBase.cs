@@ -4,7 +4,7 @@ using UniRx;
 
 namespace App.Agent
 {
-    using App.Registry;
+    using Registry;
     using Common;
 
     /// <summary>

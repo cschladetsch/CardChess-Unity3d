@@ -1,12 +1,9 @@
-﻿using System;
-using App.Agent;
-using App.Common;
-using App.Common.Message;
-using App.Model;
-using UniRx;
+﻿using UniRx;
 
 namespace App.View.Impl1
 {
+    using Agent;
+
     public class ArbiterView
         : ViewBase<IArbiterAgent>
         , IArbiterView
