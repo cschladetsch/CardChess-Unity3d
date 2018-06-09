@@ -199,8 +199,10 @@ namespace App.Registry
 
         public virtual IBase Prepare(IBase model)
         {
+            Assert.IsNotNull(model);
             if (model.Id == Guid.Empty)
                 model.Id = Guid.NewGuid();
+            model.Registry = this;
             return model;
         }
 
@@ -373,6 +375,7 @@ namespace App.Registry
             {
                 throw new Exception($"No preparer for type {ity}");
             }
+            Prepare(model);
             return prep.Inject(model);
         }
 
@@ -476,10 +479,14 @@ namespace App.Registry
             return model;
         }
 
-        public virtual TBase Prepare<TBase>(TBase model)
-        {
-            return model;
-        }
+        //public TBase Prepare<TBase>(TBase model) w
+        //{
+        //    return Prepare(model as IBase);
+        //}
+
+        //public virtual TBase Prepare<TBase>(TBase model) where {
+        //    return Prepare(model as IBase);
+        //}
 
         private class PendingInjection
         {

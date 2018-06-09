@@ -18,9 +18,7 @@ namespace App.View
 
         public override IViewBase Prepare(IViewBase view)
         {
-            base.Prepare(view);
-            view.Registry = this;
-            return view;
+            return base.Prepare(view);
         }
 
         public TIView FromPrefab<TIView>(Object prefab)
@@ -29,7 +27,7 @@ namespace App.View
             Assert.IsNotNull(prefab);
             var view = Object.Instantiate(prefab) as TIView;
             Assert.IsNotNull(view);
-            return Prepare(typeof(TIView), view) as TIView;
+            return Prepare(Prepare(typeof(TIView), view)) as TIView;
         }
 
         public TIView FromPrefab<TIView, TIAgent, TModel>(IPlayerView player, Object prefab, TModel model)
@@ -39,6 +37,7 @@ namespace App.View
         {
             var view = FromPrefab<TIView>(prefab);
             view.SetAgent(player, player.Agent.Registry.New<TIAgent>(model));
+            Assert.IsTrue(view.IsValid);
             return view;
         }
     }

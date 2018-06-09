@@ -68,23 +68,20 @@ namespace App
         {
             Info($"{this} StartGame");
             _Node.Add(GameLoop());
-            return;
-            /*
-
-            _Node.Add(
-                New.Sequence(
-                    New.Barrier(
-                        NewGameWork(),
-                        Board.NewGameAction()
-                    ).Named("NewGame"),
-                    New.Barrier(
-                        _players.Select(p => p.StartGame())
-                    ).Named("PlayersStartGame")
-                ).Named("Setup"),
-                New.Log("Entering main game loop..."),
-                GameLoop()
-            );
-            */
+            //_Node.Add(GameLoop());
+            //_Node.Add(
+            //    New.Sequence(
+            //        New.Barrier(
+            //            NewGameWork(),
+            //            Board.NewGameAction()
+            //        ).Named("NewGame"),
+            //        New.Barrier(
+            //            _players.Select(p => p.StartGame())
+            //        ).Named("PlayersStartGame")
+            //    ).Named("Setup"),
+            //    New.Log("Entering main game loop..."),
+            //    GameLoop()
+            //);
         }
 
         private IGenerator StartGameCoro()

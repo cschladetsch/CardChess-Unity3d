@@ -38,7 +38,8 @@ namespace App.Registry
 
         IBase Inject(IBase model, Inject inject, Type iface, IBase single);
 
-        TBase Prepare<TBase>(TBase model);
+        IBase Prepare(IBase model);
+        //TBase Prepare<TBase>(TBase model) where TBase : class, IBase;
 
         /*
         bool Bind<TInterface, TImpl>(Func<TImpl> creator)

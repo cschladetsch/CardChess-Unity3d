@@ -122,16 +122,15 @@ namespace App.View.Impl1
 
     public class ViewBase<TIAgent>
         : ViewBase
-            , IView<TIAgent>
-        where TIAgent : IAgent
+        , IView<TIAgent>
+        where TIAgent : class, IAgent
     {
         public ViewBase<TIAgent> Pefab;
-        public TIAgent Agent { get; set; }
+        public TIAgent Agent => AgentBase as TIAgent;
 
         public virtual void SetAgent(IPlayerView player, TIAgent agent)
         {
             base.SetAgent(player, agent);
-            Agent = agent;
         }
     }
 }

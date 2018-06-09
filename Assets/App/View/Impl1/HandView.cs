@@ -65,6 +65,8 @@ namespace App.View.Impl1
                 var view = ViewRegistry.FromPrefab<ICardView, ICardAgent, ICardModel>(
                     Player, CardViewPrefab, card);
 
+                Assert.IsTrue(view.IsValid);
+
                 var tr = view.GameObject.transform;
                 tr.SetParent(CardsRoot);
                 tr.localPosition = n * Offset;
