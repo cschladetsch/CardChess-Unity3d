@@ -71,14 +71,14 @@ namespace App
             Assert.IsNotNull(Agents);
             Assert.IsNotNull(Views);
 
-            TestValidity(Models.Instances);
-            TestValidity(Agents.Instances);
-            TestValidity(Views.Instances);
+            TestValidity("Models", Models.Instances);
+            TestValidity("Agent", Agents.Instances);
+            TestValidity("Views", Views.Instances);
         }
 
-        void TestValidity(IEnumerable<IEntity> things)
+        void TestValidity(string what, IEnumerable<IEntity> things)
         {
-            Info($"TestValidity: {typeof(IEntity)}");
+            Info($"TestValidity: {what}");
 
             foreach (var entity in things)
             {
@@ -86,6 +86,8 @@ namespace App
                 if (!valid)
                 {
                     Warn($"NotValid: {entity}: {entity.GetType()}");
+                    var secondTest = entity.IsValid;
+                    Info($"{secondTest}");
                     var pr = entity as IPrintable;
                     try
                     {

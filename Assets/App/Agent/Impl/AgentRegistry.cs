@@ -25,6 +25,7 @@ namespace App.Agent
 
         public override IAgent Prepare(IAgent agent)
         {
+            base.Prepare(agent);
             agent.OnDestroyed += a => a.Complete();
 
             agent.Kernel = Kernel;
