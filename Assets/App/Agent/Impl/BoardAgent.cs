@@ -18,10 +18,10 @@ namespace App.Agent
         {
         }
 
-        protected override IEnumerator Next(IGenerator self)
-        {
-            yield break;
-        }
+        //protected override IEnumerator Next(IGenerator self)
+        //{
+        //    yield break;
+        //}
 
         public void NewGame()
         {

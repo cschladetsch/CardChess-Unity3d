@@ -79,10 +79,10 @@ namespace App.Agent
             _Requests.Add(req);
         }
 
-        protected override IEnumerator Next(IGenerator self)
-        {
-            yield return null;
-        }
+        //protected override IEnumerator Next(IGenerator self)
+        //{
+        //    yield return null;
+        //}
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
     }

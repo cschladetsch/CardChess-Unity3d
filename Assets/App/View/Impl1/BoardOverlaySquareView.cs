@@ -8,7 +8,12 @@ namespace App.View.Impl1
     {
         public Color Color
         {
-            set { GetComponent<Image>().color = value; }
+            set
+            {
+                if (_image == null)
+                    _image = GetComponent<Image>();
+                _image.color = value;
+            }
         }
 
         public void Awake()

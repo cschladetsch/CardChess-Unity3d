@@ -17,39 +17,13 @@ namespace App.Agent.Test
         {
             _arbiterAgent.PrepareGame(_whiteAgent, _blackAgent);
             _arbiterAgent.StartGame();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
 
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
-
-            _arbiterAgent.Step();
-            Trace.WriteLine(_arbiterAgent.Kernel.Root);
-            Trace.WriteLine(_board.Print());
+            for (int n = 0; n < 8; ++n)
+            {
+                _arbiterAgent.Step();
+                Info($"{_arbiterAgent.Kernel.Root}");
+                Info(_board.Print());
+            }
         }
     }
 }

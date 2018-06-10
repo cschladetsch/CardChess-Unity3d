@@ -412,12 +412,10 @@ namespace App.Registry
             private PropertyInfo _setRegistry;
             private PropertyInfo _setId;
             private readonly IRegistry<IBase> _reg;
-            private readonly Type _modelType;
             private readonly List<Inject> _injections = new List<Inject>();
 
             internal Injector(IRegistry<IBase> reg, Type ty)
             {
-                _modelType = ty;
                 _reg = reg;
                 foreach (var prop in ty.GetProperties(
                     BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
