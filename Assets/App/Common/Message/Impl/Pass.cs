@@ -5,7 +5,9 @@
     /// <summary>
     /// Pass the turn
     /// </summary>
-    public class Pass : RequestBase
+    public class Pass
+        : RequestBase
+        , IRequest
     {
         public Pass(IPlayerModel player)
             : base(player, EActionType.Pass)

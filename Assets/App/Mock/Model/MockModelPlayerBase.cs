@@ -12,7 +12,7 @@ namespace App.Mock.Model
     /// Common to all Mock players
     /// </summary>
     public abstract class MockModelPlayerBase
-        : App.Model.PlayerModelBase
+        : PlayerModelBase
     {
         public override void Prepare()
         {

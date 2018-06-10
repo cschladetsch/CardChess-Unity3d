@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using Flow;
@@ -65,8 +66,13 @@ namespace App.Agent
         public abstract IFuture<RejectCards> Mulligan();
         public abstract IFuture<PlacePiece> PlaceKing();
         public abstract ITransient TurnStart();
-        public abstract ITimedFuture<IRequest> NextRequest(float seconds);
         public abstract ITransient TurnEnd();
+
+        public virtual ITimedFuture<IRequest> NextRequest(float seconds)
+        {
+            var req = Model.NextAction();
+            return New.TimedFuture(TimeSpan.FromSeconds(seconds), req);
+        }
 
         public void PushRequest(Turnaround req)
         {
