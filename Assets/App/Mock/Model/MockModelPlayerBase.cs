@@ -22,6 +22,7 @@ namespace App.Mock.Model
 
         public override void StartGame()
         {
+            base.StartGame();
         }
 
         public override IRequest Mulligan()

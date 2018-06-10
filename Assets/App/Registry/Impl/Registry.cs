@@ -310,7 +310,8 @@ namespace App.Registry
             Type ty;
             if (!_bindings.TryGetValue(ity, out ty))
             {
-                Warn($"Registry has no binding for {ity}");
+                if (_resolved)
+                    Error($"Registry has no binding for {ity}");
                 return null;
             }
             var cons = ty.GetConstructors();
