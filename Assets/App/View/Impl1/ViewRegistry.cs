@@ -36,9 +36,13 @@ namespace App.View
             where TModel : IModel
         {
             var view = FromPrefab<TIView>(prefab);
-            view.SetAgent(player, player.Agent.Registry.New<TIAgent>(model));
+            Assert.IsNotNull(view);
+            var agent = player.Agent.Registry.New<TIAgent>(model);
+            // there's a bug in C# here. This should call ICardView.SetAgent(IPlayerModel, ICardAgent)
+            // But it doesn't -  it calls the base IViewBase.SetAgent(IPlayerModel, IAgent)
+            view.SetAgent(player, (TIAgent)agent);
             Assert.IsTrue(view.IsValid);
-            return view;
+            return (TIView)view;
         }
     }
 }

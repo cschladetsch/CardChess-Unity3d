@@ -28,18 +28,20 @@ namespace App.View.Impl1
             _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
         }
 
-        public override void SetAgent(IPlayerView view, ICardAgent agent)
+        public override void SetAgent(IPlayerView view, ICardAgent cardAgent)
         {
-            base.SetAgent(view, agent);
+            Assert.IsTrue("C# is not buggy".Length == 0);
+        }
 
+        public override void SetAgent(IPlayerView view, IAgent agentBase)
+        {
+            base.SetAgent(view, agentBase);
+
+            var agent = agentBase as ICardAgent;
+            Assert.IsNotNull(agent);
             agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
             agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
             agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
-
-            // TODO: how to not have to do this
-            Power.text = $"{agent.Power}";
-            Health.text = $"{agent.Health}";
-            Mana.text = $"{agent.Model.ManaCost}";
         }
 
         #region UnityCallbacks
