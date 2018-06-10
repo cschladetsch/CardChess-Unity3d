@@ -93,6 +93,11 @@ namespace App
             }
         }
 
+        protected override void Step()
+        {
+            base.Step();
+        }
+
         [ContextMenu("GameRoot-Trace")]
         public void Trace()
         {

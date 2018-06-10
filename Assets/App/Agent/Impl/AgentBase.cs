@@ -20,17 +20,16 @@ namespace App.Agent
         public IRegistry<IAgent> Registry { get; set; }
         public Guid Id { get; /*private*/ set; }
         public IModel BaseModel { get; }
-        public TModel Model { get; }
+        public TModel Model => BaseModel as TModel;
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
         public bool IsValid
         {
             get
             {
-                if (Registry == null) return false;
                 if (Id == Guid.Empty) return false;
+                if (Registry == null) return false;
                 if (BaseModel == null) return false;
-                if (Model != BaseModel) return false;
                 if (!Model.IsValid) return false;
                 return true;
             }
@@ -40,7 +39,6 @@ namespace App.Agent
         {
             Assert.IsNotNull(model);
             BaseModel = model;
-            Model = model;
         }
 
         public virtual void Create()

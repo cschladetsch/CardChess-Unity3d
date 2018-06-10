@@ -30,12 +30,11 @@ namespace App.Model.Test
         public void TestBasicGame()
         {
             _arbiter.PrepareGame(_white, _black);
-            for (var n = 0; n < 12; ++n)
+            for (var n = 0; n < 5; ++n)
             {
                 Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);
-                Trace.WriteLine(_board.Print());
                 Assert.IsTrue(_arbiter.Arbitrate(_black.NextAction()).Success);
-                Trace.WriteLine(_board.Print());
+                _arbiter.Info(_board.Print());
             }
         }
     }

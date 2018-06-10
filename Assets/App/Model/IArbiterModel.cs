@@ -18,5 +18,6 @@ namespace App.Model
 
         void PrepareGame(IPlayerModel white, IPlayerModel black);
         Response Arbitrate(IRequest request);
+        void EndTurn();
     }
 }

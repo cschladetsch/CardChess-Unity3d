@@ -108,8 +108,7 @@ namespace App.View.Impl1
                 return;
             }
 
-            var valid = IsValid && Player.IsValid && Agent.IsValid;
-            Assert.IsTrue(valid);
+            Assert.IsTrue(IsValid && Player.IsValid && Agent.IsValid);
 
             Player.NewRequest(
                 new PlacePiece(Player.Agent.Model, Agent.Model, square.Coord)
