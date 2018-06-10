@@ -27,7 +27,7 @@ namespace App.Model.Test
         }
 
         [Test]
-        public void TestBasicGame()
+        public void TestBasicGameModels()
         {
             _arbiter.PrepareGame(_white, _black);
             _arbiter.StartGame();
