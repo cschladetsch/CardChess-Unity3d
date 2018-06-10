@@ -17,6 +17,12 @@ namespace App.Agent
         {
         }
 
+        public override void Create()
+        {
+            base.Create();
+            Root.Add(New.Coroutine(Next).Named($"{this} Coro"));
+        }
+
         public override IFuture<RejectCards> Mulligan()
         {
             return null;
@@ -40,7 +46,7 @@ namespace App.Agent
             return future;
         }
 
-        protected override IEnumerator Next(IGenerator self)
+        protected IEnumerator Next(IGenerator self)
         {
             // TODO: keep state matched with arbiter
 
@@ -62,7 +68,7 @@ namespace App.Agent
                 future.Value = req.Request;
             }
 
-            return base.Next(self);
+            yield return null;
         }
 
         public override ITransient TurnEnd()

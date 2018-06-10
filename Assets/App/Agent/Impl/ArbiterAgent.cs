@@ -216,11 +216,11 @@ namespace App
             );
         }
 
-        protected override IEnumerator Next(IGenerator self)
-        {
-            // TODO: general game backround animation, music loops etc
-            yield return null;
-        }
+        //protected override IEnumerator Next(IGenerator self)
+        //{
+        //    // TODO: general game backround animation, music loops etc
+        //    yield return null;
+        //}
 
         private List<IPlayerAgent> _players = new List<IPlayerAgent>();
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);

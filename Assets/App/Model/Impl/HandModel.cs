@@ -24,7 +24,7 @@
 
         public void NewGame()
         {
-            var count = Parameters.StartHandCardCount;
+            //var count = Parameters.StartHandCardCount;
             _Cards.Clear();
             //if (Deck.NumCards.Value < count)
             //{

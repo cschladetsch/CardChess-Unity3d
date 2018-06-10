@@ -22,14 +22,27 @@ namespace App.Agent
         public override void Create()
         {
             base.Create();
-            _Coro = New.Coroutine(Next);
-            _Node = New.Node(_Coro);
-            Kernel.Root.Add(_Node);
+            //_Coro = New.Coroutine(Next);
+            //_Node = New.Node(_Coro);
+            //Kernel.Root.Add(_Node);
         }
 
-        protected abstract IEnumerator Next(IGenerator self);
+        //protected abstract IEnumerator Next(IGenerator self);
 
-        protected IGenerator _Coro;
-        protected INode _Node;
+        //protected IGenerator _Coro;
+
+        protected INode _Node
+        {
+            get
+            {
+                if (_node != null)
+                    return _node;
+                _node = New.Node();
+                Root.Add(_node);
+                return _node;
+            }
+        }
+
+        private INode _node;
     }
 }

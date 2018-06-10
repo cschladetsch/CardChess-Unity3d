@@ -68,10 +68,10 @@ namespace App.Agent
             Model.Remove(card.Model);
         }
 
-        protected override IEnumerator Next(IGenerator self)
-        {
-            yield return null;
-        }
+        //protected override IEnumerator Next(IGenerator self)
+        //{
+        //    yield return null;
+        //}
 
     }
 }
