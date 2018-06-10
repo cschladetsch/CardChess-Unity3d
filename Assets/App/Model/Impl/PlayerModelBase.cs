@@ -168,6 +168,11 @@ namespace App.Model
             return Common.Message.Response.Ok;
         }
 
+        public ICardModel RandomCard()
+        {
+            return _CardtemplateService.NewCardModel(this, EPieceType.Peon);
+        }
+
         public Response ChangeMaxMana(int change)
         {
             // TODO: set this via Rx
