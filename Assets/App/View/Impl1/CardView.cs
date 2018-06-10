@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using App.Model;
+using UnityEngine;
 using UnityEngine.UI;
 
 using UniRx;
@@ -115,10 +116,10 @@ namespace App.View.Impl1
                 return;
             }
 
-            Assert.IsTrue(IsValid && Player.IsValid && Agent.IsValid);
+            Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
 
-            Player.NewRequest(
-                new PlacePiece(Player.Agent.Model, Agent.Model, square.Coord)
+            PlayerView.NewRequest(
+                new PlacePiece(PlayerView.Agent.Model, Agent.Model, square.Coord)
                 , Response);
         }
 

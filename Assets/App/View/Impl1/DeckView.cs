@@ -41,7 +41,7 @@ namespace App.View.Impl1
             foreach (var card in Agent.Model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);
-                view.SetAgent(Player, Agent.Registry.New<ICardAgent>(card));
+                view.SetAgent(PlayerView, Agent.Registry.New<ICardAgent>(card));
                 view.transform.SetParent(CardsRoot);
                 view.transform.localPosition = new Vector3(nx * dx, 0, 0);
                 view.transform.localRotation = Quaternion.Euler(0, 90, 0);

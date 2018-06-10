@@ -24,15 +24,10 @@ namespace App.Agent
         public IReactiveCollection<EAbility> Abilities => Model.Abilities;
         public IReactiveCollection<IEffectModel> Effects => Model.Effects;
 
-        public CardAgent(Model.ICardModel model)
+        public CardAgent(ICardModel model)
             : base(model)
         {
         }
-
-        //protected override IEnumerator Next(IGenerator self)
-        //{
-        //    yield break;
-        //}
 
         public bool SetModel(Model.ICardModel model)
         {

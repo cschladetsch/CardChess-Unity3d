@@ -17,20 +17,17 @@ namespace App.View.Impl1
         public int MockNumCards = 4;
         public Vector3 Offset;
 
-        public override void SetAgent(IPlayerView view, IHandAgent hand)
+        public override void SetAgent(IPlayerView view, IHandAgent handAgent)
         {
-            base.SetAgent(view, hand);
+            base.SetAgent(view, handAgent);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
             Clear();
             CreateHandView();
 
-            // TODO: hand.Cards, not hand.Model.Cards
-            hand.Model.Cards.ObserveAdd().Subscribe(Add);
-            hand.Model.Cards.ObserveRemove().Subscribe(Remove);
-
-            //_cards.ObserveCountChanged().Subscribe(_ => Redraw());
+            //handAgent.Cards.ObserveAdd().Subscribe(Add);
+            //handAgent.Cards.ObserveRemove().Subscribe(Remove);
         }
 
         public void CreateHandView()
@@ -41,11 +38,7 @@ namespace App.View.Impl1
             var n = 0;
             foreach (var card in model.Cards)
             {
-                var view = ViewRegistry.FromPrefab<ICardView, ICardAgent, ICardModel>(
-                    Player, CardViewPrefab, card);
-
-                Assert.IsTrue(view.IsValid);
-
+                var view = ViewRegistry.FromPrefab<ICardView, ICardAgent, ICardModel>(PlayerView, CardViewPrefab, card);
                 var tr = view.GameObject.transform;
                 tr.SetParent(CardsRoot);
                 tr.localPosition = n * Offset;
@@ -62,21 +55,20 @@ namespace App.View.Impl1
                 Unity.Destroy(tr);
         }
 
-        private void Redraw()
+        private void Add(CollectionAddEvent<ICardAgent> add)
         {
-            //CreateHandView();
+            Info($"HandView: Add {add.Value} @{add.Index}");
+            var cardView = ViewRegistry.New<ICardView>();
+            cardView.SetAgent(PlayerView, add.Value);
+            _cards.Insert(add.Index, cardView);
         }
 
-        private void Add(CollectionAddEvent<ICardModel> add)
+        private void Remove(CollectionRemoveEvent<ICardAgent> remove)
         {
-            _cards.Insert(add.Index, Registry.New<ICardView>(add.Value));
-        }
-
-        private void Remove(CollectionRemoveEvent<ICardModel> card)
-        {
-            var view = _cards[card.Index];
+            Info($"HandView: Remove {remove.Value} @{remove.Index}");
+            var view = _cards[remove.Index];
             view.Destroy();
-            _cards.RemoveAt(card.Index);
+            _cards.RemoveAt(remove.Index);
         }
 
         private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();

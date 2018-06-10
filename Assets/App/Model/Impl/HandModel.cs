@@ -55,6 +55,5 @@ namespace App.Model
         {
             Add(_cardTemplateService.NewCardModel(Owner.Value as IPlayerModel, EPieceType.King));
         }
-
     }
 }
