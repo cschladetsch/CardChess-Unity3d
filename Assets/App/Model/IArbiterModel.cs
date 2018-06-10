@@ -1,6 +1,5 @@
 ﻿using App.Common;
 using App.Common.Message;
-using JetBrains.Annotations;
 using UniRx;
 
 namespace App.Model
@@ -15,6 +14,7 @@ namespace App.Model
         IBoardModel Board { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
         IReadOnlyReactiveProperty<EGameState> GameState { get; }
+        IReactiveProperty<int> TurnNumber { get; }
 
         void PrepareGame(IPlayerModel white, IPlayerModel black);
         Response Arbitrate(IRequest request);

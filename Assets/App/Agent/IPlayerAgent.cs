@@ -28,8 +28,6 @@ namespace App.Agent
         : IAgent<IPlayerModel>
         , IOwner
     {
-        ICardAgent King { get; }
-        IPieceAgent KingPiece { get; set; }
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }
         IBoardAgent Board { get; }
@@ -41,7 +39,6 @@ namespace App.Agent
         ITransient StartGame();
         ITransient DrawInitialCards();
         IFuture<RejectCards> Mulligan();
-        IFuture<PlacePiece> PlaceKing();
 
         ITransient TurnStart();
         ITimedFuture<IRequest> NextRequest(float timeOut);

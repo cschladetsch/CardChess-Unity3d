@@ -21,7 +21,8 @@ namespace App.Agent.Test
             for (int n = 0; n < 8; ++n)
             {
                 _arbiterAgent.Step();
-                Info($"{_arbiterAgent.Kernel.Root}");
+                //Info($"{_arbiterAgent.Kernel.Root}");
+                Info($"Move {_arbiter.GameState.Value}, #{_arbiter.TurnNumber}");
                 Info(_board.Print());
             }
         }

@@ -24,8 +24,6 @@ namespace App.Model
         IArbiterModel Arbiter { get; }
         IDeckModel Deck { get; }
         IHandModel Hand { get; }
-        ICardModel King { get; }
-        IPieceModel KingPiece { get; set; }
         IReactiveProperty<int> MaxMana { get; }
         IReactiveProperty<int> Mana { get; }
         IReactiveProperty<int> Health { get; }

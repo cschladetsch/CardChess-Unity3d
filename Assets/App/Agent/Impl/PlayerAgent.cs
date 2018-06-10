@@ -28,11 +28,6 @@ namespace App.Agent
             return null;
         }
 
-        public override IFuture<PlacePiece> PlaceKing()
-        {
-            return null;
-        }
-
         public override ITransient TurnStart()
         {
             return null;
