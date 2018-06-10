@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using App.Common;
 using App.Common.Message;
 using App.Model;
 using Flow;
-using Flow.Impl;
 
 namespace App.Mock.Agent
 {
     using App.Agent;
 
-    public class WhitePlayerAgent
+    public class MockBlackPlayerAgent
         : PlayerAgentBase
-        , IWhitePlayerAgent
+        , IBlackPlayerAgent
     {
-        public WhitePlayerAgent(IPlayerModel model)
+        public MockBlackPlayerAgent(IPlayerModel model)
             : base(model)
         {
         }
@@ -26,24 +26,19 @@ namespace App.Mock.Agent
 
         public override IFuture<RejectCards> Mulligan()
         {
+            // keep all cards
             return New.Future(new RejectCards(Model));
         }
 
         public override IFuture<PlacePiece> PlaceKing()
         {
             Info($"{this} places king");
-            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 2)));
+            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 5)));
         }
 
         public override ITransient TurnStart()
         {
             return null;//New.Nop();
-        }
-
-        public override ITimedFuture<IRequest> NextRequest(float seconds)
-        {
-            Info($"{this} passes");
-            return null;
         }
 
         public override ITransient TurnEnd()

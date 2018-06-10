@@ -34,8 +34,8 @@ namespace App.Agent.Test
             _agency.Bind<IHandAgent, HandAgent>();
             _agency.Bind<IPieceAgent, PieceAgent>();
             _agency.Bind<IPlayerAgent, PlayerAgent>();
-            _agency.Bind<IWhitePlayerAgent, WhitePlayerAgent>();
-            _agency.Bind<IBlackPlayerAgent, BlackPlayerAgent>();
+            _agency.Bind<IWhitePlayerAgent, MockWhitePlayerAgent>();
+            _agency.Bind<IBlackPlayerAgent, MockBlackPlayerAgent>();
             _agency.Resolve();
 
             _boardAgent = _agency.New<IBoardAgent>();

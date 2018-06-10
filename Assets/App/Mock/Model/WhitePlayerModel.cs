@@ -24,7 +24,6 @@ namespace App.Mock.Model
                 //() => new StartGame(this),
                 //() => new RejectCards(this),
                 () => new PlacePiece(this, King, new Coord(4, 2)),
-                () => _EndTurn,
                 () => new PlacePiece(this, GetCardFromHand(EPieceType.Peon), new Coord(4, 3)),
                 () => new Battle(this, KingPiece, Board.At(3,3)),
                 () => new MovePiece(this, Board.At(4,3), new Coord(4,4)),

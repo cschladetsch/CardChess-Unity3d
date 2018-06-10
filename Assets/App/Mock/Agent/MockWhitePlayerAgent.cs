@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using App.Common;
 using App.Common.Message;
 using App.Model;
@@ -8,11 +8,11 @@ namespace App.Mock.Agent
 {
     using App.Agent;
 
-    public class BlackPlayerAgent
+    public class MockWhitePlayerAgent
         : PlayerAgentBase
-        , IBlackPlayerAgent
+        , IWhitePlayerAgent
     {
-        public BlackPlayerAgent(IPlayerModel model)
+        public MockWhitePlayerAgent(IPlayerModel model)
             : base(model)
         {
         }
@@ -25,31 +25,24 @@ namespace App.Mock.Agent
 
         public override IFuture<RejectCards> Mulligan()
         {
-            // keep all cards
             return New.Future(new RejectCards(Model));
         }
 
         public override IFuture<PlacePiece> PlaceKing()
         {
             Info($"{this} places king");
-            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 5)));
+            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 2)));
         }
 
         public override ITransient TurnStart()
         {
-            return null;//New.Nop();
-        }
-
-        public override ITimedFuture<IRequest> NextRequest(float seconds)
-        {
-            Info($"{this} passes");
-            return null;
+            return New.Nop();
         }
 
         public override ITransient TurnEnd()
         {
             Info("Turn End");
-            return null;
+            return New.Nop();
         }
     }
 }
