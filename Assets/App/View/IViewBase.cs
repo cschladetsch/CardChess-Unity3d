@@ -27,6 +27,6 @@ namespace App.View
         where TIAgent : IAgent
     {
         TIAgent Agent { get; }
-        void SetAgent(IPlayerView player, TIAgent agent);
+        //void SetAgentTyped(IPlayerView player, TIAgent agent);
     }
 }
