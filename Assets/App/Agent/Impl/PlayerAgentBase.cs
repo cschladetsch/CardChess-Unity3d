@@ -10,9 +10,8 @@ namespace App.Agent
     using Common.Message;
     using Model;
 
-    /// <inheritdoc cref="IPlayerAgent" />
     /// <summary>
-    /// The agent that represents a playerAgent in the game.
+    /// The agent that represents a player in the game.
     /// </summary>
     public abstract class PlayerAgentBase
         : AgentBaseCoro<IPlayerModel>

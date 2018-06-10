@@ -14,12 +14,14 @@ namespace App.Model
 
     public class ArbiterModel
         : RespondingModelBase
-        , IArbiterModel
+            , IArbiterModel
     {
         public EColor Color => EColor.Neutral;
         public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
         public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
-        [Inject] public IBoardModel Board { get; set; }
+
+        [Inject]
+        public IBoardModel Board { get; set; }
 
         public ArbiterModel()
             : base(null)
@@ -60,6 +62,10 @@ namespace App.Model
             Board.NewGame();
             foreach (var p in _players)
                 p.Player.NewGame();
+
+            // TODO: start properly
+            _currentPlayerIndex.Value = 0;
+            _gameState.Value = EGameState.PlaceKing;
         }
 
         public void EndGame()
@@ -78,7 +84,7 @@ namespace App.Model
 
         private Response ProcessRequest(IRequest request)
         {
-            Info($"{request} in {GameState} #{_turnNumber}");
+            Info($"Req: {request} in GameState:{GameState} #{_turnNumber}");
             switch (GameState.Value)
             {
                 case EGameState.None:
@@ -142,7 +148,7 @@ namespace App.Model
             _gameState.Value = EGameState.PlayTurn;
         }
 
-        private void EndTurn()
+        public void EndTurn()
         {
             CurrentPlayer.Value.EndTurn();
             _currentPlayerIndex.Value = (_currentPlayerIndex.Value + 1) % _players.Count;

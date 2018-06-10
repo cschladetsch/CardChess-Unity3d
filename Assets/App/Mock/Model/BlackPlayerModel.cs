@@ -20,8 +20,8 @@ namespace App.Mock.Model
         {
             _Requests = new List<Func<IRequest>>()
             {
-                () => new StartGame(this),
-                () => new RejectCards(this),
+                //() => new StartGame(this),
+                //() => new RejectCards(this),
                 () => new PlacePiece(this, King, new Coord(4, 5)),
                 () => _EndTurn,
                 () => new PlacePiece(this, GetCardFromHand(EPieceType.Peon), new Coord(3, 3)),

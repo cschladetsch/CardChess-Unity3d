@@ -42,6 +42,16 @@ namespace App.Agent
 
         protected override IEnumerator Next(IGenerator self)
         {
+            // TODO: keep state matched with arbiter
+
+            //yield return Start();
+            //yield return Mulligan();
+            //yield return PlaceKLing();
+            //while (!done)
+            //{
+            //    // pump moves
+            //}
+
             if (_Requests.Count > 0 && _futures.Count > 0)
             {
                 var future = _futures[0];

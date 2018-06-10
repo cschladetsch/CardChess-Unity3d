@@ -27,11 +27,7 @@ namespace App.Mock.Model
         private readonly EPieceType[] _pieceTypes =
         {
             EPieceType.Peon,
-            EPieceType.Peon,
-            EPieceType.Peon,
             EPieceType.Archer,
-            EPieceType.Archer,
-            EPieceType.Gryphon,
             EPieceType.Gryphon,
         };
     }

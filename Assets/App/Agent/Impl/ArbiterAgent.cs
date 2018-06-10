@@ -123,7 +123,6 @@ namespace App
         private IEnumerator PlayerTurn(IGenerator self)
         {
             Assert.AreSame(PlayerModel.Value, Model.CurrentPlayer.Value);
-
             PlayerModel.Value.StartTurn();
 
             var timeOut = Parameters.GameTurnTimer;
@@ -132,12 +131,11 @@ namespace App
             // player can make as many valid actions as he can during his turn
             while (true)
             {
+                Assert.IsTrue(self.Active);
+
                 var request = PlayerAgent.Value.NextRequest(timeOut);
-                if (request == null)
-                {
-                    Warn($"{PlayerModel} passed");
-                    break;
-                }
+                Assert.IsNotNull(request);
+
                 yield return self.After(request);
 
                 if (request.HasTimedOut)
@@ -165,6 +163,8 @@ namespace App
                 timeStart = now;
                 timeOut -= dt;
             }
+
+            Model.EndTurn();
         }
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
