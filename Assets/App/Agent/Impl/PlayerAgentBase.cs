@@ -46,17 +46,22 @@ namespace App.Agent
 
         public virtual ITransient StartGame()
         {
-            Verbose(60, $"{Model} StartGame");
+            Verbose(60, $"{this} StartGame");
             Model.StartGame();
             return null;
         }
 
-        public ITransient DrawInitialCards()
+        public override string ToString()
         {
-            Verbose(60, $"{Model} Draws first cards");
-            Model.DrawHand();
-            return null;
+            return $"Agent for {Model}";
         }
+
+        //public ITransient DrawInitialCards()
+        //{
+        //    Verbose(60, $"{Model} Draws first cards");
+        //    Model.DrawHand();
+        //    return null;
+        //}
 
         public abstract IFuture<RejectCards> Mulligan();
         public abstract ITransient TurnStart();

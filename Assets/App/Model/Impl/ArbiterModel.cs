@@ -35,9 +35,9 @@ namespace App.Model
             base.Create();
         }
 
-        public override void Prepare()
+        public override void PrepareModels()
         {
-            base.Prepare();
+            base.PrepareModels();
         }
 
         public void PrepareGame(IPlayerModel w, IPlayerModel b)
@@ -50,19 +50,17 @@ namespace App.Model
             _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
             _currentPlayerIndex.Value = 0;
 
-            Board.Prepare();
+            Board.PrepareModels();
             foreach (var entry in _players)
-                entry.Player.Prepare();
-
-            NewGame();
+                entry.Player.PrepareModels();
         }
 
-        public void NewGame()
+        public virtual void StartGame()
         {
             _gameState.Value = EGameState.Start;
-            Board.NewGame();
+            Board.StartGame();
             foreach (var p in _players)
-                p.Player.NewGame();
+                p.Player.StartGame();
 
             // TODO: start properly
             _currentPlayerIndex.Value = 0;

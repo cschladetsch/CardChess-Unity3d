@@ -7,7 +7,7 @@ namespace App.Common
     /// </summary>
     public interface IGameActor
     {
-        void NewGame();
+        void StartGame();
         void EndGame();
     }
 }

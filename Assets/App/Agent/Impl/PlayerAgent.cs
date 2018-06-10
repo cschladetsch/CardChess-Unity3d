@@ -53,17 +53,20 @@ namespace App.Agent
             //    // pump moves
             //}
 
-            if (_Requests.Count > 0 && _futures.Count > 0)
+            while (true)
             {
-                var future = _futures[0];
-                var req = _Requests[0];
-                _futures.RemoveAt(0);
-                _Requests.RemoveAt(0);
+                if (_Requests.Count > 0 && _futures.Count > 0)
+                {
+                    var future = _futures[0];
+                    var req = _Requests[0];
+                    _futures.RemoveAt(0);
+                    _Requests.RemoveAt(0);
 
-                future.Value = req.Request;
+                    future.Value = req.Request;
+                }
+
+                yield return null;
             }
-
-            yield return null;
         }
 
         public override ITransient TurnEnd()

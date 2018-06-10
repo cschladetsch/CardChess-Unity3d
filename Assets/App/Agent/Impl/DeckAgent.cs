@@ -14,18 +14,17 @@ namespace App.Agent
         , IDeckAgent
     {
         public event Action<ICardAgent> OnDraw;
-
         public int MaxCards => Parameters.MinCardsInDeck;
-        //public IEnumerable<ICardAgent> Cards => null;//base.Cards.OfType<ICardAgent>();
 
-        public DeckAgent(IDeckModel model) : base(model)
+        public DeckAgent(IDeckModel model)
+            : base(model)
         {
         }
 
         public IChannel<ICardAgent> DrawCards(uint n)
         {
             var channel = New.Channel<ICardAgent>();
-            //Node.Add(New.Coroutine(DrawCardsCoro, n, channel));
+            _Node.Add(New.Coroutine(DrawCardsCoro, n, channel));
             return channel;
         }
 
@@ -38,14 +37,9 @@ namespace App.Agent
                 if (!card.Available)
                     yield break;
                 channel.Insert(card.Value);
-                yield return card;
-            }
-        }
 
-        public IFuture<Response> NewGame()
-        {
-            Model.Prepare();
-            return null;
+                yield return self.ResumeAfter(TimeSpan.FromSeconds(0.020));
+            }
         }
 
         public IFuture<ICardAgent> Draw()
@@ -67,11 +61,5 @@ namespace App.Agent
         {
             Model.Remove(card.Model);
         }
-
-        //protected override IEnumerator Next(IGenerator self)
-        //{
-        //    yield return null;
-        //}
-
     }
 }

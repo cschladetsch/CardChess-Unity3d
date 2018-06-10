@@ -13,9 +13,7 @@ namespace App.Agent
     {
         event Action<ICardAgent> OnDraw;
 
-        IFuture<Response> NewGame();
         IFuture<ICardAgent> Draw();
-
         void AddToBottom(ICardAgent card);
     }
 }

@@ -34,7 +34,7 @@ namespace App.View.Impl1
         protected override void Step()
         {
             base.Step();
-            Agent.Step();
+            Agent?.Step();
         }
     }
 }

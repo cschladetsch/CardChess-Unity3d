@@ -18,15 +18,9 @@ namespace App.Agent
             //model.Cards.ObserveAdd().Subscribe(async
         }
 
-        //protected override IEnumerator Next(IGenerator self)
-        //{
-        //    yield return null;
-        //}
-
-        public IFuture<Response> NewGame()
+        public void StartGame()
         {
-            Model.NewGame();
-            return null;
+            Model.StartGame();
         }
 
         public IFuture<Response> Add(ICardAgent card)

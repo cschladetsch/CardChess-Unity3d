@@ -26,7 +26,6 @@ namespace App
         , IArbiterAgent
     {
         public IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent => _playerAgent;
-        public IReadOnlyReactiveProperty<IPlayerModel> PlayerModel => Model.CurrentPlayer;
         [Inject] public IBoardAgent BoardAgent { get; set; }
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
@@ -72,18 +71,13 @@ namespace App
             throw new Exception($"No matching agent found for {playerModel}");
         }
 
-        private ITransient NewGameWork()
-        {
-            return null;
-        }
-
         public void StartGame()
         {
             Info($"{this} StartGame");
 
             // only needed because we're skipping the coro below
             foreach (var p in _playerAgents)
-                p.Model.DrawHand();
+                p.StartGame();
 
             _Node.Add(GameLoop());
             //_Node.Add(GameLoop());
@@ -102,26 +96,26 @@ namespace App
             //);
         }
 
-        private IGenerator StartGameCoro()
-        {
-            var rejectTimeOut = TimeSpan.FromSeconds(Parameters.MulliganTimer);
-            //var kingPlaceTimeOut = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
+        //private IGenerator StartGameCoro()
+        //{
+        //    var rejectTimeOut = TimeSpan.FromSeconds(Parameters.MulliganTimer);
+        //    //var kingPlaceTimeOut = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
 
-            return New.Barrier(
-                New.Sequence(
-                    New.Barrier(
-                        _playerAgents.Select(p => p.StartGame())
-                    ).Named("InitGame"),
-                    New.Barrier(
-                        _playerAgents.Select(p => p.DrawInitialCards())
-                    ).Named("DealCards")
-                ),
-                ArbitrateFutures(
-                    rejectTimeOut,
-                    _playerAgents.Select(p => p.Mulligan())
-                ).Named("Mulligan")
-            ).Named("StartGame");
-        }
+        //    //return New.Barrier(
+        //    //    New.Sequence(
+        //    //        New.Barrier(
+        //    //            _playerAgents.Select(p => p.StartGame())
+        //    //        ).Named("InitGame"),
+        //    //        New.Barrier(
+        //    //            _playerAgents.Select(p => p.DrawInitialCards())
+        //    //        ).Named("DealCards")
+        //    //    ),
+        //    //    ArbitrateFutures(
+        //    //        rejectTimeOut,
+        //    //        _playerAgents.Select(p => p.Mulligan())
+        //    //    ).Named("Mulligan")
+        //    //).Named("StartGame");
+        //}
 
         public ITransient GameLoop()
         {
@@ -136,8 +130,8 @@ namespace App
 
         private IEnumerator PlayerTurn(IGenerator self)
         {
-            Assert.AreSame(PlayerModel.Value, Model.CurrentPlayer.Value);
-            PlayerModel.Value.StartTurn();
+            Assert.AreSame(PlayerModel, Model.CurrentPlayer.Value);
+            PlayerModel.StartTurn();
 
             var timeOut = Parameters.GameTurnTimer;
             var timeStart = Kernel.Time.Now;
@@ -188,6 +182,7 @@ namespace App
         private IEnumerator PlayerTimedOut(IGenerator arg)
         {
             Warn($"{PlayerModel} TimedOut");
+            Model.EndTurn();
             yield break;
         }
 

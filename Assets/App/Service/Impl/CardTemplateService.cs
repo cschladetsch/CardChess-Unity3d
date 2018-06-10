@@ -17,9 +17,9 @@ namespace App.Service.Impl
         {
         }
 
-        public override void Prepare()
+        public override void PrepareModels()
         {
-            base.Prepare();
+            base.PrepareModels();
         }
 
         public ICardTemplate GetCardTemplate(EPieceType pieceType)

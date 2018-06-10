@@ -32,9 +32,14 @@ namespace App.View.Impl1
         {
             base.SetAgent(view, agent);
 
-            agent.Power.DistinctUntilChanged().Subscribe(p => Power.text = $"{p}");
-            agent.Health.DistinctUntilChanged().Subscribe(p => Health.text = $"{p}");
-            agent.Model.ManaCost.DistinctUntilChanged().Subscribe(p => Mana.text = $"{p}");
+            agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+
+            // TODO: how to not have to do this
+            Power.text = $"{agent.Power}";
+            Health.text = $"{agent.Health}";
+            Mana.text = $"{agent.Model.ManaCost}";
         }
 
         #region UnityCallbacks

@@ -22,18 +22,23 @@ namespace App.Model
         {
         }
 
-        public override void Prepare()
+        public override void PrepareModels()
         {
-            base.Prepare();
+            base.PrepareModels();
         }
 
-        public void NewGame()
+        public virtual void StartGame()
         {
             _Cards.Clear();
             DrawInitialCards();
         }
 
-        public virtual void DrawInitialCards()
+        public void EndGame()
+        {
+            _Cards.Clear();
+        }
+
+        protected virtual void DrawInitialCards()
         {
             Deck.Shuffle();
             for (var n = 0; n < Parameters.StartHandCardCount; ++n)
@@ -51,8 +56,5 @@ namespace App.Model
             Add(_cardTemplateService.NewCardModel(Owner.Value as IPlayerModel, EPieceType.King));
         }
 
-        public void EndGame()
-        {
-        }
     }
 }

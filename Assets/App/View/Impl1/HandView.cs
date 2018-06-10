@@ -30,7 +30,7 @@ namespace App.View.Impl1
             hand.Model.Cards.ObserveAdd().Subscribe(Add);
             hand.Model.Cards.ObserveRemove().Subscribe(Remove);
 
-            _cards.ObserveCountChanged().Subscribe(_ => Redraw());
+            //_cards.ObserveCountChanged().Subscribe(_ => Redraw());
         }
 
         public void CreateHandView()
@@ -48,7 +48,7 @@ namespace App.View.Impl1
 
                 var tr = view.GameObject.transform;
                 tr.SetParent(CardsRoot);
-                tr.localPosition = n*Offset;
+                tr.localPosition = n * Offset;
                 view.GameObject.name = $"{card}";
                 _cards.Add(view);
                 ++n;
@@ -64,7 +64,7 @@ namespace App.View.Impl1
 
         private void Redraw()
         {
-            CreateHandView();
+            //CreateHandView();
         }
 
         private void Add(CollectionAddEvent<ICardModel> add)
@@ -78,8 +78,6 @@ namespace App.View.Impl1
             view.Destroy();
             _cards.RemoveAt(card.Index);
         }
-
-        private IReactiveProperty<ICardView> _scaled;
 
         private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
     }

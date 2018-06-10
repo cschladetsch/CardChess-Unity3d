@@ -33,12 +33,12 @@ namespace App.Model
             Height = height;
         }
 
-        public override void Prepare()
+        public override void PrepareModels()
         {
-            base.Prepare();
+            base.PrepareModels();
         }
 
-        public void NewGame()
+        public void StartGame()
         {
             ClearBoard();
             ConstructBoard();
