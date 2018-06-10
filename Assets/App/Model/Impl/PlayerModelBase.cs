@@ -115,6 +115,11 @@ namespace App.Model
         {
             Verbose(5, $"{this}: {req} -> {response}");
 
+            if (response.Error == EError.None)
+            {
+                return;
+            }
+
             // if these actions failed, return the cards to Hand
             switch (req.Action)
             {

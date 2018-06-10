@@ -1,4 +1,5 @@
 ﻿using Flow;
+using UniRx;
 
 namespace App.Agent
 {
@@ -7,6 +8,6 @@ namespace App.Agent
     public interface IHandAgent
         : IAgent<Model.IHandModel>
     {
-        IFuture<Response> Add(ICardAgent card);
+        IReadOnlyReactiveCollection<ICardAgent> Cards { get; }
     }
 }

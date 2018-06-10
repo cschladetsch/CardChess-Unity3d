@@ -27,7 +27,7 @@ namespace App.View.Impl1
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
-        public IPlayerView Player { get; set; }
+        public IPlayerView PlayerView { get; set; }
         public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
         public GameObject GameObject => gameObject;
         public bool IsValid
@@ -53,7 +53,7 @@ namespace App.View.Impl1
 
         public virtual void SetAgent(IPlayerView player, IAgent agent)
         {
-            Player = player;
+            PlayerView = player;
             Assert.IsNotNull(agent);
             AgentBase = agent;
         }

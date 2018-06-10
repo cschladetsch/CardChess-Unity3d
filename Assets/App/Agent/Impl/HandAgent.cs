@@ -1,21 +1,20 @@
-﻿using System.Collections;
-
-using Flow;
+﻿using UniRx;
 
 namespace App.Agent
 {
-    using Common;
-    using Common.Message;
     using Model;
 
     public class HandAgent
         : AgentBaseCoro<IHandModel>
         , IHandAgent
     {
+        public IReadOnlyReactiveCollection<ICardAgent> Cards => _cards;
+
         public HandAgent(IHandModel model)
             : base(model)
         {
-            //model.Cards.ObserveAdd().Subscribe(async
+            //model.Cards.ObserveAdd().Subscribe(Add).AddTo(Model);
+            //model.Cards.ObserveRemove().Subscribe(Remove).AddTo(Model);
         }
 
         public void StartGame()
@@ -23,15 +22,21 @@ namespace App.Agent
             Model.StartGame();
         }
 
-        public IFuture<Response> Add(ICardAgent card)
+        void Remove(CollectionRemoveEvent<ICardModel> remove)
         {
-            Assert.IsNotNull(card);
-            return New.Future(Model.Add(card.Model) ? Response.Ok : Response.Fail);
+            Info($"HandAgent: Remove {remove.Value} @{remove.Index}");
+            var index = remove.Index;
+            var card = _cards[index];
+            card.Destroy();
+            _cards.RemoveAt(index);
         }
 
-        public IFuture<Response> Remove(ICardAgent model)
+        void Add(CollectionAddEvent<ICardModel> add)
         {
-            return New.Future(Response.Ok);
+            Info($"HandAgent: Add {add.Value} @{add.Index}");
+            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Index));
         }
+
+        private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
     }
 }
