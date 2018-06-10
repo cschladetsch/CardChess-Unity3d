@@ -30,6 +30,7 @@ namespace App
         [Inject] public IBoardAgent BoardAgent { get; set; }
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
+        public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -79,6 +80,11 @@ namespace App
         public void StartGame()
         {
             Info($"{this} StartGame");
+
+            // only needed because we're skipping the coro below
+            foreach (var p in _playerAgents)
+                p.Model.DrawHand();
+
             _Node.Add(GameLoop());
             //_Node.Add(GameLoop());
             //_Node.Add(
@@ -119,13 +125,13 @@ namespace App
 
         public ITransient GameLoop()
         {
-            return New.Sequence(
-                //StartGameCoro(),
-                New.While(() => Model.GameState.Value != EGameState.Completed,
-                    New.Coroutine(PlayerTurn).Named("Turn")
-                ).Named("GameLoop"),
-                New.Coroutine(EndGame).Named("EndGame")
-            ).Named("Done");
+            return New.Coroutine(PlayerTurn).Named("Turn");
+
+            //return New.Sequence(
+            //    //StartGameCoro(),
+            //    New.Coroutine(PlayerTurn).Named("Turn"),
+            //    New.Coroutine(EndGame).Named("EndGame")
+            //).Named("Done");
         }
 
         private IEnumerator PlayerTurn(IGenerator self)
@@ -139,10 +145,15 @@ namespace App
             // player can make as many valid actions as he can during his turn
             while (true)
             {
+                if (GameState.Value == EGameState.Completed)
+                {
+                    self.Complete();
+                    yield break;
+                }
+
                 Assert.IsTrue(self.Active);
 
                 var request = PlayerAgent.Value.NextRequest(timeOut);
-                Info($"Next request: {request}, PlayerAgent={PlayerAgent.Value}, PlayerModel={PlayerModel.Value}");
                 Assert.IsNotNull(request);
 
                 yield return self.After(request);

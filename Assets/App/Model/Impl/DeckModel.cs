@@ -23,10 +23,11 @@ namespace App.Model
         {
             if (Empty.Value)
             {
-                Warn("Empty Deck");
+                Warn($"Empty Deck {this}");
                 Player.CardExhaustion();
                 return null;
             }
+
             var card = _Cards[0];
             _Cards.RemoveAt(0);
             return card;

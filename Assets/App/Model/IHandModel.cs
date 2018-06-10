@@ -11,5 +11,7 @@
         , IGameActor
     {
         ICardModel this[int index] { get; set; }
+
+        void DrawInitialCards();
     }
 }

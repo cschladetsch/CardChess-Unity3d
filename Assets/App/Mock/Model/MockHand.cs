@@ -13,7 +13,7 @@ namespace App.Mock.Model
         {
         }
 
-        protected override void DrawInitialCards(int count)
+        public override void DrawInitialCards()
         {
             foreach (var ty in _pieceTypes)
             {
@@ -22,6 +22,7 @@ namespace App.Mock.Model
                 Add(card);
                 Deck.Remove(card);
             }
+            AddKing();
         }
 
         private readonly EPieceType[] _pieceTypes =

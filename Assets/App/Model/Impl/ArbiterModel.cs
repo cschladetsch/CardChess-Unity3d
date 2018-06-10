@@ -85,7 +85,7 @@ namespace App.Model
 
         private Response ProcessRequest(IRequest request)
         {
-            Info($"Req: {request} in GameState:{GameState} #{_turnNumber.Value}");
+            Info($"{request} in GameState:{GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
             {
                 //case EGameState.None:
@@ -274,7 +274,9 @@ namespace App.Model
 
         private Response TryResign(Resign resign)
         {
-            return NotImplemented(resign);
+            Warn($"{resign}");
+            _gameState.Value = EGameState.Completed;
+            return Response.Ok;
         }
 
         private Response TryBattle(Battle battle)
