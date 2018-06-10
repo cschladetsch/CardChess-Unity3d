@@ -14,9 +14,9 @@ namespace App.Mock.Model
     public abstract class MockModelPlayerBase
         : PlayerModelBase
     {
-        public override void Prepare()
+        public override void PrepareModels()
         {
-            base.Prepare();
+            base.PrepareModels();
             CreateActionList();
         }
 

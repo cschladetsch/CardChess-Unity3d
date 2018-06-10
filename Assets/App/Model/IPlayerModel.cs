@@ -28,9 +28,7 @@ namespace App.Model
         IReactiveProperty<int> Mana { get; }
         IReactiveProperty<int> Health { get; }
 
-        void StartGame();
         IRequest NextAction();
-        Response DrawHand();
         Response CardDrawn(ICardModel card);
         void CardExhaustion();
         void StartTurn();

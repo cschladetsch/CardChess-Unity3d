@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using App.Model;
+using UniRx;
 
 namespace App.Common
 {
@@ -8,6 +9,7 @@ namespace App.Common
     public interface IOwned
     {
         IReadOnlyReactiveProperty<IOwner> Owner { get; }
+        IPlayerModel PlayerModel { get; }
 
         void SetOwner(IOwner owner);
     }

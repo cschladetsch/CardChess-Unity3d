@@ -13,7 +13,7 @@ namespace App.Mock.Model
         {
         }
 
-        public override void DrawInitialCards()
+        protected override void DrawInitialCards()
         {
             foreach (var ty in _pieceTypes)
             {

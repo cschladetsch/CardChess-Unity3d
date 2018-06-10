@@ -18,14 +18,9 @@ namespace App.Agent
         {
         }
 
-        //protected override IEnumerator Next(IGenerator self)
-        //{
-        //    yield break;
-        //}
-
-        public void NewGame()
+        public void StartGame()
         {
-            Model.NewGame();
+            Model.StartGame();
             _idToPiece.Clear();
         }
 

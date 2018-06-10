@@ -19,6 +19,22 @@ namespace App.Model
             base.Create();
         }
 
+        public virtual void StartGame()
+        {
+            _Cards.Clear();
+            for (var n = 0; n < MaxCards; ++n)
+            {
+                // LATER: use a pre-made deck (CardLibrary)
+                var tmpl = Database.CardTemplates.GetRandom();
+                var card = Registry.New<ICardModel>(Owner.Value, tmpl);
+                Add(card);
+            }
+        }
+
+        public void EndGame()
+        {
+            _Cards.Clear();
+        }
         public ICardModel Draw()
         {
             if (Empty.Value)
@@ -41,21 +57,5 @@ namespace App.Model
             }
         }
 
-        public virtual void NewGame()
-        {
-            _Cards.Clear();
-            for (var n = 0; n < MaxCards; ++n)
-            {
-                // LATER: use a pre-made deck (CardLibrary)
-                var tmpl = Database.CardTemplates.GetRandom();
-                var card = Registry.New<ICardModel>(Owner.Value, tmpl);
-                Add(card);
-            }
-        }
-
-        public void EndGame()
-        {
-            _Cards.Clear();
-        }
     }
 }

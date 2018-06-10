@@ -16,6 +16,9 @@
     {
         bool IsValid { get; }
 
+        /// <summary>
+        /// This is similar to a constructor
+        /// </summary>
         void Create();
     }
 }

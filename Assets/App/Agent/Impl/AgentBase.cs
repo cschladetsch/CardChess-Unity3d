@@ -23,6 +23,8 @@ namespace App.Agent
         public TModel Model => BaseModel as TModel;
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
+        public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
+
         public bool IsValid
         {
             get

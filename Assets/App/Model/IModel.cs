@@ -22,6 +22,6 @@
         ///
         /// Should only be called once.
         /// </summary>
-        void Prepare();
+        void PrepareModels();
     }
 }

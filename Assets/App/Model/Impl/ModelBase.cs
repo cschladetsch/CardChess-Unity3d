@@ -26,6 +26,8 @@ namespace App.Model
         public Guid Id { get; /*private*/ set; }
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
+        public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
+
         public bool IsValid
         {
             get
@@ -56,7 +58,7 @@ namespace App.Model
         {
         }
 
-        public virtual void Prepare()
+        public virtual void PrepareModels()
         {
             Assert.IsFalse(_prepared);
             if (_prepared)

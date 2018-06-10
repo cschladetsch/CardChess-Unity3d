@@ -61,33 +61,29 @@ namespace App.Model
             Hand.Create();
         }
 
-        public override void Prepare()
+        public override void PrepareModels()
         {
-            base.Prepare();
-            Deck.Prepare();
-            Hand.Prepare();
+            base.PrepareModels();
+            Deck.PrepareModels();
+            Hand.PrepareModels();
         }
 
         public virtual void StartGame()
         {
-        }
-
-        public override string ToString()
-        {
-            return $"{Color} Player";
-        }
-
-        public void NewGame()
-        {
             Mana.Value = 0;
             MaxMana.Value = Parameters.MaxManaCap;
-            Deck.NewGame();
-            Hand.NewGame();
+            Deck.StartGame();
+            Hand.StartGame();
         }
 
         public void EndGame()
         {
             Info($"{this} EndGame");
+        }
+
+        public override string ToString()
+        {
+            return $"{Color} Player";
         }
 
         public void CardExhaustion()
@@ -174,12 +170,12 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public Response DrawHand()
-        {
-            Hand.DrawInitialCards();
+        //public Response DrawHand()
+        //{
+        //    Hand.DrawInitialCards();
 
-            return Response.Ok;
-        }
+        //    return Response.Ok;
+        //}
 
         private readonly IntReactiveProperty _maxMana = new IntReactiveProperty(Parameters.MaxManaCap);
         private readonly IntReactiveProperty _mana = new IntReactiveProperty(0);

@@ -1,4 +1,5 @@
 ﻿using System;
+using App.Model;
 using App.Registry;
 using CoLib;
 using UniRx;
@@ -27,6 +28,7 @@ namespace App.View.Impl1
         public event Action<IViewBase> OnDestroyed;
         public IAgent AgentBase { get; set; }
         public IPlayerView Player { get; set; }
+        public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
         public GameObject GameObject => gameObject;
         public bool IsValid
         {

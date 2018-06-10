@@ -30,6 +30,7 @@ namespace App.Model.Test
         public void TestBasicGame()
         {
             _arbiter.PrepareGame(_white, _black);
+            _arbiter.StartGame();
             for (var n = 0; n < 5; ++n)
             {
                 Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);
