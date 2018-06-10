@@ -19,8 +19,6 @@ namespace App.Agent
         , IPlayerAgent
     {
         public EColor Color => Model.Color;
-        public ICardAgent King { get; private set; }
-        public IPieceAgent KingPiece { get; set; }
         public IDeckAgent Deck { get; set; }
         public IHandAgent Hand { get; set; }
 
@@ -38,14 +36,11 @@ namespace App.Agent
         {
             base.Create();
             Assert.IsNotNull(Model);
-            Assert.IsNotNull(Model.King);
             Assert.IsNotNull(Model.Deck);
             Assert.IsNotNull(Model.Hand);
 
-            King = Registry.New<ICardAgent>(Model.King);
             Deck = Registry.New<IDeckAgent>(Model.Deck);
             Hand = Registry.New<IHandAgent>(Model.Hand);
-
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
         }
 
@@ -64,7 +59,6 @@ namespace App.Agent
         }
 
         public abstract IFuture<RejectCards> Mulligan();
-        public abstract IFuture<PlacePiece> PlaceKing();
         public abstract ITransient TurnStart();
         public abstract ITransient TurnEnd();
 

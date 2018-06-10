@@ -14,10 +14,11 @@ namespace App.Model
 
     public class ArbiterModel
         : RespondingModelBase
-            , IArbiterModel
+        , IArbiterModel
     {
         public EColor Color => EColor.Neutral;
         public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
+        public IReactiveProperty<int> TurnNumber => _turnNumber;
         public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
 
         [Inject]
@@ -65,7 +66,7 @@ namespace App.Model
 
             // TODO: start properly
             _currentPlayerIndex.Value = 0;
-            _gameState.Value = EGameState.PlaceKing;
+            _gameState.Value = EGameState.PlayTurn;
         }
 
         public void EndGame()
@@ -84,17 +85,19 @@ namespace App.Model
 
         private Response ProcessRequest(IRequest request)
         {
-            Info($"Req: {request} in GameState:{GameState} #{_turnNumber}");
+            Info($"Req: {request} in GameState:{GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
             {
-                case EGameState.None:
-                    return Response.Ok;
-                case EGameState.Start:
-                    return TryStartGame(request as StartGame);
-                case EGameState.Mulligan:
-                    return TryRejectCards(request as RejectCards);
-                case EGameState.PlaceKing:
-                    return TryPlaceKing(request as PlacePiece);
+                //case EGameState.None:
+                //    return Response.Ok;
+                //case EGameState.Start:
+                //    return TryStartGame(request as StartGame);
+                //case EGameState.Mulligan:
+                //    return TryRejectCards(request as RejectCards);
+                //case EGameState.PlaceKing:
+                //    return TryPlaceKing(request as PlacePiece);
+                //case EGameState.TurnEnd:
+                //    return TryTurnEnd(request as TurnEnd);
                 case EGameState.PlayTurn:
                     switch (request.Action)
                     {
@@ -150,14 +153,15 @@ namespace App.Model
 
         public void EndTurn()
         {
+            Info($"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
+
             CurrentPlayer.Value.EndTurn();
             _currentPlayerIndex.Value = (_currentPlayerIndex.Value + 1) % _players.Count;
-            _turnNumber++;
+            _turnNumber.Value++;
             CurrentPlayer.Value.StartTurn();
             foreach (var entry in _players)
                 entry.NewTurn();
 
-            Verbose(10, $"Next turn #{_turnNumber} for {CurrentPlayer}");
             _gameState.Value = EGameState.PlayTurn;
         }
 
@@ -186,34 +190,35 @@ namespace App.Model
             return Response.Ok;
         }
 
-        private Response TryPlaceKing(PlacePiece act)
-        {
-            Assert.IsNotNull(act);
-            Assert.IsNotNull(act.Player);
-            Assert.IsNotNull(act.Card);
-            Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
-            Assert.AreEqual(act.Card.PieceType, EPieceType.King);
+        //private Response TryPlaceKing(PlacePiece act)
+        //{
+        //    Assert.IsNotNull(act);
+        //    Assert.IsNotNull(act.Player);
+        //    Assert.IsNotNull(act.Card);
+        //    Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
+        //    Assert.AreEqual(act.Card.PieceType, EPieceType.King);
 
-            if (Board.GetAdjacent(act.Coord, 2).Any(k => k.PieceType == EPieceType.King))
-            {
-                return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
-            }
+        //    if (Board.GetAdjacent(act.Coord, 2).Any(k => k.PieceType == EPieceType.King))
+        //    {
+        //        return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
+        //    }
 
-            var resp = TryPlacePiece(act);
+        //    var resp = TryPlacePiece(act);
 
-            // force back to PlaceKingState unless all kings have been placed
-            _gameState.Value = EGameState.PlaceKing;
-            if (resp.Type != EResponse.Ok)
-                return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
+        //    // force back to PlaceKingState unless all kings have been placed
+        //    _gameState.Value = EGameState.PlaceKing;
+        //    if (resp.Type != EResponse.Ok)
+        //        return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
 
-            act.Player.KingPiece = resp.Payload;
-            if (Board.NumPieces(EPieceType.King) == 2)
-            {
-                StartFirstTurn();
-            }
+        //    act.Player.KingPiece = resp.Payload;
+        //    if (Board.NumPieces(EPieceType.King) == 2)
+        //    {
+        //        StartFirstTurn();
+        //        return Response.Ok;
+        //    }
 
-            return Response.Ok;
-        }
+        //    return Response.Ok;
+        //}
 
         private Response TryMovePiece(MovePiece move)
         {
@@ -235,13 +240,17 @@ namespace App.Model
             if (resp.Success)
             {
                 player.ChangeMana(-1);
-                EndTurn();
             }
             return resp;
         }
 
         private Response<IPieceModel> TryPlacePiece(PlacePiece act)
         {
+            var entry = GetEntry(act.Player);
+            var isKing = act.Card.PieceType == EPieceType.King;
+            if (!entry.PlacedKing && !isKing)
+                return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Must place king first");
+
             var playerMana = act.Player.Mana;
             var manaCost = act.Card.ManaCost;
             if (playerMana.Value - manaCost.Value < 0)
@@ -257,7 +266,9 @@ namespace App.Model
                 return resp;
             }
             playerMana.Value -= manaCost.Value;
-            EndTurn();
+            if (isKing)
+                entry.PlacedKing = true;
+
             return resp;
         }
 
@@ -277,6 +288,7 @@ namespace App.Model
 
         private Response TryTurnEnd(TurnEnd turnEnd)
         {
+            Info($"{CurrentPlayer.Value} ends turn");
             Assert.IsNotNull(turnEnd);
             if (turnEnd.Player != CurrentPlayer.Value)
             {
@@ -314,6 +326,7 @@ namespace App.Model
             public bool Started;
             public bool RejectedCards;
             public bool MovedPiece;
+            public bool PlacedKing;
             public readonly IPlayerModel Player;
 
             public PlayerEntry(IPlayerModel player)
@@ -327,10 +340,10 @@ namespace App.Model
             }
         }
 
-        private int _turnNumber;
         private List<PlayerEntry> _players;
+        private readonly IntReactiveProperty _turnNumber = new IntReactiveProperty();
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
-        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlaceKing);
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlayTurn);
     }
 }

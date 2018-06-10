@@ -11,6 +11,9 @@ namespace App.Common.Message
         public Battle(IPlayerModel player, IPieceModel attacker, IPieceModel defender)
             : base(player, EActionType.Battle)
         {
+            Assert.IsNotNull(player);
+            Assert.IsNotNull(attacker);
+            Assert.IsNotNull(defender);
             Attacker = attacker;
             Defender = defender;
         }

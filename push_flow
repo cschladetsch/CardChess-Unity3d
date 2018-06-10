@@ -2,7 +2,7 @@
 
 pushd Assets/External/Flow
 git add *
-git commit -m \""$@"\"
+git commit -m "$@"
 git push
 popd
 

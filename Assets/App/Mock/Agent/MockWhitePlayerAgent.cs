@@ -1,12 +1,10 @@
-﻿using System;
-using App.Common;
-using App.Common.Message;
-using App.Model;
-using Flow;
+﻿using Flow;
 
 namespace App.Mock.Agent
 {
     using App.Agent;
+    using App.Model;
+    using Common.Message;
 
     public class MockWhitePlayerAgent
         : PlayerAgentBase
@@ -26,12 +24,6 @@ namespace App.Mock.Agent
         public override IFuture<RejectCards> Mulligan()
         {
             return New.Future(new RejectCards(Model));
-        }
-
-        public override IFuture<PlacePiece> PlaceKing()
-        {
-            Info($"{this} places king");
-            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 2)));
         }
 
         public override ITransient TurnStart()

@@ -34,8 +34,6 @@ namespace App.Model
         public IReactiveProperty<int> Health => _health;
         public IHandModel Hand { get; private set; }
         public IDeckModel Deck { get; private set; }
-        public ICardModel King { get; private set; }
-        public IPieceModel KingPiece { get; set; }
         [Inject] public IBoardModel Board { get; set; }
         [Inject] public IArbiterModel Arbiter { get; set; }
         [Inject] public Service.ICardTemplateService _CardtemplateService;
@@ -54,13 +52,11 @@ namespace App.Model
             AcceptedHand = false;
             _mana.Value = 0;
             _maxMana.Value = 0;
-            King = _CardtemplateService.NewCardModel(this, EPieceType.King);
 
             // TODO: pass a deck template
             Deck = Registry.New<IDeckModel>(null, this);
             Hand = Registry.New<IHandModel>(this);
 
-            King.Create();
             Deck.Create();
             Hand.Create();
         }
@@ -96,7 +92,8 @@ namespace App.Model
 
         public void CardExhaustion()
         {
-            King.ChangeHealth(Parameters.CardExhaustionHealthLoss);
+            // TODO
+            //King.ChangeHealth(Parameters.CardExhaustionHealthLoss);
         }
 
         public virtual void StartTurn()
@@ -180,7 +177,7 @@ namespace App.Model
         public Response DrawHand()
         {
             Hand.Add(Deck.Draw(Parameters.StartHandCardCount));
-            Hand.Add(King);
+            Hand.Add(_CardtemplateService.NewCardModel(this, EPieceType.King));
 
             return Response.Ok;
         }

@@ -30,12 +30,6 @@ namespace App.Mock.Agent
             return New.Future(new RejectCards(Model));
         }
 
-        public override IFuture<PlacePiece> PlaceKing()
-        {
-            Info($"{this} places king");
-            return New.Future(new PlacePiece(Model, Model.King, new Coord(4, 5)));
-        }
-
         public override ITransient TurnStart()
         {
             return null;//New.Nop();

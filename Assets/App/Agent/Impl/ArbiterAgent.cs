@@ -26,10 +26,10 @@ namespace App
         , IArbiterAgent
     {
         public IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent => _playerAgent;
-        public IReadOnlyReactiveProperty<IPlayerModel> PlayerModel { get; private set; }
+        public IReadOnlyReactiveProperty<IPlayerModel> PlayerModel => Model.CurrentPlayer;
         [Inject] public IBoardAgent BoardAgent { get; set; }
-        public IPlayerAgent WhitePlayerAgent => _players[0];
-        public IPlayerAgent BlackPlayerAgent => _players[1];
+        public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
+        public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -50,13 +50,25 @@ namespace App
 
             Model.PrepareGame(p0.Model, p1.Model);
 
-            _players = new List<IPlayerAgent> {p0, p1};
-            _currentPlayerIndex.Subscribe(n => _playerAgent.Value = _players[n]);
-            _currentPlayerIndex.Value = 0;
-            PlayerModel = PlayerAgent.Select(x => x.Model).DistinctUntilChanged().ToReactiveProperty();
+            _playerAgents = new List<IPlayerAgent> {p0, p1};
+            Model.CurrentPlayer.Subscribe(SetPlayerAgent);
 
             // TODO: do some animations etc
             return null;
+        }
+
+        private void SetPlayerAgent(IPlayerModel playerModel)
+        {
+            foreach (var agent in _playerAgents)
+            {
+                if (agent.Model == playerModel)
+                {
+                    _playerAgent.Value = agent;
+                    return;
+                }
+            }
+
+            throw new Exception($"No matching agent found for {playerModel}");
         }
 
         private ITransient NewGameWork()
@@ -87,25 +99,21 @@ namespace App
         private IGenerator StartGameCoro()
         {
             var rejectTimeOut = TimeSpan.FromSeconds(Parameters.MulliganTimer);
-            var kingPlaceTimeOut = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
+            //var kingPlaceTimeOut = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
 
             return New.Barrier(
                 New.Sequence(
                     New.Barrier(
-                        _players.Select(p => p.StartGame())
+                        _playerAgents.Select(p => p.StartGame())
                     ).Named("InitGame"),
                     New.Barrier(
-                        _players.Select(p => p.DrawInitialCards())
+                        _playerAgents.Select(p => p.DrawInitialCards())
                     ).Named("DealCards")
                 ),
                 ArbitrateFutures(
                     rejectTimeOut,
-                    _players.Select(p => p.Mulligan())
-                ).Named("Mulligan"),
-                ArbitrateFutures(
-                    kingPlaceTimeOut,
-                    _players.Select(p => p.PlaceKing())
-                ).Named("PlaceKings")
+                    _playerAgents.Select(p => p.Mulligan())
+                ).Named("Mulligan")
             ).Named("StartGame");
         }
 
@@ -134,6 +142,7 @@ namespace App
                 Assert.IsTrue(self.Active);
 
                 var request = PlayerAgent.Value.NextRequest(timeOut);
+                Info($"Next request: {request}, PlayerAgent={PlayerAgent.Value}, PlayerModel={PlayerModel.Value}");
                 Assert.IsNotNull(request);
 
                 yield return self.After(request);
@@ -154,17 +163,15 @@ namespace App
 
                 var now = Kernel.Time.Now;
                 var dt = (float)(now - timeStart).TotalSeconds;
-                if (dt < 1.0f/60.0f)    // give them a 60Hz frame of grace
-                {
-                    Warn($"{PlayerModel} ran out of time for turn");
-                    break;
-                }
+                //if (dt < 1.0f/60.0f)    // give them a 60Hz frame of grace
+                //{
+                //    Warn($"{PlayerModel} ran out of time for turn");
+                //    break;
+                //}
 
                 timeStart = now;
                 timeOut -= dt;
             }
-
-            Model.EndTurn();
         }
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
@@ -222,8 +229,7 @@ namespace App
         //    yield return null;
         //}
 
-        private List<IPlayerAgent> _players = new List<IPlayerAgent>();
-        private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
+        private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
         private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
     }
 }
