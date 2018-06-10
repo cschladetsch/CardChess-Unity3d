@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using Flow;
 using UniRx;
@@ -30,6 +29,7 @@ namespace App
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
         public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
+        public IPlayerModel CurrentPlayerModel => PlayerAgent.Value.Model;
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -51,29 +51,31 @@ namespace App
             Model.PrepareGame(p0.Model, p1.Model);
 
             _playerAgents = new List<IPlayerAgent> {p0, p1};
+
             Model.CurrentPlayer.Subscribe(SetPlayerAgent);
 
             // TODO: do some animations etc
             return null;
         }
 
-        private void SetPlayerAgent(IPlayerModel playerModel)
+        void SetPlayerAgent(IPlayerModel model)
         {
-            foreach (var agent in _playerAgents)
+            foreach (var p in _playerAgents)
             {
-                if (agent.Model == playerModel)
+                if (p.Model == model)
                 {
-                    _playerAgent.Value = agent;
+                    _playerAgent.Value = p;
                     return;
                 }
             }
-
-            throw new Exception($"No matching agent found for {playerModel}");
+            throw new Exception("Player agent not found");
         }
 
         public void StartGame()
         {
             Info($"{this} StartGame");
+
+            Board.StartGame();
 
             // only needed because we're skipping the coro below
             foreach (var p in _playerAgents)
@@ -130,8 +132,7 @@ namespace App
 
         private IEnumerator PlayerTurn(IGenerator self)
         {
-            Assert.AreSame(PlayerModel, Model.CurrentPlayer.Value);
-            PlayerModel.StartTurn();
+            CurrentPlayerModel.StartTurn();
 
             var timeOut = Parameters.GameTurnTimer;
             var timeStart = Kernel.Time.Now;
@@ -154,23 +155,23 @@ namespace App
 
                 if (request.HasTimedOut)
                 {
-                    Warn($"{PlayerModel} timed-out");
+                    Warn($"{CurrentPlayerModel} timed-out");
                     yield return self.After(New.Coroutine(PlayerTimedOut));
                     break;
                 }
                 if (!request.Available)
-                    Warn($"{PlayerModel} didn't make a request");
+                    Warn($"{CurrentPlayerModel} didn't make a request");
 
                 // do the arbitration before we test for time out
                 var response = Model.Arbitrate(request.Value);
                 if (response.Failed)
-                    Warn($"Request {request.Value} failed for {PlayerModel}");
+                    Warn($"Request {request.Value} failed for {CurrentPlayerModel}");
 
                 var now = Kernel.Time.Now;
                 var dt = (float)(now - timeStart).TotalSeconds;
                 //if (dt < 1.0f/60.0f)    // give them a 60Hz frame of grace
                 //{
-                //    Warn($"{PlayerModel} ran out of time for turn");
+                //    Warn($"{CurrentPlayerModel} ran out of time for turn");
                 //    break;
                 //}
 
@@ -181,7 +182,7 @@ namespace App
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
         {
-            Warn($"{PlayerModel} TimedOut");
+            Warn($"{CurrentPlayerModel} TimedOut");
             Model.EndTurn();
             yield break;
         }
