@@ -13,8 +13,8 @@ namespace App.Agent
         public HandAgent(IHandModel model)
             : base(model)
         {
-            //model.Cards.ObserveAdd().Subscribe(Add).AddTo(Model);
-            //model.Cards.ObserveRemove().Subscribe(Remove).AddTo(Model);
+            model.Cards.ObserveAdd().Subscribe(Add).AddTo(Model);
+            model.Cards.ObserveRemove().Subscribe(Remove).AddTo(Model);
         }
 
         public void StartGame()

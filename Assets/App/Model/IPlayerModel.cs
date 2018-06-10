@@ -35,5 +35,6 @@ namespace App.Model
         void EndTurn();
         void Result(IRequest req, IResponse response);
         Response ChangeMana(int manaChange);
+        ICardModel RandomCard();
     }
 }

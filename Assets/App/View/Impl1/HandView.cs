@@ -26,8 +26,8 @@ namespace App.View.Impl1
             Clear();
             CreateHandView();
 
-            //handAgent.Cards.ObserveAdd().Subscribe(Add);
-            //handAgent.Cards.ObserveRemove().Subscribe(Remove);
+            handAgent.Cards.ObserveAdd().Subscribe(Add);
+            handAgent.Cards.ObserveRemove().Subscribe(Remove);
         }
 
         public void CreateHandView()
@@ -39,6 +39,7 @@ namespace App.View.Impl1
             foreach (var card in model.Cards)
             {
                 var view = ViewRegistry.FromPrefab<ICardView, ICardAgent, ICardModel>(PlayerView, CardViewPrefab, card);
+                //Agent.Add(view.Agent);
                 var tr = view.GameObject.transform;
                 tr.SetParent(CardsRoot);
                 tr.localPosition = n * Offset;
@@ -61,6 +62,8 @@ namespace App.View.Impl1
             var cardView = ViewRegistry.New<ICardView>();
             cardView.SetAgent(PlayerView, add.Value);
             _cards.Insert(add.Index, cardView);
+
+            Redraw();
         }
 
         private void Remove(CollectionRemoveEvent<ICardAgent> remove)
@@ -69,8 +72,25 @@ namespace App.View.Impl1
             var view = _cards[remove.Index];
             view.Destroy();
             _cards.RemoveAt(remove.Index);
+
+            Redraw();
         }
 
+        void Redraw()
+        {
+            // TODO: nice animation of cards moving
+            Clear();
+
+            var n = 0;
+            foreach (var card in _cards)
+            {
+                var tr = card.GameObject.transform;
+                tr.SetParent(CardsRoot);
+                tr.localPosition = n * Offset;
+                card.GameObject.name = $"{card}";
+                ++n;
+            }
+        }
         private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
     }
 }

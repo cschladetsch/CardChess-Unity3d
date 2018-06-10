@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using App.Mock.Model;
+using UniRx;
 
 namespace App.View.Impl1
 {
@@ -25,6 +26,13 @@ namespace App.View.Impl1
             var model = Agent.Model;
             model.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
             model.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
+        }
+
+        public void AddWhiteCard()
+        {
+            var model = WhitePlayerView.Agent.Model;
+            var card = model.RandomCard();
+            model.Hand.Add(card);
         }
 
         public override void Create()
