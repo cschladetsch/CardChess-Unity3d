@@ -1,10 +1,15 @@
-﻿namespace App.Model
+﻿using App.Common;
+using App.Registry;
+using App.Service;
+
+namespace App.Model
 {
     public class HandModel
         : CardCollectionModelBase
         , IHandModel
     {
         public override int MaxCards => Parameters.MaxCardsInHand;
+        [Inject] public ICardTemplateService _cardTemplateService;
 
         public ICardModel this[int index]
         {
@@ -24,19 +29,26 @@
 
         public void NewGame()
         {
-            //var count = Parameters.StartHandCardCount;
             _Cards.Clear();
-            //if (Deck.NumCards.Value < count)
-            //{
-            //    Error($"Need more cards in {Deck}");
-            //    return;
-            //}
-            //DrawInitialCards(count);
+            DrawInitialCards();
         }
 
-        protected virtual void DrawInitialCards(int count)
+        public virtual void DrawInitialCards()
         {
-            Add(Deck.Draw(count));
+            Deck.Shuffle();
+            for (var n = 0; n < Parameters.StartHandCardCount; ++n)
+            {
+                var card = Deck.Draw();
+                Assert.IsNotNull(card);
+                Add(card);
+            }
+
+            AddKing();
+        }
+
+        protected void AddKing()
+        {
+            Add(_cardTemplateService.NewCardModel(Owner.Value as IPlayerModel, EPieceType.King));
         }
 
         public void EndGame()

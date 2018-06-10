@@ -51,7 +51,7 @@ namespace App.Model
 
             AcceptedHand = false;
             _mana.Value = 0;
-            _maxMana.Value = 0;
+            _maxMana.Value = Parameters.MaxManaCap;
 
             // TODO: pass a deck template
             Deck = Registry.New<IDeckModel>(null, this);
@@ -98,14 +98,14 @@ namespace App.Model
 
         public virtual void StartTurn()
         {
-            MaxMana.Value = (MaxMana.Value + 1) % Parameters.MaxManaCap;
+            MaxMana.Value = (MaxMana.Value + 5) % Parameters.MaxManaCap;
             Mana.Value = MaxMana.Value;
             Info($"{this} starts turn with {Mana.Value} mana");
         }
 
         public void EndTurn()
         {
-            Verbose(20, $"{this} ends turn with {Mana} mana");
+            Info($"{this} ends turn with {Mana.Value} mana");
         }
 
         public Response CardDrawn(ICardModel card)
@@ -176,8 +176,7 @@ namespace App.Model
 
         public Response DrawHand()
         {
-            Hand.Add(Deck.Draw(Parameters.StartHandCardCount));
-            Hand.Add(_CardtemplateService.NewCardModel(this, EPieceType.King));
+            Hand.DrawInitialCards();
 
             return Response.Ok;
         }

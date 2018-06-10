@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using App.Model;
 using NUnit.Framework;
 
 namespace App.Agent.Test
@@ -18,12 +19,13 @@ namespace App.Agent.Test
             _arbiterAgent.PrepareGame(_whiteAgent, _blackAgent);
             _arbiterAgent.StartGame();
 
-            for (int n = 0; n < 8; ++n)
+            for (int n = 0; n < 100; ++n)
             {
                 _arbiterAgent.Step();
                 //Info($"{_arbiterAgent.Kernel.Root}");
-                Info($"Move {_arbiter.GameState.Value}, #{_arbiter.TurnNumber}");
                 Info(_board.Print());
+                if (_arbiter.GameState.Value == EGameState.Completed)
+                    break;
             }
         }
     }
