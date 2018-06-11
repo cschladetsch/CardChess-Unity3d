@@ -64,6 +64,7 @@ namespace App.Model
         {
             Mana.Value = 0;
             MaxMana.Value = Parameters.MaxManaCap;
+            Deck.StartGame();
             Hand.StartGame();
         }
 
