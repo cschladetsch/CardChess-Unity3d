@@ -3,10 +3,11 @@
     using Model;
 
     public class PieceAgent
-        : AgentBase<Model.IPieceModel>
+        : AgentBase<IPieceModel>
         , IPieceAgent
     {
-        public PieceAgent(IPieceModel model) : base(model)
+        public PieceAgent(IPieceModel model)
+            : base(model)
         {
         }
     }

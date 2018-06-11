@@ -32,6 +32,10 @@ namespace App.Agent
         {
         }
 
+        public abstract IFuture<RejectCards> Mulligan();
+        public abstract ITransient TurnStart();
+        public abstract ITransient TurnEnd();
+
         public override void StartGame()
         {
             base.StartGame();
@@ -53,17 +57,6 @@ namespace App.Agent
             return $"Agent for {Model}";
         }
 
-        //public ITransient DrawInitialCards()
-        //{
-        //    Verbose(60, $"{Model} Draws first cards");
-        //    Model.DrawHand();
-        //    return null;
-        //}
-
-        public abstract IFuture<RejectCards> Mulligan();
-        public abstract ITransient TurnStart();
-        public abstract ITransient TurnEnd();
-
         public virtual ITimedFuture<IRequest> NextRequest(float seconds)
         {
             var req = Model.NextAction();
@@ -74,11 +67,6 @@ namespace App.Agent
         {
             _Requests.Add(req);
         }
-
-        //protected override IEnumerator Next(IGenerator self)
-        //{
-        //    yield return null;
-        //}
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
     }

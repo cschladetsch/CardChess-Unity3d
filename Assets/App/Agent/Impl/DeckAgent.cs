@@ -77,6 +77,6 @@ namespace App.Agent
             return futureAgent;
         }
 
-        readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
+        private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
     }
 }

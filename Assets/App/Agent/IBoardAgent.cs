@@ -12,6 +12,6 @@ namespace App.Agent
         : IAgent<IBoardModel>
     {
         IFuture<IPieceAgent> At(Coord coord);
-        ITransient NewGameAction();
+        ITransient PerformNewGame();
     }
 }

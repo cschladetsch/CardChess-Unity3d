@@ -34,7 +34,7 @@ namespace App.Agent
             return New.Future(GetAgent(Model.At(coord)));
         }
 
-        public ITransient NewGameAction()
+        public ITransient PerformNewGame()
         {
             // move all pieces back to deck, shuffle
             return null;

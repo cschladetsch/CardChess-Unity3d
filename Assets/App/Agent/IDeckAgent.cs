@@ -16,7 +16,7 @@ namespace App.Agent
 
         IReadOnlyReactiveCollection<ICardAgent> Cards { get; }
 
-        //IFuture<ICardAgent> Draw();
+        IFuture<ICardAgent> Draw();
         //void AddToBottom(ICardAgent card);
     }
 }
