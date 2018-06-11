@@ -16,7 +16,6 @@ namespace App.Agent
     {
         public event TransientHandler Completed;
 
-        #region Public Properties
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
         public IFactory Factory => Kernel.Factory;
@@ -30,9 +29,7 @@ namespace App.Agent
         public bool ShowSource { get; set; }
         public bool ShowStack { get; set; }
         public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
-        #endregion
 
-        #region Public Methods
         public ITransient Named(string name)
         {
             Name = name;
@@ -66,9 +63,7 @@ namespace App.Agent
         {
             _log.Verbose(level, fmt, args);
         }
-        #endregion
 
-        #region Protected
         protected AgentLogger()
         {
             _log.LogSubject = this;
@@ -81,7 +76,6 @@ namespace App.Agent
         }
 
         protected readonly LoggerFacade<Flow.Impl.Logger> _log = new LoggerFacade<Flow.Impl.Logger>("Agent");
-        #endregion
     }
 
     public abstract class AgentLogger<TModel>

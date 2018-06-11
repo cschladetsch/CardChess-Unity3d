@@ -22,22 +22,22 @@ namespace App.Agent
             foreach (var c in Model.Cards)
                 _cards.Add(Registry.New<ICardAgent>(c));
 
-            Model.Cards.ObserveAdd().Subscribe(Add);
+            Model.Cards.ObserveAdd().Subscribe(Add);//.AddTo(this);
             Model.Cards.ObserveRemove().Subscribe(Remove);
         }
 
-        void Remove(CollectionRemoveEvent<ICardModel> remove)
+        private void Remove(CollectionRemoveEvent<ICardModel> remove)
         {
-            Info($"HandAgent: Remove {remove.Value} @{remove.Index}");
+            Verbose(11, $"HandAgent: Remove {remove.Value} @{remove.Index}");
             var index = remove.Index;
             var card = _cards[index];
             card.Destroy();
             _cards.RemoveAt(index);
         }
 
-        void Add(CollectionAddEvent<ICardModel> add)
+        private void Add(CollectionAddEvent<ICardModel> add)
         {
-            Info($"HandAgent: Add {add.Value} @{add.Index}");
+            Verbose(11, $"HandAgent: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
         }
 
