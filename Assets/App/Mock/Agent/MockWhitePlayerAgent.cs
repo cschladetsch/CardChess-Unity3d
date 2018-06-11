@@ -15,10 +15,10 @@ namespace App.Mock.Agent
         {
         }
 
-        public override ITransient StartGame()
+        public override void StartGame()
         {
             // TODO: Some sort of animation
-            return base.StartGame();
+            base.StartGame();
         }
 
         public override IFuture<RejectCards> Mulligan()

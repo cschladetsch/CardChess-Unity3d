@@ -4,6 +4,7 @@ using App.Registry;
 using CoLib;
 using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace App.View.Impl1
 {
@@ -74,6 +75,8 @@ namespace App.View.Impl1
 
         public virtual void Create()
         {
+            Assert.IsFalse(_created);
+            _created = true;
         }
 
         protected virtual void Begin()
@@ -102,11 +105,15 @@ namespace App.View.Impl1
 
         public virtual void Destroy()
         {
-            Verbose(20, $"{this} destroyed");
+            Verbose(4, $"{this} destroyed");
             if (Destroyed.Value)
+            {
+                Warn($"Object {Id} of type {GetType()} already destoyed");
                 return;
+            }
             OnDestroyed?.Invoke(this);
             _destroyed.Value = true;
+            Object.Destroy(GameObject);
         }
 
         public override string ToString()
@@ -120,6 +127,7 @@ namespace App.View.Impl1
         private bool _paused;
         private float _localTime;
         private CommandQueue _queue;
+        private bool _created;
     }
 
     public class ViewBase<TIAgent>

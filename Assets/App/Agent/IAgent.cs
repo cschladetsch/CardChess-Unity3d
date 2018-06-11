@@ -12,6 +12,7 @@
         : ILogger
         , ITransient
         , IEntity
+        , IGameActor
         , IHasRegistry<IAgent>
         , IHasDestroyHandler<IAgent>
     {

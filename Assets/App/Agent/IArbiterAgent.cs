@@ -14,7 +14,6 @@ namespace App.Agent
         IPlayerAgent BlackPlayerAgent { get; }
 
         ITransient PrepareGame(IPlayerAgent p0, IPlayerAgent p1);
-        void StartGame();
         void Step();
     }
 }

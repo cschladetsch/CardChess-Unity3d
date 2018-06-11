@@ -13,8 +13,6 @@ namespace App.Model
         {
             Info($"{this} StartGame");
             base.StartGame();
-            Deck.StartGame();
-            Hand.StartGame();
         }
     }
 }

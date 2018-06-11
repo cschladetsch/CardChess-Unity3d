@@ -10,7 +10,6 @@ namespace App.Model
     public interface IDeckModel
         : ICardCollection<ICardModel>
         , IModel
-        , IGameActor
     {
         ICardModel Draw();
         IEnumerable<ICardModel> Draw(int count);

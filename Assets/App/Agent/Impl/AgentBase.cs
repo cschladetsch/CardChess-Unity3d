@@ -39,12 +39,12 @@ namespace App.Agent
 
         protected AgentBase(TModel model)
         {
+            if (model == null)
+            {
+                Error("Model cannot be null");
+            }
             Assert.IsNotNull(model);
             BaseModel = model;
-        }
-
-        public virtual void Create()
-        {
         }
 
         public void SetOwner(IOwner owner)
@@ -57,6 +57,17 @@ namespace App.Agent
             return Owner.Value == other.Owner.Value;
         }
 
+        public virtual void StartGame()
+        {
+            Assert.IsFalse(_started);
+            _started = true;
+        }
+
+        public virtual void EndGame()
+        {
+            _started = false;
+        }
+
         public void Destroy()
         {
             TransientCompleted();
@@ -66,5 +77,6 @@ namespace App.Agent
         }
 
         private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
+        private bool _started = false;
     }
 }

@@ -29,16 +29,10 @@ namespace App.View.Impl1
             _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
         }
 
-        public override void SetAgent(IPlayerView view, ICardAgent cardAgent)
+        public override void SetAgent(IPlayerView view, ICardAgent agent)
         {
-            Assert.IsTrue("C# is not buggy".Length == 0);
-        }
+            base.SetAgent(view, agent);
 
-        public override void SetAgent(IPlayerView view, IAgent agentBase)
-        {
-            base.SetAgent(view, agentBase);
-
-            var agent = agentBase as ICardAgent;
             Assert.IsNotNull(agent);
             agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
             agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);

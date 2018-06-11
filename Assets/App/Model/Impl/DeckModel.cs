@@ -14,12 +14,7 @@ namespace App.Model
             // TODO: store and use templateDeck
         }
 
-        public override void Create()
-        {
-            base.Create();
-        }
-
-        public virtual void StartGame()
+        public override void StartGame()
         {
             _Cards.Clear();
             for (var n = 0; n < MaxCards; ++n)
@@ -31,10 +26,11 @@ namespace App.Model
             }
         }
 
-        public void EndGame()
+        public override void EndGame()
         {
             _Cards.Clear();
         }
+
         public ICardModel Draw()
         {
             if (Empty.Value)

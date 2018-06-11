@@ -71,7 +71,7 @@ namespace App
             throw new Exception("Player agent not found");
         }
 
-        public void StartGame()
+        public override void StartGame()
         {
             Info($"{this} StartGame");
 

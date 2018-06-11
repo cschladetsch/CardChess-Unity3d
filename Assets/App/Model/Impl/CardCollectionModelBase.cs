@@ -73,18 +73,6 @@ namespace App.Model
             return true;
         }
 
-        public int Add(IEnumerable<ICardModel> cards)
-        {
-            var n = 0;
-            foreach (var card in cards)
-            {
-                if (!Add(card))
-                    return n;
-                ++n;
-            }
-            return n;
-        }
-
         public bool Remove(ICardModel card)
         {
             Assert.IsNotNull(card);
@@ -119,7 +107,6 @@ namespace App.Model
             }
             return n;
         }
-
 
         public bool AddToBottom(ICardModel card)
         {

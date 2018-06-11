@@ -19,14 +19,6 @@ namespace App.Agent
         {
         }
 
-        public override void Create()
-        {
-            base.Create();
-            //_Coro = New.Coroutine(Next);
-            //_Node = New.Node(_Coro);
-            //Kernel.Root.Add(_Node);
-        }
-
         //protected abstract IEnumerator Next(IGenerator self);
 
         //protected IGenerator _Coro;

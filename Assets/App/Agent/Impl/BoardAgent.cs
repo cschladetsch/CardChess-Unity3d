@@ -18,13 +18,14 @@ namespace App.Agent
         {
         }
 
-        public void StartGame()
+        public override void StartGame()
         {
+            base.StartGame();
             Model.StartGame();
             _idToPiece.Clear();
         }
 
-        public void EndGame()
+        public override void EndGame()
         {
         }
 

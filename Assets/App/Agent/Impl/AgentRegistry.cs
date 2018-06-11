@@ -26,10 +26,7 @@ namespace App.Agent
         {
             base.Prepare(agent);
             agent.OnDestroyed += a => a.Complete();
-
             agent.Kernel = Kernel;
-            agent.Create();
-
             return Factory.Prepare(agent);
         }
     }

@@ -11,7 +11,6 @@ namespace App.Model
     /// </summary>
     public interface IBoardModel
         : IModel
-        , IGameActor
         , IPrintable
     {
         int Width { get; }

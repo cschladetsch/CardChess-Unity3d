@@ -43,40 +43,31 @@ namespace App.Model
         {
             Color = color;
             SetOwner(this);
-        }
-
-        public override void Create()
-        {
-            base.Create();
 
             AcceptedHand = false;
             _mana.Value = 0;
             _maxMana.Value = Parameters.MaxManaCap;
-
-            // TODO: pass a deck template
-            Deck = Registry.New<IDeckModel>(null, this);
-            Hand = Registry.New<IHandModel>(this);
-
-            Deck.Create();
-            Hand.Create();
         }
 
         public override void PrepareModels()
         {
+            // TODO: pass a deck template
+            Deck = Registry.New<IDeckModel>(null, this);
+            Hand = Registry.New<IHandModel>(this);
+
             base.PrepareModels();
             Deck.PrepareModels();
             Hand.PrepareModels();
         }
 
-        public virtual void StartGame()
+        public override void StartGame()
         {
             Mana.Value = 0;
             MaxMana.Value = Parameters.MaxManaCap;
-            Deck.StartGame();
             Hand.StartGame();
         }
 
-        public void EndGame()
+        public override void EndGame()
         {
             Info($"{this} EndGame");
         }

@@ -30,11 +30,6 @@ namespace App.Model
             LogPrefix = "Arbiter";
         }
 
-        public override void Create()
-        {
-            base.Create();
-        }
-
         public override void PrepareModels()
         {
             base.PrepareModels();
@@ -49,13 +44,9 @@ namespace App.Model
             };
             _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
             _currentPlayerIndex.Value = 0;
-
-            Board.PrepareModels();
-            foreach (var entry in _players)
-                entry.Player.PrepareModels();
         }
 
-        public virtual void StartGame()
+        public override void StartGame()
         {
             _gameState.Value = EGameState.Start;
             Board.StartGame();
@@ -67,7 +58,7 @@ namespace App.Model
             _gameState.Value = EGameState.PlayTurn;
         }
 
-        public void EndGame()
+        public override void EndGame()
         {
             _gameState.Value = EGameState.Completed;
             Info("EndGame");

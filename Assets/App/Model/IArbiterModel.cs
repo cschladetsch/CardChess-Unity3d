@@ -9,7 +9,6 @@ namespace App.Model
     /// </summary>
     public interface IArbiterModel
         : IModel
-        , IGameActor
     {
         IBoardModel Board { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }

@@ -17,9 +17,9 @@ namespace App.Agent
         {
         }
 
-        public override void Create()
+        public override void StartGame()
         {
-            base.Create();
+            base.StartGame();
             Root.Add(New.Coroutine(Next).Named($"{this} Coro"));
         }
 

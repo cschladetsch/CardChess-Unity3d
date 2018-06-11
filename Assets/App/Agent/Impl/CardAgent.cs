@@ -39,7 +39,7 @@ namespace App.Agent
         {
             try
             {
-                return $"{Owner.Value}s {PieceType} CardAgent, Id={Id}";
+                return $"{Owner.Value}s CardAgent for {PieceType}";
             }
             catch (Exception e)
             {

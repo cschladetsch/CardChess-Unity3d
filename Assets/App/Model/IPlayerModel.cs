@@ -14,7 +14,6 @@ namespace App.Model
     public interface IPlayerModel
         : IModel
         , IOwner
-        , IGameActor
     {
         event Action<IPieceModel, IItemModel> OnEquipped;
         event Action<IPieceModel, IItemModel> OnUnequipped;
