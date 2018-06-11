@@ -31,8 +31,8 @@ namespace App.View.Impl1
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq =>
             {
-                if (sq != null)
-                    Info($"Over {sq}");//.AgentBase.BaseModel}");
+                //if (sq != null)
+                //    Info($"Over {sq}");//.AgentBase.BaseModel}");
             });
 
             Clear();

@@ -54,10 +54,6 @@ namespace App.Model
             return Owner.Value == other.Owner.Value;
         }
 
-        public virtual void Create()
-        {
-        }
-
         public virtual void PrepareModels()
         {
             Assert.IsFalse(_prepared);
@@ -98,6 +94,19 @@ namespace App.Model
         private readonly BoolReactiveProperty _destroyed;
         private readonly ReactiveProperty<IOwner> _owner;
         private bool _prepared;
+
+        public virtual void StartGame()
+        {
+            Assert.IsFalse(_started);
+            _started = true;
+        }
+
+        public virtual void EndGame()
+        {
+            _started = false;
+        }
+
+        private bool _started;
     }
 }
 

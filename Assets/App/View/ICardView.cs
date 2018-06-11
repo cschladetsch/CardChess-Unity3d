@@ -8,5 +8,7 @@ namespace App.View
         : IView<ICardAgent>
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
+
+        void SetAgent(IPlayerView player, ICardAgent agent);
     }
 }

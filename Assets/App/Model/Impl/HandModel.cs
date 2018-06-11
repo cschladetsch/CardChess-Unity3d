@@ -22,18 +22,14 @@ namespace App.Model
         {
         }
 
-        public override void PrepareModels()
+        public override void StartGame()
         {
-            base.PrepareModels();
-        }
-
-        public virtual void StartGame()
-        {
+            Info($"Hand StartGame {Player}");
             _Cards.Clear();
             DrawInitialCards();
         }
 
-        public void EndGame()
+        public override void EndGame()
         {
             _Cards.Clear();
         }

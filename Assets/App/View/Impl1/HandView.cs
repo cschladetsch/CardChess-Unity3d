@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CoLib;
+using UnityEngine;
 
 using UniRx;
 
@@ -10,43 +13,37 @@ namespace App.View.Impl1
 
     public class HandView
         : ViewBase<IHandAgent>
-        , IHandView
+            , IHandView
     {
         public CardView CardViewPrefab;
         public Transform CardsRoot;
         public int MockNumCards = 4;
         public Vector3 Offset;
 
-        public override void SetAgent(IPlayerView view, IHandAgent handAgent)
+        public override void SetAgent(IPlayerView playerView, IHandAgent handAgent)
         {
-            base.SetAgent(view, handAgent);
+            base.SetAgent(playerView, handAgent);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
             Clear();
-            CreateHandView();
 
+            foreach (var cardAgent in handAgent.Cards)
+                _cards.Add(ViewFromAgent(cardAgent));
             handAgent.Cards.ObserveAdd().Subscribe(Add);
             handAgent.Cards.ObserveRemove().Subscribe(Remove);
+            Redraw();
         }
 
-        public void CreateHandView()
+        ICardView ViewFromAgent(ICardAgent agent)
         {
-            Clear();
-
-            var model = Agent.Model;
-            var n = 0;
-            foreach (var card in model.Cards)
-            {
-                var view = ViewRegistry.FromPrefab<ICardView, ICardAgent, ICardModel>(PlayerView, CardViewPrefab, card);
-                //Agent.Add(view.Agent);
-                var tr = view.GameObject.transform;
-                tr.SetParent(CardsRoot);
-                tr.localPosition = n * Offset;
-                view.GameObject.name = $"{card}";
-                _cards.Add(view);
-                ++n;
-            }
+            var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
+            cardView.SetAgent(PlayerView, agent);
+            var tr = cardView.GameObject.transform;
+            tr.SetParent(CardsRoot);
+            tr.localScale = Vector3.one;
+            tr.localPosition = new Vector3(-1, -1, 10);
+            return cardView;
         }
 
         [ContextMenu("HandView-Clear")]
@@ -59,10 +56,7 @@ namespace App.View.Impl1
         private void Add(CollectionAddEvent<ICardAgent> add)
         {
             Info($"HandView: Add {add.Value} @{add.Index}");
-            var cardView = ViewRegistry.New<ICardView>();
-            cardView.SetAgent(PlayerView, add.Value);
-            _cards.Insert(add.Index, cardView);
-
+            _cards.Insert(add.Index, ViewFromAgent(add.Value));
             Redraw();
         }
 
@@ -70,27 +64,26 @@ namespace App.View.Impl1
         {
             Info($"HandView: Remove {remove.Value} @{remove.Index}");
             var view = _cards[remove.Index];
-            view.Destroy();
             _cards.RemoveAt(remove.Index);
-
+            view.Destroy();
             Redraw();
         }
 
         void Redraw()
         {
-            // TODO: nice animation of cards moving
-            Clear();
+            _Queue.RunToEnd();
 
             var n = 0;
             foreach (var card in _cards)
             {
-                var tr = card.GameObject.transform;
-                tr.SetParent(CardsRoot);
-                tr.localPosition = n * Offset;
-                card.GameObject.name = $"{card}";
+                Assert.IsTrue(card.IsValid);
+                card.GameObject.name = $"{card.Agent.Model}";
+                _Queue.Enqueue(Commands.MoveTo(card.GameObject, n * Offset, 0.1, Ease.Smooth(), true));
                 ++n;
             }
+            //_Queue.Enqueue(Commands.ForEachParallel(moves));
         }
+
         private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
     }
 }

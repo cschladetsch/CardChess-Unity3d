@@ -48,7 +48,7 @@ namespace App.Model.Test
             _black = _reg.New<IBlackPlayerModel>();
 
             foreach (var model in _reg.Instances.ToList())
-                model.Create();
+                model.PrepareModels();
         }
 
         protected virtual void TearDownTest()

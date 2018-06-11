@@ -38,13 +38,13 @@ namespace App.Model
             base.PrepareModels();
         }
 
-        public void StartGame()
+        public override void StartGame()
         {
             ClearBoard();
             ConstructBoard();
         }
 
-        public void EndGame()
+        public override void EndGame()
         {
             ClearBoard();
         }

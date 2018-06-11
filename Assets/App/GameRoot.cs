@@ -44,13 +44,10 @@ namespace App
             PrepareViews(transform);
 
             BoardView.SetAgent(null, BoardAgent);
-            WhitePlayerAgent.Create();
-            BlackPlayerAgent.Create();
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
             ArbiterView.SetAgent(null, ArbiterAgent);
 
-            Trace();
             IsGood();
         }
 
@@ -72,6 +69,13 @@ namespace App
 
             foreach (var entity in things)
             {
+                if (entity is GameRoot)
+                    continue;
+                if (entity is BoardOverlayView)
+                    continue;
+                if (entity is SquareView)
+                    continue;
+
                 var valid = entity.IsValid;
                 if (!valid)
                 {
@@ -142,7 +146,7 @@ namespace App
 
             // make all models required
             foreach (var model in Models.Instances.ToList())
-                model.Create();
+                model.PrepareModels();
         }
 
         private void CreateAgents()

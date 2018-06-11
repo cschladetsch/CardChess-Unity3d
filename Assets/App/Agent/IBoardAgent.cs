@@ -10,7 +10,6 @@ namespace App.Agent
     /// </summary>
     public interface IBoardAgent
         : IAgent<IBoardModel>
-        , IGameActor
     {
         IFuture<IPieceAgent> At(Coord coord);
         ITransient NewGameAction();

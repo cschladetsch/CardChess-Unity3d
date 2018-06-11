@@ -1,5 +1,6 @@
 ﻿using System;
 using Flow;
+using UniRx;
 
 namespace App.Agent
 {
@@ -13,7 +14,9 @@ namespace App.Agent
     {
         event Action<ICardAgent> OnDraw;
 
-        IFuture<ICardAgent> Draw();
-        void AddToBottom(ICardAgent card);
+        IReadOnlyReactiveCollection<ICardAgent> Cards { get; }
+
+        //IFuture<ICardAgent> Draw();
+        //void AddToBottom(ICardAgent card);
     }
 }

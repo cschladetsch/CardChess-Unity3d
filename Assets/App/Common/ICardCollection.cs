@@ -27,7 +27,7 @@ namespace App.Common
         bool Has(TCard card);
         bool Has(Guid idCard);
         bool Add(TCard card);
-        int Add(IEnumerable<TCard> cards);
+        //int Add(IEnumerable<TCard> cards);
         bool Remove(TCard card);
         void Shuffle();
         int ShuffleIn(IEnumerable<TCard> cards);

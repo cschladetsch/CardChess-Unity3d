@@ -9,6 +9,7 @@
     public interface IModel
         : Flow.ILogger
         , IEntity
+        , IGameActor
         , IHasDestroyHandler<IModel>
         , IHasRegistry<IModel>
     {

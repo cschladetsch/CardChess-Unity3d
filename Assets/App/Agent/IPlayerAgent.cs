@@ -36,7 +36,6 @@ namespace App.Agent
         IReadOnlyReactiveProperty<int> Mana { get; }
         IReadOnlyReactiveProperty<int> Health { get; }
 
-        ITransient StartGame();
         IFuture<RejectCards> Mulligan();
 
         ITransient TurnStart();

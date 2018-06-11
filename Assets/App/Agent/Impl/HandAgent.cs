@@ -13,13 +13,17 @@ namespace App.Agent
         public HandAgent(IHandModel model)
             : base(model)
         {
-            model.Cards.ObserveAdd().Subscribe(Add).AddTo(Model);
-            model.Cards.ObserveRemove().Subscribe(Remove).AddTo(Model);
         }
 
-        public void StartGame()
+        public override void StartGame()
         {
             Model.StartGame();
+            Info($"HandAgent {PlayerModel} created");
+            foreach (var c in Model.Cards)
+                _cards.Add(Registry.New<ICardAgent>(c));
+
+            Model.Cards.ObserveAdd().Subscribe(Add);
+            Model.Cards.ObserveRemove().Subscribe(Remove);
         }
 
         void Remove(CollectionRemoveEvent<ICardModel> remove)
@@ -34,7 +38,7 @@ namespace App.Agent
         void Add(CollectionAddEvent<ICardModel> add)
         {
             Info($"HandAgent: Add {add.Value} @{add.Index}");
-            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Index));
+            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
         }
 
         private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();

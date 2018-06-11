@@ -201,7 +201,10 @@ namespace App.Registry
         {
             Assert.IsNotNull(model);
             if (model.Id == Guid.Empty)
+            {
                 model.Id = Guid.NewGuid();
+                _models[model.Id] = model;
+            }
             model.Registry = this;
             return model;
         }
@@ -394,14 +397,15 @@ namespace App.Registry
             sb.Append($"{NumInstances} Instances:\n");
             foreach (var kv in _models)
             {
-                sb.Append($"\t{kv.Key} -> {kv.Value}\n");
-            }
-
-            sb.Append($"\n{_idToType.Count} Types:\n");
-            foreach (var kv in _idToType)
-            {
+                //sb.Append($"\t{kv.Key} -> {kv.Value}\n");
                 sb.Append($"\t{kv.Value}\n");
             }
+
+            //sb.Append($"\n{_idToType.Count} Types:\n");
+            //foreach (var kv in _idToType)
+            //{
+            //    sb.Append($"\t{kv.Value}\n");
+            //}
             return sb.ToString();
         }
         #endregion
