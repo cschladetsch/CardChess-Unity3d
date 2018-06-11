@@ -36,6 +36,11 @@ namespace App.Agent
         public abstract ITransient TurnStart();
         public abstract ITransient TurnEnd();
 
+        public void PushRequest(IRequest request, Action<IResponse> handler)
+        {
+            _Requests.Add(new Turnaround(request, handler));
+        }
+
         public override void StartGame()
         {
             base.StartGame();
@@ -61,11 +66,6 @@ namespace App.Agent
         {
             var req = Model.NextAction();
             return New.TimedFuture(TimeSpan.FromSeconds(seconds), req);
-        }
-
-        public void PushRequest(Turnaround req)
-        {
-            _Requests.Add(req);
         }
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();

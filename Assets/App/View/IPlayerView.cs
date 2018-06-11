@@ -8,6 +8,6 @@ namespace App.View
     public interface IPlayerView
         : IView<IPlayerAgent>
     {
-        void NewRequest(IRequest request, Action<IResponse> response);
+        void PushRequest(IRequest request, Action<IResponse> response);
     }
 }
