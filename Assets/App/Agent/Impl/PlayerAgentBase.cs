@@ -46,8 +46,6 @@ namespace App.Agent
 
             Deck.StartGame();
             Hand.StartGame();
-
-            Model.StartGame();
         }
 
         public override string ToString()
