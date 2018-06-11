@@ -18,7 +18,7 @@ namespace App.Agent
         public override void StartGame()
         {
             Model.StartGame();
-            Info($"HandAgent {PlayerModel} created");
+            Verbose(30, $"HandAgent {PlayerModel} created");
             foreach (var c in Model.Cards)
                 _cards.Add(Registry.New<ICardAgent>(c));
 
