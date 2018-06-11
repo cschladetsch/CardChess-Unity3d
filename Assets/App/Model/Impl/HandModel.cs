@@ -24,7 +24,7 @@ namespace App.Model
 
         public override void StartGame()
         {
-            Info($"Hand StartGame {Player}");
+            Verbose(20, $"Hand StartGame {Player}");
             _Cards.Clear();
             DrawInitialCards();
         }
@@ -49,7 +49,6 @@ namespace App.Model
 
         protected void AddKing()
         {
-            Info($"{Player} add King to hand, count={Cards.Count}");
             Add(_cardTemplateService.NewCardModel(Owner.Value as IPlayerModel, EPieceType.King));
         }
     }

@@ -55,7 +55,7 @@ namespace App.View.Impl1
 
         private void Add(CollectionAddEvent<ICardAgent> add)
         {
-            Info($"HandView: Add {add.Value} @{add.Index}");
+            //Info($"HandView: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, ViewFromAgent(add.Value));
             Redraw();
         }
