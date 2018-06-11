@@ -15,9 +15,12 @@ namespace App.Mock.Model
 
         protected override void DrawInitialCards()
         {
+            Assert.IsTrue(Deck.Cards.Count > 4);
             foreach (var ty in _pieceTypes)
             {
                 var card = Deck.Cards.FirstOrDefault(c => c.PieceType == ty);
+                if (card == null)
+                    Info("Failed to find a type {ty}");
                 Assert.IsNotNull(card);
                 Add(card);
                 Deck.Remove(card);
