@@ -112,8 +112,8 @@ namespace App.View.Impl1
 
             Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
 
-            PlayerView.NewRequest(
-                new PlacePiece(PlayerView.Agent.Model, Agent.Model, square.Coord)
+            PlayerView.Agent.PushRequest(
+                new PlacePiece(PlayerModel, Agent.Model, square.Coord)
                 , Response);
         }
 

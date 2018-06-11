@@ -8,18 +8,6 @@ namespace App.Agent
     using Common;
     using Common.Message;
 
-    public class Turnaround
-    {
-        public IRequest Request;
-        public Action<IResponse> Responder;
-
-        public Turnaround(IRequest request, Action<IResponse> responder)
-        {
-            Request = request;
-            Responder = responder;
-        }
-    }
-
     /// <summary>
     /// Agent for a Player.
     /// Responsible for reacting to changes in Model state.
@@ -42,6 +30,6 @@ namespace App.Agent
         ITimedFuture<IRequest> NextRequest(float timeOut);
         ITransient TurnEnd();
 
-        void PushRequest(Turnaround req);
+        void PushRequest(IRequest request, Action<IResponse> handler);
     }
 }

@@ -33,9 +33,9 @@ namespace App.View.Impl1
             ManaView.SetAgent(this, Agent);
         }
 
-        public void NewRequest(IRequest request, Action<IResponse> response)
+        public void PushRequest(IRequest request, Action<IResponse> response)
         {
-            Agent.PushRequest(new Turnaround(request, response));
+            Agent.PushRequest(request, response);
         }
     }
 }
