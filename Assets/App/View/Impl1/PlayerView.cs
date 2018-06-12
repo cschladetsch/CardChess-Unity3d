@@ -27,7 +27,6 @@ namespace App.View.Impl1
             Assert.IsNotNull(agent.Deck);
 
             base.SetAgent(view, agent);
-
             Deck.SetAgent(this, Agent.Deck);
             Hand.SetAgent(this, Agent.Hand);
             ManaView.SetAgent(this, Agent);
@@ -35,6 +34,9 @@ namespace App.View.Impl1
 
         public void PushRequest(IRequest request, Action<IResponse> response)
         {
+            Assert.IsNotNull(request);
+            Assert.IsNotNull(response);
+
             Agent.PushRequest(request, response);
         }
     }

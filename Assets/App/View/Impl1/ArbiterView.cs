@@ -12,13 +12,17 @@ namespace App.View.Impl1
         , IArbiterView
     {
         public BoardView Board;
-        public PlayerView WhitePlayerView;
-        public PlayerView BlackPlayerView;
+        public PlayerView WhitePlayer;
+        public PlayerView BlackPlayer;
         public TMPro.TextMeshPro CurrentPlayerText;
         public TMPro.TextMeshPro ResponseText;
         public TMPro.TextMeshPro StateText;
-        public Button WhiteEnd;
-        public Button BlackEnd;
+        public Button WhiteEndButton;
+        public Button BlackEndButton;
+
+        public IPlayerView WhitePlayerView => WhitePlayer;
+        public IPlayerView BlackPlayerView => BlackPlayer;
+        public IBoardView BoardView => Board;
 
         public override void SetAgent(IPlayerView view, IArbiterAgent agent)
         {
@@ -38,21 +42,23 @@ namespace App.View.Impl1
         {
             Agent.PlayerAgent.Subscribe(player =>
             {
-                WhiteEnd.interactable = player.Color == EColor.White;
-                BlackEnd.interactable = player.Color == EColor.Black;
+                WhiteEndButton.interactable = player.Color == EColor.White;
+                BlackEndButton.interactable = player.Color == EColor.Black;
             });
 
             var whiteAgent = WhitePlayerView.Agent;
             var blackAgent = BlackPlayerView.Agent;
             var white = whiteAgent.Model;
             var black = blackAgent.Model;
-            WhiteEnd.Bind(() => whiteAgent.PushRequest(new TurnEnd(white), TurnEnded));
-            WhiteEnd.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
+            WhiteEndButton.Bind(() => whiteAgent.PushRequest(new TurnEnd(white), TurnEnded));
+            WhiteEndButton.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
         }
 
         private void TurnEnded(IResponse obj)
         {
-            Info($"TurnEnded for {obj.Request.Player}");
+            Assert.IsNotNull(obj);
+            Assert.IsTrue(obj.Success);
+            //Info($"TurnEnded for {obj.Request.Player}");
         }
 
         public void AddWhiteCard()
