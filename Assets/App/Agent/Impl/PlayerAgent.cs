@@ -1,4 +1,5 @@
-﻿using Flow;
+﻿using System.Collections;
+using Flow;
 
 namespace App.Agent
 {
@@ -16,6 +17,32 @@ namespace App.Agent
         public override void StartGame()
         {
             base.StartGame();
+            _Node.Add(New.Coroutine(Coro));
+        }
+
+        private bool _end = false;
+
+        public override void EndGame()
+        {
+            _end = true;
+        }
+
+        IEnumerator Coro(IGenerator self)
+        {
+            while (!_end)
+            {
+                while (_Requests.Count > 0 && _Futures.Count > 0)
+                {
+                    var req = _Requests[0];
+                    _Futures[0].Value = req;
+
+                    _Requests.RemoveAt(0);
+                    _Futures.RemoveAt(0);
+                    yield return null;
+                }
+
+                yield return null;
+            }
         }
 
         public override IFuture<RejectCards> Mulligan()

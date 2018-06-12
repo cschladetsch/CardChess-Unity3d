@@ -9,10 +9,10 @@ namespace App.Common.Message
         public EResponse Type { get; }
         public EError Error { get; }
         public Guid RequestId { get; set; }
-        public bool Success => Type == EResponse.Ok;
         public string Text { get; }
-        public bool Failed => !Success;
         public object PayloadObject { get; protected set; }
+        public bool Failed => !Success;
+        public bool Success => Type == EResponse.Ok && (Error == EError.None || Error == EError.NoChange);
 
         public static Response NotImplemented = new Response(EResponse.NotImplemented);
         public static Response Ok = new Response(EResponse.Ok);
