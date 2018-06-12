@@ -35,6 +35,12 @@ namespace App.Mock.Agent
             return null;//New.Nop();
         }
 
+        public override ITimedFuture<Turnaround> NextRequest(float seconds)
+        {
+            var req = Model.NextAction();
+            return New.TimedFuture(TimeSpan.FromSeconds(seconds), new Turnaround(req, ResponseHandler));
+        }
+
         public override ITransient TurnEnd()
         {
             Info("Turn End");

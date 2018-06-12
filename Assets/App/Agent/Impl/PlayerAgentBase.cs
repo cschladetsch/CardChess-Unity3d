@@ -36,11 +36,6 @@ namespace App.Agent
         public abstract ITransient TurnStart();
         public abstract ITransient TurnEnd();
 
-        public void PushRequest(IRequest request, Action<IResponse> handler)
-        {
-            _Requests.Add(new Turnaround(request, handler));
-        }
-
         public override void StartGame()
         {
             base.StartGame();
@@ -57,17 +52,36 @@ namespace App.Agent
             Hand.StartGame();
         }
 
+        public void PushRequest(IRequest request, Action<IResponse> handler)
+        {
+            _Requests.Add(new Turnaround(request, handler));
+        }
+
+        public virtual ITimedFuture<Turnaround> NextRequest(float seconds)
+        {
+            var future = New.TimedFuture<Turnaround>(TimeSpan.FromSeconds(seconds));
+            _Futures.Add(future);
+            future.TimedOut += f => _Futures.RemoveRef(future);
+            if (_Requests.Count > 0)
+            {
+                future.Value = _Requests[0];
+                _Requests.RemoveAt(0);
+            }
+
+            return future;
+        }
+
+        protected void ResponseHandler(IResponse response)
+        {
+            Info($"{response.Request} => {response.Type}:{response.Error}");
+        }
+
         public override string ToString()
         {
             return $"Agent for {Model}";
         }
 
-        public virtual ITimedFuture<IRequest> NextRequest(float seconds)
-        {
-            var req = Model.NextAction();
-            return New.TimedFuture(TimeSpan.FromSeconds(seconds), req);
-        }
-
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
+        protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using Flow;
+﻿using Flow;
 
 namespace App.Agent
 {
@@ -20,7 +16,6 @@ namespace App.Agent
         public override void StartGame()
         {
             base.StartGame();
-            Root.Add(New.Coroutine(Next).Named($"{this} Coro"));
         }
 
         public override IFuture<RejectCards> Mulligan()
@@ -33,47 +28,9 @@ namespace App.Agent
             return null;
         }
 
-        public override ITimedFuture<IRequest> NextRequest(float seconds)
-        {
-            var future = New.TimedFuture<IRequest>(TimeSpan.FromSeconds(seconds));
-            _futures.Add(future);
-            future.TimedOut += f => _futures.RemoveRef(future);
-            return future;
-        }
-
-        protected IEnumerator Next(IGenerator self)
-        {
-            // TODO: keep state matched with arbiter
-
-            //yield return Start();
-            //yield return Mulligan();
-            //yield return PlaceKLing();
-            //while (!done)
-            //{
-            //    // pump moves
-            //}
-
-            while (true)
-            {
-                if (_Requests.Count > 0 && _futures.Count > 0)
-                {
-                    var future = _futures[0];
-                    var req = _Requests[0];
-                    _futures.RemoveAt(0);
-                    _Requests.RemoveAt(0);
-
-                    future.Value = req.Request;
-                }
-
-                yield return null;
-            }
-        }
-
         public override ITransient TurnEnd()
         {
             return null;
         }
-
-        private readonly List<IFuture<IRequest>> _futures = new List<IFuture<IRequest>>();
     }
 }

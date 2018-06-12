@@ -5,7 +5,7 @@ namespace App.Common.Message
     public class Response
         : IResponse
     {
-        public IRequest Request { get; }
+        public IRequest Request { get; set; }
         public EResponse Type { get; }
         public EError Error { get; }
         public Guid RequestId { get; set; }

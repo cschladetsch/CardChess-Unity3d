@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 using UniRx;
 using CoLib;
+using JetBrains.Annotations;
 
 namespace App.View.Impl1
 {
@@ -21,12 +22,14 @@ namespace App.View.Impl1
         public TMPro.TextMeshProUGUI Power;
         public Image Image;
         public IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
+        public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
         [Inject] private IBoardView BoardView { get; set; }
         [Inject] private IArbiterView ArbiterView { get; set; }
 
         public override void Create()
         {
             _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
+            _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
         }
 
         public override void SetAgent(IPlayerView view, ICardAgent agent)
@@ -96,6 +99,7 @@ namespace App.View.Impl1
             var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
             transform.position = cursorPosition;
             transform.SetZ(-0.5f);
+            _squareOver.Value = BoardView.TestRayCast(Input.mousePosition);
         }
 
         private void OnMouseUp()
@@ -103,8 +107,7 @@ namespace App.View.Impl1
             // complete animating to zero-alpha background
             _Queue.RunToEnd();
 
-            var square = BoardView.TestRayCast(Input.mousePosition);
-            if (square == null)
+            if (SquareOver.Value == null)
             {
                 ReturnToHand();
                 return;
@@ -113,13 +116,13 @@ namespace App.View.Impl1
             Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
 
             PlayerView.Agent.PushRequest(
-                new PlacePiece(PlayerModel, Agent.Model, square.Coord)
+                new PlacePiece(PlayerModel, Agent.Model, SquareOver.Value.Coord)
                 , Response);
         }
 
-        private void Response(IResponse obj)
+        private void Response(IResponse response)
         {
-            Info($"{obj}");
+            Info($"CardViewPlaced response: {response}");
         }
 
         public void ReturnToHand()
@@ -147,5 +150,7 @@ namespace App.View.Impl1
         private double _imageAlphaAnimDuration = 0.5;
         private Ref<Color> _backgroundColor;
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
+        private readonly ReactiveProperty<ISquareView> _squareOver = new ReactiveProperty<ISquareView>();
+        private readonly ReactiveProperty<ISquareView> _squareOverFiltered = new ReactiveProperty<ISquareView>();
     }
 }
