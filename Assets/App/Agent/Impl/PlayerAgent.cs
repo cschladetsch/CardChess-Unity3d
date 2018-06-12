@@ -29,6 +29,7 @@ namespace App.Agent
 
         IEnumerator Coro(IGenerator self)
         {
+            Name = "PlayerAgentCoro";
             while (!_end)
             {
                 while (_Requests.Count > 0 && _Futures.Count > 0)

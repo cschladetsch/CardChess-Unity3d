@@ -1,10 +1,8 @@
-﻿using App.Model;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 using UniRx;
 using CoLib;
-using JetBrains.Annotations;
 
 namespace App.View.Impl1
 {
@@ -133,7 +131,7 @@ namespace App.View.Impl1
             var place = response.Request as PlacePiece;
             Assert.IsNotNull(place);
             BoardView.PlacePiece(this, place.Coord);
-            PlayerModel.Hand.Remove(Agent.Model);
+            //PlayerModel.Hand.Remove(Agent.Model);
             Info($"{BoardView.Agent.Model.Print()}");
         }
 
