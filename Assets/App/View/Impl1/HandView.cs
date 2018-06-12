@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CoLib;
+﻿using CoLib;
 using UnityEngine;
 
 using UniRx;
@@ -9,17 +7,18 @@ namespace App.View.Impl1
 {
     using Agent;
     using Common;
-    using Model;
 
+    /// <summary>
+    /// View of a player's hand in the scene.
+    /// </summary>
     public class HandView
         : ViewBase<IHandAgent>
         , IHandView
     {
-        public CardView CardViewPrefab;
-        public Transform CardsRoot;
-        public BoardOverlayView BoardOverlay;
-        public int MockNumCards = 4;
         public Vector3 Offset;
+        public Transform CardsRoot;
+        public CardView CardViewPrefab;
+        public BoardOverlayView BoardOverlay;
 
         public override void SetAgent(IPlayerView playerView, IHandAgent handAgent)
         {
@@ -28,15 +27,20 @@ namespace App.View.Impl1
             Assert.IsNotNull(CardsRoot);
 
             Clear();
-
-            foreach (var cardAgent in handAgent.Cards)
-                _cards.Add(ViewFromAgent(cardAgent));
-            handAgent.Cards.ObserveAdd().Subscribe(Add);
-            handAgent.Cards.ObserveRemove().Subscribe(Remove);
+            BindHand(handAgent);
             Redraw();
         }
 
-        ICardView ViewFromAgent(ICardAgent agent)
+        private void BindHand(IHandAgent agent)
+        {
+            foreach (var card in agent.Cards)
+                _cards.Add(ViewFromAgent(card));
+
+            agent.Cards.ObserveAdd().Subscribe(Add);
+            agent.Cards.ObserveRemove().Subscribe(Remove);
+        }
+
+        private ICardView ViewFromAgent(ICardAgent agent)
         {
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
@@ -50,7 +54,6 @@ namespace App.View.Impl1
 
         void CardMouseOver(ICardView card)
         {
-
         }
 
         [ContextMenu("HandView-Clear")]

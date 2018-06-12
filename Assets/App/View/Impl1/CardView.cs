@@ -15,14 +15,15 @@ namespace App.View.Impl1
         : ViewBase<ICardAgent>
         , ICardView
     {
+        public Image Image;
         public TMPro.TextMeshProUGUI Mana;
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
-        public Image Image;
+
         public IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
+
         [Inject] private IBoardView BoardView { get; set; }
-        [Inject] private IArbiterView ArbiterView { get; set; }
 
         public override void Create()
         {
@@ -42,7 +43,6 @@ namespace App.View.Impl1
 
         #region UnityCallbacks
 
-        private float _scaleTime = 0.230f;
         private void OnMouseEnter()
         {
             if (ScaleTo(1.5f))
@@ -61,11 +61,7 @@ namespace App.View.Impl1
                 return false;
             _Queue.RunToEnd();
             _Queue.Enqueue(
-                Commands.ScaleTo(
-                    gameObject,
-                    scale,
-                    _scaleTime
-                )
+                Commands.ScaleTo(gameObject, scale, ScaleTime)
             );
             return true;
         }
@@ -79,13 +75,13 @@ namespace App.View.Impl1
             _dragging = true;
             _startLocation = transform.position;
             _screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-            _offset = transform.position - Camera.main.ScreenToWorldPoint(
-                          new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
+            var mp = Input.mousePosition;
+            _offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(mp.x, mp.y, _screenPoint.z));
 
             _Queue.Enqueue(
                 Commands.Parallel(
-                    Commands.ScaleTo( gameObject, 1, _scaleTime ),
-                    Commands.AlphaTo(_backgroundColor, 0, _imageAlphaAnimDuration, Ease.Smooth())
+                    Commands.ScaleTo(gameObject, 1, ScaleTime),
+                    Commands.AlphaTo(_backgroundColor, 0, ImageAlphaAnimDuration, Ease.Smooth())
                 )
             );
         }
@@ -93,7 +89,8 @@ namespace App.View.Impl1
         private void OnMouseDrag()
         {
             _dragging = true;
-            var cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
+            var mp = Input.mousePosition;
+            var cursorPoint = new Vector3(mp.x, mp.y, _screenPoint.z);
             var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
             transform.position = cursorPosition;
             transform.SetZ(-0.5f);
@@ -102,9 +99,7 @@ namespace App.View.Impl1
 
         private void OnMouseUp()
         {
-            // complete animating to zero-alpha background
             _Queue.RunToEnd();
-
             if (SquareOver.Value == null)
             {
                 ReturnToHand();
@@ -112,11 +107,10 @@ namespace App.View.Impl1
             }
 
             Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
-
-            PlayerView.Agent.PushRequest(
-                new PlacePiece(PlayerModel, Agent.Model, SquareOver.Value.Coord)
-                , Response);
+            PlayerView.Agent.PushRequest(new PlacePiece(PlayerModel, Agent.Model, SquareOver.Value.Coord), Response);
         }
+
+        #endregion
 
         private void Response(IResponse response)
         {
@@ -131,15 +125,16 @@ namespace App.View.Impl1
             var place = response.Request as PlacePiece;
             Assert.IsNotNull(place);
             BoardView.PlacePiece(this, place.Coord);
+            // TODO: this Destroys the object, and it should not
+            // OR, we create a IPieceView/Agent/Model from this CardView
             //PlayerModel.Hand.Remove(Agent.Model);
-            Info($"{BoardView.Agent.Model.Print()}");
         }
 
         public void ReturnToHand()
         {
             _Queue.Enqueue(
                 Commands.Parallel(
-                    Commands.AlphaTo(_backgroundColor, 1, _imageAlphaAnimDuration, Ease.Smooth()),
+                    Commands.AlphaTo(_backgroundColor, 1, ImageAlphaAnimDuration, Ease.Smooth()),
                     Commands.MoveTo(
                         transform,
                         _startLocation,
@@ -151,14 +146,13 @@ namespace App.View.Impl1
             );
         }
 
-        #endregion
-
         private bool _dragging;
-        private Vector3 _startLocation;
-        private Vector3 _screenPoint;
         private Vector3 _offset;
-        private double _imageAlphaAnimDuration = 0.5;
+        private Vector3 _screenPoint;
+        private Vector3 _startLocation;
         private Ref<Color> _backgroundColor;
+        private const float ScaleTime = 0.230f;
+        private const double ImageAlphaAnimDuration = 0.5;
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
         private readonly ReactiveProperty<ISquareView> _squareOver = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _squareOverFiltered = new ReactiveProperty<ISquareView>();
