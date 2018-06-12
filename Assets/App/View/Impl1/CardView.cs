@@ -122,7 +122,21 @@ namespace App.View.Impl1
 
         private void Response(IResponse response)
         {
-            Info($"CardViewPlaced response: {response}");
+            _Queue.RunToEnd();
+            Info($"CardViewPlaced {response.Request}, response {response.Type}:{response.Error}");
+            if (response.Failed)
+            {
+                ReturnToHand();
+                return;
+            }
+
+            var place = response.Request as PlacePiece;
+            Assert.IsNotNull(place);
+            var coord = place.Coord;
+            var pos = new Vector3(coord.x, coord.y, 0);
+            _Queue.Enqueue(Commands.MoveTo(GameObject, pos, 0.1, Ease.InOutBounce(), true));
+            PlayerModel.Hand.Remove(Agent.Model);
+            Info($"{BoardView.Agent.Model.Print()}");
         }
 
         public void ReturnToHand()

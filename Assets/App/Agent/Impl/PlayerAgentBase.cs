@@ -62,11 +62,6 @@ namespace App.Agent
             var future = New.TimedFuture<Turnaround>(TimeSpan.FromSeconds(seconds));
             _Futures.Add(future);
             future.TimedOut += f => _Futures.RemoveRef(future);
-            if (_Requests.Count > 0)
-            {
-                future.Value = _Requests[0];
-                _Requests.RemoveAt(0);
-            }
 
             return future;
         }
@@ -80,6 +75,8 @@ namespace App.Agent
         {
             return $"Agent for {Model}";
         }
+
+
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
         protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();

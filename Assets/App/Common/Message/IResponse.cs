@@ -10,6 +10,8 @@ namespace App.Common.Message
         Guid RequestId { get; }
         string Text { get;}
         object PayloadObject { get; }
+        bool Failed { get; }
+        bool Success { get; }
     }
 
     public interface IResponse<TPayload>
