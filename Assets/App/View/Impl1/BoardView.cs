@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoLib;
 using UnityEngine;
 
 using UniRx;
@@ -15,7 +16,7 @@ namespace App.View.Impl1
     /// </summary>
     public class BoardView
         : ViewBase<IBoardAgent>
-        , IBoardView
+            , IBoardView
     {
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
@@ -46,6 +47,21 @@ namespace App.View.Impl1
             var board = Agent.Model;
             Width = board.Width;
             Height = board.Height;
+        }
+
+        public IPieceView PlacePiece(ICardView view, Coord coord)
+        {
+            var go = view.GameObject;
+            go.transform.SetParent(transform);
+            var pos = new Vector3(coord.x - Width/2 + 0.5f, coord.y - Height/2 + 0.5f, -1);
+            _Queue.Enqueue(
+                Commands.Parallel(
+                    Commands.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
+                    Commands.ScaleTo(go, 0.5f, 0.1)
+                )
+            );
+
+            return null;
         }
 
         [ContextMenu("Board-Clear")]

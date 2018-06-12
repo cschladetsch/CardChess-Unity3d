@@ -67,6 +67,7 @@ namespace App.Model
 
         public virtual void Destroy()
         {
+            Info($"Destroy {this}");
             if (Destroyed.Value)
             {
                 Warn($"Attempt to destroy {this} twice");

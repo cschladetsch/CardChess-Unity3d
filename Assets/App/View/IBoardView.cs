@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using App.Common;
+using UniRx;
 using UnityEngine;
 
 namespace App.View
@@ -11,5 +12,7 @@ namespace App.View
         IReadOnlyReactiveProperty<ISquareView> HoverSquare { get; }
 
         ISquareView TestRayCast(Vector3 screen);
+
+        IPieceView PlacePiece(ICardView view, Coord cood);
     }
 }
