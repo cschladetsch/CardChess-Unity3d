@@ -182,13 +182,13 @@ namespace App
             Views.Resolve();
         }
 
-        [ContextMenu("Arbiter-TraceKernel")]
+        [ContextMenu("TraceKernel")]
         public void TraceKernel()
         {
             Info(WhitePlayerAgent.Kernel.Root.ToString());
         }
 
-        [ContextMenu("Arbiter-CheckValidHands")]
+        [ContextMenu("CheckValidHands")]
         public void CheckValidHands()
         {
             Assert.AreEqual(2, Models.Instances.OfType<IHandModel>().Count());
@@ -197,7 +197,7 @@ namespace App
             Info("Ok");
         }
 
-        [ContextMenu("Arbiter-Check")]
+        [ContextMenu("Check")]
         public void Check()
         {
             CheckModels();
@@ -205,7 +205,7 @@ namespace App
             //CheckViews(); // some views made at design time are invalid
         }
 
-        [ContextMenu("Arbiter-CheckAgents")]
+        [ContextMenu("CheckAgents")]
         public void CheckAgents()
         {
             foreach (var agent in Agents.Instances)
@@ -216,7 +216,7 @@ namespace App
             Info($"{Models.Instances.Count()} Agents Valid");
         }
 
-        [ContextMenu("Arbiter-CheckModels")]
+        [ContextMenu("CheckModels")]
         public void CheckModels()
         {
             foreach (var agent in Models.Instances)
@@ -224,6 +224,30 @@ namespace App
                 Assert.IsTrue(agent.IsValid);
             }
             Info($"{Models.Instances.Count()} Models Valid");
+        }
+
+        [ContextMenu("TraceBoard")]
+        public void TraceBoard()
+        {
+            Info(_boardModel.Print());
+        }
+
+        [ContextMenu("TraceArbiter")]
+        public void TraceArbiter()
+        {
+            Info(_arbiterModel.ToString());
+        }
+
+        [ContextMenu("TracePlayer-White")]
+        public void TraceWhite()
+        {
+            Info(WhitePlayerAgent.Model.ToString());
+        }
+
+        [ContextMenu("TracePlayer-Black")]
+        public void TraceBlack()
+        {
+            Info(BlackPlayerAgent.Model.ToString());
         }
 
         private IBoardModel _boardModel;

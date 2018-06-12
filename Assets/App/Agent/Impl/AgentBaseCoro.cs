@@ -30,6 +30,7 @@ namespace App.Agent
                 if (_node != null)
                     return _node;
                 _node = New.Node();
+                _node.Name = Name;
                 Root.Add(_node);
                 return _node;
             }

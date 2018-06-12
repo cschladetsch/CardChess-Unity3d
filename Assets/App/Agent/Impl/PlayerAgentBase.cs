@@ -60,6 +60,7 @@ namespace App.Agent
         public virtual ITimedFuture<Turnaround> NextRequest(float seconds)
         {
             var future = New.TimedFuture<Turnaround>(TimeSpan.FromSeconds(seconds));
+            future.Name = "Request for " + Name;
             _Futures.Add(future);
             future.TimedOut += f => _Futures.RemoveRef(future);
 

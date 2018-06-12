@@ -31,6 +31,13 @@ namespace App.Agent.Test
         }
 
         [Test]
+        public void TestString()
+        {
+            double d = 12.3456;
+            Trace.WriteLine($"{d,3}");
+        }
+
+        [Test]
         public void TestBasicGameAgents()
         {
             _arbiterAgent.PrepareGame(_whiteAgent, _blackAgent);
