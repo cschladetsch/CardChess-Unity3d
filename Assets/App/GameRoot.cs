@@ -182,6 +182,50 @@ namespace App
             Views.Resolve();
         }
 
+        [ContextMenu("Arbiter-TraceKernel")]
+        public void TraceKernel()
+        {
+            Info(WhitePlayerAgent.Kernel.Root.ToString());
+        }
+
+        [ContextMenu("Arbiter-CheckValidHands")]
+        public void CheckValidHands()
+        {
+            Assert.AreEqual(2, Models.Instances.OfType<IHandModel>().Count());
+            Assert.AreEqual(2, Agents.Instances.OfType<IHandAgent>().Count());
+            Assert.AreEqual(2, Views.Instances.OfType<IHandView>().Count());
+            Info("Ok");
+        }
+
+        [ContextMenu("Arbiter-Check")]
+        public void Check()
+        {
+            CheckModels();
+            CheckAgents();
+            //CheckViews(); // some views made at design time are invalid
+        }
+
+        [ContextMenu("Arbiter-CheckAgents")]
+        public void CheckAgents()
+        {
+            foreach (var agent in Agents.Instances)
+            {
+                Assert.IsTrue(agent.IsValid);
+                Assert.IsNotNull(agent.BaseModel);
+            }
+            Info($"{Models.Instances.Count()} Agents Valid");
+        }
+
+        [ContextMenu("Arbiter-CheckModels")]
+        public void CheckModels()
+        {
+            foreach (var agent in Models.Instances)
+            {
+                Assert.IsTrue(agent.IsValid);
+            }
+            Info($"{Models.Instances.Count()} Models Valid");
+        }
+
         private IBoardModel _boardModel;
         private IArbiterModel _arbiterModel;
         private IPlayerModel _whitePlayerModel;

@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using App.Common;
-using App.Mock.Model;
+﻿using App.Common.Message;
+using UnityEngine.UI;
 using UniRx;
 
 namespace App.View.Impl1
 {
     using Agent;
-    using Model;
+    using Common;
 
     public class ArbiterView
         : ViewBase<IArbiterAgent>
@@ -18,6 +17,8 @@ namespace App.View.Impl1
         public TMPro.TextMeshPro CurrentPlayerText;
         public TMPro.TextMeshPro ResponseText;
         public TMPro.TextMeshPro StateText;
+        public Button WhiteEnd;
+        public Button BlackEnd;
 
         public override void SetAgent(IPlayerView view, IArbiterAgent agent)
         {
@@ -30,7 +31,28 @@ namespace App.View.Impl1
             model.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
             model.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
 
-            CheckValidHands();
+            SetupUi();
+        }
+
+        public void SetupUi()
+        {
+            Agent.PlayerAgent.Subscribe(player =>
+            {
+                WhiteEnd.interactable = player.Color == EColor.White;
+                BlackEnd.interactable = player.Color == EColor.Black;
+            });
+
+            var whiteAgent = WhitePlayerView.Agent;
+            var blackAgent = BlackPlayerView.Agent;
+            var white = whiteAgent.Model;
+            var black = blackAgent.Model;
+            WhiteEnd.Bind(() => whiteAgent.PushRequest(new TurnEnd(white), TurnEnded));
+            WhiteEnd.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
+        }
+
+        private void TurnEnded(IResponse obj)
+        {
+            Info($"TurnEnded for {obj.Request.Player}");
         }
 
         public void AddWhiteCard()
@@ -40,49 +62,10 @@ namespace App.View.Impl1
             model.Hand.Add(card);
         }
 
-        public override void Create()
-        {
-        }
-
         protected override void Step()
         {
             base.Step();
             Agent?.Step();
-        }
-
-        private void CheckValidHands()
-        {
-            var reg = WhitePlayerView.PlayerModel.Registry;
-            var numHandModels = 0;
-            foreach (var m in reg.Instances)
-            {
-                var hand = m as IHandModel;
-                if (hand == null)
-                    continue;
-                numHandModels++;
-            }
-
-            var numHandAgents = 0;
-            foreach (var m in WhitePlayerView.Agent.Registry.Instances)
-            {
-                var hand = m as IHandAgent;
-                if (hand == null)
-                    continue;
-                numHandAgents++;
-            }
-
-            var numHandViews = 0;
-            foreach (var m in WhitePlayerView.Registry.Instances)
-            {
-                var hand = m as IHandView;
-                if (hand == null)
-                    continue;
-                //Warn($"Found hand {hand}");
-                numHandViews++;
-            }
-            Assert.AreEqual(2, numHandModels);
-            Assert.AreEqual(2, numHandAgents);
-            Assert.AreEqual(2, numHandViews);
         }
     }
 }

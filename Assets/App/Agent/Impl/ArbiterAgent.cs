@@ -134,12 +134,13 @@ namespace App
         {
             CurrentPlayerModel.StartTurn();
 
-            var timeOut = Parameters.GameTurnTimer;
-            var timeStart = Kernel.Time.Now;
+            ResetTurnTimer();
 
             // player can make as many valid actions as he can during his turn
             while (true)
             {
+                Info($"Getting next move for {CurrentPlayerModel}");
+
                 if (GameState.Value == EGameState.Completed)
                 {
                     self.Complete();
@@ -148,7 +149,7 @@ namespace App
 
                 Assert.IsTrue(self.Active);
 
-                var future = PlayerAgent.Value.NextRequest(timeOut);
+                var future = PlayerAgent.Value.NextRequest(_timeOut);
                 Assert.IsNotNull(future);
 
                 yield return self.After(future);
@@ -157,36 +158,55 @@ namespace App
                 {
                     Warn($"{CurrentPlayerModel} timed-out");
                     yield return self.After(New.Coroutine(PlayerTimedOut));
-                    break;
+                    continue;
                 }
                 if (!future.Available)
                     Warn($"{CurrentPlayerModel} didn't make a request");
 
                 // do the arbitration before we test for time out
-                var response = Model.Arbitrate(future.Value.Request);
-                response.Request = future.Value.Request;
+                var request = future.Value.Request;
+                var response = Model.Arbitrate(request);
+                response.Request = request;
                 future.Value.Responder?.Invoke(response);
                 if (response.Failed)
-                    Warn($"Request {future.Value.Request} failed for {CurrentPlayerModel}");
+                    Warn($"Request {request} failed for {CurrentPlayerModel}");
 
                 var now = Kernel.Time.Now;
-                var dt = (float)(now - timeStart).TotalSeconds;
+                var dt = (float)(now - _timeStart).TotalSeconds;
                 //if (dt < 1.0f/60.0f)    // give them a 60Hz frame of grace
                 //{
                 //    Warn($"{CurrentPlayerModel} ran out of time for turn");
                 //    break;
                 //}
 
-                timeStart = now;
-                timeOut -= dt;
+                _timeStart = now;
+                _timeOut -= dt;
+
+                if (request is TurnEnd && response.Success)
+                    ResetTurnTimer();
             }
+        }
+
+        private void ResetTurnTimer()
+        {
+            _timeOut = Parameters.GameTurnTimer;
+            _timeStart = Kernel.Time.Now;
         }
 
         private IEnumerator PlayerTimedOut(IGenerator arg)
         {
             Warn($"{CurrentPlayerModel} TimedOut");
-            Model.EndTurn();
+            ResetTurnTimer();
             yield break;
+        }
+
+        public void EndTurn()
+        {
+        }
+
+        void TurnEnded(IResponse response)
+        {
+            Info($"Player {response.Request.Player} ended turn");
         }
 
         private IEnumerator EndGame(IGenerator self)
@@ -240,5 +260,7 @@ namespace App
 
         private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
         private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
+        private float _timeOut;
+        private DateTime _timeStart;
     }
 }

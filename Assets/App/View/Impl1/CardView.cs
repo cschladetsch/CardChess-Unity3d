@@ -132,9 +132,7 @@ namespace App.View.Impl1
 
             var place = response.Request as PlacePiece;
             Assert.IsNotNull(place);
-            var coord = place.Coord;
-            var pos = new Vector3(coord.x, coord.y, 0);
-            _Queue.Enqueue(Commands.MoveTo(GameObject, pos, 0.1, Ease.InOutBounce(), true));
+            BoardView.PlacePiece(this, place.Coord);
             PlayerModel.Hand.Remove(Agent.Model);
             Info($"{BoardView.Agent.Model.Print()}");
         }

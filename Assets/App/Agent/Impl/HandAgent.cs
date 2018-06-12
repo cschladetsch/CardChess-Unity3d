@@ -28,16 +28,16 @@ namespace App.Agent
 
         private void Remove(CollectionRemoveEvent<ICardModel> remove)
         {
-            Verbose(11, $"HandAgent: Remove {remove.Value} @{remove.Index}");
+            Verbose(0, $"HandAgent: Remove {remove.Value} @{remove.Index}");
             var index = remove.Index;
             var card = _cards[index];
-            card.Destroy();
+            //card.Destroy();
             _cards.RemoveAt(index);
         }
 
         private void Add(CollectionAddEvent<ICardModel> add)
         {
-            Verbose(11, $"HandAgent: Add {add.Value} @{add.Index}");
+            Verbose(0, $"HandAgent: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
         }
 

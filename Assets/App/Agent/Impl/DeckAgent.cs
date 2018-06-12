@@ -41,8 +41,8 @@ namespace App.Agent
         {
             Verbose(6, $"DeckAgent: Remove {remove.Value} @{remove.Index}");
             var index = remove.Index;
-            var card = _cards[index];
-            card.Destroy();
+            //var card = _cards[index];
+            //card.Destroy();
             _cards.RemoveAt(index);
         }
 
