@@ -230,7 +230,7 @@ Transform:
   - {fileID: 1030165181}
   - {fileID: 288919288}
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &152731633
 MonoBehaviour:
@@ -1885,6 +1885,11 @@ Prefab:
       propertyPath: m_Name
       value: Hand
       objectReference: {fileID: 0}
+    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
+        type: 2}
+      propertyPath: BoardOverlay
+      value: 
+      objectReference: {fileID: 310639192}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 2}
   m_IsPrefabParent: 0
@@ -1915,8 +1920,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2104573855}
-  - {fileID: 1991825313}
   - {fileID: 152731632}
+  - {fileID: 1991825313}
   - {fileID: 858521121}
   - {fileID: 1019281790}
   - {fileID: 1257193233}
@@ -1935,13 +1940,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Board: {fileID: 389148}
-  WhitePlayerView: {fileID: 152731633}
-  BlackPlayerView: {fileID: 1991825314}
+  WhitePlayer: {fileID: 152731633}
+  BlackPlayer: {fileID: 1991825314}
   CurrentPlayerText: {fileID: 858521117}
   ResponseText: {fileID: 1257193234}
   StateText: {fileID: 1019281791}
-  WhiteEnd: {fileID: 2113720916}
-  BlackEnd: {fileID: 1399280236}
+  WhiteEndButton: {fileID: 2113720916}
+  BlackEndButton: {fileID: 1399280236}
 --- !u!1001 &1908084331
 Prefab:
   m_ObjectHideFlags: 0
@@ -2014,7 +2019,7 @@ Transform:
   - {fileID: 1518105792}
   - {fileID: 686220567}
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1991825314
 MonoBehaviour:
@@ -2254,6 +2259,11 @@ Prefab:
       propertyPath: m_Name
       value: Hand
       objectReference: {fileID: 0}
+    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
+        type: 2}
+      propertyPath: BoardOverlay
+      value: 
+      objectReference: {fileID: 310639192}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 2}
   m_IsPrefabParent: 0
