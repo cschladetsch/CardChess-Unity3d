@@ -1,4 +1,5 @@
-﻿using Flow;
+﻿using System;
+using Flow;
 
 namespace App.Mock.Agent
 {
@@ -29,6 +30,12 @@ namespace App.Mock.Agent
         public override ITransient TurnStart()
         {
             return New.Nop();
+        }
+
+        public override ITimedFuture<Turnaround> NextRequest(float seconds)
+        {
+            var req = Model.NextAction();
+            return New.TimedFuture(TimeSpan.FromSeconds(seconds), new Turnaround(req, ResponseHandler));
         }
 
         public override ITransient TurnEnd()

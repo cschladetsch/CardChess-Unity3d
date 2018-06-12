@@ -27,7 +27,7 @@ namespace App.Agent
         IFuture<RejectCards> Mulligan();
 
         ITransient TurnStart();
-        ITimedFuture<IRequest> NextRequest(float timeOut);
+        ITimedFuture<Turnaround> NextRequest(float timeOut);
         ITransient TurnEnd();
 
         void PushRequest(IRequest request, Action<IResponse> handler);

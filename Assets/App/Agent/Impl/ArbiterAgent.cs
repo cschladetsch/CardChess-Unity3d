@@ -148,24 +148,26 @@ namespace App
 
                 Assert.IsTrue(self.Active);
 
-                var request = PlayerAgent.Value.NextRequest(timeOut);
-                Assert.IsNotNull(request);
+                var future = PlayerAgent.Value.NextRequest(timeOut);
+                Assert.IsNotNull(future);
 
-                yield return self.After(request);
+                yield return self.After(future);
 
-                if (request.HasTimedOut)
+                if (future.HasTimedOut)
                 {
                     Warn($"{CurrentPlayerModel} timed-out");
                     yield return self.After(New.Coroutine(PlayerTimedOut));
                     break;
                 }
-                if (!request.Available)
+                if (!future.Available)
                     Warn($"{CurrentPlayerModel} didn't make a request");
 
                 // do the arbitration before we test for time out
-                var response = Model.Arbitrate(request.Value);
+                var response = Model.Arbitrate(future.Value.Request);
+                response.Request = future.Value.Request;
+                future.Value.Responder?.Invoke(response);
                 if (response.Failed)
-                    Warn($"Request {request.Value} failed for {CurrentPlayerModel}");
+                    Warn($"Request {future.Value.Request} failed for {CurrentPlayerModel}");
 
                 var now = Kernel.Time.Now;
                 var dt = (float)(now - timeStart).TotalSeconds;

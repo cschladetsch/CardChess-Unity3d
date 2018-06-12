@@ -13,10 +13,11 @@ namespace App.View.Impl1
 
     public class HandView
         : ViewBase<IHandAgent>
-            , IHandView
+        , IHandView
     {
         public CardView CardViewPrefab;
         public Transform CardsRoot;
+        public BoardOverlayView BoardOverlay;
         public int MockNumCards = 4;
         public Vector3 Offset;
 
@@ -38,12 +39,18 @@ namespace App.View.Impl1
         ICardView ViewFromAgent(ICardAgent agent)
         {
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
+            cardView.MouseOver.Subscribe(CardMouseOver);
             cardView.SetAgent(PlayerView, agent);
             var tr = cardView.GameObject.transform;
             tr.SetParent(CardsRoot);
             tr.localScale = Vector3.one;
             tr.localPosition = new Vector3(-1, -1, 10);
             return cardView;
+        }
+
+        void CardMouseOver(ICardView card)
+        {
+
         }
 
         [ContextMenu("HandView-Clear")]
@@ -62,7 +69,7 @@ namespace App.View.Impl1
 
         private void Remove(CollectionRemoveEvent<ICardAgent> remove)
         {
-            Info($"HandView: Remove {remove.Value} @{remove.Index}");
+            //Info($"HandView: Remove {remove.Value} @{remove.Index}");
             var view = _cards[remove.Index];
             _cards.RemoveAt(remove.Index);
             view.Destroy();

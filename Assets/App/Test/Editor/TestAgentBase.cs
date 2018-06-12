@@ -1,12 +1,10 @@
-﻿using App.Model;
-using App.Registry;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace App.Agent.Test
 {
     using App;
-    using App.Mock;
-    using App.Mock.Agent;
+    using Mock;
+    using Mock.Agent;
 
     /// <summary>
     /// Common for all tests that use agents.
@@ -33,7 +31,6 @@ namespace App.Agent.Test
             _agency.Bind<IDeckAgent, DeckAgent>();
             _agency.Bind<IHandAgent, HandAgent>();
             _agency.Bind<IPieceAgent, PieceAgent>();
-            _agency.Bind<IPlayerAgent, PlayerAgent>();
             _agency.Bind<IWhitePlayerAgent, MockWhitePlayerAgent>();
             _agency.Bind<IBlackPlayerAgent, MockBlackPlayerAgent>();
             _agency.Resolve();
