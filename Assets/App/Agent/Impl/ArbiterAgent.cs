@@ -139,8 +139,6 @@ namespace App
             // player can make as many valid actions as he can during his turn
             while (true)
             {
-                Info($"Getting next move for {CurrentPlayerModel}");
-
                 if (GameState.Value == EGameState.Completed)
                 {
                     self.Complete();

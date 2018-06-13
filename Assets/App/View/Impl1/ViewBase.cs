@@ -39,24 +39,22 @@ namespace App.View.Impl1
                 if (Registry == null) return false;
                 if (ViewRegistry == null) return false;
                 if (GameObject == null) return false;
-                if (AgentBase == null) 
-                    return false;
+                if (AgentBase == null) return false;
                 if (!AgentBase.IsValid) return false;
                 if (!AgentBase.BaseModel.IsValid) return false;
                 return true;
             }
         }
-
-        private void Awake()
-        {
-            Create();
-        }
-
         public virtual void SetAgent(IPlayerView player, IAgent agent)
         {
             PlayerView = player;
             Assert.IsNotNull(agent);
             AgentBase = agent;
+        }
+
+        private void Awake()
+        {
+            Create();
         }
 
         private void Start()
@@ -100,12 +98,12 @@ namespace App.View.Impl1
 
         public void SetOwner(IOwner owner)
         {
+            Verbose(20, $"New owner {owner}");
             AgentBase.SetOwner(owner);
         }
 
         public virtual void Destroy()
         {
-            Verbose(4, $"{this} destroyed");
             if (Destroyed.Value)
             {
                 Warn($"Object {Id} of type {GetType()} already destoyed");
@@ -121,13 +119,14 @@ namespace App.View.Impl1
             return $"View {name} of type {GetType()}";
         }
 
+        // lazy create because most views won't need a queue
         protected CommandQueue _Queue => _queue ?? (_queue = new CommandQueue());
 
-        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
         private bool _paused;
+        private bool _created;
         private float _localTime;
         private CommandQueue _queue;
-        private bool _created;
+        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
     }
 
     public class ViewBase<TIAgent>
@@ -135,9 +134,19 @@ namespace App.View.Impl1
         , IView<TIAgent>
         where TIAgent : class, IAgent
     {
-        public ViewBase<TIAgent> Pefab;
+        //public ViewBase<TIAgent> Pefab;
         public TIAgent Agent => AgentBase as TIAgent;
 
+
+        // !NOTE! To override this, you ***must*** declare the typed signature
+        // in the overridden interface. Otherwise it will fall back to this
+        // default implementation. This is a trap you will fall into, so
+        // sorry you had to read this comment after debugging for 5 minutes.
+        //
+        // Specifically, it is not enough to just override this in an
+        // implementation. The signature must also be in the in the interface.
+        //
+        // Unsure if this is a bug in C# or intended behavior.
         public virtual void SetAgent(IPlayerView player, TIAgent agent)
         {
             base.SetAgent(player, agent);

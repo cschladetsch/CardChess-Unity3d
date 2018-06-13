@@ -8,17 +8,20 @@ namespace App.View.Impl1
         : Draggable<IPieceAgent>
         , IPieceView
     {
-        protected override void MouseDown()
+        protected override bool MouseDown()
         {
             Info($"MouseDown {this}");
+            return IsCurrentPlayer();
         }
 
         protected override void MouseHover()
         {
+            Info($"MouseHover {this}");
         }
 
         protected override void MouseUp(IBoardView board, Coord coord)
         {
+            // TODO: Battles
             ReturnToStart();
         }
     }

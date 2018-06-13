@@ -20,8 +20,17 @@ namespace App.View.Impl1
         public IReadOnlyReactiveProperty<IViewBase> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
         [Inject] protected IBoardView BoardView { get; set; }
+        //[Inject] public IArbiterAgent ArbiterAgent { get; set; }
+        //protected bool IsCurrentPlayer()
+        //{
+        //    return ArbiterAgent.PlayerAgent.Value == Owner.Value;
+        //}
+        protected bool IsCurrentPlayer()
+        {
+            return BoardView.PlayerModel == Owner.Value;
+        }
 
-        protected abstract void MouseDown();
+        protected abstract bool MouseDown();
         protected abstract void MouseHover();
         protected abstract void MouseUp(IBoardView board, Coord coord);
 
@@ -67,6 +76,9 @@ namespace App.View.Impl1
 
         private void OnMouseDown()
         {
+            if (!MouseDown())
+                return;
+
             _dragging = true;
             _startLocation = transform.position;
             _screenPoint = Camera.main.WorldToScreenPoint(transform.position);
@@ -113,11 +125,13 @@ namespace App.View.Impl1
             _Queue.Enqueue(
                 Commands.Parallel(
                     Commands.AlphaTo(_backgroundColor, 1, ImageAlphaAnimDuration, Ease.Smooth()),
+                    Commands.ScaleTo(transform, 1, ScaleTime),
                     Commands.MoveTo(
                         transform,
                         _startLocation,
                         0.34,
-                        Ease.Smooth()
+                        Ease.Smooth(),
+                        true
                     )
                 ),
                 Commands.Do(() => _dragging = false)
