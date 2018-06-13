@@ -7,5 +7,6 @@
     {
         EColor Color { get; }
         Coord Coord { get; }
+        IPieceView Piece { get; set;}
     }
 }

@@ -63,7 +63,6 @@ namespace App.Agent
             future.Name = "Request for " + Name;
             _Futures.Add(future);
             future.TimedOut += f => _Futures.RemoveRef(future);
-
             return future;
         }
 
@@ -76,8 +75,6 @@ namespace App.Agent
         {
             return $"Agent for {Model}";
         }
-
-
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
         protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();

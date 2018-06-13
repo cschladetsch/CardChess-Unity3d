@@ -1,4 +1,5 @@
 ﻿using App.Common;
+using App.Model;
 using UniRx;
 using UnityEngine;
 

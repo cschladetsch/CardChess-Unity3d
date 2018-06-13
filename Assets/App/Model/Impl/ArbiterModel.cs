@@ -67,6 +67,7 @@ namespace App.Model
         public Response Arbitrate(IRequest request)
         {
             Assert.IsNotNull(request);
+            Info($"Arbitrate: {request} Id={request.Id}");
             var response = ProcessRequest(request);
             request.Player?.Result(request, response);
             return response;
@@ -279,7 +280,6 @@ namespace App.Model
 
         private Response TryTurnEnd(TurnEnd turnEnd)
         {
-            Info($"{CurrentPlayer.Value} ends turn");
             Assert.IsNotNull(turnEnd);
             if (turnEnd.Player != CurrentPlayer.Value)
             {
