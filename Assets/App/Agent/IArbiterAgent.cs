@@ -9,7 +9,7 @@ namespace App.Agent
     public interface IArbiterAgent
         : IAgent<IArbiterModel>
     {
-        IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent { get; }
+        IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent { get; }
         IBoardAgent BoardAgent { get; }
         IPlayerAgent WhitePlayerAgent { get; }
         IPlayerAgent BlackPlayerAgent { get; }

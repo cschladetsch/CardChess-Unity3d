@@ -18,7 +18,7 @@ namespace App.View.Impl1
         public HandView Hand;
         public DeckView Deck;
 
-        [Inject] public IArbiterView ArbiterView;
+        //[Inject] public IArbiterView ArbiterView;
 
         public override void SetAgent(IPlayerView view, IPlayerAgent agent)
         {

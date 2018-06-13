@@ -134,9 +134,14 @@ namespace App.View.Impl1
         , IView<TIAgent>
         where TIAgent : class, IAgent
     {
-        //public ViewBase<TIAgent> Pefab;
         public TIAgent Agent => AgentBase as TIAgent;
+        [Inject] public IArbiterView ArbiterView { get; set; }
+        [Inject] public IBoardView BoardView { get; set; }
 
+        protected bool IsCurrentPlayer()
+        {
+            return ArbiterView.CurrentPlayerOwns(this);
+        }
 
         // !NOTE! To override this, you ***must*** declare the typed signature
         // in the overridden interface. Otherwise it will fall back to this

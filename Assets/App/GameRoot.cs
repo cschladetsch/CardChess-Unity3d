@@ -65,7 +65,7 @@ namespace App
 
         private void TestValidity(string what, IEnumerable<IEntity> things)
         {
-            Info($"TestValidity: {what}");
+            Verbose(10, $"TestValidity: {what}");
 
             foreach (var entity in things)
             {
