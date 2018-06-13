@@ -663,7 +663,7 @@ Prefab:
     - target: {fileID: 114925846360635498, guid: e480b051f390bfd46ac0954001e09458,
         type: 2}
       propertyPath: Offset.y
-      value: 0
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 114925846360635498, guid: e480b051f390bfd46ac0954001e09458,
         type: 2}
@@ -1560,6 +1560,10 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1134289126757626, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 2}
   m_IsPrefabParent: 0
@@ -1600,7 +1604,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4546156454823704, guid: e480b051f390bfd46ac0954001e09458, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1735495641980320, guid: e480b051f390bfd46ac0954001e09458, type: 2}
       propertyPath: m_Name
@@ -1842,7 +1846,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4179340548155990, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1167509833867896, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 2}
       propertyPath: m_Name
@@ -1853,35 +1857,9 @@ Prefab:
       propertyPath: BoardOverlay
       value: 
       objectReference: {fileID: 310639192}
-    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
-        type: 2}
-      propertyPath: Offset.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
-        type: 2}
-      propertyPath: Offset.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
-        type: 2}
-      propertyPath: CardViewPrefab
-      value: 
-      objectReference: {fileID: 114981367393392320, guid: 8da89c2da82a9ac47b897a2b500501a4,
-        type: 2}
-    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
-        type: 2}
-      propertyPath: CardsRoot
-      value: 
-      objectReference: {fileID: 1800943709}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &1800943709 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4157510850355630, guid: d5c0e3b70fa47664e95930c53976fbe2,
-    type: 2}
-  m_PrefabInternal: {fileID: 1800943708}
 --- !u!1 &1907898441
 GameObject:
   m_ObjectHideFlags: 0
@@ -2008,8 +1986,8 @@ Transform:
   m_LocalPosition: {x: 9.88, y: -3.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 362237151}
   - {fileID: 1518105792}
+  - {fileID: 362237151}
   - {fileID: 686220567}
   m_Father: {fileID: 1907898442}
   m_RootOrder: 2

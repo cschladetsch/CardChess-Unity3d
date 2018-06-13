@@ -46,7 +46,7 @@ namespace App.Model
 
             AcceptedHand = false;
             _mana.Value = 0;
-            _maxMana.Value = Parameters.MaxManaCap;
+            _maxMana.Value = 0;
         }
 
         public override void PrepareModels()
@@ -63,7 +63,7 @@ namespace App.Model
         public override void StartGame()
         {
             Mana.Value = 0;
-            MaxMana.Value = Parameters.MaxManaCap;
+            MaxMana.Value = 0;
             Deck.StartGame();
             Hand.StartGame();
         }
@@ -86,7 +86,7 @@ namespace App.Model
 
         public virtual void StartTurn()
         {
-            MaxMana.Value = (MaxMana.Value + 5) % Parameters.MaxManaCap;
+            MaxMana.Value = Math.Min(Parameters.MaxManaCap, MaxMana.Value + 1);
             Mana.Value = MaxMana.Value;
             Info($"{this} starts turn with {Mana.Value} mana");
         }
@@ -179,7 +179,7 @@ namespace App.Model
         //    return Response.Ok;
         //}
 
-        private readonly IntReactiveProperty _maxMana = new IntReactiveProperty(Parameters.MaxManaCap);
+        private readonly IntReactiveProperty _maxMana = new IntReactiveProperty(0);
         private readonly IntReactiveProperty _mana = new IntReactiveProperty(0);
         private readonly IntReactiveProperty _health = new IntReactiveProperty(0);
     }
