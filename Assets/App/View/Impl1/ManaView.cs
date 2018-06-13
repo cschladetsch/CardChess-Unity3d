@@ -22,22 +22,15 @@ namespace App.View.Impl1
 
             base.SetAgent(view, agent);
 
-            Agent.MaxMana.Subscribe(m => Redraw(Agent.Mana.Value, m)).AddTo(this);
-            Agent.Mana.Subscribe(m => Redraw(m, Agent.MaxMana.Value)).AddTo(this);
-
-            Agent.Mana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
-            Agent.MaxMana.DistinctUntilChanged().Subscribe(n => Redraw()).AddTo(this);
+            Agent.Mana.Subscribe(n => Redraw()).AddTo(this);
+            Agent.MaxMana.Subscribe(n => Redraw()).AddTo(this);
         }
 
         [ContextMenu("ManaBar-Clear")]
         public void Clear()
         {
             foreach (Transform tr in Root)
-#if UNITY_EDITOR
-                DestroyImmediate(tr.gameObject);
-#else
                 Destroy(tr.gameObject);
-#endif
         }
 
         [ContextMenu("ManaBar-MockDraw")]
@@ -46,7 +39,8 @@ namespace App.View.Impl1
             Redraw(2, 5);
         }
 
-        private void Redraw()
+        [ContextMenu("ManaBar-Draw")]
+        public void Redraw()
         {
             Redraw(Agent.Mana.Value, Agent.MaxMana.Value);
         }
@@ -60,12 +54,13 @@ namespace App.View.Impl1
 
             for (var n = 0; n < maxMana; ++n)
             {
-                var active = n <= mana;
+                var active = n < mana;
                 var elem = Instantiate(ManaElementPrefab);
                 var offset = n * Offset;
                 var pos = new Vector3(offset.x, offset.y, 0);
                 elem.transform.SetParent(Root);
                 elem.transform.localPosition = pos;
+                Info($"{n}: {pos}");
                 elem.SetAvailable(active);
                 elem.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
             }

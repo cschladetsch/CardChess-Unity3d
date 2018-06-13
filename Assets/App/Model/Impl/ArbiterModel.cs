@@ -67,7 +67,7 @@ namespace App.Model
         public Response Arbitrate(IRequest request)
         {
             Assert.IsNotNull(request);
-            Info($"Arbitrate: {request} Id={request.Id}");
+            //Info($"Arbitrate: {request} Id={request.Id}");
             var response = ProcessRequest(request);
             request.Player?.Result(request, response);
             return response;

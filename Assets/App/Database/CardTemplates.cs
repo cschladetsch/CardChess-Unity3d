@@ -44,7 +44,7 @@ namespace App.Database
             CardTemplate[] cards =
             {                                                                        //M, A, H
                 new CardTemplate(ECardType.Piece, EPieceType.Peon, "Peon",           1, 1, 1),       // pawn
-                new CardTemplate(ECardType.Piece, EPieceType.King, "King",           0, 1, 20),       // king
+                new CardTemplate(ECardType.Piece, EPieceType.King, "King",           1, 1, 20),       // king
                 new CardTemplate(ECardType.Piece, EPieceType.Queen, "Queen",         6, 6, 7),
                 new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn after Barracks
                 new CardTemplate(ECardType.Piece, EPieceType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight

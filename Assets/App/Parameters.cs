@@ -51,7 +51,7 @@ namespace App
         /// How long a playerAgent has to complete his turn. Note that there can be
         /// many actions in a turn, and the ordering is important.
         /// </summary>
-        public static float GameTurnTimer = 45;
+        public static float GameTurnTimer = 99999999;
 
         /// <summary>
         /// Minimum distance to enemy king when playing a new card to the boardAgent
