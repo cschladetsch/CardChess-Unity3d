@@ -38,8 +38,9 @@ namespace App.View.Impl1
                 if (Id == Guid.Empty) return false;
                 if (Registry == null) return false;
                 if (ViewRegistry == null) return false;
-                if (AgentBase?.BaseModel?.IsValid == null) return false;
                 if (GameObject == null) return false;
+                if (AgentBase == null) 
+                    return false;
                 if (!AgentBase.IsValid) return false;
                 if (!AgentBase.BaseModel.IsValid) return false;
                 return true;
