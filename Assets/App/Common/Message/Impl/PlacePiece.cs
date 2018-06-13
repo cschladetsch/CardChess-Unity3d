@@ -13,10 +13,6 @@
         public ICardModel Card { get; }
         public Coord Coord { get; }
 
-        public PlacePiece()
-        {
-        }
-
         public PlacePiece(IPlayerModel player, ICardModel card, Coord coord)
             : base(player, EActionType.PlacePiece)
         {

@@ -20,8 +20,6 @@ namespace App.Agent
             _Node.Add(New.Coroutine(Coro));
         }
 
-        private bool _end = false;
-
         public override void EndGame()
         {
             _end = true;
@@ -60,5 +58,7 @@ namespace App.Agent
         {
             return null;
         }
+
+        private bool _end = false;
     }
 }

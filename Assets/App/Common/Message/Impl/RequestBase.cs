@@ -14,13 +14,9 @@ namespace App.Common.Message
         public EActionType Action { get; }
         public Guid Id { get; set; }
 
-        public RequestBase()
-        {
-            Id = Guid.NewGuid();
-        }
-
         public RequestBase(IPlayerModel player, EActionType actionType)
         {
+            Id = Guid.NewGuid();
             Player = player;
             Action = actionType;
         }

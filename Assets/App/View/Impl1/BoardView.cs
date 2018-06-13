@@ -16,8 +16,9 @@ namespace App.View.Impl1
     /// </summary>
     public class BoardView
         : ViewBase<IBoardAgent>
-            , IBoardView
+        , IBoardView
     {
+        public PieceView PieceViewPrefab;
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
         public int Width = 8;

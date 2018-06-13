@@ -4,7 +4,8 @@ namespace App.Common.Message
 {
     using Model;
 
-    public class CastSpell : RequestBase
+    public class CastSpell
+        : RequestBase
     {
         public ISpellModel Spell;
 

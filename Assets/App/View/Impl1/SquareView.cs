@@ -10,6 +10,8 @@ namespace App.View.Impl1
     {
         public EColor Color { get; set; }
         public Coord Coord { get; internal set; }
+        public IPieceView Piece { get; set; }
+
         public float Length;
 
         public override int GetHashCode()
