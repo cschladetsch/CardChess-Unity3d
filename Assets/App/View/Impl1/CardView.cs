@@ -33,8 +33,9 @@ namespace App.View.Impl1
             agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
         }
 
-        protected override void MouseDown()
+        protected override bool MouseDown()
         {
+            return IsCurrentPlayer();
         }
 
         protected override void MouseHover()

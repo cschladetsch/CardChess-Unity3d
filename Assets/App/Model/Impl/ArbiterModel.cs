@@ -75,7 +75,7 @@ namespace App.Model
 
         private Response ProcessRequest(IRequest request)
         {
-            Info($"{request} in GameState:{GameState} #{_turnNumber.Value}");
+            Info($"{request} tried in {GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
             {
                 //case EGameState.None:

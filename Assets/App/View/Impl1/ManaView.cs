@@ -60,7 +60,6 @@ namespace App.View.Impl1
                 var pos = new Vector3(offset.x, offset.y, 0);
                 elem.transform.SetParent(Root);
                 elem.transform.localPosition = pos;
-                Info($"{n}: {pos}");
                 elem.SetAvailable(active);
                 elem.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
             }
