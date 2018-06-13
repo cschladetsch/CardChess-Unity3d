@@ -23,7 +23,7 @@
 
         public override string ToString()
         {
-            return $"{Player} plays {Card.PieceType} @{Coord}";
+            return $"{Player} {Card.PieceType} to @{Coord}";
         }
     }
 }

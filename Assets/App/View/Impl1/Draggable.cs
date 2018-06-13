@@ -19,16 +19,6 @@ namespace App.View.Impl1
         public Image Image;
         public IReadOnlyReactiveProperty<IViewBase> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
-        [Inject] protected IBoardView BoardView { get; set; }
-        //[Inject] public IArbiterAgent ArbiterAgent { get; set; }
-        //protected bool IsCurrentPlayer()
-        //{
-        //    return ArbiterAgent.PlayerAgent.Value == Owner.Value;
-        //}
-        protected bool IsCurrentPlayer()
-        {
-            return BoardView.PlayerModel == Owner.Value;
-        }
 
         protected abstract bool MouseDown();
         protected abstract void MouseHover();
@@ -95,7 +85,9 @@ namespace App.View.Impl1
 
         private void OnMouseDrag()
         {
-            _dragging = true;
+            if (!_dragging)
+                return;
+
             var mp = Input.mousePosition;
             var cursorPoint = new Vector3(mp.x, mp.y, _screenPoint.z);
             var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
@@ -106,6 +98,8 @@ namespace App.View.Impl1
 
         private void OnMouseUp()
         {
+            _dragging = false;
+
             _Queue.RunToEnd();
             if (SquareOver.Value == null)
             {

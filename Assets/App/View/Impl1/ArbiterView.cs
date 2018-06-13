@@ -22,7 +22,7 @@ namespace App.View.Impl1
 
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
-        public IBoardView BoardView => Board;
+        public new IBoardView BoardView => Board;
 
         public override void SetAgent(IPlayerView view, IArbiterAgent agent)
         {
@@ -40,7 +40,7 @@ namespace App.View.Impl1
 
         public void SetupUi()
         {
-            Agent.PlayerAgent.Subscribe(player =>
+            Agent.CurrentPlayerAgent.Subscribe(player =>
             {
                 WhiteEndButton.interactable = player.Color == EColor.White;
                 BlackEndButton.interactable = player.Color == EColor.Black;
@@ -72,6 +72,16 @@ namespace App.View.Impl1
         {
             base.Step();
             Agent?.Step();
+        }
+
+        public EColor CurrentPlayerColor => Agent.CurrentPlayerAgent.Value.Model.Color;
+
+        public bool CurrentPlayerOwns(IOwned owned)
+        {
+            Assert.IsTrue(IsValid);
+            Assert.IsNotNull(owned);
+            Assert.IsNotNull(owned.Owner);
+            return Agent.CurrentPlayerAgent.Value.Model == owned.Owner.Value;
         }
     }
 }

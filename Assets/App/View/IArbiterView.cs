@@ -1,4 +1,6 @@
-﻿namespace App.View
+﻿using App.Common;
+
+namespace App.View
 {
     using Agent;
 
@@ -8,5 +10,8 @@
         IBoardView BoardView { get; }
         IPlayerView WhitePlayerView { get; }
         IPlayerView BlackPlayerView { get; }
+        EColor CurrentPlayerColor { get; }
+
+        bool CurrentPlayerOwns(IOwned owned);
     }
 }

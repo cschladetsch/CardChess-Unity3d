@@ -24,12 +24,12 @@ namespace App
         : AgentBaseCoro<IArbiterModel>
         , IArbiterAgent
     {
-        public IReadOnlyReactiveProperty<IPlayerAgent> PlayerAgent => _playerAgent;
+        public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
         [Inject] public IBoardAgent BoardAgent { get; set; }
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
         public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
-        public IPlayerModel CurrentPlayerModel => PlayerAgent.Value.Model;
+        public IPlayerModel CurrentPlayerModel => CurrentPlayerAgent.Value.Model;
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -147,7 +147,7 @@ namespace App
 
                 Assert.IsTrue(self.Active);
 
-                var future = PlayerAgent.Value.NextRequest(_timeOut);
+                var future = CurrentPlayerAgent.Value.NextRequest(_timeOut);
                 Assert.IsNotNull(future);
 
                 yield return self.After(future);
