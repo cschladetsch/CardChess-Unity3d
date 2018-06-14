@@ -50,6 +50,8 @@ namespace App.View.Impl1
             PlayerView = player;
             Assert.IsNotNull(agent);
             AgentBase = agent;
+            if (player == null)
+                Warn($"Null Playerview for {GetType()} with agent {agent}");
         }
 
         private void Awake()

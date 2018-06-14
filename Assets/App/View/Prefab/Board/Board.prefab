@@ -6298,8 +6298,8 @@ MonoBehaviour:
     type: 2}
   SquaresRoot: {fileID: 4049652723604180}
   PiecesRoot: {fileID: 4988429700898900}
-  BoardWidth: 0
-  BoardHeight: 0
+  BoardWidth: 8
+  BoardHeight: 8
 --- !u!114 &114654757799637740
 MonoBehaviour:
   m_ObjectHideFlags: 1
