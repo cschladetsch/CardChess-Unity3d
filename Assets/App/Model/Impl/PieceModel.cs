@@ -35,7 +35,7 @@ namespace App.Model
             Board.Remove(this);
         }
 
-        public Response Attack(IPieceModel defender)
+        public IResponse Attack(IPieceModel defender)
         {
             var attack = defender.TakeDamage(this);
             if (attack.Failed)
@@ -52,7 +52,7 @@ namespace App.Model
             return Response.Ok;
         }
 
-        public Response TakeDamage(IPieceModel attacker)
+        public IResponse TakeDamage(IPieceModel attacker)
         {
             return Card.TakeDamage(attacker.Card);
         }

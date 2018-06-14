@@ -6259,7 +6259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33702d5140cef224ebcdabac66f302fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PieceViewPrefab: {fileID: 114043922263913680, guid: 456984bdfc514f74d91ed3d2cede35a3,
+  BlackPieceMaterial: {fileID: 2100000, guid: 859b5f2c4c805ac48944bb6d4d28e441, type: 2}
+  WhitePieceMaterial: {fileID: 2100000, guid: 05e578ce36098cc4ab388e5f333feda4, type: 2}
+  PieceViewPrefab: {fileID: 114237541989487910, guid: 456984bdfc514f74d91ed3d2cede35a3,
     type: 2}
   BlackPrefab: {fileID: 114241382365297058, guid: 2d981f295ad8b0446acc92b15fb437fb,
     type: 2}

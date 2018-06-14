@@ -1,4 +1,7 @@
-﻿using Flow;
+﻿using App.Common.Message;
+using App.View;
+using Flow;
+using UniRx;
 
 namespace App.Agent
 {
@@ -11,7 +14,13 @@ namespace App.Agent
     public interface IBoardAgent
         : IAgent<IBoardModel>
     {
-        IFuture<IPieceAgent> At(Coord coord);
+        IReadOnlyReactiveProperty<int> Width { get; }
+        IReadOnlyReactiveProperty<int> Height { get; }
+
         ITransient PerformNewGame();
+
+        IPieceAgent At(Coord coord);
+        IResponse Add(IPieceAgent agent);
+        IResponse Remove(IPieceAgent agent);
     }
 }

@@ -4,7 +4,7 @@ namespace App.Common.Message
 {
     public interface IResponse
     {
-        IRequest Request { get; }
+        IRequest Request { get; set; }
         EResponse Type { get; }
         EError Error { get; }
         Guid RequestId { get; }
@@ -15,6 +15,7 @@ namespace App.Common.Message
     }
 
     public interface IResponse<TPayload>
+        : IResponse
     {
         TPayload Payload { get; }
     }

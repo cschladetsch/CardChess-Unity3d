@@ -1,4 +1,7 @@
-﻿namespace App.Agent
+﻿using App.Common;
+using UniRx;
+
+namespace App.Agent
 {
     using Model;
 
@@ -8,5 +11,6 @@
     public interface IPieceAgent
         : IAgent<IPieceModel>
     {
+        IReactiveProperty<Coord> Coord { get; }
     }
 }

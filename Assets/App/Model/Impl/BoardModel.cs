@@ -21,8 +21,8 @@ namespace App.Model
         : RespondingModelBase
         , IBoardModel
     {
-        public int Width { get; }
-        public int Height { get; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public IEnumerable<IPieceModel> Pieces => _pieces.Where(p => p != null);
         [Inject] public IArbiterModel Arbiter { get; set; }
 
@@ -59,7 +59,7 @@ namespace App.Model
             return PiecesOfType(type).Count();
         }
 
-        public Response Remove(IPieceModel pieceModel)
+        public IResponse Remove(IPieceModel pieceModel)
         {
             Assert.IsNotNull(pieceModel);
             Verbose(5, $"Removing {pieceModel} from board");
@@ -83,7 +83,7 @@ namespace App.Model
             return coord.x >= 0 && coord.y >= 0 && coord.x < Width && coord.y < Height;
         }
 
-        public Response TryMovePiece(MovePiece move)
+        public IResponse TryMovePiece(MovePiece move)
         {
             var coord = move.Coord;
             var piece = move.Piece;
@@ -101,7 +101,7 @@ namespace App.Model
             return MovePieceTo(coord, piece);
         }
 
-        private Response MovePieceTo(Coord coord, IPieceModel piece)
+        private IResponse MovePieceTo(Coord coord, IPieceModel piece)
         {
             var old = piece.Coord.Value;
             var resp = Set(coord, piece);
@@ -134,7 +134,7 @@ namespace App.Model
             if (piece == null)
                 yield break;
 
-            foreach (var c in GetPossibleMovements(piece))
+            foreach (var c in GetMovements(piece))
             {
                 var attacked = At(c);
                 if (attacked != null)
@@ -172,7 +172,7 @@ namespace App.Model
             return _pieces[y * Width + x];
         }
 
-        public Response<IPieceModel> TryPlacePiece(PlacePiece placePiece)
+        public IResponse<IPieceModel> TryPlacePiece(PlacePiece placePiece)
         {
             Assert.IsNotNull(placePiece);
             var coord = placePiece.Coord;
@@ -198,11 +198,12 @@ namespace App.Model
         public IEnumerable<Coord> GetMovements(Coord coord)
         {
             var piece = At(coord);
-            return piece == null ? null : GetMovements(piece, coord);
+            return piece == null ? null : GetMovements(piece);
         }
 
-        public IEnumerable<Coord> GetMovements(IPieceModel piece, Coord coord)
+        public IEnumerable<Coord> GetMovements(IPieceModel piece)
         {
+            var coord = piece.Coord.Value;
             switch (piece.PieceType)
             {
                 case EPieceType.King:
@@ -345,9 +346,10 @@ namespace App.Model
             }
         }
 
-        private IEnumerable<Coord> GetPossibleMovements(IPieceModel piece)
+        public IResponse Add(IPieceModel piece)
         {
-            return null;
+            _pieces.Add(piece);
+            return Response.Ok;
         }
 
         private IReactiveCollection<IPieceModel> _pieces;

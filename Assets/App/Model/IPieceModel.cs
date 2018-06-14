@@ -19,7 +19,7 @@ namespace App.Model
         IReadOnlyReactiveProperty<int> Health { get; }
         IReactiveProperty<bool> Dead { get; }
 
-        Response Attack(IPieceModel piece);
-        Response TakeDamage(IPieceModel piece);
+        IResponse Attack(IPieceModel piece);
+        IResponse TakeDamage(IPieceModel piece);
     }
 }

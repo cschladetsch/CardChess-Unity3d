@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using App.Model;
 using CoLib;
 using UnityEngine;
 
@@ -18,13 +19,22 @@ namespace App.View.Impl1
         : ViewBase<IBoardAgent>
         , IBoardView
     {
+        #region Unityu Properties
+        public Material BlackPieceMaterial;
+        public Material WhitePieceMaterial;
         public PieceView PieceViewPrefab;
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
-        public int Width = 8;
-        public int Height = 8;
         public Transform Root;
+        public int BoardWidth;
+        public int BoardHeight;
+        #endregion
+
+        public Material BlackMaterial => BlackPieceMaterial;
+        public Material WhiteMaterial => WhitePieceMaterial;
         public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
+        public IReadOnlyReactiveProperty<int> Width => Agent.Width;
+        public IReadOnlyReactiveProperty<int> Height => Agent.Height;
 
         public override void Create()
         {
@@ -44,25 +54,27 @@ namespace App.View.Impl1
         public override void SetAgent(IPlayerView view, IBoardAgent agent)
         {
             base.SetAgent(view, agent);
-
-            var board = Agent.Model;
-            Width = board.Width;
-            Height = board.Height;
         }
 
         public IPieceView PlacePiece(ICardView view, Coord coord)
         {
-            var go = view.GameObject;
-            go.transform.SetParent(transform);
-            var pos = new Vector3(coord.x - Width/2 + 0.5f, coord.y - Height/2 + 0.5f, -1);
-            _Queue.Enqueue(
-                Commands.Parallel(
-                    Commands.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
-                    Commands.ScaleTo(go, 0.5f, 0.1)
-                )
-            );
+            var pv = MakePieceView(view, coord);
 
+            var go = pv.GameObject;
+            go.transform.position = view.GameObject.transform.position;
+            go.transform.SetParent(transform);
             return null;
+        }
+
+        private IPieceView MakePieceView(ICardView view, Coord coord)
+        {
+            var model = Agent.Model.Registry.New<IPieceModel>();
+            model.Coord.Value = coord;
+            var agent = Agent.Registry.New<IPieceAgent>(model);
+            var pv = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
+            pv.SetAgent(view.PlayerView, agent);
+            Agent.Add(pv.Agent);
+            return pv;
         }
 
         [ContextMenu("Board-Clear")]
@@ -80,13 +92,15 @@ namespace App.View.Impl1
             Clear();
             var length = BlackPrefab.Length;
             Assert.AreEqual(BlackPrefab.Length, WhitePrefab.Length);
+            int width = Width.Value;
+            int height = Height.Value;
             var z = 0.0f;
-            var origin = new Vector3(-length*(Width/2.0f - 1/2.0f), -length*(Height/2.0f - 1/2.0f), 0);
+            var origin = new Vector3(-length*(width/2.0f - 1/2.0f), -length*(height/2.0f - 1/2.0f), 0);
             var c = 1;
-            _squares = new List<SquareView>(Width * Height);
-            for (var ny = 0; ny < Height; ++ny)
+            _squares = new List<SquareView>(width * height);
+            for (var ny = 0; ny < height; ++ny)
             {
-                for (var nx = 0; nx < Width; ++nx)
+                for (var nx = 0; nx < width; ++nx)
                 {
                     var white = ((c + nx) % 2) == 1;
                     var prefab = white ? WhitePrefab : BlackPrefab;
@@ -108,9 +122,9 @@ namespace App.View.Impl1
 
         public SquareView At(int x, int y)
         {
-            Assert.IsTrue(x >= 0 && x < Width);
-            Assert.IsTrue(y >= 0 && x < Height);
-            return _squares[y * Width + x];
+            Assert.IsTrue(x >= 0 && x < Width.Value);
+            Assert.IsTrue(y >= 0 && x < Height.Value);
+            return _squares[y * Width.Value + x];
         }
 
         protected override void Step()

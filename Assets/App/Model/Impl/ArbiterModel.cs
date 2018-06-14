@@ -64,7 +64,7 @@ namespace App.Model
             Info("EndGame");
         }
 
-        public Response Arbitrate(IRequest request)
+        public IResponse Arbitrate(IRequest request)
         {
             Assert.IsNotNull(request);
             //Info($"Arbitrate: {request} Id={request.Id}");
@@ -73,7 +73,7 @@ namespace App.Model
             return response;
         }
 
-        private Response ProcessRequest(IRequest request)
+        private IResponse ProcessRequest(IRequest request)
         {
             Info($"{request} tried in {GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
@@ -210,7 +210,7 @@ namespace App.Model
         //    return Response.Ok;
         //}
 
-        private Response TryMovePiece(MovePiece move)
+        private IResponse TryMovePiece(MovePiece move)
         {
             var player = move.Player;
             var piece = move.Piece;
@@ -231,10 +231,11 @@ namespace App.Model
             {
                 player.ChangeMana(-1);
             }
+
             return resp;
         }
 
-        private Response<IPieceModel> TryPlacePiece(PlacePiece act)
+        private IResponse<IPieceModel> TryPlacePiece(PlacePiece act)
         {
             var entry = GetEntry(act.Player);
             var isKing = act.Card.PieceType == EPieceType.King;
@@ -269,7 +270,7 @@ namespace App.Model
             return Response.Ok;
         }
 
-        private Response TryBattle(Battle battle)
+        private IResponse TryBattle(Battle battle)
         {
             Assert.IsNotNull(battle);
             Assert.IsNotNull(battle.Attacker);
@@ -278,7 +279,7 @@ namespace App.Model
             return battle.Attacker.Attack(battle.Defender);
         }
 
-        private Response TryTurnEnd(TurnEnd turnEnd)
+        private IResponse TryTurnEnd(TurnEnd turnEnd)
         {
             Assert.IsNotNull(turnEnd);
             if (turnEnd.Player != CurrentPlayer.Value)
@@ -292,13 +293,13 @@ namespace App.Model
             return Response.Ok;
         }
 
-        private Response TryCastSpell(CastSpell castSpell)
+        private IResponse TryCastSpell(CastSpell castSpell)
         {
             Assert.IsNotNull(castSpell);
             return NotImplemented(castSpell, $"{castSpell}");
         }
 
-        private Response TryGiveItem(GiveItem giveItem)
+        private IResponse TryGiveItem(GiveItem giveItem)
         {
             return NotImplemented(giveItem);
         }
