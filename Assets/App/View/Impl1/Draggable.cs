@@ -1,4 +1,5 @@
-﻿using CoLib;
+﻿using App.Model;
+using CoLib;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -144,4 +145,18 @@ namespace App.View.Impl1
         private readonly ReactiveProperty<ISquareView> _squareOver = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _squareOverFiltered = new ReactiveProperty<ISquareView>();
     }
+
+    //public abstract class DraggableCard<TIAgent>
+    //    : Draggable<TIAgent>
+    //    , ICard
+    //    where TIAgent : class, IAgent
+    //{
+    //    public ICardTemplate Template { get; }
+    //    public IReadOnlyReactiveProperty<int> Health =>
+    //    public IReadOnlyReactiveProperty<int> Power { get; }
+    //    public IReactiveProperty<IPlayerModel> Player { get; }
+    //    public IReactiveCollection<IEffectModel> Effects { get; }
+    //    public IReactiveCollection<IItemModel> Items { get; }
+    //    public IReactiveCollection<EAbility> Abilities { get; }
+    //}
 }

@@ -25,7 +25,8 @@ namespace App.View.Impl1
         public PieceView PieceViewPrefab;
         public SquareView BlackPrefab;
         public SquareView WhitePrefab;
-        public Transform Root;
+        public Transform SquaresRoot;
+        public Transform PiecesRoot;
         public int BoardWidth;
         public int BoardHeight;
         #endregion
@@ -47,43 +48,49 @@ namespace App.View.Impl1
                 //    Info($"Over {sq}");//.AgentBase.BaseModel}");
             });
 
-            Clear();
-            CreateBoard();
         }
 
         public override void SetAgent(IPlayerView view, IBoardAgent agent)
         {
+            Assert.IsNotNull(view);
+            Assert.IsNotNull(agent);
             base.SetAgent(view, agent);
+            Clear();
+            CreateBoard();
         }
 
         public IPieceView PlacePiece(ICardView view, Coord coord)
         {
+            Assert.IsNotNull(view);
+            Assert.IsNotNull(coord);
             var pv = MakePieceView(view, coord);
-
-            var go = pv.GameObject;
-            go.transform.position = view.GameObject.transform.position;
-            go.transform.SetParent(transform);
-            return null;
+            var tr = pv.GameObject.transform;
+            tr.SetParent(PiecesRoot);
+            tr.position = view.GameObject.transform.position;
+            return pv;
         }
 
-        private IPieceView MakePieceView(ICardView view, Coord coord)
+        private IPieceView MakePieceView(ICardView cardView, Coord coord)
         {
-            var model = Agent.Model.Registry.New<IPieceModel>();
-            model.Coord.Value = coord;
+            Assert.IsNotNull(cardView);
+            Assert.IsNotNull(coord);
+            var model = Agent.Model.Registry.New<IPieceModel>(cardView.PlayerModel, cardView.Agent.Model);
             var agent = Agent.Registry.New<IPieceAgent>(model);
-            var pv = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
-            pv.SetAgent(view.PlayerView, agent);
-            Agent.Add(pv.Agent);
-            return pv;
+            var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
+            view.SetAgent(view.PlayerView, agent);
+            view.Coord.Value = coord;
+            Agent.Add(view.Agent);
+            Assert.IsTrue(view.IsValid);
+            return view;
         }
 
         [ContextMenu("Board-Clear")]
         public void Clear()
         {
-            foreach (Transform tr in Root.transform)
-            {
-                Unity.Destroy(tr.gameObject);
-            }
+            foreach (Transform tr in SquaresRoot.transform)
+                Destroy(tr.gameObject);
+            foreach (Transform tr in PiecesRoot.transform)
+                Destroy(tr.gameObject);
         }
 
         [ContextMenu("Board-Create")]
@@ -108,7 +115,7 @@ namespace App.View.Impl1
                     Assert.IsNotNull(square.GetComponent<Collider>());
                     var pos = origin + new Vector3(nx * length, ny * length, z);
                     square.transform.localPosition = Vector3.zero;
-                    square.transform.SetParent(Root.transform);
+                    square.transform.SetParent(SquaresRoot.transform);
                     square.transform.position = pos;
                     square.Coord = new Coord(nx, ny);
                     square.Color = white ? EColor.White : EColor.Black;

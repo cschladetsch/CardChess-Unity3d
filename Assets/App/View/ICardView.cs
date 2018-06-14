@@ -6,6 +6,7 @@ namespace App.View
 
     public interface ICardView
         : IView<ICardAgent>
+        //, ICard
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
 

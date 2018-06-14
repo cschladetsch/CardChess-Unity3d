@@ -10,6 +10,7 @@ namespace App.Agent
     /// </summary>
     public interface IPieceAgent
         : IAgent<IPieceModel>
+        , ICardProperties
     {
         IReactiveProperty<Coord> Coord { get; }
     }
