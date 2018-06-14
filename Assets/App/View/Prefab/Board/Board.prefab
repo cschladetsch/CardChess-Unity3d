@@ -2224,7 +2224,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1387532024933528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4868955874741132}
@@ -6300,6 +6300,7 @@ MonoBehaviour:
   PiecesRoot: {fileID: 4988429700898900}
   BoardWidth: 8
   BoardHeight: 8
+  OverlayView: {fileID: 114437997691957392}
 --- !u!114 &114654757799637740
 MonoBehaviour:
   m_ObjectHideFlags: 1

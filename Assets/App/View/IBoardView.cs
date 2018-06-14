@@ -1,4 +1,5 @@
 ﻿using App.Common;
+using App.View.Impl1;
 using UniRx;
 using UnityEngine;
 
@@ -19,7 +20,9 @@ namespace App.View
         Material BlackMaterial { get; }
         Material WhiteMaterial { get; }
 
+        IPieceView Get(Coord coord);
         ISquareView TestRayCast(Vector3 screen);
         IPieceView PlacePiece(ICardView view, Coord cood);
+        void ShowSquares(PieceView pieceView);
     }
 }

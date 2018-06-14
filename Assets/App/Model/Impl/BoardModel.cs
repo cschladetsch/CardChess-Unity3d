@@ -62,7 +62,6 @@ namespace App.Model
         public IResponse Remove(IPieceModel pieceModel)
         {
             Assert.IsNotNull(pieceModel);
-            Verbose(5, $"Removing {pieceModel} from board");
             return Set(pieceModel.Coord.Value, null);
         }
 
@@ -74,8 +73,10 @@ namespace App.Model
                 return null;
             }
             var current = At(coord);
-            Set(coord, null);
-            return current;
+            var response = Set(coord, null);
+            if (response.Success)
+                return current;
+            return null;
         }
 
         public bool IsValidCoord(Coord coord)
@@ -105,7 +106,12 @@ namespace App.Model
         {
             var old = piece.Coord.Value;
             var resp = Set(coord, piece);
-            return resp.Success ? Set(old, null) : resp;
+            if (resp.Success)
+            {
+                piece.Coord.Value = coord;
+                resp = Set(old, null);
+            }
+            return resp;
         }
 
         public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
@@ -189,7 +195,7 @@ namespace App.Model
             return new Response<IPieceModel>(piece);
         }
 
-        public Response Remove(PieceModel piece)
+        public IResponse Remove(PieceModel piece)
         {
             Assert.IsNotNull(piece);
             return Set(piece.Coord.Value, null);
@@ -198,11 +204,13 @@ namespace App.Model
         public IEnumerable<Coord> GetMovements(Coord coord)
         {
             var piece = At(coord);
+            Assert.AreEqual(piece.Coord.Value, coord);
             return piece == null ? null : GetMovements(piece);
         }
 
         public IEnumerable<Coord> GetMovements(IPieceModel piece)
         {
+            var max = Math.Max(Width, Height);
             var coord = piece.Coord.Value;
             switch (piece.PieceType)
             {
@@ -217,9 +225,39 @@ namespace App.Model
                     }
                     break;
                 case EPieceType.Archer:
-                    foreach (var c in Diagonals(coord, Math.Max(Width, Height)))
+                    foreach (var c in Diagonals(coord, max))
                         yield return c;
                     break;
+                case EPieceType.Gryphon:
+                {
+                    var offsets = new[]
+                    {
+                        new Coord(-1, 2),
+                        new Coord(-1, -2),
+                        new Coord(1, -2),
+                        new Coord(1, 2),
+                        new Coord(-2, 1),
+                        new Coord(-2, -1),
+                        new Coord(2, 1),
+                        new Coord(2, -1),
+                    };
+                    foreach (var c in offsets)
+                    {
+                        var d = coord + c;
+                        if (IsValidCoord(d))
+                            yield return d;
+                    }
+                    break;
+                }
+                case EPieceType.Queen:
+                {
+                    foreach (var c in Diagonals(coord, max).Concat(Orthogonals(coord, max)))
+                    {
+                        if (IsValidCoord(c))
+                            yield return c;
+                    }
+                    break;
+                }
             }
         }
 
@@ -279,12 +317,13 @@ namespace App.Model
                 _pieces.Add(null);
         }
 
-        private Response Set(Coord coord, IPieceModel piece)
+        private IResponse Set(Coord coord, IPieceModel piece)
         {
             Assert.IsTrue(IsValidCoord(coord));
+            var existing = At(coord);
+            if (existing != null)
+                return Response.Fail;
             _pieces[coord.y * Width + coord.x] = piece;
-            if (piece != null)
-                piece.Coord.Value = coord;
             return Response.Ok;
         }
 
@@ -314,6 +353,22 @@ namespace App.Model
                         break;
                     if (!Equals(coord, orig))
                         yield return coord;
+                }
+            }
+        }
+
+        private IEnumerable<Coord> Orthogonals(Coord orig, int dist)
+        {
+            for (var dx = -dist; dx < dist; ++dx)
+            {
+                var p0 = new Coord(orig.x + dx, orig.y);
+                if (IsValidCoord(p0) && dx != 0)
+                    yield return p0;
+                for (var dy = -dist; dy < dist; dy++)
+                {
+                    var p1 = new Coord(orig.x, orig.y + dy);
+                    if (IsValidCoord(p1) && dy != 0)
+                        yield return p1;
                 }
             }
         }
@@ -348,7 +403,7 @@ namespace App.Model
 
         public IResponse Add(IPieceModel piece)
         {
-            _pieces.Add(piece);
+            Set(piece.Coord.Value, piece);
             return Response.Ok;
         }
 

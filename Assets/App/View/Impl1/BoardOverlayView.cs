@@ -21,7 +21,7 @@ namespace App.View.Impl1
         public void Clear()
         {
             foreach (Transform tr in transform)
-                Unity.Destroy(tr);
+                Destroy(tr.gameObject);
         }
 
         [ContextMenu("BoardOverlay-Mock")]
@@ -50,6 +50,9 @@ namespace App.View.Impl1
 
         public void Add(IEnumerable<Coord> coords, Color color)
         {
+            if (coords == null)
+                return;
+
             color.a = 0.5f;
             foreach (var c in coords)
             {

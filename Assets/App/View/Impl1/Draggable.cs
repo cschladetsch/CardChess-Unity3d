@@ -34,6 +34,7 @@ namespace App.View.Impl1
                 _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
             else
                 _backgroundColor = new Ref<Color>(() => Color.cyan, c => { });
+
             _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
         }
 
