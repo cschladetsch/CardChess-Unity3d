@@ -14,6 +14,12 @@ namespace App.View.Impl1
         : Draggable<IPieceAgent>
         , IPieceView
     {
+        #region Unity Properties
+        public TMPro.TextMeshProUGUI Health;
+        public TMPro.TextMeshProUGUI Power;
+        public GameObject PieceGameObject;
+        #endregion
+
         public IReactiveProperty<Coord> Coord => Agent.Coord;
 
         protected override void Begin()
@@ -21,6 +27,20 @@ namespace App.View.Impl1
             base.Begin();
             Coord.Subscribe(c => Move());
         }
+
+        public override void SetAgent(IPlayerView view, IPieceAgent agent)
+        {
+            base.SetAgent(view, agent);
+
+            Assert.IsNotNull(agent);
+            agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+
+            PieceGameObject.GetComponent<Renderer>().material
+                = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+        }
+
 
         private void Move()
         {
@@ -35,6 +55,11 @@ namespace App.View.Impl1
             );
         }
 
+        public override string ToString()
+        {
+            return $"{PlayerView} {Agent} @{Coord}";
+        }
+
         protected override bool MouseDown()
         {
             Info($"MouseDown {this}");
@@ -43,7 +68,7 @@ namespace App.View.Impl1
 
         protected override void MouseHover()
         {
-            Info($"MouseHover {this}");
+            //Info($"MouseHover {this}");
         }
 
         protected override void MouseUp(IBoardView board, Coord coord)

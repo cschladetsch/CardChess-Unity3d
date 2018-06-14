@@ -1,20 +1,10 @@
-﻿using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
     using Model;
-    using Common;
 
     public interface ICardAgent
         : IAgent<ICardModel>
+        , ICardProperties
     {
-        ICardTemplate Template { get; }
-
-        IReadOnlyReactiveProperty<int> Health { get; }
-        IReadOnlyReactiveProperty<int> Power { get; }
-        IReactiveProperty<IPlayerModel> Player { get; }
-        IReactiveCollection<IEffectModel> Effects { get; }
-        IReactiveCollection<IItemModel> Items { get; }
-        IReactiveCollection<EAbility> Abilities { get; }
     }
 }

@@ -555,6 +555,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Image: {fileID: 114126256349359586}
+  Health: {fileID: 114051859781650068}
+  Power: {fileID: 114805400869598520}
+  PieceGameObject: {fileID: 1431562505176862}
 --- !u!114 &114304206524828250
 MonoBehaviour:
   m_ObjectHideFlags: 1

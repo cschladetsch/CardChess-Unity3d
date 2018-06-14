@@ -1,4 +1,5 @@
-﻿using App.Registry;
+﻿using App.Model;
+using App.Registry;
 using UniRx;
 using UnityEngine;
 
@@ -12,11 +13,14 @@ namespace App.View.Impl1
         : Draggable<ICardAgent>
         , ICardView
     {
-        public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
+        #region Unity Properties
         public TMPro.TextMeshProUGUI Mana;
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public GameObject PieceGameObject;
+        #endregion
+
+        public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
         public override void Create()
         {
@@ -67,12 +71,11 @@ namespace App.View.Impl1
             var place = response.Request as PlacePiece;
             Assert.IsNotNull(place);
             BoardView.PlacePiece(this, place.Coord);
-            // TODO: this Destroys the object, and it should not
-            // OR, we create a IPieceView/Agent/Model from this CardView
-            //PlayerModel.Hand.Remove(Agent.Model);
+            PlayerModel.Hand.Remove(Agent.Model);
         }
 
         // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
+
     }
 }
