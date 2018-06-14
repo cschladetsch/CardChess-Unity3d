@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-
+using App.Common.Message;
 using Flow;
+using UniRx;
 
 namespace App.Agent
 {
@@ -13,6 +13,9 @@ namespace App.Agent
         : AgentBaseCoro<IBoardModel>
         , IBoardAgent
     {
+        public IReadOnlyReactiveProperty<int> Width => _width;
+        public IReadOnlyReactiveProperty<int> Height => _height;
+
         public BoardAgent(IBoardModel model)
             : base(model)
         {
@@ -27,16 +30,31 @@ namespace App.Agent
 
         public override void EndGame()
         {
+            Info($"BoardAgent EndGame");
+            _idToPiece.Clear();
         }
 
-        public IFuture<IPieceAgent> At(Coord coord)
+        public IResponse Remove(IPieceAgent agent)
         {
-            return New.Future(GetAgent(Model.At(coord)));
+            Assert.IsTrue(_idToPiece.ContainsKey(agent.Id));
+            _idToPiece.Remove(agent.Id);
+            return Model.Remove(agent.Model);
+        }
+
+        public IResponse Add(IPieceAgent agent)
+        {
+            Assert.IsFalse(_idToPiece.ContainsKey(agent.Id));
+            _idToPiece[agent.Id] = agent;
+            return Model.Add(agent.Model);
+        }
+
+        public IPieceAgent At(Coord coord)
+        {
+            return GetAgent(Model.At(coord));
         }
 
         public ITransient PerformNewGame()
         {
-            // move all pieces back to deck, shuffle
             return null;
         }
 
@@ -51,5 +69,7 @@ namespace App.Agent
         }
 
         private readonly Dictionary<Guid, IPieceAgent> _idToPiece = new Dictionary<Guid, IPieceAgent>();
+        private readonly IntReactiveProperty _width = new IntReactiveProperty(8);
+        private readonly IntReactiveProperty _height = new IntReactiveProperty(8);
     }
 }

@@ -204,7 +204,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: a9eaa5c92f20db942b78a7780bbb6b65, type: 2}
+  - {fileID: 2100000, guid: 859b5f2c4c805ac48944bb6d4d28e441, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -688,10 +688,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b4fce2e2bf88349a8a3f1072b8dd15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Image: {fileID: 114033524318174762}
   Mana: {fileID: 114677495925274708}
   Health: {fileID: 114409618072000246}
   Power: {fileID: 114204544403389608}
-  Image: {fileID: 114033524318174762}
+  PieceGameObject: {fileID: 1541610787085220}
 --- !u!222 &222317134646785742
 CanvasRenderer:
   m_ObjectHideFlags: 1

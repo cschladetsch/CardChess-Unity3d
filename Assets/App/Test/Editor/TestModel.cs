@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace App.Model.Test
 {
@@ -31,6 +30,8 @@ namespace App.Model.Test
         {
             _arbiter.PrepareGame(_white, _black);
             _arbiter.StartGame();
+            _white.Mana.Value = _white.MaxMana.Value = 10;
+            _black.Mana.Value = _black.MaxMana.Value = 10;
             for (var n = 0; n < 5; ++n)
             {
                 Assert.IsTrue(_arbiter.Arbitrate(_white.NextAction()).Success);

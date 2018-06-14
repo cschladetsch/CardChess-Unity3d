@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using App.Registry;
+using UniRx;
+using UnityEngine;
 
 namespace App.View.Impl1
 {
@@ -8,12 +10,13 @@ namespace App.View.Impl1
 
     public class CardView
         : Draggable<ICardAgent>
-            , ICardView
+        , ICardView
     {
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
         public TMPro.TextMeshProUGUI Mana;
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
+        public GameObject PieceGameObject;
 
         public override void Create()
         {
@@ -31,6 +34,9 @@ namespace App.View.Impl1
             agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
             agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
             agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+
+            PieceGameObject.GetComponent<Renderer>().material
+                = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
         }
 
         protected override bool MouseDown()

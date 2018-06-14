@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using App.Agent;
+using Flow;
+using UniRx;
 
 namespace App.Model
 {
@@ -13,8 +16,8 @@ namespace App.Model
         : IModel
         , IPrintable
     {
-        int Width { get; }
-        int Height { get; }
+        int Width { get; set; }
+        int Height { get; set; }
         IArbiterModel Arbiter { get; set; }
         IEnumerable<IPieceModel> Pieces { get; }
 
@@ -23,9 +26,8 @@ namespace App.Model
         int NumPieces(EPieceType type);
         string Print(Func<Coord, string> fun);
 
-        Response Remove(IPieceModel pieceModel);
-        Response<IPieceModel> TryPlacePiece(PlacePiece placePiece);
-        Response TryMovePiece(MovePiece act);
+        IResponse<IPieceModel> TryPlacePiece(PlacePiece placePiece);
+        IResponse TryMovePiece(MovePiece act);
 
         IEnumerable<IPieceModel> PiecesOfType(EPieceType type);
         IPieceModel At(int x, int y);
@@ -35,5 +37,9 @@ namespace App.Model
         IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
         IEnumerable<IPieceModel> Defenders(Coord cood);
         IEnumerable<Coord> GetMovements(Coord cood);
+
+        // directly change model state
+        IResponse Add(IPieceModel model);
+        IResponse Remove(IPieceModel pieceModel);
     }
 }

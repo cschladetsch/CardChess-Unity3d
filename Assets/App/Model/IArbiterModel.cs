@@ -1,5 +1,4 @@
-﻿using App.Common;
-using App.Common.Message;
+﻿using App.Common.Message;
 using UniRx;
 
 namespace App.Model
@@ -11,12 +10,12 @@ namespace App.Model
         : IModel
     {
         IBoardModel Board { get; }
-        IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
-        IReadOnlyReactiveProperty<EGameState> GameState { get; }
         IReactiveProperty<int> TurnNumber { get; }
+        IReadOnlyReactiveProperty<EGameState> GameState { get; }
+        IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
 
         void PrepareGame(IPlayerModel white, IPlayerModel black);
-        Response Arbitrate(IRequest request);
+        IResponse Arbitrate(IRequest request);
         void EndTurn();
     }
 }
