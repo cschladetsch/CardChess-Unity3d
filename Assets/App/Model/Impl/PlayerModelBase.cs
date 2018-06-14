@@ -88,6 +88,8 @@ namespace App.Model
         {
             MaxMana.Value = Math.Min(Parameters.MaxManaCap, MaxMana.Value + 1);
             Mana.Value = MaxMana.Value;
+            if (Arbiter.TurnNumber.Value > 1)
+                Hand.Add(Deck.Draw());
             Info($"{this} starts turn with {Mana.Value} mana");
         }
 

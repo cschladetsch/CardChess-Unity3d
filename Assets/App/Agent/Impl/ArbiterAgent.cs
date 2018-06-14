@@ -24,6 +24,7 @@ namespace App
         : AgentBaseCoro<IArbiterModel>
         , IArbiterAgent
     {
+        public IReadOnlyReactiveProperty<IResponse> LastResponse => _lastResponse;
         public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
         [Inject] public IBoardAgent BoardAgent { get; set; }
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
@@ -165,7 +166,9 @@ namespace App
                 var request = future.Value.Request;
                 var response = Model.Arbitrate(request);
                 response.Request = request;
+                _lastResponse.Value = response;
                 future.Value.Responder?.Invoke(response);
+
                 if (response.Failed)
                     Warn($"Request {request} failed for {CurrentPlayerModel}");
 
@@ -260,5 +263,6 @@ namespace App
         private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
         private float _timeOut;
         private DateTime _timeStart;
+        private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
     }
 }
