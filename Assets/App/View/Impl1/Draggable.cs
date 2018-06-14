@@ -66,11 +66,12 @@ namespace App.View.Impl1
 
         private void OnMouseDown()
         {
+            //_startLocation = transform.position;
+            _startLocation = transform.localPosition;
             if (!MouseDown())
                 return;
 
             _dragging = true;
-            _startLocation = transform.position;
             _screenPoint = Camera.main.WorldToScreenPoint(transform.position);
             var mp = Input.mousePosition;
             _offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(mp.x, mp.y, _screenPoint.z));
