@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using App.Model;
 using CoLib;
 using UnityEngine;
@@ -29,25 +30,31 @@ namespace App.View.Impl1
         public Transform PiecesRoot;
         public int BoardWidth;
         public int BoardHeight;
+        public BoardOverlayView OverlayView;
         #endregion
 
         public Material BlackMaterial => BlackPieceMaterial;
         public Material WhiteMaterial => WhitePieceMaterial;
         public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
+        public IReadOnlyReactiveProperty<IPieceView> HoverPiece => _hoverPiece;
         public IReadOnlyReactiveProperty<int> Width => Agent.Width;
         public IReadOnlyReactiveProperty<int> Height => Agent.Height;
 
         public override void Create()
         {
             _squareBitMask = LayerMask.GetMask("BoardSquare");
-
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq =>
             {
-                //if (sq != null)
-                //    Info($"Over {sq}");//.AgentBase.BaseModel}");
+                OverlayView.Clear();
+                if (sq == null) return;
+                var p = Agent.At(sq.Coord);
+                if (p == null) return;
+                Assert.AreEqual(sq.Coord, p.Coord.Value);
+                Info($"{sq} has {p} @{p.Coord}");
+                var movements = Agent.Model.GetMovements(sq.Coord).ToList();
+                OverlayView.Add(movements, Color.green);
             });
-
         }
 
         public override void SetAgent(IPlayerView view, IBoardAgent agent)
@@ -58,6 +65,15 @@ namespace App.View.Impl1
             CreateBoard();
         }
 
+        public void ShowSquares(PieceView pieceView)
+        {
+        }
+
+        public IPieceView Get(Coord coord)
+        {
+            return _pieceViews.FirstOrDefault(p => p.Coord.Value == coord);
+        }
+
         public IPieceView PlacePiece(ICardView view, Coord coord)
         {
             Assert.IsNotNull(view);
@@ -66,6 +82,7 @@ namespace App.View.Impl1
             var tr = pv.GameObject.transform;
             tr.SetParent(PiecesRoot);
             tr.position = view.GameObject.transform.position;
+            _pieceViews.Add(pv);
             return pv;
         }
 
@@ -78,8 +95,21 @@ namespace App.View.Impl1
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
             view.SetAgent(cardView.PlayerView, agent);
             view.Coord.Value = coord;
-            Agent.Add(view.Agent);
+
+            Assert.IsTrue(Agent.Add(view.Agent).Success);
+            var barny = Agent.At(coord);
+            Assert.AreSame(barny, model);
+
             Assert.IsTrue(view.IsValid);
+            Assert.AreEqual(view.Coord.Value, coord);
+            Assert.AreSame(agent, view.Agent);
+            Assert.AreEqual(model.Coord.Value, coord);
+            Assert.AreEqual(agent.Coord.Value, coord);
+
+            var fred = Agent.At(coord);
+            Assert.AreSame(fred, agent);
+            Assert.AreSame(fred, view.Agent);
+            Assert.AreEqual(fred.Coord.Value, coord);
             return view;
         }
 
@@ -118,10 +148,8 @@ namespace App.View.Impl1
                     square.transform.position = pos;
                     square.Coord = new Coord(nx, ny);
                     square.Color = white ? EColor.White : EColor.Black;
-
                     _squares.Add(square);
                 }
-
                 ++c;
             }
         }
@@ -136,7 +164,6 @@ namespace App.View.Impl1
         protected override void Step()
         {
             base.Step();
-
             TestRayCast();
         }
 
@@ -168,13 +195,15 @@ namespace App.View.Impl1
             return At(c.x, c.y);
         }
 
-        public void Place(IPieceView piece)
-        {
-        }
+        //public void Place(IPieceView piece)
+        //{
+        //}
 
         private int _squareBitMask;
         private List<SquareView> _squares;
         private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
+        private readonly ReactiveProperty<IPieceView> _hoverPiece = new ReactiveProperty<IPieceView>();
+        private readonly List<IPieceView> _pieceViews = new List<IPieceView>();
     }
 }

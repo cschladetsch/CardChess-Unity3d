@@ -37,20 +37,34 @@ namespace App.Agent
         public IResponse Remove(IPieceAgent agent)
         {
             Assert.IsTrue(_idToPiece.ContainsKey(agent.Id));
+            Assert.IsTrue(Model.Remove(agent.Model).Success);
+            Model.Remove(agent.Model);
             _idToPiece.Remove(agent.Id);
-            return Model.Remove(agent.Model);
+            return Response.Ok;
         }
 
         public IResponse Add(IPieceAgent agent)
         {
             Assert.IsFalse(_idToPiece.ContainsKey(agent.Id));
+            Assert.IsTrue(Model.Add(agent.Model).Success);
             _idToPiece[agent.Id] = agent;
-            return Model.Add(agent.Model);
+            Model.Add(agent.Model);
+            Assert.AreSame(At(agent.Coord.Value), agent);
+            Assert.AreSame(agent.Coord.Value, At(agent.Coord.Value).Coord.Value);
+            return Response.Ok;
         }
 
         public IPieceAgent At(Coord coord)
         {
-            return GetAgent(Model.At(coord));
+            var model = Model.At(coord);
+            if (model == null)
+                return null;
+            Assert.AreEqual(coord, model.Coord.Value);
+            var agent = GetAgent(model);
+            Assert.AreSame(agent.Model, model);
+            Assert.AreEqual(agent.Coord.Value, coord);
+            Assert.AreSame(agent.Model.Coord.Value, coord);
+            return agent;
         }
 
         public ITransient PerformNewGame()

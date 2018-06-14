@@ -1,4 +1,5 @@
 ﻿using App.Common;
+using App.Common.Message;
 using CoLib;
 using UniRx;
 using UnityEngine;
@@ -39,6 +40,14 @@ namespace App.View.Impl1
 
             PieceGameObject.GetComponent<Renderer>().material
                 = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+
+
+            MouseOver.DistinctUntilChanged().Subscribe(
+                v =>
+                {
+                    BoardView.ShowSquares(this);
+                }
+            );
         }
 
 
@@ -73,9 +82,18 @@ namespace App.View.Impl1
 
         protected override void MouseUp(IBoardView board, Coord coord)
         {
-            // TODO: TryMovePiece
-            // TODO: TryBattle
-            ReturnToStart();
+            var existing = BoardView.Get(coord);
+            if (existing == null)
+                PlayerView.Agent.PushRequest(
+                    new MovePiece(PlayerModel, Agent.Model, coord), Response);
+            else
+                PlayerView.Agent.PushRequest(
+                    new Battle(PlayerModel, Agent.Model, existing.Agent.Model), Response);
+        }
+
+        private void Response(IResponse response)
+        {
+            Info($"PieceView Response: {response}");
         }
     }
 }
