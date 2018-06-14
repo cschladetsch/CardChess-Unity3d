@@ -52,7 +52,6 @@ namespace App.View.Impl1
 
         public override void SetAgent(IPlayerView view, IBoardAgent agent)
         {
-            Assert.IsNotNull(view);
             Assert.IsNotNull(agent);
             base.SetAgent(view, agent);
             Clear();
@@ -77,7 +76,7 @@ namespace App.View.Impl1
             var model = Agent.Model.Registry.New<IPieceModel>(cardView.PlayerModel, cardView.Agent.Model);
             var agent = Agent.Registry.New<IPieceAgent>(model);
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
-            view.SetAgent(view.PlayerView, agent);
+            view.SetAgent(cardView.PlayerView, agent);
             view.Coord.Value = coord;
             Agent.Add(view.Agent);
             Assert.IsTrue(view.IsValid);
