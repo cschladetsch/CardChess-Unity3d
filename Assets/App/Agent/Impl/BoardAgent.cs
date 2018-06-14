@@ -25,29 +25,29 @@ namespace App.Agent
         {
             base.StartGame();
             Model.StartGame();
-            _idToPiece.Clear();
+            _modelIdToPiece.Clear();
         }
 
         public override void EndGame()
         {
             Info($"BoardAgent EndGame");
-            _idToPiece.Clear();
+            _modelIdToPiece.Clear();
         }
 
         public IResponse Remove(IPieceAgent agent)
         {
-            Assert.IsTrue(_idToPiece.ContainsKey(agent.Id));
+            Assert.IsTrue(_modelIdToPiece.ContainsKey(agent.Model.Id));
             Assert.IsTrue(Model.Remove(agent.Model).Success);
             Model.Remove(agent.Model);
-            _idToPiece.Remove(agent.Id);
+            _modelIdToPiece.Remove(agent.Model.Id);
             return Response.Ok;
         }
 
         public IResponse Add(IPieceAgent agent)
         {
-            Assert.IsFalse(_idToPiece.ContainsKey(agent.Id));
+            Assert.IsFalse(_modelIdToPiece.ContainsKey(agent.Model.Id));
             Assert.IsTrue(Model.Add(agent.Model).Success);
-            _idToPiece[agent.Id] = agent;
+            _modelIdToPiece[agent.Model.Id] = agent;
             Model.Add(agent.Model);
             Assert.AreSame(At(agent.Coord.Value), agent);
             Assert.AreSame(agent.Coord.Value, At(agent.Coord.Value).Coord.Value);
@@ -74,15 +74,14 @@ namespace App.Agent
 
         private IPieceAgent GetAgent(IPieceModel model)
         {
-            if (model == null)
-                return null;
+            Assert.IsNotNull(model);
             IPieceAgent piece;
-            if (_idToPiece.TryGetValue(model.Id, out piece))
+            if (_modelIdToPiece.TryGetValue(model.Id, out piece))
                 return piece;
-            return _idToPiece[model.Id] = Registry.New<IPieceAgent>(model);
+            throw new Exception();
         }
 
-        private readonly Dictionary<Guid, IPieceAgent> _idToPiece = new Dictionary<Guid, IPieceAgent>();
+        private readonly Dictionary<Guid, IPieceAgent> _modelIdToPiece = new Dictionary<Guid, IPieceAgent>();
         private readonly IntReactiveProperty _width = new IntReactiveProperty(8);
         private readonly IntReactiveProperty _height = new IntReactiveProperty(8);
     }

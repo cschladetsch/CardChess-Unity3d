@@ -403,6 +403,7 @@ namespace App.Model
 
         public IResponse Add(IPieceModel piece)
         {
+            Assert.IsNull(At(piece.Coord.Value));
             Set(piece.Coord.Value, piece);
             return Response.Ok;
         }
