@@ -171,7 +171,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.63
+  orthographic size: 5.1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -194,7 +194,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 48229843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -11.54}
+  m_LocalPosition: {x: 0, y: 0, z: -12.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1496,16 +1496,16 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14.8
-  m_fontSizeBase: 14.8
+  m_fontSize: 12.53
+  m_fontSizeBase: 12.53
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_textAlignment: 257
+  m_fontStyle: 1
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: -2.66
+  m_characterSpacing: -3.8
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1534,7 +1534,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 6.041514, y: 0, z: -7.6199613, w: 1.4503781}
+  m_margin: {x: 6.041514, y: -1.7709835, z: -7.6199613, w: 1.4503781}
   m_textInfo:
     textComponent: {fileID: 1257193234}
     characterCount: 8
@@ -1872,15 +1872,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114619311935346060, guid: 5c7e47f7acd7bd341a593b2a68ae5126,
-        type: 2}
-      propertyPath: BoardWidth
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114619311935346060, guid: 5c7e47f7acd7bd341a593b2a68ae5126,
-        type: 2}
-      propertyPath: BoardHeight
-      value: 8
+    - target: {fileID: 4988429700898900, guid: 5c7e47f7acd7bd341a593b2a68ae5126, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1.55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c7e47f7acd7bd341a593b2a68ae5126, type: 2}

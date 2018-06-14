@@ -32,6 +32,11 @@ namespace App.Common.Message
         {
             Request = request;
         }
+
+        public override string ToString()
+        {
+            return $"{Request} -> Success:{Success} {Type}:{Error} {Text}; {PayloadObject}";
+        }
     }
 
     public class Response<TPayload>

@@ -52,6 +52,8 @@ namespace App.View.Impl1
             var black = blackAgent.Model;
             WhiteEndButton.Bind(() => whiteAgent.PushRequest(new TurnEnd(white), TurnEnded));
             BlackEndButton.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
+
+            Agent.LastResponse.Subscribe(r => ResponseText.text = $"{r}");
         }
 
         private void TurnEnded(IResponse obj)
