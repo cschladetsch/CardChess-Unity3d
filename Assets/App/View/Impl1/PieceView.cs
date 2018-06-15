@@ -1,5 +1,6 @@
 ﻿using App.Common;
 using App.Common.Message;
+using App.Model;
 using CoLib;
 using UniRx;
 using UnityEngine;
@@ -29,6 +30,12 @@ namespace App.View.Impl1
             Coord.Subscribe(c => Move());
         }
 
+        void Die()
+        {
+            Info($"{Agent.Model} died");
+            BoardView.Remove(this);
+        }
+
         public override void SetAgent(IPlayerView view, IPieceAgent agent)
         {
             base.SetAgent(view, agent);
@@ -41,13 +48,13 @@ namespace App.View.Impl1
             PieceGameObject.GetComponent<Renderer>().material
                 = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
-
             MouseOver.DistinctUntilChanged().Subscribe(
                 v =>
                 {
-                    BoardView.ShowSquares(this);
+                    //BoardView.ShowSquares(this);
                 }
             );
+            Agent.Model.Dead.Subscribe(a => Die());
         }
 
 
@@ -66,7 +73,7 @@ namespace App.View.Impl1
 
         public override string ToString()
         {
-            return $"{PlayerView} {Agent} @{Coord}";
+            return $"{PlayerView} {Agent}";
         }
 
         protected override bool MouseDown()
@@ -94,6 +101,24 @@ namespace App.View.Impl1
         private void Response(IResponse response)
         {
             Info($"PieceView Response: {response}");
+            if (response.Failed)
+            {
+                ReturnToStart();
+                return;
+            }
+            var battle = response.Request as Battle;
+            if (battle != null)
+            {
+                ReturnToStart();
+                return;
+            }
+
+            var move = response.Request as MovePiece;
+            if (move != null)
+            {
+                BoardView.MovePiece(this, Coord.Value);
+                return;
+            }
         }
     }
 }

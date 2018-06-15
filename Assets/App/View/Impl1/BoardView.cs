@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using App.Common.Message;
 using App.Model;
 using CoLib;
 using UnityEngine;
@@ -40,6 +42,17 @@ namespace App.View.Impl1
         public IReadOnlyReactiveProperty<int> Width => Agent.Width;
         public IReadOnlyReactiveProperty<int> Height => Agent.Height;
 
+        public string Print()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"BoardView: {_pieceViews.Count} pieces:");
+            foreach (var kv in _pieceViews)
+            {
+                sb.AppendLine($"\t{kv.Agent.Model}");
+            }
+            return sb.ToString();
+        }
+
         public override void Create()
         {
             _squareBitMask = LayerMask.GetMask("BoardSquare");
@@ -48,10 +61,11 @@ namespace App.View.Impl1
             {
                 OverlayView.Clear();
                 if (sq == null) return;
+                //Info($"Hover {sq}");
                 var p = Agent.At(sq.Coord);
                 if (p == null) return;
                 Assert.AreEqual(sq.Coord, p.Coord.Value);
-                Info($"{sq} has {p} @{p.Coord}");
+                Info($"{p.Model} @{p.Coord}");
                 var movements = Agent.Model.GetMovements(sq.Coord).ToList();
                 OverlayView.Add(movements, Color.green);
             });
@@ -65,8 +79,11 @@ namespace App.View.Impl1
             CreateBoard();
         }
 
-        public void ShowSquares(PieceView pieceView)
+        public void ShowSquares(PieceView p)
         {
+            Info($"{p.Agent.Model} @{p.Coord.Value}");
+            var movements = Agent.Model.GetMovements(p.Coord.Value).ToList();
+            OverlayView.Add(movements, Color.green);
         }
 
         public IPieceView Get(Coord coord)
@@ -95,21 +112,7 @@ namespace App.View.Impl1
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
             view.SetAgent(cardView.PlayerView, agent);
             view.Coord.Value = coord;
-
             Assert.IsTrue(Agent.Add(view.Agent).Success);
-            //var barny = Agent.At(coord);
-            //Assert.AreSame(barny, model);
-
-            //Assert.IsTrue(view.IsValid);
-            //Assert.AreEqual(view.Coord.Value, coord);
-            //Assert.AreSame(agent, view.Agent);
-            //Assert.AreEqual(model.Coord.Value, coord);
-            //Assert.AreEqual(agent.Coord.Value, coord);
-
-            //var fred = Agent.At(coord);
-            //Assert.AreSame(fred, agent);
-            //Assert.AreSame(fred, view.Agent);
-            //Assert.AreEqual(fred.Coord.Value, coord);
             return view;
         }
 
@@ -195,9 +198,18 @@ namespace App.View.Impl1
             return At(c.x, c.y);
         }
 
-        //public void Place(IPieceView piece)
-        //{
-        //}
+        public void Remove(PieceView pieceView)
+        {
+            Agent.Model.Remove(pieceView.Agent.Model);
+        }
+
+        public void MovePiece(PieceView pieceView, Coord coord)
+        {
+            if (Agent.Model.TryMovePiece(new MovePiece(PlayerModel, pieceView.Agent.Model, coord)).Success)
+            {
+                pieceView.Coord.Value = coord;
+            }
+        }
 
         private int _squareBitMask;
         private List<SquareView> _squares;

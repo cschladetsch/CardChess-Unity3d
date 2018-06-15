@@ -43,11 +43,11 @@ namespace App.Model
             var defend = TakeDamage(defender);
             if (defend.Failed)
                 return defend;
-            if (defender.Dead.Value && !Dead.Value)
-            {
-                return Board.TryMovePiece(
-                    new MovePiece(Player, this, defender.Coord.Value));
-            }
+            //if (defender.Dead.Value && !Dead.Value)
+            //{
+            //    return Board.TryMovePiece(
+            //        new MovePiece(Player, this, defender.Coord.Value));
+            //}
 
             return Response.Ok;
         }
