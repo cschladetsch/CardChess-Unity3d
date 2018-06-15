@@ -46,11 +46,7 @@ namespace App.Agent
         public IResponse Add(IPieceAgent agent)
         {
             Assert.IsFalse(_modelIdToPiece.ContainsKey(agent.Model.Id));
-            Assert.IsTrue(Model.Add(agent.Model).Success);
             _modelIdToPiece[agent.Model.Id] = agent;
-            Model.Add(agent.Model);
-            Assert.AreSame(At(agent.Coord.Value), agent);
-            Assert.AreSame(agent.Coord.Value, At(agent.Coord.Value).Coord.Value);
             return Response.Ok;
         }
 
@@ -63,7 +59,7 @@ namespace App.Agent
             var agent = GetAgent(model);
             Assert.AreSame(agent.Model, model);
             Assert.AreEqual(agent.Coord.Value, coord);
-            Assert.AreSame(agent.Model.Coord.Value, coord);
+            Assert.AreEqual(agent.Model.Coord.Value, coord);
             return agent;
         }
 
