@@ -12,6 +12,7 @@ namespace App.View
     /// </summary>
     public interface IBoardView
         : IView<IBoardAgent>
+        , IPrintable
     {
         IReadOnlyReactiveProperty<int> Width { get; }
         IReadOnlyReactiveProperty<int> Height { get; }
@@ -24,5 +25,7 @@ namespace App.View
         ISquareView TestRayCast(Vector3 screen);
         IPieceView PlacePiece(ICardView view, Coord cood);
         void ShowSquares(PieceView pieceView);
+        void Remove(PieceView pieceView);
+        void MovePiece(PieceView pieceView, Coord coord);
     }
 }

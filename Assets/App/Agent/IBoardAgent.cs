@@ -13,6 +13,7 @@ namespace App.Agent
     /// </summary>
     public interface IBoardAgent
         : IAgent<IBoardModel>
+        , IPrintable
     {
         IReadOnlyReactiveProperty<int> Width { get; }
         IReadOnlyReactiveProperty<int> Height { get; }

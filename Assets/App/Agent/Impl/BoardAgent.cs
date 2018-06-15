@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using App.Common.Message;
 using Flow;
 using UniRx;
@@ -21,6 +22,16 @@ namespace App.Agent
         {
         }
 
+        public string Print()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"BoardAgent: {_modelIdToPiece.Count} pieces:");
+            foreach (var kv in _modelIdToPiece)
+            {
+                sb.AppendLine($"\t{kv.Value.Model}");
+            }
+            return sb.ToString();
+        }
         public override void StartGame()
         {
             base.StartGame();

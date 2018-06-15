@@ -204,8 +204,14 @@ namespace App.Model
         public IEnumerable<Coord> GetMovements(Coord coord)
         {
             var piece = At(coord);
+            if (piece == null)
+            {
+                Warn($"Try to get movements for {coord}, but no piece there");
+                yield break;
+            }
             Assert.AreEqual(piece.Coord.Value, coord);
-            return piece == null ? null : GetMovements(piece);
+            foreach (var m in GetMovements(piece))
+                yield return m;
         }
 
         public IEnumerable<Coord> GetMovements(IPieceModel piece)
@@ -320,9 +326,6 @@ namespace App.Model
         private IResponse Set(Coord coord, IPieceModel piece)
         {
             Assert.IsTrue(IsValidCoord(coord));
-            var existing = At(coord);
-            if (existing != null)
-                return Response.Fail;
             _pieces[coord.y * Width + coord.x] = piece;
             return Response.Ok;
         }

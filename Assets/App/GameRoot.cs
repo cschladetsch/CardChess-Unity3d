@@ -229,6 +229,8 @@ namespace App
         [ContextMenu("TraceBoard")]
         public void TraceBoard()
         {
+            Info(BoardView.Print());
+            Info(BoardAgent.Print());
             Info(_boardModel.Print());
         }
 
