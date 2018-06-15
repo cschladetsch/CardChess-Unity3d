@@ -90,6 +90,7 @@ namespace App.Model
             Mana.Value = MaxMana.Value;
             if (Arbiter.TurnNumber.Value > 1)
                 Hand.Add(Deck.Draw());
+
             Info($"{this} starts turn with {Mana.Value} mana");
         }
 

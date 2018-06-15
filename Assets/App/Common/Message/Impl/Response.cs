@@ -18,24 +18,38 @@ namespace App.Common.Message
         public static Response Ok = new Response(EResponse.Ok);
         public static Response Fail = new Response(EResponse.Fail);
 
-        public Response(EResponse response = EResponse.Ok, EError err = EError.Error, string text = "")
+        public Response(EResponse response = EResponse.Ok, EError err = EError.None, string text = "")
         {
             Type = response;
             Error = err;
-            Error = EError.None;
             Text = text;
         }
 
-        public Response(IRequest request, EResponse response = EResponse.Ok, EError err = EError.Error,
+        public Response(IRequest request, EResponse response = EResponse.Ok, EError err = EError.None,
             string text = "")
             : this(response, err, text)
         {
             Request = request;
         }
 
+        //public override bool Equals(object obj)
+        //{
+        //    var r = obj as IResponse;
+        //    if (r == null)
+        //        return false;
+        //    var eq = Request == r.Request && Type == r.Type && Error == r.Error && Text == r.Text;
+        //    if (!eq)
+        //        return false;
+        //    if (PayloadObject != null)
+        //        return PayloadObject.Equals(r.PayloadObject);
+        //    return r.PayloadObject == null;
+        //}
+
         public override string ToString()
         {
-            return $"{Request} -> Success:{Success} {Type}:{Error} {Text}; {PayloadObject}";
+            if (Error == EError.None)
+                return $"{Request}->{Success} {Type}:{Text}; {PayloadObject}";
+            return $"{Request}->{Success} {Type}:{Error} {Text}; {PayloadObject}";
         }
     }
 

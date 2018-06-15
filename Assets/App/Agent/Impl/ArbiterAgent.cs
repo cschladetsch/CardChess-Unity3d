@@ -170,7 +170,7 @@ namespace App
                 future.Value.Responder?.Invoke(response);
 
                 if (response.Failed)
-                    Warn($"Request {request} failed for {CurrentPlayerModel}");
+                    Warn($"{request} failed for {CurrentPlayerModel}");
 
                 var now = Kernel.Time.Now;
                 var dt = (float)(now - _timeStart).TotalSeconds;

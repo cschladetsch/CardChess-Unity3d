@@ -76,6 +76,5 @@ namespace App.View.Impl1
 
         // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
-
     }
 }

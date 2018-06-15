@@ -34,13 +34,13 @@ namespace App.View.Impl1
         private void BindHand(IHandAgent agent)
         {
             foreach (var card in agent.Cards)
-                _cards.Add(ViewFromAgent(card));
+                _cards.Add(CreateViewFromAgent(card));
 
             agent.Cards.ObserveAdd().Subscribe(Add);
             agent.Cards.ObserveRemove().Subscribe(Remove);
         }
 
-        private ICardView ViewFromAgent(ICardAgent agent)
+        private ICardView CreateViewFromAgent(ICardAgent agent)
         {
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
@@ -54,6 +54,9 @@ namespace App.View.Impl1
 
         void CardMouseOver(ICardView card)
         {
+            if (card == null)
+                return;
+            Info($"MouseOver {card.Agent.Model}");
         }
 
         [ContextMenu("HandView-Clear")]
@@ -66,7 +69,7 @@ namespace App.View.Impl1
         private void Add(CollectionAddEvent<ICardAgent> add)
         {
             //Info($"HandView: Add {add.Value} @{add.Index}");
-            _cards.Insert(add.Index, ViewFromAgent(add.Value));
+            _cards.Insert(add.Index, CreateViewFromAgent(add.Value));
             Redraw();
         }
 

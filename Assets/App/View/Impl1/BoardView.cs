@@ -65,7 +65,7 @@ namespace App.View.Impl1
                 var p = Agent.At(sq.Coord);
                 if (p == null) return;
                 Assert.AreEqual(sq.Coord, p.Coord.Value);
-                Info($"{p.Model} @{p.Coord}");
+                //Info($"{p.Model} @{p.Coord}");
                 var movements = Agent.Model.GetMovements(sq.Coord).ToList();
                 OverlayView.Add(movements, Color.green);
             });
@@ -205,7 +205,7 @@ namespace App.View.Impl1
 
         public void MovePiece(PieceView pieceView, Coord coord)
         {
-            if (Agent.Model.TryMovePiece(new MovePiece(PlayerModel, pieceView.Agent.Model, coord)).Success)
+            if (Agent.Model.TryMovePiece(new MovePiece(pieceView.PlayerModel, pieceView.Agent.Model, coord)).Success)
             {
                 pieceView.Coord.Value = coord;
             }
