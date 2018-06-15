@@ -8,6 +8,7 @@
     public interface IDecidingModelBase
     {
         Response NotImplemented(IRequest req, string text = "");
-        Response Failed(IRequest req, string text = "", EError error = EError.Error);
+        Response Failed(IRequest req, string text = "", EError error = EError.Error, EResponse r = EResponse.Fail);
+        Response Succeed(IRequest req, string text = "", EError error = EError.None, EResponse r = EResponse.Ok);
     }
 }

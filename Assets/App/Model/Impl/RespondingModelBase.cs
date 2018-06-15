@@ -18,16 +18,24 @@
 
         public Response NotImplemented(IRequest req, string text = "")
         {
-            return Failed(req, $"Not Implemented {text}", EError.NotImplemented);
+            return Failed(req, $"{text}", EError.NotImplemented);
         }
 
-        public Response Failed(IRequest req, string text = "", EError error = EError.Error)
+        public Response Succeed(IRequest req, string text = "", EError error = EError.None, EResponse r = EResponse.Ok)
         {
             Assert.IsNotNull(req);
             Assert.IsNotNull(req.Player);
 
-            var resp = new Response(EResponse.Fail, error, text);
-            Verbose(10, "Request {req} failed: {resp}");
+            return new Response(req, r, error, text);
+        }
+
+        public Response Failed(IRequest req, string text = "", EError error = EError.Error, EResponse r = EResponse.Fail)
+        {
+            Assert.IsNotNull(req);
+            Assert.IsNotNull(req.Player);
+
+            var resp = new Response(req, r, error, text);
+            Warn($"{resp}");
             return resp;
         }
     }

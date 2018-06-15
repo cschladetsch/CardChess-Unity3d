@@ -89,8 +89,9 @@ namespace App.Model
             var coord = move.Coord;
             var piece = move.Piece;
 
-            if (At(move.Coord) != null)
-                return Failed(move, "Cannot move onto another piece (yet)");
+            var dest = At(move.Coord);
+            if (dest != null)
+                return Failed(move, $"Cannot move {piece} onto {dest}");
 
             var movements = GetMovements(piece.Coord.Value).ToList();
             if (movements.Count == 0)

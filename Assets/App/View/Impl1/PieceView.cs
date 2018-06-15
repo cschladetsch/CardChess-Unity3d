@@ -78,7 +78,7 @@ namespace App.View.Impl1
 
         protected override bool MouseDown()
         {
-            Info($"MouseDown {this}");
+            //Info($"MouseDown {this}");
             return IsCurrentPlayer();
         }
 
