@@ -115,33 +115,33 @@ namespace App.Model
                 return;
             }
 
-            // if these actions failed, return the cards to Hand
-            switch (req.Action)
-            {
-                case EActionType.RejectCards:
-                    // TODO:
-                    //var cards = (req as IRequest<IList<ICardModel>>)
-                    Info("Got cards back from mulligan request (somehow)....");
-                    break;
-                case EActionType.CastSpell:
-                    var cast = req as CastSpell;
-                    Assert.IsNotNull(cast);
-                    Hand.Add(cast.Spell);
-                    ChangeMana(cast.Spell.ManaCost.Value);
-                    break;
-                case EActionType.PlacePiece:
-                    var place = req as PlacePiece;
-                    Assert.IsNotNull(place);
-                    Hand.Add(place.Card);
-                    ChangeMana(place.Card.ManaCost.Value);
-                    break;
-                case EActionType.GiveItem:
-                    var item = req as GiveItem;
-                    Assert.IsNotNull(item);
-                    Hand.Add(item.Item);
-                    ChangeMana(item.Item.ManaCost.Value);
-                    break;
-            }
+            //// if these actions failed, return the cards to Hand
+            //switch (req.Action)
+            //{
+            //    case EActionType.RejectCards:
+            //        // TODO:
+            //        //var cards = (req as IRequest<IList<ICardModel>>)
+            //        Info("Got cards back from mulligan request (somehow)....");
+            //        break;
+            //    case EActionType.CastSpell:
+            //        var cast = req as CastSpell;
+            //        Assert.IsNotNull(cast);
+            //        Hand.Add(cast.Spell);
+            //        ChangeMana(cast.Spell.ManaCost.Value);
+            //        break;
+            //    //case EActionType.PlacePiece:
+            //    //    var place = req as PlacePiece;
+            //    //    Assert.IsNotNull(place);
+            //    //    Hand.Add(place.Card);
+            //    //    ChangeMana(place.Card.ManaCost.Value);
+            //    //    break;
+            //    case EActionType.GiveItem:
+            //        var item = req as GiveItem;
+            //        Assert.IsNotNull(item);
+            //        Hand.Add(item.Item);
+            //        ChangeMana(item.Item.ManaCost.Value);
+            //        break;
+            //}
         }
 
         public virtual IRequest Mulligan()
