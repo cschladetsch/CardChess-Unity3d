@@ -37,6 +37,13 @@ namespace App.Agent
             }
         }
 
+        public bool SameOwner(IEntity other)
+        {
+            if (other == null)
+                return Owner.Value == null;
+            return other.Owner.Value == Owner.Value;
+        }
+
         protected AgentBase(TModel model)
         {
             if (model == null)
@@ -54,7 +61,9 @@ namespace App.Agent
 
         public bool SameOwner(IOwned other)
         {
-            return Owner.Value == other.Owner.Value;
+            if (other == null)
+                return Owner.Value == null;
+            return other.Owner.Value == Owner.Value;
         }
 
         public virtual void StartGame()

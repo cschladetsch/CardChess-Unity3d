@@ -18,7 +18,7 @@ namespace App.Agent
         public override void StartGame()
         {
             Model.StartGame();
-            Verbose(30, $"HandAgent {PlayerModel} created");
+            Verbose(10, $"HandAgent {PlayerModel} created");
             foreach (var c in Model.Cards)
                 _cards.Add(Registry.New<ICardAgent>(c));
 
@@ -28,7 +28,7 @@ namespace App.Agent
 
         private void Remove(CollectionRemoveEvent<ICardModel> remove)
         {
-            Verbose(0, $"HandAgent: Remove {remove.Value} @{remove.Index}");
+            Verbose(10, $"HandAgent: Remove {remove.Value} @{remove.Index}");
             var index = remove.Index;
             var card = _cards[index];
             //card.Destroy();
@@ -37,7 +37,7 @@ namespace App.Agent
 
         private void Add(CollectionAddEvent<ICardModel> add)
         {
-            Verbose(0, $"HandAgent: Add {add.Value} @{add.Index}");
+            Verbose(10, $"HandAgent: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
         }
 

@@ -96,7 +96,7 @@ namespace App.Model
 
         public void EndTurn()
         {
-            Info($"{this} ends turn with {Mana.Value} mana");
+            //Info($"{this} ends turn with {Mana.Value} mana");
         }
 
         public Response CardDrawn(ICardModel card)

@@ -5,6 +5,11 @@ namespace App
 {
     public static class Math
     {
+        public static int Abs(int n)
+        {
+            return n < 0 ? -n : n;
+        }
+
         public static int Max(int a, int b)
         {
             return a > b ? a : b;

@@ -18,5 +18,6 @@
 
         //void StartGame();
         //void EndGame();
+        bool SameOwner(IEntity other);
     }
 }

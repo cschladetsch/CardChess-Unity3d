@@ -38,6 +38,13 @@ namespace App.Model
             }
         }
 
+        public bool SameOwner(IEntity other)
+        {
+            if (other == null)
+                return Owner.Value == null;
+            return other.Owner.Value == Owner.Value;
+        }
+
         protected ModelBase(IOwner owner)
         {
             LogSubject = this;
@@ -51,7 +58,9 @@ namespace App.Model
 
         public bool SameOwner(IOwned other)
         {
-            return Owner.Value == other.Owner.Value;
+            if (other == null)
+                return Owner.Value == null;
+            return other.Owner.Value == Owner.Value;
         }
 
         public virtual void PrepareModels()

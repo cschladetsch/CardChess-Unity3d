@@ -61,7 +61,7 @@ namespace App.View.Impl1
         private void Response(IResponse response)
         {
             _Queue.RunToEnd();
-            Info($"CardViewPlaced {response.Request}, response {response.Type}:{response.Error}");
+            Verbose(10, $"CardViewPlaced {response.Request}, response {response.Type}:{response.Error}");
             if (response.Failed)
             {
                 ReturnToStart();

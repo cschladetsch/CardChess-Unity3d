@@ -22,7 +22,7 @@ namespace App.View.Impl1
         : ViewBase<IBoardAgent>
         , IBoardView
     {
-        #region Unityu Properties
+        #region Unity3d Properties
         public Material BlackPieceMaterial;
         public Material WhitePieceMaterial;
         public PieceView PieceViewPrefab;
@@ -47,9 +47,7 @@ namespace App.View.Impl1
             var sb = new StringBuilder();
             sb.AppendLine($"BoardView: {_pieceViews.Count} pieces:");
             foreach (var kv in _pieceViews)
-            {
                 sb.AppendLine($"\t{kv.Agent.Model}");
-            }
             return sb.ToString();
         }
 
@@ -65,9 +63,7 @@ namespace App.View.Impl1
                 var p = Agent.At(sq.Coord);
                 if (p == null) return;
                 Assert.AreEqual(sq.Coord, p.Coord.Value);
-                //Info($"{p.Model} @{p.Coord}");
-                var movements = Agent.Model.GetMovements(sq.Coord).ToList();
-                OverlayView.Add(movements, Color.green);
+                ShowSquares(sq.Coord);
             });
         }
 
@@ -79,11 +75,13 @@ namespace App.View.Impl1
             CreateBoard();
         }
 
-        public void ShowSquares(PieceView p)
+        public void ShowSquares(Coord coord)
         {
-            Info($"{p.Agent.Model} @{p.Coord.Value}");
-            var movements = Agent.Model.GetMovements(p.Coord.Value).ToList();
+            //Info($"{p.Agent.Model} @{p.Coord.Value}");
+            var movements = Agent.Model.GetMovements(coord).ToList();
             OverlayView.Add(movements, Color.green);
+            var attacks = Agent.Model.GetAttacks(coord).ToList();
+            OverlayView.Add(attacks, Color.red);
         }
 
         public IPieceView Get(Coord coord)
@@ -164,10 +162,20 @@ namespace App.View.Impl1
             return _squares[y * Width.Value + x];
         }
 
-        protected override void Step()
+        public SquareView At(Coord c)
         {
-            base.Step();
-            TestRayCast();
+            return At(c.x, c.y);
+        }
+
+        public void Remove(IPieceView pieceView)
+        {
+            Agent.Model.Remove(pieceView.Agent.Model);
+        }
+
+        public void MovePiece(IPieceView pieceView, Coord coord)
+        {
+            if (Agent.Model.TryMovePiece(new MovePiece(pieceView.PlayerModel, pieceView.Agent.Model, coord)).Success)
+                pieceView.Coord.Value = coord;
         }
 
         public ISquareView TestRayCast(Vector3 screen)
@@ -188,27 +196,15 @@ namespace App.View.Impl1
             return null;
         }
 
+        protected override void Step()
+        {
+            base.Step();
+            TestRayCast();
+        }
+
         private ISquareView TestRayCast()
         {
             return TestRayCast(Input.mousePosition);
-        }
-
-        public SquareView At(Coord c)
-        {
-            return At(c.x, c.y);
-        }
-
-        public void Remove(PieceView pieceView)
-        {
-            Agent.Model.Remove(pieceView.Agent.Model);
-        }
-
-        public void MovePiece(PieceView pieceView, Coord coord)
-        {
-            if (Agent.Model.TryMovePiece(new MovePiece(pieceView.PlayerModel, pieceView.Agent.Model, coord)).Success)
-            {
-                pieceView.Coord.Value = coord;
-            }
         }
 
         private int _squareBitMask;
