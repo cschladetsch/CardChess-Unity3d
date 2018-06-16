@@ -45,13 +45,27 @@ namespace App.View.Impl1
                 return true;
             }
         }
+
+        public bool SameOwner(IEntity other)
+        {
+            if (other == null)
+                return Owner.Value == null;
+            return other.Owner.Value == Owner.Value;
+        }
+
         public virtual void SetAgent(IPlayerView player, IAgent agent)
         {
             PlayerView = player;
             Assert.IsNotNull(agent);
             AgentBase = agent;
-            if (player == null)
-                Warn($"Null Playerview for {GetType()} with agent {agent}");
+            // board and arbiter instances do not have owners, so don't complain
+            if (player == null && !(Is<IArbiterView>() || Is<IBoardView>()))
+                Warn($"Null Playervew for {GetType()} with agent {agent}");
+        }
+
+        private bool Is<T>()
+        {
+            return typeof(T).IsAssignableFrom(GetType());
         }
 
         private void Awake()

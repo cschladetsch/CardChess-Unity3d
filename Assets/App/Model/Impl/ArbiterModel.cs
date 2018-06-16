@@ -1,4 +1,7 @@
-﻿using System;
+﻿// user can play cards without worrying about mana
+#define IGNORE_MANA
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -143,7 +146,7 @@ namespace App.Model
 
         public void EndTurn()
         {
-            Info($"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
+            //Info($"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
 
             CurrentPlayer.Value.EndTurn();
             _currentPlayerIndex.Value = (_currentPlayerIndex.Value + 1) % _players.Count;
@@ -180,36 +183,6 @@ namespace App.Model
             return Response.Ok;
         }
 
-        //private Response TryPlaceKing(PlacePiece act)
-        //{
-        //    Assert.IsNotNull(act);
-        //    Assert.IsNotNull(act.Player);
-        //    Assert.IsNotNull(act.Card);
-        //    Assert.AreEqual(EGameState.PlaceKing, GameState.Value);
-        //    Assert.AreEqual(act.Card.PieceType, EPieceType.King);
-
-        //    if (Board.GetAdjacent(act.Coord, 2).Any(k => k.PieceType == EPieceType.King))
-        //    {
-        //        return Failed(act, $"{act.Player} must place king further away from enemy king", EError.TooClose);
-        //    }
-
-        //    var resp = TryPlacePiece(act);
-
-        //    // force back to PlaceKingState unless all kings have been placed
-        //    _gameState.Value = EGameState.PlaceKing;
-        //    if (resp.Type != EResponse.Ok)
-        //        return Failed(act, $"Couldn't place {act.Player}'s king at {act.Coord}");
-
-        //    act.Player.KingPiece = resp.Payload;
-        //    if (Board.NumPieces(EPieceType.King) == 2)
-        //    {
-        //        StartFirstTurn();
-        //        return Response.Ok;
-        //    }
-
-        //    return Response.Ok;
-        //}
-
         private IResponse TryMovePiece(MovePiece move)
         {
             var player = move.Player;
@@ -244,11 +217,13 @@ namespace App.Model
 
             var playerMana = act.Player.Mana;
             var manaCost = act.Card.ManaCost;
+#if !IGNORE_MANA
             if (playerMana.Value - manaCost.Value < 0)
             {
                 Warn($"{act.Player} deoesn't have mana to play {act.Card}");
                 return new Response<IPieceModel>(null, EResponse.Fail, EError.NotEnoughMana, $"Attempted {act}");
             }
+#endif
 
             var resp = Board.TryPlacePiece(act);
             if (resp.Failed)
@@ -275,6 +250,9 @@ namespace App.Model
             Assert.IsNotNull(battle);
             Assert.IsNotNull(battle.Attacker);
             Assert.IsNotNull(battle.Defender);
+
+            if (battle.Attacker.SameOwner(battle.Defender))
+                return Failed(battle, "Can't battle own piece");
 
             return battle.Attacker.Attack(battle.Defender);
         }

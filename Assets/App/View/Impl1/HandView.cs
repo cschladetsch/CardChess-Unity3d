@@ -56,7 +56,7 @@ namespace App.View.Impl1
         {
             if (card == null)
                 return;
-            Info($"MouseOver {card.Agent.Model}");
+            //Info($"MouseOver {card.Agent.Model}");
         }
 
         [ContextMenu("HandView-Clear")]

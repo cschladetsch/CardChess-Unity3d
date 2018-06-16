@@ -19,6 +19,8 @@ namespace App.Model
         int Width { get; set; }
         int Height { get; set; }
         IArbiterModel Arbiter { get; set; }
+
+        // TODO: change to IReadOnlyCollection<IPieceModel>
         IEnumerable<IPieceModel> Pieces { get; }
 
         bool IsValidCoord(Coord coord);
@@ -26,17 +28,23 @@ namespace App.Model
         int NumPieces(EPieceType type);
         string Print(Func<Coord, string> fun);
 
-        IResponse<IPieceModel> TryPlacePiece(PlacePiece placePiece);
+        IResponse<IPieceModel> TryPlacePiece(PlacePiece place);
         IResponse TryMovePiece(MovePiece act);
 
         IEnumerable<IPieceModel> PiecesOfType(EPieceType type);
         IPieceModel At(int x, int y);
         IPieceModel At(Coord coord);
+
         IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
         IEnumerable<IPieceModel> AttackedCards(Coord cood);
         IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
         IEnumerable<IPieceModel> Defenders(Coord cood);
+
         IEnumerable<Coord> GetMovements(Coord cood);
+        IEnumerable<Coord> GetAttacks(Coord cood);
+
+        IEnumerable<Coord> GetMovements(Coord cood, EPieceType type);
+        IEnumerable<Coord> GetAttacks(Coord cood, EPieceType type);
 
         // directly change model state
         IResponse Add(IPieceModel model);
