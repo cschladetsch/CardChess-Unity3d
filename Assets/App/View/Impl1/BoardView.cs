@@ -57,9 +57,11 @@ namespace App.View.Impl1
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq =>
             {
-                OverlayView.Clear();
-                if (sq == null) return;
-                //Info($"Hover {sq}");
+                if (sq == null)
+                {
+                    OverlayView.Clear();
+                    return;
+                }
                 var p = Agent.At(sq.Coord);
                 if (p == null) return;
                 Assert.AreEqual(sq.Coord, p.Coord.Value);
@@ -75,13 +77,48 @@ namespace App.View.Impl1
             CreateBoard();
         }
 
+        public void ShowSquares(ICardView cardView, ISquareView sq)
+        {
+            Assert.IsNotNull(sq);
+            Assert.IsNotNull(cardView);
+
+            var board = Agent.Model;
+            var movements = board.GetMovements(sq.Coord, cardView.Agent.Model.PieceType).ToList();
+            var attacks = board.GetAttacks(sq.Coord, cardView.Agent.Model.PieceType).ToList();
+            AddOverlays(movements, attacks);
+
+            // show other pieces that can attack this piece
+            // This is really slow???!
+            //var others = board.Pieces.Where(p => !p.SameOwner(cardView));
+            //foreach (var other in others)
+            //{
+            //    var att = board.GetAttacks(other.Coord.Value);
+            //    foreach (var c in att)
+            //    {
+            //        if (c == sq.Coord)
+            //        {
+            //            Info($"Card {other} can attack {cardView.Agent.Model}");
+            //            OverlayView.Add(new []{c}, Color.yellow);
+            //        }
+            //    }
+            //}
+        }
+
         public void ShowSquares(Coord coord)
         {
-            //Info($"{p.Agent.Model} @{p.Coord.Value}");
             var movements = Agent.Model.GetMovements(coord).ToList();
-            OverlayView.Add(movements, Color.green);
             var attacks = Agent.Model.GetAttacks(coord).ToList();
+            AddOverlays(movements, attacks);
+        }
+
+        private void AddOverlays(IList<Coord> moves, IList<Coord> attacks)
+        {
+            OverlayView.Clear();
             OverlayView.Add(attacks, Color.red);
+            if (moves.SequenceEqual(attacks))
+                return;
+            OverlayView.Add(moves, Color.green);
+
         }
 
         public IPieceView Get(Coord coord)

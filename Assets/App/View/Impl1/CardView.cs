@@ -41,6 +41,12 @@ namespace App.View.Impl1
 
             PieceGameObject.GetComponent<Renderer>().material
                 = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+
+            SquareOver.Subscribe(sq =>
+            {
+                if (sq != null)
+                    BoardView.ShowSquares(this, sq);
+            }).AddTo(this);
         }
 
         protected override bool MouseDown()

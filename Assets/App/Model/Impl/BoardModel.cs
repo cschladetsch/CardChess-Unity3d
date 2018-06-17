@@ -265,7 +265,7 @@ namespace App.Model
                         yield return c;
                     break;
                 case EPieceType.Siege:
-                    foreach (var c in Orthogonals(coord, 4).Where(IsValidCoord))
+                    foreach (var c in Orthogonals(coord, 2).Where(IsValidCoord))
                         yield return c;
                     break;
                 case EPieceType.Barricade:

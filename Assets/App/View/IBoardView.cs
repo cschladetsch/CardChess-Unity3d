@@ -1,4 +1,5 @@
 ﻿using App.Common;
+using App.View.Impl1;
 using UniRx;
 using UnityEngine;
 
@@ -27,5 +28,6 @@ namespace App.View
         void MovePiece(IPieceView pieceView, Coord coord);
 
         ISquareView TestRayCast(Vector3 screen);
+        void ShowSquares(ICardView cardView, ISquareView sq);
     }
 }
