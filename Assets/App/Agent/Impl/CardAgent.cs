@@ -19,6 +19,7 @@ namespace App.Agent
         public IReactiveProperty<IPlayerModel> Player => Model.Player;
         public IReadOnlyReactiveProperty<int> ManaCost => Model.Power;
         public IReadOnlyReactiveProperty<int> Power => Model.Power;
+        public IReadOnlyReactiveProperty<bool> Dead => Model.Dead;
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
         public IReactiveCollection<IItemModel> Items => Model.Items;
         public IReactiveCollection<EAbility> Abilities => Model.Abilities;

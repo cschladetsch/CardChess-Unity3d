@@ -18,14 +18,13 @@ namespace App.Model
         public IReactiveProperty<Coord> Coord => _coord;
         public IReadOnlyReactiveProperty<int> Power => Card.Power;
         public IReadOnlyReactiveProperty<int> Health => Card.Health;
-        public IReactiveProperty<bool> Dead => _dead;
+        public IReadOnlyReactiveProperty<bool> Dead => Card.Dead;
         [Inject] public IBoardModel Board { get; set; }
 
         public PieceModel(IPlayerModel player, ICardModel card)
             : base(player)
         {
             Card = card;
-            Health.Subscribe(h => Dead.Value = h <= 0).AddTo(this);
             Dead.Subscribe(dead => { if (dead) Died(); }).AddTo(this);
         }
 
@@ -43,11 +42,11 @@ namespace App.Model
             var defend = TakeDamage(defender);
             if (defend.Failed)
                 return defend;
-            //if (defender.Dead.Value && !Dead.Value)
-            //{
-            //    return Board.TryMovePiece(
-            //        new MovePiece(Player, this, defender.Coord.Value));
-            //}
+            if (defender.Dead.Value && !Dead.Value)
+            {
+                return Board.TryMovePiece(
+                    new MovePiece(Player, this, defender.Coord.Value));
+            }
 
             return Response.Ok;
         }

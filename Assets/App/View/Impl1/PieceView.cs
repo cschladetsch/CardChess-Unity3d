@@ -23,17 +23,12 @@ namespace App.View.Impl1
         #endregion
 
         public IReactiveProperty<Coord> Coord => Agent.Coord;
+        public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
 
         protected override void Begin()
         {
             base.Begin();
             Coord.Subscribe(c => Move());
-        }
-
-        void Die()
-        {
-            Info($"{Agent.Model} died");
-            BoardView.Remove(this);
         }
 
         public override void SetAgent(IPlayerView view, IPieceAgent agent)
@@ -54,13 +49,18 @@ namespace App.View.Impl1
                     //BoardView.ShowSquares(this);
                 }
             );
-            Agent.Model.Dead.Subscribe(d =>
+            Dead.Subscribe(d =>
             {
                 if (d)
                     Die();
             });
         }
 
+        void Die()
+        {
+            Info($"{Agent.Model} died");
+            BoardView.Remove(this);
+        }
 
         private void Move()
         {

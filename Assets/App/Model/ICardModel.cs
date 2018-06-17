@@ -22,6 +22,7 @@ namespace App.Model
         IReactiveCollection<IItemModel> Items { get; }
         IReactiveCollection<EAbility> Abilities { get; }
         IReactiveCollection<IEffectModel> Effects { get; }
+        IReadOnlyReactiveProperty<bool> Dead { get; }
 
         void ChangeHealth(int change);
         void ChangeManaCost(int change);

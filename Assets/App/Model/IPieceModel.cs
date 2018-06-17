@@ -17,7 +17,8 @@ namespace App.Model
         IReactiveProperty<Coord> Coord { get; }
         IReadOnlyReactiveProperty<int> Power { get; }
         IReadOnlyReactiveProperty<int> Health { get; }
-        IReactiveProperty<bool> Dead { get; }
+        IReadOnlyReactiveProperty<bool> Dead { get; }
+        //bool AttackedThisTurn { get; set; }
 
         IResponse Attack(IPieceModel piece);
         IResponse TakeDamage(IPieceModel piece);

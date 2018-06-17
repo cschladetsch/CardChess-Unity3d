@@ -4,9 +4,11 @@ namespace App.View
 {
     using Agent;
 
+    /// <summary>
+    /// A view of a card that is not on the board.
+    /// </summary>
     public interface ICardView
         : IView<ICardAgent>
-        //, ICard
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
 
