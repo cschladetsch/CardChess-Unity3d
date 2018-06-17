@@ -21,6 +21,7 @@ namespace App.Model
         public IReadOnlyReactiveProperty<int> ManaCost => _manaCost;
         public IReadOnlyReactiveProperty<int> Power => _power;
         public IReadOnlyReactiveProperty<int> Health => _health;
+        public IReadOnlyReactiveProperty<bool> Dead => _dead;
         public IReactiveCollection<IItemModel> Items => _items;
         public IReactiveCollection<EAbility> Abilities => _abilities;
         public IReactiveCollection<IEffectModel> Effects => _effects;
@@ -39,8 +40,7 @@ namespace App.Model
             _abilities = new ReactiveCollection<EAbility>(Template.Abilities);
             _effects = new ReactiveCollection<IEffectModel>(Template.Effects);
 
-            //_health.Subscribe(h => { if (h <= 0) Die(); });
-
+            _health.Subscribe(h => { if (h <= 0) Die(); });
             _effects.ObserveAdd().Subscribe(e => Info($"Added Effect {e} from {this}")).AddTo(this);
             _items.ObserveAdd().Subscribe(e => Info($"Added Item {e} from {this}")).AddTo(this);
             _abilities.ObserveAdd().Subscribe(e => Info($"Added Ability {e} from {this}")).AddTo(this);
@@ -49,10 +49,11 @@ namespace App.Model
             _abilities.ObserveRemove().Subscribe(e => Info($"Removed Ability {e} from {this}")).AddTo(this);
         }
 
-        //void Die()
-        //{
-        //    Info($"{this} died");
-        //}
+        void Die()
+        {
+            Info($"{this} died");
+            _dead.Value = true;
+        }
 
         public void ChangeHealth(int change)
         {
@@ -88,5 +89,6 @@ namespace App.Model
         private readonly ReactiveCollection<IItemModel> _items;
         private readonly ReactiveCollection<EAbility> _abilities;
         private readonly ReactiveCollection<IEffectModel> _effects;
+        private readonly BoolReactiveProperty _dead = new BoolReactiveProperty(false);
     }
 }

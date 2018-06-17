@@ -10,14 +10,16 @@ namespace App.Agent
         , IPieceAgent
     {
         public IReactiveProperty<Coord> Coord => Model.Coord;
-        public ECardType Type { get; }
         public EPieceType PieceType => Model.PieceType;
-        public ICardTemplate Template { get; }
-        public IReactiveProperty<IPlayerModel> Player { get; }
+        public IReadOnlyReactiveProperty<bool> Dead => Model.Dead;
         public IReadOnlyReactiveProperty<int> ManaCost => Model.Power;
         public IReadOnlyReactiveProperty<int> Power => Model.Power;
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
-        public IReactiveCollection<IItemModel> Items { get; }
+
+        public ECardType Type => Model.Card.Type;
+        public ICardTemplate Template => Model.Card.Template;
+        public IReactiveProperty<IPlayerModel> Player { get; }
+        public IReactiveCollection<IItemModel> Items => Model.Card.Items;
         public IReactiveCollection<EAbility> Abilities { get; }
         public IReactiveCollection<IEffectModel> Effects { get; }
 

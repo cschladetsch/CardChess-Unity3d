@@ -1,6 +1,4 @@
-﻿using App.Model;
-using App.Registry;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 
 namespace App.View.Impl1

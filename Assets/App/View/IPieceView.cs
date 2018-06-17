@@ -11,6 +11,7 @@ namespace App.View
     {
         //IReadOnlyReactiveProperty<IPieceView> MouseOver { get; }
         IReactiveProperty<Coord> Coord { get; }
+        IReadOnlyReactiveProperty<bool> Dead { get; }
 
         void SetAgent(IPlayerView view, IPieceAgent agent);
     }
