@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using CoLib;
 using UnityEngine;
 
 namespace App.View.Impl1
@@ -11,41 +13,24 @@ namespace App.View.Impl1
         public BoardOverlaySquareView BoardOverlaySquareViewPrefab;
         public float Zoffset = 1;
 
-        protected override void Begin()
+        public override void Create()
         {
-            base.Begin();
+            base.Create();
             Clear();
         }
 
         [ContextMenu("BoardOverlay-Clear")]
         public void Clear()
         {
-            foreach (Transform tr in transform)
-                Destroy(tr.gameObject);
-        }
-
-        [ContextMenu("BoardOverlay-Mock")]
-        public void AddMock()
-        {
-            var coords = new Coord[]
-            {
-                new Coord(0, 0),
-                new Coord(1, 1),
-                new Coord(2, 2),
-                new Coord(3, 3),
-                new Coord(4, 4),
-            };
-            Add(coords, Color.red);
-
-            var coords2 = new Coord[]
-            {
-                new Coord(4, 0),
-                new Coord(4, 1),
-                new Coord(4, 2),
-                new Coord(4, 3),
-                new Coord(4, 4),
-            };
-            Add(coords2, Color.green);
+            var squares = (from Transform tr in transform select tr.GetComponent<BoardOverlaySquareView>()).Where(s => s != null).ToList();
+            ////var anims = squares.Select(s => s.Clear()).ToList();
+            //var destroy = squares.Select(s => Commands.Do(() => Destroy(s)));
+            _Queue.Enqueue(
+                squares.ForEachParallel(sq => sq.Clear())//,
+                // TODO Why are there multiple Destroy's on same object?
+                //squares.ForEachParallel(sq => Commands.Do(() => Destroy(sq.gameObject)))
+            );
+            _Queue.Process();
         }
 
         public void Add(IEnumerable<Coord> coords, Color color)
@@ -54,14 +39,18 @@ namespace App.View.Impl1
                 return;
 
             color.a = 0.5f;
+            var squares = new List<BoardOverlaySquareView>();
             foreach (var c in coords)
             {
                 var sq = Instantiate(BoardOverlaySquareViewPrefab);
-                sq.Color = color;
+                squares.Add(sq);
                 sq.transform.SetParent(transform);
                 sq.transform.localPosition = new Vector3(c.x, c.y, Zoffset);
                 sq.transform.localScale = Vector3.one;
             }
+            _Queue.Enqueue(
+                squares.ForEachParallel(sq => sq.SetColor(color))
+            );
         }
     }
 }

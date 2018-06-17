@@ -54,7 +54,11 @@ namespace App.View.Impl1
                     //BoardView.ShowSquares(this);
                 }
             );
-            Agent.Model.Dead.Subscribe(a => Die());
+            Agent.Model.Dead.Subscribe(d =>
+            {
+                if (d)
+                    Die();
+            });
         }
 
 
