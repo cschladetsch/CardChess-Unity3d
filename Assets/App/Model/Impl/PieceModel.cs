@@ -47,10 +47,7 @@ namespace App.Model
             if (defend.Failed)
                 return defend;
             if (defender.Dead.Value && !Dead.Value)
-            {
-                return Board.TryMovePiece(
-                    new MovePiece(Player, this, defender.Coord.Value));
-            }
+                return Board.Move(this, defender.Coord.Value);
 
             return Response.Ok;
         }
