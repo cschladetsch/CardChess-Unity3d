@@ -8,8 +8,7 @@ namespace App.View
         : IView<IArbiterAgent>
     {
         IBoardView BoardView { get; }
-        IPlayerView WhitePlayerView { get; }
-        IPlayerView BlackPlayerView { get; }
+        IPlayerView CurrentPlayerView { get; }
         EColor CurrentPlayerColor { get; }
 
         bool CurrentPlayerOwns(IOwned owned);

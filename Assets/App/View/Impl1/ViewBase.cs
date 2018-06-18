@@ -31,7 +31,8 @@ namespace App.View.Impl1
         public IPlayerView PlayerView { get; set; }
         public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
         public GameObject GameObject => gameObject;
-        public bool IsValid
+
+        public virtual bool IsValid
         {
             get
             {
@@ -60,7 +61,7 @@ namespace App.View.Impl1
             AgentBase = agent;
             // board and arbiter instances do not have owners, so don't complain
             if (player == null && !(Is<IArbiterView>() || Is<IBoardView>()))
-                Warn($"Null Playervew for {GetType()} with agent {agent}");
+                Error($"Null Playervew for {GetType()} with agent {agent}");
         }
 
         private bool Is<T>()

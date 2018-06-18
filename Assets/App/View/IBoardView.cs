@@ -1,4 +1,6 @@
-﻿using App.Common;
+﻿using System.Collections.Generic;
+using App.Common;
+using App.Common.Message;
 using App.View.Impl1;
 using UniRx;
 using UnityEngine;
@@ -17,15 +19,16 @@ namespace App.View
         IReadOnlyReactiveProperty<int> Width { get; }
         IReadOnlyReactiveProperty<int> Height { get; }
         IReadOnlyReactiveProperty<ISquareView> HoverSquare { get; }
+        IEnumerable<IPieceView> Pieces { get; }
 
         Material BlackMaterial { get; }
         Material WhiteMaterial { get; }
 
         IPieceView Get(Coord coord);
-        IPieceView PlacePiece(ICardView view, Coord cood);
-        //void ShowSquares(IPieceView pieceView);
-        void Remove(IPieceView pieceView);
-        void MovePiece(IPieceView pieceView, Coord coord);
+        //IPieceView PlacePiece(ICardView view, Coord cood);
+
+        IResponse Remove(IPieceView pieceView);
+        IResponse MovePiece(IPieceView pieceView, Coord coord);
 
         ISquareView TestRayCast(Vector3 screen);
         void ShowSquares(ICardView cardView, ISquareView sq);

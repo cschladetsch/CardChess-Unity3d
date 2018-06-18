@@ -22,6 +22,8 @@ namespace App.View.Impl1
 
         public override void Create()
         {
+            Verbosity = 50;
+
             base.Create();
             base.MouseOver.Subscribe(
                 v => _mouseOver.Value = v as ICardView
@@ -59,6 +61,7 @@ namespace App.View.Impl1
         protected override void MouseUp(IBoardView board, Coord coord)
         {
             Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
+            Verbose(30, $"MouseUp: Requesting new piece {this} owned by {PlayerModel} @{coord}");
             PlayerView.Agent.PushRequest(new PlacePiece(PlayerModel, Agent.Model, coord), Response);
         }
 
@@ -74,7 +77,7 @@ namespace App.View.Impl1
 
             var place = response.Request as PlacePiece;
             Assert.IsNotNull(place);
-            BoardView.PlacePiece(this, place.Coord);
+            Verbose(20, $"Removing {Agent.Model} from {PlayerModel.Hand}");
             PlayerModel.Hand.Remove(Agent.Model);
         }
 

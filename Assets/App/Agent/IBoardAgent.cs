@@ -17,11 +17,13 @@ namespace App.Agent
     {
         IReadOnlyReactiveProperty<int> Width { get; }
         IReadOnlyReactiveProperty<int> Height { get; }
+        IReadOnlyReactiveDictionary<Coord, IPieceAgent> Pieces { get; }
 
         ITransient PerformNewGame();
-
         IPieceAgent At(Coord coord);
+
         IResponse Add(IPieceAgent agent);
+        IResponse Move(IPieceAgent agent, Coord coord);
         IResponse Remove(IPieceAgent agent);
     }
 }

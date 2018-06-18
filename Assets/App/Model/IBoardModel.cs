@@ -20,8 +20,7 @@ namespace App.Model
         int Height { get; set; }
         IArbiterModel Arbiter { get; set; }
 
-        // TODO: change to IReadOnlyCollection<IPieceModel>
-        IEnumerable<IPieceModel> Pieces { get; }
+        IReadOnlyReactiveDictionary<Coord, IPieceModel> Pieces { get; }
 
         bool IsValidCoord(Coord coord);
         string CardToRep(ICardModel cardModel);
@@ -49,5 +48,6 @@ namespace App.Model
         // directly change model state
         IResponse Add(IPieceModel model);
         IResponse Remove(IPieceModel pieceModel);
+        IResponse Move(IPieceModel pieceModel, Coord coord);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using App.Service.Impl;
 using UnityEngine;
 
 // field not assigned - because it is assigned in Unity3d editor
@@ -65,7 +65,7 @@ namespace App
 
         private void TestValidity(string what, IEnumerable<IEntity> things)
         {
-            Verbose(10, $"TestValidity: {what}");
+            Info($"TestValidity: {what}");
 
             foreach (var entity in things)
             {
@@ -129,7 +129,7 @@ namespace App
         private void CreateModels()
         {
             Models = new ModelRegistry();
-            Models.Bind<Service.ICardTemplateService, Service.Impl.CardTemplateService>();
+            Models.Bind<Service.ICardTemplateService, CardTemplateService>(new CardTemplateService());
             Models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             Models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
             Models.Bind<ICardModel, CardModel>();

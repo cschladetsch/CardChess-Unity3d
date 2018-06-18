@@ -25,7 +25,7 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
         public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
 
-        public bool IsValid
+        public virtual bool IsValid
         {
             get
             {
@@ -37,21 +37,22 @@ namespace App.Agent
             }
         }
 
-        public bool SameOwner(IEntity other)
-        {
-            if (other == null)
-                return Owner.Value == null;
-            return other.Owner.Value == Owner.Value;
-        }
-
         protected AgentBase(TModel model)
         {
             if (model == null)
             {
                 Error("Model cannot be null");
+                return;
             }
             Assert.IsNotNull(model);
             BaseModel = model;
+        }
+
+        public bool SameOwner(IEntity other)
+        {
+            if (other == null)
+                return Owner.Value == null;
+            return other.Owner.Value == Owner.Value;
         }
 
         public void SetOwner(IOwner owner)
