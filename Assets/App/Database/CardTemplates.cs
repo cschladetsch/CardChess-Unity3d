@@ -45,14 +45,14 @@ namespace App.Database
             {                                                                        //M, A, H
                 new CardTemplate(ECardType.Piece, EPieceType.Peon, "Peon",           1, 1, 1),       // pawn
                 new CardTemplate(ECardType.Piece, EPieceType.King, "King",           1, 1, 20),       // king
-                new CardTemplate(ECardType.Piece, EPieceType.Queen, "Queen",         6, 6, 7),
-                new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn after Barracks
+                new CardTemplate(ECardType.Piece, EPieceType.Queen, "Queen",         5, 5, 5),
+                //new CardTemplate(ECardType.Piece, EPieceType.Paladin, "Paladin",     1, 1, 2),        // pawn after Barracks
                 new CardTemplate(ECardType.Piece, EPieceType.Gryphon, "Gryphon",     2, 1, 2, new[] {EAbility.Mountable, EAbility.Lethal}),      // knight
                 new CardTemplate(ECardType.Piece, EPieceType.Archer, "Archer",       3, 2, 3),        // bishop
-                new CardTemplate(ECardType.Piece, EPieceType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
-                new CardTemplate(ECardType.Piece, EPieceType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
-                new CardTemplate(ECardType.Piece, EPieceType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
-                new CardTemplate(ECardType.Piece, EPieceType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mountable}),
+                //new CardTemplate(ECardType.Piece, EPieceType.Castle, "Cannon",       4, 5, 6, new[] {EAbility.Guard}),
+                //new CardTemplate(ECardType.Piece, EPieceType.Barricade, "Barricade", 2, 0, 3, new[] {EAbility.Guard, EAbility.Static}),
+                //new CardTemplate(ECardType.Piece, EPieceType.Siege, "Siege",         3, 2, 1, new[] {EAbility.Static}),
+                //new CardTemplate(ECardType.Piece, EPieceType.Dragon, "Dragon",       9, 8, 5, new[] {EAbility.Mountable}),
             };
 
             foreach (var card in cards)

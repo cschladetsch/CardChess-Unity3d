@@ -25,7 +25,11 @@ namespace App.Model
             : base(player)
         {
             Card = card;
-            Dead.Subscribe(dead => { if (dead) Died(); }).AddTo(this);
+            Dead.Subscribe(dead =>
+            {
+                if (dead)
+                    Died();
+            }).AddTo(this);
         }
 
         void Died()
