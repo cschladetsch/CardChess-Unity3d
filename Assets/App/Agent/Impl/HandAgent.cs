@@ -4,6 +4,9 @@ namespace App.Agent
 {
     using Model;
 
+    /// <summary>
+    /// Representative for the Hand owned by the player.
+    /// </summary>
     public class HandAgent
         : AgentBaseCoro<IHandModel>
         , IHandAgent
@@ -13,6 +16,7 @@ namespace App.Agent
         public HandAgent(IHandModel model)
             : base(model)
         {
+            //Verbosity = 20;
         }
 
         public override void StartGame()
@@ -30,8 +34,6 @@ namespace App.Agent
         {
             Verbose(10, $"HandAgent: Remove {remove.Value} @{remove.Index}");
             var index = remove.Index;
-            var card = _cards[index];
-            //card.Destroy();
             _cards.RemoveAt(index);
         }
 

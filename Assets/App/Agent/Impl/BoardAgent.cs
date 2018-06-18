@@ -8,6 +8,10 @@ namespace App.Agent
     using Common;
     using Model;
 
+    /// <summary>
+    /// Active agent for dealing with the BoardModel. This will be eventually networked,
+    /// and the Agent will be local and the Model remote (on server).
+    /// </summary>
     public class BoardAgent
         : AgentBaseCoro<IBoardModel>
         , IBoardAgent
@@ -20,6 +24,7 @@ namespace App.Agent
         {
             get
             {
+                Info("Test Valid BoardAgent");
                 if (!base.IsValid)
                     return false;
                 foreach (var kv in _pieces)
@@ -41,11 +46,12 @@ namespace App.Agent
         public BoardAgent(IBoardModel model)
             : base(model)
         {
+            Assert.IsNotNull(model);
             model.Pieces.ObserveAdd().Subscribe(PieceAdded);
             model.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
 
-        void PieceAdded(DictionaryAddEvent<Coord, IPieceModel> add)
+        private void PieceAdded(DictionaryAddEvent<Coord, IPieceModel> add)
         {
             Assert.IsTrue(!_pieces.ContainsKey(add.Key));
             var pieceAgent = Registry.New<IPieceAgent>(add.Value);
@@ -53,7 +59,7 @@ namespace App.Agent
             _pieces[add.Key] = pieceAgent;
         }
 
-        void PieceRemoved(DictionaryRemoveEvent<Coord, IPieceModel> add)
+        private void PieceRemoved(DictionaryRemoveEvent<Coord, IPieceModel> add)
         {
             Assert.IsTrue(_pieces.ContainsKey(add.Key));
             IPieceAgent agent;
@@ -112,15 +118,9 @@ namespace App.Agent
 
         public ITransient PerformNewGame()
         {
+            // TODO: animation
             _pieces.Clear();
             return null;
-        }
-
-        private IPieceAgent GetAgent(IPieceModel model)
-        {
-            Assert.IsNotNull(model);
-            IPieceAgent agent;
-            return !_pieces.TryGetValue(model.Coord.Value, out agent) ? null : agent;
         }
 
         private readonly ReactiveDictionary<Coord, IPieceAgent> _pieces = new ReactiveDictionary<Coord, IPieceAgent>();

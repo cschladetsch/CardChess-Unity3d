@@ -7,6 +7,11 @@ namespace App.View.Impl1
     using Common;
     using Common.Message;
 
+    /// <summary>
+    /// View of a card that is not on the board. This includes Hand, Deck, Graveyard.
+    ///
+    /// A view of a card on the board is a PieceView.
+    /// </summary>
     public class CardView
         : Draggable<ICardAgent>
         , ICardView
@@ -22,7 +27,7 @@ namespace App.View.Impl1
 
         public override void Create()
         {
-            Verbosity = 50;
+            //Verbosity = 50;
 
             base.Create();
             base.MouseOver.Subscribe(

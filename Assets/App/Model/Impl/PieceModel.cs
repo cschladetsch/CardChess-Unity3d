@@ -19,17 +19,15 @@ namespace App.Model
         public IReadOnlyReactiveProperty<int> Power => Card.Power;
         public IReadOnlyReactiveProperty<int> Health => Card.Health;
         public IReadOnlyReactiveProperty<bool> Dead => Card.Dead;
+        public bool AttackedThisTurn { get; set; }
+        public bool MovedThisTurn { get; set; }
         [Inject] public IBoardModel Board { get; set; }
 
         public PieceModel(IPlayerModel player, ICardModel card)
             : base(player)
         {
             Card = card;
-            Dead.Subscribe(dead =>
-            {
-                if (dead)
-                    Died();
-            }).AddTo(this);
+            Dead.Subscribe(dead => { if (dead) Died(); }).AddTo(this);
         }
 
         void Died()
@@ -60,6 +58,11 @@ namespace App.Model
         public override string ToString()
         {
             return $"{Player}'s {PieceType} @{Coord} with {Power}/{Health}";
+        }
+
+        public void NewTurn()
+        {
+            AttackedThisTurn = MovedThisTurn = false;
         }
 
         private readonly ReactiveProperty<Coord> _coord = new ReactiveProperty<Coord>();

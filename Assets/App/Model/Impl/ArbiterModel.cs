@@ -146,14 +146,17 @@ namespace App.Model
 
         public void EndTurn()
         {
-            //Info($"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
+            Verbose(10, $"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
 
             CurrentPlayer.Value.EndTurn();
             _currentPlayerIndex.Value = (_currentPlayerIndex.Value + 1) % _players.Count;
             _turnNumber.Value++;
             CurrentPlayer.Value.StartTurn();
+
             foreach (var entry in _players)
                 entry.NewTurn();
+
+            Board.NewTurn();
 
             _gameState.Value = EGameState.PlayTurn;
         }
@@ -190,6 +193,9 @@ namespace App.Model
             if (GameState.Value != EGameState.PlayTurn)
                 return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
 
+            if (piece.MovedThisTurn)
+                return Failed(move, $"{piece} can only move once per turn");
+
             if (CurrentPlayer.Value != player)
                 return Failed(move, $"Not {player}'s turn");
 
@@ -202,6 +208,7 @@ namespace App.Model
             var resp = Board.TryMovePiece(move);
             if (resp.Success)
             {
+                piece.MovedThisTurn = true;
                 player.ChangeMana(-1);
             }
 
@@ -248,13 +255,19 @@ namespace App.Model
         private IResponse TryBattle(Battle battle)
         {
             Assert.IsNotNull(battle);
-            Assert.IsNotNull(battle.Attacker);
-            Assert.IsNotNull(battle.Defender);
+            var attacker = battle.Attacker;
+            var defender = battle.Defender;
+            Assert.IsNotNull(defender);
+            Assert.IsNotNull(attacker);
 
-            if (battle.Attacker.SameOwner(battle.Defender))
-                return Failed(battle, "Can't battle own piece");
+            if (attacker.SameOwner(defender))
+                return Failed(battle, $"{attacker} Can't battle own piece");
 
-            return battle.Attacker.Attack(battle.Defender);
+            if (attacker.AttackedThisTurn)
+                return Failed(battle, $"{attacker} can only attack once per turn");
+
+            attacker.AttackedThisTurn = true;
+            return attacker.Attack(defender);
         }
 
         private IResponse TryTurnEnd(TurnEnd turnEnd)

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 
-using Flow;
 using UniRx;
 
 namespace App.Agent
@@ -9,8 +7,14 @@ namespace App.Agent
     using Common;
     using Model;
 
+    /// <summary>
+    /// Representative for a CardModel. Currently this is just a pass-through.
+    ///
+    /// In future it will deal with networking, and also add extra animation and
+    /// bling to actions.
+    /// </summary>
     public class CardAgent
-        : AgentBaseCoro<Model.ICardModel>
+        : AgentBaseCoro<ICardModel>
         , ICardAgent
     {
         public ECardType Type => Model.Type;
@@ -28,12 +32,6 @@ namespace App.Agent
         public CardAgent(ICardModel model)
             : base(model)
         {
-        }
-
-        public bool SetModel(Model.ICardModel model)
-        {
-            Assert.IsNotNull(model);
-            return true;
         }
 
         public override string ToString()

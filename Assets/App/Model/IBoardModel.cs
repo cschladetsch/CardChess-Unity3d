@@ -49,5 +49,6 @@ namespace App.Model
         IResponse Add(IPieceModel model);
         IResponse Remove(IPieceModel pieceModel);
         IResponse Move(IPieceModel pieceModel, Coord coord);
+        void NewTurn();
     }
 }

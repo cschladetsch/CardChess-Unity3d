@@ -47,6 +47,7 @@ namespace App.View.Impl1
         {
             get
             {
+                Info("Test Valid BoardView");
                 if (!base.IsValid)
                     return false;
                 foreach (var kv in _pieces)

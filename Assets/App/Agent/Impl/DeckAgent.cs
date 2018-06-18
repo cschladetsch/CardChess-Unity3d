@@ -8,13 +8,15 @@ namespace App.Agent
 {
     using Model;
 
+    /// <summary>
+    /// Representative for the deck of cards owned by the player
+    /// </summary>
     public class DeckAgent
         : AgentBaseCoro<IDeckModel>
         , IDeckAgent
     {
         public event Action<ICardAgent> OnDraw;
         public int MaxCards => Parameters.MinCardsInDeck;
-
         public IReadOnlyReactiveCollection<ICardAgent> Cards => _cards;
 
         public DeckAgent(IDeckModel model)
@@ -29,21 +31,6 @@ namespace App.Agent
                 _cards.Add(Registry.New<ICardAgent>(c));
             Model.Cards.ObserveAdd().Subscribe(Add);
             Model.Cards.ObserveRemove().Subscribe(RemoveCard);
-        }
-
-        void Add(CollectionAddEvent<ICardModel> add)
-        {
-            Verbose(6, $"DeckAgent: Add {add.Value} @{add.Index}");
-            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
-        }
-
-        void RemoveCard(CollectionRemoveEvent<ICardModel> remove)
-        {
-            Verbose(6, $"DeckAgent: Remove {remove.Value} @{remove.Index}");
-            var index = remove.Index;
-            //var card = _cards[index];
-            //card.Destroy();
-            _cards.RemoveAt(index);
         }
 
         public IChannel<ICardAgent> DrawCards(uint n)
@@ -75,6 +62,21 @@ namespace App.Agent
             OnDraw?.Invoke(agent);
             futureAgent.Value = agent;
             return futureAgent;
+        }
+
+        private void Add(CollectionAddEvent<ICardModel> add)
+        {
+            Verbose(6, $"DeckAgent: Add {add.Value} @{add.Index}");
+            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
+        }
+
+        private void RemoveCard(CollectionRemoveEvent<ICardModel> remove)
+        {
+            Verbose(6, $"DeckAgent: Remove {remove.Value} @{remove.Index}");
+            var index = remove.Index;
+            //var card = _cards[index];
+            //card.Destroy();
+            _cards.RemoveAt(index);
         }
 
         private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
