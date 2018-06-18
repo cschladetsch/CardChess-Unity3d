@@ -19,9 +19,12 @@ namespace App.View.Impl1
         public TMPro.TextMeshPro StateText;
         public Button WhiteEndButton;
         public Button BlackEndButton;
+        public EColor CurrentPlayerColor => Agent.CurrentPlayerAgent.Value.Model.Color;
 
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
+        // KILL ME
+        public IPlayerView CurrentPlayerView => CurrentPlayerColor == EColor.White ? WhitePlayerView : BlackPlayerView;
         public new IBoardView BoardView => Board;
 
         public override void SetAgent(IPlayerView view, IArbiterAgent agent)
@@ -77,8 +80,6 @@ namespace App.View.Impl1
             base.Step();
             Agent?.Step();
         }
-
-        public EColor CurrentPlayerColor => Agent.CurrentPlayerAgent.Value.Model.Color;
 
         public bool CurrentPlayerOwns(IOwned owned)
         {

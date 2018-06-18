@@ -18,7 +18,6 @@ namespace App.Agent
 
         public ECardType Type => Model.Card.Type;
         public ICardTemplate Template => Model.Card.Template;
-        public IReactiveProperty<IPlayerModel> Player { get; }
         public IReactiveCollection<IItemModel> Items => Model.Card.Items;
         public IReactiveCollection<EAbility> Abilities { get; }
         public IReactiveCollection<IEffectModel> Effects { get; }
