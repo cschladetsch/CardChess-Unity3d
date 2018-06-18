@@ -1,6 +1,5 @@
 ﻿using App.Common;
 using App.Common.Message;
-using App.Model;
 using CoLib;
 using UniRx;
 using UnityEngine;
@@ -24,6 +23,18 @@ namespace App.View.Impl1
 
         public IReactiveProperty<Coord> Coord => Agent.Coord;
         public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
+
+        public override bool IsValid
+        {
+            get
+            {
+                if (!base.IsValid) return false;
+                if (Health == null) return false;
+                if (Power == null) return false;
+                if (PieceGameObject == null) return false;
+                return true;
+            }
+        }
 
         protected override void Begin()
         {
@@ -82,13 +93,13 @@ namespace App.View.Impl1
 
         protected override bool MouseDown()
         {
-            //Info($"MouseDown {this}");
+            Verbose(30, $"MouseDown {this}");
             return IsCurrentPlayer();
         }
 
         protected override void MouseHover()
         {
-            //Info($"MouseHover {this}");
+            Verbose(30, $"MouseHover {this}");
         }
 
         protected override void MouseUp(IBoardView board, Coord coord)
@@ -121,7 +132,6 @@ namespace App.View.Impl1
             if (move != null)
             {
                 BoardView.MovePiece(this, Coord.Value);
-                return;
             }
         }
     }

@@ -28,7 +28,7 @@ namespace App.Model
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
         public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
 
-        public bool IsValid
+        public virtual bool IsValid
         {
             get
             {

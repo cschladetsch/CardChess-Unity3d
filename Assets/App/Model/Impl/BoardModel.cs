@@ -26,6 +26,28 @@ namespace App.Model
         public IReadOnlyReactiveDictionary<Coord, IPieceModel> Pieces => _pieces;
         [Inject] public IArbiterModel Arbiter { get; set; }
 
+        public override bool IsValid
+        {
+            get
+            {
+                Info("Testing Valid board");
+                if (!base.IsValid) return false;
+                if (Arbiter == null) return false;
+                if (Width < 2) return false;
+                if (Height < 2) return false;
+                foreach (var kv in _pieces)
+                {
+                    var k = kv.Key;
+                    var p = kv.Value;
+                    if (p == null)
+                        return false;
+                    if (p.Coord.Value != k)
+                        return false;
+                }
+                return true;
+            }
+        }
+
         public BoardModel(int width, int height)
             : base(null)
         {
@@ -193,9 +215,7 @@ namespace App.Model
         {
             Assert.IsTrue(IsValidCoord(coord));
             IPieceModel piece;
-            if (_pieces.TryGetValue(coord, out piece))
-                return piece;
-            return null;
+            return _pieces.TryGetValue(coord, out piece) ? piece : null;
         }
 
         public IPieceModel At(int x, int y)
@@ -214,10 +234,13 @@ namespace App.Model
                     null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {place.Card}");
 
             var piece = Registry.New<IPieceModel>(place.Player, place.Card);
-            Set(coord, piece);
+            var set = Set(coord, piece);
+            if (set.Success)
+                piece.MovedThisTurn = true;
 
-            Verbose(20, $"{place}");
-            return new Response<IPieceModel>(piece);
+            var response = new Response<IPieceModel>(piece, set.Type, set.Error);
+            Verbose(20, $"{place} -> {response}");
+            return response;
         }
 
         public IResponse Remove(PieceModel piece)
@@ -235,8 +258,7 @@ namespace App.Model
 
         public IEnumerable<Coord> GetAttacks(Coord coord)
         {
-            foreach (var c in GetAttacks(At(coord)))
-                yield return c;
+            return GetAttacks(At(coord));
         }
 
         public IEnumerable<Coord> GetMovements(IPieceModel piece)
@@ -507,12 +529,12 @@ namespace App.Model
                 var p0 = new Coord(orig.x + dx, orig.y);
                 if (IsValidCoord(p0) && dx != 0)
                     yield return p0;
-                for (var dy = -dist; dy <= dist; dy++)
-                {
-                    var p1 = new Coord(orig.x, orig.y + dy);
-                    if (IsValidCoord(p1) && dy != 0)
-                        yield return p1;
-                }
+            }
+            for (var dy = -dist; dy <= dist; dy++)
+            {
+                var p1 = new Coord(orig.x, orig.y + dy);
+                if (IsValidCoord(p1) && dy != 0)
+                    yield return p1;
             }
         }
 
@@ -534,6 +556,13 @@ namespace App.Model
             Assert.IsNull(At(piece.Coord.Value));
             Set(piece.Coord.Value, piece);
             return Response.Ok;
+        }
+
+
+        public void NewTurn()
+        {
+            foreach (var p in _pieces.Values)
+                p.NewTurn();
         }
 
         private readonly ReactiveDictionary<Coord, IPieceModel> _pieces = new ReactiveDictionary<Coord, IPieceModel>();
