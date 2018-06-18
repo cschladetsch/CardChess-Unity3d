@@ -59,7 +59,7 @@ namespace App.View.Impl1
         void Die()
         {
             Info($"{Agent.Model} died");
-            BoardView.Agent.Model.Remove(Agent.Model);
+            BoardView.Remove(this);
         }
 
         private void Move()
