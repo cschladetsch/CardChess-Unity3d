@@ -10,9 +10,11 @@ namespace App.View.Impl1
     {
         public EColor Color { get; set; }
         public Coord Coord { get; internal set; }
-        public IPieceView Piece { get; set; }
+        //public IPieceView Piece { get; set; }
 
         public float Length;
+
+        public override bool IsValid => Length > 0;
 
         public override int GetHashCode()
         {
@@ -31,7 +33,7 @@ namespace App.View.Impl1
 
         public override string ToString()
         {
-            return $"{Color} square @{Coord}";
+            return $"{Color} @{Coord}";
         }
     }
 }
