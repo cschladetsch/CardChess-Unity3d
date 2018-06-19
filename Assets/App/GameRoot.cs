@@ -22,10 +22,6 @@ namespace App
     public class GameRoot
         : ViewBase
     {
-        public ModelRegistry Models;
-        public AgentRegistry Agents;
-        public IViewRegistry Views;
-
         public IPlayerAgent WhitePlayerAgent;
         public IPlayerAgent BlackPlayerAgent;
         public IBoardAgent BoardAgent;
@@ -35,7 +31,7 @@ namespace App
 
         protected override void Begin()
         {
-            Registry = Views;
+            Registry = _views;
 
             base.Begin();
             CreateModels();
@@ -48,27 +44,62 @@ namespace App
             ArbiterAgent.StartGame();
             ArbiterView.SetAgent(null, ArbiterAgent);
 
-            IsGood();
+            CheckAllValid();
         }
 
         [ContextMenu("GameRoot-IsValid")]
-        public void IsGood()
+        public void CheckAllValid()
         {
-            Assert.IsNotNull(Models);
-            Assert.IsNotNull(Agents);
-            Assert.IsNotNull(Views);
+            Assert.IsNotNull(_models);
+            Assert.IsNotNull(_agents);
+            Assert.IsNotNull(_views);
 
-            TestValidity("Models", Models.Instances);
-            TestValidity("Agent", Agents.Instances);
-            TestValidity("Views", Views.Instances);
+            TestValidity("Models", _models.Instances);
+            TestValidity("Agent", _agents.Instances);
+            TestValidity("Views", _views.Instances);
         }
 
-        private void TestValidity(string what, IEnumerable<IEntity> things)
+        protected override void Step()
+        {
+            base.Step();
+            CheckAllValid();
+        }
+
+        [ContextMenu("GameRoot-Trace")]
+        public void Trace()
+        {
+            Info($"Models: {_models.Print()}");
+            Info($"Agents: {_agents.Print()}");
+            Info($"Views: {_views.Print()}");
+        }
+
+        // Required to prepare views that were made at design time
+        // in the editor. These have not been internally wired up yet.
+        private void PrepareViews(Transform tr)
+        {
+            foreach (var c in tr.GetComponents<Component>())
+            {
+                var v = c as IViewBase;
+                if (v == null)
+                    continue;
+                _views.Prepare(v);
+            }
+
+            foreach (Transform ch in tr)
+                PrepareViews(ch);
+        }
+
+        /// <summary>
+        /// Test that a collection of entities are valid.
+        /// </summary>
+        /// <param name="what">the name of the collection</param>
+        /// <param name="entities">the set of entities to test</param>
+        private void TestValidity(string what, IEnumerable<IEntity> entities)
         {
             Info($"TestValidity: {what}");
-
-            foreach (var entity in things)
+            foreach (var entity in entities)
             {
+                // these are special cases
                 if (entity is GameRoot)
                     continue;
                 if (entity is BoardOverlayView)
@@ -79,6 +110,7 @@ namespace App
                 var valid = entity.IsValid;
                 if (!valid)
                 {
+                    // test again so we can see what exactly is invalid in the debugger
                     Warn($"NotValid: {entity}: {entity.GetType()}");
                     var secondTest = entity.IsValid;
                     Info($"{secondTest}");
@@ -97,89 +129,58 @@ namespace App
             }
         }
 
-        protected override void Step()
-        {
-            base.Step();
-        }
-
-        [ContextMenu("GameRoot-Trace")]
-        public void Trace()
-        {
-            Info($"Models: {Models.Print()}");
-            Info($"Agents: {Agents.Print()}");
-            Info($"Views: {Views.Print()}");
-        }
-
-        // Required to prepare views that were made at design time
-        // in the editor. These have not been internally wired up yet.
-        private void PrepareViews(Transform tr)
-        {
-            foreach (var c in tr.GetComponents<Component>())
-            {
-                var v = c as IViewBase;
-                if (v == null)
-                    continue;
-                Views.Prepare(v);
-            }
-
-            foreach (Transform ch in tr)
-                PrepareViews(ch);
-        }
-
         private void CreateModels()
         {
-            Models = new ModelRegistry();
-            Models.Bind<Service.ICardTemplateService, CardTemplateService>(new CardTemplateService());
-            Models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
-            Models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
-            Models.Bind<ICardModel, CardModel>();
-            Models.Bind<IDeckModel, DeckModel>();
-            Models.Bind<IHandModel, HandModel>();
-            Models.Bind<IPieceModel, PieceModel>();
-            Models.Bind<IPlayerModel, PlayerModel>();
-            Models.Resolve();
+            _models = new ModelRegistry();
+            _models.Bind<Service.ICardTemplateService, CardTemplateService>(new CardTemplateService());
+            _models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
+            _models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
+            _models.Bind<ICardModel, CardModel>();
+            _models.Bind<IDeckModel, DeckModel>();
+            _models.Bind<IHandModel, HandModel>();
+            _models.Bind<IPieceModel, PieceModel>();
+            _models.Bind<IPlayerModel, PlayerModel>();
+            _models.Resolve();
 
-            _boardModel = Models.New<IBoardModel>();
-            _arbiterModel = Models.New<IArbiterModel>();
-            _whitePlayerModel = Models.New<IPlayerModel>(EColor.White);
-            _blackPlayerModel = Models.New<IPlayerModel>(EColor.Black);
+            _boardModel = _models.New<IBoardModel>();
+            _arbiterModel = _models.New<IArbiterModel>();
+            _whitePlayerModel = _models.New<IPlayerModel>(EColor.White);
+            _blackPlayerModel = _models.New<IPlayerModel>(EColor.Black);
 
-            // make all models required
-            foreach (var model in Models.Instances.ToList())
+            // make all models required. this resolves any cycles of dependancy for
+            // singletons, as well as creates models used internally by other models.
+            foreach (var model in _models.Instances.ToList())
                 model.PrepareModels();
         }
 
         private void CreateAgents()
         {
-            Agents = new AgentRegistry();
-
-            Agents.Bind<IBoardAgent, BoardAgent>(new BoardAgent(_boardModel));
-            Agents.Bind<IArbiterAgent, ArbiterAgent>(new ArbiterAgent(_arbiterModel));
-            Agents.Bind<ICardAgent, CardAgent>();
-            Agents.Bind<IDeckAgent, DeckAgent>();
-            Agents.Bind<IHandAgent, HandAgent>();
-            Agents.Bind<IPieceAgent, PieceAgent>();
-            Agents.Bind<IPlayerAgent, PlayerAgent>();
-            Agents.Resolve();
-
-            BoardAgent = Agents.New<IBoardAgent>();
-            ArbiterAgent = Agents.New<IArbiterAgent>();
-            WhitePlayerAgent = Agents.New<IPlayerAgent>(_whitePlayerModel);
-            BlackPlayerAgent = Agents.New<IPlayerAgent>(_blackPlayerModel);
+            _agents = new AgentRegistry();
+            _agents.Bind<IBoardAgent, BoardAgent>(new BoardAgent(_boardModel));
+            _agents.Bind<IArbiterAgent, ArbiterAgent>(new ArbiterAgent(_arbiterModel));
+            _agents.Bind<ICardAgent, CardAgent>();
+            _agents.Bind<IDeckAgent, DeckAgent>();
+            _agents.Bind<IHandAgent, HandAgent>();
+            _agents.Bind<IPieceAgent, PieceAgent>();
+            _agents.Bind<IPlayerAgent, PlayerAgent>();
+            _agents.Resolve();
+            BoardAgent = _agents.New<IBoardAgent>();
+            ArbiterAgent = _agents.New<IArbiterAgent>();
+            WhitePlayerAgent = _agents.New<IPlayerAgent>(_whitePlayerModel);
+            BlackPlayerAgent = _agents.New<IPlayerAgent>(_blackPlayerModel);
         }
 
         private void RegisterViews()
         {
-            Views = new ViewRegistry();
-            Views.Bind<IBoardView, BoardView>(BoardView);
-            Views.Bind<IArbiterView, ArbiterView>(ArbiterView);
-            Views.Bind<ICardView, CardView>();
-            Views.Bind<IDeckView, DeckView>();
-            Views.Bind<IHandView, HandView>();
-            Views.Bind<IPieceView, PieceView>();
-            Views.Bind<IPlayerView, PlayerView>();
-
-            Views.Resolve();
+            _views = new ViewRegistry();
+            _views.Bind<IBoardView, BoardView>(BoardView);
+            _views.Bind<IArbiterView, ArbiterView>(ArbiterView);
+            _views.Bind<ICardView, CardView>();
+            _views.Bind<IDeckView, DeckView>();
+            _views.Bind<IHandView, HandView>();
+            _views.Bind<IPieceView, PieceView>();
+            _views.Bind<IPlayerView, PlayerView>();
+            _views.Resolve();
         }
 
         [ContextMenu("TraceKernel")]
@@ -191,9 +192,9 @@ namespace App
         [ContextMenu("CheckValidHands")]
         public void CheckValidHands()
         {
-            Assert.AreEqual(2, Models.Instances.OfType<IHandModel>().Count());
-            Assert.AreEqual(2, Agents.Instances.OfType<IHandAgent>().Count());
-            Assert.AreEqual(2, Views.Instances.OfType<IHandView>().Count());
+            Assert.AreEqual(2, _models.Instances.OfType<IHandModel>().Count());
+            Assert.AreEqual(2, _agents.Instances.OfType<IHandAgent>().Count());
+            Assert.AreEqual(2, _views.Instances.OfType<IHandView>().Count());
             Info("Ok");
         }
 
@@ -202,28 +203,31 @@ namespace App
         {
             CheckModels();
             CheckAgents();
-            //CheckViews(); // some views made at design time are invalid
+            CheckViews();
         }
 
         [ContextMenu("CheckAgents")]
         public void CheckAgents()
         {
-            foreach (var agent in Agents.Instances)
-            {
+            Info($"{_agents.Instances.Count()} Agents Valid");
+            foreach (var agent in _agents.Instances)
                 Assert.IsTrue(agent.IsValid);
-                Assert.IsNotNull(agent.BaseModel);
-            }
-            Info($"{Models.Instances.Count()} Agents Valid");
         }
 
         [ContextMenu("CheckModels")]
         public void CheckModels()
         {
-            foreach (var agent in Models.Instances)
-            {
+            Info($"{_models.Instances.Count()} Models Valid");
+            foreach (var agent in _models.Instances)
                 Assert.IsTrue(agent.IsValid);
-            }
-            Info($"{Models.Instances.Count()} Models Valid");
+        }
+
+        [ContextMenu("CheckViews")]
+        public void CheckViews()
+        {
+            Info($"{_views.Instances.Count()} Views Valid");
+            foreach (var view in _views.Instances)
+                Assert.IsTrue(view.IsValid);
         }
 
         [ContextMenu("TraceBoard")]
@@ -256,5 +260,9 @@ namespace App
         private IArbiterModel _arbiterModel;
         private IPlayerModel _whitePlayerModel;
         private IPlayerModel _blackPlayerModel;
+
+        private ModelRegistry _models;
+        private AgentRegistry _agents;
+        private IViewRegistry _views;
     }
 }

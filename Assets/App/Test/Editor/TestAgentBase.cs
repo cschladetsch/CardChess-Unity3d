@@ -12,7 +12,10 @@ namespace App.Agent.Test
     /// Based on the common test base for models
     /// </summary>
     [TestFixture]
-    class TestAgentBase : App.Model.Test.TestBaseModel
+    class TestAgentBase<TWhite, TBlack>
+        : Model.Test.TestBaseModel
+        where TBlack : IBlackPlayerAgent
+        where TWhite : IWhitePlayerAgent
     {
         protected TestAgentBase()
         {
@@ -31,8 +34,8 @@ namespace App.Agent.Test
             _agency.Bind<IDeckAgent, DeckAgent>();
             _agency.Bind<IHandAgent, HandAgent>();
             _agency.Bind<IPieceAgent, PieceAgent>();
-            _agency.Bind<IWhitePlayerAgent, MockWhitePlayerAgent>();
-            _agency.Bind<IBlackPlayerAgent, MockBlackPlayerAgent>();
+            _agency.Bind<IWhitePlayerAgent, TWhite>();
+            _agency.Bind<IBlackPlayerAgent, TBlack>();
             _agency.Resolve();
 
             _boardAgent = _agency.New<IBoardAgent>();
