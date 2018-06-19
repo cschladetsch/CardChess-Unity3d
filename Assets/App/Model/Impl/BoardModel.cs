@@ -30,7 +30,7 @@ namespace App.Model
         {
             get
             {
-                Info("Testing Valid board");
+                //Info("Testing Valid board");
                 if (!base.IsValid) return false;
                 if (Arbiter == null) return false;
                 if (Width < 2) return false;

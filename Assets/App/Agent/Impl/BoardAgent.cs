@@ -24,7 +24,7 @@ namespace App.Agent
         {
             get
             {
-                Info("Test Valid BoardAgent");
+                Verbose(10, "Test Valid BoardAgent");
                 if (!base.IsValid)
                     return false;
                 foreach (var kv in _pieces)
