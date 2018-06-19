@@ -45,6 +45,8 @@ namespace App
             ArbiterView.SetAgent(null, ArbiterAgent);
 
             CheckAllValid();
+
+            //ArbiterAgent.
         }
 
         [ContextMenu("GameRoot-IsValid")]
@@ -62,7 +64,6 @@ namespace App
         protected override void Step()
         {
             base.Step();
-            CheckAllValid();
         }
 
         [ContextMenu("GameRoot-Trace")]
@@ -96,15 +97,13 @@ namespace App
         /// <param name="entities">the set of entities to test</param>
         private void TestValidity(string what, IEnumerable<IEntity> entities)
         {
-            Info($"TestValidity: {what}");
+            Verbose(10, $"TestValidity: {what}");
             foreach (var entity in entities)
             {
                 // these are special cases
                 if (entity is GameRoot)
                     continue;
                 if (entity is BoardOverlayView)
-                    continue;
-                if (entity is SquareView)
                     continue;
 
                 var valid = entity.IsValid;
@@ -127,6 +126,11 @@ namespace App
                 }
                 Assert.IsTrue(valid);
             }
+        }
+        [ContextMenu("TestWhiteHand")]
+
+        public void TestWhiteHand()
+        {
         }
 
         private void CreateModels()
@@ -227,7 +231,14 @@ namespace App
         {
             Info($"{_views.Instances.Count()} Views Valid");
             foreach (var view in _views.Instances)
-                Assert.IsTrue(view.IsValid);
+            {
+                var valid = view.IsValid;
+                if (!valid)
+                {
+                    Info($"{view.IsValid}");
+                }
+                Assert.IsTrue(valid);
+            }
         }
 
         [ContextMenu("TraceBoard")]

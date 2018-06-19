@@ -44,6 +44,15 @@ namespace App.Registry
             return false;
         }
 
+        public string Save()
+        {
+            return "";
+        }
+
+        public void Load(string text)
+        {
+        }
+
         public bool Has(IBase instance)
         {
             return Instances.Contains(instance);

@@ -121,14 +121,16 @@ namespace App.View.Impl1
 
         public virtual void Destroy()
         {
+            Info($"Destroy {this}");
             if (Destroyed.Value)
             {
                 Warn($"Object {Id} of type {GetType()} already destoyed");
                 return;
             }
             OnDestroyed?.Invoke(this);
+            GameObject.transform.SetParent(null);
             _destroyed.Value = true;
-            Object.Destroy(GameObject);
+            Destroy(GameObject);
         }
 
         public override string ToString()

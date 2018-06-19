@@ -20,15 +20,34 @@ namespace App.View.Impl1
         public CardView CardViewPrefab;
         public BoardOverlayView BoardOverlay;
 
+        public override bool IsValid
+        {
+            get
+            {
+                Assert.IsNotNull(CardsRoot);
+                Assert.IsNotNull(CardViewPrefab);
+                Assert.IsNotNull(BoardOverlay);
+                foreach (var c in _cards)
+                    Assert.IsTrue(c.IsValid);
+                return true;
+            }
+        }
+
+        private HandView()
+        {
+        }
+
         public override void SetAgent(IPlayerView playerView, IHandAgent handAgent)
         {
             base.SetAgent(playerView, handAgent);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
+            Verbosity = 10;
             Clear();
             BindHand(handAgent);
             Redraw();
+            Assert.IsTrue(IsValid);
         }
 
         private void BindHand(IHandAgent agent)
@@ -38,6 +57,16 @@ namespace App.View.Impl1
 
             agent.Cards.ObserveAdd().Subscribe(Add);
             agent.Cards.ObserveRemove().Subscribe(Remove);
+            Assert.IsTrue(IsValid);
+        }
+
+        [ContextMenu("Debug")]
+        public void Debug()
+        {
+            foreach (var c in _cards)
+            {
+                Assert.IsTrue(c.IsValid);
+            }
         }
 
         private ICardView CreateViewFromAgent(ICardAgent agent)
@@ -49,6 +78,7 @@ namespace App.View.Impl1
             tr.SetParent(CardsRoot);
             tr.localScale = Vector3.one;
             tr.localPosition = new Vector3(-1, -1, 10);
+            Assert.IsTrue(IsValid);
             return cardView;
         }
 
@@ -56,30 +86,32 @@ namespace App.View.Impl1
         {
             if (card == null)
                 return;
-            //Info($"MouseOver {card.Agent.Model}");
+            Verbose(20, $"MouseOver {card.Agent.Model}");
         }
 
         [ContextMenu("HandView-Clear")]
         public void Clear()
         {
-            foreach (Transform tr in CardsRoot.transform)
-                Unity.Destroy(tr);
+            transform.ForEach<ICardView>(c => c.Destroy());
+            Assert.IsTrue(IsValid);
         }
 
         private void Add(CollectionAddEvent<ICardAgent> add)
         {
-            //Info($"HandView: Add {add.Value} @{add.Index}");
+            Verbose(5, $"HandView: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, CreateViewFromAgent(add.Value));
             Redraw();
+            Assert.IsTrue(IsValid);
         }
 
         private void Remove(CollectionRemoveEvent<ICardAgent> remove)
         {
-            //Info($"HandView: Remove {remove.Value} @{remove.Index}");
+            Verbose(5, $"HandView: Remove {remove.Value} @{remove.Index}");
             var view = _cards[remove.Index];
             _cards.RemoveAt(remove.Index);
             view.Destroy();
             Redraw();
+            Assert.IsTrue(IsValid);
         }
 
         void Redraw()

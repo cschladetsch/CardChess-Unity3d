@@ -27,6 +27,8 @@ namespace App.View.Impl1
         public IPlayerView CurrentPlayerView => CurrentPlayerColor == EColor.White ? WhitePlayerView : BlackPlayerView;
         public new IBoardView BoardView => Board;
 
+        private GameRoot _gameRoot;
+
         public override void SetAgent(IPlayerView view, IArbiterAgent agent)
         {
             base.SetAgent(view, agent);
@@ -37,6 +39,8 @@ namespace App.View.Impl1
             var model = Agent.Model;
             model.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
             model.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
+
+            _gameRoot = transform.parent.GetComponent<GameRoot>();
 
             SetupUi();
         }
@@ -57,7 +61,11 @@ namespace App.View.Impl1
             BlackEndButton.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
 
             Agent.LastResponse.Subscribe(
-                r => ResponseText.text = $"{r}"
+                (r) =>
+                {
+                    ResponseText.text = $"{r}";
+                    _gameRoot.CheckAllValid();
+                }
             );
         }
 

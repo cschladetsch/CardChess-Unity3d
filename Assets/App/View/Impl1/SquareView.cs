@@ -14,7 +14,7 @@ namespace App.View.Impl1
 
         public float Length;
 
-        public override bool IsValid => Length > 0;
+        public override bool IsValid => true;
 
         public override int GetHashCode()
         {

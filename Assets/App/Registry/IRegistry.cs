@@ -21,6 +21,9 @@ namespace App.Registry
     {
         IEnumerable<IBase> Instances { get; }
 
+        string Save();
+        void Load(string text);
+
         bool Has(IBase instance);
         IBase Get(Guid id);
 
