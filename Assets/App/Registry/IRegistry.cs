@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.Common;
 
 namespace App.Registry
 {
+    using Common;
+
     public interface IRegistry
         : IPrintable
     {
@@ -42,15 +43,5 @@ namespace App.Registry
         IBase Inject(IBase model, Inject inject, Type iface, IBase single);
 
         IBase Prepare(IBase model);
-        //TBase Prepare<TBase>(TBase model) where TBase : class, IBase;
-
-        /*
-        bool Bind<TInterface, TImpl>(Func<TImpl> creator)
-            where TInterface : IBase where TImpl : TInterface;
-        bool Bind<TInterface, TImpl, A0>(Func<A0, TImpl> creator)
-            where TInterface : IBase where TImpl : TInterface;
-        bool Bind<TInterface, TImpl, A0, A1>(Func<A0, A1, TImpl> creator)
-            where TInterface : IBase where TImpl : TInterface;
-        */
     }
 }

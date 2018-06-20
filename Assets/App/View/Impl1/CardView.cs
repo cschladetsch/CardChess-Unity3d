@@ -1,5 +1,6 @@
-﻿using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
+
+using UniRx;
 
 namespace App.View.Impl1
 {

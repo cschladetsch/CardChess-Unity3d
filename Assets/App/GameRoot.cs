@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.Service.Impl;
+
 using UnityEngine;
 
 // field not assigned - because it is assigned in Unity3d editor
@@ -14,6 +14,7 @@ namespace App
     using Model;
     using View;
     using View.Impl1;
+    using Service.Impl;
 
     /// <inheritdoc />
     /// <summary>

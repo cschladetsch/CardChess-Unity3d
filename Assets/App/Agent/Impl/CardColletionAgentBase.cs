@@ -1,5 +1,4 @@
-﻿
-namespace App.Agent
+﻿namespace App.Agent
 {
     using Model;
 

@@ -75,10 +75,8 @@ namespace App.View.Impl1
             {
                 OverlayView.Clear();
                 if (sq == null) return;
-                //ShowMySquares(sq.Coord);
                 var p = Agent.At(sq.Coord);
                 if (p == null) return;
-                //Assert.AreEqual(sq.Coord, p.Coord.Value);
                 ShowSquares(sq.Coord);
             });
 
@@ -236,12 +234,7 @@ namespace App.View.Impl1
         protected override void Step()
         {
             base.Step();
-            TestRayCast();
-        }
-
-        private ISquareView TestRayCast()
-        {
-            return TestRayCast(Input.mousePosition);
+            TestRayCast(Input.mousePosition);
         }
 
         private int _squareBitMask;

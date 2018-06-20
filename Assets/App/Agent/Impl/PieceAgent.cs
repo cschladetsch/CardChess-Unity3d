@@ -1,10 +1,13 @@
-﻿using App.Common;
-using UniRx;
+﻿using UniRx;
 
 namespace App.Agent
 {
     using Model;
+    using Common;
 
+    /// <summary>
+    /// Acts on behalf of a piece
+    /// </summary>
     public class PieceAgent
         : AgentBase<IPieceModel>
         , IPieceAgent

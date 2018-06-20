@@ -103,13 +103,10 @@ namespace App.Model
 
         public IPieceModel RemovePiece(Coord coord)
         {
-            if (!IsValidCoord(coord))
-            {
-                Warn($"Attempt to remove from invalid {coord}");
-                return null;
-            }
+            Assert.IsTrue(IsValidCoord(coord));
             var current = At(coord);
-            _pieces.Remove(current);
+            Assert.IsNotNull(current);
+            Assert.IsTrue(_pieces.Remove(current));
             return current;
         }
 
@@ -131,15 +128,12 @@ namespace App.Model
             var dest = At(coord);
             if (dest != null)
             {
-                if (dest != piece)
-                    return Failed(move, $"Cannot move {piece} onto {dest}");
-                return Response.Ok;
+                return dest != piece ? Failed(move, $"Cannot move {piece} onto {dest}") : Response.Ok;
             }
 
             var movements = GetMovements(piece);
             if (!movements.Coords.Any())
                 return Failed(move, $"Cannot move {move.Piece} move to {move.Coord}");
-
             return MovePieceTo(coord, piece);
         }
 
@@ -154,26 +148,6 @@ namespace App.Model
                 return Response.Fail;
             found.Coord.Value = coord;
             return Response.Ok;
-        }
-
-        public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
-        {
-            var items = new List<IPieceModel>();
-            for (var y = -dist; y <= dist; ++y)
-            {
-                for (var x = -dist; x <= dist; ++x)
-                {
-                    if (x == 0 && y == 0)
-                        continue;
-
-                    var piece = At(coord);
-                    if (piece == null)
-                        continue;
-
-                    items.Add(piece);
-                }
-            }
-            return items;
         }
 
         public IPieceModel At(Coord coord)
@@ -237,10 +211,7 @@ namespace App.Model
             var sb = new StringBuilder();
             for (var y = Height - 1; y >= 0; --y)
             {
-                // vertical axis
                 sb.Append($" {y}:");
-
-                // horizontal cards
                 for (var x = 0; x < Width; ++x)
                 {
                     var coord = new Coord(x, y);
@@ -252,7 +223,6 @@ namespace App.Model
                 sb.AppendLine();
                 if (y == 0)
                 {
-                    // write the bottom axis
                     sb.Append("   ");
                     for (var x = 0; x < Width; ++x)
                         sb.Append($"{x} ");
@@ -379,21 +349,16 @@ namespace App.Model
                 case EPieceType.Queen:
                     return GetMoveResults(coord, max, _orthogonals.Concat(_diagnonals).ToArray());
                 case EPieceType.Siege:
-                    // can't move
                     break;
                 case EPieceType.Ballista:
                     return GetMoveResults(coord, 2, _orthogonals);
                 case EPieceType.Barricade:
-                    // can't move
                     break;
                 case EPieceType.None:
-                    // can't move
                     break;
                 case EPieceType.Paladin:
-                    // unsure
                     break;
                 case EPieceType.Priest:
-                    // unsure
                     break;
                 case EPieceType.Castle:
                     return GetMoveResults(coord, max, _orthogonals);
@@ -402,11 +367,6 @@ namespace App.Model
             }
 
             return null;
-        }
-
-        private MoveResults Nearby(Coord orig, int dist)
-        {
-            return GetMoveResults(orig, dist, _surrounding);
         }
 
         private MoveResults Diagonals(Coord orig, int dist)
@@ -424,7 +384,6 @@ namespace App.Model
                 {
                     if (blocked.Contains(m))
                         continue;
-
                     var next = dirs[m];
                     var coord = orig + next*n;
                     if (coord == orig)

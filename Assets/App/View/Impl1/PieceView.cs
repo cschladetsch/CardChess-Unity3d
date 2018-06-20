@@ -1,12 +1,13 @@
-﻿using App.Common;
-using App.Common.Message;
+﻿using UnityEngine;
+
 using CoLib;
 using UniRx;
-using UnityEngine;
 
 namespace App.View.Impl1
 {
     using Agent;
+    using Common;
+    using Common.Message;
 
     /// <summary>
     /// View of a Piece on the Board in the scene.
@@ -65,11 +66,7 @@ namespace App.View.Impl1
                     //BoardView.ShowSquares(this);
                 }
             );
-            Dead.Subscribe(d =>
-            {
-                if (d)
-                    Die();
-            });
+            Dead.Subscribe(d => { if (d) Die(); });
         }
 
         void Die()

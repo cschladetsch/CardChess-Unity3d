@@ -1,21 +1,16 @@
-﻿using App.Agent;
-using App.Common;
-using App.Model;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.View
 {
+    using Agent;
+    using Common;
+    using Model;
     using Registry;
 
     public class ViewRegistry
         : Registry<IViewBase>
         , IViewRegistry
     {
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
         public override IViewBase Prepare(IViewBase view)
         {
             //?? view.OnDestroyed += v => view.AgentBase.Destroy();

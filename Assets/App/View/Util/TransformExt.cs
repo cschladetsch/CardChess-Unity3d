@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 public static class TransformExt
 {
-    //public static T FindComponentInChildren<T>(this Transform tr) where T : class
-    //{
-    //    foreach ()
-    //}
-
     public static T FindChild<T>(this Transform transform) where T : class
     {
         return transform.Cast<Transform>()

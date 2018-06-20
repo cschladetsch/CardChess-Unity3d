@@ -1,8 +1,8 @@
-﻿using App.Model;
+﻿using UnityEngine;
+using UnityEngine.UI;
+
 using CoLib;
 using UniRx;
-using UnityEngine;
-using UnityEngine.UI;
 
 // Resharper doesn't know about Unity's stupid use of reflection
 // ReSharper disable UnusedMember.Local
@@ -11,7 +11,6 @@ namespace App.View.Impl1
 {
     using Agent;
     using Common;
-    using Registry;
 
     public abstract class Draggable<TIAgent>
         : ViewBase<TIAgent>
@@ -37,18 +36,6 @@ namespace App.View.Impl1
 
             _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
         }
-
-        //protected override void Begin()
-        //{
-        //    base.Begin();
-        //    SquareOver.Subscribe(s =>
-        //    {
-        //        if (s == null) return;
-        //        var p = Agent.BaseModel as ICardModel;
-        //        if (p == null) return;
-        //        BoardView.ShowSquares(p, s);
-        //    });
-        //}
 
         private void OnMouseEnter()
         {

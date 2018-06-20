@@ -63,11 +63,11 @@ namespace App
         {
             foreach (var p in _playerAgents)
             {
-                if (p.Model == model)
-                {
-                    _playerAgent.Value = p;
-                    return;
-                }
+                if (p.Model != model)
+                    continue;
+
+                _playerAgent.Value = p;
+                return;
             }
             throw new Exception("Player agent not found");
         }
@@ -259,10 +259,10 @@ namespace App
         //    yield return null;
         //}
 
-        private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
-        private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
         private float _timeOut;
         private DateTime _timeStart;
+        private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
+        private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
         private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
     }
 }

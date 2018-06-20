@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using App.Common;
-using App.Common.Message;
-using App.Model;
-using App.View.Impl1;
+﻿using UnityEngine;
+
 using UniRx;
-using UnityEngine;
 
 namespace App.View
 {
     using Agent;
+    using Common;
+    using Common.Message;
+    using Model;
 
     /// <summary>
     /// View of the Board in the scene.
@@ -26,8 +25,6 @@ namespace App.View
         Material WhiteMaterial { get; }
 
         IPieceView Get(Coord coord);
-        //IPieceView PlacePiece(ICardView view, Coord cood);
-
         IResponse Remove(IPieceView pieceView);
         IResponse MovePiece(IPieceView pieceView, Coord coord);
 
