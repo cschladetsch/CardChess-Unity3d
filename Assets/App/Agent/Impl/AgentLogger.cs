@@ -1,9 +1,7 @@
-﻿using System;
-using Flow;
+﻿using Flow;
 
 namespace App.Agent
 {
-    using Common;
     using Registry;
 
     /// <summary>
@@ -19,8 +17,8 @@ namespace App.Agent
         public bool Active { get; private set; }
         public IKernel Kernel { get; set; }
         public IFactory Factory => Kernel.Factory;
-        public Flow.IFactory New => Kernel.Factory;
-        public Flow.INode Root => Kernel.Root;
+        public IFactory New => Kernel.Factory;
+        public INode Root => Kernel.Root;
         public string Name { get; set; }
         [Inject] public IBoardAgent Board { get; set; }
         [Inject] public IArbiterAgent Arbiter { get; set; }

@@ -1,10 +1,9 @@
-﻿using App.Common;
-using App.View;
-using UniRx;
+﻿using UniRx;
 
 namespace App.Agent
 {
     using Model;
+    using Common;
 
     /// <summary>
     /// Agents act on behalf of models

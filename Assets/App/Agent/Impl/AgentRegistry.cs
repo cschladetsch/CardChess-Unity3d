@@ -18,7 +18,7 @@ namespace App.Agent
 
         public AgentRegistry()
         {
-            Kernel = Flow.Create.Kernel();
+            Kernel = Create.Kernel();
             Factory = Kernel.Factory;
         }
 

@@ -1,9 +1,10 @@
-﻿using App.Common;
-using App.Model;
-using UniRx;
+﻿using UniRx;
 
 namespace App.Agent
 {
+    using Common;
+    using Model;
+
     public interface ICardProperties
     {
         ICardTemplate Template { get; }

@@ -1,7 +1,7 @@
-﻿using App.Model;
-
-namespace App.Common.Message
+﻿namespace App.Common.Message
 {
+    using Model;
+
     /// <summary>
     /// An action proposed by a player.
     /// </summary>
