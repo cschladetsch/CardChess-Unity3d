@@ -122,15 +122,20 @@ namespace App.View.Impl1
             var movements = board.GetMovements(sq.Coord, model.PieceType);
             var attacks = board.GetAttacks(sq.Coord, model.PieceType);
             AddOverlays(movements.Coords, attacks.Coords);
+            OverlayView.Add(movements.Interferernce.Select(p => p.Coord.Value), Color.yellow);
+            OverlayView.Add(attacks.Interferernce.Select(p => p.Coord.Value), Color.magenta);
         }
 
         public void ShowSquares(Coord coord)
         {
             var agent = Agent.At(coord);
+
             var board = Agent.Model;
             var movements = board.GetMovements(agent.Model);
             var attacks = board.GetMovements(agent.Model);
             AddOverlays(movements.Coords, attacks.Coords);
+            OverlayView.Add(movements.Interferernce.Select(p => p.Coord.Value), Color.yellow);
+            OverlayView.Add(attacks.Interferernce.Select(p => p.Coord.Value), Color.magenta);
         }
 
         private void AddOverlays(IList<Coord> moves, IList<Coord> attacks)
