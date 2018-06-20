@@ -356,20 +356,8 @@ namespace App.Model
                     return Diagonals(coord, 1);
                 case EPieceType.Siege:
                     return null;
-                case EPieceType.Barricade:
-                    break;
-                case EPieceType.None:
-                    break;
-                case EPieceType.Paladin:
-                    break;
-                case EPieceType.Priest:
-                    break;
-                case EPieceType.Ballista:
-                    break;
                 case EPieceType.Dragon:
-                {
                     return GetMoveResults(coord, 2, _surrounding);
-                }
             }
 
             return null;
@@ -429,19 +417,26 @@ namespace App.Model
         MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
             var moveResults = new MoveResults();
-            for (int n = 0; n < dist; ++n)
+            var blocked = new List<int>();
+            for (int n = 1; n <= dist; ++n)
             {
-                for (int m = 1; m <= dirs.Length; ++m)
+                for (int m = 0; m < dirs.Length; ++m)
                 {
-                    var coord = orig + dirs[m]*n;
+                    if (blocked.Contains(m))
+                        continue;
+
+                    var next = dirs[m];
+                    var coord = orig + next*n;
+                    if (coord == orig)
+                        continue;
                     if (!IsValidCoord(coord))
                         continue;
                     var model = At(coord);
                     if (model != null)
                     {
                         moveResults.Interferernce.Add(model);
-                        // no longer try in this direction
-                        break;
+                        blocked.Add(m);
+                        continue;
                     }
 
                     moveResults.Coords.Add(coord);
@@ -450,8 +445,7 @@ namespace App.Model
             return moveResults;
         }
 
-        private readonly Coord[] _surrounding = new[]
-        {
+        private readonly Coord[] _surrounding = {
             new Coord(-1, 1),
             new Coord(0, 1),
             new Coord(1, 1),
@@ -463,8 +457,7 @@ namespace App.Model
             new Coord(1, -1),
         };
 
-        private readonly Coord[] _knightMoves = new[]
-        {
+        private readonly Coord[] _knightMoves = {
             new Coord(-1, 2),
             new Coord(-1, -2),
             new Coord(1, -2),
@@ -475,29 +468,21 @@ namespace App.Model
             new Coord(2, -1),
         };
 
-        private readonly Coord[] _orthogonals = new[]
-        {
+        private readonly Coord[] _orthogonals = {
             new Coord(0, 1),
             new Coord(1, 0),
             new Coord(0, -1),
             new Coord(-1, 0),
         };
 
-        private readonly Coord[] _diagnonals = new[]
-        {
+        private readonly Coord[] _diagnonals = {
             new Coord(-1, 1),
-            new Coord(0, 1),
             new Coord(1, 1),
-            new Coord(-1, 0),
-            new Coord(0, 0),
-            new Coord(1, 0),
             new Coord(-1, -1),
-            new Coord(0, -1),
             new Coord(1, -1),
         };
 
-        private readonly Coord[] _diamond = new[]
-        {
+        private readonly Coord[] _diamond = {
             new Coord(0, 2),
             new Coord(-1, 1),
             new Coord(0, 1),

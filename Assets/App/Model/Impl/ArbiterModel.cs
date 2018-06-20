@@ -266,8 +266,8 @@ namespace App.Model
             if (attacker.AttackedThisTurn)
                 return Failed(battle, $"{attacker} can only attack once per turn");
 
-            var attackSquares = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType).Coords;
-            if (!attackSquares.Contains(defender.Coord.Value))
+            var moves = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType);
+            if (!moves.Interferernce.Contains(defender))
                 return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}");
 
             var resp = attacker.Attack(defender);

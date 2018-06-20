@@ -109,13 +109,22 @@ namespace App.View.Impl1
 
         protected override void MouseUp(IBoardView board, Coord coord)
         {
+            var player = PlayerView.Agent;
             var existing = BoardView.Get(coord);
             if (existing == null)
-                PlayerView.Agent.PushRequest(
-                    new MovePiece(PlayerModel, Agent.Model, coord), Response);
-            else
-                PlayerView.Agent.PushRequest(
-                    new Battle(PlayerModel, Agent.Model, existing.Agent.Model), Response);
+            {
+                player.PushRequest(new MovePiece(PlayerModel, Agent.Model, coord), Response);
+                return;
+            }
+
+            if (ReferenceEquals(existing, this))
+                return;
+
+            // TODO: allow for mounting
+            if (existing.SameOwner(this))
+                return;
+
+            player.PushRequest(new Battle(PlayerModel, Agent.Model, existing.Agent.Model), Response);
         }
 
         private void Response(IResponse response)
