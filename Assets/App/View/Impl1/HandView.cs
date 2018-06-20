@@ -43,7 +43,7 @@ namespace App.View.Impl1
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
-            Verbosity = 10;
+            //Verbosity = 10;
             Clear();
             BindHand(handAgent);
             Redraw();
