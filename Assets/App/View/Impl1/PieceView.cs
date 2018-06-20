@@ -40,6 +40,11 @@ namespace App.View.Impl1
         {
             base.Begin();
             Coord.Subscribe(c => Move());
+            SquareOver.Subscribe(sq =>
+            {
+                if (sq != null)
+                    BoardView.ShowSquares(Agent.Model.Card, sq);
+            }).AddTo(this);
         }
 
         public override void SetAgent(IPlayerView view, IPieceAgent agent)

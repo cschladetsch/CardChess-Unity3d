@@ -266,8 +266,14 @@ namespace App.Model
             if (attacker.AttackedThisTurn)
                 return Failed(battle, $"{attacker} can only attack once per turn");
 
-            attacker.AttackedThisTurn = true;
-            return attacker.Attack(defender);
+            var attackSquares = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType);
+            if (!attackSquares.Contains(defender.Coord.Value))
+                return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}");
+
+            var resp = attacker.Attack(defender);
+            if (resp.Success)
+                attacker.AttackedThisTurn = true;
+            return resp;
         }
 
         private IResponse TryTurnEnd(TurnEnd turnEnd)

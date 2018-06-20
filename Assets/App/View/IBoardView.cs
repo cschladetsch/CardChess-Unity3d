@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using App.Common;
 using App.Common.Message;
+using App.Model;
 using App.View.Impl1;
 using UniRx;
 using UnityEngine;
@@ -31,6 +32,6 @@ namespace App.View
         IResponse MovePiece(IPieceView pieceView, Coord coord);
 
         ISquareView TestRayCast(Vector3 screen);
-        void ShowSquares(ICardView cardView, ISquareView sq);
+        void ShowSquares(ICardModel cardView, ISquareView sq);
     }
 }

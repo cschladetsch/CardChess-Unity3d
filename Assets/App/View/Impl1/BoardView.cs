@@ -73,16 +73,16 @@ namespace App.View.Impl1
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq =>
             {
-                if (sq == null)
-                {
-                    OverlayView.Clear();
-                    return;
-                }
+                OverlayView.Clear();
+                if (sq == null) return;
+                //ShowMySquares(sq.Coord);
                 var p = Agent.At(sq.Coord);
                 if (p == null) return;
                 //Assert.AreEqual(sq.Coord, p.Coord.Value);
                 ShowSquares(sq.Coord);
             });
+
+            HoverPiece.Subscribe(p => Info($"Dragging {p} @{HoverSquare.Value}"));
         }
 
         public override void SetAgent(IPlayerView view, IBoardAgent agent)
@@ -113,14 +113,14 @@ namespace App.View.Impl1
             p.Destroy();
         }
 
-        public void ShowSquares(ICardView cardView, ISquareView sq)
+        public void ShowSquares(ICardModel model, ISquareView sq)
         {
             Assert.IsNotNull(sq);
-            Assert.IsNotNull(cardView);
+            Assert.IsNotNull(model);
 
             var board = Agent.Model;
-            var movements = board.GetMovements(sq.Coord, cardView.Agent.Model.PieceType).ToList();
-            var attacks = board.GetAttacks(sq.Coord, cardView.Agent.Model.PieceType).ToList();
+            var movements = board.GetMovements(sq.Coord, model.PieceType).ToList();
+            var attacks = board.GetAttacks(sq.Coord, model.PieceType).ToList();
             AddOverlays(movements, attacks);
 
             // show other pieces that can attack this piece
