@@ -7,7 +7,6 @@ namespace App.Common.Message
         public Resign(IPlayerModel player)
             : base(player, EActionType.Resign)
         {
-
         }
 
         public override string ToString()

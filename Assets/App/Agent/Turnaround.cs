@@ -1,8 +1,9 @@
 using System;
-using App.Common.Message;
 
 namespace App.Agent
 {
+    using Common.Message;
+
     public class Turnaround
     {
         public IRequest Request;

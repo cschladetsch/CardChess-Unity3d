@@ -1,10 +1,7 @@
-﻿using Flow;
-using UniRx;
+﻿using UniRx;
 
 namespace App.Agent
 {
-    using Common.Message;
-
     public interface IHandAgent
         : IAgent<Model.IHandModel>
     {

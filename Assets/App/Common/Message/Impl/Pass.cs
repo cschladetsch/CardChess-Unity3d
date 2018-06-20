@@ -7,7 +7,6 @@
     /// </summary>
     public class Pass
         : RequestBase
-        , IRequest
     {
         public Pass(IPlayerModel player)
             : base(player, EActionType.Pass)

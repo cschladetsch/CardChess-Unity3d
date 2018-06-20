@@ -4,8 +4,6 @@ using UniRx;
 
 namespace App.Agent
 {
-    using Common.Message;
-
     /// <summary>
     /// Controller for a Deck model.
     /// </summary>
