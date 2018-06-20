@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using App.Common.Message;
 using Flow;
 using UniRx;
@@ -18,7 +19,7 @@ namespace App.Agent
     {
         public IReadOnlyReactiveProperty<int> Width => _width;
         public IReadOnlyReactiveProperty<int> Height => _height;
-        public IReadOnlyReactiveDictionary<Coord, IPieceAgent> Pieces => _pieces;
+        public IReadOnlyReactiveCollection<IPieceAgent> Pieces => _pieces;
 
         public override bool IsValid
         {
@@ -27,17 +28,12 @@ namespace App.Agent
                 Verbose(10, "Test Valid BoardAgent");
                 if (!base.IsValid)
                     return false;
-                foreach (var kv in _pieces)
+                Assert.AreEqual(_pieces.Count, Model.Pieces.Count);
+                var n = 0;
+                foreach (var p in _pieces)
                 {
-                    IPieceAgent agent;
-                    var model = Model.At(kv.Key);
-                    if (model == null)
-                        Assert.IsFalse(_pieces.TryGetValue(kv.Key, out agent));
-                    else
-                    {
-                        Assert.IsTrue(_pieces.TryGetValue(kv.Key, out agent));
-                        Assert.AreEqual(agent.Coord.Value, model.Coord.Value);
-                    }
+                    Assert.AreSame(p.Model, Model.Pieces.ElementAt(n));
+                    ++n;
                 }
                 return true;
             }
@@ -51,31 +47,25 @@ namespace App.Agent
             model.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
 
-        private void PieceAdded(DictionaryAddEvent<Coord, IPieceModel> add)
+        private void PieceAdded(CollectionAddEvent<IPieceModel> add)
         {
-            Assert.IsTrue(!_pieces.ContainsKey(add.Key));
             var pieceAgent = Registry.New<IPieceAgent>(add.Value);
             pieceAgent.SetOwner(add.Value.Owner.Value);
-            _pieces[add.Key] = pieceAgent;
+            _pieces.Insert(add.Index, pieceAgent);
         }
 
-        private void PieceRemoved(DictionaryRemoveEvent<Coord, IPieceModel> add)
+        private void PieceRemoved(CollectionRemoveEvent<IPieceModel> remove)
         {
-            Assert.IsTrue(_pieces.ContainsKey(add.Key));
-            IPieceAgent agent;
-            _pieces.TryGetValue(add.Key, out agent);
-            Assert.IsNotNull(agent);
-            _pieces.Remove(add.Key);
-            agent.Destroy();
+            _pieces.RemoveAt(remove.Index);
         }
 
         public string Print()
         {
             var sb = new StringBuilder();
             sb.AppendLine($"BoardAgent: {_pieces.Count} pieces:");
-            foreach (var kv in _pieces)
+            foreach (var p in _pieces)
             {
-                sb.AppendLine($"\t{kv.Key} -> {kv.Value}");
+                sb.AppendLine($"\t{p.Coord.Value} -> {p.Model}");
             }
             return sb.ToString();
         }
@@ -100,30 +90,26 @@ namespace App.Agent
 
         public IResponse Remove(IPieceAgent agent)
         {
-            Assert.IsTrue(_pieces.ContainsKey(agent.Coord.Value));
             return Model.Remove(agent.Model);
         }
 
         public IResponse Add(IPieceAgent agent)
         {
-            Assert.IsFalse(_pieces.ContainsKey(agent.Coord.Value));
             return Model.Add(agent.Model);
         }
 
         public IPieceAgent At(Coord coord)
         {
-            IPieceAgent agent;
-            return _pieces.TryGetValue(coord, out agent) ? agent : null;
+            return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
         }
 
         public ITransient PerformNewGame()
         {
-            // TODO: animation
             _pieces.Clear();
             return null;
         }
 
-        private readonly ReactiveDictionary<Coord, IPieceAgent> _pieces = new ReactiveDictionary<Coord, IPieceAgent>();
+        private readonly ReactiveCollection<IPieceAgent> _pieces = new ReactiveCollection<IPieceAgent>();
         private readonly IntReactiveProperty _width = new IntReactiveProperty(8);
         private readonly IntReactiveProperty _height = new IntReactiveProperty(8);
     }

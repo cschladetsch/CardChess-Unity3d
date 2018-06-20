@@ -17,7 +17,7 @@ namespace App.Agent
     {
         IReadOnlyReactiveProperty<int> Width { get; }
         IReadOnlyReactiveProperty<int> Height { get; }
-        IReadOnlyReactiveDictionary<Coord, IPieceAgent> Pieces { get; }
+        IReadOnlyReactiveCollection<IPieceAgent> Pieces { get; }
 
         ITransient PerformNewGame();
         IPieceAgent At(Coord coord);

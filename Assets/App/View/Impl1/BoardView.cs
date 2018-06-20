@@ -35,7 +35,7 @@ namespace App.View.Impl1
         public BoardOverlayView OverlayView;
         #endregion
 
-        public IEnumerable<IPieceView> Pieces => _pieces.Values;
+        public IReadOnlyReactiveCollection<IPieceView> Pieces => _pieces;
         public Material BlackMaterial => BlackPieceMaterial;
         public Material WhiteMaterial => WhitePieceMaterial;
         public IReadOnlyReactiveProperty<ISquareView> HoverSquare => _hoverSquare;
@@ -50,18 +50,10 @@ namespace App.View.Impl1
                 Verbose(10, "Test Valid BoardView");
                 if (!base.IsValid)
                     return false;
-                foreach (var kv in _pieces)
-                {
-                    IPieceView view;
-                    var agent = Agent.At(kv.Key);
-                    if (agent == null)
-                        Assert.IsFalse(_pieces.TryGetValue(kv.Key, out view));
-                    else
-                    {
-                        Assert.IsTrue(_pieces.TryGetValue(kv.Key, out view));
-                        Assert.AreEqual(view.Coord.Value, agent.Coord.Value);
-                    }
-                }
+                Assert.AreEqual(_pieces.Count, Agent.Pieces.Count);
+                var n = 0;
+                foreach (var p in _pieces)
+                    Assert.AreSame(p.Agent, Agent.Pieces.ElementAt(n++));
                 return true;
             }
         }
@@ -70,8 +62,8 @@ namespace App.View.Impl1
         {
             var sb = new StringBuilder();
             sb.AppendLine($"BoardView: {_pieces.Count} pieces:");
-            foreach (var kv in _pieces)
-                sb.AppendLine($"\t{kv.Key} => {kv.Value}");
+            foreach (var p in _pieces)
+                sb.AppendLine($"\t{p.Coord.Value} => {p.Agent.Model}");
             return sb.ToString();
         }
 
@@ -104,26 +96,21 @@ namespace App.View.Impl1
             agent.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
 
-        void PieceAdded(DictionaryAddEvent<Coord, IPieceAgent> add)
+        void PieceAdded(CollectionAddEvent<IPieceAgent> add)
         {
-            Assert.IsTrue(!_pieces.ContainsKey(add.Key));
-            var coord = add.Key;
             var agent = add.Value;
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
             view.SetAgent(ArbiterView.CurrentPlayerView, agent);
             view.GameObject.transform.SetParent(PiecesRoot);
-            view.Coord.Value = coord;
-            _pieces[coord] = view;
+            _pieces.Add(view);
         }
 
-        void PieceRemoved(DictionaryRemoveEvent<Coord, IPieceAgent> add)
+        void PieceRemoved(CollectionRemoveEvent<IPieceAgent> add)
         {
-            Assert.IsTrue(_pieces.ContainsKey(add.Key));
-            IPieceView view;
-            _pieces.TryGetValue(add.Key, out view);
-            Assert.IsNotNull(view);
-            _pieces.Remove(add.Key);
-            view.Destroy();
+            var p = _pieces.ElementAt(add.Index);
+            Assert.IsNotNull(p);
+            _pieces.RemoveAt(add.Index);
+            p.Destroy();
         }
 
         public void ShowSquares(ICardView cardView, ISquareView sq)
@@ -171,37 +158,8 @@ namespace App.View.Impl1
 
         public IPieceView Get(Coord coord)
         {
-            IPieceView view = null;
-            _pieces.TryGetValue(coord, out view);
-            return view;
+            return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
         }
-
-        //public IPieceView PlacePiece(ICardView view, Coord coord)
-        //{
-        //    Assert.IsNotNull(view);
-        //    Assert.IsNotNull(coord);
-        //    var pv = MakePieceView(view, coord);
-        //    var tr = pv.GameObject.transform;
-        //    tr.SetParent(PiecesRoot);
-        //    tr.position = view.GameObject.transform.position;
-        //    Assert.IsFalse(_pieces.ContainsKey(coord));
-        //    pv.Agent.Coord.Value = coord;
-        //    Agent.Model.Add(pv.Agent.Model);
-        //    return pv;
-        //}
-
-        //private IPieceView MakePieceView(ICardView cardView, Coord coord)
-        //{
-        //    Assert.IsNotNull(cardView);
-        //    Assert.IsNotNull(coord);
-        //    var model = Agent.Model.At(coord);
-        //    var agent = Agent.Registry.New<IPieceAgent>(model);
-        //    var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
-        //    view.SetAgent(cardView.PlayerView, agent);
-        //    view.Coord.Value = coord;
-        //    Assert.IsTrue(Agent.Add(view.Agent).Success);
-        //    return view;
-        //}
 
         [ContextMenu("Board-Clear")]
         public void Clear()
@@ -300,6 +258,6 @@ namespace App.View.Impl1
         private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<IPieceView> _hoverPiece = new ReactiveProperty<IPieceView>();
-        private readonly ReactiveDictionary<Coord, IPieceView> _pieces = new ReactiveDictionary<Coord, IPieceView>();
+        private readonly ReactiveCollection<IPieceView> _pieces = new ReactiveCollection<IPieceView>();
     }
 }
