@@ -136,11 +136,8 @@ namespace App.Model
                 return Response.Ok;
             }
 
-            var movements = GetMovements(piece.Coord.Value).ToList();
-            if (movements.Count == 0)
-                return Failed(move, "No valid coords");
-
-            if (!movements.Select(c => c != move.Coord).Any())
+            var movements = GetMovements(piece);
+            if (!movements.Coords.Any())
                 return Failed(move, $"Cannot move {move.Piece} move to {move.Coord}");
 
             return MovePieceTo(coord, piece);
@@ -179,39 +176,6 @@ namespace App.Model
             return items;
         }
 
-        public IEnumerable<IPieceModel> AttackedCards(Coord coord)
-        {
-            var piece = At(coord);
-            if (piece == null)
-                yield break;
-
-            foreach (var c in GetAttacks(piece))
-            {
-                var attacked = At(c);
-                if (attacked != null)
-                    yield return attacked;
-            }
-        }
-
-        public IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood)
-        {
-            Assert.IsNotNull(defender);
-            NotImplemented("GetDefended");
-            yield break;
-        }
-
-        public IEnumerable<IPieceModel> Defenders(Coord coord)
-        {
-            Assert.IsNotNull(coord);
-            NotImplemented("Defenders");
-            yield break;
-        }
-
-        public IPieceModel GetContents(Coord coord)
-        {
-            return !IsValidCoord(coord) ? null : At(coord);
-        }
-
         public IPieceModel At(Coord coord)
         {
             Assert.IsTrue(IsValidCoord(coord));
@@ -247,190 +211,6 @@ namespace App.Model
         {
             Assert.IsNotNull(piece);
             return AddPiece(piece.Coord.Value, null);
-        }
-
-        public IEnumerable<Coord> GetMovements(Coord coord)
-        {
-            Assert.IsNotNull(coord);
-            Assert.IsTrue(IsValidCoord(coord));
-            return GetMovements(At(coord));
-        }
-
-        public IEnumerable<Coord> GetAttacks(Coord coord)
-        {
-            return GetAttacks(At(coord));
-        }
-
-        public IEnumerable<Coord> GetMovements(IPieceModel piece)
-        {
-            if (piece == null)
-            {
-                Warn($"Attempt to get movements for empty piece");
-                yield break;
-            }
-            var coord = piece.Coord.Value;
-            foreach (var c in GetMovements(coord, piece.PieceType))
-                yield return c;
-        }
-
-        public IEnumerable<Coord> GetAttacks(IPieceModel piece)
-        {
-            if (piece == null)
-                yield break;
-            foreach (var c in GetAttacks(piece.Coord.Value, piece.PieceType))
-                yield return c;
-        }
-
-        public IEnumerable<Coord> GetAttacks(Coord coord, EPieceType type)
-        {
-            switch (type)
-            {
-                case EPieceType.King:
-                case EPieceType.Queen:
-                case EPieceType.Archer:
-                case EPieceType.Castle:
-                case EPieceType.Gryphon:
-                    foreach (var c in GetMovements(coord, type).Where(IsValidCoord))
-                        yield return c;
-                    break;
-                case EPieceType.Peon:
-                    foreach (var c in Diagonals(coord, 1).Where(IsValidCoord))
-                        yield return c;
-                    break;
-                case EPieceType.Siege:
-                    foreach (var c in Orthogonals(coord, 2).Where(IsValidCoord))
-                        yield return c;
-                    break;
-                case EPieceType.Barricade:
-                    break;
-                case EPieceType.None:
-                    break;
-                case EPieceType.Paladin:
-                    break;
-                case EPieceType.Priest:
-                    break;
-                case EPieceType.Ballista:
-                    break;
-                case EPieceType.Dragon:
-                {
-                    // can attack all adjacent squares
-                    var offsets = new[]
-                    {
-                        new Coord(-1, 1),
-                        new Coord(0, 1),
-                        new Coord(1, 1),
-                        new Coord(-1, 0),
-                        new Coord(1, 0),
-                        new Coord(-1, -1),
-                        new Coord(0, -1),
-                        new Coord(1, -1),
-                    };
-                    foreach (var off in offsets)
-                    {
-                        var c = coord + off;
-                        if (IsValidCoord(c))
-                            yield return c;
-                    }
-                    break;
-                }
-            }
-        }
-
-        public IEnumerable<Coord> GetMovements(Coord coord, EPieceType type)
-        {
-            var max = Math.Max(Width, Height);
-            switch (type)
-            {
-                case EPieceType.King:
-                    foreach (var c in Nearby(coord, 1))
-                        yield return c;
-                    break;
-                case EPieceType.Peon:
-                    foreach (var c in Orthogonals(coord, 1))
-                        yield return c;
-                    break;
-                case EPieceType.Archer:
-                    foreach (var c in Diagonals(coord, max))
-                        yield return c;
-                    break;
-                case EPieceType.Gryphon:
-                    {
-                        var offsets = new[]
-                        {
-                        new Coord(-1, 2),
-                        new Coord(-1, -2),
-                        new Coord(1, -2),
-                        new Coord(1, 2),
-                        new Coord(-2, 1),
-                        new Coord(-2, -1),
-                        new Coord(2, 1),
-                        new Coord(2, -1),
-                    };
-                        foreach (var c in offsets)
-                        {
-                            var d = coord + c;
-                            if (IsValidCoord(d))
-                                yield return d;
-                        }
-                        break;
-                    }
-                case EPieceType.Queen:
-                    {
-                        foreach (var c in Diagonals(coord, max).Concat(Orthogonals(coord, max)).Where(IsValidCoord))
-                            yield return c;
-                        break;
-                    }
-                case EPieceType.Siege:
-                    // can't move
-                    break;
-                case EPieceType.Ballista:
-                    foreach (var c in Nearby(coord, 1))
-                        yield return c;
-                    break;
-                case EPieceType.Barricade:
-                    // can't move
-                    break;
-                case EPieceType.None:
-                    // can't move
-                    break;
-                case EPieceType.Paladin:
-                    // unsure
-                    break;
-                case EPieceType.Priest:
-                    // unsure
-                    break;
-                case EPieceType.Castle:
-                    foreach (var c in Orthogonals(coord, max).Where(IsValidCoord))
-                        yield return c;
-                    break;
-                case EPieceType.Dragon:
-                {
-                    // can move in a diamond pattern
-                    var offsets = new[]
-                    {
-                        new Coord(0, 2),
-                        new Coord(-1, 1),
-                        new Coord(0, 1),
-                        new Coord(1, 1),
-                        new Coord(-2, 0),
-                        new Coord(-1, 0),
-                        new Coord(1, 0),
-                        new Coord(2, 0),
-                        new Coord(-1, -1),
-                        new Coord(0, -1),
-                        new Coord(1, -1),
-                        new Coord(1, -1),
-                        new Coord(0, -2),
-                    };
-                    foreach (var off in offsets)
-                    {
-                        var c = coord + off;
-                        if (IsValidCoord(c))
-                            yield return c;
-                    }
-                    break;
-                }
-            }
         }
 
         public string Print()
@@ -517,58 +297,12 @@ namespace App.Model
             _pieces.Clear();
         }
 
-        private IEnumerable<Coord> Nearby(Coord orig, int dist)
-        {
-            var y = Math.Max(orig.y - dist, 0);
-            for (; y <= orig.y + dist; ++y)
-            {
-                for (var x = Math.Max(orig.x - dist, 0); x <= orig.x + dist; ++x)
-                {
-                    var coord = new Coord(x, y);
-                    if (!IsValidCoord(coord))
-                        break;
-                    if (!Equals(coord, orig))
-                        yield return coord;
-                }
-            }
-        }
-
-        private IEnumerable<Coord> Orthogonals(Coord orig, int dist)
-        {
-            for (var dx = -dist; dx <= dist; ++dx)
-            {
-                var p0 = new Coord(orig.x + dx, orig.y);
-                if (IsValidCoord(p0) && dx != 0)
-                    yield return p0;
-            }
-            for (var dy = -dist; dy <= dist; dy++)
-            {
-                var p1 = new Coord(orig.x, orig.y + dy);
-                if (IsValidCoord(p1) && dy != 0)
-                    yield return p1;
-            }
-        }
-
-        private IEnumerable<Coord> Diagonals(Coord orig, int dist)
-        {
-            for (int y = -dist; y <= dist; ++y)
-            {
-                foreach (var p in new[] {-y, y})
-                {
-                    var c = orig + new Coord(p, y);
-                    if (IsValidCoord(c))
-                        yield return c;
-                }
-            }
-        }
-
         public IResponse Add(IPieceModel piece)
         {
             Assert.IsNull(At(piece.Coord.Value));
             AddPiece(piece.Coord.Value, piece);
             return Response.Ok;
         }
-
 
         public void NewTurn()
         {
@@ -579,6 +313,205 @@ namespace App.Model
                 p.NewTurn();
             }
         }
+
+        public MoveResults GetMovements(Coord coord)
+        {
+            Assert.IsNotNull(coord);
+            Assert.IsTrue(IsValidCoord(coord));
+            return GetMovements(At(coord));
+        }
+
+        public MoveResults GetAttacks(Coord coord)
+        {
+            return GetAttacks(At(coord));
+        }
+
+        public MoveResults GetMovements(IPieceModel piece)
+        {
+            if (piece == null)
+            {
+                Warn($"Attempt to get movements for empty piece");
+                return null;
+            }
+            var coord = piece.Coord.Value;
+            return GetMovements(coord, piece.PieceType);
+        }
+
+        public MoveResults GetAttacks(IPieceModel piece)
+        {
+            return piece == null ? null : GetAttacks(piece.Coord.Value, piece.PieceType);
+        }
+
+        public MoveResults GetAttacks(Coord coord, EPieceType type)
+        {
+            switch (type)
+            {
+                case EPieceType.King:
+                case EPieceType.Queen:
+                case EPieceType.Archer:
+                case EPieceType.Castle:
+                case EPieceType.Gryphon:
+                    return GetMovements(coord, type);
+                case EPieceType.Peon:
+                    return Diagonals(coord, 1);
+                case EPieceType.Siege:
+                    return null;
+                case EPieceType.Barricade:
+                    break;
+                case EPieceType.None:
+                    break;
+                case EPieceType.Paladin:
+                    break;
+                case EPieceType.Priest:
+                    break;
+                case EPieceType.Ballista:
+                    break;
+                case EPieceType.Dragon:
+                {
+                    return GetMoveResults(coord, 2, _surrounding);
+                }
+            }
+
+            return null;
+        }
+
+        public MoveResults GetMovements(Coord coord, EPieceType type)
+        {
+            var max = Math.Max(Width, Height);
+            switch (type)
+            {
+                case EPieceType.King:
+                    return GetMoveResults(coord, 1, _surrounding);
+                case EPieceType.Peon:
+                    return GetMoveResults(coord, 1, _orthogonals);
+                case EPieceType.Archer:
+                    return GetMoveResults(coord, max, _diagnonals);
+                case EPieceType.Gryphon:
+                    return GetMoveResults(coord, 1, _knightMoves);
+                case EPieceType.Queen:
+                    return GetMoveResults(coord, max, _orthogonals.Concat(_diagnonals).ToArray());
+                case EPieceType.Siege:
+                    // can't move
+                    break;
+                case EPieceType.Ballista:
+                    return GetMoveResults(coord, 2, _orthogonals);
+                case EPieceType.Barricade:
+                    // can't move
+                    break;
+                case EPieceType.None:
+                    // can't move
+                    break;
+                case EPieceType.Paladin:
+                    // unsure
+                    break;
+                case EPieceType.Priest:
+                    // unsure
+                    break;
+                case EPieceType.Castle:
+                    return GetMoveResults(coord, max, _orthogonals);
+                case EPieceType.Dragon:
+                    return GetMoveResults(coord, 1, _diamond);
+            }
+
+            return null;
+        }
+
+        private MoveResults Nearby(Coord orig, int dist)
+        {
+            return GetMoveResults(orig, dist, _surrounding);
+        }
+
+        private MoveResults Diagonals(Coord orig, int dist)
+        {
+            return GetMoveResults(orig, dist, _diagnonals);
+        }
+
+        MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
+        {
+            var moveResults = new MoveResults();
+            for (int n = 0; n < dist; ++n)
+            {
+                for (int m = 1; m <= dirs.Length; ++m)
+                {
+                    var coord = orig + dirs[m]*n;
+                    if (!IsValidCoord(coord))
+                        continue;
+                    var model = At(coord);
+                    if (model != null)
+                    {
+                        moveResults.Interferernce.Add(model);
+                        // no longer try in this direction
+                        break;
+                    }
+
+                    moveResults.Coords.Add(coord);
+                }
+            }
+            return moveResults;
+        }
+
+        private readonly Coord[] _surrounding = new[]
+        {
+            new Coord(-1, 1),
+            new Coord(0, 1),
+            new Coord(1, 1),
+            new Coord(-1, 0),
+            new Coord(0, 0),
+            new Coord(1, 0),
+            new Coord(-1, -1),
+            new Coord(0, -1),
+            new Coord(1, -1),
+        };
+
+        private readonly Coord[] _knightMoves = new[]
+        {
+            new Coord(-1, 2),
+            new Coord(-1, -2),
+            new Coord(1, -2),
+            new Coord(1, 2),
+            new Coord(-2, 1),
+            new Coord(-2, -1),
+            new Coord(2, 1),
+            new Coord(2, -1),
+        };
+
+        private readonly Coord[] _orthogonals = new[]
+        {
+            new Coord(0, 1),
+            new Coord(1, 0),
+            new Coord(0, -1),
+            new Coord(-1, 0),
+        };
+
+        private readonly Coord[] _diagnonals = new[]
+        {
+            new Coord(-1, 1),
+            new Coord(0, 1),
+            new Coord(1, 1),
+            new Coord(-1, 0),
+            new Coord(0, 0),
+            new Coord(1, 0),
+            new Coord(-1, -1),
+            new Coord(0, -1),
+            new Coord(1, -1),
+        };
+
+        private readonly Coord[] _diamond = new[]
+        {
+            new Coord(0, 2),
+            new Coord(-1, 1),
+            new Coord(0, 1),
+            new Coord(1, 1),
+            new Coord(-2, 0),
+            new Coord(-1, 0),
+            new Coord(1, 0),
+            new Coord(2, 0),
+            new Coord(-1, -1),
+            new Coord(0, -1),
+            new Coord(1, -1),
+            new Coord(1, -1),
+            new Coord(0, -2),
+        };
 
         private readonly ReactiveCollection<IPieceModel> _pieces = new ReactiveCollection<IPieceModel>();
     }

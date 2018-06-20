@@ -1,4 +1,6 @@
-﻿namespace App.Common
+﻿using System.Security.Cryptography;
+
+namespace App.Common
 {
     /// <summary>
     /// A coordinate on the board.
@@ -25,6 +27,11 @@
         public static int ManhattanDistance(Coord a, Coord b)
         {
             return a.ManhattanDistance(b);
+        }
+
+        public static Coord operator *(Coord a, int f)
+        {
+            return new Coord(a.x*f, a.y*f);
         }
 
         public static Coord operator +(Coord a, Coord b)
@@ -69,6 +76,17 @@
         public override string ToString()
         {
             return $"({x}, {y})";
+        }
+
+        public Coord Abs()
+        {
+            return new Coord(Math.Abs(x), Math.Abs(y));
+        }
+
+        public float Distance(Coord c)
+        {
+            var d = (c - this);
+            return d.x*d.x + d.y*d.y;
         }
     }
 }
