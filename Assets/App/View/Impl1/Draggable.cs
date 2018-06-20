@@ -18,6 +18,7 @@ namespace App.View.Impl1
         where TIAgent : class, IAgent
     {
         public Image Image;
+        public Vector3 CursorOffset = new Vector3(0, -0.2f, 0);
         public IReadOnlyReactiveProperty<IViewBase> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
 
@@ -93,8 +94,8 @@ namespace App.View.Impl1
 
             var mp = Input.mousePosition;
             var cursorPoint = new Vector3(mp.x, mp.y, _screenPoint.z);
-            var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + _offset;
-            transform.position = cursorPosition;
+            var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint);
+            transform.position = cursorPosition + CursorOffset;
             transform.SetZ(-0.5f);
             _squareOver.Value = BoardView.TestRayCast(Input.mousePosition);
         }
