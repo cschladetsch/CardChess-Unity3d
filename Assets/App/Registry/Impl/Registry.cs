@@ -152,8 +152,6 @@ namespace App.Registry
             }
 
             Verbose(10, $"Made a {typeof(TIBase)}");
-            model.Registry = this;
-            model.OnDestroyed += ModelDestroyed;
             return model;
         }
 
@@ -214,6 +212,7 @@ namespace App.Registry
                 model.Id = Guid.NewGuid();
                 _models[model.Id] = model;
             }
+            model.OnDestroyed += ModelDestroyed;
             model.Registry = this;
             return model;
         }
@@ -287,7 +286,7 @@ namespace App.Registry
         private void Remove(IBase model)
         {
             if (!_models.ContainsKey(model.Id))
-                Warn($"Attempt to destroy unknown {model.GetType()}");
+                Warn($"Attempt to destroy unknown {model.GetType()} Id={model.Id}");
             else
                 _models.Remove(model.Id);
         }
@@ -388,7 +387,6 @@ namespace App.Registry
             {
                 throw new Exception($"No preparer for type {ity}");
             }
-            Prepare(model);
             return prep.Inject(model);
         }
 

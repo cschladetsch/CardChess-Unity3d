@@ -45,8 +45,6 @@ namespace App
             ArbiterView.SetAgent(null, ArbiterAgent);
 
             CheckAllValid();
-
-            //ArbiterAgent.
         }
 
         [ContextMenu("GameRoot-IsValid")]
@@ -90,45 +88,7 @@ namespace App
                 PrepareViews(ch);
         }
 
-        /// <summary>
-        /// Test that a collection of entities are valid.
-        /// </summary>
-        /// <param name="what">the name of the collection</param>
-        /// <param name="entities">the set of entities to test</param>
-        private void TestValidity(string what, IEnumerable<IEntity> entities)
-        {
-            Verbose(10, $"TestValidity: {what}");
-            foreach (var entity in entities)
-            {
-                // these are special cases
-                if (entity is GameRoot)
-                    continue;
-                if (entity is BoardOverlayView)
-                    continue;
-
-                var valid = entity.IsValid;
-                if (!valid)
-                {
-                    // test again so we can see what exactly is invalid in the debugger
-                    Warn($"NotValid: {entity}: {entity.GetType()}");
-                    var secondTest = entity.IsValid;
-                    Info($"{secondTest}");
-                    var pr = entity as IPrintable;
-                    try
-                    {
-                        if (pr != null)
-                            Warn($"\tNotValid:\n\t{pr.Print()}");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-                Assert.IsTrue(valid);
-            }
-        }
         [ContextMenu("TestWhiteHand")]
-
         public void TestWhiteHand()
         {
         }
@@ -210,34 +170,63 @@ namespace App
             CheckViews();
         }
 
-        [ContextMenu("CheckAgents")]
-        public void CheckAgents()
-        {
-            Info($"{_agents.Instances.Count()} Agents Valid");
-            foreach (var agent in _agents.Instances)
-                Assert.IsTrue(agent.IsValid);
-        }
-
         [ContextMenu("CheckModels")]
         public void CheckModels()
         {
-            Info($"{_models.Instances.Count()} Models Valid");
-            foreach (var agent in _models.Instances)
-                Assert.IsTrue(agent.IsValid);
+            TestValidity("Models", _models.Instances);
+        }
+
+        [ContextMenu("CheckAgents")]
+        public void CheckAgents()
+        {
+            TestValidity("Agents", _agents.Instances);
         }
 
         [ContextMenu("CheckViews")]
         public void CheckViews()
         {
-            Info($"{_views.Instances.Count()} Views Valid");
-            foreach (var view in _views.Instances)
+            TestValidity("Views", _views.Instances);
+        }
+
+        /// <summary>
+        /// Test that a collection of entities are valid.
+        /// </summary>
+        /// <param name="what">the name of the collection</param>
+        /// <param name="entities">the set of entities to test</param>
+        private void TestValidity(string what, IEnumerable<IEntity> entities)
+        {
+            var list = entities.ToList();
+            Verbose(10, $"TestValidity: {what}, count={list.Count}");
+            int n = 0;
+            foreach (var entity in list)
             {
-                var valid = view.IsValid;
+                // these are special cases
+                if (entity is GameRoot)
+                    continue;
+                if (entity is BoardOverlayView)
+                    continue;
+
+                var valid = entity.IsValid;
                 if (!valid)
                 {
-                    Info($"{view.IsValid}");
+                    // test again so we can see what exactly is invalid in the debugger
+                    Warn($"NotValid: {n}th {entity}: {entity.GetType()}");
+                    var secondTest = entity.IsValid;
+                    Info($"{secondTest}");
+                    var pr = entity as IPrintable;
+                    try
+                    {
+                        if (pr != null)
+                            Warn($"\tNotValid:\n\t{pr.Print()}");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
                 Assert.IsTrue(valid);
+
+                ++n;
             }
         }
 
