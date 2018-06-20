@@ -50,7 +50,7 @@ namespace App.View.Impl1
             SquareOver.Subscribe(sq =>
             {
                 if (sq != null)
-                    BoardView.ShowSquares(this, sq);
+                    BoardView.ShowSquares(Agent.Model, sq);
             }).AddTo(this);
         }
 

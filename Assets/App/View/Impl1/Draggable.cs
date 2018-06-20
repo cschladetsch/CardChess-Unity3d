@@ -18,7 +18,6 @@ namespace App.View.Impl1
         where TIAgent : class, IAgent
     {
         public Image Image;
-        public Vector3 CursorOffset = new Vector3(0, -0.2f, 0);
         public IReadOnlyReactiveProperty<IViewBase> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
 
@@ -38,6 +37,18 @@ namespace App.View.Impl1
 
             _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
         }
+
+        //protected override void Begin()
+        //{
+        //    base.Begin();
+        //    SquareOver.Subscribe(s =>
+        //    {
+        //        if (s == null) return;
+        //        var p = Agent.BaseModel as ICardModel;
+        //        if (p == null) return;
+        //        BoardView.ShowSquares(p, s);
+        //    });
+        //}
 
         private void OnMouseEnter()
         {
@@ -95,7 +106,7 @@ namespace App.View.Impl1
             var mp = Input.mousePosition;
             var cursorPoint = new Vector3(mp.x, mp.y, _screenPoint.z);
             var cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint);
-            transform.position = cursorPosition + CursorOffset;
+            transform.position = cursorPosition + _cursorOffset;
             transform.SetZ(-0.5f);
             _squareOver.Value = BoardView.TestRayCast(Input.mousePosition);
         }
@@ -142,23 +153,10 @@ namespace App.View.Impl1
         private Vector3 _startLocation;
         private Ref<Color> _backgroundColor;
         private const float ScaleTime = 0.230f;
+        private readonly Vector3 _cursorOffset = new Vector3(0, -0.15f, 0);
         private const double ImageAlphaAnimDuration = 0.5;
         private readonly ReactiveProperty<IViewBase> _mouseOver = new ReactiveProperty<IViewBase>();
         private readonly ReactiveProperty<ISquareView> _squareOver = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _squareOverFiltered = new ReactiveProperty<ISquareView>();
     }
-
-    //public abstract class DraggableCard<TIAgent>
-    //    : Draggable<TIAgent>
-    //    , ICard
-    //    where TIAgent : class, IAgent
-    //{
-    //    public ICardTemplate Template { get; }
-    //    public IReadOnlyReactiveProperty<int> Health =>
-    //    public IReadOnlyReactiveProperty<int> Power { get; }
-    //    public IReactiveProperty<IPlayerModel> Player { get; }
-    //    public IReactiveCollection<IEffectModel> Effects { get; }
-    //    public IReactiveCollection<IItemModel> Items { get; }
-    //    public IReactiveCollection<EAbility> Abilities { get; }
-    //}
 }
