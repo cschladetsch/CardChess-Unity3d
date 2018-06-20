@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using System.Text;
-using App.Common.Message;
+
 using Flow;
 using UniRx;
 
 namespace App.Agent
 {
+    using Common.Message;
     using Common;
     using Model;
 

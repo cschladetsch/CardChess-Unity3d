@@ -1,7 +1,7 @@
-﻿using CoLib;
-using UnityEngine;
+﻿using UnityEngine;
 
 using UniRx;
+using CoLib;
 
 namespace App.View.Impl1
 {

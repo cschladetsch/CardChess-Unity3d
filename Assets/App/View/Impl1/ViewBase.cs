@@ -1,13 +1,12 @@
 ﻿using System;
-using App.Model;
-using App.Registry;
+using UnityEngine;
 using CoLib;
 using UniRx;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace App.View.Impl1
 {
+    using Model;
+    using Registry;
     using Common;
     using Agent;
 
@@ -121,7 +120,7 @@ namespace App.View.Impl1
 
         public virtual void Destroy()
         {
-            //Info($"Destroy {this}");
+            Verbose(10, $"Destroy {this}");
             if (Destroyed.Value)
             {
                 Warn($"Object {Id} of type {GetType()} already destoyed");

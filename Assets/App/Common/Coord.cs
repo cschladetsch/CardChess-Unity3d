@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace App.Common
+﻿namespace App.Common
 {
     /// <summary>
     /// A coordinate on the board.

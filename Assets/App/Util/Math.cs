@@ -5,6 +5,8 @@ namespace App
 {
     public static class Math
     {
+        public static Random Rand = new Random();
+
         public static int Abs(int n)
         {
             return n < 0 ? -n : n;
@@ -19,8 +21,6 @@ namespace App
         {
             return a < b ? a : b;
         }
-
-        public static System.Random Rand = new Random();
 
         public static int RandomRanged(int min, int max)
         {
@@ -51,23 +51,6 @@ namespace App
             var p = v.position;
             p.z = z;
             v.position = p;
-        }
-    }
-
-    public static class Unity
-    {
-        public static void Destroy(Transform tr)
-        {
-            if (tr != null)
-                Destroy(tr.gameObject);
-        }
-
-        public static void Destroy(GameObject go)
-        {
-            if (Application.isEditor)
-                UnityEngine.Object.DestroyImmediate(go);
-            else
-                UnityEngine.Object.Destroy(go);
         }
     }
 }

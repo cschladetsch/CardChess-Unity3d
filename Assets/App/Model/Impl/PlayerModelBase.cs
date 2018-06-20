@@ -96,7 +96,7 @@ namespace App.Model
 
         public void EndTurn()
         {
-            //Info($"{this} ends turn with {Mana.Value} mana");
+            Verbose(10, $"{this} ends turn with {Mana.Value} mana");
         }
 
         public Response CardDrawn(ICardModel card)
@@ -109,39 +109,6 @@ namespace App.Model
         public virtual void Result(IRequest req, IResponse response)
         {
             Verbose(5, $"{this}: {req} -> {response}");
-
-            if (response.Error == EError.None)
-            {
-                return;
-            }
-
-            //// if these actions failed, return the cards to Hand
-            //switch (req.Action)
-            //{
-            //    case EActionType.RejectCards:
-            //        // TODO:
-            //        //var cards = (req as IRequest<IList<ICardModel>>)
-            //        Info("Got cards back from mulligan request (somehow)....");
-            //        break;
-            //    case EActionType.CastSpell:
-            //        var cast = req as CastSpell;
-            //        Assert.IsNotNull(cast);
-            //        Hand.Add(cast.Spell);
-            //        ChangeMana(cast.Spell.ManaCost.Value);
-            //        break;
-            //    //case EActionType.PlacePiece:
-            //    //    var place = req as PlacePiece;
-            //    //    Assert.IsNotNull(place);
-            //    //    Hand.Add(place.Card);
-            //    //    ChangeMana(place.Card.ManaCost.Value);
-            //    //    break;
-            //    case EActionType.GiveItem:
-            //        var item = req as GiveItem;
-            //        Assert.IsNotNull(item);
-            //        Hand.Add(item.Item);
-            //        ChangeMana(item.Item.ManaCost.Value);
-            //        break;
-            //}
         }
 
         public virtual IRequest Mulligan()
@@ -174,13 +141,6 @@ namespace App.Model
             MaxMana.Value = Mathf.Clamp(0, Parameters.MaxManaCap, MaxMana.Value + change);
             return Response.Ok;
         }
-
-        //public Response DrawHand()
-        //{
-        //    Hand.DrawInitialCards();
-
-        //    return Response.Ok;
-        //}
 
         private readonly IntReactiveProperty _maxMana = new IntReactiveProperty(0);
         private readonly IntReactiveProperty _mana = new IntReactiveProperty(0);

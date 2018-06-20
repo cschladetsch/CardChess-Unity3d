@@ -1,11 +1,10 @@
-﻿using App.Common.Message;
-using App.View;
-using Flow;
+﻿using Flow;
 using UniRx;
 
 namespace App.Agent
 {
     using Common;
+    using Common.Message;
     using Model;
 
     /// <summary>

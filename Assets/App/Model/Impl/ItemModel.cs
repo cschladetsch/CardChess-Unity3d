@@ -1,8 +1,8 @@
-﻿using App.Common.Message;
-
+﻿
 namespace App.Model
 {
     using Common;
+    using Common.Message;
 
     /// <summary>
     /// An Item that can be placed on a Piece on the Board.

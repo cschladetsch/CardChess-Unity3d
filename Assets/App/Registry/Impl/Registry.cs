@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace App.Registry
 {
@@ -18,12 +18,9 @@ namespace App.Registry
             , IHasRegistry<IBase>
             , IHasDestroyHandler<IBase>
     {
-        #region Public Properties
         public IEnumerable<IBase> Instances => _models.Values;
         public int NumInstances => _models.Count;
-        #endregion
 
-        #region Public Methods
         public Registry()
             : base(null)
         {
@@ -217,10 +214,6 @@ namespace App.Registry
             return model;
         }
 
-        #endregion
-
-        #region Private Methods
-
         private static string ToArgTypeList(IEnumerable<object> args)
         {
             if (args == null)
@@ -390,9 +383,6 @@ namespace App.Registry
             return prep.Inject(model);
         }
 
-        #endregion
-
-        #region IPrintable
         public string Print()
         {
             var sb = new StringBuilder();
@@ -415,9 +405,6 @@ namespace App.Registry
             //}
             return sb.ToString();
         }
-        #endregion
-
-        #region Private Fields
 
         class Injector
         {
@@ -530,7 +517,5 @@ namespace App.Registry
         private readonly Dictionary<Type, Injector> _preparers = new Dictionary<Type, Injector>();
         private readonly Dictionary<Type, IBase> _singles = new Dictionary<Type, IBase>();
         private IRegistry<IBase> _registry;
-
-        #endregion
     }
 }

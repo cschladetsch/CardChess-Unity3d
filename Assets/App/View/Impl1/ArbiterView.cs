@@ -1,11 +1,12 @@
-﻿using App.Common.Message;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
+
 using UniRx;
 
 namespace App.View.Impl1
 {
     using Agent;
     using Common;
+    using Common.Message;
 
     public class ArbiterView
         : ViewBase<IArbiterAgent>
@@ -73,7 +74,7 @@ namespace App.View.Impl1
         {
             Assert.IsNotNull(obj);
             Assert.IsTrue(obj.Success);
-            //Info($"TurnEnded for {obj.Request.Player}");
+            Verbose(5, $"TurnEnded for {obj.Request.Player}");
         }
 
         public void AddWhiteCard()
