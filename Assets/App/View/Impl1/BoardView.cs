@@ -119,32 +119,18 @@ namespace App.View.Impl1
             Assert.IsNotNull(model);
 
             var board = Agent.Model;
-            var movements = board.GetMovements(sq.Coord, model.PieceType).ToList();
-            var attacks = board.GetAttacks(sq.Coord, model.PieceType).ToList();
-            AddOverlays(movements, attacks);
-
-            // show other pieces that can attack this piece
-            // This is really slow???!
-            //var others = board.Pieces.Where(p => !p.SameOwner(cardView));
-            //foreach (var other in others)
-            //{
-            //    var att = board.GetAttacks(other.Coord.Value);
-            //    foreach (var c in att)
-            //    {
-            //        if (c == sq.Coord)
-            //        {
-            //            Info($"Card {other} can attack {cardView.Agent.Model}");
-            //            OverlayView.Add(new []{c}, Color.yellow);
-            //        }
-            //    }
-            //}
+            var movements = board.GetMovements(sq.Coord, model.PieceType);
+            var attacks = board.GetAttacks(sq.Coord, model.PieceType);
+            AddOverlays(movements.Coords, attacks.Coords);
         }
 
         public void ShowSquares(Coord coord)
         {
-            var movements = Agent.Model.GetMovements(coord).ToList();
-            var attacks = Agent.Model.GetAttacks(coord).ToList();
-            AddOverlays(movements, attacks);
+            var agent = Agent.At(coord);
+            var board = Agent.Model;
+            var movements = board.GetMovements(agent.Model);
+            var attacks = board.GetMovements(agent.Model);
+            AddOverlays(movements.Coords, attacks.Coords);
         }
 
         private void AddOverlays(IList<Coord> moves, IList<Coord> attacks)

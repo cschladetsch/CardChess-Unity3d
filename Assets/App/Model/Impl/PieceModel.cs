@@ -66,6 +66,5 @@ namespace App.Model
         }
 
         private readonly ReactiveProperty<Coord> _coord = new ReactiveProperty<Coord>();
-        private readonly BoolReactiveProperty _dead = new BoolReactiveProperty(false);
     }
 }

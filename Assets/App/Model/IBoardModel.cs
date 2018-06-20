@@ -34,21 +34,35 @@ namespace App.Model
         IPieceModel At(int x, int y);
         IPieceModel At(Coord coord);
 
-        IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
-        IEnumerable<IPieceModel> AttackedCards(Coord cood);
-        IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
-        IEnumerable<IPieceModel> Defenders(Coord cood);
+        //IEnumerable<IPieceModel> GetAdjacent(Coord cood, int dist = 1);
+        //IEnumerable<IPieceModel> AttackedCards(Coord cood);
+        //IEnumerable<IPieceModel> DefendededCards(IPieceModel defender, Coord cood);
+        //IEnumerable<IPieceModel> Defenders(Coord cood);
 
-        IEnumerable<Coord> GetMovements(Coord cood);
-        IEnumerable<Coord> GetAttacks(Coord cood);
+        //IEnumerable<Coord> GetMovements(Coord cood);
+        //IEnumerable<Coord> GetAttacks(Coord cood);
 
-        IEnumerable<Coord> GetMovements(Coord cood, EPieceType type);
-        IEnumerable<Coord> GetAttacks(Coord cood, EPieceType type);
+        //IEnumerable<Coord> GetMovements(Coord cood, EPieceType type);
+        //IEnumerable<Coord> GetAttacks(Coord cood, EPieceType type);
+
+        MoveResults GetMovements(IPieceModel piece);
+        MoveResults GetMovements(Coord coord, EPieceType type);
+
+        MoveResults GetAttacks(IPieceModel piece);
+        MoveResults GetAttacks(Coord coord, EPieceType type);
 
         // directly change model state
         IResponse Add(IPieceModel model);
         IResponse Remove(IPieceModel pieceModel);
         IResponse Move(IPieceModel pieceModel, Coord coord);
+
         void NewTurn();
+    }
+
+    public class MoveResults
+    {
+        // orderd by closeness to orig
+        public List<IPieceModel> Interferernce = new List<IPieceModel>();
+        public List<Coord> Coords = new List<Coord>();
     }
 }
