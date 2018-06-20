@@ -19,7 +19,7 @@ namespace App.View
         IReadOnlyReactiveProperty<int> Width { get; }
         IReadOnlyReactiveProperty<int> Height { get; }
         IReadOnlyReactiveProperty<ISquareView> HoverSquare { get; }
-        IEnumerable<IPieceView> Pieces { get; }
+        IReadOnlyReactiveCollection<IPieceView> Pieces { get; }
 
         Material BlackMaterial { get; }
         Material WhiteMaterial { get; }

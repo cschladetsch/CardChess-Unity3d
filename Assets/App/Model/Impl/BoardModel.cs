@@ -23,25 +23,22 @@ namespace App.Model
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public IReadOnlyReactiveDictionary<Coord, IPieceModel> Pieces => _pieces;
+        public IReadOnlyReactiveCollection<IPieceModel> Pieces => _pieces;
         [Inject] public IArbiterModel Arbiter { get; set; }
 
         public override bool IsValid
         {
             get
             {
-                //Info("Testing Valid board");
                 if (!base.IsValid) return false;
                 if (Arbiter == null) return false;
                 if (Width < 2) return false;
                 if (Height < 2) return false;
-                foreach (var kv in _pieces)
+                foreach (var p in _pieces)
                 {
-                    var k = kv.Key;
-                    var p = kv.Value;
                     if (p == null)
                         return false;
-                    if (p.Coord.Value != k)
+                    if (!IsValidCoord(p.Coord.Value))
                         return false;
                 }
                 return true;
@@ -73,7 +70,7 @@ namespace App.Model
 
         public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
         {
-            return Pieces.Where(p => p.Value.PieceType == type).Select(kv => kv.Value);
+            return Pieces.Where(p => p.PieceType == type);
         }
 
         public int NumPieces(EPieceType type)
@@ -84,22 +81,24 @@ namespace App.Model
         public IResponse Remove(IPieceModel pieceModel)
         {
             Assert.IsNotNull(pieceModel);
-            IPieceModel existing = null;
-            var oldCoord = pieceModel.Coord.Value;
-            if (!_pieces.TryGetValue(oldCoord, out existing))
-                return Response.Fail;
-            Assert.AreSame(pieceModel, existing);
-            _pieces.Remove(oldCoord);
-            return Response.Ok;
+            return _pieces.Remove(pieceModel) ? Response.Ok : Response.Fail;
         }
 
         public IResponse Move(IPieceModel pieceModel, Coord coord)
         {
-            var removed = Remove(pieceModel);
-            if (removed.Failed)
-                return removed;
-            Set(coord, pieceModel);
+            Assert.IsNotNull(pieceModel);
+            Assert.IsNotNull(coord);
+            Assert.IsTrue(IsValidCoord(coord));
+            var found = Get(coord);
+            if (found == null)
+                return Response.Fail;
+            found.Coord.Value = coord;
             return Response.Ok;
+        }
+
+        IPieceModel Get(Coord coord)
+        {
+            return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
         }
 
         public IPieceModel RemovePiece(Coord coord)
@@ -110,7 +109,8 @@ namespace App.Model
                 return null;
             }
             var current = At(coord);
-            return _pieces.Remove(coord) ? current : null;
+            _pieces.Remove(current);
+            return current;
         }
 
         public bool IsValidCoord(Coord coord)
@@ -148,14 +148,15 @@ namespace App.Model
 
         private IResponse MovePieceTo(Coord coord, IPieceModel piece)
         {
-            var old = piece.Coord.Value;
-            var resp = Set(coord, piece);
-            if (resp.Success)
-            {
-                piece.Coord.Value = coord;
-                resp = Set(old, null);
-            }
-            return resp;
+            Assert.IsNotNull(piece);
+            Assert.IsNotNull(coord);
+            Assert.IsTrue(IsValidCoord(coord));
+            var found = _pieces.FirstOrDefault(p => p == piece);
+            Assert.IsNotNull(found);
+            if (found == null)
+                return Response.Fail;
+            found.Coord.Value = coord;
+            return Response.Ok;
         }
 
         public IEnumerable<IPieceModel> GetAdjacent(Coord coord, int dist = 1)
@@ -214,8 +215,7 @@ namespace App.Model
         public IPieceModel At(Coord coord)
         {
             Assert.IsTrue(IsValidCoord(coord));
-            IPieceModel piece;
-            return _pieces.TryGetValue(coord, out piece) ? piece : null;
+            return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
         }
 
         public IPieceModel At(int x, int y)
@@ -234,7 +234,7 @@ namespace App.Model
                     null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {place.Card}");
 
             var piece = Registry.New<IPieceModel>(place.Player, place.Card);
-            var set = Set(coord, piece);
+            var set = AddPiece(coord, piece);
             if (set.Success)
                 piece.MovedThisTurn = true;
 
@@ -246,7 +246,7 @@ namespace App.Model
         public IResponse Remove(PieceModel piece)
         {
             Assert.IsNotNull(piece);
-            return Set(piece.Coord.Value, null);
+            return AddPiece(piece.Coord.Value, null);
         }
 
         public IEnumerable<Coord> GetMovements(Coord coord)
@@ -435,7 +435,12 @@ namespace App.Model
 
         public string Print()
         {
-            return Print(coord =>
+            var sb = new StringBuilder();
+            sb.AppendLine($"BoardModel with {_pieces.Count} pieces");
+            foreach (var p in _pieces)
+                sb.AppendLine($"{p.Coord.Value} => {p}");
+            sb.AppendLine();
+            sb.AppendLine(Print(coord =>
             {
                 var piece = At(coord);
                 var rep = CardToRep(piece.Card);
@@ -443,7 +448,8 @@ namespace App.Model
                 if (black)
                     rep = rep.ToLower();
                 return rep;
-            });
+            }));
+            return sb.ToString();
         }
 
         public string Print(Func<Coord, string> fun)
@@ -484,13 +490,18 @@ namespace App.Model
 
         private void ConstructBoard()
         {
+            Assert.IsTrue(IsValid);
+            foreach (var kv in _pieces)
+                kv.Destroy();
             _pieces.Clear();
         }
 
-        private IResponse Set(Coord coord, IPieceModel piece)
+        private IResponse AddPiece(Coord coord, IPieceModel piece)
         {
+            Assert.IsNotNull(piece);
             Assert.IsTrue(IsValidCoord(coord));
-            _pieces[coord] = piece;
+            piece.Coord.Value = coord;
+            _pieces.Add(piece);
             return Response.Ok;
         }
 
@@ -501,7 +512,7 @@ namespace App.Model
 
             foreach (var kv in _pieces)
             {
-                kv.Value.Destroy();
+                kv.Destroy();
             }
             _pieces.Clear();
         }
@@ -554,17 +565,21 @@ namespace App.Model
         public IResponse Add(IPieceModel piece)
         {
             Assert.IsNull(At(piece.Coord.Value));
-            Set(piece.Coord.Value, piece);
+            AddPiece(piece.Coord.Value, piece);
             return Response.Ok;
         }
 
 
         public void NewTurn()
         {
-            foreach (var p in _pieces.Values)
+            Assert.IsTrue(IsValid);
+            foreach (var p in _pieces)
+            {
+                Assert.IsNotNull(p);
                 p.NewTurn();
+            }
         }
 
-        private readonly ReactiveDictionary<Coord, IPieceModel> _pieces = new ReactiveDictionary<Coord, IPieceModel>();
+        private readonly ReactiveCollection<IPieceModel> _pieces = new ReactiveCollection<IPieceModel>();
     }
 }

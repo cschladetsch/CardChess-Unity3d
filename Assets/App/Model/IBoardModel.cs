@@ -20,7 +20,7 @@ namespace App.Model
         int Height { get; set; }
         IArbiterModel Arbiter { get; set; }
 
-        IReadOnlyReactiveDictionary<Coord, IPieceModel> Pieces { get; }
+        IReadOnlyReactiveCollection<IPieceModel> Pieces { get; }
 
         bool IsValidCoord(Coord coord);
         string CardToRep(ICardModel cardModel);
