@@ -18,6 +18,7 @@ namespace App.View
 
         public override IViewBase Prepare(IViewBase view)
         {
+            //?? view.OnDestroyed += v => view.AgentBase.Destroy();
             return base.Prepare(view);
         }
 

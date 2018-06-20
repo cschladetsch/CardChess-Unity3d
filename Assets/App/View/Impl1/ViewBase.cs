@@ -121,7 +121,7 @@ namespace App.View.Impl1
 
         public virtual void Destroy()
         {
-            Info($"Destroy {this}");
+            //Info($"Destroy {this}");
             if (Destroyed.Value)
             {
                 Warn($"Object {Id} of type {GetType()} already destoyed");
