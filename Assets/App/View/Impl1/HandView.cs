@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using App.Registry;
+using App.Service;
+using UnityEngine;
 
 using UniRx;
 using CoLib;
@@ -19,11 +21,14 @@ namespace App.View.Impl1
         public Transform CardsRoot;
         public CardView CardViewPrefab;
         public BoardOverlayView BoardOverlay;
+        // ReSharper disable once InconsistentNaming
+        [Inject] public IPiecePrefabService _pieceFactory;
 
         public override bool IsValid
         {
             get
             {
+                Assert.IsNotNull(_pieceFactory);
                 Assert.IsNotNull(CardsRoot);
                 Assert.IsNotNull(CardViewPrefab);
                 Assert.IsNotNull(BoardOverlay);
@@ -31,10 +36,6 @@ namespace App.View.Impl1
                     Assert.IsTrue(c.IsValid);
                 return true;
             }
-        }
-
-        private HandView()
-        {
         }
 
         public override void SetAgent(IPlayerView playerView, IHandAgent handAgent)
@@ -71,7 +72,8 @@ namespace App.View.Impl1
 
         private ICardView CreateViewFromAgent(ICardAgent agent)
         {
-            var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
+            var prefab = _pieceFactory.GetCardPrefab(agent.Model.PieceType);
+            var cardView = ViewRegistry.FromPrefab<ICardView>(prefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
             cardView.SetAgent(PlayerView, agent);
             var tr = cardView.GameObject.transform;

@@ -19,7 +19,6 @@ namespace App.View.Impl1
         #region Unity Properties
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
-        public GameObject PieceGameObject;
         #endregion
 
         public IReactiveProperty<Coord> Coord => Agent.Coord;
@@ -32,7 +31,6 @@ namespace App.View.Impl1
                 if (!base.IsValid) return false;
                 if (Health == null) return false;
                 if (Power == null) return false;
-                if (PieceGameObject == null) return false;
                 return true;
             }
         }
@@ -57,7 +55,7 @@ namespace App.View.Impl1
             agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
             //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
 
-            PieceGameObject.GetComponent<Renderer>().material
+            FindPiece().GetComponent<Renderer>().material
                 = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
             MouseOver.DistinctUntilChanged().Subscribe(
@@ -67,6 +65,11 @@ namespace App.View.Impl1
                 }
             );
             Dead.Subscribe(d => { if (d) Die(); });
+        }
+
+        GameObject FindPiece()
+        {
+            return transform.GetComponentInChildren<MeshRenderer>().gameObject;
         }
 
         void Die()

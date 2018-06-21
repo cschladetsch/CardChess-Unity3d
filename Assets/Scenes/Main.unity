@@ -512,6 +512,60 @@ Transform:
   m_PrefabParentObject: {fileID: 4179340548155990, guid: d5c0e3b70fa47664e95930c53976fbe2,
     type: 2}
   m_PrefabInternal: {fileID: 1800943708}
+--- !u!1 &551102675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 551102676}
+  - component: {fileID: 551102677}
+  m_Layer: 0
+  m_Name: Pieces
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &551102676
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 551102675}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &551102677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 551102675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c91da3541b36b7942bde0d8b494d5f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cards:
+  - {fileID: 1534494043378762, guid: a1aaa2d7acf5797419156b2c124796b7, type: 2}
+  - {fileID: 1597744074207262, guid: a6fae50c5a1904a44862e025fd583af6, type: 2}
+  - {fileID: 1489824876920568, guid: 6d23949e79d8fc941b0cd24d63da2555, type: 2}
+  - {fileID: 1100443200620328, guid: c2a0a92dd14774449820a6452d751a91, type: 2}
+  - {fileID: 1279736253824948, guid: 87f0e2c0aea72a64d867b62056fc51ca, type: 2}
+  - {fileID: 1088962329503412, guid: 1a267a4ed95aec74182ac0e97934e62e, type: 2}
+  Pieces:
+  - {fileID: 1534494043378762, guid: 512dd391409a3c84cb9d9a9304d32a2c, type: 2}
+  - {fileID: 1597744074207262, guid: 9fe6757345a2bee4487a33aa764f7e0b, type: 2}
+  - {fileID: 1489824876920568, guid: 9159989dae398a443b2852eba4869f19, type: 2}
+  - {fileID: 1100443200620328, guid: 7d5b2eab357593c4185fc0522669267e, type: 2}
+  - {fileID: 1279736253824948, guid: 9baae28d99b3fbb45b867d25bbe44e55, type: 2}
+  - {fileID: 1088962329503412, guid: b83f0001690356a459026c77a6ca617d, type: 2}
 --- !u!4 &686220567 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4401629828264620, guid: db048127caa5ecc47b32c359d8f39207,
