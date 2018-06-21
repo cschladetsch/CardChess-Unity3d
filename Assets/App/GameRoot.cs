@@ -140,6 +140,7 @@ namespace App
             _views = new ViewRegistry();
             _views.Bind<IBoardView, BoardView>(BoardView);
             _views.Bind<IArbiterView, ArbiterView>(ArbiterView);
+            _views.Bind<Service.IPiecePrefabService, PiecePrefabService>(new PiecePrefabService());
             _views.Bind<ICardView, CardView>();
             _views.Bind<IDeckView, DeckView>();
             _views.Bind<IHandView, HandView>();

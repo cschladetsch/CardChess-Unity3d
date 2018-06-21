@@ -24,4 +24,14 @@ public static class TransformExt
         foreach (var ch in tr.Get<Component>().OfType<T>())
             act(ch);
     }
+
+    public static T FindChildNamed<T>(this Transform trans, string name) where T: Component
+    {
+        return trans.GetComponentsInChildren<T>().FirstOrDefault(ch => ch.name == name);
+    }
+
+    public static T FindChildNamed<T>(this GameObject trans, string name) where T: Component
+    {
+        return trans.GetComponentsInChildren<T>().FirstOrDefault(ch => ch.name == name);
+    }
 }

@@ -17,23 +17,39 @@ namespace App.View.Impl1
         : Draggable<ICardAgent>
         , ICardView
     {
-        #region Unity Properties
-        public TMPro.TextMeshProUGUI Mana;
-        public TMPro.TextMeshProUGUI Health;
-        public TMPro.TextMeshProUGUI Power;
-        public GameObject PieceGameObject;
-        #endregion
-
+        public EPieceType PieceType;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
-        public override void Create()
+        // no more manually hooking things up via editor: now we resolve them at creation-time
+        private TMPro.TextMeshProUGUI _mana;
+        private TMPro.TextMeshProUGUI _health;
+        private TMPro.TextMeshProUGUI _power;
+
+        public override bool IsValid
+        {
+            get
+            {
+                if (!base.IsValid) return false;
+                if (_mana == null) return false;
+                if (_health == null) return false;
+                if (_power == null) return false;
+                return true;
+            }
+        }
+
+        protected override void Begin()
         {
             //Verbosity = 50;
 
-            base.Create();
-            base.MouseOver.Subscribe(
-                v => _mouseOver.Value = v as ICardView
-            ).AddTo(this);
+            base.Begin();
+
+            _mana = FindTextChild("mana");
+            _health = FindTextChild("health");
+            _power = FindTextChild("power");
+
+            base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
+
+            Assert.IsTrue(IsValid);
         }
 
         public override void SetAgent(IPlayerView view, ICardAgent agent)
@@ -41,11 +57,11 @@ namespace App.View.Impl1
             base.SetAgent(view, agent);
 
             Assert.IsNotNull(agent);
-            agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
-            agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+            agent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
+            agent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);
+            agent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
 
-            PieceGameObject.GetComponent<Renderer>().material
+            FindPiece().material
                 = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
             SquareOver.Subscribe(sq =>
@@ -85,6 +101,16 @@ namespace App.View.Impl1
             Assert.IsNotNull(place);
             Verbose(20, $"Removing {Agent.Model} from {PlayerModel.Hand}");
             PlayerModel.Hand.Remove(Agent.Model);
+        }
+
+        private TMPro.TextMeshProUGUI FindTextChild(string name)
+        {
+            return transform.FindChildNamed<TMPro.TextMeshProUGUI>(name);
+        }
+
+        private Renderer FindPiece()
+        {
+            return transform.GetComponentInChildren<MeshRenderer>();
         }
 
         // used just to downcast from base Draggable.MouseOver<IViewBase>
