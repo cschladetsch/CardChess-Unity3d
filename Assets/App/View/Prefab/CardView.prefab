@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Image: {fileID: 114033524318174762}
-  ReturnToStartClip: {fileID: 8300000, guid: 6552b33d5bcd8a54595426440e52a997, type: 3}
+  ReturnToStartClip: {fileID: 8300000, guid: 272b39fa17d43e54d813fc02672222cb, type: 3}
   PieceType: 1
   LeaveHandClip: {fileID: 8300000, guid: b3ba73c2b7ab8374d9fc1b5d7f5b809a, type: 3}
 --- !u!222 &222317134646785742

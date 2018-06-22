@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16118196, g: 0.1376197, b: 0.1337626, a: 1}
+  m_IndirectSpecularColor: {r: 0.15772691, g: 0.13457203, b: 0.13078895, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1899,7 +1899,7 @@ MonoBehaviour:
   WhiteEndButton: {fileID: 2113720916}
   BlackEndButton: {fileID: 1173747825}
   MusicClips:
-  - {fileID: 8300000, guid: 4889b8e9f3942444fbb832d0ef224674, type: 3}
+  - {fileID: 8300000, guid: e0a2f3f56084dff4da2da0680902c4f1, type: 3}
   EndTurnClips:
   - {fileID: 8300000, guid: 7d040fbbd71f25d42bf6331281ff80cd, type: 3}
 --- !u!82 &1907898444
