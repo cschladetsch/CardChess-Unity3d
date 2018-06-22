@@ -19,6 +19,10 @@ namespace App.View.Impl1
         #region Unity Properties
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
+        public AudioClip CancelClip;
+        public AudioClip MoveClip;
+        public AudioClip HitClip;
+        public AudioClip HitBothClip;
         #endregion
 
         public IReactiveProperty<Coord> Coord => Agent.Coord;
@@ -75,6 +79,7 @@ namespace App.View.Impl1
         void Die()
         {
             Info($"{Agent.Model} died");
+            Commands.Do(() => _AudioSource.PlayOneShot(HitBothClip));
             BoardView.Remove(this);
         }
 
@@ -87,7 +92,8 @@ namespace App.View.Impl1
                 Commands.Parallel(
                     Commands.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
                     Commands.ScaleTo(go, 1, 0.1)
-                )
+                ),
+                Commands.Do(() => _AudioSource.PlayOneShot(MoveClip))
             );
         }
 
@@ -132,12 +138,14 @@ namespace App.View.Impl1
             Info($"PieceView Response: {response}");
             if (response.Failed)
             {
+                _AudioSource.PlayOneShot(CancelClip);
                 ReturnToStart();
                 return;
             }
             var battle = response.Request as Battle;
             if (battle != null)
             {
+                _AudioSource.PlayOneShot(HitClip);
                 ReturnToStart();
                 return;
             }

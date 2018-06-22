@@ -634,9 +634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Image: {fileID: 0}
-  Mana: {fileID: 0}
-  Health: {fileID: 0}
-  Power: {fileID: 0}
+  PieceType: 7
 --- !u!114 &114993978657087532
 MonoBehaviour:
   m_ObjectHideFlags: 1
