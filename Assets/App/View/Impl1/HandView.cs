@@ -21,14 +21,16 @@ namespace App.View.Impl1
         public Transform CardsRoot;
         public CardView CardViewPrefab;
         public BoardOverlayView BoardOverlay;
+
+        public AudioClip MouseOverClip;
         // ReSharper disable once InconsistentNaming
-        [Inject] public IPiecePrefabService _pieceFactory;
+        //[Inject] public IPiecePrefabService _pieceFactory;
 
         public override bool IsValid
         {
             get
             {
-                Assert.IsNotNull(_pieceFactory);
+                //Assert.IsNotNull(_pieceFactory);
                 Assert.IsNotNull(CardsRoot);
                 Assert.IsNotNull(CardViewPrefab);
                 Assert.IsNotNull(BoardOverlay);
@@ -72,8 +74,8 @@ namespace App.View.Impl1
 
         private ICardView CreateViewFromAgent(ICardAgent agent)
         {
-            var prefab = _pieceFactory.GetCardPrefab(agent.Model.PieceType);
-            var cardView = ViewRegistry.FromPrefab<ICardView>(prefab);
+            //var prefab = _pieceFactory.GetCardPrefab(agent.Model.PieceType);
+            var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
             cardView.SetAgent(PlayerView, agent);
             var tr = cardView.GameObject.transform;
@@ -84,10 +86,18 @@ namespace App.View.Impl1
             return cardView;
         }
 
+        float _lastClipPlayed;
+        private float _minTimeBetweenClips = 0.3f;
+
         void CardMouseOver(ICardView card)
         {
             if (card == null)
                 return;
+            if (Time.time - _lastClipPlayed > _minTimeBetweenClips)
+            {
+                _AudioSource.PlayOneShot(MouseOverClip);
+                _lastClipPlayed = Time.time;
+            }
             Verbose(20, $"MouseOver {card.Agent.Model}");
         }
 

@@ -18,6 +18,7 @@ namespace App.View.Impl1
         , ICardView
     {
         public EPieceType PieceType;
+        public AudioClip LeaveHandClip;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
         // no more manually hooking things up via editor: now we resolve them at creation-time
@@ -40,21 +41,17 @@ namespace App.View.Impl1
         protected override void Begin()
         {
             //Verbosity = 50;
-
             base.Begin();
-
-            _mana = FindTextChild("mana");
-            _health = FindTextChild("health");
-            _power = FindTextChild("power");
-
-            base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
-
-            Assert.IsTrue(IsValid);
         }
 
         public override void SetAgent(IPlayerView view, ICardAgent agent)
         {
             base.SetAgent(view, agent);
+            _mana = FindTextChild("Mana");
+            _health = FindTextChild("Health");
+            _power = FindTextChild("Power");
+
+            base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
 
             Assert.IsNotNull(agent);
             agent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
@@ -69,11 +66,16 @@ namespace App.View.Impl1
                 if (sq != null)
                     BoardView.ShowSquares(Agent.Model, sq);
             }).AddTo(this);
+
+            Assert.IsTrue(IsValid);
         }
 
         protected override bool MouseDown()
         {
-            return IsCurrentPlayer();
+            var inPlay = IsCurrentPlayer();
+            if (inPlay)
+                _AudioSource.PlayOneShot(LeaveHandClip);
+            return inPlay;
         }
 
         protected override void MouseHover()

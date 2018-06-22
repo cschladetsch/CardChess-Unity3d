@@ -140,10 +140,13 @@ namespace App.View.Impl1
         // lazy create because most views won't need a queue
         protected CommandQueue _Queue => _queue ?? (_queue = new CommandQueue());
 
+        protected AudioSource _AudioSource => _audioSource ?? (_audioSource = GameObject.AddComponent<AudioSource>());
+
         private bool _paused;
         private bool _created;
         private float _localTime;
         private CommandQueue _queue;
+        private AudioSource _audioSource;
         private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
     }
 

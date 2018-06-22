@@ -17,6 +17,7 @@ namespace App.View.Impl1
         where TIAgent : class, IAgent
     {
         public Image Image;
+        public AudioClip ReturnToStartClip;
         public IReadOnlyReactiveProperty<IViewBase> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
 
@@ -37,8 +38,13 @@ namespace App.View.Impl1
             _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
         }
 
+        private float _lastPickTime;
+        private float _minPickDifference = 0.3f;
         private void OnMouseEnter()
         {
+            if (Time.time - _lastPickTime < _minPickDifference)
+                return;
+            _lastPickTime = Time.time;
             if (ScaleTo(1.5f))
                 _mouseOver.Value = this;
         }
@@ -49,13 +55,25 @@ namespace App.View.Impl1
                 _mouseOver.Value = null;
         }
 
+        private float _oldZ;
+
         private bool ScaleTo(float scale)
         {
             if (_dragging)
                 return false;
             _Queue.RunToEnd();
+            var pos = GameObject.transform.position;
+            if (scale > 1)
+            {
+                _oldZ = pos.z;
+                pos.z = -10;
+            }
+            else
+                pos.z = _oldZ;
+
             _Queue.Enqueue(
-                Commands.ScaleTo(gameObject, scale, ScaleTime)
+                Commands.ScaleTo(gameObject, scale, ScaleTime),
+                Commands.MoveTo(gameObject, pos, 0)
             );
             return true;
         }
@@ -120,6 +138,7 @@ namespace App.View.Impl1
         {
             _Queue.Enqueue(
                 Commands.Parallel(
+                    Commands.Do(() => _AudioSource.PlayOneShot(ReturnToStartClip)),
                     Commands.AlphaTo(_backgroundColor, 1, ImageAlphaAnimDuration, Ease.Smooth()),
                     Commands.ScaleTo(transform, 1, ScaleTime),
                     Commands.MoveTo(

@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UI;
 
 using UniRx;
+using UnityEngine;
 
 namespace App.View.Impl1
 {
@@ -22,6 +23,9 @@ namespace App.View.Impl1
         public Button BlackEndButton;
         public EColor CurrentPlayerColor => Agent.CurrentPlayerAgent.Value.Model.Color;
 
+        public AudioClip[] MusicClips;
+        public AudioClip[] EndTurnClips;
+
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
         // KILL ME
@@ -34,6 +38,8 @@ namespace App.View.Impl1
         {
             base.SetAgent(view, agent);
 
+            PlayMusic();
+
             WhitePlayerView.SetAgent(WhitePlayerView, Agent.WhitePlayerAgent);
             BlackPlayerView.SetAgent(BlackPlayerView, Agent.BlackPlayerAgent);
 
@@ -44,6 +50,14 @@ namespace App.View.Impl1
             _gameRoot = transform.parent.GetComponent<GameRoot>();
 
             SetupUi();
+        }
+
+        private void PlayMusic()
+        {
+            _AudioSource.clip = MusicClips[0];
+            _AudioSource.loop = true;
+            _AudioSource.volume = 0.5f;
+            _AudioSource.Play();
         }
 
         public void SetupUi()
@@ -72,6 +86,7 @@ namespace App.View.Impl1
 
         private void TurnEnded(IResponse obj)
         {
+            _AudioSource.PlayOneShot(EndTurnClips[0]);
             Assert.IsNotNull(obj);
             Assert.IsTrue(obj.Success);
             Verbose(5, $"TurnEnded for {obj.Request.Player}");
