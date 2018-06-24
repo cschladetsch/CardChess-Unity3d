@@ -10,7 +10,7 @@ Also, I intend to make all the art assets myself. Well, mostly. I'm using some f
 
 ## Testing
 
-There are Both stand-alone and Unity-based [Unit tests](https://github.com/cschladetsch/Chess2/tree/master/Assets/App/Test/Editor)  provided for Model and Agent layers. I doubt there will ever be one for the View layer, and the Model and Agent layers both rely on Registry so serve as a test of that as well.  
+There are tests in _"App/Tests_ folder that uses mocked types in _App/Mock_.
 
 ## Gameplay
 
