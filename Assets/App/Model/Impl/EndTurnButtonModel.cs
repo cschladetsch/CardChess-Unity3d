@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+
 using UniRx;
-using UnityEngine.UI;
 
 namespace App.Model.Impl
 {
@@ -8,6 +8,9 @@ namespace App.Model.Impl
     using Model;
     using Registry;
 
+    /// <summary>
+    /// Logic for state of 'end-turn' button
+    /// </summary>
     public class EndTurnButtonModel
         : ModelBase
         , IEndTurnButtonModel
@@ -33,11 +36,8 @@ namespace App.Model.Impl
                 var canMove = mana > 1 && _board.Pieces.Where(SameOwner).Any(_board.CanMoveOrAttack);
                 _playerHasOptions.Value = canPlace || canMove;
                 Info($"CanMove={canMove}, canPlace={canPlace}, mana={mana}, {PlayerModel}: hasOptions={_playerHasOptions.Value}");
-            });//.AddTo(this);
+            });//.AddTo(this); why does this remove the subscription???
         }
-
-        private ReactiveProperty<int> _canPlay;
-        private ReactiveProperty<int> _canMove;
 
         private readonly BoolReactiveProperty _isInteractive = new BoolReactiveProperty();
         private readonly BoolReactiveProperty _playerHasOptions = new BoolReactiveProperty();
