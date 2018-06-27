@@ -23,6 +23,7 @@ namespace App.Model
         IArbiterModel Arbiter { get; }
         IDeckModel Deck { get; }
         IHandModel Hand { get; }
+        IEndTurnButtonModel EndTurnButton { get; }
         IReactiveProperty<int> MaxMana { get; }
         IReactiveProperty<int> Mana { get; }
         IReactiveProperty<int> Health { get; }

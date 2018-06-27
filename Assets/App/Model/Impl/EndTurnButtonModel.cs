@@ -30,21 +30,24 @@ namespace App.Model.Impl
                 .ToReactiveCollection()
                 .ObserveCountChanged()
                 .Where(n => n > 0)
-                .ToReactiveProperty();
+                .ToReactiveProperty()
+                .AddTo(this);
             var canMove = _board.Pieces
                 .Where(p => p.SameOwner(this))
                 .Select(p => !p.MovedThisTurn && !p.AttackedThisTurn)
                 .ToReactiveCollection()
                 .ObserveCountChanged()
                 .Where(n => n > 0)
-                .ToReactiveProperty();
+                .ToReactiveProperty()
+                .AddTo(this);
 
             canPlay
                 .CombineLatest(canMove, (play, move) => play > 0 || move > 0)
-                .Subscribe(any => _playerHasOptions.Value = any);
+                .Subscribe(any => _playerHasOptions.Value = any)
+                .AddTo(this);
         }
 
         private readonly BoolReactiveProperty _isInteractive = new BoolReactiveProperty();
-        private BoolReactiveProperty _playerHasOptions = new BoolReactiveProperty();
+        private readonly BoolReactiveProperty _playerHasOptions = new BoolReactiveProperty();
     }
 }

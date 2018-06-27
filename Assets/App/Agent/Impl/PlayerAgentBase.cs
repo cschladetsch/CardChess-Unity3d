@@ -20,6 +20,7 @@ namespace App.Agent
         public EColor Color => Model.Color;
         public IDeckAgent Deck { get; set; }
         public IHandAgent Hand { get; set; }
+        public IEndTurnButtonAgent EndTurnButton { get; set;}
 
         public IReadOnlyReactiveProperty<int> MaxMana => Model.MaxMana;
         public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
@@ -45,6 +46,8 @@ namespace App.Agent
 
             Deck = Registry.New<IDeckAgent>(Model.Deck);
             Hand = Registry.New<IHandAgent>(Model.Hand);
+            EndTurnButton = Registry.New<IEndTurnButtonAgent>(Model.EndTurnButton);
+
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
 
             Deck.StartGame();

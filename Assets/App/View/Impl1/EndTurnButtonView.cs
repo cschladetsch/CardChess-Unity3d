@@ -8,6 +8,7 @@ namespace App.View.Impl1
 {
     public class EndTurnButtonView
         : ViewBase<IEndTurnButtonAgent>
+        , IEndTurnButtonView
     {
         public Button Button;
         public Image Image;
@@ -21,7 +22,7 @@ namespace App.View.Impl1
 
         private void SetColor(bool hasOptions)
         {
-            Image.GetComponent<Renderer>().material.color = hasOptions ? Color.white : Color.green;
+            Image.material.color = hasOptions ? Color.white : Color.green;
         }
     }
 }
