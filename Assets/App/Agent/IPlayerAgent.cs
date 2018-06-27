@@ -19,6 +19,7 @@ namespace App.Agent
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }
         IBoardAgent Board { get; }
+        IEndTurnButtonAgent EndTurnButton { get; }
 
         IReadOnlyReactiveProperty<int> MaxMana { get; }
         IReadOnlyReactiveProperty<int> Mana { get; }

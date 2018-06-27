@@ -17,6 +17,7 @@ namespace App.View.Impl1
         public ManaView ManaView;
         public HandView Hand;
         public DeckView Deck;
+        public EndTurnButtonView EndTurnButton;
 
         //[Inject] public IArbiterView ArbiterView;
 
@@ -29,6 +30,7 @@ namespace App.View.Impl1
             base.SetAgent(view, agent);
             Deck.SetAgent(this, Agent.Deck);
             Hand.SetAgent(this, Agent.Hand);
+            EndTurnButton.SetAgent(this, Agent.EndTurnButton);
             ManaView.SetAgent(this, Agent);
         }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.15772691, g: 0.13457203, b: 0.13078895, a: 1}
+  m_IndirectSpecularColor: {r: 0.16132301, g: 0.13774997, b: 0.13389102, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -384,7 +384,7 @@ Transform:
   - {fileID: 1030165181}
   - {fileID: 288919288}
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &152731633
 MonoBehaviour:
@@ -400,6 +400,7 @@ MonoBehaviour:
   ManaView: {fileID: 1302618358}
   Hand: {fileID: 1030165180}
   Deck: {fileID: 1151641162}
+  EndTurnButton: {fileID: 2113720919}
 --- !u!1001 &167258236
 Prefab:
   m_ObjectHideFlags: 0
@@ -491,7 +492,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 689863216}
   - {fileID: 1907898442}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -602,7 +602,7 @@ RectTransform:
   m_Children:
   - {fileID: 2113720915}
   - {fileID: 1173747824}
-  m_Father: {fileID: 296395988}
+  m_Father: {fileID: 1907898442}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -925,7 +925,7 @@ RectTransform:
   m_LocalScale: {x: 0.37, y: 0.19, z: 1}
   m_Children: []
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -968,7 +968,7 @@ RectTransform:
   m_LocalScale: {x: 0.37, y: 0.19, z: 1}
   m_Children: []
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1164,6 +1164,7 @@ GameObject:
   - component: {fileID: 1173747827}
   - component: {fileID: 1173747826}
   - component: {fileID: 1173747825}
+  - component: {fileID: 1173747828}
   m_Layer: 0
   m_Name: BlackEndTurnButton
   m_TagString: Untagged
@@ -1242,7 +1243,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 44f80e0192d2f884e8112d0049d7e2f0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -1264,6 +1265,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1173747823}
+--- !u!114 &1173747828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1173747823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4822b4908621e6c438c46df3ee3e6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 1173747825}
+  Image: {fileID: 1173747826}
 --- !u!1 &1206942400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,7 +1370,7 @@ RectTransform:
   m_LocalScale: {x: 0.37, y: 0.19, z: 1}
   m_Children: []
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1783,7 +1797,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4868955874741132, guid: 5c7e47f7acd7bd341a593b2a68ae5126, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4988429700898900, guid: 5c7e47f7acd7bd341a593b2a68ae5126, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1870,6 +1884,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 689863216}
   - {fileID: 2104573855}
   - {fileID: 152731632}
   - {fileID: 1991825313}
@@ -1877,7 +1892,7 @@ Transform:
   - {fileID: 1019281790}
   - {fileID: 1257193233}
   m_Father: {fileID: 296395988}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1907898443
 MonoBehaviour:
@@ -2073,7 +2088,7 @@ Transform:
   - {fileID: 362237151}
   - {fileID: 686220567}
   m_Father: {fileID: 1907898442}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1991825314
 MonoBehaviour:
@@ -2089,6 +2104,7 @@ MonoBehaviour:
   ManaView: {fileID: 1518105794}
   Hand: {fileID: 362237150}
   Deck: {fileID: 923239607}
+  EndTurnButton: {fileID: 1173747828}
 --- !u!1 &1997553836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,6 +2186,7 @@ GameObject:
   - component: {fileID: 2113720918}
   - component: {fileID: 2113720917}
   - component: {fileID: 2113720916}
+  - component: {fileID: 2113720919}
   m_Layer: 0
   m_Name: WhiteEndTurnButton
   m_TagString: Untagged
@@ -2248,7 +2265,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 5e39a8953de85b643bc5fced1278b2c4, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -2270,6 +2287,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2113720914}
+--- !u!114 &2113720919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2113720914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4822b4908621e6c438c46df3ee3e6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 2113720916}
+  Image: {fileID: 2113720917}
 --- !u!1001 &2118964112
 Prefab:
   m_ObjectHideFlags: 0

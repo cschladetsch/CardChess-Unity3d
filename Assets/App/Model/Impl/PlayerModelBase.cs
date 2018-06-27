@@ -29,6 +29,7 @@ namespace App.Model
         public bool IsWhite => Color == EColor.White;
         public bool IsBlack => Color == EColor.Black;
         public bool AcceptedHand { get; private set; }
+        public IEndTurnButtonModel EndTurnButton { get; private set; }
         public IReactiveProperty<int> MaxMana => _maxMana;
         public IReactiveProperty<int> Mana => _mana;
         public IReactiveProperty<int> Health => _health;
@@ -54,10 +55,12 @@ namespace App.Model
             // TODO: pass a deck template
             Deck = Registry.New<IDeckModel>(null, this);
             Hand = Registry.New<IHandModel>(this);
+            EndTurnButton = Registry.New<IEndTurnButtonModel>(this);
 
             base.PrepareModels();
             Deck.PrepareModels();
             Hand.PrepareModels();
+            EndTurnButton.PrepareModels();
         }
 
         public override void StartGame()

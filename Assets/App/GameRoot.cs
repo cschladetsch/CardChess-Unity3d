@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using App.Agent.Impl;
+using App.Model.Impl;
 using UnityEngine;
 
 // field not assigned - because it is assigned in Unity3d editor
@@ -103,6 +104,7 @@ namespace App
             _models.Bind<Service.ICardTemplateService, CardTemplateService>(new CardTemplateService());
             _models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
             _models.Bind<IArbiterModel, ArbiterModel>(new ArbiterModel());
+            _models.Bind<IEndTurnButtonModel, EndTurnButtonModel>();
             _models.Bind<ICardModel, CardModel>();
             _models.Bind<IDeckModel, DeckModel>();
             _models.Bind<IHandModel, HandModel>();
@@ -126,6 +128,7 @@ namespace App
             _agents = new AgentRegistry();
             _agents.Bind<IBoardAgent, BoardAgent>(new BoardAgent(_boardModel));
             _agents.Bind<IArbiterAgent, ArbiterAgent>(new ArbiterAgent(_arbiterModel));
+            _agents.Bind<IEndTurnButtonAgent, EndTurnButtonAgent>();
             _agents.Bind<ICardAgent, CardAgent>();
             _agents.Bind<IDeckAgent, DeckAgent>();
             _agents.Bind<IHandAgent, HandAgent>();
@@ -144,6 +147,7 @@ namespace App
             _views.Bind<IBoardView, BoardView>(BoardView);
             _views.Bind<IArbiterView, ArbiterView>(ArbiterView);
             //_views.Bind<Service.IPiecePrefabService, PiecePrefabService>(new PiecePrefabService());
+            _views.Bind<IEndTurnButtonView, EndTurnButtonView>();
             _views.Bind<ICardView, CardView>();
             _views.Bind<IDeckView, DeckView>();
             _views.Bind<IHandView, HandView>();
