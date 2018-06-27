@@ -14,19 +14,20 @@ namespace App.Agent.Test
             var _nums = new ReactiveCollection<int>();
             IReadOnlyReactiveCollection<int> nums = _nums;
             nums.ObserveAdd().Subscribe(Add);
+            nums.ObserveAdd().Subscribe(Add);
             _nums.Add(42);
 
             Assert.AreEqual(0, _index);
-            Assert.AreEqual(42, _added);
+            Assert.AreEqual(42*2, _added);
         }
 
         private int _index = -1;
-        private int _added = -1;
+        private int _added = 0;
 
         private void Add(CollectionAddEvent<int> add)
         {
             _index = add.Index;
-            _added = add.Value;
+            _added += add.Value;
         }
 
         [Test]

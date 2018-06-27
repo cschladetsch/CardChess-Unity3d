@@ -68,6 +68,51 @@ namespace App.Model
             ClearBoard();
         }
 
+        public bool CanMoveOrAttack(IPieceModel pieceModel)
+        {
+            Assert.IsNotNull(pieceModel);
+
+            // movements and attacks can be different for different pieces so be ba careful
+            var moves = GetMovements(pieceModel);
+            var attacks = GetAttacks(pieceModel);
+
+            // we have an empty square to
+            if (moves.Coords.Count > 0)
+                return true;
+
+            // we have no empty squares, but check for interference squares on movement
+            foreach (var other in moves.Interferernce)
+            {
+                Assert.IsNotNull(other);
+                Assert.IsFalse(other.SameOwner(pieceModel));
+
+                // we should not have an interference square in our movements list that
+                // contains a piece that does not belong to same owner
+                if (!other.SameOwner(pieceModel))
+                {
+                    Error($"{pieceModel} can 'move' to opposing piece {other}");
+                    continue;
+                }
+
+                // TODO: Mounting
+                // for now, if this is only option to move to, and has same
+                // owner, then we can't move. check for attacks next.
+                if (moves.Coords.Count == 0)
+                    break;
+            }
+
+            // now we can only attack
+            if (attacks.Coords.Count > 0)
+                return true;
+
+            // we can attack a defender of a square we could otherwise attack directly
+            if (attacks.Interferernce.Count > 0)
+                return true;
+
+            // we can't move anywhere, mount anything, or attack directly or attack a defender
+            return false;
+        }
+
         public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
         {
             return Pieces.Where(p => p.PieceType == type);
