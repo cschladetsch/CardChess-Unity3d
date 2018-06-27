@@ -13,6 +13,7 @@ namespace App.Model
         IReactiveProperty<int> TurnNumber { get; }
         IReadOnlyReactiveProperty<EGameState> GameState { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
+        IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
 
         void PrepareGame(IPlayerModel white, IPlayerModel black);
         IResponse Arbitrate(IRequest request);

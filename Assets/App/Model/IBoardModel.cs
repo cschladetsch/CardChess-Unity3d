@@ -44,5 +44,6 @@ namespace App.Model
         IResponse Move(IPieceModel pieceModel, Coord coord);
 
         void NewTurn();
+        bool CanMoveOrAttack(IPieceModel pieceModel);
     }
 }

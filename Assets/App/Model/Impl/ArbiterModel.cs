@@ -1,5 +1,5 @@
 ﻿// user can play cards without worrying about mana
-#define IGNORE_MANA
+//#define IGNORE_MANA
 
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ namespace App.Model
         public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
         public IReactiveProperty<int> TurnNumber => _turnNumber;
         public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
+        public IReadOnlyReactiveProperty<IResponse> LastResponse => _lastResponse;
 
         [Inject]
         public IBoardModel Board { get; set; }
@@ -71,9 +72,10 @@ namespace App.Model
         public IResponse Arbitrate(IRequest request)
         {
             Assert.IsNotNull(request);
-            //Info($"Arbitrate: {request} Id={request.Id}");
             var response = ProcessRequest(request);
+            Warn($"Arbitrate: {request} => {response}");
             request.Player?.Result(request, response);
+            _lastResponse.Value = response;
             return response;
         }
 
@@ -335,5 +337,6 @@ namespace App.Model
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
         private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlayTurn);
+        private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
     }
 }

@@ -24,13 +24,15 @@ namespace App
         : AgentBaseCoro<IArbiterModel>
         , IArbiterAgent
     {
-        public IReadOnlyReactiveProperty<IResponse> LastResponse => _lastResponse;
+        public IReadOnlyReactiveProperty<IResponse> LastResponse => Model.LastResponse;
+        public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
         public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
-        [Inject] public IBoardAgent BoardAgent { get; set; }
+
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
-        public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
         public IPlayerModel CurrentPlayerModel => CurrentPlayerAgent.Value.Model;
+
+        [Inject] public IBoardAgent BoardAgent { get; set; }
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -166,7 +168,7 @@ namespace App
                 var request = future.Value.Request;
                 var response = Model.Arbitrate(request);
                 response.Request = request;
-                _lastResponse.Value = response;
+                //_lastResponse.Value = response;
                 future.Value.Responder?.Invoke(response);
 
                 if (response.Failed)
@@ -263,6 +265,5 @@ namespace App
         private DateTime _timeStart;
         private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
         private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
-        private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
     }
 }
