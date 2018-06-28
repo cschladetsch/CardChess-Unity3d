@@ -73,7 +73,7 @@ namespace App.Model
         {
             Assert.IsNotNull(request);
             var response = ProcessRequest(request);
-            Warn($"Arbitrate: {request} => {response}");
+            Info($"Arbitrate: {request} => {response}");
             request.Player?.Result(request, response);
             _lastResponse.Value = response;
             return response;
@@ -81,7 +81,7 @@ namespace App.Model
 
         private IResponse ProcessRequest(IRequest request)
         {
-            Info($"{request} tried in {GameState} #{_turnNumber.Value}");
+            //Info($"{request} tried in {GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
             {
                 //case EGameState.None:

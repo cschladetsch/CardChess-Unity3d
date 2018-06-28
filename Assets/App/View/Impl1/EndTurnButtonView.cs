@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CoLib;
+using UnityEngine;
 using UnityEngine.UI;
 
 using UniRx;
@@ -25,15 +26,47 @@ namespace App.View.Impl1
         public override void SetAgent(IPlayerView player, IEndTurnButtonAgent agent)
         {
             base.SetAgent(player, agent);
-            Button.BindToInteractable(Agent.Model.Interactive);
+            Agent.Model.Interactive.Subscribe(SetInteractive);
             Agent.Model.PlayerHasOptions.Subscribe(SetColor);
-            //Agent.Model.Interactive.Subscribe(i => Image.material.color = i ? Color.white : Color.grey);
+
+            // pulsate the end button when there's nothing left to do
+            _scale = Image.transform.ToScaleRef();
+            _Queue.Enqueue (
+                Commands.RepeatForever(
+                    Commands.PulsateScale(_scale, 0.085f, 1.2)
+                    )
+                )
+             ;
+            _Queue.Paused = true;
+        }
+
+        private void SetInteractive(bool interactive)
+        {
+            _Queue.Paused = true;
+            Button.interactable = interactive;
+            if (!Button.interactable)
+                Image.material.color = Color.grey;
         }
 
         private void SetColor(bool hasOptions)
         {
-            // TODO: this is actually tri-state: not my turn, my turn and something to do, my turn and nothing to do
-            Image.material.color = hasOptions ? Color.white : Color.green;
+            _scale.Value = Vector3.one;
+            _Queue.Paused = true;
+            if (!Button.interactable)
+            {
+                Image.material.color = Color.grey;
+                return;
+            }
+            if (hasOptions)
+            {
+                Image.material.color = Color.white;
+                return;
+            }
+
+            Image.material.color = Color.green;
+            _Queue.Paused = false;
         }
+
+        private Ref<Vector3> _scale;
     }
 }
