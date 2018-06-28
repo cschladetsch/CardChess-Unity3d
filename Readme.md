@@ -12,10 +12,19 @@ Also, I intend to make all the art assets myself. Well, mostly. I'm using some f
 
 I am currently using **Unity3d 2018.1.4f1**. YMMV for earlier or later releases of Unity3d. The game will always build on the latest version of Unity3d within a week or so of its release.
 
-This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). To also clone this code into the repo for this game, use the following commmand:
+This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). This is included as a Git submodule. To also clone this code into the repo for this game, use the following single commmand:
 
 ```
-git clone --recurse-submodules https://github.com/cschladetsch/Chess2.git
+# git clone --recurse-submodules https://github.com/cschladetsch/Chess2.git
+```
+
+Or, if you cloned the base repo first, then you have to 'manually' update the _Flow_ library with:
+
+```
+# git clone https://github.com/cschladetsch/Chess2.git
+# cd Chess2
+# git submodule init --
+# git submodule update --recursive
 ```
 
 The main scene is in _Scenes/Main_.
@@ -23,8 +32,6 @@ The main scene is in _Scenes/Main_.
 #### Models
 
 Some models are .fbx and will import directly into Unity3d with no further requirements. However, some models may be _.blend_ files. These are native scene files for [Blender](https://www.blender.org/download/). You will need to download **Blender** to import these _.blend_ files.
-
-That will pull the latest version of the _Flow_ library into the Chess2 source base.
 
 ## Testing
 
