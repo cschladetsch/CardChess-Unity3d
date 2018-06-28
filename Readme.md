@@ -8,6 +8,16 @@ Focusing on the gameplay and [Rules](https://github.com/cschladetsch/Chess2/wiki
 
 Also, I intend to make all the art assets myself. Well, mostly. I'm using some free sound effects and music assets.
 
+## Building
+
+This game also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). To also clone this code into the repo for this game, use the following commmand:
+
+```
+$ git submodule update --recursive
+```
+
+That will pull the latest version of the _Flow_ library into the Chess2 source base.
+
 ## Testing
 
 There are tests in _"App/Tests_ folder that uses mocked types in _App/Mock_.
