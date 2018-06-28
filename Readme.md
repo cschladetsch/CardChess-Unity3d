@@ -10,7 +10,9 @@ Also, I intend to make all the art assets myself. Well, mostly. I'm using some f
 
 ## Building
 
-This game also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). To also clone this code into the repo for this game, use the following commmand:
+I am currently using **Unity3d 2018.1.4f1**. YMMV for earlier or later releases of Unity3d. The game will always build on the latest version of Unity3d within a week or so of its release.
+
+This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). To also clone this code into the repo for this game, use the following commmand:
 
 ```
 $ git submodule update --recursive
