@@ -17,6 +17,9 @@ This source repo also uses a library I made called [Flow](https://github.com/csc
 ```
 git clone --recurse-submodules https://github.com/cschladetsch/Chess2.git
 ```
+
+The main scene is in _Scenes/Main_.
+
 #### Models
 
 Some models are .fbx and will import directly into Unity3d with no further requirements. However, some models may be _.blend_ files. These are native scene files for [Blender](https://www.blender.org/download/). You will need to download **Blender** to import these _.blend_ files.
