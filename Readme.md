@@ -12,16 +12,38 @@ Also, I intend to make all the art assets myself. Well, mostly. I'm using some f
 
 I am currently using **Unity3d 2018.1.4f1**. YMMV for earlier or later releases of Unity3d. The game will always build on the latest version of Unity3d within a week or so of its release.
 
-This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). To also clone this code into the repo for this game, use the following commmand:
+This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). This is included as a Git submodule. To also clone this code into the repo for this game, use the following single commmand:
 
 ```
-git clone --recurse-submodules https://github.com/cschladetsch/Chess2.git
+# git clone --recursive https://github.com/cschladetsch/Chess2.git
 ```
+
+By default, the repo installs into a folder called _Chess2_. This is a temporary name and will change. Within this Readme and throughout the project documentation, the root folder of the repo will be referred to as **$ROOT_DIR**.
+
+Or, if you cloned the base repo first (or use a version of git older than 1.9), then you have to 'manually' update the _Flow_ library with:
+
+```
+# git clone https://github.com/cschladetsch/Chess2.git
+# cd Chess2
+# git submodule update --init --recursive
+```
+
+The main scene is in _Scenes/Main_.
+
 #### Models
 
 Some models are .fbx and will import directly into Unity3d with no further requirements. However, some models may be _.blend_ files. These are native scene files for [Blender](https://www.blender.org/download/). You will need to download **Blender** to import these _.blend_ files.
 
-That will pull the latest version of the _Flow_ library into the Chess2 source base.
+## Notes
+
+If you get a bunch of errors about "namespace Flow" not named, etc, or problems to do with anything named _Flow_, then you have not got the Flow submodule that lives in _Assets/External/Flow_.
+
+There are a number of ways to fix this. The easiest is to just:
+
+```
+# cd $ROOT_DIR
+# git submodule update --init --recursive
+```
 
 ## Testing
 
