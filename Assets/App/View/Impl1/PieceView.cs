@@ -55,6 +55,11 @@ namespace App.View.Impl1
             base.SetAgent(view, agent);
 
             Assert.IsNotNull(agent);
+            Assert.IsNotNull(agent.Power);
+            Assert.IsNotNull(agent.Health);
+            Assert.IsNotNull(Power);
+            Assert.IsNotNull(Health);
+
             agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
             agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
             //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
