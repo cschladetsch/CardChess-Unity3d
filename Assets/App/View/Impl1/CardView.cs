@@ -51,6 +51,23 @@ namespace App.View.Impl1
             _health = FindTextChild("Health");
             _power = FindTextChild("Power");
 
+            if (_mana == null)
+            {
+                Error("No Mana text child for {0}", this);
+                return;
+            }
+            if (_health == null)
+            {
+                Error("No Health text child for {0}", this);
+                return;
+            }
+            if (_power == null)
+            {
+                Error("No Power text child for {0}", this);
+                return;
+            }
+
+
             base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
 
             Assert.IsNotNull(agent);
