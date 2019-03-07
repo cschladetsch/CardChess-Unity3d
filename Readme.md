@@ -45,6 +45,14 @@ There are a number of ways to fix this. The easiest is to just:
 # git submodule update --init --recursive
 ```
 
+## Dependancy Injection
+
+The system is using a custom DI system based on Registry<T>, where T is the base type for things stored in a registry.
+
+There can be any number of Registries in a given solution. Current, one is used for *Models*, one for *Agents* and one for *Views*. These all share a common *Registry* system in namespace Dekuple.
+
+This is a WIP on a branch from develop that is not yet working.
+
 ## Testing
 
 There are tests in _"App/Tests_ folder that uses mocked types in _App/Mock_.
