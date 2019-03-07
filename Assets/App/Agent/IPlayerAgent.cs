@@ -13,8 +13,9 @@ namespace App.Agent
     /// Responsible for reacting to changes in Model state.
     /// </summary>
     public interface IPlayerAgent
-        : IAgent<IPlayerModel>
-        , IOwner
+        : Dekuple.Agent.IPlayerAgent
+        //: IAgent<IPlayerModel>
+        //, IOwner
     {
         IDeckAgent Deck { get; }
         IHandAgent Hand { get; }

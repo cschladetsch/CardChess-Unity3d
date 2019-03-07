@@ -16,6 +16,7 @@ namespace App
     using View;
     using View.Impl1;
     using Service.Impl;
+    using Dekuple.Common;
 
     /// <inheritdoc />
     /// <summary>

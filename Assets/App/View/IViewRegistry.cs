@@ -5,7 +5,8 @@ namespace App.View
     using Agent;
     using Common;
     using Model;
-    using Registry;
+    using Dekuple.Registry;
+    using Dekuple.Common;
 
     /// <summary>
     /// Common registry for all objects that are in the Unity3d scene (or canvas)

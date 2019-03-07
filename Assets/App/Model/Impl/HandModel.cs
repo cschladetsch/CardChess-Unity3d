@@ -1,5 +1,4 @@
 ﻿using App.Common;
-using App.Registry;
 using App.Service;
 
 namespace App.Model
@@ -9,7 +8,7 @@ namespace App.Model
         , IHandModel
     {
         public override int MaxCards => Parameters.MaxCardsInHand;
-        [Inject] public ICardTemplateService _cardTemplateService;
+        [Dekuple.Registry.Inject] public ICardTemplateService _cardTemplateService;
 
         public ICardModel this[int index]
         {

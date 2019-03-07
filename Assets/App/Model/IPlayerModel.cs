@@ -4,7 +4,7 @@ using UniRx;
 
 namespace App.Model
 {
-    using Common;
+    using Dekuple.Common;
 
     /// <summary>
     /// A Player in the game.

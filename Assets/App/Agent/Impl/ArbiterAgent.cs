@@ -9,7 +9,9 @@ namespace App
 {
     using Common.Message;
     using Common;
-    using Registry;
+    using Dekuple.Registry;
+    using Dekuple.Common;
+    using Dekuple.Common.Message;
     using Agent;
     using Model;
 
@@ -30,9 +32,10 @@ namespace App
 
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
-        public IPlayerModel CurrentPlayerModel => CurrentPlayerAgent.Value.Model;
+        public IPlayerModel CurrentPlayerModel => (IPlayerModel)CurrentPlayerAgent.Value.Model;
 
         [Inject] public IBoardAgent BoardAgent { get; set; }
+        //public IArbiterAgent Arbiter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)

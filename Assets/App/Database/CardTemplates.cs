@@ -6,7 +6,8 @@ using App.Model;
 namespace App.Database
 {
     using Common;
-    using Registry;
+    using Dekuple.Registry;
+    using Dekuple.Common;
 
     static class CardTemplates
     {

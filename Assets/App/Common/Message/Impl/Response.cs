@@ -2,6 +2,8 @@ using System;
 
 namespace App.Common.Message
 {
+    using Dekuple.Common.Message;
+
     public class Response
         : IResponse
     {

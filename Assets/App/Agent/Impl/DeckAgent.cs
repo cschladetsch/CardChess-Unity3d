@@ -6,6 +6,7 @@ using UniRx;
 
 namespace App.Agent
 {
+    using Dekuple.Registry;
     using Model;
 
     /// <summary>
@@ -18,6 +19,7 @@ namespace App.Agent
         public event Action<ICardAgent> OnDraw;
         public int MaxCards => Parameters.MinCardsInDeck;
         public IReadOnlyReactiveCollection<ICardAgent> Cards => _cards;
+        //[Inject] public IArbiterAgent Arbiter { get; set;}
 
         public DeckAgent(IDeckModel model)
             : base(model)

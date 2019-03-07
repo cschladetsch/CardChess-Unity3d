@@ -12,7 +12,7 @@ namespace App.Model
 {
     using Common;
     using Common.Message;
-    using Registry;
+    using Dekuple.Registry;
 
     /// <summary>
     /// Common for all PlayerModels.

@@ -5,7 +5,7 @@ using UniRx;
 namespace App.Common
 {
     public interface ICardCollectionBase
-        : IOwned
+        : Dekuple.Common.IOwned
     {
     }
 

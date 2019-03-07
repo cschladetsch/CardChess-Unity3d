@@ -4,7 +4,7 @@ namespace App.Model
 {
     using Common;
     using Common.Message;
-    using Registry;
+    using Dekuple.Registry;
 
     /// <summary>
     /// Model of a piece on the board.

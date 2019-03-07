@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace App.Mock.Model
 {
     using Common;
-    using Registry;
+    using Dekuple.Registry;
     using App.Model;
 
     public class MockDeck

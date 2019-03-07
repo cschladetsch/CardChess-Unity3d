@@ -6,7 +6,6 @@ namespace App.Service.Impl
 {
     using Model;
     using Common;
-    using Registry;
 
     public class CardTemplateService
         : ModelBase

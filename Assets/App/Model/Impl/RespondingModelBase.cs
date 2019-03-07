@@ -2,6 +2,7 @@
 {
     using Common;
     using Common.Message;
+    using Dekuple.Common;
 
     /// <summary>
     /// Base for classes that have methods that produce methods returning Response

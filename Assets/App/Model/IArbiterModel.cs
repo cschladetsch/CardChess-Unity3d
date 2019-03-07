@@ -3,6 +3,8 @@ using UniRx;
 
 namespace App.Model
 {
+    using Dekuple.Common.Message;
+
     /// <summary>
     /// The referee for the game.
     /// </summary>

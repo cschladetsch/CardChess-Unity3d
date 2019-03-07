@@ -8,6 +8,8 @@ namespace App.Agent
 {
     using Common.Message;
     using Common;
+    using Dekuple.Common;
+    using Dekuple.Common.Message;
     using Model;
 
     /// <summary>
@@ -39,6 +41,8 @@ namespace App.Agent
                 return true;
             }
         }
+
+        //public IArbiterAgent Arbiter { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public BoardAgent(IBoardModel model)
             : base(model)

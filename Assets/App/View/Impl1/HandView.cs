@@ -1,4 +1,4 @@
-﻿using App.Registry;
+﻿using Dekuple.Registry;
 using App.Service;
 using UnityEngine;
 

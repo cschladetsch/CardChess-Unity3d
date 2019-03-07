@@ -3,6 +3,7 @@
 namespace App.View
 {
     using Agent;
+    using Dekuple.Common;
 
     public interface IArbiterView
         : IView<IArbiterAgent>

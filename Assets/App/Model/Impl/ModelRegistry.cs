@@ -1,6 +1,6 @@
 ﻿namespace App.Model
 {
-    using Registry;
+    using Dekuple.Registry;
 
     public class ModelRegistry
         : Registry<IModel>

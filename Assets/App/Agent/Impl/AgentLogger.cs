@@ -2,7 +2,7 @@
 
 namespace App.Agent
 {
-    using Registry;
+    using Dekuple.Registry;
 
     /// <summary>
     /// AgentBase for all agents. Provides a custom logger and an ITransient implementation

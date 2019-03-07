@@ -9,7 +9,7 @@ namespace App.Model
 {
     using Common;
     using Common.Message;
-    using Registry;
+    using Dekuple.Registry;
 
     /// <summary>
     /// The main playing board Can be of arbitrary dimention.

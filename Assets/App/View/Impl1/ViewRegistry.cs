@@ -5,7 +5,7 @@ namespace App.View
     using Agent;
     using Common;
     using Model;
-    using Registry;
+    using Dekuple.Registry;
 
     public class ViewRegistry
         : Registry<IViewBase>

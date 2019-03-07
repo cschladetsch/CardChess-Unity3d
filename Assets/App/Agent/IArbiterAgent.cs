@@ -4,7 +4,7 @@ using UniRx;
 namespace App.Agent
 {
     using Model;
-    using Common.Message;
+    using Dekuple.Common.Message;
 
     public interface IArbiterAgent
         : IAgent<IArbiterModel>

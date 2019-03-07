@@ -2,9 +2,9 @@
 
 namespace App.View
 {
-    using Registry;
     using Agent;
-    using Common;
+    using Dekuple.Common;
+    using Dekuple.Registry;
 
     /// <summary>
     /// Common interface for all views

@@ -12,7 +12,7 @@ using UniRx;
 
 namespace App.Model
 {
-    using Registry;
+    using Dekuple.Registry;
     using Common.Message;
     using Common;
 

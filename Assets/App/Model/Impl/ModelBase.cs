@@ -6,8 +6,9 @@ using UniRx;
 
 namespace App.Model
 {
-    using Common;
-    using Registry;
+    using Dekuple.Common;
+    using Dekuple.Model;
+    using Dekuple.Registry;
 
     /// <summary>
     /// Common for all Models.
@@ -38,6 +39,10 @@ namespace App.Model
             }
         }
 
+        Dekuple.Model.IPlayerModel IOwned.PlayerModel => throw new NotImplementedException();
+
+        IRegistry<Dekuple.Model.IModel> IHasRegistry<Dekuple.Model.IModel>.Registry { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public bool SameOwner(IEntity other)
         {
             if (other == null)
@@ -54,6 +59,19 @@ namespace App.Model
             Verbosity = Parameters.DefaultLogVerbosity;
             ShowStack = Parameters.DefaultShowTraceStack;
             ShowSource = Parameters.DefaultShowTraceSource;
+        }
+
+        event Action<Dekuple.Model.IModel> IHasDestroyHandler<Dekuple.Model.IModel>.OnDestroyed
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public bool SameOwner(IOwned other)
@@ -118,14 +136,15 @@ namespace App.Model
 
         private bool _started;
     }
-}
 
-static class ModelExt
-{
-    public static T AddTo<T>(this T disposable, App.Model.IModel model)
-        where T : IDisposable
+    static class ModelExt
     {
-        model.Destroyed.Subscribe(m => disposable.Dispose());
-        return disposable;
+        public static T AddTo<T>(this T disposable, App.Model.IModel model)
+            where T : IDisposable
+        {
+            model.Destroyed.Subscribe(m => disposable.Dispose());
+            return disposable;
+        }
     }
 }
+

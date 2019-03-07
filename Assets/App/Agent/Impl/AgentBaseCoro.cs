@@ -9,9 +9,14 @@ namespace App.Agent
     /// </summary>
     /// <typeparam name="TModel">The model that this Agent represents</typeparam>
     public abstract class AgentBaseCoro<TModel>
-        : AgentBase<TModel>
-        where TModel : class, IModel
+        : Dekuple.Agent.AgentBase<IAgent, TModel>
+        where TModel 
+            : class
+            , IModel
     {
+        public IArbiterAgent Arbiter { get;set;}
+        public IBoardAgent Board { get;set;}
+
         protected AgentBaseCoro(TModel model)
             : base(model)
         {

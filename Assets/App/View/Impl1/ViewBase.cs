@@ -6,7 +6,8 @@ using UniRx;
 namespace App.View.Impl1
 {
     using Model;
-    using Registry;
+    using Dekuple.Registry;
+    using Dekuple.Common;
     using Common;
     using Agent;
 

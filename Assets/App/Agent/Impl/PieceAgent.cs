@@ -9,7 +9,7 @@ namespace App.Agent
     /// Acts on behalf of a piece
     /// </summary>
     public class PieceAgent
-        : AgentBase<IPieceModel>
+        : AgentBase<IAgent, IPieceModel>
         , IPieceAgent
     {
         public IReactiveProperty<Coord> Coord => Model.Coord;

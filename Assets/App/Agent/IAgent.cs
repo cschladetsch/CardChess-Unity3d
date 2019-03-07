@@ -1,22 +1,17 @@
 ﻿namespace App.Agent
 {
-    using Common;
     using Model;
-    using Registry;
-    using Flow;
+    using Dekuple.Common;
+    using Dekuple.Registry;
 
     /// <summary>
-    /// AgentBase for all agents. Each agent represents a model and has it's own log.
+    /// Each agent represents a model, has a Flow process, and its own log.
     /// </summary>
     public interface IAgent
-        : ILogger
-        , ITransient
-        , IEntity
-        , IGameActor
+        : Dekuple.Agent.IAgent
         , IHasRegistry<IAgent>
         , IHasDestroyHandler<IAgent>
     {
-        IModel BaseModel { get; }
         IArbiterAgent Arbiter { get; set; }
     }
 
@@ -29,6 +24,6 @@
         : IAgent
         where TModel : IModel
     {
-        TModel Model { get; }
+        //TModel Model { get; }
     }
 }

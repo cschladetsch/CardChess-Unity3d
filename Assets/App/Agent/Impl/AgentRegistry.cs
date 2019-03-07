@@ -2,7 +2,7 @@
 
 namespace App.Agent
 {
-    using Registry;
+    using Dekuple.Registry;
 
     /// <summary>
     /// Factory and registry for creating agents.
@@ -11,7 +11,7 @@ namespace App.Agent
     /// and do work over time in a Flow.Kernel.
     /// </summary>
     public class AgentRegistry
-        : Registry<IAgent>
+        : Dekuple.Registry.Registry<IAgent>
     {
         public IKernel Kernel { get; }
         public IFactory Factory { get; }

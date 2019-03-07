@@ -13,7 +13,6 @@ namespace App.Model
     /// </summary>
     public interface IBoardModel
         : IModel
-        , IPrintable
     {
         int Width { get; set; }
         int Height { get; set; }
