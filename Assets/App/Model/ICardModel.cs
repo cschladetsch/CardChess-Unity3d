@@ -6,6 +6,7 @@ namespace App.Model
     using Common;
     using Common.Message;
 
+    /// <inheritdoc />
     /// <summary>
     /// A Card in a Deck, Hand, Graveyard or on a Board
     /// </summary>

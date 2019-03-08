@@ -4,6 +4,7 @@ namespace App.Model
 {
     using Common;
 
+    /// <inheritdoc cref="ICardCollection{TCard}" />
     /// <summary>
     /// Cards that a player may choose to play during his turn.
     /// </summary>

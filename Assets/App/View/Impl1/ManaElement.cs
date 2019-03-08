@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace App.View.Impl1
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// View of a mana piece in the main game scene
+    /// </summary>
     public class ManaElement
         : ViewBase
     {

@@ -5,8 +5,8 @@ using UniRx;
 namespace App.Model
 {
     using Common;
-    using Common.Message;
 
+    /// <inheritdoc />
     /// <summary>
     /// A card in play as a piece on the board.
     /// </summary>

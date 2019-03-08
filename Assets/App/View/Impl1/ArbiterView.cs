@@ -13,6 +13,9 @@ namespace App.View.Impl1
     using Common;
     using Common.Message;
 
+    /// <summary>
+    /// View of an Arbiter. This is mostly related to meta-data about the game state.
+    /// </summary>
     public class ArbiterView
         : ViewBase<IArbiterAgent>
         , IArbiterView
@@ -26,13 +29,10 @@ namespace App.View.Impl1
         public Button WhiteEndButton;
         public Button BlackEndButton;
         public EColor CurrentPlayerColor => Agent.CurrentPlayerAgent.Value.Model.Color;
-
         public AudioClip[] MusicClips;
         public AudioClip[] EndTurnClips;
-
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
-        // KILL ME
         public IPlayerView CurrentPlayerView => CurrentPlayerColor == EColor.White ? WhitePlayerView : BlackPlayerView;
         public IBoardView BoardView => Board;
 

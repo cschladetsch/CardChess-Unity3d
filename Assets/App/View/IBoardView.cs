@@ -1,8 +1,9 @@
-﻿using Dekuple;
-using Dekuple.View;
-using UnityEngine;
+﻿using UnityEngine;
 
 using UniRx;
+
+using Dekuple;
+using Dekuple.View;
 
 namespace App.View
 {
@@ -11,7 +12,7 @@ namespace App.View
     using Model;
 
     /// <summary>
-    /// View of the Board in the scene.
+    /// View of the current Board state in the scene.
     /// </summary>
     public interface IBoardView
         : IView<IBoardAgent>

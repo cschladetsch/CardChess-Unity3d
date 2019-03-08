@@ -52,6 +52,5 @@ namespace App.Model
                 yield return Draw();
             }
         }
-
     }
 }

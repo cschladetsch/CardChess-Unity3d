@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using UnityEngine;
+
 using App.Agent.Impl;
 using App.Model.Impl;
+
 using Dekuple;
 using Dekuple.Agent;
 using Dekuple.Model;
 using Dekuple.View;
 using Dekuple.View.Impl;
-using UnityEngine;
 
 // field not assigned - because it is assigned in Unity3d editor
 #pragma warning disable 649
@@ -37,14 +40,29 @@ namespace App
         public ArbiterView ArbiterView;
         public float SKyRotationSpeedMultiplier = 2;
 
+        private IBoardModel _boardModel;
+        private IArbiterModel _arbiterModel;
+        private IPlayerModel _whitePlayerModel;
+        private IPlayerModel _blackPlayerModel;
+        private ModelRegistry _models;
+        private AgentRegistry _agents;
+        private IViewRegistry _views;
+
+        /// <summary>
+        /// Startup the game.
+        ///
+        /// Configure all models, agents and views.
+        /// </summary>
         protected override void Begin()
         {
             Registry = _views;
 
             base.Begin();
+
             CreateModels();
             CreateAgents();
             RegisterViews();
+
             PrepareViews(transform);
 
             BoardView.SetAgent(null, BoardAgent);
@@ -55,6 +73,9 @@ namespace App
             CheckAllValid();
         }
 
+        /// <summary>
+        /// Sanity-checking internal game state, for each of models, agents and views
+        /// </summary>
         [ContextMenu("GameRoot-IsValid")]
         public void CheckAllValid()
         {
@@ -67,13 +88,18 @@ namespace App
             TestValidity("Views", _views.Instances);
         }
 
+        /// <summary>
+        /// Update the game state based on time
+        /// </summary>
         protected override void Step()
         {
             base.Step();
             RenderSettings.skybox.SetFloat("_Rotation", Time.time * SKyRotationSpeedMultiplier);
-
         }
 
+        /// <summary>
+        /// Print game state to console
+        /// </summary>
         [ContextMenu("GameRoot-Trace")]
         public void Trace()
         {
@@ -88,8 +114,7 @@ namespace App
         {
             foreach (var c in tr.GetComponents<Component>())
             {
-                var v = c as IViewBase;
-                if (v == null)
+                if (!(c is IViewBase v))
                     continue;
                 _views.Prepare(v);
             }
@@ -98,13 +123,9 @@ namespace App
                 PrepareViews(ch);
         }
 
-        [ContextMenu("TestWhiteHand")]
-        public void TestWhiteHand()
-        {
-        }
-
         private void CreateModels()
         {
+            // setup bindings for all game models
             _models = new ModelRegistry();
             _models.Bind<Service.ICardTemplateService, CardTemplateService>(new CardTemplateService());
             _models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
@@ -117,17 +138,20 @@ namespace App
             _models.Bind<IPlayerModel, PlayerModel>();
             _models.Resolve();
 
+            // make the required minimal components for a game
             _boardModel = _models.New<IBoardModel>();
             _arbiterModel = _models.New<IArbiterModel>();
             _whitePlayerModel = _models.New<IPlayerModel>(EColor.White);
             _blackPlayerModel = _models.New<IPlayerModel>(EColor.Black);
 
-            // make all models required. this resolves any cycles of dependancy for
-            // singletons, as well as creates models used internally by other models.
+            // resolve any cycles of dependancy for singletons, as well as creates models used internally by other models.
             foreach (var model in _models.Instances.ToList())
                 model.PrepareModels();
         }
 
+        /// <summary>
+        /// REgistry and create all the agents for the models in the initial game
+        /// </summary>
         private void CreateAgents()
         {
             _agents = new AgentRegistry();
@@ -139,7 +163,9 @@ namespace App
             _agents.Bind<IHandAgent, HandAgent>();
             _agents.Bind<IPieceAgent, PieceAgent>();
             _agents.Bind<IPlayerAgent, PlayerAgent>();
+
             _agents.Resolve();
+
             BoardAgent = _agents.New<IBoardAgent>();
             ArbiterAgent = _agents.New<IArbiterAgent>();
             WhitePlayerAgent = _agents.New<IPlayerAgent>(_whitePlayerModel);
@@ -210,14 +236,15 @@ namespace App
         {
             var list = entities.ToList();
             Verbose(10, $"TestValidity: {what}, count={list.Count}");
-            int n = 0;
+            var n = 0;
             foreach (var entity in list)
             {
-                // these are special cases
-                if (entity is GameRoot)
-                    continue;
-                if (entity is BoardOverlayView)
-                    continue;
+                switch (entity)
+                {
+                    case GameRoot _:
+                    case BoardOverlayView _:
+                        continue;
+                }
 
                 var valid = entity.IsValid;
                 if (!valid)
@@ -268,14 +295,5 @@ namespace App
         {
             Info(BlackPlayerAgent.Model.ToString());
         }
-
-        private IBoardModel _boardModel;
-        private IArbiterModel _arbiterModel;
-        private IPlayerModel _whitePlayerModel;
-        private IPlayerModel _blackPlayerModel;
-
-        private ModelRegistry _models;
-        private AgentRegistry _agents;
-        private IViewRegistry _views;
     }
 }

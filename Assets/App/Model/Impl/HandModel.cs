@@ -9,13 +9,9 @@ namespace App.Model
         , IHandModel
     {
         public override int MaxCards => Parameters.MaxCardsInHand;
-        [Inject] public ICardTemplateService _cardTemplateService;
+        public ICardModel this[int index] { get => _Cards[index]; set => _Cards[index] = value; }
 
-        public ICardModel this[int index]
-        {
-            get { return _Cards[index]; }
-            set { _Cards[index] = value; }
-        }
+        [Inject] public ICardTemplateService _cardTemplateService;
 
         public HandModel(IPlayerModel owner)
             : base(owner)
@@ -37,6 +33,7 @@ namespace App.Model
         protected virtual void DrawInitialCards()
         {
             Deck.Shuffle();
+
             for (var n = 0; n < Parameters.StartHandCardCount; ++n)
             {
                 var card = Deck.Draw();

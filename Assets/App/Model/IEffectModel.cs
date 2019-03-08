@@ -1,10 +1,10 @@
 ﻿namespace App.Model
 {
-    /// <summary>
-    /// Model of an effect a player can cast.
-    ///
-    /// Effects can be on areas of the board, or on pieces on the board.
-    /// </summary>
+    /// <inheritdoc />
+    ///  <summary>
+    ///  Model of an effect a player can cast.
+    ///  Effects can be on areas of the board, or on pieces on the board.
+    ///  </summary>
     public interface IEffectModel
         : ICardModel
     {

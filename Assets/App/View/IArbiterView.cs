@@ -6,6 +6,9 @@ namespace App.View
 {
     using Agent;
 
+    /// <summary>
+    /// View of the arbitrator of the game
+    /// </summary>
     public interface IArbiterView
         : IView<IArbiterAgent>
     {

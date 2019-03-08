@@ -26,6 +26,8 @@ namespace App.View.Impl1
         public Button Button;
         public Image Image;
 
+        private Ref<Vector3> _scale;
+
         //public override void SetAgent(IPlayerView player, IEndTurnButtonAgent agent)
         public override void SetAgent(IViewBase player, IAgent agent)
         {
@@ -70,7 +72,5 @@ namespace App.View.Impl1
             Image.material.color = Color.green;
             _Queue.Paused = false;
         }
-
-        private Ref<Vector3> _scale;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Dekuple;
 using Dekuple.Agent;
 using Dekuple.View;
@@ -8,6 +9,9 @@ namespace App.View.Impl1
 {
     using Agent;
 
+    /// <summary>
+    /// View of a player's representative in the scene.
+    /// </summary>
     public class PlayerView
         : ViewBase<IPlayerAgent>
         , IPlayerView
@@ -19,8 +23,6 @@ namespace App.View.Impl1
         public HandView Hand;
         public DeckView Deck;
         public EndTurnButtonView EndTurnButton;
-
-        //[Inject] public IArbiterView ArbiterView;
 
         //public override void SetAgent(IPlayerView view, IPlayerAgent agent)
         public override void SetAgent(IViewBase view, IAgent agent)

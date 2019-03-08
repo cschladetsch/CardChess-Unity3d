@@ -2,6 +2,7 @@
 
 namespace App.Model
 {
+    /// <inheritdoc />
     /// <summary>
     /// A card model that is able to be ridden by another piece.
     /// </summary>

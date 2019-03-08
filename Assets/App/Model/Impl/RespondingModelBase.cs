@@ -5,6 +5,7 @@ namespace App.Model
 {
     using Common.Message;
 
+    /// <inheritdoc cref="IDecidingModelBase" />
     /// <summary>
     /// Base for classes that have methods that produce methods returning Response
     /// </summary>

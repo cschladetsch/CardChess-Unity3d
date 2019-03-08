@@ -2,6 +2,10 @@
 
 namespace App.Model
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Model for a player in the game
+    /// </summary>
     public class PlayerModel
         : PlayerModelBase
     {
