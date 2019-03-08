@@ -15,10 +15,8 @@ namespace Dekuple.View
     {
         IAgent AgentBase { get; set; }
         GameObject GameObject { get; }
-        //IPlayerView PlayerView { get; set; }
-        //IViewRegistry ViewRegistry { get; }
 
-        void SetAgent(IOwner owner, IAgent agent);
+        void SetAgent(IViewBase owner, IAgent agent);
     }
 
     public interface IView<out TIAgent>

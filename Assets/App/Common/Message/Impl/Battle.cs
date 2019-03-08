@@ -1,4 +1,5 @@
 ﻿using App.Model;
+using Dekuple;
 
 namespace App.Common.Message
 {

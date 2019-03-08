@@ -1,4 +1,6 @@
-﻿namespace Dekuple.Agent
+﻿using App.Common;
+
+namespace Dekuple.Agent
 {
     using Model;
     using Registry;
@@ -10,6 +12,7 @@
         : Flow.ILogger
         , Flow.ITransient
         , IEntity
+        , IGameActor
         , IHasRegistry<IAgent>
         , IHasDestroyHandler<IAgent>
     {

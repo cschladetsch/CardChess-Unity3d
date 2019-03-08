@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using App.Model;
+using UnityEngine;
 
 using CoLib;
+using Dekuple.View.Impl;
 using UniRx;
 
 namespace App.View.Impl1

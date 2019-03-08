@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using App.Model;
+using Dekuple;
+using Dekuple.View.Impl;
+using UnityEngine;
 
 using UniRx;
 
@@ -76,7 +79,7 @@ namespace App.View.Impl1
             agent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
 
             FindPiece().material
-                = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+                = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
             SquareOver.Subscribe(sq =>
             {

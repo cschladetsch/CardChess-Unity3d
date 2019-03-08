@@ -1,4 +1,6 @@
 ﻿
+using Dekuple.View;
+
 namespace App.View
 {
     using Agent;

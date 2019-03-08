@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using Dekuple.Model;
+
+namespace App.Model
 {
     using Common;
 
@@ -8,6 +10,7 @@
     public interface IHandModel
         : IModel
         , ICardCollection<ICardModel>
+        , IGameActor
     {
         ICardModel this[int index] { get; set; }
     }

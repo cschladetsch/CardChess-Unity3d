@@ -16,7 +16,7 @@ namespace Dekuple.View
             where TIView : class, IViewBase;
 
         TIView FromPrefab<TIView, TIAgent, TModel>(
-            IOwner owner, Object prefab, TModel model)
+            IViewBase owner, Object prefab, TModel model)
             where TIView : class, IViewBase
             where TIAgent : class, IAgent, IHasDestroyHandler<IAgent>
             where TModel : IModel;

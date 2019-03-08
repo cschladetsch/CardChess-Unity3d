@@ -1,4 +1,6 @@
 ﻿using System;
+using Dekuple;
+using Dekuple.Model;
 using UnityEngine;
 
 using UniRx;
@@ -12,7 +14,6 @@ namespace App.Model
 {
     using Common;
     using Common.Message;
-    using Registry;
 
     /// <summary>
     /// Common for all PlayerModels.

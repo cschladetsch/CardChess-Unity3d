@@ -1,6 +1,8 @@
-﻿namespace App.Model
+﻿using Dekuple;
+using Dekuple.Model;
+
+namespace App.Model
 {
-    using Common;
     using Common.Message;
 
     /// <summary>
@@ -24,7 +26,7 @@
         public Response Succeed(IRequest req, string text = "", EError error = EError.None, EResponse r = EResponse.Ok)
         {
             Assert.IsNotNull(req);
-            Assert.IsNotNull(req.Player);
+            Assert.IsNotNull(req.Owner as IPlayerModel);
 
             return new Response(req, r, error, text);
         }
@@ -32,7 +34,7 @@
         public Response Failed(IRequest req, string text = "", EError error = EError.Error, EResponse r = EResponse.Fail)
         {
             Assert.IsNotNull(req);
-            Assert.IsNotNull(req.Player);
+            Assert.IsNotNull(req.Owner as IPlayerModel);
 
             var resp = new Response(req, r, error, text);
             Warn($"{resp}");

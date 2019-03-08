@@ -1,4 +1,5 @@
 ﻿using System;
+using Dekuple;
 
 namespace App.Common.Message
 {
@@ -8,7 +9,7 @@ namespace App.Common.Message
     /// Common to all Actions requested by player
     /// </summary>
     public class RequestBase
-        : IRequest
+        : IGameRequest
     {
         public IPlayerModel Player { get; }
         public EActionType Action { get; }
@@ -18,7 +19,10 @@ namespace App.Common.Message
         {
             Id = Guid.NewGuid();
             Player = player;
+            Owner = Player;
             Action = actionType;
         }
+
+        public IOwner Owner { get; private set; }
     }
 }

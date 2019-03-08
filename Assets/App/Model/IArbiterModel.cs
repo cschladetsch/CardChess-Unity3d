@@ -1,4 +1,6 @@
-﻿using App.Common.Message;
+﻿using App.Common;
+using Dekuple;
+using Dekuple.Model;
 using UniRx;
 
 namespace App.Model
@@ -16,7 +18,7 @@ namespace App.Model
         IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
 
         void PrepareGame(IPlayerModel white, IPlayerModel black);
-        IResponse Arbitrate(IRequest request);
+        IResponse Arbitrate(IGameRequest request);
         void EndTurn();
     }
 }

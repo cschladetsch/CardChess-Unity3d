@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Dekuple;
+using Dekuple.Model;
 using UniRx;
 
 namespace App.Model
@@ -14,6 +15,7 @@ namespace App.Model
     public interface IBoardModel
         : IModel
         , IPrintable
+        , IGameActor
     {
         int Width { get; set; }
         int Height { get; set; }

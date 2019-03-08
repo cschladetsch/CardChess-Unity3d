@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using Dekuple;
+using Dekuple.Model;
+using UniRx;
 
 namespace App.Model
 {

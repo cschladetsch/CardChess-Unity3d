@@ -1,12 +1,11 @@
 ﻿using System.Linq;
-
+using Dekuple;
+using Dekuple.Model;
 using UniRx;
 
 namespace App.Model.Impl
 {
-    using Common;
     using Model;
-    using Registry;
 
     /// <summary>
     /// Logic for state of 'end-turn' button
@@ -17,9 +16,13 @@ namespace App.Model.Impl
     {
         public IReadOnlyReactiveProperty<bool> Interactive => _isInteractive;
         public IReadOnlyReactiveProperty<bool> PlayerHasOptions => _playerHasOptions;
+        public IPlayerModel PlayerModel => Owner as IPlayerModel;
 
         [Inject] public IBoardModel _board;
         [Inject] public IArbiterModel _arbiter;
+
+        private readonly BoolReactiveProperty _isInteractive = new BoolReactiveProperty();
+        private readonly BoolReactiveProperty _playerHasOptions = new BoolReactiveProperty();
 
         public EndTurnButtonModel(IOwner owner) : base(owner) { }
 
@@ -51,8 +54,5 @@ namespace App.Model.Impl
             //    Info($"CanMove={canMove}, canPlace={canPlace}, mana={mana}, {PlayerModel}: hasOptions={_playerHasOptions.Value}");
             //});//.AddTo(this); why does this remove the subscription?>??
         }
-
-        private readonly BoolReactiveProperty _isInteractive = new BoolReactiveProperty();
-        private readonly BoolReactiveProperty _playerHasOptions = new BoolReactiveProperty();
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
+using Dekuple;
+using Dekuple.View;
+using Dekuple.View.Impl;
 
 namespace App.View.Impl1
 {
     using Agent;
-    using Common;
-    using Common.Message;
-    using Registry;
 
     public class PlayerView
         : ViewBase<IPlayerAgent>

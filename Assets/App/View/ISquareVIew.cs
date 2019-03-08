@@ -1,4 +1,6 @@
-﻿namespace App.View
+﻿using Dekuple.View;
+
+namespace App.View
 {
     using Common;
 

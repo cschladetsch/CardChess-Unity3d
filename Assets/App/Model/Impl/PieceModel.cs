@@ -1,10 +1,10 @@
-﻿using UniRx;
+﻿using Dekuple;
+using UniRx;
 
 namespace App.Model
 {
     using Common;
     using Common.Message;
-    using Registry;
 
     /// <summary>
     /// Model of a piece on the board.

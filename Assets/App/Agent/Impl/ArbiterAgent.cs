@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 using Flow;
 using UniRx;
+using Dekuple;
+using Dekuple.Agent;
 
 namespace App
 {
     using Common.Message;
-    using Common;
-    using Registry;
     using Agent;
     using Model;
 
@@ -78,7 +78,7 @@ namespace App
         {
             Info($"{this} StartGame");
 
-            Board.StartGame();
+            BoardAgent.StartGame();
 
             // only needed because we're skipping the coro below
             foreach (var p in _playerAgents)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Dekuple.View.Impl;
+using UnityEngine;
 
 namespace App.View.Impl1
 {
