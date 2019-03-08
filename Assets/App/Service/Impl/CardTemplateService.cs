@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using App.Agent;
 using Dekuple.Model;
 
 namespace App.Service.Impl
@@ -15,11 +14,6 @@ namespace App.Service.Impl
         public CardTemplateService()
             : base(null)
         {
-        }
-
-        public override void PrepareModels()
-        {
-            base.PrepareModels();
         }
 
         public ICardTemplate GetCardTemplate(EPieceType pieceType)
@@ -51,12 +45,10 @@ namespace App.Service.Impl
         public ICardModel NewCardModel(IPlayerModel owner, EPieceType type)
         {
             var template = GetCardTemplate(type);
-            if (template == null)
-            {
-                Error($"Failed to find card template {type} for {owner}");
-                return null;
-            }
-            return Registry.New<ICardModel>(owner, template);
+            if (template != null) 
+                return Registry.New<ICardModel>(owner, template);
+            Error($"Failed to find card template {type} for {owner}");
+            return null;
         }
     }
 }

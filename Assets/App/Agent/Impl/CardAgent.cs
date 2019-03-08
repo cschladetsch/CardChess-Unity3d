@@ -7,12 +7,12 @@ namespace App.Agent
     using Common;
     using Model;
 
-    /// <summary>
-    /// Representative for a CardModel. Currently this is just a pass-through.
-    ///
-    /// In future it will deal with networking, and also add extra animation and
-    /// bling to actions.
-    /// </summary>
+    /// <inheritdoc cref="AgentBaseCoro{TModel}" />
+    ///  <summary>
+    ///  Representative for a CardModel. Currently this is just a pass-through.
+    ///  In future it will deal with networking, and also add extra animation and
+    ///  bling to actions.
+    ///  </summary>
     public class CardAgent
         : AgentBaseCoro<ICardModel>
         , ICardAgent
@@ -42,7 +42,7 @@ namespace App.Agent
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e} Printing {GetType()}");
+                Error($"{e.Message} Printing {GetType()}");
                 throw;
             }
         }
