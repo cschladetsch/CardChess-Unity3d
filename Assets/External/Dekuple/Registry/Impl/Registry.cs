@@ -39,6 +39,63 @@ namespace Dekuple.Registry
         private IRegistry<TBase> _registry;
 
         /// <summary>
+        /// Represents an actual injection to a set of values and/or properties to target object.
+        /// </summary>
+        private class Injector
+        {
+            private readonly IRegistry<TBase> _reg;
+            private readonly List<Inject> _injections = new List<Inject>();
+            private static BindingFlags Flags => 
+                BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            
+            internal Injector(IRegistry<TBase> reg, Type ty)
+            {
+                _reg = reg;
+                AddPropertyInjections(ty);
+                AddFieldInjections(ty);
+            }
+
+            private void AddFieldInjections(Type ty)
+            {
+                foreach (var field in ty.GetFields(Flags))
+                {
+                    var inject = field.GetCustomAttribute<Inject>();
+                    if (inject == null)
+                        continue;
+                    inject.FieldInfo = field;
+                    inject.ValueType = field.FieldType;
+                    _injections.Add(inject);
+                }
+            }
+
+            private void AddPropertyInjections(Type ty)
+            {
+                foreach (var prop in ty.GetProperties(Flags))
+                {
+                    var inject = prop.GetCustomAttribute<Inject>();
+                    if (inject == null)
+                        continue;
+                    inject.PropertyInfo = prop;
+                    inject.ValueType = prop.PropertyType;
+                    _injections.Add(inject);
+                }
+            }
+
+            /// <summary>
+            /// Perform the injection
+            /// </summary>
+            /// <returns>What was injected</returns>
+            public TBase Inject(TBase model, Type iface = null, TBase single = null)
+            {
+                model.Registry = _reg;
+                foreach (var inject in _injections)
+                    _reg.Inject(model, inject, iface, single);
+
+                return model;
+            }
+        }
+
+        /// <summary>
         /// Used to postpone depdancy injection to avoid cyclic dependancy issues
         /// </summary>
         private class PendingInjection
@@ -61,53 +118,6 @@ namespace Dekuple.Registry
             public override string ToString()
             {
                 return $"PendingInject: {Injection.ValueType} into {TargetModel}";
-            }
-        }
-
-        /// <summary>
-        /// Represents an actual injection of a value to a property or field of a target object
-        /// </summary>
-        private class Injector
-        {
-            private PropertyInfo _setRegistry;
-            private PropertyInfo _setId;
-            private readonly IRegistry<TBase> _reg;
-            private readonly List<Inject> _injections = new List<Inject>();
-
-            internal Injector(IRegistry<TBase> reg, Type ty)
-            {
-                _reg = reg;
-                foreach (var prop in ty.GetProperties(
-                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-                {
-                    var inject = prop.GetCustomAttribute<Inject>();
-                    if (inject == null)
-                        continue;
-                    inject.PropertyInfo = prop;
-                    inject.ValueType = prop.PropertyType;
-                    _injections.Add(inject);
-                }
-
-                foreach (var field in ty.GetFields(
-                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-                {
-                    var inject = field.GetCustomAttribute<Inject>();
-                    if (inject == null)
-                        continue;
-                    inject.FieldInfo = field;
-                    inject.ValueType = field.FieldType;
-                    _injections.Add(inject);
-                }
-            }
-
-            public TBase Inject(TBase model, Type iface = null, TBase single = null)
-            {
-                model.Registry = _reg;
-                foreach (var inject in _injections)
-                {
-                    _reg.Inject(model, inject, iface, single);
-                }
-                return model;
             }
         }
 
