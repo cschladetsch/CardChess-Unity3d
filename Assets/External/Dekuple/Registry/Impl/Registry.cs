@@ -38,92 +38,9 @@ namespace Dekuple.Registry
         private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
         private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
         private readonly Dictionary<Type, Type> _bindings = new Dictionary<Type, Type>();
-        private readonly Dictionary<Type, Injector> _preparers = new Dictionary<Type, Injector>();
+        private readonly Dictionary<Type, Injections> _preparers = new Dictionary<Type, Injections>();
         private readonly Dictionary<Type, TBase> _singles = new Dictionary<Type, TBase>();
         private IRegistry<TBase> _registry;
-
-        /// <summary>
-        /// Represents an actual injection to a set of values and/or properties to target object.
-        /// </summary>
-        private class Injector
-        {
-            private readonly IRegistry<TBase> _reg;
-            private readonly List<Inject> _injections = new List<Inject>();
-            private static BindingFlags Flags => 
-                BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-            
-            internal Injector(IRegistry<TBase> reg, Type ty)
-            {
-                _reg = reg;
-                AddPropertyInjections(ty);
-                AddFieldInjections(ty);
-            }
-
-            private void AddFieldInjections(Type ty)
-            {
-                foreach (var field in ty.GetFields(Flags))
-                {
-                    var inject = field.GetCustomAttribute<Inject>();
-                    if (inject == null)
-                        continue;
-                    inject.FieldInfo = field;
-                    inject.ValueType = field.FieldType;
-                    _injections.Add(inject);
-                }
-            }
-
-            private void AddPropertyInjections(Type ty)
-            {
-                foreach (var prop in ty.GetProperties(Flags))
-                {
-                    var inject = prop.GetCustomAttribute<Inject>();
-                    if (inject == null)
-                        continue;
-                    inject.PropertyInfo = prop;
-                    inject.ValueType = prop.PropertyType;
-                    _injections.Add(inject);
-                }
-            }
-
-            /// <summary>
-            /// Perform the injection
-            /// </summary>
-            /// <returns>What was injected</returns>
-            public TBase Inject(TBase model, Type iface = null, TBase single = null)
-            {
-                model.Registry = _reg;
-                foreach (var inject in _injections)
-                    _reg.Inject(model, inject, iface, single);
-
-                return model;
-            }
-        }
-
-        /// <summary>
-        /// Used to postpone depdancy injection to avoid cyclic dependancy issues
-        /// </summary>
-        private class PendingInjection
-        {
-            internal readonly TBase TargetModel;
-            internal readonly Inject Injection;
-            internal readonly TBase Single;
-            internal readonly Type Interface;
-            internal readonly Type ModelType;
-
-            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
-            {
-                TargetModel = targetModel;
-                Injection = inject;
-                ModelType = modelType;
-                Interface = iface;
-                Single = single;
-            }
-
-            public override string ToString()
-            {
-                return $"PendingInject: {Injection.ValueType} into {TargetModel}";
-            }
-        }
 
         public Registry()
             : base(null)
@@ -169,7 +86,7 @@ namespace Dekuple.Registry
             // TODO: combine these to one lookup.
             // That is, put the TImpl into PrepareModel, and parameterise it.
             _bindings[ity] = typeof(TImpl);
-            _preparers[ity] = new Injector(this, typeof(TImpl));
+            _preparers[ity] = new Injections(this, typeof(TImpl));
 
             return true;
         }
@@ -265,7 +182,7 @@ namespace Dekuple.Registry
                 return false;
             }
 
-            var prep = new Injector(this, typeof(TImpl));
+            var prep = new Injections(this, typeof(TImpl));
             _singles[ity] = Prepare(prep.Inject(single, ity, single));
             return true;
         }
