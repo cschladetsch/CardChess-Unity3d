@@ -19,6 +19,8 @@ namespace App.Agent
         : AgentBaseCoro<IPlayerModel>
         , IPlayerAgent
     {
+        [Inject] public IBoardAgent Board { get; set; }
+
         public EColor Color => Model.Color;
         public IDeckAgent Deck { get; set; }
         public IHandAgent Hand { get; set; }
@@ -28,8 +30,6 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
         public ReactiveProperty<bool> Dead { get; private set; }
-
-        [Inject] public IBoardAgent Board { get; set; }
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
         protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();
