@@ -1,9 +1,10 @@
 ﻿using System;
+using Dekuple;
+using Dekuple.View;
 
 namespace App.View
 {
     using Agent;
-    using Common.Message;
 
     public interface IPlayerView
         : IView<IPlayerAgent>

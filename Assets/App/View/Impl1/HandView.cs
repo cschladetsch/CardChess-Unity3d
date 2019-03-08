@@ -1,9 +1,12 @@
-﻿using App.Registry;
-using App.Service;
+﻿using App.Service;
 using UnityEngine;
 
 using UniRx;
 using CoLib;
+using Dekuple;
+using Dekuple.View;
+using Dekuple.View.Impl;
+using UnityEngine.Playables;
 
 namespace App.View.Impl1
 {
@@ -21,10 +24,7 @@ namespace App.View.Impl1
         public Transform CardsRoot;
         public CardView CardViewPrefab;
         public BoardOverlayView BoardOverlay;
-
         public AudioClip MouseOverClip;
-        // ReSharper disable once InconsistentNaming
-        //[Inject] public IPiecePrefabService _pieceFactory;
 
         public override bool IsValid
         {
@@ -40,7 +40,7 @@ namespace App.View.Impl1
             }
         }
 
-        public override void SetAgent(IPlayerView playerView, IHandAgent handAgent)
+        public override void SetAgent(IViewBase playerView, IHandAgent handAgent)
         {
             base.SetAgent(playerView, handAgent);
             Assert.IsNotNull(CardViewPrefab);
@@ -77,7 +77,7 @@ namespace App.View.Impl1
             //var prefab = _pieceFactory.GetCardPrefab(agent.Model.PieceType);
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
-            cardView.SetAgent(PlayerView, agent);
+            cardView.SetAgent(OwnerView, agent);
             var tr = cardView.GameObject.transform;
             tr.SetParent(CardsRoot);
             tr.localScale = Vector3.one;

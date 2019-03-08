@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dekuple.Model;
 
 namespace App.Model
 {

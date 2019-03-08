@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Dekuple;
 
 #pragma warning disable 649
 
 namespace App.Mock.Model
 {
     using Common;
-    using Registry;
     using App.Model;
 
     public class MockDeck

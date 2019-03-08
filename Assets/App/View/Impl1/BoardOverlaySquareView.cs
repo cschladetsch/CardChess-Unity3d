@@ -1,12 +1,11 @@
-﻿using System;
-using CoLib;
+﻿using CoLib;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace App.View.Impl1
 {
     public class BoardOverlaySquareView
-        : ViewBase
+        : GameViewBase
     {
         public override void Create()
         {

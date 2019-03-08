@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Dekuple;
+using Dekuple.Agent;
 using Flow;
 using UniRx;
 
@@ -26,6 +27,11 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
         public ReactiveProperty<bool> Dead { get; private set; }
+
+        [Inject] public IBoardAgent Board { get; set; }
+
+        protected readonly List<Turnaround> _Requests = new List<Turnaround>();
+        protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();
 
         protected PlayerAgentBase(IPlayerModel model)
             : base(model)
@@ -77,8 +83,5 @@ namespace App.Agent
         {
             return $"Agent for {Model}";
         }
-
-        protected readonly List<Turnaround> _Requests = new List<Turnaround>();
-        protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();
     }
 }

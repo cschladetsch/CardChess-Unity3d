@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Dekuple;
+using Dekuple.Model;
 using UniRx;
 
 namespace App.Model
@@ -26,6 +27,11 @@ namespace App.Model
         public IReadOnlyReactiveProperty<bool> Empty => _empty;
         public IReadOnlyReactiveProperty<bool> Maxxed => _maxxed;
         public IReadOnlyReactiveCollection<ICardModel> Cards => _Cards;
+
+        protected ReactiveCollection<ICardModel> _Cards;
+        private readonly IntReactiveProperty _numCards;
+        private readonly BoolReactiveProperty _empty;
+        private readonly BoolReactiveProperty _maxxed;
 
         protected CardCollectionModelBase(IPlayerModel owner)
             : base(owner)
@@ -116,10 +122,5 @@ namespace App.Model
             return true;
         }
 
-        protected UniRx.ReactiveCollection<ICardModel> _Cards;
-
-        private readonly IntReactiveProperty _numCards;
-        private readonly BoolReactiveProperty _empty;
-        private readonly BoolReactiveProperty _maxxed;
     }
 }

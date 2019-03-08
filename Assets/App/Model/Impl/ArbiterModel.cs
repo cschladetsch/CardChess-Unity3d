@@ -4,18 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using UniRx;
+using Dekuple;
+
+using App.Common;
+using App.Common.Message;
 
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace App.Model
 {
-    using Registry;
-    using Common.Message;
-    using Common;
-
     public class ArbiterModel
         : RespondingModelBase
         , IArbiterModel
@@ -28,6 +27,13 @@ namespace App.Model
 
         [Inject]
         public IBoardModel Board { get; set; }
+
+        private List<PlayerEntry> _players;
+        private readonly IntReactiveProperty _turnNumber = new IntReactiveProperty();
+        private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
+        private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
+        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlayTurn);
+        private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
 
         public ArbiterModel()
             : base(null)
@@ -69,17 +75,18 @@ namespace App.Model
             Info("EndGame");
         }
 
-        public IResponse Arbitrate(IRequest request)
+        public IResponse Arbitrate(IGameRequest request)
         {
             Assert.IsNotNull(request);
             var response = ProcessRequest(request);
             Info($"Arbitrate: {request} => {response}");
-            request.Player?.Result(request, response);
+            var player = request.Owner as IPlayerModel;
+            player?.Result(request, response);
             _lastResponse.Value = response;
             return response;
         }
 
-        private IResponse ProcessRequest(IRequest request)
+        private IResponse ProcessRequest(IGameRequest request)
         {
             //Info($"{request} tried in {GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
@@ -331,12 +338,5 @@ namespace App.Model
                 MovedPiece = false;
             }
         }
-
-        private List<PlayerEntry> _players;
-        private readonly IntReactiveProperty _turnNumber = new IntReactiveProperty();
-        private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
-        private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
-        private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlayTurn);
-        private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
     }
 }

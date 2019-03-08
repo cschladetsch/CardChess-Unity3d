@@ -4,6 +4,9 @@ using System.Text;
 using App.Common.Message;
 using App.Model;
 using CoLib;
+using Dekuple;
+using Dekuple.View;
+using Dekuple.View.Impl;
 using UnityEngine;
 
 using UniRx;
@@ -83,7 +86,7 @@ namespace App.View.Impl1
             HoverPiece.Subscribe(p => Info($"Dragging {p} @{HoverSquare.Value}"));
         }
 
-        public override void SetAgent(IPlayerView view, IBoardAgent agent)
+        public override void SetAgent(IViewBase view, IBoardAgent agent)
         {
             Assert.IsNotNull(agent);
             base.SetAgent(view, agent);

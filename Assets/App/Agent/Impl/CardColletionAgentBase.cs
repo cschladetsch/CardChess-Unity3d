@@ -1,4 +1,7 @@
-﻿namespace App.Agent
+﻿using Dekuple.Agent;
+using Dekuple.Model;
+
+namespace App.Agent
 {
     using Model;
 

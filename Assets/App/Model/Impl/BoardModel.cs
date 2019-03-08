@@ -2,14 +2,13 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-
+using Dekuple;
 using UniRx;
 
 namespace App.Model
 {
     using Common;
     using Common.Message;
-    using Registry;
 
     /// <summary>
     /// The main playing board Can be of arbitrary dimention.
@@ -84,7 +83,7 @@ namespace App.Model
             foreach (var other in moves.Interferernce)
             {
                 Assert.IsNotNull(other);
-                Assert.IsFalse(other.SameOwner(pieceModel));
+                Assert.IsFalse(other.Owner == pieceModel.Owner);
 
                 // we should not have an interference square in our movements list that
                 // contains a piece that does not belong to same owner
@@ -243,7 +242,8 @@ namespace App.Model
             {
                 var piece = At(coord);
                 var rep = CardToRep(piece.Card);
-                var black = piece.Owner.Value.Color != EColor.White;
+                var player = piece.Owner.Value as IPlayerModel;
+                var black = player?.Color != EColor.White;
                 if (black)
                     rep = rep.ToLower();
                 return rep;

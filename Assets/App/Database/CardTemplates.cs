@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.Model;
+using Dekuple;
+using Dekuple.Model;
+using Dekuple.Registry;
 
 namespace App.Database
 {
     using Common;
-    using Registry;
 
     static class CardTemplates
     {
+        private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
+
         static CardTemplates()
         {
             AddBasicCards();
@@ -70,7 +74,5 @@ namespace App.Database
             } while (tmpl.PieceType == EPieceType.King);
             return tmpl;
         }
-
-        private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
     }
 }

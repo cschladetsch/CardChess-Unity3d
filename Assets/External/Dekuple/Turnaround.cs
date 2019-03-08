@@ -1,6 +1,6 @@
 using System;
 
-namespace Dekuple.Agent
+namespace Dekuple
 {
     public class Turnaround
     {

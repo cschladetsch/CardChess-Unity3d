@@ -23,8 +23,10 @@ namespace Dekuple.Agent
         public TModel Model => BaseModel as TModel;
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => Model.Owner;
+        public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
 
-        //public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
+        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
+        private bool _started = false;
 
         public virtual bool IsValid
         {
@@ -86,8 +88,5 @@ namespace Dekuple.Agent
                 _destroyed.Value = true;
             OnDestroyed?.Invoke(this);
         }
-
-        private readonly BoolReactiveProperty _destroyed = new BoolReactiveProperty(false);
-        private bool _started = false;
     }
 }

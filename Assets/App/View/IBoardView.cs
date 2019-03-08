@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Dekuple;
+using Dekuple.View;
+using UnityEngine;
 
 using UniRx;
 
@@ -6,7 +8,6 @@ namespace App.View
 {
     using Agent;
     using Common;
-    using Common.Message;
     using Model;
 
     /// <summary>

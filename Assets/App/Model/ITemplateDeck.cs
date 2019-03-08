@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using Dekuple.Model;
+
+namespace App.Model
 {
     using Common;
 

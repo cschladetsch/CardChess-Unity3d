@@ -1,11 +1,12 @@
 ﻿using System;
+using App.Common;
 using App.Common.Message;
+using Dekuple;
+using Dekuple.Model;
 using UniRx;
 
 namespace App.Model
 {
-    using Common;
-
     /// <summary>
     /// A Player in the game.
     /// Hopefully, these could be bots, or remote players as well
@@ -14,6 +15,7 @@ namespace App.Model
     public interface IPlayerModel
         : IModel
         , IOwner
+        , IGameActor
     {
         event Action<IPieceModel, IItemModel> OnEquipped;
         event Action<IPieceModel, IItemModel> OnUnequipped;
@@ -27,6 +29,7 @@ namespace App.Model
         IReactiveProperty<int> MaxMana { get; }
         IReactiveProperty<int> Mana { get; }
         IReactiveProperty<int> Health { get; }
+        EColor Color { get; }
 
         IRequest NextAction();
         Response CardDrawn(ICardModel card);
