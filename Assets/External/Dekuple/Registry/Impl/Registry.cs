@@ -14,9 +14,13 @@ namespace Dekuple.Registry
     /// Able to make a new instance given construction arguments
     /// that are called either on the ctor itself, or a method
     /// named 'Construct' that matches the passed creation method call.
+    ///
+    /// <b>NOTE</b> a Registry is a `Model` entirely so it has its own logging stream.
+    /// It doesn't make much sense to use a Registry as an actual Model.
+    /// 
     /// </summary>
     /// <typeparam name="TBase">The common interface for each instance stored in the registry</typeparam>
-    public class Registry<TBase>
+    public partial class Registry<TBase>
         : ModelBase
         , IRegistry<TBase>
         where TBase
@@ -129,26 +133,6 @@ namespace Dekuple.Registry
             ShowSource = true;
             LogSubject = this;
             LogPrefix = "Registry";
-        }
-
-        public byte[] Write()
-        {
-            throw new NotImplementedException("Registry.Write");
-        }
-
-        public bool Read(byte[] data)
-        {
-            throw new NotImplementedException("Registry.Read");
-        }
-
-        public string Save()
-        {
-            throw new NotImplementedException("Registry.Save");
-        }
-
-        public void Load(string text)
-        {
-            throw new NotImplementedException("Registry.Load");
         }
 
         public bool Has(TBase instance)
