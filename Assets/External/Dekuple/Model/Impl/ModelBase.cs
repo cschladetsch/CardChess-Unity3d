@@ -8,11 +8,10 @@ namespace Dekuple.Model
 {
     using Registry;
 
-    /// <summary>
-    /// Common for all Models.
-    ///
-    /// Models are created from a Registry, have an OnDestroyed event, and are persistent by default.
-    /// </summary>
+    ///  <summary>
+    ///  Common for all Models.
+    ///  Models are created from a Registry, have an OnDestroyed event, and are persistent by default.
+    ///  </summary>
     public abstract class ModelBase
         : Flow.Impl.Logger
         , IModel
