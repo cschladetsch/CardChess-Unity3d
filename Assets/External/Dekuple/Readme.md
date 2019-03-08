@@ -1,8 +1,8 @@
 ﻿# Dekuple
 
-* christian.schladetsch@gmail.com
+[Christian Schladetsch](mailto:christian.schladetsch@gmail.com)
 
-A dependancy-injection and entity system designed from the ground up to support rapid prototyping and long-term development and support of `Unity3d` based applications.
+A dependancy-injection and entity system designed from the ground up to support both rapid prototyping and long-term development and support of `Unity3d` based applications.
 
 The system also adds a `MVC` or `Model-View-Controller` pattern.
 
@@ -17,7 +17,7 @@ The basic architecture is a morphism of a number ideas combined together into an
 
 The code is not 'tricky', other than the hoops required for templates in C#. The key hurdle a user will face is simply understanding the architecture and semantics of the seemingly simple systems.
 
-One key understanding required is tha one Registry\<T\> class is used for each model/agent/view domains.
+One key understanding required is that one Registry\<T\> class is used for each model/agent/view domains, but of course with a different template parameter T.
 
 There are Readme's in each substantial sub-folder that describes each component in more detail.
 
@@ -43,4 +43,8 @@ This system is intended to be used with the new Unity3d ECS system.
 Currently, only the View system has any reference to Unity3d.
 
 It would be nice to separate that into a separate Assembly, so the system could be used outside the context of `Unity3d`.
+
+### TODO
+
+Make Error(..) etc log methods return object so they can return null and simplify usage.
 
