@@ -39,32 +39,6 @@ namespace Dekuple.Registry
         private IRegistry<TBase> _registry;
 
         /// <summary>
-        /// Used to postpone depdancy injection to avoid cyclic dependancy issues
-        /// </summary>
-        private class PendingInjection
-        {
-            internal readonly TBase TargetModel;
-            internal readonly Inject Injection;
-            internal readonly TBase Single;
-            internal readonly Type Interface;
-            internal readonly Type ModelType;
-
-            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
-            {
-                TargetModel = targetModel;
-                Injection = inject;
-                ModelType = modelType;
-                Interface = iface;
-                Single = single;
-            }
-
-            public override string ToString()
-            {
-                return $"PendingInject: {Injection.ValueType} into {TargetModel}";
-            }
-        }
-
-        /// <summary>
         /// Represents an actual injection of a value to a property or field of a target object
         /// </summary>
         private class Injector
@@ -108,6 +82,32 @@ namespace Dekuple.Registry
                     _reg.Inject(model, inject, iface, single);
                 }
                 return model;
+            }
+        }
+
+        /// <summary>
+        /// Used to postpone depdancy injection to avoid cyclic dependancy issues
+        /// </summary>
+        private class PendingInjection
+        {
+            internal readonly TBase TargetModel;
+            internal readonly Inject Injection;
+            internal readonly TBase Single;
+            internal readonly Type Interface;
+            internal readonly Type ModelType;
+
+            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
+            {
+                TargetModel = targetModel;
+                Injection = inject;
+                ModelType = modelType;
+                Interface = iface;
+                Single = single;
+            }
+
+            public override string ToString()
+            {
+                return $"PendingInject: {Injection.ValueType} into {TargetModel}";
             }
         }
 
