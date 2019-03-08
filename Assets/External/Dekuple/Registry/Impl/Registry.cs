@@ -9,13 +9,13 @@ namespace Dekuple.Registry
     using Model;
 
     /// <inheritdoc cref="ModelBase" />
-    ///  <summary>
-    ///  A mapping of Guid to Instance, and Guid to Type.
-    ///  Able to make a new instance given construction arguments
-    ///  that are called either on the ctor itself, or a method
-    ///  named 'Construct' that matches the passed creation method call.
-    ///  </summary>
-    ///  <typeparam name="TBase">The common interface for each instance stored in the registry</typeparam>
+    /// <summary>
+    /// A mapping of Guid to Instance, and Guid to Type.
+    /// Able to make a new instance given construction arguments
+    /// that are called either on the ctor itself, or a method
+    /// named 'Construct' that matches the passed creation method call.
+    /// </summary>
+    /// <typeparam name="TBase">The common interface for each instance stored in the registry</typeparam>
     public class Registry<TBase>
         : ModelBase
         , IRegistry<TBase>
@@ -37,6 +37,79 @@ namespace Dekuple.Registry
         private readonly Dictionary<Type, Injector> _preparers = new Dictionary<Type, Injector>();
         private readonly Dictionary<Type, TBase> _singles = new Dictionary<Type, TBase>();
         private IRegistry<TBase> _registry;
+
+        /// <summary>
+        /// Used to postpone depdancy injection to avoid cyclic dependancy issues
+        /// </summary>
+        private class PendingInjection
+        {
+            internal readonly TBase TargetModel;
+            internal readonly Inject Injection;
+            internal readonly TBase Single;
+            internal readonly Type Interface;
+            internal readonly Type ModelType;
+
+            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
+            {
+                TargetModel = targetModel;
+                Injection = inject;
+                ModelType = modelType;
+                Interface = iface;
+                Single = single;
+            }
+
+            public override string ToString()
+            {
+                return $"PendingInject: {Injection.ValueType} into {TargetModel}";
+            }
+        }
+
+        /// <summary>
+        /// Represents an actual injection of a value to a property or field of a target object
+        /// </summary>
+        private class Injector
+        {
+            private PropertyInfo _setRegistry;
+            private PropertyInfo _setId;
+            private readonly IRegistry<TBase> _reg;
+            private readonly List<Inject> _injections = new List<Inject>();
+
+            internal Injector(IRegistry<TBase> reg, Type ty)
+            {
+                _reg = reg;
+                foreach (var prop in ty.GetProperties(
+                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    var inject = prop.GetCustomAttribute<Inject>();
+                    if (inject == null)
+                        continue;
+                    inject.PropertyInfo = prop;
+                    inject.ValueType = prop.PropertyType;
+                    _injections.Add(inject);
+                }
+
+                foreach (var field in ty.GetFields(
+                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    var inject = field.GetCustomAttribute<Inject>();
+                    if (inject == null)
+                        continue;
+                    inject.FieldInfo = field;
+                    inject.ValueType = field.FieldType;
+                    _injections.Add(inject);
+                }
+            }
+
+            public TBase Inject(TBase model, Type iface = null, TBase single = null)
+            {
+                model.Registry = _reg;
+                foreach (var inject in _injections)
+                {
+                    _reg.Inject(model, inject, iface, single);
+                }
+                return model;
+            }
+        }
 
         public Registry()
             : base(null)
@@ -88,7 +161,9 @@ namespace Dekuple.Registry
 
         public bool Bind<TInterface, TImpl>()
             where TInterface
-                : TBase where TImpl : TInterface
+                : TBase
+            where TImpl 
+                : TInterface
         {
             var ity = typeof(TInterface);
             if (_bindings.ContainsKey(ity))
@@ -107,7 +182,7 @@ namespace Dekuple.Registry
 
         public TIBase New<TIBase>(params object[] args)
             where TIBase
-            : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
+                : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
         {
             var type = typeof(TIBase);
 
@@ -121,8 +196,9 @@ namespace Dekuple.Registry
             return null;
         }
 
-        private bool GetSinglton<TIBase>(IReadOnlyCollection<object> args, Type type, out TIBase singleton) where TIBase
-            : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
+        private bool GetSinglton<TIBase>(IReadOnlyCollection<object> args, Type type, out TIBase singleton)
+            where TIBase
+                : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
         {
             singleton = null;
             var single = GetSingle(type);
@@ -140,8 +216,9 @@ namespace Dekuple.Registry
             return true;
         }
 
-        private TIBase StoreTypedIntance<TIBase>(TIBase iBase, Type type) where TIBase
-            : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
+        private TIBase StoreTypedIntance<TIBase>(TIBase iBase, Type type)
+            where TIBase
+                : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
         {
             _models[iBase.Id] = iBase;
             if (!_typeToGuid.ContainsKey(type))
@@ -155,25 +232,37 @@ namespace Dekuple.Registry
         }
 
         public bool Bind<TInterface, TImpl>(Func<TImpl> creator)
-            where TInterface : TBase where TImpl : TInterface
+            where TInterface
+                : TBase 
+            where TImpl 
+                : TInterface
         {
             throw new NotImplementedException();
         }
 
         public bool Bind<TInterface, TImpl, T0>(Func<T0, TImpl> creator)
-            where TInterface : TBase where TImpl : TInterface
+            where TInterface
+                : TBase 
+            where TImpl 
+                : TInterface
         {
             throw new NotImplementedException();
         }
 
         public bool Bind<TInterface, TImpl, T0, T1>(Func<T0, T1, TImpl> creator)
-            where TInterface : TBase where TImpl : TInterface
+            where TInterface
+                : TBase 
+            where TImpl 
+                : TInterface
         {
             throw new NotImplementedException();
         }
 
         public bool Bind<TInterface, TImpl>(TImpl single)
-            where TInterface : TBase where TImpl : TInterface
+            where TInterface
+                : TBase 
+            where TImpl 
+                : TInterface
         {
             var ity = typeof(TInterface);
             if (_singles.ContainsKey(ity))
@@ -294,9 +383,10 @@ namespace Dekuple.Registry
 
         private void ModelDestroyed<TIBase>(TIBase model)
             where TIBase
-            : class, TBase,
-            IHasRegistry<TBase>,
-            IHasDestroyHandler<TBase>
+                : class
+                , TBase
+                , IHasRegistry<TBase>
+                , IHasDestroyHandler<TBase>
         {
             if (model == null)
             {
@@ -409,50 +499,6 @@ namespace Dekuple.Registry
             return sb.ToString();
         }
 
-        private class Injector
-        {
-            private PropertyInfo _setRegistry;
-            private PropertyInfo _setId;
-            private readonly IRegistry<TBase> _reg;
-            private readonly List<Inject> _injections = new List<Inject>();
-
-            internal Injector(IRegistry<TBase> reg, Type ty)
-            {
-                _reg = reg;
-                foreach (var prop in ty.GetProperties(
-                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-                {
-                    var inject = prop.GetCustomAttribute<Inject>();
-                    if (inject == null)
-                        continue;
-                    inject.PropertyInfo = prop;
-                    inject.ValueType = prop.PropertyType;
-                    _injections.Add(inject);
-                }
-
-                foreach (var field in ty.GetFields(
-                    BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-                {
-                    var inject = field.GetCustomAttribute<Inject>();
-                    if (inject == null)
-                        continue;
-                    inject.FieldInfo = field;
-                    inject.ValueType = field.FieldType;
-                    _injections.Add(inject);
-                }
-            }
-
-            public TBase Inject(TBase model, Type iface = null, TBase single = null)
-            {
-                model.Registry = _reg;
-                foreach (var inject in _injections)
-                {
-                    _reg.Inject(model, inject, iface, single);
-                }
-                return model;
-            }
-        }
-
         public TBase Inject(TBase model, Inject inject, Type iface, TBase single)
         {
             var val = GetSingle(inject.ValueType);
@@ -478,29 +524,6 @@ namespace Dekuple.Registry
                 inject.FieldInfo.SetValue(model, val);
 
             return model;
-        }
-
-        private class PendingInjection
-        {
-            internal readonly TBase TargetModel;
-            internal readonly Inject Injection;
-            internal readonly TBase Single;
-            internal readonly Type Interface;
-            internal readonly Type ModelType;
-
-            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
-            {
-                TargetModel = targetModel;
-                Injection = inject;
-                ModelType = modelType;
-                Interface = iface;
-                Single = single;
-            }
-
-            public override string ToString()
-            {
-                return $"PendingInject: {Injection.ValueType} into {TargetModel}";
-            }
         }
     }
 }
