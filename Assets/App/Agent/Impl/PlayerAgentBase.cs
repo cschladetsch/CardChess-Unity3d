@@ -12,6 +12,7 @@ namespace App.Agent
     using Common.Message;
     using Model;
 
+    /// <inheritdoc cref="AgentBaseCoro{TModel}" />
     /// <summary>
     /// The agent that represents a player in the game.
     /// </summary>
