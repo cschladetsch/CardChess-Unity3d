@@ -2,6 +2,7 @@
 {
     using Registry;
 
+    /// <inheritdoc cref="IEntity" />
     /// <summary>
     /// Base for all persistent models.
     /// </summary>
@@ -17,7 +18,7 @@
         bool Prepared { get; }
 
         /// <summary>
-        /// Models can require other models, so this creates all models
+        /// Models can require other models fields or properties, so this creates all models
         /// needed by this model.
         ///
         /// Calling this more than once has no effect.

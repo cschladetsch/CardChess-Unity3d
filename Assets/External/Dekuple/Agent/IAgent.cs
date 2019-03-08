@@ -5,6 +5,7 @@ namespace Dekuple.Agent
     using Model;
     using Registry;
 
+    /// <inheritdoc cref="Flow.ITransient" />
     /// <summary>
     /// AgentBase for all agents. Each agent represents a model and has it's own log.
     /// </summary>
