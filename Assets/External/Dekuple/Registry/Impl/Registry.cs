@@ -409,32 +409,5 @@ namespace Dekuple.Registry
 
             return sb.ToString();
         }
-
-        public TBase Inject(TBase model, Inject inject, Type iface, TBase single)
-        {
-            var val = GetSingle(inject.ValueType);
-            if (val == null)
-            {
-                val = NewInstance(inject.ValueType, inject.Args);
-                switch (val)
-                {
-                    case null when _resolved:
-                        Error($"Cannot resolve interface {inject.ValueType}");
-                        return null;
-                    case null:
-                        var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
-                        Verbose(30, $"Adding {pi}");
-                        _pendingInjections.Add(pi);
-                        break;
-                }
-            }
-
-            if (inject.PropertyInfo != null)
-                inject.PropertyInfo.SetValue(model, val);
-            else
-                inject.FieldInfo.SetValue(model, val);
-
-            return model;
-        }
     }
 }
