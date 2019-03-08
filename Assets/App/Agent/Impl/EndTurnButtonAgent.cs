@@ -4,6 +4,7 @@ namespace App.Agent.Impl
 {
     using Model;
 
+    /// <inheritdoc cref="AgentBaseCoro{TModel}" />
     /// <summary>
     /// Pass-through for agent; nothing to do between view and model at the moment.
     /// </summary>

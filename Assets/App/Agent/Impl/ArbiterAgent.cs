@@ -13,6 +13,7 @@ namespace App
     using Agent;
     using Model;
 
+    /// <inheritdoc cref="AgentBaseCoro{TModel}" />
     /// <summary>
     /// The 'Adjudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
@@ -24,6 +25,8 @@ namespace App
         : AgentBaseCoro<IArbiterModel>
         , IArbiterAgent
     {
+        [Inject] public IBoardAgent BoardAgent { get; set; }
+
         public IReadOnlyReactiveProperty<IResponse> LastResponse => Model.LastResponse;
         public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
         public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
@@ -32,7 +35,10 @@ namespace App
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
         public IPlayerModel CurrentPlayerModel => CurrentPlayerAgent.Value.Model;
 
-        [Inject] public IBoardAgent BoardAgent { get; set; }
+        private float _timeOut;
+        private DateTime _timeStart;
+        private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
+        private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
 
         public ArbiterAgent(IArbiterModel model)
             : base(model)
@@ -52,16 +58,14 @@ namespace App
             Assert.IsNotNull(p1);
 
             Model.PrepareGame(p0.Model, p1.Model);
-
             _playerAgents = new List<IPlayerAgent> {p0, p1};
-
             Model.CurrentPlayer.Subscribe(SetPlayerAgent);
 
             // TODO: do some animations etc
             return null;
         }
 
-        void SetPlayerAgent(IPlayerModel model)
+        private void SetPlayerAgent(IPlayerModel model)
         {
             foreach (var p in _playerAgents)
             {
@@ -85,52 +89,11 @@ namespace App
                 p.StartGame();
 
             _Node.Add(GameLoop());
-            //_Node.Add(GameLoop());
-            //_Node.Add(
-            //    New.Sequence(
-            //        New.Barrier(
-            //            NewGameWork(),
-            //            Board.NewGameAction()
-            //        ).Named("NewGame"),
-            //        New.Barrier(
-            //            _players.Select(p => p.StartGame())
-            //        ).Named("PlayersStartGame")
-            //    ).Named("Setup"),
-            //    New.Log("Entering main game loop..."),
-            //    GameLoop()
-            //);
         }
-
-        //private IGenerator StartGameCoro()
-        //{
-        //    var rejectTimeOut = TimeSpan.FromSeconds(Parameters.MulliganTimer);
-        //    //var kingPlaceTimeOut = TimeSpan.FromSeconds(Parameters.PlaceKingTimer);
-
-        //    //return New.Barrier(
-        //    //    New.Sequence(
-        //    //        New.Barrier(
-        //    //            _playerAgents.Select(p => p.StartGame())
-        //    //        ).Named("InitGame"),
-        //    //        New.Barrier(
-        //    //            _playerAgents.Select(p => p.DrawInitialCards())
-        //    //        ).Named("DealCards")
-        //    //    ),
-        //    //    ArbitrateFutures(
-        //    //        rejectTimeOut,
-        //    //        _playerAgents.Select(p => p.Mulligan())
-        //    //    ).Named("Mulligan")
-        //    //).Named("StartGame");
-        //}
 
         public ITransient GameLoop()
         {
             return New.Coroutine(PlayerTurn).Named("Turn");
-
-            //return New.Sequence(
-            //    //StartGameCoro(),
-            //    New.Coroutine(PlayerTurn).Named("Turn"),
-            //    New.Coroutine(EndGame).Named("EndGame")
-            //).Named("Done");
         }
 
         private IEnumerator PlayerTurn(IGenerator self)
@@ -168,7 +131,6 @@ namespace App
                 var request = future.Value.Request as IGameRequest;
                 var response = Model.Arbitrate(request);
                 response.Request = request;
-                //_lastResponse.Value = response;
                 future.Value.Responder?.Invoke(response);
 
                 if (response.Failed)
@@ -176,11 +138,6 @@ namespace App
 
                 var now = Kernel.Time.Now;
                 var dt = (float)(now - _timeStart).TotalSeconds;
-                //if (dt < 1.0f/60.0f)    // give them a 60Hz frame of grace
-                //{
-                //    Warn($"{CurrentPlayerModel} ran out of time for turn");
-                //    break;
-                //}
 
                 _timeStart = now;
                 _timeOut -= dt;
@@ -207,7 +164,7 @@ namespace App
         {
         }
 
-        void TurnEnded(IResponse response)
+        private void TurnEnded(IResponse response)
         {
             Info($"Player {response.Request.Owner} ended turn");
         }
@@ -230,40 +187,5 @@ namespace App
         {
             return New.TimedBarrier(timeOut, futures).ForEach(act);
         }
-
-        ///// <summary>
-        ///// Make a TimedBarrier that contains a collection of future IRequests.
-        ///// When the barrier is completed, pass the value of each available request to
-        ///// the Arbiter.
-        ///// </summary>
-        //private IGenerator ArbitrateFutures<T>(
-        //    TimeSpan timeOut,
-        //    IEnumerable<IFuture<T>> futures,
-        //    Action<IFuture<T>> onUnavailable = null)
-        //    where T : IRequest
-        //{
-        //    return TimedBarrierOfFutures(
-        //        timeOut,
-        //        futures,
-        //        f =>
-        //        {
-        //            if (f.Available)
-        //                Model.Arbitrate(f.Value);
-        //            else
-        //                onUnavailable?.Invoke(f);
-        //        }
-        //    );
-        //}
-
-        //protected override IEnumerator Next(IGenerator self)
-        //{
-        //    // TODO: general game backround animation, music loops etc
-        //    yield return null;
-        //}
-
-        private float _timeOut;
-        private DateTime _timeStart;
-        private List<IPlayerAgent> _playerAgents = new List<IPlayerAgent>();
-        private readonly ReactiveProperty<IPlayerAgent> _playerAgent = new ReactiveProperty<IPlayerAgent>();
     }
 }

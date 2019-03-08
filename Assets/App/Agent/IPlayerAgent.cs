@@ -1,8 +1,9 @@
 using System;
-using Dekuple;
-using Dekuple.Agent;
 using Flow;
 using UniRx;
+
+using Dekuple;
+using Dekuple.Agent;
 
 namespace App.Agent
 {
@@ -10,6 +11,7 @@ namespace App.Agent
     using Common;
     using Common.Message;
 
+    /// <inheritdoc cref="IAgent{TModel}" />
     /// <summary>
     /// Agent for a Player.
     /// Responsible for reacting to changes in Model state.

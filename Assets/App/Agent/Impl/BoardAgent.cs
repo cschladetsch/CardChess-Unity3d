@@ -22,6 +22,10 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<int> Height => _height;
         public IReadOnlyReactiveCollection<IPieceAgent> Pieces => _pieces;
 
+        private readonly ReactiveCollection<IPieceAgent> _pieces = new ReactiveCollection<IPieceAgent>();
+        private readonly IntReactiveProperty _width = new IntReactiveProperty(8);
+        private readonly IntReactiveProperty _height = new IntReactiveProperty(8);
+
         public override bool IsValid
         {
             get
@@ -46,18 +50,6 @@ namespace App.Agent
             Assert.IsNotNull(model);
             model.Pieces.ObserveAdd().Subscribe(PieceAdded);
             model.Pieces.ObserveRemove().Subscribe(PieceRemoved);
-        }
-
-        private void PieceAdded(CollectionAddEvent<IPieceModel> add)
-        {
-            var pieceAgent = Registry.New<IPieceAgent>(add.Value);
-            pieceAgent.SetOwner(add.Value.Owner.Value);
-            _pieces.Insert(add.Index, pieceAgent);
-        }
-
-        private void PieceRemoved(CollectionRemoveEvent<IPieceModel> remove)
-        {
-            _pieces.RemoveAt(remove.Index);
         }
 
         public string Print()
@@ -110,8 +102,16 @@ namespace App.Agent
             return null;
         }
 
-        private readonly ReactiveCollection<IPieceAgent> _pieces = new ReactiveCollection<IPieceAgent>();
-        private readonly IntReactiveProperty _width = new IntReactiveProperty(8);
-        private readonly IntReactiveProperty _height = new IntReactiveProperty(8);
+        private void PieceAdded(CollectionAddEvent<IPieceModel> add)
+        {
+            var pieceAgent = Registry.New<IPieceAgent>(add.Value);
+            pieceAgent.SetOwner(add.Value.Owner.Value);
+            _pieces.Insert(add.Index, pieceAgent);
+        }
+
+        private void PieceRemoved(CollectionRemoveEvent<IPieceModel> remove)
+        {
+            _pieces.RemoveAt(remove.Index);
+        }
     }
 }
