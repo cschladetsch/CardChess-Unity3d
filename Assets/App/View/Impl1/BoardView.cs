@@ -5,6 +5,7 @@ using App.Common.Message;
 using App.Model;
 using CoLib;
 using Dekuple;
+using Dekuple.Agent;
 using Dekuple.View;
 using Dekuple.View.Impl;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace App.View.Impl1
     /// View of the play board during a game.
     /// </summary>
     public class BoardView
-        : ViewBase<IBoardAgent>
+        : GameViewBase<IBoardAgent>
         , IBoardView
     {
         #region Unity3d Properties
@@ -86,15 +87,17 @@ namespace App.View.Impl1
             HoverPiece.Subscribe(p => Info($"Dragging {p} @{HoverSquare.Value}"));
         }
 
-        public override void SetAgent(IViewBase view, IBoardAgent agent)
+        //public override void SetAgent(IViewBase view, IBoardAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             Assert.IsNotNull(agent);
             base.SetAgent(view, agent);
             Clear();
             CreateBoard();
 
-            agent.Pieces.ObserveAdd().Subscribe(PieceAdded);
-            agent.Pieces.ObserveRemove().Subscribe(PieceRemoved);
+            var board = agent as IBoardAgent;
+            board.Pieces.ObserveAdd().Subscribe(PieceAdded);
+            board.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
 
         void PieceAdded(CollectionAddEvent<IPieceAgent> add)
