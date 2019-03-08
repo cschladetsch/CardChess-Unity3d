@@ -12,6 +12,6 @@ namespace App.View
         IReactiveProperty<Coord> Coord { get; }
         IReadOnlyReactiveProperty<bool> Dead { get; }
 
-        void SetAgent(IPlayerView view, IPieceAgent agent);
+        //void SetAgent(IPlayerView view, IPieceAgent agent);
     }
 }

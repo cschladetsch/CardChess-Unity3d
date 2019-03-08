@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using App.Agent.Impl;
 using App.Model.Impl;
+using Dekuple;
+using Dekuple.Agent;
+using Dekuple.Model;
+using Dekuple.View;
+using Dekuple.View.Impl;
 using UnityEngine;
 
 // field not assigned - because it is assigned in Unity3d editor

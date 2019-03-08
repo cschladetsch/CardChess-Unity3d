@@ -6,7 +6,7 @@ namespace App.View.Impl1
 {
     public class GameViewBase
         : ViewBase
-        , IGameViewBase
+            , IGameViewBase
     {
         public IPlayerView PlayerView { get; set; }
         public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
@@ -18,5 +18,12 @@ namespace App.View.Impl1
         {
             return ArbiterView.CurrentPlayerOwns(this);
         }
+    }
+
+    public class GameViewBase<TAgent>
+        : GameViewBase
+        , IGameViewBase
+    {
+        public TAgent Agent { get; set; }
     }
 }

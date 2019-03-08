@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Dekuple;
+using Dekuple.Agent;
+using Dekuple.View;
+using Dekuple.View.Impl;
+using UnityEngine;
 
 namespace App.View.Impl1
 {
@@ -13,12 +17,15 @@ namespace App.View.Impl1
         public CardView CardViewPrefab;
         public float DeltaX = 0.2f;
 
+        [Inject] public IPlayerView PlayerView;
+
         protected override void Begin()
         {
             Clear();
         }
 
-        public override void SetAgent(IPlayerView view, IDeckAgent agent)
+        //public override void SetAgent(IPlayerView view, IDeckAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             base.SetAgent(view, agent);
         }
@@ -37,7 +44,8 @@ namespace App.View.Impl1
             var nx = 0;
             var owner = Agent.Owner.Value as IPlayerAgent;
             Assert.IsNotNull(owner);
-            var dx = owner.Color == EColor.Black ? DeltaX : -DeltaX;
+            var model = owner?.Model;
+            var dx = model?.Color == EColor.Black ? DeltaX : -DeltaX;
             foreach (var card in Agent.Model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);

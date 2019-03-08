@@ -1,4 +1,6 @@
 ﻿using Dekuple;
+using Dekuple.Agent;
+using Dekuple.View;
 using Dekuple.View.Impl;
 using UnityEngine.UI;
 
@@ -36,7 +38,8 @@ namespace App.View.Impl1
 
         private GameRoot _gameRoot;
 
-        public override void SetAgent(IPlayerView view, IArbiterAgent agent)
+        //public override void SetAgent(IPlayerView view, IArbiterAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             base.SetAgent(view, agent);
 
@@ -91,7 +94,7 @@ namespace App.View.Impl1
             _AudioSource.PlayOneShot(EndTurnClips[0]);
             Assert.IsNotNull(obj);
             Assert.IsTrue(obj.Success);
-            Verbose(5, $"TurnEnded for {obj.Request.Player}");
+            Verbose(5, $"TurnEnded for {obj.Request.Owner}");
         }
 
         public void AddWhiteCard()

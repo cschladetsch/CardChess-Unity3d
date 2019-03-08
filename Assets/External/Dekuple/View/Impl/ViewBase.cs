@@ -158,8 +158,9 @@ namespace Dekuple.View.Impl
 
     public class ViewBase<TIAgent>
         : ViewBase
-            , IView<TIAgent>
-        where TIAgent : class, IAgent
+        , IView<TIAgent>
+        where TIAgent 
+            : class, IAgent
     {
         public TIAgent Agent => AgentBase as TIAgent;
 
