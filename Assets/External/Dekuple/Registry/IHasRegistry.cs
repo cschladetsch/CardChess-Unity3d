@@ -1,11 +1,16 @@
 ﻿namespace Dekuple.Registry
 {
-    public interface IHasRegistry<IBase>
-        where IBase
+    /// <summary>
+    /// Interface to an instance that has a Registry, a unique Id,
+    /// and a Destroy handler.
+    /// </summary>
+    /// <typeparam name="TBase"></typeparam>
+    public interface IHasRegistry<TBase>
+        where TBase
             : class
             , IHasId
-            , IHasDestroyHandler<IBase>
+            , IHasDestroyHandler<TBase>
     {
-        IRegistry<IBase> Registry { get; set; }
+        IRegistry<TBase> Registry { get; set; }
     }
 }

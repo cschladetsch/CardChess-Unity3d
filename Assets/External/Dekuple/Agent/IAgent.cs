@@ -17,7 +17,6 @@ namespace Dekuple.Agent
         , IHasDestroyHandler<IAgent>
     {
         IModel BaseModel { get; }
-        //IArbiterAgent Arbiter { get; set; }
     }
 
     /// <inheritdoc />
@@ -27,7 +26,8 @@ namespace Dekuple.Agent
     /// <typeparam name="TModel">The type of the model this agent represents</typeparam>
     public interface IAgent<out TModel>
         : IAgent
-        where TModel : IModel
+        where TModel
+            : IModel
     {
         TModel Model { get; }
     }

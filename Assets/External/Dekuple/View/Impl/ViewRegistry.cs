@@ -6,6 +6,19 @@ namespace Dekuple.View.Impl
     using Model;
     using Registry;
 
+    /// <inheritdoc cref="Registry" />
+    /// <summary>
+    /// A registry of views. A view is a unity3d-space representation of
+    /// and Agent which in turn has a Model.
+    /// This is similar to the MVVC/MVC pattern, but extended so that the
+    /// 'ViewController' or 'Controller' is an Agent, which has behavior
+    /// defined over time since each Agent is a node in a Flow.Kernel
+    /// process graph.
+    ///
+    /// Of course, you can use your own ViewRegistry that doesn't use
+    /// Dekuple.IViewBase. But this is a good start and suitable for
+    /// most use-cases.
+    /// </summary>
     public class ViewRegistry
         : Registry<IViewBase>
         , IViewRegistry

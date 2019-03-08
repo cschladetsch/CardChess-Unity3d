@@ -5,6 +5,7 @@ namespace Dekuple.View
     using Registry;
     using Agent;
 
+    /// <inheritdoc cref="IEntity" />
     /// <summary>
     /// Common interface for all views
     /// </summary>

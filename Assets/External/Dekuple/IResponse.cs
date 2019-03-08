@@ -2,6 +2,9 @@ using System;
 
 namespace Dekuple
 {
+    /// <summary>
+    /// Basic interface for all responses to Requests
+    /// </summary>
     public interface IResponse
     {
         IRequest Request { get; set; }
@@ -14,7 +17,12 @@ namespace Dekuple
         bool Success { get; }
     }
 
-    public interface IResponse<TPayload>
+    /// <inheritdoc />
+    /// <summary>
+    /// An IResponse with a typed payload
+    /// </summary>
+    /// <typeparam name="TPayload"></typeparam>
+    public interface IResponse<out TPayload>
         : IResponse
     {
         TPayload Payload { get; }

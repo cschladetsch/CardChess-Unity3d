@@ -34,9 +34,7 @@ namespace Dekuple.Agent
             {
                 if (Id == Guid.Empty) return false;
                 if (Registry == null) return false;
-                if (BaseModel == null) return false;
-                if (!Model.IsValid) return false;
-                return true;
+                return BaseModel != null && Model.IsValid;
             }
         }
 
@@ -47,6 +45,7 @@ namespace Dekuple.Agent
                 Error("Model cannot be null");
                 return;
             }
+
             Assert.IsNotNull(model);
             BaseModel = model;
         }
@@ -55,6 +54,7 @@ namespace Dekuple.Agent
         {
             if (other == null)
                 return Owner.Value == null;
+
             return other.Owner.Value == Owner.Value;
         }
 
@@ -67,6 +67,7 @@ namespace Dekuple.Agent
         {
             if (other == null)
                 return Owner.Value == null;
+
             return other.Owner.Value == Owner.Value;
         }
 
@@ -84,8 +85,10 @@ namespace Dekuple.Agent
         public void Destroy()
         {
             TransientCompleted();
+
             if (!_destroyed.Value)
                 _destroyed.Value = true;
+
             OnDestroyed?.Invoke(this);
         }
     }

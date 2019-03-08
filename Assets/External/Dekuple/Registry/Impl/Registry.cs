@@ -8,17 +8,35 @@ namespace Dekuple.Registry
 {
     using Model;
 
-    public class Registry<IBase>
+    /// <inheritdoc cref="ModelBase" />
+    ///  <summary>
+    ///  A mapping of Guid to Instance, and Guid to Type.
+    ///  Able to make a new instance given construction arguments
+    ///  that are called either on the ctor itself, or a method
+    ///  named 'Construct' that matches the passed creation method call.
+    ///  </summary>
+    ///  <typeparam name="TBase">The common interface for each instance stored in the registry</typeparam>
+    public class Registry<TBase>
         : ModelBase
-        , IRegistry<IBase>
-        where IBase
+        , IRegistry<TBase>
+        where TBase
             : class
             , IHasId
-            , IHasRegistry<IBase>
-            , IHasDestroyHandler<IBase>
+            , IHasRegistry<TBase>
+            , IHasDestroyHandler<TBase>
     {
-        public IEnumerable<IBase> Instances => _models.Values;
+        public IEnumerable<TBase> Instances => _models.Values;
         public int NumInstances => _models.Count;
+
+        private bool _resolved;
+        private readonly List<PendingInjection> _pendingInjections = new List<PendingInjection>();
+        private readonly Dictionary<Guid, TBase> _models = new Dictionary<Guid, TBase>();
+        private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
+        private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
+        private readonly Dictionary<Type, Type> _bindings = new Dictionary<Type, Type>();
+        private readonly Dictionary<Type, Injector> _preparers = new Dictionary<Type, Injector>();
+        private readonly Dictionary<Type, TBase> _singles = new Dictionary<Type, TBase>();
+        private IRegistry<TBase> _registry;
 
         public Registry()
             : base(null)
@@ -32,24 +50,25 @@ namespace Dekuple.Registry
 
         public byte[] Write()
         {
-            return null;
+            throw new NotImplementedException("Registry.Write");
         }
 
         public bool Read(byte[] data)
         {
-            return false;
+            throw new NotImplementedException("Registry.Read");
         }
 
         public string Save()
         {
-            return "";
+            throw new NotImplementedException("Registry.Save");
         }
 
         public void Load(string text)
         {
+            throw new NotImplementedException("Registry.Load");
         }
 
-        public bool Has(IBase instance)
+        public bool Has(TBase instance)
         {
             return Instances.Contains(instance);
         }
@@ -59,47 +78,17 @@ namespace Dekuple.Registry
             return Instances.Any(m => m.Id == id);
         }
 
-        public IBase Get(Guid id)
+        public TBase Get(Guid id)
         {
-            IBase model;
-            if (_models.TryGetValue(id, out model))
+            if (_models.TryGetValue(id, out var model))
                 return model;
             Warn($"Failed to find targetModel with id {id}");
             return null;
         }
 
-        //public TModel New<TModel, A0>(A0 a0)
-        //    where TModel
-        //        : class
-        //        , IBase
-        //        , IHasRegistry<TModel>
-        //        , IHasDestroyHandler<TModel>, new()
-        //{
-        //    var model = New<TModel>();
-        //    if (model.SetModel(a0))
-        //        return model;
-        //    Error($"Failed to create instance of {typeof(TModel)} with arg {a0}");
-        //    Remove(model);
-        //    return null;
-        //}
-
-        //public TModel New<TModel, A0, A1>(A0 a0, A1 a1)
-        //    where TModel
-        //    : class, IBase, IHasRegistry<TModel>,
-        //    IConstructWith<A0, A1>,
-        //    IHasDestroyHandler<TModel>, new()
-        //{
-        //    var model = New<TModel>();
-        //    if (model.Construct(a0, a1))
-        //        return model;
-        //    Error($"Failed to create instance of {typeof(TModel)} with args {a0}, {a1}");
-        //    Remove(model);
-        //    return null;
-        //}
-
         public bool Bind<TInterface, TImpl>()
             where TInterface
-                : IBase where TImpl : TInterface
+                : TBase where TImpl : TInterface
         {
             var ity = typeof(TInterface);
             if (_bindings.ContainsKey(ity))
@@ -118,55 +107,73 @@ namespace Dekuple.Registry
 
         public TIBase New<TIBase>(params object[] args)
             where TIBase
-            : class, IBase, IHasRegistry<IBase>, IHasDestroyHandler<IBase>
+            : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
         {
             var type = typeof(TIBase);
+
+            if (GetSinglton(args, type, out TIBase singleton))
+                return singleton;
+
+            if (NewInstance(type, args) is TIBase instance)
+                return StoreTypedIntance(instance, type);
+
+            Error($"Failed to make or find instance for interface {type}");
+            return null;
+        }
+
+        private bool GetSinglton<TIBase>(IReadOnlyCollection<object> args, Type type, out TIBase singleton) where TIBase
+            : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
+        {
+            singleton = null;
             var single = GetSingle(type);
-            if (single != null)
-            {
-                if (args.Length != 0)
-                    Error($"Attempt to get singleton {type}, when passing arguments {ToArgTypeList(args)}");
-                var result = single as TIBase;
-                if (result == null)
-                    Error($"Couldn't convert singleton {single.GetType()} to {type}");
-                return result;
-            }
+            if (single == null) 
+                return false;
 
-            var model = NewModel(type, args) as TIBase;
-            if (model == null)
-            {
-                Error($"Failed to make instance for interface {type}");
-                return null;
-            }
+            if (args.Count != 0)
+                Error($"Attempt to get singleton {type}, when passing arguments {ToArgTypeList(args)}");
 
-            // store types for persistence
-            _models[model.Id] = model;
+            var result = single as TIBase;
+            if (result == null)
+                Error($"Couldn't convert singleton {single.GetType()} to {type}");
+
+            singleton = result;
+            return true;
+        }
+
+        private TIBase StoreTypedIntance<TIBase>(TIBase iBase, Type type) where TIBase
+            : class, TBase, IHasRegistry<TBase>, IHasDestroyHandler<TBase>
+        {
+            _models[iBase.Id] = iBase;
             if (!_typeToGuid.ContainsKey(type))
             {
-                _idToType[model.Id] = type;
-                _typeToGuid[type] = model.Id;
+                _idToType[iBase.Id] = type;
+                _typeToGuid[type] = iBase.Id;
             }
 
             Verbose(10, $"Made a {typeof(TIBase)}");
-            return model;
+            return iBase;
         }
 
-        public bool Bind<TInterface, TImpl>(Func<TImpl> creator) where TInterface : IBase where TImpl : TInterface
+        public bool Bind<TInterface, TImpl>(Func<TImpl> creator)
+            where TInterface : TBase where TImpl : TInterface
         {
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl, A0>(Func<A0, TImpl> creator) where TInterface : IBase where TImpl : TInterface
+        public bool Bind<TInterface, TImpl, T0>(Func<T0, TImpl> creator)
+            where TInterface : TBase where TImpl : TInterface
         {
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl, A0, A1>(Func<A0, A1, TImpl> creator) where TInterface : IBase where TImpl : TInterface
+        public bool Bind<TInterface, TImpl, T0, T1>(Func<T0, T1, TImpl> creator)
+            where TInterface : TBase where TImpl : TInterface
         {
             throw new NotImplementedException();
         }
 
-        public bool Bind<TInterface, TImpl>(TImpl single) where TInterface : IBase where TImpl : TInterface
+        public bool Bind<TInterface, TImpl>(TImpl single)
+            where TInterface : TBase where TImpl : TInterface
         {
             var ity = typeof(TInterface);
             if (_singles.ContainsKey(ity))
@@ -174,6 +181,7 @@ namespace Dekuple.Registry
                 Warn($"Already have singleton value for {ity}");
                 return false;
             }
+
             var prep = new Injector(this, typeof(TImpl));
             _singles[ity] = Prepare(prep.Inject(single, ity, single));
             return true;
@@ -186,21 +194,18 @@ namespace Dekuple.Registry
                 Error("Registry already resolved");
                 return false;
             }
-            _resolved = true;
 
             var pi = _pendingInjections.ToArray();
             AddPendingBindings(pi);
             ApplyInjections(pi);
 
             foreach (var p in _pendingInjections)
-            {
                 Warn($"Failed to resolve for {p}");
-            }
 
-            return _pendingInjections.Count == 0;
+            return _resolved = _pendingInjections.Count == 0;
         }
 
-        public virtual IBase Prepare(IBase model)
+        public virtual TBase Prepare(TBase model)
         {
             Assert.IsNotNull(model);
             if (model.Id == Guid.Empty)
@@ -208,6 +213,7 @@ namespace Dekuple.Registry
                 model.Id = Guid.NewGuid();
                 _models[model.Id] = model;
             }
+
             model.OnDestroyed += ModelDestroyed;
             model.Registry = this;
             return model;
@@ -217,8 +223,8 @@ namespace Dekuple.Registry
         {
             if (args == null)
                 return "";
-            string result = "";
-            string comma = "";
+            var result = "";
+            var comma = "";
             foreach (var a in args)
             {
                 result += comma;
@@ -228,6 +234,7 @@ namespace Dekuple.Registry
                     result += a.GetType().Name;
                 comma = ", ";
             }
+
             return result;
         }
 
@@ -236,7 +243,7 @@ namespace Dekuple.Registry
             return args == null ? "" : string.Join(", ", args.Select(a => a.ToString()));
         }
 
-        private void AddPendingBindings(PendingInjection[] pendingInjections)
+        private void AddPendingBindings(IEnumerable<PendingInjection> pendingInjections)
         {
             foreach (var pi in pendingInjections)
             {
@@ -252,7 +259,7 @@ namespace Dekuple.Registry
             }
         }
 
-        private void ApplyInjections(PendingInjection[] pendingInjections)
+        private void ApplyInjections(IEnumerable<PendingInjection> pendingInjections)
         {
             foreach (var pi in pendingInjections)
             {
@@ -260,22 +267,24 @@ namespace Dekuple.Registry
                 var val = GetSingle(pi.Injection.ValueType);
                 if (val == null)
                 {
-                    val = NewModel(inject.ValueType, inject.Args);
+                    val = NewInstance(inject.ValueType, inject.Args);
                     if (val == null)
                     {
                         Error($"Failed to resolve deferred dependancy {pi}");
                         continue;
                     }
                 }
+
                 if (inject.PropertyInfo != null)
                     inject.PropertyInfo.SetValue(pi.TargetModel, val);
                 else
                     inject.FieldInfo.SetValue(pi.TargetModel, val);
+
                 _pendingInjections.Remove(pi);
             }
         }
 
-        private void Remove(IBase model)
+        private void Remove(TBase model)
         {
             if (!_models.ContainsKey(model.Id))
                 Warn($"Attempt to destroy unknown {model.GetType()} Id={model.Id}");
@@ -285,78 +294,82 @@ namespace Dekuple.Registry
 
         private void ModelDestroyed<TIBase>(TIBase model)
             where TIBase
-            : class, IBase,
-            IHasRegistry<IBase>,
-            IHasDestroyHandler<IBase>
+            : class, TBase,
+            IHasRegistry<TBase>,
+            IHasDestroyHandler<TBase>
         {
             if (model == null)
             {
-                Verbose(10, "Attempt to destroy null targetModel");
+                Verbose(10, "Attempt to destroy null model");
                 return;
             }
+
             model.OnDestroyed -= ModelDestroyed;
             Remove(model);
         }
 
-        private IBase GetSingle(Type ty)
+        private TBase GetSingle(Type ty)
         {
-            IBase single;
-            if (_singles.TryGetValue(ty, out single))
-            {
-                return single;
-            }
-            return null;
+            return _singles.TryGetValue(ty, out var single) ? single : null;
         }
 
-        internal IBase NewModel(Type ity, object[] args)
+        internal TBase NewInstance(Type ity, object[] args)
         {
-            Type ty;
-            if (!_bindings.TryGetValue(ity, out ty))
+            if (!_bindings.TryGetValue(ity, out var ty))
             {
                 if (_resolved)
                     Error($"Registry has no binding for {ity}");
+
                 return null;
             }
+
+            // find and invoke a matching ctor
             var cons = ty.GetConstructors();
             foreach (var con in cons)
             {
                 if (!MatchingConstructor(args, con.GetParameters()))
                     continue;
-                var model = con.Invoke(args) as IBase;
-                if (model != null)
+                if (con.Invoke(args) is TBase model)
                     return Prepare(Prepare(ity, model));
             }
+
+            // rather, search for a method called 'Construct'
+            // this is mostly to allow for MonoBehaviour-based instances,
+            // which cannot use ctors. In this case, any and all methods
+            // named 'Construct' are treated as if they were ctors.
             foreach (var method in ty.GetMethods(BindingFlags.Instance | BindingFlags.Public))
             {
                 if (method.Name != "Construct")
                     continue;
+
                 if (!MatchingConstructor(args, method.GetParameters()))
                     continue;
-                var model = Activator.CreateInstance(ty) as IBase;
-                if (model == null)
+
+                if (!(Activator.CreateInstance(ty) is TBase model))
                 {
-                    Error($"Couldn't make a {ty} of type {typeof(IBase).Name}");
-                    return null;
-                }
-                var created = (bool) method.Invoke(model, args);
-                if (!created)
-                {
-                    Error($"Create method failed for type {ty} with args {ToArgTypeList(args)}");
+                    Error($"Couldn't make a {ty} of type {typeof(TBase).Name}");
                     return null;
                 }
 
-                return Prepare(Prepare(ity, model));
+                if ((bool) method.Invoke(model, args))
+                    return Prepare(Prepare(ity, model));
+
+                Error($"Create method failed for type {ty} with args {ToArgTypeList(args)}");
+                return null;
             }
-            Error($"No mathching Constructor for {ty} with args '{ToArgTypeList(args)}'");
+
+            Error($"No mathching Ctor or 'Construct' method for {ty} with args '{ToArgTypeList(args)}'");
             return null;
         }
 
-        private static bool MatchingConstructor(object[] args, ParameterInfo[] pars)
+        private static bool MatchingConstructor(IReadOnlyList<object> args, IReadOnlyCollection<ParameterInfo> pars)
         {
             if (args == null)
-                return pars.Length == 0;
-            if (pars.Length != args.Length)
+                return pars.Count == 0;
+
+            if (pars.Count != args.Count)
                 return false;
+
             var n = 0;
             foreach (var param in pars.Select(p => p.ParameterType))
             {
@@ -365,20 +378,20 @@ namespace Dekuple.Registry
                     ++n;
                     continue;
                 }
+
                 if (!param.IsInstanceOfType(args[n]))
                     break;
+
                 ++n;
             }
-            return n == args.Length;
+            return n == args.Count;
         }
 
-        protected IBase Prepare(Type ity, IBase model)
+        protected TBase Prepare(Type ity, TBase model)
         {
-            Injector prep;
-            if (!_preparers.TryGetValue(ity, out prep))
-            {
+            if (!_preparers.TryGetValue(ity, out var prep))
                 throw new Exception($"No preparer for type {ity}");
-            }
+            
             return prep.Inject(model);
         }
 
@@ -387,32 +400,23 @@ namespace Dekuple.Registry
             var sb = new StringBuilder();
             sb.Append($"{_singles.Count} Singletons:\n");
             foreach (var s in _singles)
-            {
                 sb.Append($"\t{s.Key} -> {s.Value}\n");
-            }
+
             sb.Append($"{NumInstances} Instances:\n");
             foreach (var kv in _models)
-            {
-                //sb.Append($"\t{kv.Key} -> {kv.Value}\n");
                 sb.Append($"\t{kv.Value}\n");
-            }
 
-            //sb.Append($"\n{_idToType.Count} Types:\n");
-            //foreach (var kv in _idToType)
-            //{
-            //    sb.Append($"\t{kv.Value}\n");
-            //}
             return sb.ToString();
         }
 
-        class Injector
+        private class Injector
         {
             private PropertyInfo _setRegistry;
             private PropertyInfo _setId;
-            private readonly IRegistry<IBase> _reg;
+            private readonly IRegistry<TBase> _reg;
             private readonly List<Inject> _injections = new List<Inject>();
 
-            internal Injector(IRegistry<IBase> reg, Type ty)
+            internal Injector(IRegistry<TBase> reg, Type ty)
             {
                 _reg = reg;
                 foreach (var prop in ty.GetProperties(
@@ -425,6 +429,7 @@ namespace Dekuple.Registry
                     inject.ValueType = prop.PropertyType;
                     _injections.Add(inject);
                 }
+
                 foreach (var field in ty.GetFields(
                     BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
@@ -437,7 +442,7 @@ namespace Dekuple.Registry
                 }
             }
 
-            public IBase Inject(IBase model, Type iface = null, IBase single = null)
+            public TBase Inject(TBase model, Type iface = null, TBase single = null)
             {
                 model.Registry = _reg;
                 foreach (var inject in _injections)
@@ -448,22 +453,22 @@ namespace Dekuple.Registry
             }
         }
 
-        public IBase Inject(IBase model, Inject inject, Type iface, IBase single)
+        public TBase Inject(TBase model, Inject inject, Type iface, TBase single)
         {
             var val = GetSingle(inject.ValueType);
             if (val == null)
             {
-                val = NewModel(inject.ValueType, inject.Args);
-                if (val == null)
+                val = NewInstance(inject.ValueType, inject.Args);
+                switch (val)
                 {
-                    if (_resolved)
-                    {
+                    case null when _resolved:
                         Error($"Cannot resolve interface {inject.ValueType}");
                         return null;
-                    }
-                    var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
-                    Verbose(30, $"Adding {pi}");
-                    _pendingInjections.Add(pi);
+                    case null:
+                        var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
+                        Verbose(30, $"Adding {pi}");
+                        _pendingInjections.Add(pi);
+                        break;
                 }
             }
 
@@ -475,24 +480,15 @@ namespace Dekuple.Registry
             return model;
         }
 
-        //public TBase Prepare<TBase>(TBase model) w
-        //{
-        //    return Prepare(model as IBase);
-        //}
-
-        //public virtual TBase Prepare<TBase>(TBase model) where {
-        //    return Prepare(model as IBase);
-        //}
-
         private class PendingInjection
         {
-            internal readonly IBase TargetModel;
+            internal readonly TBase TargetModel;
             internal readonly Inject Injection;
-            internal readonly IBase Single;
+            internal readonly TBase Single;
             internal readonly Type Interface;
             internal readonly Type ModelType;
 
-            public PendingInjection(IBase targetModel, Inject inject, Type modelType, Type iface = null, IBase single = null)
+            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
             {
                 TargetModel = targetModel;
                 Injection = inject;
@@ -506,15 +502,5 @@ namespace Dekuple.Registry
                 return $"PendingInject: {Injection.ValueType} into {TargetModel}";
             }
         }
-
-        private bool _resolved;
-        private readonly List<PendingInjection> _pendingInjections = new List<PendingInjection>();
-        private readonly Dictionary<Guid, IBase> _models = new Dictionary<Guid, IBase>();
-        private readonly Dictionary<Guid, Type> _idToType = new Dictionary<Guid, Type>();
-        private readonly Dictionary<Type, Guid> _typeToGuid = new Dictionary<Type, Guid>();
-        private readonly Dictionary<Type, Type> _bindings = new Dictionary<Type, Type>();
-        private readonly Dictionary<Type, Injector> _preparers = new Dictionary<Type, Injector>();
-        private readonly Dictionary<Type, IBase> _singles = new Dictionary<Type, IBase>();
-        private IRegistry<IBase> _registry;
     }
 }

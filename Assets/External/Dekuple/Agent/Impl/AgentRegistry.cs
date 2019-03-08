@@ -1,7 +1,6 @@
-﻿using Flow;
-
-namespace Dekuple.Agent
+﻿namespace Dekuple.Agent
 {
+    using Flow;
     using Registry;
 
     /// <summary>
@@ -9,6 +8,9 @@ namespace Dekuple.Agent
     ///
     /// Agents have a Model, and are also ITransient
     /// and do work over time in a Flow.Kernel.
+    ///
+    /// NOTE that you can obviously make your own Agent registries
+    /// that do not require you to use IAgent. But this is a good starting point.
     /// </summary>
     public class AgentRegistry
         : Registry<IAgent>

@@ -1,7 +1,5 @@
 ﻿namespace Dekuple
 {
-    using Model;
-
     /// <summary>
     /// An action proposed by a player.
     /// </summary>
@@ -9,6 +7,5 @@
         : IHasId
     {
         IOwner Owner { get; }
-        //EActionType Action { get; }
     }
 }

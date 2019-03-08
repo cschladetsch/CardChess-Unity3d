@@ -1,7 +1,7 @@
 ﻿namespace Dekuple
 {
-    public interface IOwner : IHasId
+    public interface IOwner 
+        : IHasId
     {
-        //EColor Color { get; }
     }
 }
