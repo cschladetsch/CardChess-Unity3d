@@ -6,6 +6,7 @@ namespace Dekuple.View
     using Model;
     using Registry;
 
+    /// <inheritdoc />
     /// <summary>
     /// Common registry for all objects that are in the Unity3d scene (or canvas)
     /// </summary>

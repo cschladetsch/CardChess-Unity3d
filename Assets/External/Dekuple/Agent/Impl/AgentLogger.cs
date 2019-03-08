@@ -18,11 +18,11 @@ namespace Dekuple.Agent
         public IFactory New => Kernel.Factory;
         public INode Root => Kernel.Root;
         public string Name { get; set; }
-        public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
-        public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; } }
+        public string LogPrefix { get => _log.LogPrefix; set => _log.LogPrefix = value; }
+        public object LogSubject { get => _log.LogSubject; set => _log.LogSubject = value; }
         public bool ShowSource { get; set; }
         public bool ShowStack { get; set; }
-        public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; }}
+        public int Verbosity { get => _log.Verbosity; set => _log.Verbosity = value; }
 
         public ITransient Named(string name)
         {

@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
+// Yet another way to assert runtime conditions. It was just easier
+// to add another one, than to add another dependancy. Sorry.
+//
+// In defence, this is pretty straight-forward and covers 97% of use-cases
+// for assertions. It also integrates with the Flow.ILogger sub-system so
+// is fit for purpose within the context of Dekuple.
+
 namespace Dekuple
 {
     public class AssertionException : Exception
@@ -39,14 +46,14 @@ namespace Dekuple
         {
             if (q == null)
                 return;
-            Error("Null expected");
+            Error($"Null expected {q}");
         }
 
         public static void IsNotNull(object q)
         {
             if (q != null)
                 return;
-            Error("Non-Null expected");
+            Error($"Non-Null expected {q}");
         }
 
         public static void IsNotEmpty<T>(IEnumerable<T> e)
@@ -60,7 +67,7 @@ namespace Dekuple
         {
             if (e == null || !e.Any())
                 return;
-            Error($"Expected empty");
+            Error($"Expected empty {e}");
         }
 
         public static void IsTrue(bool val)
@@ -95,28 +102,28 @@ namespace Dekuple
         {
             if (ReferenceEquals(a, b))
                 return;
-            Error($"Expect same objects: {a} and {b}");
+            Error($"Expected same objects: {a} and {b}");
         }
 
         public static void AreNotSame(object a, object b)
         {
             if (!ReferenceEquals(a, b))
                 return;
-            Error($"Expect not same objects");
+            Error($"Expected not same objects: {a} and {b}");
         }
 
         public static void IsLess(int a, int b)
         {
             if (a < b)
                 return;
-            Error("{a} >= b");
+            Error($"{a} >= {b}");
         }
 
         public static void IsGreater(int a, int b)
         {
             if (a > b)
                 return;
-            Error("{a} <= b");
+            Error($"{a} <= {b}");
         }
     }
 }

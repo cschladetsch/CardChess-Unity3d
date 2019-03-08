@@ -2,15 +2,20 @@
 
 namespace Dekuple
 {
+    /// <summary>
+    /// A MonoBehaviour that has its own logger
+    /// </summary>
     public class LoggingBehavior
         : MonoBehaviour
         , Flow.ILogger
     {
-        public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; } }
-        public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; } }
+        public string LogPrefix { get => _log.LogPrefix; set => _log.LogPrefix = value; }
+        public object LogSubject { get => _log.LogSubject; set => _log.LogSubject = value; }
         public bool ShowSource { get; set; }
         public bool ShowStack { get; set; }
-        public int Verbosity { get { return _log.Verbosity; } set { _log.Verbosity = value; } }
+        public int Verbosity { get => _log.Verbosity; set => _log.Verbosity = value; }
+
+        private readonly Flow.Impl.Logger _log = new Flow.Impl.Logger("");
 
         protected LoggingBehavior()
         {
@@ -38,7 +43,5 @@ namespace Dekuple
         {
             _log.Verbose(level, fmt, args);
         }
-
-        private readonly Flow.Impl.Logger _log = new Flow.Impl.Logger("");
     }
 }

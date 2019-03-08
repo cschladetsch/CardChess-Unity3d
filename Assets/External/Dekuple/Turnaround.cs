@@ -2,6 +2,9 @@ using System;
 
 namespace Dekuple
 {
+    /// <summary>
+    /// A request with a callback to a responder
+    /// </summary>
     public class Turnaround
     {
         public IRequest Request;

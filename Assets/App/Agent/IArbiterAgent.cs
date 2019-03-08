@@ -6,7 +6,6 @@ using UniRx;
 namespace App.Agent
 {
     using Model;
-    using Common.Message;
 
     public interface IArbiterAgent
         : IAgent<IArbiterModel>

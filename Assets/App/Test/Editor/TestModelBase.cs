@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using App.Model.Impl;
 using Dekuple.Model;
 using Dekuple.Registry;
 using NUnit.Framework;
@@ -41,6 +42,7 @@ namespace App.Model.Test
             _reg.Bind<IDeckModel, MockDeck>();
             _reg.Bind<IHandModel, MockHand>();
             _reg.Bind<IPieceModel, PieceModel>();
+            _reg.Bind<IEndTurnButtonModel, EndTurnButtonModel>();
             _reg.Resolve();
 
             _board = _reg.New<IBoardModel>();

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dekuple;
-using Dekuple.Agent;
 using Flow;
 using UniRx;
+
+using Dekuple;
+using Dekuple.Agent;
 
 namespace App.Agent
 {

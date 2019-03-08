@@ -10,7 +10,9 @@ namespace Dekuple.Agent
     /// <typeparam name="TModel">The model that this Agent represents</typeparam>
     public abstract class AgentBaseCoro<TModel>
         : AgentBase<TModel>
-        where TModel : class, IModel
+        where TModel
+            : class
+            , IModel
     {
         protected AgentBaseCoro(TModel model)
             : base(model)

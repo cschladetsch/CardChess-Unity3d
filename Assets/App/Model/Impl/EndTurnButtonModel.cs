@@ -16,7 +16,7 @@ namespace App.Model.Impl
     {
         public IReadOnlyReactiveProperty<bool> Interactive => _isInteractive;
         public IReadOnlyReactiveProperty<bool> PlayerHasOptions => _playerHasOptions;
-        public IPlayerModel PlayerModel => Owner as IPlayerModel;
+        public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
 
         [Inject] public IBoardModel _board;
         [Inject] public IArbiterModel _arbiter;
@@ -29,6 +29,10 @@ namespace App.Model.Impl
         public override void PrepareModels()
         {
             base.PrepareModels();
+
+            Info($"{_arbiter} {_arbiter.LastResponse} {PlayerModel}");
+            Info($"{Owner} {Owner.GetType()}");
+            Info($"{PlayerModel}");
 
             _arbiter.LastResponse.CombineLatest(PlayerModel.Mana, (p, m) =>
             {

@@ -17,9 +17,10 @@
         bool Prepared { get; }
 
         /// <summary>
-        /// Create all other models required by this one.
+        /// Models can require other models, so this creates all models
+        /// needed by this model.
         ///
-        /// Should only be called once.
+        /// Calling this more than once has no effect.
         /// </summary>
         void PrepareModels();
     }

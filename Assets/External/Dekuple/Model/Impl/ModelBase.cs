@@ -25,15 +25,17 @@ namespace Dekuple.Model
         public Guid Id { get; /*private*/ set; }
         public IReadOnlyReactiveProperty<bool> Destroyed => _destroyed;
         public IReadOnlyReactiveProperty<IOwner> Owner => _owner;
-        //public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
+
+        private readonly BoolReactiveProperty _destroyed;
+        private readonly ReactiveProperty<IOwner> _owner;
+        private bool _prepared;
 
         public virtual bool IsValid
         {
             get
             {
                 if (Registry == null) return false;
-                if (Id == Guid.Empty) return false;
-                return true;
+                return Id != Guid.Empty;
             }
         }
 
@@ -91,7 +93,7 @@ namespace Dekuple.Model
             if (_owner.Value == owner)
                 return;
 
-            //Verbose(20, $"{this} changes ownership from {Owner.Value} to {owner}");
+            Verbose(30, $"{this} changes ownership from {Owner.Value} to {owner}");
             _owner.Value = owner;
         }
 
@@ -99,10 +101,6 @@ namespace Dekuple.Model
         {
             Error($"Not {text} implemented");
         }
-
-        private readonly BoolReactiveProperty _destroyed;
-        private readonly ReactiveProperty<IOwner> _owner;
-        private bool _prepared;
 
         public virtual void StartGame()
         {
