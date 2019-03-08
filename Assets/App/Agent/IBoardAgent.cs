@@ -6,7 +6,6 @@ using UniRx;
 namespace App.Agent
 {
     using Common;
-    using Common.Message;
     using Model;
 
     /// <summary>

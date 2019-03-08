@@ -5,6 +5,7 @@ namespace App.Agent
 {
     using Model;
 
+    /// <inheritdoc cref="AgentBaseCoro{TModel}" />
     /// <summary>
     /// Representative for the Hand owned by the player.
     /// </summary>
@@ -13,11 +14,11 @@ namespace App.Agent
         , IHandAgent
     {
         public IReadOnlyReactiveCollection<ICardAgent> Cards => _cards;
+        private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
 
         public HandAgent(IHandModel model)
             : base(model)
         {
-            //Verbosity = 20;
         }
 
         public override void StartGame()
@@ -43,7 +44,5 @@ namespace App.Agent
             Verbose(10, $"HandAgent: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
         }
-
-        private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
     }
 }

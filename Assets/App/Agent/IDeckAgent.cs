@@ -5,6 +5,7 @@ using UniRx;
 
 namespace App.Agent
 {
+    /// <inheritdoc />
     /// <summary>
     /// Controller for a Deck model.
     /// </summary>
@@ -16,6 +17,5 @@ namespace App.Agent
         IReadOnlyReactiveCollection<ICardAgent> Cards { get; }
 
         IFuture<ICardAgent> Draw();
-        //void AddToBottom(ICardAgent card);
     }
 }
