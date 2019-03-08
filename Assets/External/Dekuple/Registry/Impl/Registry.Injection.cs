@@ -13,9 +13,10 @@ namespace Dekuple.Registry
         {
             private readonly IRegistry<TBase> _reg;
             private readonly List<Inject> _injections = new List<Inject>();
-            private static BindingFlags Flags => 
+
+            private static BindingFlags Flags =>
                 BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-            
+
             internal Injections(IRegistry<TBase> reg, Type ty)
             {
                 _reg = reg;
@@ -74,7 +75,8 @@ namespace Dekuple.Registry
             internal readonly Type Interface;
             internal readonly Type ModelType;
 
-            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null, TBase single = null)
+            public PendingInjection(TBase targetModel, Inject inject, Type modelType, Type iface = null,
+                TBase single = null)
             {
                 TargetModel = targetModel;
                 Injection = inject;
@@ -87,6 +89,33 @@ namespace Dekuple.Registry
             {
                 return $"PendingInject: {Injection.ValueType} into {TargetModel}";
             }
+        }
+
+        public TBase Inject(TBase model, Inject inject, Type iface, TBase single)
+        {
+            var val = GetSingle(inject.ValueType);
+            if (val == null)
+            {
+                val = NewInstance(inject.ValueType, inject.Args);
+                switch (val)
+                {
+                    case null when _resolved:
+                        Error($"Cannot resolve interface {inject.ValueType}");
+                        return null;
+                    case null:
+                        var pi = new PendingInjection(model, inject, model.GetType(), iface, single);
+                        Verbose(30, $"Adding {pi}");
+                        _pendingInjections.Add(pi);
+                        break;
+                }
+            }
+
+            if (inject.PropertyInfo != null)
+                inject.PropertyInfo.SetValue(model, val);
+            else
+                inject.FieldInfo.SetValue(model, val);
+
+            return model;
         }
     }
 }
