@@ -1,5 +1,6 @@
 ﻿using System;
 using Dekuple;
+using Dekuple.Agent;
 using Dekuple.View;
 using Dekuple.View.Impl;
 
@@ -21,11 +22,14 @@ namespace App.View.Impl1
 
         //[Inject] public IArbiterView ArbiterView;
 
-        public override void SetAgent(IPlayerView view, IPlayerAgent agent)
+        //public override void SetAgent(IPlayerView view, IPlayerAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             Assert.IsNotNull(agent);
-            Assert.IsNotNull(agent.Hand);
-            Assert.IsNotNull(agent.Deck);
+            var player = agent as IPlayerAgent;
+            Assert.IsNotNull(player);
+            Assert.IsNotNull(player.Hand);
+            Assert.IsNotNull(player.Deck);
 
             base.SetAgent(view, agent);
             Deck.SetAgent(this, Agent.Deck);

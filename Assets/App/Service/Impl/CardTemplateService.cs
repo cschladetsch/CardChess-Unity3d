@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using App.Agent;
+using Dekuple.Model;
 
 namespace App.Service.Impl
 {
     using Model;
     using Common;
-    using Registry;
 
     public class CardTemplateService
         : ModelBase

@@ -1,4 +1,7 @@
 ﻿using CoLib;
+using Dekuple.Agent;
+using Dekuple.View;
+using Dekuple.View.Impl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +26,8 @@ namespace App.View.Impl1
         public Button Button;
         public Image Image;
 
-        public override void SetAgent(IPlayerView player, IEndTurnButtonAgent agent)
+        //public override void SetAgent(IPlayerView player, IEndTurnButtonAgent agent)
+        public override void SetAgent(IViewBase player, IAgent agent)
         {
             base.SetAgent(player, agent);
             Agent.Model.Interactive.Subscribe(SetInteractive);

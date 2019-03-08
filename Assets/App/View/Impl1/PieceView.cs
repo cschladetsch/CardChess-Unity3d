@@ -2,6 +2,9 @@
 using UnityEngine;
 
 using CoLib;
+using Dekuple;
+using Dekuple.Agent;
+using Dekuple.View;
 using Dekuple.View.Impl;
 using UniRx;
 
@@ -52,22 +55,26 @@ namespace App.View.Impl1
             }).AddTo(this);
         }
 
-        public override void SetAgent(IPlayerView view, IPieceAgent agent)
+        //public override void SetAgent(IPlayerView view, IPieceAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             base.SetAgent(view, agent);
 
             Assert.IsNotNull(agent);
-            Assert.IsNotNull(agent.Power);
-            Assert.IsNotNull(agent.Health);
+            var pieceAgent = agent as IPieceAgent;
+            Assert.IsNotNull(pieceAgent.Power);
+            Assert.IsNotNull(pieceAgent.Health);
             Assert.IsNotNull(Power);
             Assert.IsNotNull(Health);
 
-            agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            pieceAgent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            pieceAgent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
             //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
 
+            var player = Owner.Value as IPlayerModel;
+            var color = player.Color;
             FindPiece().GetComponent<Renderer>().material
-                = Owner.Value.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+                = color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
             MouseOver.DistinctUntilChanged().Subscribe(
                 v =>

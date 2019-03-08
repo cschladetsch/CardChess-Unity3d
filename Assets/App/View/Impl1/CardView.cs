@@ -1,5 +1,7 @@
 ﻿using App.Model;
 using Dekuple;
+using Dekuple.Agent;
+using Dekuple.View;
 using Dekuple.View.Impl;
 using UnityEngine;
 
@@ -47,7 +49,8 @@ namespace App.View.Impl1
             base.Begin();
         }
 
-        public override void SetAgent(IPlayerView view, ICardAgent agent)
+        //public override void SetAgent(IPlayerView view, ICardAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             base.SetAgent(view, agent);
             _mana = FindTextChild("Mana");
@@ -73,10 +76,12 @@ namespace App.View.Impl1
 
             base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
 
-            Assert.IsNotNull(agent);
-            agent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
-            agent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);
-            agent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
+            var cardAgent = agent as ICardAgent;
+
+            Assert.IsNotNull(cardAgent);
+            cardAgent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
+            cardAgent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);
+            cardAgent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
 
             FindPiece().material
                 = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;

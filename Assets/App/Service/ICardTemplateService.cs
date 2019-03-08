@@ -1,4 +1,5 @@
 ﻿using System;
+using Dekuple.Model;
 
 namespace App.Service
 {
