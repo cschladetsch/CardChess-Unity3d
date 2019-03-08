@@ -29,9 +29,6 @@ namespace Dekuple.Registry
     {
         IEnumerable<TBase> Instances { get; }
 
-        string Save();
-        void Load(string text);
-
         bool Has(TBase instance);
         TBase Get(Guid id);
 

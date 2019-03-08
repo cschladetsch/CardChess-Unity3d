@@ -49,7 +49,7 @@ namespace Dekuple.Model
         protected ModelBase(IOwner owner)
         {
             LogSubject = this;
-            LogPrefix = "Model";
+            LogPrefix = GetType().Name;
             _owner = new ReactiveProperty<IOwner>(owner);
             _destroyed = new BoolReactiveProperty(false);
             Verbosity = Parameters.DefaultLogVerbosity;
@@ -61,7 +61,7 @@ namespace Dekuple.Model
         {
             if (other == null)
                 return Owner.Value == null;
-            return other.Owner.Value == Owner.Value;
+            return ReferenceEquals(other.Owner.Value, Owner.Value);
         }
 
         public virtual void PrepareModels()
@@ -77,20 +77,21 @@ namespace Dekuple.Model
 
         public virtual void Destroy()
         {
-            Info($"Destroy {this}");
+            Verbose(40, $"Destroy {this}");
             if (Destroyed.Value)
             {
                 Warn($"Attempt to destroy {this} twice");
                 return;
             }
 
+            OnDestroyed?.Invoke(this);
             _destroyed.Value = true;
             Id = Guid.Empty;
         }
 
         public void SetOwner(IOwner owner)
         {
-            if (_owner.Value == owner)
+            if (Owner.Value == owner)
                 return;
 
             Verbose(30, $"{this} changes ownership from {Owner.Value} to {owner}");
