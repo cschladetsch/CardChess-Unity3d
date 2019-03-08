@@ -18,8 +18,6 @@ namespace Dekuple.Agent
         public IFactory New => Kernel.Factory;
         public INode Root => Kernel.Root;
         public string Name { get; set; }
-        //[Inject] public IBoardAgent Board { get; set; }
-        //[Inject] public IArbiterAgent Arbiter { get; set; }
         public string LogPrefix { get { return _log.LogPrefix; } set { _log.LogPrefix = value; }}
         public object LogSubject { get { return _log.LogSubject; } set { _log.LogSubject = value; } }
         public bool ShowSource { get; set; }

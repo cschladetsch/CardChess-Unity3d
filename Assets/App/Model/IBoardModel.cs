@@ -20,7 +20,6 @@ namespace App.Model
         int Width { get; set; }
         int Height { get; set; }
         IArbiterModel Arbiter { get; set; }
-
         IReadOnlyReactiveCollection<IPieceModel> Pieces { get; }
 
         bool IsValidCoord(Coord coord);
