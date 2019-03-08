@@ -31,7 +31,7 @@ namespace App.Mock.Model
             return _Pass;
         }
 
-        public override IRequest NextAction()
+        public override IGameRequest NextAction()
         {
             return _next == _Requests.Count ? null : _Requests[_next++]();
         }
@@ -70,9 +70,9 @@ namespace App.Mock.Model
 
         private int _next = 0;
 
-        protected IRequest _Pass;
-        protected IRequest _EndTurn;
-        protected List<Func<IRequest>> _Requests;
+        protected IGameRequest _Pass;
+        protected IGameRequest _EndTurn;
+        protected List<Func<IGameRequest>> _Requests;
         protected List<Guid> _RequestIds;
     }
 }

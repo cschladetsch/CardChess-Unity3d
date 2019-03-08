@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using Dekuple.Model;
+using Dekuple.Registry;
 using NUnit.Framework;
 
 namespace App.Model.Test
 {
-    using Registry;
     using Mock;
     using Mock.Model;
 

@@ -31,7 +31,7 @@ namespace App.Model
         IReactiveProperty<int> Health { get; }
         EColor Color { get; }
 
-        IRequest NextAction();
+        IGameRequest NextAction();
         Response CardDrawn(ICardModel card);
         void CardExhaustion();
         void StartTurn();

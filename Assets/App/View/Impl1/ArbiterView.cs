@@ -34,7 +34,7 @@ namespace App.View.Impl1
         public IPlayerView BlackPlayerView => BlackPlayer;
         // KILL ME
         public IPlayerView CurrentPlayerView => CurrentPlayerColor == EColor.White ? WhitePlayerView : BlackPlayerView;
-        public new IBoardView BoardView => Board;
+        public IBoardView BoardView => Board;
 
         private GameRoot _gameRoot;
 

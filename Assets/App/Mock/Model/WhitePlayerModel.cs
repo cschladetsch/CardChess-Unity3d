@@ -18,7 +18,7 @@ namespace App.Mock.Model
 
         protected override void CreateActionList()
         {
-            _Requests = new List<Func<IRequest>>()
+            _Requests = new List<Func<IGameRequest>>()
             {
                 //() => new StartGame(this),
                 //() => new RejectCards(this),

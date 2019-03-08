@@ -22,7 +22,7 @@ namespace App.Agent
         IHandAgent Hand { get; }
         IBoardAgent Board { get; }
         IEndTurnButtonAgent EndTurnButton { get; }
-        EColor Color { get; set; }
+        EColor Color { get; }
 
         IReadOnlyReactiveProperty<int> MaxMana { get; }
         IReadOnlyReactiveProperty<int> Mana { get; }

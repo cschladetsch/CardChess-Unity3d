@@ -17,6 +17,7 @@ namespace App.Model
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
         IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
 
+        void StartGame();
         void PrepareGame(IPlayerModel white, IPlayerModel black);
         IResponse Arbitrate(IGameRequest request);
         void EndTurn();

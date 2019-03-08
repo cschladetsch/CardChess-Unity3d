@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Dekuple.Agent;
+using NUnit.Framework;
 
 namespace App.Agent.Test
 {

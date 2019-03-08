@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using App.Common;
 using Flow;
 using UniRx;
 using Dekuple;
@@ -165,7 +165,7 @@ namespace App
                     Warn($"{CurrentPlayerModel} didn't make a request");
 
                 // do the arbitration before we test for time out
-                var request = future.Value.Request;
+                var request = future.Value.Request as IGameRequest;
                 var response = Model.Arbitrate(request);
                 response.Request = request;
                 //_lastResponse.Value = response;
@@ -209,7 +209,7 @@ namespace App
 
         void TurnEnded(IResponse response)
         {
-            Info($"Player {response.Request.Player} ended turn");
+            Info($"Player {response.Request.Owner} ended turn");
         }
 
         private IEnumerator EndGame(IGenerator self)
@@ -231,29 +231,29 @@ namespace App
             return New.TimedBarrier(timeOut, futures).ForEach(act);
         }
 
-        /// <summary>
-        /// Make a TimedBarrier that contains a collection of future IRequests.
-        /// When the barrier is completed, pass the value of each available request to
-        /// the Arbiter.
-        /// </summary>
-        private IGenerator ArbitrateFutures<T>(
-            TimeSpan timeOut,
-            IEnumerable<IFuture<T>> futures,
-            Action<IFuture<T>> onUnavailable = null)
-            where T : IRequest
-        {
-            return TimedBarrierOfFutures(
-                timeOut,
-                futures,
-                f =>
-                {
-                    if (f.Available)
-                        Model.Arbitrate(f.Value);
-                    else
-                        onUnavailable?.Invoke(f);
-                }
-            );
-        }
+        ///// <summary>
+        ///// Make a TimedBarrier that contains a collection of future IRequests.
+        ///// When the barrier is completed, pass the value of each available request to
+        ///// the Arbiter.
+        ///// </summary>
+        //private IGenerator ArbitrateFutures<T>(
+        //    TimeSpan timeOut,
+        //    IEnumerable<IFuture<T>> futures,
+        //    Action<IFuture<T>> onUnavailable = null)
+        //    where T : IRequest
+        //{
+        //    return TimedBarrierOfFutures(
+        //        timeOut,
+        //        futures,
+        //        f =>
+        //        {
+        //            if (f.Available)
+        //                Model.Arbitrate(f.Value);
+        //            else
+        //                onUnavailable?.Invoke(f);
+        //        }
+        //    );
+        //}
 
         //protected override IEnumerator Next(IGenerator self)
         //{

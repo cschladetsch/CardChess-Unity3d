@@ -120,7 +120,7 @@ namespace App.Model
             return null;
         }
 
-        public virtual IRequest NextAction()
+        public virtual IGameRequest NextAction()
         {
             return null;
         }
