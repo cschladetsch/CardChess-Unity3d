@@ -1,13 +1,17 @@
-﻿using Dekuple.View;
-using Dekuple.View.Impl;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
+
+using Dekuple.View;
+using Dekuple.View.Impl;
 
 namespace App.View.Impl1
 {
     using Agent;
 
+    /// <summary>
+    /// View of the set of mana available to a player
+    /// </summary>
     public class ManaView
         : ViewBase<IPlayerAgent>
         , IManaView

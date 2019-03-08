@@ -4,9 +4,15 @@ using UnityEngine.UI;
 
 namespace App.View.Impl1
 {
+    /// <summary>
+    /// View of a board overlay (not a piece)
+    /// </summary>
     public class BoardOverlaySquareView
         : GameViewBase
     {
+        private Image _image;
+        private Ref<float> _alphaRef;
+
         public override void Create()
         {
             _image = GetComponent<Image>();
@@ -24,8 +30,5 @@ namespace App.View.Impl1
         {
             return Commands.ChangeTo(_alphaRef, 0, 0.03);
         }
-
-        private Image _image;
-        private Ref<float> _alphaRef;
     }
 }

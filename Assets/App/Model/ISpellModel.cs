@@ -3,6 +3,7 @@
     using Common;
     using Common.Message;
 
+    /// <inheritdoc />
     /// <summary>
     /// Model for a spell that can be cast during a plauyer's turn.
     /// </summary>

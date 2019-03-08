@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using App.Common.Message;
+using UnityEngine;
+
 using App.Model;
-using CoLib;
 using Dekuple;
 using Dekuple.Agent;
 using Dekuple.View;
-using Dekuple.View.Impl;
-using UnityEngine;
 
 using UniRx;
 
@@ -46,6 +44,13 @@ namespace App.View.Impl1
         public IReadOnlyReactiveProperty<IPieceView> HoverPiece => _hoverPiece;
         public IReadOnlyReactiveProperty<int> Width => Agent.Width;
         public IReadOnlyReactiveProperty<int> Height => Agent.Height;
+
+        private int _squareBitMask;
+        private List<SquareView> _squares;
+        private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
+        private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
+        private readonly ReactiveProperty<IPieceView> _hoverPiece = new ReactiveProperty<IPieceView>();
+        private readonly ReactiveCollection<IPieceView> _pieces = new ReactiveCollection<IPieceView>();
 
         public override bool IsValid
         {
@@ -96,6 +101,7 @@ namespace App.View.Impl1
             CreateBoard();
 
             var board = agent as IBoardAgent;
+            Assert.IsNotNull(board);
             board.Pieces.ObserveAdd().Subscribe(PieceAdded);
             board.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
@@ -193,6 +199,7 @@ namespace App.View.Impl1
                     square.Color = white ? EColor.White : EColor.Black;
                     _squares.Add(square);
                 }
+
                 ++c;
             }
         }
@@ -222,8 +229,7 @@ namespace App.View.Impl1
         public ISquareView TestRayCast(Vector3 screen)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _squareBitMask))
+            if (Physics.Raycast(ray.origin, ray.direction, out var hit, Mathf.Infinity, _squareBitMask))
             {
                 var square = hit.transform.gameObject.GetComponent<SquareView>();
                 if (square != null)
@@ -242,12 +248,5 @@ namespace App.View.Impl1
             base.Step();
             TestRayCast(Input.mousePosition);
         }
-
-        private int _squareBitMask;
-        private List<SquareView> _squares;
-        private readonly ReactiveProperty<ISquareView> _hoveredSquare = new ReactiveProperty<ISquareView>();
-        private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
-        private readonly ReactiveProperty<IPieceView> _hoverPiece = new ReactiveProperty<IPieceView>();
-        private readonly ReactiveCollection<IPieceView> _pieces = new ReactiveCollection<IPieceView>();
     }
 }

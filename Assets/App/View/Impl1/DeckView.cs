@@ -1,14 +1,18 @@
-﻿using Dekuple;
+﻿using UnityEngine;
+
+using Dekuple;
 using Dekuple.Agent;
 using Dekuple.View;
 using Dekuple.View.Impl;
-using UnityEngine;
 
 namespace App.View.Impl1
 {
     using Agent;
     using Common;
 
+    /// <summary>
+    /// View of the deck if a given player
+    /// </summary>
     public class DeckView
         : ViewBase<IDeckAgent>
         , IDeckView

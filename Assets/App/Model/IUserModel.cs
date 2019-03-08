@@ -3,6 +3,7 @@ using Dekuple.Model;
 
 namespace App.Model
 {
+    /// <inheritdoc />
     /// <summary>
     /// A Persistent user.
     /// </summary>

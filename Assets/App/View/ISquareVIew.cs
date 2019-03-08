@@ -4,6 +4,10 @@ namespace App.View
 {
     using Common;
 
+    /// <inheritdoc />
+    /// <summary>
+    /// View of a square on the board
+    /// </summary>
     public interface ISquareView
         : IViewBase
     {

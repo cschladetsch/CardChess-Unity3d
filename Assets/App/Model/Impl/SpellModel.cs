@@ -5,6 +5,7 @@ namespace App.Model
     using Common;
     using Common.Message;
 
+    /// <inheritdoc cref="ISpellModel" />
     /// <summary>
     /// A spell that can be cast by a player on a coordinate, a piece, an area, or the other player.
     /// </summary>

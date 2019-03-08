@@ -1,10 +1,10 @@
-﻿
-using Dekuple;
+﻿using Dekuple;
 
 namespace App.Model
 {
     using Common.Message;
 
+    /// <inheritdoc cref="CardModel" />
     /// <summary>
     /// An Item that can be placed on a Piece on the Board.
     /// </summary>

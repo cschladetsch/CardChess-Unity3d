@@ -30,33 +30,19 @@ namespace App.Model.Impl
         {
             base.PrepareModels();
 
-            Info($"{_arbiter} {_arbiter.LastResponse} {PlayerModel}");
-            Info($"{Owner} {Owner.GetType()}");
-            Info($"{PlayerModel}");
-
             _arbiter.LastResponse.CombineLatest(PlayerModel.Mana, (p, m) =>
             {
                 if (_arbiter.CurrentPlayer.Value != PlayerModel)
                     return false;
                 var canPlace = PlayerModel.Hand.Cards.Any(c => c.ManaCost.Value <= m);
                 var canMove = m > 1 && _board.Pieces.Where(SameOwner).Any(_board.CanMoveOrAttack);
-                //Info($"*** CanMove={canMove}, canPlace={canPlace}, mana={m}, {PlayerModel}: hasOptions={_playerHasOptions.Value}");
+                Verbose(50, $"*** CanMove={canMove}, canPlace={canPlace}, mana={m}, {PlayerModel}: hasOptions={_playerHasOptions.Value}");
                 return canPlace || canMove;
             })
             .Subscribe(h => _playerHasOptions.Value = h)
             ;
 
             _arbiter.CurrentPlayer.Subscribe(p => _isInteractive.Value = p == PlayerModel);
-
-            //    .
-            //.LastResponse.Subscribe(resp =>
-            //{
-            //    var mana = PlayerModel.Mana.Value;
-            //    var canPlace = PlayerModel.Hand.Cards.Any(c => c.ManaCost.Value <= mana);
-            //    var canMove = mana > 1 && _board.Pieces.Where(SameOwner).Any(_board.CanMoveOrAttack);
-            //    _playerHasOptions.Value = canPlace || canMove;
-            //    Info($"CanMove={canMove}, canPlace={canPlace}, mana={mana}, {PlayerModel}: hasOptions={_playerHasOptions.Value}");
-            //});//.AddTo(this); why does this remove the subscription?>??
         }
     }
 }

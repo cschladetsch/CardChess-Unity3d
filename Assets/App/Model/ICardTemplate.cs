@@ -5,6 +5,7 @@ namespace App.Model
 {
     using Common;
 
+    /// <inheritdoc />
     /// <summary>
     /// An immutable card template. Used to make other cards at runtime.
     /// </summary>

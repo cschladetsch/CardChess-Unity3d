@@ -9,6 +9,7 @@ namespace App.Model
     using Common;
     using Common.Message;
 
+    /// <inheritdoc cref="IModel" />
     /// <summary>
     /// The NxM playing board. Typically 6x6, 10x10, or 12x12
     /// </summary>

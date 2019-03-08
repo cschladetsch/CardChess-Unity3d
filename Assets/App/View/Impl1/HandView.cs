@@ -1,17 +1,15 @@
-﻿using App.Service;
-using UnityEngine;
+﻿using UnityEngine;
 
 using UniRx;
 using CoLib;
+
 using Dekuple;
 using Dekuple.View;
 using Dekuple.View.Impl;
-using UnityEngine.Playables;
 
 namespace App.View.Impl1
 {
     using Agent;
-    using Common;
 
     /// <summary>
     /// View of a player's hand in the scene.
@@ -26,11 +24,14 @@ namespace App.View.Impl1
         public BoardOverlayView BoardOverlay;
         public AudioClip MouseOverClip;
 
+        private float _lastClipPlayed;
+        private float _minTimeBetweenClips = 0.3f;
+        private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
+
         public override bool IsValid
         {
             get
             {
-                //Assert.IsNotNull(_pieceFactory);
                 Assert.IsNotNull(CardsRoot);
                 Assert.IsNotNull(CardViewPrefab);
                 Assert.IsNotNull(BoardOverlay);
@@ -46,7 +47,6 @@ namespace App.View.Impl1
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
-            //Verbosity = 10;
             Clear();
             BindHand(handAgent);
             Redraw();
@@ -74,7 +74,6 @@ namespace App.View.Impl1
 
         private ICardView CreateViewFromAgent(ICardAgent agent)
         {
-            //var prefab = _pieceFactory.GetCardPrefab(agent.Model.PieceType);
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
             cardView.SetAgent(OwnerView, agent);
@@ -86,10 +85,7 @@ namespace App.View.Impl1
             return cardView;
         }
 
-        float _lastClipPlayed;
-        private float _minTimeBetweenClips = 0.3f;
-
-        void CardMouseOver(ICardView card)
+        private void CardMouseOver(ICardView card)
         {
             if (card == null)
                 return;
@@ -126,7 +122,7 @@ namespace App.View.Impl1
             Assert.IsTrue(IsValid);
         }
 
-        void Redraw()
+        private void Redraw()
         {
             _Queue.RunToEnd();
 
@@ -138,9 +134,6 @@ namespace App.View.Impl1
                 _Queue.Enqueue(Commands.MoveTo(card.GameObject, n * Offset, 0.1, Ease.Smooth(), true));
                 ++n;
             }
-            //_Queue.Enqueue(Commands.ForEachParallel(moves));
         }
-
-        private readonly ReactiveCollection<ICardView> _cards = new ReactiveCollection<ICardView>();
     }
 }

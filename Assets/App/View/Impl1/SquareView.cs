@@ -5,16 +5,17 @@ using Dekuple.View.Impl;
 
 namespace App.View.Impl1
 {
+    /// <inheritdoc cref="ISquareView" />
+    /// <summary>
+    /// View of a square on the play board
+    /// </summary>
     public class SquareView
         : ViewBase
         , ISquareView
     {
         public EColor Color { get; set; }
         public Coord Coord { get; internal set; }
-        //public IPieceView Piece { get; set; }
-
         public float Length;
-
         public override bool IsValid => true;
 
         public override int GetHashCode()

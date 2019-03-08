@@ -1,20 +1,18 @@
-﻿using App.Model;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+using UniRx;
 using CoLib;
+
 using Dekuple;
 using Dekuple.Agent;
 using Dekuple.View;
-using Dekuple.View.Impl;
-using UniRx;
 
 // Resharper doesn't know about Unity's stupid use of reflection
 // ReSharper disable UnusedMember.Local
 
 namespace App.View.Impl1
 {
-    using Agent;
     using Common;
 
     public abstract class Draggable<TIAgent>
@@ -25,15 +23,6 @@ namespace App.View.Impl1
         public AudioClip ReturnToStartClip;
         public IReadOnlyReactiveProperty<IViewBase> MouseOver => _mouseOver;
         public IReadOnlyReactiveProperty<ISquareView> SquareOver => _squareOverFiltered;
-
-        //[Inject] public IBoardView BoardView;
-        //[Inject] public IPlayerView PlayerView;
-
-        //public IPlayerModel PlayerModel => PlayerView.Agent.Model;
-
-        protected abstract bool MouseDown();
-        protected abstract void MouseHover();
-        protected abstract void MouseUp(IBoardView board, Coord coord);
 
         private bool _dragging;
         private Vector3 _offset;
@@ -47,6 +36,14 @@ namespace App.View.Impl1
         private readonly ReactiveProperty<ISquareView> _squareOver = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<ISquareView> _squareOverFiltered = new ReactiveProperty<ISquareView>();
 
+        private float _lastPickTime;
+        private float _minPickDifference = 0.3f;
+        private float _oldZ;
+
+        protected abstract bool MouseDown();
+        protected abstract void MouseHover();
+        protected abstract void MouseUp(IBoardView board, Coord coord);
+
         public override void Create()
         {
             base.Create();
@@ -58,8 +55,6 @@ namespace App.View.Impl1
             _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
         }
 
-        private float _lastPickTime;
-        private float _minPickDifference = 0.3f;
         private void OnMouseEnter()
         {
             if (Time.time - _lastPickTime < _minPickDifference)
@@ -74,8 +69,6 @@ namespace App.View.Impl1
             if (ScaleTo(1.0f))
                 _mouseOver.Value = null;
         }
-
-        private float _oldZ;
 
         private bool ScaleTo(float scale)
         {
@@ -105,7 +98,6 @@ namespace App.View.Impl1
 
         private void OnMouseDown()
         {
-            //_startLocation = transform.position;
             _startLocation = transform.localPosition;
             if (!MouseDown())
                 return;

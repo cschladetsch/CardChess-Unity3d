@@ -5,6 +5,7 @@ namespace App.Model
 {
 	using Common;
 
+    /// <inheritdoc />
     /// <summary>
     /// Common for all models that are owned by a Player.
     /// </summary>

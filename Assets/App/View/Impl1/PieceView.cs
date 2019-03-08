@@ -5,7 +5,6 @@ using CoLib;
 using Dekuple;
 using Dekuple.Agent;
 using Dekuple.View;
-using Dekuple.View.Impl;
 using UniRx;
 
 namespace App.View.Impl1
@@ -149,25 +148,23 @@ namespace App.View.Impl1
 
         private void Response(IResponse response)
         {
-            Info($"PieceView Response: {response}");
+            Verbose(3, $"PieceView Response: {response}");
             if (response.Failed)
             {
                 _AudioSource.PlayOneShot(CancelClip);
                 ReturnToStart();
                 return;
             }
-            var battle = response.Request as Battle;
-            if (battle != null)
-            {
-                _AudioSource.PlayOneShot(HitClip);
-                ReturnToStart();
-                return;
-            }
 
-            var move = response.Request as MovePiece;
-            if (move != null)
+            switch (response.Request)
             {
-                BoardView.MovePiece(this, Coord.Value);
+                case Battle battle:
+                    _AudioSource.PlayOneShot(HitClip);
+                    ReturnToStart();
+                    return;
+                case MovePiece move:
+                    BoardView.MovePiece(this, Coord.Value);
+                    break;
             }
         }
     }

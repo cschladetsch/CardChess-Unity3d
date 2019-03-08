@@ -22,7 +22,6 @@ namespace App.View.Impl1
 
     public class GameViewBase<TAgent>
         : GameViewBase
-        , IGameViewBase
     {
         public TAgent Agent { get; set; }
     }

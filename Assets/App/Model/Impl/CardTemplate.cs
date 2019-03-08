@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+
 using Dekuple.Model;
 
 namespace App.Model
@@ -43,6 +44,11 @@ namespace App.Model
             FlavourText = flavourText;
         }
 
+        /// <summary>
+        /// Make a new card from this template, owned by the given player
+        /// </summary>
+        /// <param name="player">The owner of new created card</param>
+        /// <returns>A new card from this template</returns>
         public ICardModel New(IPlayerModel player)
         {
             return Registry.New<ICardModel>(this, player);
