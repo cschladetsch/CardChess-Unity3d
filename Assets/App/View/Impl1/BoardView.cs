@@ -95,6 +95,7 @@ namespace App.View.Impl1
         //public override void SetAgent(IViewBase view, IBoardAgent agent)
         public override void SetAgent(IViewBase view, IAgent agent)
         {
+            // NOTE: agents can have no view
             Assert.IsNotNull(agent);
             base.SetAgent(view, agent);
             Clear();

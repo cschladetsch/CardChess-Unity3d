@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
+﻿//using NUnit.Framework;
 
-namespace Dekuple.Tests.Runtime
-{
-    [TestFixture]
-    public class TestRuntime
-    {
+//namespace Dekuple.Tests.Runtime
+//{
+//    [TestFixture]
+//    public class TestRuntime
+//    {
         
-    }
-}
+//    }
+//}

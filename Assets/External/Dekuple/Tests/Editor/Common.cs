@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dekuple.Tests.Editor
 {
-    class Common_
+    internal class Common_
     {
     }
 }

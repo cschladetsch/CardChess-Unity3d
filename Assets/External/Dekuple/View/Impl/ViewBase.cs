@@ -66,6 +66,7 @@ namespace Dekuple.View.Impl
 
         public virtual void SetAgent(IViewBase player, IAgent agent)
         {
+            Info($"ViewBase.SetAgent: {player}, {agent}");
             OwnerView = player;
             Assert.IsNotNull(agent);
             AgentBase = agent;

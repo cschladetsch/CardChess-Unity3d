@@ -1,4 +1,5 @@
-﻿using Dekuple.Agent;
+﻿using App.Agent.Impl;
+using Dekuple.Agent;
 using NUnit.Framework;
 
 namespace App.Agent.Test
@@ -37,6 +38,7 @@ namespace App.Agent.Test
             _agency.Bind<IPieceAgent, PieceAgent>();
             _agency.Bind<IWhitePlayerAgent, TWhite>();
             _agency.Bind<IBlackPlayerAgent, TBlack>();
+            _agency.Bind<IEndTurnButtonAgent, EndTurnButtonAgent>();
             _agency.Resolve();
 
             _boardAgent = _agency.New<IBoardAgent>();

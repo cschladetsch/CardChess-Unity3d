@@ -1,12 +1,13 @@
 ﻿using App.Model;
 using Dekuple;
+using Dekuple.Agent;
 using Dekuple.View.Impl;
 
 namespace App.View.Impl1
 {
     public class GameViewBase
         : ViewBase
-            , IGameViewBase
+        , IGameViewBase
     {
         public IPlayerView PlayerView { get; set; }
         public IPlayerModel PlayerModel => Owner.Value as IPlayerModel;
@@ -22,7 +23,15 @@ namespace App.View.Impl1
 
     public class GameViewBase<TAgent>
         : GameViewBase
+        where
+            TAgent 
+            : class
+            , IAgent
     {
-        public TAgent Agent { get; set; }
+        public TAgent Agent
+        {
+            get => AgentBase as TAgent;
+            set => AgentBase = value;
+        }
     }
 }
