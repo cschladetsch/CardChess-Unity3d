@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Dekuple.Registry
 {
@@ -359,7 +360,7 @@ namespace Dekuple.Registry
                 return null;
             }
 
-            Error($"No mathching Ctor or 'Construct' method for {ty} with args '{ToArgTypeList(args)}'");
+            Error($"No matching Ctor or 'Construct' method for {ty} with args '{ToArgTypeList(args)}'");
             return null;
         }
 
@@ -380,8 +381,11 @@ namespace Dekuple.Registry
                     continue;
                 }
 
-                if (!param.IsInstanceOfType(args[n]))
+                if (!param.IsAssignableFrom(args[n].GetType()))
+                {
+                    Debug.Log($"Cannot assign {args[n]} to {param}");
                     break;
+                }
 
                 ++n;
             }

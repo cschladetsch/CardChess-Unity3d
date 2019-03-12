@@ -1,5 +1,6 @@
 ﻿using App.Model;
 using Dekuple;
+using Dekuple.Agent;
 using Dekuple.View.Impl;
 
 namespace App.View.Impl1
@@ -22,7 +23,10 @@ namespace App.View.Impl1
 
     public class GameViewBase<TAgent>
         : GameViewBase
+        where TAgent
+            : class
+            , IAgent
     {
-        public TAgent Agent { get; set; }
+        public TAgent Agent => AgentBase as TAgent;
     }
 }
