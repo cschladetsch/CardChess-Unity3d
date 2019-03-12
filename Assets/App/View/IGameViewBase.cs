@@ -10,7 +10,7 @@ namespace App.View
     public interface IGameViewBase
         : IViewBase
     {
-        IPlayerView PlayerView { get; set; }
+        IPlayerView PlayerView { get; }
         IPlayerModel PlayerModel { get; }
         IArbiterView ArbiterView { get; set; }
         IBoardView BoardView { get; set; }

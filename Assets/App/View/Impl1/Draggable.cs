@@ -139,6 +139,8 @@ namespace App.View.Impl1
                 return;
             }
 
+            Assert.IsNotNull(PlayerView);
+            Assert.IsNotNull(Agent);
             Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
             var coord = SquareOver.Value.Coord;
             MouseUp(BoardView, coord);
