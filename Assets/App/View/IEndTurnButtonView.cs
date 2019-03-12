@@ -6,6 +6,6 @@ namespace App.View
     public interface IEndTurnButtonView
         : IView<IEndTurnButtonAgent>
     {
-        void SetAgent(IViewBase player, IEndTurnButtonAgent agent);
+        //void SetAgent(IViewBase player, IEndTurnButtonAgent agent);
     }
 }

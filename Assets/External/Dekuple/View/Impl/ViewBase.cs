@@ -173,9 +173,9 @@ namespace Dekuple.View.Impl
         // Unsure if this is a bug in C# or intended behavior.
         //
         // !!NOTE!! Update 2019 with .Net 4.7 - this seems to've been fixed?
-        public virtual void SetAgent(IViewBase player, TIAgent agent)
-        {
-            base.SetAgent(player, agent);
-        }
+        //public virtual void SetAgent(IViewBase player, TIAgent agent)
+        //{
+        //    base.SetAgent(player, agent);
+        //}
     }
 }

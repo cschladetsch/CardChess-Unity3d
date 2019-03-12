@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using Dekuple.Agent;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -20,7 +21,7 @@ namespace App.View.Impl1
         public Transform Root;
         public Vector2 Offset;
 
-        public override void SetAgent(IViewBase view, IPlayerAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             Assert.IsNotNull(agent);
             Assert.IsNotNull(ManaElementPrefab);

@@ -4,6 +4,7 @@ using UniRx;
 using CoLib;
 
 using Dekuple;
+using Dekuple.Agent;
 using Dekuple.View;
 using Dekuple.View.Impl;
 
@@ -41,8 +42,10 @@ namespace App.View.Impl1
             }
         }
 
-        public override void SetAgent(IViewBase playerView, IHandAgent handAgent)
+        public override void SetAgent(IViewBase playerView, IAgent agent)
         {
+            var handAgent = agent as IHandAgent;
+            Assert.IsNotNull(handAgent);
             base.SetAgent(playerView, handAgent);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);

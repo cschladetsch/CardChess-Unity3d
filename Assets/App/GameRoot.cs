@@ -250,7 +250,7 @@ namespace App
                 if (!valid)
                 {
                     // test again so we can see what exactly is invalid in the debugger
-                    Warn($"NotValid: {n}th {entity}: {entity.GetType()}");
+                    Warn($"NotValid: {entity} #{n}: {entity.GetType()}");
                     var secondTest = entity.IsValid;
                     Info($"{secondTest}");
                     var pr = entity as IPrintable;
