@@ -4,3 +4,6 @@
 [submodule "Assets/External/--branch"]
 	path = Assets/External/--branch
 	url = https://github.com/cschladetsch/Dekuple
+[submodule "Assets/External/Dekuple"]
+	path = Assets/External/Dekuple
+	url = https://github.com/cschladetsch/Dekuple
