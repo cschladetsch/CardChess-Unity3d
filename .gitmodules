@@ -1,3 +1,6 @@
 [submodule "Assets/External/Flow"]
 	path = Assets/External/Flow
 	url = https://github.com/cschladetsch/Flow
+[submodule "Assets/External/--branch"]
+	path = Assets/External/--branch
+	url = https://github.com/cschladetsch/Dekuple
