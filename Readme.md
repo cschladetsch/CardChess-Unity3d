@@ -1,5 +1,8 @@
 # Card Chess
 
+[![CodeFactor](https://www.codefactor.io/repository/github/cschladetsch/pyro/badge)](https://www.codefactor.io/repository/github/cschladetsch/pyro)
+[![License](https://img.shields.io/github/license/cschladetsch/pyro.svg?label=License&maxAge=86400)](./LICENSE.txt)
+
 A Unity3d game inspired by TCGs and Chess.
 
 Am taking the unusual option of using an architecture that largely ignores Unity.
