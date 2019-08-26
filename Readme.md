@@ -17,7 +17,7 @@ I am currently using **Unity3d 2018.1.4f1**. YMMV for earlier or later releases 
 
 This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). This is included as a Git submodule. To also clone this code into the repo for this game, use the following single commmand:
 
-```
+```bash
 # git clone --recursive https://github.com/cschladetsch/Chess2.git
 ```
 
@@ -25,7 +25,7 @@ By default, the repo installs into a folder called _Chess2_. This is a temporary
 
 Or, if you cloned the base repo first (or use a version of git older than 1.9), then you have to 'manually' update the _Flow_ library with:
 
-```
+```bash
 # git clone https://github.com/cschladetsch/Chess2.git
 # cd Chess2
 # git submodule update --init --recursive
@@ -43,7 +43,7 @@ If you get a bunch of errors about "namespace Flow" not named, etc, or problems 
 
 There are a number of ways to fix this. The easiest is to just:
 
-```
+```bash
 # cd $ROOT_DIR
 # git submodule update --init --recursive
 ```
