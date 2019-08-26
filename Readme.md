@@ -1,7 +1,7 @@
 # Card Chess
 [![Build status](https://ci.appveyor.com/api/projects/status/github/cschladetsch/cardchess?svg=true)](https://ci.appveyor.com/project/cschladetsch/cardchess)
 [![CodeFactor](https://www.codefactor.io/repository/github/cschladetsch/cardchess/badge)]
-[![License](https://img.shields.io/github/license/cschladetsch/cardchess.svg?label=License&maxAge=86400)](./LICENSE.txt)
+[![License](https://img.shields.io/github/license/cschladetsch/cardchess.svg?label=License&maxAge=86400)](./LICENSE)
 
 **The CI Build is failing because it is a Unity3d project, and the use of git-submodules. Keeping the badge as a reminder to everyone about these issues.**
 
