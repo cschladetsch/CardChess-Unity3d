@@ -1,7 +1,7 @@
 # Card Chess
 
-[![CodeFactor](https://www.codefactor.io/repository/github/cschladetsch/chess2/badge)](https://www.codefactor.io/repository/github/cschladetsch/chess2)
-[![License](https://img.shields.io/github/license/cschladetsch/chess2.svg?label=License&maxAge=86400)](./LICENSE.txt)
+[![CodeFactor](https://www.codefactor.io/repository/github/cschladetsch/cardchess/badge)]
+[![License](https://img.shields.io/github/license/cschladetsch/cardchess.svg?label=License&maxAge=86400)](./LICENSE.txt)
 
 A Unity3d game inspired by TCGs and Chess.
 
