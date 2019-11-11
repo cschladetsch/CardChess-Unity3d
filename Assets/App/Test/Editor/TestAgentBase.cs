@@ -1,4 +1,5 @@
-﻿using Dekuple.Agent;
+﻿/*
+ * using Dekuple.Agent;
 using NUnit.Framework;
 
 namespace App.Agent.Test
@@ -12,7 +13,6 @@ namespace App.Agent.Test
     ///
     /// Based on the common test base for models
     /// </summary>
-    [TestFixture]
     class TestAgentBase<TWhite, TBlack>
         : Model.Test.TestBaseModel
         where TBlack : IBlackPlayerAgent
@@ -62,3 +62,4 @@ namespace App.Agent.Test
         protected IArbiterAgent _arbiterAgent;
     }
 }
+*/
