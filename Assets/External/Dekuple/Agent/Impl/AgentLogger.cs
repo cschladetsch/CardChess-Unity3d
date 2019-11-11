@@ -1,4 +1,5 @@
 ﻿using Flow;
+using System;
 
 namespace Dekuple.Agent
 {
@@ -36,6 +37,45 @@ namespace Dekuple.Agent
                 return;
             Completed?.Invoke(this);
             Active = false;
+        }
+
+        public ITransient AddTo(IGroup group)
+        {
+            group.Add(this);
+            return this;
+        }
+
+        public ITransient Then(Action action)
+            => Then(Factory.Do(action).AddTo(Kernel.Root));
+
+        public ITransient Then(Action<ITransient> action)
+            => Then(Factory.Do(() => action(this)).AddTo(Kernel.Root));
+
+        public ITransient Then(IGenerator next)
+        {
+            if (next == null)
+            {
+                Warn("Cannot do nothing next.");
+                return this;
+            }
+
+            if (!Active)
+            {
+                next.Resume();
+                return this;
+            }
+
+            next.Suspend();
+
+            void OnCompleted(ITransient self)
+            {
+                Completed -= OnCompleted;
+                next.Resume();
+            }
+
+            Completed += OnCompleted;
+
+            return this;
         }
 
         public void Info(string fmt, params object[] args)

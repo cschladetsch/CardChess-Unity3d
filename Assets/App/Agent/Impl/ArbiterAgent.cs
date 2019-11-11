@@ -116,12 +116,12 @@ namespace App
                 var future = CurrentPlayerAgent.Value.NextRequest(_timeOut);
                 Assert.IsNotNull(future);
 
-                yield return self.After(future);
+                yield return self.ResumeAfter(future);
 
                 if (future.HasTimedOut)
                 {
                     Warn($"{CurrentPlayerModel} timed-out");
-                    yield return self.After(New.Coroutine(PlayerTimedOut));
+                    yield return self.ResumeAfter(New.Coroutine(PlayerTimedOut));
                     continue;
                 }
                 if (!future.Available)
@@ -185,7 +185,8 @@ namespace App
             IEnumerable<IFuture<T>> futures,
             Action<IFuture<T>> act)
         {
-            return New.TimedBarrier(timeOut, futures).ForEach(act);
+            throw new NotImplementedException();
+            //return New.TimedBarrier(timeOut, futures).ForEach(act);
         }
     }
 }
