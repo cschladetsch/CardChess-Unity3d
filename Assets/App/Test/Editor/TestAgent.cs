@@ -82,6 +82,8 @@ namespace App.Agent.Test
             _agency.Bind<IDeckAgent, DeckAgent>();
             _agency.Bind<IHandAgent, HandAgent>();
             _agency.Bind<IPieceAgent, PieceAgent>();
+            _agency.Bind<IEndTurnButtonAgent, Impl.EndTurnButtonAgent>();
+
             _agency.Bind<IWhitePlayerAgent, MockWhitePlayerAgent>();
             _agency.Bind<IBlackPlayerAgent, MockBlackPlayerAgent>();
             _agency.Resolve();
