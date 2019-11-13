@@ -5,6 +5,7 @@ obj/
 bin/
 .DS_Store
 .vs/
+.current
 
 # Unified line endings plugin for VS
 .leu
