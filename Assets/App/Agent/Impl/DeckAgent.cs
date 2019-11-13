@@ -45,7 +45,7 @@ namespace App.Agent
             while (n-- > 0)
             {
                 var card = Draw();
-                yield return self.After(card);
+                yield return self.ResumeAfter(card);
                 if (!card.Available)
                     yield break;
                 channel.Insert(card.Value);
