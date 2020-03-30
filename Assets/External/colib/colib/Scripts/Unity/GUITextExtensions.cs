@@ -3,14 +3,16 @@ using System;
 
 #pragma warning disable CS0618 
 
+using UnityEngine.UI;
+
 namespace CoLib
 {
 
-public static class GUITextExtensions 
+public static class TextExtensions 
 {
 	#region Extension methods
 
-	public static Ref<Color> ToColorRef(this GUIText text)
+	public static Ref<Color> ToColorRef(this Text text)
 	{
 		CheckTextNonNull(text);
 		return new Ref<Color>(
@@ -18,7 +20,7 @@ public static class GUITextExtensions
 			t => text.color = t
 		);
 	}
-		public static Ref<float> ToRedRef(this GUIText text)
+		public static Ref<float> ToRedRef(this Text text)
 	{
 		CheckTextNonNull(text);
 
@@ -32,7 +34,7 @@ public static class GUITextExtensions
 		);
 	}
 
-	public static Ref<float> ToGreenRef(this GUIText text)
+	public static Ref<float> ToGreenRef(this Text text)
 	{
 		CheckTextNonNull(text);
 
@@ -46,7 +48,7 @@ public static class GUITextExtensions
 		);
 	}
 
-	public static Ref<float> ToBlueRef(this GUIText text)
+	public static Ref<float> ToBlueRef(this Text text)
 	{
 		CheckTextNonNull(text);
 
@@ -60,7 +62,7 @@ public static class GUITextExtensions
 		);
 	}
 
-	public static Ref<float> ToAlphaRef(this GUIText text)
+	public static Ref<float> ToAlphaRef(this Text text)
 	{
 		CheckTextNonNull(text);
 
@@ -78,7 +80,7 @@ public static class GUITextExtensions
 
 	#region Private methods
 
-	private static void CheckTextNonNull(GUIText text)
+	private static void CheckTextNonNull(Text text)
 	{
 		if (text == null) {
 			throw new ArgumentNullException("text");

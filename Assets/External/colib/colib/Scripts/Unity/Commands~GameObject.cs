@@ -3,6 +3,8 @@ using System.Collections;
 
 #pragma warning disable CS0618 
 
+using UnityEngine.UI;
+	
 namespace CoLib
 {
 
@@ -309,14 +311,14 @@ public static partial class Commands
 		return TintTo(renderer.ToColorRef(), endColour, duration, ease);
 	}
 		
-	public static CommandDelegate TintTo(GUITexture texture, Color endColour, double duration, CommandEase ease = null)
+	public static CommandDelegate TintTo(Image texture, Color endColour, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return TintTo(texture.ToColorRef(), endColour, duration, ease);
 	}
 
-	public static CommandDelegate TintTo(GUIText text, Color endColour, double duration, CommandEase ease = null)
+	public static CommandDelegate TintTo(Text text, Color endColour, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 
@@ -354,14 +356,14 @@ public static partial class Commands
 		return TintBy(renderer.ToColorRef(), offset, duration, ease);
 	}
 		
-	public static CommandDelegate TintBy(GUITexture texture, Color offset, double duration, CommandEase ease = null)
+	public static CommandDelegate TintBy(Image texture, Color offset, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return TintBy(texture.ToColorRef(), offset, duration, ease);
 	}
 
-	public static CommandDelegate TintBy(GUIText text, Color offset, double duration, CommandEase ease = null)
+	public static CommandDelegate TintBy(Text text, Color offset, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 
@@ -400,14 +402,14 @@ public static partial class Commands
 		return TintFrom(renderer.ToColorRef(), startColour, duration, ease);
 	}
 		
-	public static CommandDelegate TintFrom(GUITexture texture, Color startColour, double duration, CommandEase ease = null)
+	public static CommandDelegate TintFrom(Image texture, Color startColour, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return TintFrom(texture.ToColorRef(), startColour, duration, ease);
 	}
 
-	public static CommandDelegate TintFrom(GUIText text, Color startColour, double duration, CommandEase ease = null)
+	public static CommandDelegate TintFrom(Text text, Color startColour, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 
@@ -446,14 +448,14 @@ public static partial class Commands
 		return ChangeTo(renderer.ToAlphaRef(), endAlpha, duration, ease);
 	}
 		
-	public static CommandDelegate AlphaTo(GUITexture texture, float endAlpha, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaTo(Image texture, float endAlpha, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return ChangeTo(texture.ToAlphaRef(), endAlpha, duration, ease);
 	}
 
-	public static CommandDelegate AlphaTo(GUIText text, float endAlpha, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaTo(Text text, float endAlpha, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 
@@ -491,14 +493,14 @@ public static partial class Commands
 		return ChangeBy(renderer.ToAlphaRef(), offset, duration, ease);
 	}
 		
-	public static CommandDelegate AlphaBy(GUITexture texture, float offset, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaBy(Image texture, float offset, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return ChangeBy(texture.ToAlphaRef(), offset, duration, ease);
 	}
 
-	public static CommandDelegate AlphaBy(GUIText text, float offset, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaBy(Text text, float offset, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 
@@ -537,14 +539,14 @@ public static partial class Commands
 		return ChangeFrom(renderer.ToAlphaRef(), startAlpha, duration, ease);
 	}
 		
-	public static CommandDelegate AlphaFrom(GUITexture texture, float startAlpha, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaFrom(Image texture, float startAlpha, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return ChangeFrom(texture.ToAlphaRef(), startAlpha, duration, ease);
 	}
 	
-	public static CommandDelegate AlphaFrom(GUIText text, float startAlpha, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaFrom(Text text, float startAlpha, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 
@@ -583,14 +585,14 @@ public static partial class Commands
 		return ChangeFromOffset(renderer.ToAlphaRef(), offset, duration, ease);
 	}
 		
-	public static CommandDelegate AlphaFromOffset(GUITexture texture, float offset, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaFromOffset(Image texture, float offset, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(texture, "texture");
 
 		return ChangeFromOffset(texture.ToAlphaRef(), offset, duration, ease);
 	}
 	
-	public static CommandDelegate AlphaFromOffset(GUIText text, float offset, double duration, CommandEase ease = null)
+	public static CommandDelegate AlphaFromOffset(Text text, float offset, double duration, CommandEase ease = null)
 	{
 		CheckArgumentNonNull(text, "text");
 

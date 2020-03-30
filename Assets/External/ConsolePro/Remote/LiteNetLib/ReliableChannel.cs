@@ -1,4 +1,4 @@
-#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
+#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -302,7 +302,7 @@ namespace FlyingWormConsole3.LiteNetLib
             Monitor.Enter(_outgoingAcks);
             if (relate >= _windowSize)
             {
-                //NewCardModel window position
+                //New window position
                 int newWindowStart = (_remoteWindowStart + relate - _windowSize + 1) % NetConstants.MaxSequence;
 
                 //Clean old data

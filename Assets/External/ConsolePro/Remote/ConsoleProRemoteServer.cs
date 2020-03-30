@@ -5,13 +5,19 @@
 	#define USECONSOLEPROREMOTESERVER
 #endif
 
-#if (UNITY_WP_8_1 || UNITY_WSA_8_1)
+#if (UNITY_WP_8_1 || UNITY_WSA)
 	#define UNSUPPORTEDCONSOLEPROREMOTESERVER
 #endif
 
-using UnityEngine;
+#if UNITY_EDITOR && !USECONSOLEPROREMOTESERVER
+#elif UNSUPPORTEDCONSOLEPROREMOTESERVER
+#elif !USECONSOLEPROREMOTESERVER
+#else
 using System;
 using System.Collections.Generic;
+#endif
+
+using UnityEngine;
 
 #if USECONSOLEPROREMOTESERVER
 using FlyingWormConsole3.LiteNetLib;
@@ -50,7 +56,6 @@ public class ConsoleProRemoteServer : MonoBehaviour
 	private NetManager _netServer;
 	private NetPeer _ourPeer;
 	private NetDataWriter _dataWriter;
-	private NetSerializer _serializer;
 
 	[System.SerializableAttribute]
 	public class QueuedLog
@@ -86,7 +91,6 @@ public class ConsoleProRemoteServer : MonoBehaviour
 		_netServer.UpdateTime = 15;
 		_netServer.MergeEnabled = true;
 		_netServer.NatPunchEnabled = useNATPunch;
-		_serializer = new NetSerializer();
 	}
 
 	void OnDestroy()
