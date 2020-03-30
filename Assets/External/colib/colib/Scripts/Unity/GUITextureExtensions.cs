@@ -3,14 +3,16 @@ using System;
 
 #pragma warning disable CS0618 
 
+using UnityEngine.UI;
+
 namespace CoLib
 {
 
-public static class GUITextureExtensions 
+public static class ImageExtensions 
 {
 	#region Extension methods
 
-	public static Ref<Color> ToColorRef(this GUITexture texture)
+	public static Ref<Color> ToColorRef(this Image texture)
 	{
 		CheckTextureNonNull(texture);
 		return new Ref<Color>(
@@ -19,7 +21,7 @@ public static class GUITextureExtensions
 		);
 	}
 
-	public static Ref<float> ToRedRef(this GUITexture texture)
+	public static Ref<float> ToRedRef(this Image texture)
 	{
 		CheckTextureNonNull(texture);
 
@@ -33,7 +35,7 @@ public static class GUITextureExtensions
 		);
 	}
 
-	public static Ref<float> ToGreenRef(this GUITexture texture)
+	public static Ref<float> ToGreenRef(this Image texture)
 	{
 		CheckTextureNonNull(texture);
 
@@ -47,7 +49,7 @@ public static class GUITextureExtensions
 		);
 	}
 
-	public static Ref<float> ToBlueRef(this GUITexture texture)
+	public static Ref<float> ToBlueRef(this Image texture)
 	{
 		CheckTextureNonNull(texture);
 
@@ -61,7 +63,7 @@ public static class GUITextureExtensions
 		);
 	}
 
-	public static Ref<float> ToAlphaRef(this GUITexture texture)
+	public static Ref<float> ToAlphaRef(this Image texture)
 	{
 		CheckTextureNonNull(texture);
 
@@ -79,7 +81,7 @@ public static class GUITextureExtensions
 
 	#region Private methods
 
-	private static void CheckTextureNonNull(GUITexture texture)
+	private static void CheckTextureNonNull(Image texture)
 	{
 		if (texture == null) {
 			throw new ArgumentNullException("texture");
