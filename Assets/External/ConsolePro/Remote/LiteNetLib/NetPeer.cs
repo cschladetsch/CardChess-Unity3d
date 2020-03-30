@@ -1,4 +1,4 @@
-#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
+#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -465,7 +465,7 @@ namespace FlyingWormConsole3.LiteNetLib
                 int firstFragmentSize = fragments[0].Size - dataOffset;
                 for (int i = 0; i < incomingFragments.ReceivedCount; i++)
                 {
-                    //Construct resulting big packet
+                    //Create resulting big packet
                     int fragmentSize = fragments[i].Size - dataOffset;
                     Buffer.BlockCopy(
                         fragments[i].RawData,

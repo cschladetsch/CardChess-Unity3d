@@ -1,4 +1,4 @@
-#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
+#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA
 using System;
 using System.Collections.Generic;
 using FlyingWormConsole3.LiteNetLib.Utils;

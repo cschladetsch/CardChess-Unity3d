@@ -1,4 +1,4 @@
-#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
+#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA
 #if !WINRT || UNITY_EDITOR
 using System;
 using System.Net;
@@ -173,7 +173,7 @@ namespace FlyingWormConsole3.LiteNetLib
             foreach (var endpointPair in task.Result)
             {
                 hostIp = endpointPair.RemoteHostName.CanonicalName;
-                if (endpointPair.RemoteHostName.LoggingType == HostNameType.Ipv4)
+                if (endpointPair.RemoteHostName.Type == HostNameType.Ipv4)
                 {
                     return ParseIpToId(hostIp);
                 }

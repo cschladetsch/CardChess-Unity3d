@@ -1,4 +1,4 @@
-#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA_8_1
+#if DEBUG && !UNITY_WP_8_1 && !UNITY_WSA
 using FlyingWormConsole3.LiteNetLib.Utils;
 
 namespace FlyingWormConsole3.LiteNetLib
@@ -30,7 +30,7 @@ namespace FlyingWormConsole3.LiteNetLib
     public interface INetEventListener
     {
         /// <summary>
-        /// NewCardModel remote peer connected to host, or client connected to remote host
+        /// New remote peer connected to host, or client connected to remote host
         /// </summary>
         /// <param name="peer">Connected peer object</param>
         void OnPeerConnected(NetPeer peer);

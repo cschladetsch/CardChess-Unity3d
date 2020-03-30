@@ -96,12 +96,13 @@ namespace App.View.Impl1
         public override void SetAgent(IViewBase view, IAgent agent)
         {
             Assert.IsNotNull(agent);
+            var board = agent as IBoardAgent;
+            Assert.IsNotNull(board);
             base.SetAgent(view, agent);
+            Agent = agent as IBoardAgent;
             Clear();
             CreateBoard();
 
-            var board = agent as IBoardAgent;
-            Assert.IsNotNull(board);
             board.Pieces.ObserveAdd().Subscribe(PieceAdded);
             board.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
