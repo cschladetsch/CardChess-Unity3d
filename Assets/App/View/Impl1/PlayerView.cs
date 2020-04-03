@@ -24,8 +24,8 @@ namespace App.View.Impl1
         public DeckView Deck;
         public EndTurnButtonView EndTurnButton;
 
-        //public override void SetAgent(IPlayerView view, IPlayerAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public void SetAgent(IPlayerView view, IPlayerAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
         {
             Assert.IsNotNull(agent);
             var player = agent as IPlayerAgent;

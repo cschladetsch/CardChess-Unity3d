@@ -38,8 +38,8 @@ namespace App.View.Impl1
 
         private GameRoot _gameRoot;
 
-        //public override void SetAgent(IPlayerView view, IArbiterAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public void SetAgent(IPlayerView view, IArbiterAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
         {
             base.SetAgent(view, agent);
 
@@ -79,7 +79,7 @@ namespace App.View.Impl1
             var black = blackAgent.Model;
             WhiteEndButton.Bind(() => whiteAgent.PushRequest(new TurnEnd(white), TurnEnded));
             BlackEndButton.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
-
+            
             Agent.LastResponse.Subscribe(
                 (r) =>
                 {
