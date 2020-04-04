@@ -22,6 +22,6 @@ namespace App.View
         /// </summary>
         IReadOnlyReactiveProperty<bool> Dead { get; }
 
-        //void SetAgent(IPlayerView view, IPieceAgent agent);
+        void SetAgent(IViewBase view, IPieceAgent agent);
     }
 }

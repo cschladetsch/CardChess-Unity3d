@@ -53,10 +53,11 @@ namespace App.View.Impl1
             base.Begin();
         }
 
-        //public override void SetAgent(IPlayerView view, ICardAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public void SetAgent(IViewBase view, ICardAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
         {
             base.SetAgent(view, agent);
+            Agent = agent;
             _mana = FindTextChild("Mana");
             _health = FindTextChild("Health");
             _power = FindTextChild("Power");
@@ -66,22 +67,22 @@ namespace App.View.Impl1
                 Error("No Mana text child for {0}", this);
                 return;
             }
+            
             if (_health == null)
             {
                 Error("No Health text child for {0}", this);
                 return;
             }
+            
             if (_power == null)
             {
                 Error("No Power text child for {0}", this);
                 return;
             }
 
-
             base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
 
             var cardAgent = agent as ICardAgent;
-
             Assert.IsNotNull(cardAgent);
             cardAgent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
             cardAgent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);

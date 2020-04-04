@@ -32,6 +32,36 @@ namespace App.View.Impl1
         public IReactiveProperty<Coord> Coord => Agent.Coord;
         public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
 
+        public void SetAgent(IViewBase view, IPieceAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
+        {
+            base.SetAgent(view, agent);
+
+            Assert.IsNotNull(agent);
+            Agent = agent;
+            Assert.IsNotNull(Agent.Power);
+            Assert.IsNotNull(Agent.Health);
+            Assert.IsNotNull(Power);
+            Assert.IsNotNull(Health);
+
+            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+
+            var player = Owner.Value as IPlayerModel;
+            var color = player.Color;
+            FindPiece().GetComponent<Renderer>().material
+                = color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+
+            MouseOver.DistinctUntilChanged().Subscribe(
+                v =>
+                {
+                    //BoardView.ShowSquares(this);
+                }
+            );
+            Dead.Subscribe(d => { if (d) Die(); });
+        }
+
         public override bool IsValid
         {
             get
@@ -52,36 +82,6 @@ namespace App.View.Impl1
                 if (sq != null)
                     BoardView.ShowSquares(Agent.Model.Card, sq);
             }).AddTo(this);
-        }
-
-        //public override void SetAgent(IPlayerView view, IPieceAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
-        {
-            base.SetAgent(view, agent);
-
-            Assert.IsNotNull(agent);
-            var pieceAgent = agent as IPieceAgent;
-            Assert.IsNotNull(pieceAgent.Power);
-            Assert.IsNotNull(pieceAgent.Health);
-            Assert.IsNotNull(Power);
-            Assert.IsNotNull(Health);
-
-            pieceAgent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            pieceAgent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
-            //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
-
-            var player = Owner.Value as IPlayerModel;
-            var color = player.Color;
-            FindPiece().GetComponent<Renderer>().material
-                = color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
-
-            MouseOver.DistinctUntilChanged().Subscribe(
-                v =>
-                {
-                    //BoardView.ShowSquares(this);
-                }
-            );
-            Dead.Subscribe(d => { if (d) Die(); });
         }
 
         GameObject FindPiece()

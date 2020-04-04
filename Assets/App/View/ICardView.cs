@@ -13,6 +13,6 @@ namespace App.View
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
 
-        //void SetAgent(IPlayerView player, ICardAgent agent);
+        void SetAgent(IViewBase player, ICardAgent agent);
     }
 }

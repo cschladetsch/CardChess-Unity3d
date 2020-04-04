@@ -28,7 +28,8 @@ namespace App.View.Impl1
 
         private Ref<Vector3> _scale;
 
-        public override void SetAgent(IViewBase player, IAgent agent)
+        //public void SetAgent(IViewBase player, IAgent agent)
+        public override void SetAgent(IViewBase player, IEndTurnButtonAgent agent)
         {
             base.SetAgent(player, agent);
             Agent.Model.Interactive.Subscribe(SetInteractive);

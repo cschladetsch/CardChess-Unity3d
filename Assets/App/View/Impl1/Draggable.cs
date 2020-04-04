@@ -44,6 +44,12 @@ namespace App.View.Impl1
         protected abstract void MouseHover();
         protected abstract void MouseUp(IBoardView board, Coord coord);
 
+        public override void SetAgent(IViewBase player, IAgent agent)
+        {
+            base.SetAgent(player, agent);
+            PlayerView = player as IPlayerView;
+            Assert.IsNotNull(PlayerView);
+        }
         public override void Create()
         {
             base.Create();

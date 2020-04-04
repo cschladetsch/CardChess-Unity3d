@@ -122,6 +122,7 @@ namespace App.View.Impl1
             Assert.IsTrue(IsValid);
         }
 
+        [ContextMenu("Redraw")]
         private void Redraw()
         {
             _Queue.RunToEnd();
