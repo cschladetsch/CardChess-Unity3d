@@ -13,7 +13,6 @@
         : IModel
     {
         ICardModel Card { get; }
-        EPieceType PieceType { get; }
         EColor Color { get; }
         IReactiveProperty<Coord> Coord { get; }
         IReadOnlyReactiveProperty<int> Power { get; }
@@ -21,6 +20,7 @@
         IReadOnlyReactiveProperty<bool> Dead { get; }
         bool AttackedThisTurn { get; set; }
         bool MovedThisTurn { get; set; }
+        EPieceType PieceType { get; }
 
         IResponse Attack(IPieceModel piece);
         IResponse TakeDamage(IPieceModel piece);

@@ -8,21 +8,18 @@
     using Common.Message;
     using Agent;
 
-    /// <inheritdoc cref="Draggable{TIAgent}" />
+    /// <inheritdoc cref="ICardView" />
     /// <summary>
-    /// View of a card that is not on the board. This includes Hand, Deck, Graveyard.
-    /// A view of a card on the board is a PieceView.
+    /// View of a card that is <b>not</b> on the Board. This includes the Hand, Deck, Graveyard.
+    /// A view of a Card on the Board is a <see cref="IPieceView"/>.
     /// </summary>
     public class CardView
         : Draggable<ICardAgent>
         , ICardView
     {
-        public Transform ModelRoot;
-        public Transform Pivot;
         public TMPro.TextMeshProUGUI Mana;
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
-
         public AudioClip LeaveHandClip;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
@@ -38,7 +35,6 @@
             }
         }
 
-        // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
         public void SetAgent(IViewBase view, ICardAgent agent)
@@ -84,6 +80,7 @@
 
         protected override void MouseHover()
         {
+            // TODO: popup info
         }
 
         protected override void MouseUp(IBoardView board, Coord coord)
@@ -103,15 +100,8 @@
                 return;
             }
 
-            var place = response.Request as PlacePiece;
-            Assert.IsNotNull(place);
-            Verbose(20, $"Removing {Agent.Model} from {PlayerModel.Hand}");
+            Verbose(10, $"Removing {Agent.Model} from {PlayerModel.Hand}");
             PlayerModel.Hand.Remove(Agent.Model);
-        }
-
-        private TMPro.TextMeshProUGUI FindTextChild(string name)
-        {
-            return transform.FindChildNamed<TMPro.TextMeshProUGUI>(name);
         }
     }
 }

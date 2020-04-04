@@ -10,6 +10,7 @@
     using Agent;
     using Model;
 
+    /// <inheritdoc cref="IPieceView"/>
     /// <summary>
     /// View of a Piece on the Board in the scene.
     /// </summary>
@@ -23,7 +24,6 @@
         public AudioClip MoveClip;
         public AudioClip HitClip;
         public AudioClip HitBothClip;
-
         public IReactiveProperty<Coord> Coord => Agent.Coord;
 
         public override bool IsValid
@@ -39,36 +39,6 @@
 
         public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
 
-        public void SetAgent(IViewBase view, IPieceAgent agent)
-        //public override void SetAgent(IViewBase view, IAgent agent)
-        {
-            base.SetAgent(view, agent);
-
-            Assert.IsNotNull(agent);
-            Agent = agent;
-            Assert.IsNotNull(Agent.Power);
-            Assert.IsNotNull(Agent.Health);
-            Assert.IsNotNull(Power);
-            Assert.IsNotNull(Health);
-
-            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
-            //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
-
-            var player = Owner.Value as IPlayerModel;
-            var color = player.Color;
-            FindPiece().GetComponent<Renderer>().material
-                = color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
-
-            MouseOver.DistinctUntilChanged().Subscribe(
-                v =>
-                {
-                    //BoardView.ShowSquares(this);
-                }
-            );
-            Dead.Subscribe(d => { if (d) Die(); });
-        }
-
         public override string ToString() => $"{PlayerView} {Agent}";
 
         protected override void Begin()
@@ -82,13 +52,48 @@
             }).AddTo(this);
         }
 
-        private GameObject FindPiece() => transform.GetComponentInChildren<MeshRenderer>().gameObject;
-
-        private void Die()
+        public void SetAgent(IViewBase view, IPieceAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
         {
-            Info($"{Agent.Model} died");
-            Commands.Do(() => _AudioSource.PlayOneShot(HitBothClip));
-            BoardView.Remove(this);
+            Assert.IsNotNull(agent);
+            base.SetAgent(view, agent);
+            Agent = agent;
+
+            AddSubscriptions();
+            AddMesh();
+            Assert.IsTrue(IsValid);
+        }
+
+        private void AddSubscriptions()
+        {
+            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+            
+            MouseOver.DistinctUntilChanged().Subscribe(
+                v =>
+                {
+                    //BoardView.ShowSquares(this);
+                }
+            );
+            
+            Dead.Subscribe(dead =>
+            {
+                if (!dead)
+                    return;
+                    
+                Info($"{Agent.Model} died");
+                Commands.Do(() => _AudioSource.PlayOneShot(HitBothClip));
+                BoardView.Remove(this);
+            });
+        }
+
+        private void AddMesh()
+        {
+            var root = Instantiate(Agent.Model.Card.Template.MeshPrefab, transform);
+            root.transform.localScale *= 0.6f;    // pieces on board are smaller than in Hand/Deck
+            var mesh = root.GetComponentInChildren<MeshRenderer>();
+            mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
         }
 
         private void Move()
@@ -113,6 +118,7 @@
 
         protected override void MouseHover()
         {
+            // TODO: Start a popup
             Verbose(30, $"MouseHover {this}");
         }
 

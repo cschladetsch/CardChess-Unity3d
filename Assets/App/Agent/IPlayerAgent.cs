@@ -12,7 +12,6 @@ namespace App.Agent
     /// <inheritdoc cref="IAgent{TModel}" />
     /// <summary>
     /// Agent for a Player.
-    /// Responsible for reacting to changes in Model state.
     /// </summary>
     public interface IPlayerAgent
         : IAgent<IPlayerModel>
@@ -34,6 +33,13 @@ namespace App.Agent
         ITimedFuture<Turnaround> NextRequest(float timeOut);
         ITransient TurnEnd();
 
+        /// <summary>
+        /// Push a request onto the action stack of the <see cref="IArbiterAgent" />.
+        ///
+        /// TODO: This should probably return a Flow.IFuture&lt;IResponse&gt;
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="handler"></param>
         void PushRequest(IRequest request, Action<IResponse> handler);
     }
 }
