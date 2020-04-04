@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.15825078, g: 0.13482425, b: 0.13064086, a: 1}
+  m_IndirectSpecularColor: {r: 0.16382459, g: 0.1397335, b: 0.13548723, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1055,16 +1055,36 @@ PrefabInstance:
     m_TransformParent: {fileID: 353474489}
     m_Modifications:
     - target: {fileID: 1678137919455506, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_Name
+      value: PieceView
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021537319452716, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.41652
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021537319452716, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.82011
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021537319452716, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.23976752
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021537319452716, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.23976752
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021537319452716, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.23976752
       objectReference: {fileID: 0}
     - target: {fileID: 4976288057909028, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.25
+      value: 5.12
       objectReference: {fileID: 0}
     - target: {fileID: 4976288057909028, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: -4.81
       objectReference: {fileID: 0}
     - target: {fileID: 4976288057909028, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1090,25 +1110,47 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114117498015001264, guid: 456984bdfc514f74d91ed3d2cede35a3,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
+    - target: {fileID: 4976288057909028, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976288057909028, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976288057909028, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114117498015001264, guid: 456984bdfc514f74d91ed3d2cede35a3,
         type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
+      propertyPath: m_fontSize
+      value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114603065633533930, guid: 456984bdfc514f74d91ed3d2cede35a3,
+    - target: {fileID: 114117498015001264, guid: 456984bdfc514f74d91ed3d2cede35a3,
         type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
+      propertyPath: m_fontSizeBase
+      value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114603065633533930, guid: 456984bdfc514f74d91ed3d2cede35a3,
+    - target: {fileID: 114117498015001264, guid: 456984bdfc514f74d91ed3d2cede35a3,
         type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299344611325105355, guid: 456984bdfc514f74d91ed3d2cede35a3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299344611325105355, guid: 456984bdfc514f74d91ed3d2cede35a3,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299344611325105355, guid: 456984bdfc514f74d91ed3d2cede35a3,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 456984bdfc514f74d91ed3d2cede35a3, type: 3}
@@ -1473,8 +1515,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 11.2
-  m_fontSizeBase: 11.2
+  m_fontSize: 9
+  m_fontSizeBase: 9
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
