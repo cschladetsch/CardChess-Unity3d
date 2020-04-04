@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16382459, g: 0.1397335, b: 0.13548723, a: 1}
+  m_IndirectSpecularColor: {r: 0.23430526, g: 0.19766086, b: 0.18828627, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -581,7 +581,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -777,7 +777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546156454823704, guid: e480b051f390bfd46ac0954001e09458, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.72
+      value: 2.52
       objectReference: {fileID: 0}
     - target: {fileID: 4546156454823704, guid: e480b051f390bfd46ac0954001e09458, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1037,7 +1037,7 @@ RectTransform:
   m_GameObject: {fileID: 858521116}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.37, y: 0.22, z: 1}
+  m_LocalScale: {x: 0.37, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1907898442}
   m_RootOrder: 4
@@ -1728,7 +1728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546156454823704, guid: e480b051f390bfd46ac0954001e09458, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.46
+      value: -5.36
       objectReference: {fileID: 0}
     - target: {fileID: 4546156454823704, guid: e480b051f390bfd46ac0954001e09458, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1890,7 +1890,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 11.79, y: 2.4799995}
+  m_AnchoredPosition: {x: 13.93, y: 2.4799995}
   m_SizeDelta: {x: 1.86, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1602861734
@@ -1983,7 +1983,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -2585,7 +2585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.20300007, y: 2.4799995}
+  m_AnchoredPosition: {x: -1.93, y: 2.4799995}
   m_SizeDelta: {x: 1.86, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113720916
