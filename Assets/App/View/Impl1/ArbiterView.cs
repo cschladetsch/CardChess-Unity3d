@@ -50,7 +50,7 @@ namespace App.View.Impl1
 
             var model = Agent.Model;
             model.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
-            model.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
+            model.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c.Color}").AddTo(this);
 
             _gameRoot = transform.parent.GetComponent<GameRoot>();
 
@@ -77,16 +77,8 @@ namespace App.View.Impl1
             var blackAgent = BlackPlayerView.Agent;
             var white = whiteAgent.Model;
             var black = blackAgent.Model;
-            WhiteEndButton.Bind(() =>
-            {
-                Debug.Log("White end button pressed!");
-                whiteAgent.PushRequest(new TurnEnd(white), TurnEnded);
-            });
-            BlackEndButton.Bind(() =>
-            {
-                Debug.Log("Black end button pressed!");
-                blackAgent.PushRequest(new TurnEnd(black), TurnEnded);
-            });
+            WhiteEndButton.Bind(() => whiteAgent.PushRequest(new TurnEnd(white), TurnEnded));
+            BlackEndButton.Bind(() => blackAgent.PushRequest(new TurnEnd(black), TurnEnded));
             
             Agent.LastResponse.Subscribe(
                 (r) =>
@@ -97,12 +89,6 @@ namespace App.View.Impl1
             );
         }
         
-        public void Pressed()
-        {
-            Debug.Log("Black end button pressed!");
-            BlackPlayerView.Agent.PushRequest(new TurnEnd(BlackPlayerView.Agent.Model), TurnEnded);
-        }
-
         private void TurnEnded(IResponse obj)
         {
             _AudioSource.PlayOneShot(EndTurnClips[0]);
