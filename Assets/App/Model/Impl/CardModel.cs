@@ -1,6 +1,7 @@
 ﻿using Dekuple;
 using Dekuple.Model;
 using UniRx;
+using UnityEngine;
 
 // event not used
 #pragma warning disable 67
@@ -17,6 +18,7 @@ namespace App.Model
         public ICardTemplate Template { get; }
         public ECardType Type => Template.Type;
         public EPieceType PieceType => Template.PieceType;
+        public GameObject MeshObject { get; set; }
         public string Description => Template.FlavourText;
 
         public IReactiveProperty<IPlayerModel> Player => _player;

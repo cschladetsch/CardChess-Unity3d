@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using UnityEngine;
+
+namespace App.Model
 {
     using UniRx;
     using Dekuple.Model;
@@ -15,6 +17,7 @@
         ICardTemplate Template { get; }
         ECardType Type { get; }
         EPieceType PieceType { get; }
+        GameObject MeshObject { get; set; }
 
         IReactiveProperty<IPlayerModel> Player { get; }
         IReadOnlyReactiveProperty<int> ManaCost { get; }

@@ -1,4 +1,7 @@
 ﻿// field not assigned - because it is assigned in Unity3d editor
+
+using App.Database;
+
 #pragma warning disable 649
 
 namespace App
@@ -28,6 +31,8 @@ namespace App
     public class GameRoot
         : ViewBase
     {
+        public CardTemplateService CardTemplateService;
+        public CardTemplateDatabase CardTemplateDatabase;
         public IPlayerAgent WhitePlayerAgent;
         public IPlayerAgent BlackPlayerAgent;
         public IBoardAgent BoardAgent;
@@ -55,6 +60,8 @@ namespace App
             Registry = _views;
 
             base.Begin();
+            
+            CardTemplates.AddCardDatabase(CardTemplateDatabase);
 
             CreateModels();
             CreateAgents();
