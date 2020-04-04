@@ -192,7 +192,7 @@ namespace App.Model
             Assert.IsNotNull(found);
             if (found == null)
                 return Response.Fail;
-            found.Coord.Value = coord;
+            piece.Coord.Value = coord;
             return Response.Ok;
         }
 

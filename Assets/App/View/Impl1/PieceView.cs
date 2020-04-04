@@ -163,13 +163,15 @@
                     _AudioSource.PlayOneShot(HitClip);
                     if (battle.Defender.Dead.Value)
                         MoveTo(Coord.Value);
+                    else
+                        ReturnToStart();
                     return;
  
                 case MovePiece move:
-                    if (move.Coord == Coord.Value)
+                    if (response.Failed)
                         ReturnToStart();
                     else
-                        MoveTo(Coord.Value);
+                        MoveTo(move.Coord);
                     break;
             }
         }

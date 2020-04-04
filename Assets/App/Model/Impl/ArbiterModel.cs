@@ -282,7 +282,9 @@ namespace App.Model
 
             var resp = attacker.Attack(defender);
             if (resp.Success)
+            {
                 attacker.AttackedThisTurn = true;
+            }
             return resp;
         }
 
