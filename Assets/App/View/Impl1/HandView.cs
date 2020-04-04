@@ -129,7 +129,7 @@
             {
                 Assert.IsTrue(card.IsValid);
                 card.GameObject.name = $"{card.Agent.Model}";
-                _Queue.Enqueue(Commands.MoveTo(card.GameObject, n * Offset, 0.1, Ease.Smooth(), true));
+                _Queue.Enqueue(Commands.MoveTo(card.GameObject, n * Offset, 0.25, Ease.InOutQuad(), true));
                 ++n;
             }
         }
