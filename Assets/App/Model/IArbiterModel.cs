@@ -1,10 +1,10 @@
-﻿using UniRx;
-using App.Common;
-using Dekuple;
-using Dekuple.Model;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Model;
+    using Common;
+
     /// <inheritdoc />
     /// <summary>
     /// The referee for the game.

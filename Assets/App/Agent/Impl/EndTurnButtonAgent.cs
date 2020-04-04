@@ -1,7 +1,6 @@
-﻿using Dekuple.Agent;
-
-namespace App.Agent.Impl
+﻿namespace App.Agent.Impl
 {
+    using Dekuple.Agent;
     using Model;
 
     /// <inheritdoc cref="AgentBaseCoro{TModel}" />

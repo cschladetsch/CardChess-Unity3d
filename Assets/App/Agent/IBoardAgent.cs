@@ -1,10 +1,9 @@
-﻿using Dekuple;
-using Dekuple.Agent;
-using Flow;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using Dekuple;
+    using Dekuple.Agent;
+    using UniRx;
+    using Flow;
     using Common;
     using Model;
 

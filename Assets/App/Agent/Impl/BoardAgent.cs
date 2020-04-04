@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using System.Text;
-using UniRx;
-using Flow;
-using Dekuple;
-using Dekuple.Agent;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System.Linq;
+    using System.Text;
+    using UniRx;
+    using Flow;
+    using Dekuple;
+    using Dekuple.Agent;
     using Common;
     using Model;
 

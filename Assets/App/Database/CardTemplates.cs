@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using App.Model;
-using Dekuple;
-using Dekuple.Model;
-using Dekuple.Registry;
-
-namespace App.Database
+﻿namespace App.Database
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Dekuple;
+    using Dekuple.Model;
+    using Dekuple.Registry;
     using Common;
+    using Model;
 
+    /// <summary>
+    /// Contains all the card templates.
+    /// </summary>
     static class CardTemplates
     {
         private static readonly Dictionary<Guid, ICardTemplate> _templates = new Dictionary<Guid, ICardTemplate>();
@@ -70,7 +72,7 @@ namespace App.Database
             ICardTemplate tmpl;
             do
             {
-                tmpl = _templates[_templates.Keys.ElementAt(Math.RandomRanged(0, _templates.Count))];
+                tmpl = _templates[_templates.Keys.ElementAt(App.Math.RandomRanged(0, _templates.Count))];
             } while (tmpl.PieceType == EPieceType.King);
             return tmpl;
         }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Dekuple;
-
-namespace App.Mock.Model
+﻿namespace App.Mock.Model
 {
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
+    using Dekuple;
     using Common;
     using Common.Message;
     using App.Model;
@@ -15,6 +14,13 @@ namespace App.Mock.Model
     public abstract class MockModelPlayerBase
         : PlayerModelBase
     {
+        private int _next = 0;
+
+        protected IGameRequest _Pass;
+        protected IGameRequest _EndTurn;
+        protected List<Func<IGameRequest>> _Requests;
+        protected List<Guid> _RequestIds;
+        
         public override void PrepareModels()
         {
             base.PrepareModels();
@@ -68,11 +74,5 @@ namespace App.Mock.Model
             return card;
         }
 
-        private int _next = 0;
-
-        protected IGameRequest _Pass;
-        protected IGameRequest _EndTurn;
-        protected List<Func<IGameRequest>> _Requests;
-        protected List<Guid> _RequestIds;
     }
 }

@@ -1,8 +1,7 @@
-﻿using Dekuple.View;
-using UniRx;
-
-namespace App.View
+﻿namespace App.View
 {
+    using Dekuple.View;
+    using UniRx;
     using Agent;
 
     /// <summary>

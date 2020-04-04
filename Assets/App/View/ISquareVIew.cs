@@ -1,12 +1,11 @@
-﻿using Dekuple.View;
-
-namespace App.View
+﻿namespace App.View
 {
+    using Dekuple.View;
     using Common;
 
     /// <inheritdoc />
     /// <summary>
-    /// View of a square on the board
+    /// View of a Square on the Board.
     /// </summary>
     public interface ISquareView
         : IViewBase

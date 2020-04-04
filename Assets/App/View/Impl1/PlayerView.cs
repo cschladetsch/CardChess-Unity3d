@@ -1,12 +1,8 @@
-﻿using System;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using System;
+    using Dekuple;
+    using Dekuple.View.Impl;
     using Agent;
 
     /// <summary>

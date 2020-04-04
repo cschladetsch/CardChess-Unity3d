@@ -1,9 +1,7 @@
-﻿using System.Collections;
-
-using Flow;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System.Collections;
+    using Flow;
     using Model;
     using Common.Message;
 

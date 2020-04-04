@@ -1,12 +1,10 @@
-﻿using UniRx;
-using UnityEngine;
-using UnityEngine.Assertions;
-
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UnityEngine.Assertions;
+    using UniRx;
+    using Dekuple.View;
+    using Dekuple.View.Impl;
     using Agent;
 
     /// <summary>
@@ -40,7 +38,7 @@ namespace App.View.Impl1
         }
 
         [ContextMenu("ManaBar-MockDraw")]
-        public void MockDrwa()
+        public void MockDraw()
         {
             Redraw(2, 5);
         }

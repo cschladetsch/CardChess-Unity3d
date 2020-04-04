@@ -1,12 +1,12 @@
-﻿using System;
-using App.Common;
-using App.Common.Message;
-using Dekuple;
-using Dekuple.Model;
-using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Model;
+    using Common;
+    using Common.Message;
+
     /// <inheritdoc cref="IModel" />
     /// <summary>
     /// A Player in the game.

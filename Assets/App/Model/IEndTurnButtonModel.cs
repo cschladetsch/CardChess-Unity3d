@@ -1,11 +1,11 @@
-﻿using Dekuple.Model;
-using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using UniRx;
+    using Dekuple.Model;
+
     /// <inheritdoc />
     /// <summary>
-    /// State for end-turn button for a Player
+    /// State for end-turn button for a Player.
     /// </summary>
     public interface IEndTurnButtonModel
         : IModel

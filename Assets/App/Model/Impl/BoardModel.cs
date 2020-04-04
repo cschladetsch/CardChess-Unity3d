@@ -80,7 +80,7 @@ namespace App.Model
                 return true;
 
             // we have no empty squares, but check for interference squares on movement
-            foreach (var other in moves.Interferernce)
+            foreach (var other in moves.Interference)
             {
                 Assert.IsNotNull(other);
                 Assert.IsFalse(other.Owner == pieceModel.Owner);
@@ -105,7 +105,7 @@ namespace App.Model
                 return true;
 
             // we can attack a defender of a square we could otherwise attack directly
-            if (attacks.Interferernce.Count > 0)
+            if (attacks.Interference.Count > 0)
                 return true;
 
             // we can't move anywhere, mount anything, or attack directly or attack a defender
@@ -438,7 +438,7 @@ namespace App.Model
                     var model = At(coord);
                     if (model != null)
                     {
-                        moveResults.Interferernce.Add(model);
+                        moveResults.Interference.Add(model);
                         blocked.Add(m);
                         continue;
                     }

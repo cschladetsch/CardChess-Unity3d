@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// TODO: For multi player.
+    /// </summary>
     public interface IGameResult
     {
         IList<IContestant> Contestants { get; }

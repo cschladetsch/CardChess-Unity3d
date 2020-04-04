@@ -1,20 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-using UniRx;
-using CoLib;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-
-// Resharper doesn't know about Unity's stupid use of reflection
+﻿// Resharper doesn't know about Unity's stupid use of reflection
 // ReSharper disable UnusedMember.Local
 
 namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UniRx;
+    using CoLib;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View;
     using Common;
 
+    /// <summary>
+    /// An item that can be dragged with the mouse, such as a card or a piece.
+    /// </summary>
+    /// <typeparam name="TIAgent"></typeparam>
     public abstract class Draggable<TIAgent>
         : GameViewBase<TIAgent>
         where TIAgent : class, IAgent

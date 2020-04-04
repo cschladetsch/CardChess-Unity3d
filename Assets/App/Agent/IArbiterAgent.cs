@@ -1,12 +1,14 @@
-﻿using Dekuple;
-using Dekuple.Agent;
-using Flow;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using UniRx;
+    using Flow;
+    using Dekuple;
+    using Dekuple.Agent;
     using Model;
 
+    /// <summary>
+    /// Behaviour of the game Arbiter, which makes all decisions and applies the rules.
+    /// </summary>
     public interface IArbiterAgent
         : IAgent<IArbiterModel>
     {

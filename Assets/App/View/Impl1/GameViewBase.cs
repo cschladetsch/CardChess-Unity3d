@@ -1,9 +1,12 @@
-﻿using App.Model;
-using Dekuple;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using Dekuple;
+    using Dekuple.View.Impl;
+    using Model;
+
+    /// <summary>
+    /// Common for many game objects.
+    /// </summary>
     public class GameViewBase
         : ViewBase
         , IGameViewBase

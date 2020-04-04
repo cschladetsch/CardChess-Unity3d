@@ -1,8 +1,7 @@
-﻿using Dekuple.Model;
-using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using UniRx;
+    using Dekuple.Model;
     using Common;
     using Common.Message;
 

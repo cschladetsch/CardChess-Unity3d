@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-
-using UniRx;
-
-using Dekuple;
-using Dekuple.View;
-
-namespace App.View
+﻿namespace App.View
 {
-    using Agent;
+    using UnityEngine;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.View;
     using Common;
+    using Agent;
     using Model;
 
     /// <summary>

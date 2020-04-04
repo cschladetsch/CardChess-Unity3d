@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Dekuple;
-
-namespace App.Mock.Model
+﻿namespace App.Mock.Model
 {
+    using System;
+    using System.Collections.Generic;
     using Common;
     using Common.Message;
 
+    /// <summary>
+    /// Mock White Player model for tests.
+    /// </summary>
     public class WhitePlayerModel
         : MockModelPlayerBase
         , IWhitePlayerModel

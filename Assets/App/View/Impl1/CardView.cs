@@ -1,24 +1,19 @@
-﻿using UnityEngine;
-
-using UniRx;
-
-using App.Model;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
-    using Agent;
+    using UnityEngine;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.View;
     using Common;
     using Common.Message;
+    using Agent;
+    using Model;
 
     /// <inheritdoc cref="Draggable{TIAgent}" />
-    ///  <summary>
-    ///  View of a card that is not on the board. This includes Hand, Deck, Graveyard.
-    ///  A view of a card on the board is a PieceView.
-    ///  </summary>
+    /// <summary>
+    /// View of a card that is not on the board. This includes Hand, Deck, Graveyard.
+    /// A view of a card on the board is a PieceView.
+    /// </summary>
     public class CardView
         : Draggable<ICardAgent>
         , ICardView
@@ -46,12 +41,6 @@ namespace App.View.Impl1
 
         // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
-
-        protected override void Begin()
-        {
-            //Verbosity = 50;
-            base.Begin();
-        }
 
         public void SetAgent(IViewBase view, ICardAgent agent)
         //public override void SetAgent(IViewBase view, IAgent agent)

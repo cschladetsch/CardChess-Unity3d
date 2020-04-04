@@ -1,7 +1,6 @@
-﻿using Dekuple.Agent;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using Dekuple.Agent;
     using Model;
 
     public interface ICardAgent

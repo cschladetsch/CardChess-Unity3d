@@ -1,10 +1,10 @@
-﻿using System;
-using Dekuple.Agent;
-using Flow;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System;
+    using UniRx;
+    using Flow;
+    using Dekuple.Agent;
+    
     /// <inheritdoc />
     /// <summary>
     /// Controller for a Deck model.

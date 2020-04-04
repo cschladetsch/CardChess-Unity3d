@@ -277,7 +277,7 @@ namespace App.Model
                 return Failed(battle, $"{attacker} can only attack once per turn");
 
             var moves = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType);
-            if (!moves.Interferernce.Contains(defender))
+            if (!moves.Interference.Contains(defender))
                 return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}");
 
             var resp = attacker.Attack(defender);

@@ -1,13 +1,12 @@
-﻿using Dekuple.Agent;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using UniRx;
+    using Dekuple.Agent;
     using Model;
     using Common;
 
     /// <summary>
-    /// Acts on behalf of a piece
+    /// Acts on behalf of a piece.
     /// </summary>
     public class PieceAgent
         : AgentBase<IPieceModel>

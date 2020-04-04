@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Dekuple;
-using Dekuple.Model;
-using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Model;
     using Common;
     using Common.Message;
 

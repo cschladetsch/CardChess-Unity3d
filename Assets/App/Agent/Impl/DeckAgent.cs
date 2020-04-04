@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
-using Dekuple.Agent;
-using Flow;
-using UniRx;
-
 namespace App.Agent
 {
+    using System;
+    using System.Collections;
+    using UniRx;
+    using Flow;
+    using Dekuple.Agent;
     using Model;
 
     /// <summary>

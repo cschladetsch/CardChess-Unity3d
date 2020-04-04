@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
-using App.Model;
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-
-using UniRx;
-
-#pragma warning disable 649
+﻿#pragma warning disable 649
 
 namespace App.View.Impl1
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using UnityEngine;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View;
+    using Model;
     using Agent;
     using Common;
 
@@ -107,7 +104,7 @@ namespace App.View.Impl1
             board.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
 
-        void PieceAdded(CollectionAddEvent<IPieceAgent> add)
+        private void PieceAdded(CollectionAddEvent<IPieceAgent> add)
         {
             var agent = add.Value;
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
@@ -116,7 +113,7 @@ namespace App.View.Impl1
             _pieces.Add(view);
         }
 
-        void PieceRemoved(CollectionRemoveEvent<IPieceAgent> add)
+        private void PieceRemoved(CollectionRemoveEvent<IPieceAgent> add)
         {
             var p = _pieces.ElementAt(add.Index);
             Assert.IsNotNull(p);
@@ -133,11 +130,11 @@ namespace App.View.Impl1
             var movements = board.GetMovements(sq.Coord, model.PieceType);
             var attacks = board.GetAttacks(sq.Coord, model.PieceType);
             AddOverlays(movements.Coords, attacks.Coords);
-            OverlayView.Add(movements.Interferernce.Select(p => p.Coord.Value), Color.yellow);
-            OverlayView.Add(attacks.Interferernce.Select(p => p.Coord.Value), Color.magenta);
+            OverlayView.Add(movements.Interference.Select(p => p.Coord.Value), Color.yellow);
+            OverlayView.Add(attacks.Interference.Select(p => p.Coord.Value), Color.magenta);
         }
 
-        public void ShowSquares(Coord coord)
+        private void ShowSquares(Coord coord)
         {
             var agent = Agent.At(coord);
 
@@ -145,8 +142,8 @@ namespace App.View.Impl1
             var movements = board.GetMovements(agent.Model);
             var attacks = board.GetMovements(agent.Model);
             AddOverlays(movements.Coords, attacks.Coords);
-            OverlayView.Add(movements.Interferernce.Select(p => p.Coord.Value), Color.yellow);
-            OverlayView.Add(attacks.Interferernce.Select(p => p.Coord.Value), Color.magenta);
+            OverlayView.Add(movements.Interference.Select(p => p.Coord.Value), Color.yellow);
+            OverlayView.Add(attacks.Interference.Select(p => p.Coord.Value), Color.magenta);
         }
 
         private void AddOverlays(IList<Coord> moves, IList<Coord> attacks)
@@ -205,7 +202,7 @@ namespace App.View.Impl1
             }
         }
 
-        public SquareView At(int x, int y)
+        private SquareView At(int x, int y)
         {
             Assert.IsTrue(x >= 0 && x < Width.Value);
             Assert.IsTrue(y >= 0 && x < Height.Value);

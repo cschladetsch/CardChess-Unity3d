@@ -1,14 +1,12 @@
-﻿using UnityEngine;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
-    using Agent;
+    using UnityEngine;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View;
+    using Dekuple.View.Impl;
     using Common;
+    using Agent;
 
     /// <summary>
     /// View of the deck if a given player
@@ -34,14 +32,14 @@ namespace App.View.Impl1
             base.SetAgent(view, agent);
         }
 
-        void Clear()
+        private void Clear()
         {
             foreach (Transform tr in CardsRoot)
                 Destroy(tr.gameObject);
         }
 
         [ContextMenu("DeckView-FromModel")]
-        void ShowDeck()
+        private void ShowDeck()
         {
             Clear();
 

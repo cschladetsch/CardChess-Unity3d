@@ -1,14 +1,15 @@
-﻿using System;
-using App.Common.Message;
-using App.Model;
-using Dekuple;
-using Dekuple.Agent;
-using Flow;
-
-namespace App.Mock.Agent
+﻿namespace App.Mock.Agent
 {
+    using System;
+    using Dekuple;
+    using Flow;
     using App.Agent;
+    using App.Model;
+    using Common.Message;
 
+    /// <summary>
+    /// Used to mock up the Black Player for unit and functional tests.
+    /// </summary>
     public class MockBlackPlayerAgent
         : PlayerAgentBase
         , IBlackPlayerAgent

@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// TODO: for multi player.
+    /// </summary>
     public interface IContestant
     {
         Guid UserId { get; }

@@ -1,11 +1,11 @@
-﻿using Dekuple.View.Impl;
-using UnityEngine;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using Dekuple.View.Impl;
+    using UnityEngine;
+
     /// <inheritdoc />
     /// <summary>
-    /// View of a mana piece in the main game scene
+    /// View of a Mana piece in the main game scene.
     /// </summary>
     public class ManaElement
         : ViewBase

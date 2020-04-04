@@ -1,8 +1,7 @@
-﻿using Dekuple.Agent;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using UniRx;
+    using Dekuple.Agent;
     using Model;
 
     /// <inheritdoc cref="AgentBaseCoro{TModel}" />

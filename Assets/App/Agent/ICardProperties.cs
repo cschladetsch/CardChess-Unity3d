@@ -1,7 +1,7 @@
-﻿using UniRx;
-
+﻿
 namespace App.Agent
 {
+    using UniRx;
     using Common;
     using Model;
 

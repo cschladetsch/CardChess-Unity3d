@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CoLib;
-using Dekuple.View.Impl;
-using UnityEngine;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using Dekuple.View.Impl;
     using Common;
+    using CoLib;
 
     /// <summary>
     /// Overlay view of the board; highligted squares
@@ -57,9 +56,10 @@ namespace App.View.Impl1
             {
                 var sq = Instantiate(BoardOverlaySquareViewPrefab);
                 squares.Add(sq);
-                sq.transform.SetParent(transform);
-                sq.transform.localPosition = new Vector3(c.x, c.y, Zoffset);
-                sq.transform.localScale = Vector3.one;
+                var tr = sq.transform;
+                tr.SetParent(transform);
+                tr.localPosition = new Vector3(c.x, c.y, Zoffset);
+                tr.localScale = Vector3.one;
             }
 
             _Queue.Enqueue(

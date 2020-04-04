@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using UnityEngine;
-
-using App.Agent.Impl;
-using App.Model.Impl;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.Model;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-// field not assigned - because it is assigned in Unity3d editor
+﻿// field not assigned - because it is assigned in Unity3d editor
 #pragma warning disable 649
 
 namespace App
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.Model;
+    using Dekuple.View;
+    using Dekuple.View.Impl;
+    using Agent.Impl;
+    using Model.Impl;
     using Common;
     using Agent;
     using Model;
@@ -47,6 +43,7 @@ namespace App
         private ModelRegistry _models;
         private AgentRegistry _agents;
         private IViewRegistry _views;
+        private static readonly int Rotation = Shader.PropertyToID("_Rotation");
 
         /// <summary>
         /// Startup the game.
@@ -94,7 +91,7 @@ namespace App
         protected override void Step()
         {
             base.Step();
-            RenderSettings.skybox.SetFloat("_Rotation", Time.time * SKyRotationSpeedMultiplier);
+            RenderSettings.skybox.SetFloat(Rotation, Time.time * SKyRotationSpeedMultiplier);
         }
 
         /// <summary>
@@ -144,13 +141,13 @@ namespace App
             _whitePlayerModel = _models.New<IPlayerModel>(EColor.White);
             _blackPlayerModel = _models.New<IPlayerModel>(EColor.Black);
 
-            // resolve any cycles of dependancy for singletons, as well as creates models used internally by other models.
+            // resolve any cycles of dependency for singletons, as well as creates models used internally by other models.
             foreach (var model in _models.Instances.ToList())
                 model.PrepareModels();
         }
 
         /// <summary>
-        /// REgistry and create all the agents for the models in the initial game
+        /// Register and create all the agents for the models in the initial game.
         /// </summary>
         private void CreateAgents()
         {

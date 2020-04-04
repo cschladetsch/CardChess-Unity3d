@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace App
+﻿namespace App
 {
+    using UnityEngine;
+
     public static class Unity
     {
         public static void Destroy(Transform tr)

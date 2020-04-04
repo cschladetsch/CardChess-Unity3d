@@ -31,6 +31,7 @@ namespace App.View.Impl1
         public EColor CurrentPlayerColor => Agent.CurrentPlayerAgent.Value.Model.Color;
         public AudioClip[] MusicClips;
         public AudioClip[] EndTurnClips;
+        
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
         public IPlayerView CurrentPlayerView => CurrentPlayerColor == EColor.White ? WhitePlayerView : BlackPlayerView;
@@ -57,6 +58,14 @@ namespace App.View.Impl1
             SetupUi();
         }
 
+        public bool CurrentPlayerOwns(IOwned owned)
+        {
+            Assert.IsTrue(IsValid);
+            Assert.IsNotNull(owned);
+            Assert.IsNotNull(owned.Owner);
+            return Agent.CurrentPlayerAgent.Value.Model == owned.Owner.Value;
+        }
+
         private void PlayMusic()
         {
             _AudioSource.clip = MusicClips[0];
@@ -65,7 +74,7 @@ namespace App.View.Impl1
             _AudioSource.Play();
         }
 
-        public void SetupUi()
+        private void SetupUi()
         {
             Agent.CurrentPlayerAgent.Subscribe(player =>
             {
@@ -84,11 +93,13 @@ namespace App.View.Impl1
                 (r) =>
                 {
                     ResponseText.text = $"{r}";
+                    #if DEBUG
                     _gameRoot.CheckAllValid();
+                    #endif
                 }
             );
         }
-        
+
         private void TurnEnded(IResponse obj)
         {
             _AudioSource.PlayOneShot(EndTurnClips[0]);
@@ -97,25 +108,10 @@ namespace App.View.Impl1
             Verbose(5, $"TurnEnded for {obj.Request.Owner}");
         }
 
-        public void AddWhiteCard()
-        {
-            var model = WhitePlayerView.Agent.Model;
-            var card = model.RandomCard();
-            model.Hand.Add(card);
-        }
-
         protected override void Step()
         {
             base.Step();
             Agent?.Step();
-        }
-
-        public bool CurrentPlayerOwns(IOwned owned)
-        {
-            Assert.IsTrue(IsValid);
-            Assert.IsNotNull(owned);
-            Assert.IsNotNull(owned.Owner);
-            return Agent.CurrentPlayerAgent.Value.Model == owned.Owner.Value;
         }
     }
 }

@@ -5,10 +5,9 @@ using App.Common;
 using Flow;
 using UniRx;
 using Dekuple;
-using Dekuple.Agent;
-
 namespace App
 {
+    using Dekuple.Agent;
     using Common.Message;
     using Agent;
     using Model;
@@ -18,7 +17,7 @@ namespace App
     /// The 'Adjudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     ///
-    /// Responsiblity for enforcing the rules of the game are shared with
+    /// Responsible for enforcing the rules of the game are shared with
     /// the Board- and Card-Agents and Models.
     /// </summary>
     public class ArbiterAgent

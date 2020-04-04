@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-
-using UniRx;
-using CoLib;
-
-using Dekuple;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UniRx;
+    using CoLib;
+    using Dekuple;
+    using Dekuple.View;
+    using Dekuple.View.Impl;
     using Agent;
 
     /// <summary>

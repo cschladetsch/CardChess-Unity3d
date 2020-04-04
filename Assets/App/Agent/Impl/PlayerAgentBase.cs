@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Flow;
-using UniRx;
-
-using Dekuple;
-using Dekuple.Agent;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System;
+    using System.Collections.Generic;
+    using UniRx;
+    using Flow;
+    using Dekuple;
+    using Dekuple.Agent;
     using Common;
     using Common.Message;
     using Model;

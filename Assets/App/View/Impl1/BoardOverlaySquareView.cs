@@ -1,11 +1,11 @@
-﻿using CoLib;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+    using CoLib;
+
     /// <summary>
-    /// View of a board overlay (not a piece)
+    /// View of a board overlay (not a piece).
     /// </summary>
     public class BoardOverlaySquareView
         : GameViewBase

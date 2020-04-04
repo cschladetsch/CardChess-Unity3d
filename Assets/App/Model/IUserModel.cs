@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Dekuple.Model;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System.Collections.Generic;
+    using Dekuple.Model;
+
     /// <inheritdoc />
     /// <summary>
-    /// A Persistent user.
+    /// TODO: Multi player. A Persistent user.
     /// </summary>
     public interface IUserModel
         : IModel

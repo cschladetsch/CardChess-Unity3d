@@ -1,17 +1,14 @@
-﻿using App.Model;
-using UnityEngine;
-
-using CoLib;
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-using UniRx;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
-    using Agent;
+    using UnityEngine;
+    using UniRx;
+    using CoLib;
+    using Dekuple;
+    using Dekuple.View;
     using Common;
     using Common.Message;
+    using Agent;
+    using Model;
 
     /// <summary>
     /// View of a Piece on the Board in the scene.
@@ -20,16 +17,26 @@ namespace App.View.Impl1
         : Draggable<IPieceAgent>
         , IPieceView
     {
-        #region Unity Properties
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public AudioClip CancelClip;
         public AudioClip MoveClip;
         public AudioClip HitClip;
         public AudioClip HitBothClip;
-        #endregion
 
         public IReactiveProperty<Coord> Coord => Agent.Coord;
+
+        public override bool IsValid
+        {
+            get
+            {
+                if (!base.IsValid) return false;
+                if (Health == null) return false;
+                if (Power == null) return false;
+                return true;
+            }
+        }
+
         public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
 
         public void SetAgent(IViewBase view, IPieceAgent agent)
@@ -62,16 +69,7 @@ namespace App.View.Impl1
             Dead.Subscribe(d => { if (d) Die(); });
         }
 
-        public override bool IsValid
-        {
-            get
-            {
-                if (!base.IsValid) return false;
-                if (Health == null) return false;
-                if (Power == null) return false;
-                return true;
-            }
-        }
+        public override string ToString() => $"{PlayerView} {Agent}";
 
         protected override void Begin()
         {
@@ -84,12 +82,9 @@ namespace App.View.Impl1
             }).AddTo(this);
         }
 
-        GameObject FindPiece()
-        {
-            return transform.GetComponentInChildren<MeshRenderer>().gameObject;
-        }
+        private GameObject FindPiece() => transform.GetComponentInChildren<MeshRenderer>().gameObject;
 
-        void Die()
+        private void Die()
         {
             Info($"{Agent.Model} died");
             Commands.Do(() => _AudioSource.PlayOneShot(HitBothClip));
@@ -108,11 +103,6 @@ namespace App.View.Impl1
                 ),
                 Commands.Do(() => _AudioSource.PlayOneShot(MoveClip))
             );
-        }
-
-        public override string ToString()
-        {
-            return $"{PlayerView} {Agent}";
         }
 
         protected override bool MouseDown()
