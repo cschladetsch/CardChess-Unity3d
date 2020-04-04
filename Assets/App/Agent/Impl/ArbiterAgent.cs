@@ -83,16 +83,11 @@ namespace App
 
             BoardAgent.StartGame();
 
-            // only needed because we're skipping the coro below
             foreach (var p in _playerAgents)
                 p.StartGame();
 
+            ITransient GameLoop() => New.Coroutine(PlayerTurn).Named("Turn");
             _Node.Add(GameLoop());
-        }
-
-        public ITransient GameLoop()
-        {
-            return New.Coroutine(PlayerTurn).Named("Turn");
         }
 
         private IEnumerator PlayerTurn(IGenerator self)

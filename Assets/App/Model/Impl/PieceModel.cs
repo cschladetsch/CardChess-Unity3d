@@ -10,6 +10,7 @@ namespace App.Model
     /// <summary>
     /// Model of a piece on the board.
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class PieceModel
         : PlayerOwnedModelBase
         , IPieceModel
@@ -61,7 +62,9 @@ namespace App.Model
 
         public override string ToString()
         {
-            return $"{Player}'s {PieceType} @{Coord} with {Power}/{Health}";
+            // Verbose:
+            //return $"{Player}'s {PieceType} @{Coord} with {Power}/{Health}";
+            return $"{Player.Color}'s {PieceType}";
         }
 
         public void NewTurn()

@@ -140,7 +140,7 @@ namespace App.View.Impl1
 
             var board = Agent.Model;
             var movements = board.GetMovements(agent.Model);
-            var attacks = board.GetMovements(agent.Model);
+            var attacks = movements;//board.GetMovements(agent.Model);
             AddOverlays(movements.Coords, attacks.Coords);
             OverlayView.Add(movements.Interference.Select(p => p.Coord.Value), Color.yellow);
             OverlayView.Add(attacks.Interference.Select(p => p.Coord.Value), Color.magenta);

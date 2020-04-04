@@ -8,7 +8,7 @@
     using CoLib;
 
     /// <summary>
-    /// Overlay view of the board; highligted squares
+    /// Overlay view of the board; highlighted squares
     /// </summary>
     public class BoardOverlayView
         : ViewBase
@@ -33,11 +33,17 @@
         [ContextMenu("BoardOverlay-Clear")]
         public void Clear()
         {
-            var squares = (from Transform tr in transform select tr.GetComponent<BoardOverlaySquareView>()).Where(s => s != null).ToList();
-            _Queue.Enqueue(
-                squares.ForEachParallel(sq => sq.Clear())
-            );
-            _Queue.Process();
+            var squares = (from Transform tr in transform select tr.GetComponent<BoardOverlaySquareView>())
+                .Where(s => s != null).ToList();
+
+            foreach (var sq in squares)
+                sq.Clear();
+            
+            // fancier but slower
+            // _Queue.Enqueue(
+            //     squares.ForEachParallel(sq => sq.Clear())
+            // );
+            // _Queue.Process();
         }
 
         /// <summary>
@@ -54,6 +60,7 @@
             var squares = new List<BoardOverlaySquareView>();
             foreach (var c in coords)
             {
+                // TODO: object pool
                 var sq = Instantiate(BoardOverlaySquareViewPrefab);
                 squares.Add(sq);
                 var tr = sq.transform;
@@ -62,9 +69,13 @@
                 tr.localScale = Vector3.one;
             }
 
-            _Queue.Enqueue(
-                squares.ForEachParallel(sq => sq.SetColor(color))
-            );
+            foreach (var sq in squares)
+                sq.SetColor(color);
+                
+            // fancy but slow
+            // _Queue.Enqueue(
+            //     squares.ForEachParallel(sq => sq.SetColor(color))
+            // );
         }
     }
 }

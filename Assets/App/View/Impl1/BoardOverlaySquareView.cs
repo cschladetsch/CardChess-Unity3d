@@ -6,6 +6,8 @@
 
     /// <summary>
     /// View of a board overlay (not a piece).
+    ///
+    /// TODO: Use an object pool.
     /// </summary>
     public class BoardOverlaySquareView
         : GameViewBase
@@ -23,12 +25,18 @@
         public CommandDelegate SetColor(Color color)
         {
             _image.color = color;
-            return Commands.ChangeTo(_alphaRef, 0.5f, 0.03);
+            // fancier but slower
+            //return Commands.ChangeTo(_alphaRef, 0.5f, 0.03);
+            _alphaRef.Value = 0.5f;
+            return null;
         }
 
         public CommandDelegate Clear()
         {
-            return Commands.ChangeTo(_alphaRef, 0, 0.03);
+            // fancier but slower
+            // return Commands.ChangeTo(_alphaRef, 0, 0.03);
+            _alphaRef.Value = 0;
+            return null ;
         }
     }
 }

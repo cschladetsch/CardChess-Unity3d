@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace App.Model
+﻿namespace App.Database.Data.Scriptable
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
     using Common;
     
-    [CreateAssetMenu(fileName = "CardTemplateData", menuName = "Inventory/CardTemplate", order = 1)]
+    [CreateAssetMenu(fileName = "CardTemplateData", menuName = "Cards/Template", order = 1)]
     public class CardTemplateData
         : ScriptableObject
     {

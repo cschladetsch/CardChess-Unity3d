@@ -7,6 +7,8 @@ namespace App
 {
     /// <summary>
     /// Global game parameters.
+    ///
+    /// TODO: Make not static so can be tweaked at runtime.
     /// </summary>
     public static class Parameters
     {
@@ -63,5 +65,7 @@ namespace App
         /// How much health a player loses whenever he is forced to draw from an empty deck.
         /// </summary>
         public static int CardExhaustionHealthLoss = -2;
+
+        public static float PieceZOffset = -0.6f;
     }
 }

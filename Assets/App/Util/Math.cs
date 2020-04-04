@@ -33,5 +33,12 @@
             p.z = z;
             v.position = p;
         }
+
+        public static void SetLocalZ(this Transform v, float z)
+        {
+            var p = v.localPosition;
+            p.z = z;
+            v.localPosition = p;
+        }
     }
 }

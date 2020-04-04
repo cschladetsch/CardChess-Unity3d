@@ -1,7 +1,5 @@
 ﻿// field not assigned - because it is assigned in Unity3d editor
 
-using App.Database;
-
 #pragma warning disable 649
 
 namespace App
@@ -23,6 +21,9 @@ namespace App
     using View;
     using View.Impl1;
     using Service.Impl;
+    using Database;
+    using Database.Data.Scriptable;
+
 
     /// <inheritdoc />
     /// <summary>

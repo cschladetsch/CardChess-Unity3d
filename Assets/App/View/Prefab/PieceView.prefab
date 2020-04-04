@@ -181,6 +181,7 @@ MonoBehaviour:
   MoveClip: {fileID: 8300000, guid: 126f66fa05453d2429506b6c84c1cdba, type: 3}
   HitClip: {fileID: 8300000, guid: 8e49eafe5b5b7fb48ac6ff585a4a490b, type: 3}
   HitBothClip: {fileID: 8300000, guid: a0f858675bf6fe542b8422d4d06943a7, type: 3}
+  DiedClip: {fileID: 8300000, guid: 3af0f2368bd1b704d87f029eae525480, type: 3}
 --- !u!82 &82956357677035400
 AudioSource:
   m_ObjectHideFlags: 0

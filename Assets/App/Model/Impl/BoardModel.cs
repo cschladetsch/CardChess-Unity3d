@@ -135,7 +135,9 @@ namespace App.Model
             Assert.IsTrue(IsValidCoord(coord));
             var found = Get(coord);
             if (found == null)
-                return Response.Fail;
+                return Response.Ok;
+            if (found.Dead.Value)
+                return Response.Ok;
             found.Coord.Value = coord;
             return Response.Ok;
         }
