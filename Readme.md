@@ -1,6 +1,5 @@
 # Card Chess ![Kings](Doc/Kings.png)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/cschladetsch/cardchess?svg=true)](https://ci.appveyor.com/project/cschladetsch/cardchess)
-[![CodeFactor](https://www.codefactor.io/repository/github/cschladetsch/cardchess/badge)]
 [![License](https://img.shields.io/github/license/cschladetsch/cardchess.svg?label=License&maxAge=86400)](./LICENSE)
 
 **The CI Build is failing because it is a Unity3d project, and the use of git-submodules. Keeping the badge as a reminder to everyone about these issues.**
@@ -14,8 +13,6 @@ Focusing on the gameplay and [Rules](https://github.com/cschladetsch/CardChess/w
 Also, I intend to make all the art assets myself. Well, mostly. I'm using some free sound effects and music assets.
 
 ## Building
-
-I am currently using **Unity3d 2018.1.4f1**. YMMV for earlier or later releases of Unity3d.
 
 This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). This is included as a Git submodule. To also clone this code into the repo for this game, use the following single commmand:
 
