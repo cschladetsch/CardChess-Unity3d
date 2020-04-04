@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   PieceType: 5
-  Description: Queen
+  Title: 
   FlavourText: 
   ManaCost: 5
   Power: 5
   Health: 6
-  Model: {fileID: 1244473676536920, guid: a9b9c4d2344ff034eb76baa2e13fffaa, type: 3}
+  Id: 09fb2c49-61d6-46f7-8909-f532e39a77dc
+  Model: {fileID: 7035957155222379773, guid: 3935c9532be49b947a55f885f03ac731, type: 3}
   Abilities: 

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   PieceType: 7
-  Description: An Archer
+  Title: 
   FlavourText: 
   ManaCost: 3
   Power: 3
   Health: 2
-  Model: {fileID: 1159614078166112, guid: 7f86f670beccba44db7f814e116702bb, type: 3}
+  Id: 15f6a5df-007d-49f4-b14f-d47013495a14
+  Model: {fileID: 4893209982985760856, guid: 12798d65a30d77140a6a37b4edaed97b, type: 3}
   Abilities: 

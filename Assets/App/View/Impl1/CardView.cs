@@ -7,7 +7,6 @@
     using Common;
     using Common.Message;
     using Agent;
-    using Model;
 
     /// <inheritdoc cref="Draggable{TIAgent}" />
     /// <summary>
@@ -18,23 +17,23 @@
         : Draggable<ICardAgent>
         , ICardView
     {
-        public EPieceType PieceType;
+        public Transform ModelRoot;
+        public Transform Pivot;
+        public TMPro.TextMeshProUGUI Mana;
+        public TMPro.TextMeshProUGUI Health;
+        public TMPro.TextMeshProUGUI Power;
+
         public AudioClip LeaveHandClip;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
-
-        // no more manually hooking things up via editor: now we resolve them at creation-time
-        private TMPro.TextMeshProUGUI _mana;
-        private TMPro.TextMeshProUGUI _health;
-        private TMPro.TextMeshProUGUI _power;
 
         public override bool IsValid
         {
             get
             {
                 if (!base.IsValid) return false;
-                if (_mana == null) return false;
-                if (_health == null) return false;
-                if (_power == null) return false;
+                if (Mana == null) return false;
+                if (Health == null) return false;
+                if (Power == null) return false;
                 return true;
             }
         }
@@ -45,48 +44,34 @@
         public void SetAgent(IViewBase view, ICardAgent agent)
         //public override void SetAgent(IViewBase view, IAgent agent)
         {
+            Assert.IsNotNull(agent);
             base.SetAgent(view, agent);
             Agent = agent;
-            _mana = FindTextChild("Mana");
-            _health = FindTextChild("Health");
-            _power = FindTextChild("Power");
 
-            if (_mana == null)
-            {
-                Error("No Mana text child for {0}", this);
-                return;
-            }
-            
-            if (_health == null)
-            {
-                Error("No Health text child for {0}", this);
-                return;
-            }
-            
-            if (_power == null)
-            {
-                Error("No Power text child for {0}", this);
-                return;
-            }
+            AddSubscriptions();
+            AddMesh();
+            Assert.IsTrue(IsValid);
+        }
 
+        private void AddMesh()
+        {
+            var root = Instantiate(Agent.Model.Template.MeshPrefab, transform);
+            var mesh = root.GetComponentInChildren<MeshRenderer>();
+            mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+        }
+
+        private void AddSubscriptions()
+        {
             base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
-
-            var cardAgent = agent as ICardAgent;
-            Assert.IsNotNull(cardAgent);
-            cardAgent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
-            cardAgent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);
-            cardAgent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
-
-            FindPiece().material
-                = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
-
+            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            Agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+            
             SquareOver.Subscribe(sq =>
             {
                 if (sq != null)
                     BoardView.ShowSquares(Agent.Model, sq);
             }).AddTo(this);
-
-            Assert.IsTrue(IsValid);
         }
 
         protected override bool MouseDown()
@@ -127,11 +112,6 @@
         private TMPro.TextMeshProUGUI FindTextChild(string name)
         {
             return transform.FindChildNamed<TMPro.TextMeshProUGUI>(name);
-        }
-
-        private Renderer FindPiece()
-        {
-            return transform.GetComponentInChildren<MeshRenderer>();
         }
     }
 }

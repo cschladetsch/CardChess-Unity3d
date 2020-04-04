@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   PieceType: 1
-  Description: A pawn
+  Title: 
   FlavourText: 
   ManaCost: 1
   Power: 1
   Health: 1
-  Model: {fileID: 1296830249253020, guid: bd3f4e9d698484241a03ab024bc5def0, type: 3}
+  Id: c506268a-9da2-4ec0-8631-ea679ffc7f20
+  Model: {fileID: 1517686322356387028, guid: e4693dfe4a323794492e0ae1190a3db8, type: 3}
   Abilities: 

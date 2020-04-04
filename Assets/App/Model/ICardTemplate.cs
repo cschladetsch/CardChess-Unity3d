@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using UnityEngine;
+
+namespace App.Model
 {
     using System.Collections.Generic;
     using Dekuple.Model;
@@ -11,20 +13,17 @@
     public interface ICardTemplate
         : IModel
     {
-        ECardType Type { get; }
-        EPieceType PieceType { get; }
-
+        string Name { get; }
+        string FlavourText { get; }
         int ManaCost { get; }
         int Power { get; }
         int Health { get; }
+        ECardType Type { get; }
+        EPieceType PieceType { get; }
+        GameObject MeshPrefab { get; }
 
-        string Name { get; }
-        string FlavourText { get; }
         IEnumerable<IItemModel> Items { get; }
         IEnumerable<EAbility> Abilities { get; }
         IEnumerable<IEffectModel> Effects { get; }
-
-        // make a new card from this template
-        ICardModel New(IPlayerModel player);
     }
 }
