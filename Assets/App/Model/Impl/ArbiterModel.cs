@@ -228,10 +228,19 @@ namespace App.Model
 
         private IResponse<IPieceModel> TryPlacePiece(PlacePiece act)
         {
+            // Have to at least start with a King.
             var entry = GetEntry(act.Player);
             var isKing = act.Card.PieceType == EPieceType.King;
             if (!entry.PlacedKing && !isKing)
                 return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Must place king first.");
+
+            // Can only have one Queen.
+            var owner = act.Owner as IPlayerModel;
+            if (act.Card.PieceType == EPieceType.Queen &&
+                Board.Pieces.Any(p => owner == act.Owner && p.PieceType == EPieceType.Queen))
+            {
+                return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Can have up to one Queen on Board at a time.");
+            }
 
             var playerMana = act.Player.Mana;
             var manaCost = act.Card.ManaCost;
