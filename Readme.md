@@ -51,3 +51,6 @@ At first, the game will be a 2 player hotseat desktop (macOS and Windows) game.
 The main [GameLoop](https://github.com/cschladetsch/CardCHess/wiki/gameloop) is well documented in the wiki.
 
 Later, if that all works out well, then networking layer will be added between Model and Agent. This has already been architected for via use of Futures for all interactions between Agents and Models.
+
+## Discord
+There's also a [discord server](https://discord.gg/c8SmrE) connected to GitHub. 
