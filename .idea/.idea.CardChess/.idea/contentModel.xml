@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\christian\.Rider2019.3\config\scratches" t="IncludeRecursive" />
@@ -119,6 +119,7 @@
               <e p="PlayerModel.cs" t="Include" />
               <e p="PlayerModelBase.cs" t="Include" />
               <e p="PlayerOwnedModelBase.cs" t="Include" />
+              <e p="RequestResponse.cs" t="Include" />
               <e p="RespondingModelBase.cs" t="Include" />
               <e p="SpellModel.cs" t="Include" />
             </e>
@@ -146,6 +147,10 @@
               <e p="TestRegistry.cs" t="Include" />
               <e p="TestReplay.cs" t="Include" />
             </e>
+          </e>
+          <e p="UI" t="Include">
+            <e p="ArbiterResponseList.cs" t="Include" />
+            <e p="ArbiterTextEntry.cs" t="Include" />
           </e>
           <e p="Util" t="Include">
             <e p="BindingUtils.cs" t="Include" />
@@ -370,6 +375,1313 @@
               </e>
               <e p="IViewBase.cs" t="Include" />
               <e p="IViewRegistry.cs" t="Include" />
+            </e>
+          </e>
+          <e p="New UI Widgets" t="Include">
+            <e p="Editor" t="Include">
+              <e p="AccordionItemDrawer.cs" t="Include" />
+              <e p="AssemblyDefinitionsEditor.cs" t="Include" />
+              <e p="ButtonAdvancedEditor.cs" t="Include" />
+              <e p="ButtonCustomEditor.cs" t="Include" />
+              <e p="CenteredSliderEditor.cs" t="Include" />
+              <e p="ColorHSVPropertyDrawer.cs" t="Include" />
+              <e p="ConditionalEditor.cs" t="Include" />
+              <e p="ConditionalFieldInfo.cs" t="Include" />
+              <e p="ConditionalPropertyDrawer.cs" t="Include" />
+              <e p="CursorsEditor.cs" t="Include" />
+              <e p="DragSupportEditor.cs" t="Include" />
+              <e p="EasyLayoutEditor.cs" t="Include" />
+              <e p="EasyLayoutEllipseSettingsPropertyDrawer.cs" t="Include" />
+              <e p="LayoutSwitcherEditor.cs" t="Include" />
+              <e p="ListViewBaseEditor.cs" t="Include" />
+              <e p="ListViewCustomBaseEditor.cs" t="Include" />
+              <e p="ListViewCustomEditor.cs" t="Include" />
+              <e p="ListViewCustomHeightEditor.cs" t="Include" />
+              <e p="ListViewEditor.cs" t="Include" />
+              <e p="ListViewGameObjectsEditor.cs" t="Include" />
+              <e p="ListViewIconsEditor.cs" t="Include" />
+              <e p="ListViewItemEditor.cs" t="Include" />
+              <e p="ListViewPaginatorEditor.cs" t="Include" />
+              <e p="MenuOptions.cs" t="Include" />
+              <e p="OrderedEditor.cs" t="Include" />
+              <e p="ProgressbarEditor.cs" t="Include" />
+              <e p="ProjectSettings.cs" t="Include" />
+              <e p="RangeSliderEditor.cs" t="Include" />
+              <e p="RangeSliderFloatEditor.cs" t="Include" />
+              <e p="ResizableEditor.cs" t="Include" />
+              <e p="ResizableHeaderEditor.cs" t="Include" />
+              <e p="ScriptingDefineSymbols.cs" t="Include" />
+              <e p="ScriptsRecompile.cs" t="Include" />
+              <e p="ScrollRectPaginatorEditor.cs" t="Include" />
+              <e p="SelectableHelperEditor.cs" t="Include" />
+              <e p="SpinnerEditor.cs" t="Include" />
+              <e p="SpinnerFloatEditor.cs" t="Include" />
+              <e p="SplitterEditor.cs" t="Include" />
+              <e p="TabButtonEditor.cs" t="Include" />
+              <e p="TabIconButtonEditor.cs" t="Include" />
+              <e p="TabIconsDrawer.cs" t="Include" />
+              <e p="TableHeaderEditor.cs" t="Include" />
+              <e p="ThirdPartySupportMenuOptions.cs" t="Include" />
+              <e p="TileViewEditor.cs" t="Include" />
+              <e p="TimeBaseEditor.cs" t="Include" />
+              <e p="TreeViewCustomEditor.cs" t="Include" />
+              <e p="TreeViewDataSourceEditor.cs" t="Include" />
+              <e p="TreeViewDataSourceWindow.cs" t="Include" />
+            </e>
+            <e p="Examples" t="Include">
+              <e p="Accordion" t="Include">
+                <e p="AccordionTestItems.cs" t="Include" />
+                <e p="AccordionTestTemplates.cs" t="Include" />
+                <e p="AccordionTestToggle.cs" t="Include" />
+              </e>
+              <e p="Autocomplete" t="Include">
+                <e p="AutocompleteIconsHelper.cs" t="Include" />
+                <e p="AutocompleteRemote.cs" t="Include" />
+                <e p="AutocompleteTest.cs" t="Include" />
+              </e>
+              <e p="Calendar" t="Include">
+                <e p="TestCalendar.cs" t="Include" />
+                <e p="TestCalendarDayRange.cs" t="Include" />
+                <e p="TestDate.cs" t="Include" />
+                <e p="TestDatePicker.cs" t="Include" />
+                <e p="TestDateScroller.cs" t="Include" />
+                <e p="TestDateTimePicker.cs" t="Include" />
+                <e p="TestDayRangeSource.cs" t="Include" />
+                <e p="TestTimePicker.cs" t="Include" />
+              </e>
+              <e p="ColorPicker" t="Include">
+                <e p="TestColorPicker.cs" t="Include" />
+                <e p="TestColorPickerRange.cs" t="Include" />
+              </e>
+              <e p="Combobox" t="Include">
+                <e p="ComboboxAutocompleteCopyData.cs" t="Include" />
+                <e p="ComboboxChanges.cs" t="Include" />
+                <e p="ComboboxChangesEvent.cs" t="Include" />
+                <e p="ComboboxDisableDefaultInput.cs" t="Include" />
+                <e p="KeyValueAutocomplete.cs" t="Include" />
+                <e p="KeyValueCombobox.cs" t="Include" />
+                <e p="KeyValueListView.cs" t="Include" />
+                <e p="KeyValueListViewDataSource.cs" t="Include" />
+                <e p="KeyValueListViewItem.cs" t="Include" />
+                <e p="TestCombobox.cs" t="Include" />
+                <e p="TestComboboxIcons.cs" t="Include" />
+              </e>
+              <e p="Dialog" t="Include">
+                <e p="DialogInputHelper.cs" t="Include" />
+                <e p="DialogTreeViewInputHelper.cs" t="Include" />
+                <e p="TestDialogWithCustomContent.cs" t="Include" />
+                <e p="TestDialogWithDifferentButtons.cs" t="Include" />
+              </e>
+              <e p="Drag-and-Drop" t="Include">
+                <e p="InputFieldDragSupport.cs" t="Include" />
+                <e p="InputFieldDragSupportBase.cs" t="Include" />
+                <e p="InputFieldDragSwapSupport.cs" t="Include" />
+                <e p="InputFieldDropSupport.cs" t="Include" />
+              </e>
+              <e p="Editor" t="Include">
+                <e p="HarborListViewEditor.cs" t="Include" />
+                <e p="ListViewCustomSampleEditor.cs" t="Include" />
+                <e p="ListViewUnderlineSampleEditor.cs" t="Include" />
+                <e p="ListViewVariableHeightEditor.cs" t="Include" />
+                <e p="SteamSpyViewEditor.cs" t="Include" />
+                <e p="TileViewSampleEditor.cs" t="Include" />
+                <e p="ToDoListViewEditor.cs" t="Include" />
+                <e p="TraderListViewEditor.cs" t="Include" />
+                <e p="TreeViewSampleEditor.cs" t="Include" />
+              </e>
+              <e p="IO" t="Include">
+                <e p="TestFileDialog.cs" t="Include" />
+                <e p="TestFolderDialog.cs" t="Include" />
+              </e>
+              <e p="LayoutSwitcher" t="Include">
+                <e p="TestLayoutSwitcher.cs" t="Include" />
+              </e>
+              <e p="Lightbox" t="Include">
+                <e p="TestLightbox.cs" t="Include" />
+              </e>
+              <e p="ListView" t="Include">
+                <e p="Chat" t="Include">
+                  <e p="ChatLine.cs" t="Include" />
+                  <e p="ChatLineComponent.cs" t="Include" />
+                  <e p="ChatLineIncoming.cs" t="Include" />
+                  <e p="ChatLineOutgoing.cs" t="Include" />
+                  <e p="ChatView.cs" t="Include" />
+                  <e p="ChatViewTest.cs" t="Include" />
+                  <e p="IChatLineComponent.cs" t="Include" />
+                </e>
+                <e p="CustomColoring" t="Include">
+                  <e p="ListViewComponentCustomColoring.cs" t="Include" />
+                </e>
+                <e p="Customization" t="Include">
+                  <e p="CustomListViewIconsComponent.cs" t="Include" />
+                </e>
+                <e p="GroupedListView" t="Include">
+                  <e p="GroupedItems.cs" t="Include" />
+                  <e p="GroupedListGroup.cs" t="Include" />
+                  <e p="GroupedListItem.cs" t="Include" />
+                  <e p="GroupedListView.cs" t="Include" />
+                  <e p="GroupedListViewComponent.cs" t="Include" />
+                  <e p="GroupedListViewComponentGroup.cs" t="Include" />
+                  <e p="GroupedListViewComponentItem.cs" t="Include" />
+                  <e p="GroupedListViewSelect.cs" t="Include" />
+                  <e p="IGroupedListItem.cs" t="Include" />
+                  <e p="IGroupedListViewComponent.cs" t="Include" />
+                  <e p="TestGroupedListView.cs" t="Include" />
+                </e>
+                <e p="ListViewButtons" t="Include">
+                  <e p="ListViewButtonNavigation.cs" t="Include" />
+                  <e p="ListViewButtons.cs" t="Include" />
+                  <e p="ListViewButtonsComponent.cs" t="Include" />
+                  <e p="ListViewButtonsItem.cs" t="Include" />
+                </e>
+                <e p="ListViewCustomSample" t="Include">
+                  <e p="ListViewCustomSample.cs" t="Include" />
+                  <e p="ListViewCustomSampleComponent.cs" t="Include" />
+                  <e p="ListViewCustomSampleItemDescription.cs" t="Include" />
+                </e>
+                <e p="ListViewDataFromHierarchy.cs" t="Include" />
+                <e p="ListViewDeselect.cs" t="Include" />
+                <e p="ListViewIconsExt" t="Include">
+                  <e p="ListViewIconsExt.cs" t="Include" />
+                  <e p="ListViewIconsItemComponentExt.cs" t="Include" />
+                  <e p="ListViewIconsItemDescriptionExt.cs" t="Include" />
+                </e>
+                <e p="ListViewIconsWithFilter.cs" t="Include" />
+                <e p="ListViewImages" t="Include">
+                  <e p="ListViewImages.cs" t="Include" />
+                  <e p="ListViewImagesComponent.cs" t="Include" />
+                  <e p="ListViewImagesItem.cs" t="Include" />
+                </e>
+                <e p="ListViewLoading.cs" t="Include" />
+                <e p="ListViewNoColoring.cs" t="Include" />
+                <e p="ListViewSaveIndices.cs" t="Include" />
+                <e p="ListViewSlider" t="Include">
+                  <e p="ListViewSlider.cs" t="Include" />
+                  <e p="ListViewSliderComponent.cs" t="Include" />
+                  <e p="ListViewSliderItem.cs" t="Include" />
+                </e>
+                <e p="ListViewUnderlineSample" t="Include">
+                  <e p="ListViewUnderlineSample.cs" t="Include" />
+                  <e p="ListViewUnderlineSampleComponent.cs" t="Include" />
+                  <e p="ListViewUnderlineSampleItemDescription.cs" t="Include" />
+                </e>
+                <e p="ListViewVariableHeight" t="Include">
+                  <e p="ListViewVariableHeight.cs" t="Include" />
+                  <e p="ListViewVariableHeightComponent.cs" t="Include" />
+                  <e p="ListViewVariableHeightItemDescription.cs" t="Include" />
+                </e>
+                <e p="ListViewVariableWidth" t="Include">
+                  <e p="ListViewVariableWidth.cs" t="Include" />
+                  <e p="ListViewVariableWidthComponent.cs" t="Include" />
+                  <e p="ListViewVariableWidthItemDescription.cs" t="Include" />
+                </e>
+                <e p="ListViewWithInputFields" t="Include">
+                  <e p="LVInputFields.cs" t="Include" />
+                  <e p="LVInputFieldsComponent.cs" t="Include" />
+                  <e p="LVInputFieldsItem.cs" t="Include" />
+                  <e p="LVInputFieldsTest.cs" t="Include" />
+                </e>
+                <e p="TasksView" t="Include">
+                  <e p="Task.cs" t="Include" />
+                  <e p="TaskAutocomplete.cs" t="Include" />
+                  <e p="TaskComponent.cs" t="Include" />
+                  <e p="TaskPicker.cs" t="Include" />
+                  <e p="TaskTests.cs" t="Include" />
+                  <e p="TaskView.cs" t="Include" />
+                </e>
+                <e p="TestListView.cs" t="Include" />
+                <e p="TestListViewIcons.cs" t="Include" />
+                <e p="TestListViewIconsThread.cs" t="Include" />
+                <e p="TestListViewPerformance.cs" t="Include" />
+                <e p="TestListViewSlider.cs" t="Include" />
+                <e p="TestListViewVariableHeight.cs" t="Include" />
+              </e>
+              <e p="Notify" t="Include">
+                <e p="TestNotify.cs" t="Include" />
+              </e>
+              <e p="Picker" t="Include">
+                <e p="PickerIntTest.cs" t="Include" />
+                <e p="TestPickerBool.cs" t="Include" />
+              </e>
+              <e p="Progressbar" t="Include">
+                <e p="SampleProgressbar.cs" t="Include" />
+                <e p="SampleProgressBar1.cs" t="Include" />
+                <e p="SampleProgressBar2.cs" t="Include" />
+                <e p="TestProgressbarDeterminate.cs" t="Include" />
+                <e p="TestProgressbarIndeterminate.cs" t="Include" />
+              </e>
+              <e p="RangeSlider" t="Include">
+                <e p="RangeSliderAudioTrack.cs" t="Include" />
+                <e p="RangeSliderFloatSample.cs" t="Include" />
+                <e p="RangeSliderSample.cs" t="Include" />
+                <e p="RangleSliderLabel.cs" t="Include" />
+                <e p="TimeRangeSlider" t="Include">
+                  <e p="TestTimeRangeSlider.cs" t="Include" />
+                  <e p="TimeRangeSlider.cs" t="Include" />
+                  <e p="TimeRangeSliderEvent.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Resizable" t="Include">
+                <e p="SplitterSlider.cs" t="Include" />
+              </e>
+              <e p="ScrollRectUtilites" t="Include">
+                <e p="TestScrollRectEventsPull.cs" t="Include" />
+              </e>
+              <e p="Shops" t="Include">
+                <e p="HarborShop" t="Include">
+                  <e p="HarborListView.cs" t="Include" />
+                  <e p="HarborListViewComponent.cs" t="Include" />
+                  <e p="HarborOrder.cs" t="Include" />
+                  <e p="HarborOrderLine.cs" t="Include" />
+                  <e p="HarborShop.cs" t="Include" />
+                </e>
+                <e p="IOrder.cs" t="Include" />
+                <e p="IOrderLine.cs" t="Include" />
+                <e p="Item.cs" t="Include" />
+                <e p="JRPGShop" t="Include">
+                  <e p="JRPGOrder.cs" t="Include" />
+                  <e p="JRPGOrderLine.cs" t="Include" />
+                  <e p="JRPGShop.cs" t="Include" />
+                  <e p="PlaylistDialogHelper.cs" t="Include" />
+                  <e p="TestTrader.cs" t="Include" />
+                  <e p="TraderListView.cs" t="Include" />
+                  <e p="TraderListViewComponent.cs" t="Include" />
+                  <e p="TraderListViewDragSupport.cs" t="Include" />
+                  <e p="TraderTreeView.cs" t="Include" />
+                  <e p="TraderTreeViewComponent.cs" t="Include" />
+                  <e p="TraderTreeViewNodeDragSupport.cs" t="Include" />
+                  <e p="TraderTreeViewNodeDropSupport.cs" t="Include" />
+                </e>
+                <e p="Prices.cs" t="Include" />
+                <e p="ResultOrderLine.cs" t="Include" />
+                <e p="Trader.cs" t="Include" />
+              </e>
+              <e p="Spinner" t="Include">
+                <e p="SpinnerString.cs" t="Include" />
+                <e p="TestSpinner.cs" t="Include" />
+                <e p="TestSpinnerFloat.cs" t="Include" />
+              </e>
+              <e p="Table" t="Include">
+                <e p="CountryFlag.cs" t="Include" />
+                <e p="SimpleTable" t="Include">
+                  <e p="SimpleTable.cs" t="Include" />
+                  <e p="SimpleTableComponent.cs" t="Include" />
+                  <e p="SimpleTableItem.cs" t="Include" />
+                  <e p="SimpleTableTest.cs" t="Include" />
+                </e>
+                <e p="SteamSpyComponent.cs" t="Include" />
+                <e p="SteamSpyData.cs" t="Include" />
+                <e p="SteamSpyItem.cs" t="Include" />
+                <e p="SteamSpyView.cs" t="Include" />
+                <e p="Table.cs" t="Include" />
+                <e p="TableCell.cs" t="Include" />
+                <e p="TableList" t="Include">
+                  <e p="TableList.cs" t="Include" />
+                  <e p="TableListCell.cs" t="Include" />
+                  <e p="TableListComponent.cs" t="Include" />
+                  <e p="TableListTest.cs" t="Include" />
+                </e>
+                <e p="TableRow.cs" t="Include" />
+                <e p="TableRowComponent.cs" t="Include" />
+              </e>
+              <e p="Tabs" t="Include">
+                <e p="TestTabsCreate.cs" t="Include" />
+                <e p="TestTabsEvents.cs" t="Include" />
+                <e p="TestTabsIcons.cs" t="Include" />
+              </e>
+              <e p="TestData" t="Include">
+                <e p="classes.txt" t="Include" />
+                <e p="countries.txt" t="Include" />
+                <e p="TileViewListData.txt" t="Include" />
+              </e>
+              <e p="TestScripts" t="Include">
+                <e p="CenteredSliderLabel.cs" t="Include" />
+                <e p="LocalizationSample.cs" t="Include" />
+                <e p="LocalizationSampleListView.cs" t="Include" />
+                <e p="PopupTest.cs" t="Include" />
+                <e p="SampleFilter.cs" t="Include" />
+                <e p="SceneVersionNumber.cs" t="Include" />
+                <e p="SmokeTest.cs" t="Include" />
+                <e p="StandaloneExit.cs" t="Include" />
+                <e p="SwitchTest.cs" t="Include" />
+                <e p="TestDirectoryTreeView.cs" t="Include" />
+                <e p="TestPaginator.cs" t="Include" />
+                <e p="TestScene2.cs" t="Include" />
+                <e p="TestScrollRectEvents.cs" t="Include" />
+                <e p="TestTabs.cs" t="Include" />
+                <e p="UITestSamples.cs" t="Include" />
+              </e>
+              <e p="TileView" t="Include">
+                <e p="GroupedTileView" t="Include">
+                  <e p="GroupedPhotos.cs" t="Include" />
+                  <e p="GroupedTileView.cs" t="Include" />
+                  <e p="GroupedTileViewComponent.cs" t="Include" />
+                  <e p="Photo.cs" t="Include" />
+                  <e p="TestGroupedTileView.cs" t="Include" />
+                </e>
+                <e p="SimpleTileView" t="Include">
+                  <e p="SimpleTileView.cs" t="Include" />
+                  <e p="SimpleTileViewComponent.cs" t="Include" />
+                  <e p="SimpleTileViewItem.cs" t="Include" />
+                </e>
+                <e p="TestTileViewList.cs" t="Include" />
+                <e p="TileViewComponentSample.cs" t="Include" />
+                <e p="TileViewDefaultItemChange.cs" t="Include" />
+                <e p="TileViewIcons" t="Include">
+                  <e p="TileViewIcons.cs" t="Include" />
+                  <e p="TileViewIconsDataSource.cs" t="Include" />
+                  <e p="TileViewIconsDragSupport.cs" t="Include" />
+                  <e p="TileViewIconsDropSupport.cs" t="Include" />
+                  <e p="TileViewIconsLayoutWidthExtender.cs" t="Include" />
+                  <e p="TileViewIconsTest.cs" t="Include" />
+                </e>
+                <e p="TileViewItemSample.cs" t="Include" />
+                <e p="TileViewList.cs" t="Include" />
+                <e p="TileViewReorder.cs" t="Include" />
+                <e p="TileViewResizeHelper.cs" t="Include" />
+                <e p="TileViewSample.cs" t="Include" />
+                <e p="TileViewSampleDataSource.cs" t="Include" />
+                <e p="TileViewSampleDragSupport.cs" t="Include" />
+                <e p="TileViewSampleDropSupport.cs" t="Include" />
+                <e p="TileViewToggleDirection.cs" t="Include" />
+              </e>
+              <e p="ToDoList" t="Include">
+                <e p="ToDoListView.cs" t="Include" />
+                <e p="ToDoListViewComponent.cs" t="Include" />
+                <e p="ToDoListViewItem.cs" t="Include" />
+              </e>
+              <e p="Tooltip" t="Include">
+                <e p="TestTooltip.cs" t="Include" />
+              </e>
+              <e p="TracksView" t="Include">
+                <e p="ScheduleView.cs" t="Include" />
+                <e p="TestScheduleView.cs" t="Include" />
+                <e p="TrackBackground.cs" t="Include" />
+                <e p="TrackData.cs" t="Include" />
+                <e p="TrackDataDialog.cs" t="Include" />
+                <e p="TrackDataDragSupport.cs" t="Include" />
+                <e p="TrackDataForm.cs" t="Include" />
+                <e p="TrackDataView.cs" t="Include" />
+                <e p="TrackDialog.cs" t="Include" />
+                <e p="TrackForm.cs" t="Include" />
+                <e p="TrackLayoutByName.cs" t="Include" />
+                <e p="TrackView.cs" t="Include" />
+              </e>
+              <e p="TreeGraph" t="Include">
+                <e p="TestTreeGraph.cs" t="Include" />
+              </e>
+              <e p="TreeView" t="Include">
+                <e p="ITreeViewSampleItem.cs" t="Include" />
+                <e p="MultipleDefaultItems" t="Include">
+                  <e p="ITreeViewSampleMultipleComponent.cs" t="Include" />
+                  <e p="TreeViewSampleComponentContinent.cs" t="Include" />
+                  <e p="TreeViewSampleComponentCountry.cs" t="Include" />
+                  <e p="TreeViewSampleComponentMultiple.cs" t="Include" />
+                </e>
+                <e p="TestTreeView.cs" t="Include" />
+                <e p="TestTreeViewTag.cs" t="Include" />
+                <e p="TreeViewCheckboxes" t="Include">
+                  <e p="TestTreeViewCheckboxes.cs" t="Include" />
+                  <e p="TreeViewCheckboxes.cs" t="Include" />
+                  <e p="TreeViewCheckboxesComponent.cs" t="Include" />
+                  <e p="TreeViewCheckboxesItem.cs" t="Include" />
+                </e>
+                <e p="TreeViewComponentDoubleClick.cs" t="Include" />
+                <e p="TreeViewComponentWithClick.cs" t="Include" />
+                <e p="TreeViewCreateFromScript.cs" t="Include" />
+                <e p="TreeViewDoubleClick.cs" t="Include" />
+                <e p="TreeViewListeners.cs" t="Include" />
+                <e p="TreeViewSample.cs" t="Include" />
+                <e p="TreeViewSampleComponent.cs" t="Include" />
+                <e p="TreeViewSampleData.cs" t="Include" />
+                <e p="TreeViewSampleDataCountry.cs" t="Include" />
+                <e p="TreeViewSampleItem.cs" t="Include" />
+                <e p="TreeViewSampleItemContinent.cs" t="Include" />
+                <e p="TreeViewSampleItemCountry.cs" t="Include" />
+                <e p="TreeViewToggle" t="Include">
+                  <e p="TreeViewToggleComponent.cs" t="Include" />
+                </e>
+              </e>
+              <e p="WidgetGeneration" t="Include">
+                <e p="DataItem.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="Accordion" t="Include">
+                <e p="Accordion.cs" t="Include" />
+                <e p="AccordionEnums.cs" t="Include" />
+                <e p="AccordionEvent.cs" t="Include" />
+                <e p="AccordionItem.cs" t="Include" />
+                <e p="AccordionItemComponent.cs" t="Include" />
+              </e>
+              <e p="Attributes" t="Include">
+                <e p="DataBindAttributes.cs" t="Include" />
+                <e p="DataBindEventAttribute.cs" t="Include" />
+                <e p="DataBindFieldAttribute.cs" t="Include" />
+                <e p="DataBindSupportAttribute.cs" t="Include" />
+              </e>
+              <e p="AudioPlayer" t="Include">
+                <e p="AudioPlayer.cs" t="Include" />
+              </e>
+              <e p="Autocomplete" t="Include">
+                <e p="Autocomplete.cs" t="Include" />
+                <e p="AutocompleteCombobox.cs" t="Include" />
+                <e p="AutocompleteCustom.cs" t="Include" />
+                <e p="AutocompleteDataSource.cs" t="Include" />
+                <e p="AutocompleteEvent.cs" t="Include" />
+                <e p="AutocompleteIcons.cs" t="Include" />
+              </e>
+              <e p="Buttons" t="Include">
+                <e p="SplitButton.cs" t="Include" />
+              </e>
+              <e p="Calendar" t="Include">
+                <e p="Calendar.cs" t="Include" />
+                <e p="CalendarBase.cs" t="Include" />
+                <e p="CalendarDate.cs" t="Include" />
+                <e p="CalendarDateBase.cs" t="Include" />
+                <e p="CalendarDayOfWeek.cs" t="Include" />
+                <e p="CalendarDayOfWeekBase.cs" t="Include" />
+                <e p="CalendarMultipleDate.cs" t="Include" />
+                <e p="CalendarMultipleDates.cs" t="Include" />
+                <e p="DateBase.cs" t="Include" />
+                <e p="DatePicker.cs" t="Include" />
+                <e p="DateScroller.cs" t="Include" />
+                <e p="DateTimePicker.cs" t="Include" />
+                <e p="DateTimeScroller.cs" t="Include" />
+                <e p="DateTimeWidget.cs" t="Include" />
+                <e p="DateTimeWidgetBase.cs" t="Include" />
+                <e p="Events" t="Include">
+                  <e p="CalendarDateEvent.cs" t="Include" />
+                  <e p="TimeEvent.cs" t="Include" />
+                </e>
+                <e p="Time12.cs" t="Include" />
+                <e p="Time24.cs" t="Include" />
+                <e p="TimeBase.cs" t="Include" />
+                <e p="TimePicker.cs" t="Include" />
+                <e p="TimeScroller.cs" t="Include" />
+                <e p="TimeSpinnerBase.cs" t="Include" />
+              </e>
+              <e p="CenteredSlider" t="Include">
+                <e p="CenteredSlider.cs" t="Include" />
+                <e p="CenteredSliderBase.cs" t="Include" />
+                <e p="CenteredSliderVertical.cs" t="Include" />
+              </e>
+              <e p="ColorPicker" t="Include">
+                <e p="ColorHSV.cs" t="Include" />
+                <e p="ColorPicker.cs" t="Include" />
+                <e p="ColorPickerABlock.cs" t="Include" />
+                <e p="ColorPickerColorBlock.cs" t="Include" />
+                <e p="ColorPickerEnums.cs" t="Include" />
+                <e p="ColorPickerHexBlock.cs" t="Include" />
+                <e p="ColorPickerHexBlockBase.cs" t="Include" />
+                <e p="ColorPickerHSVBlock.cs" t="Include" />
+                <e p="ColorPickerHSVPalette.cs" t="Include" />
+                <e p="ColorPickerImagePalette.cs" t="Include" />
+                <e p="ColorPickerRange.cs" t="Include" />
+                <e p="ColorPickerRangeHSV.cs" t="Include" />
+                <e p="ColorPickerRGBBlock.cs" t="Include" />
+                <e p="ColorPickerRGBPalette.cs" t="Include" />
+                <e p="ColorsList.cs" t="Include" />
+                <e p="Events" t="Include">
+                  <e p="ColorAlphaChangedEvent.cs" t="Include" />
+                  <e p="ColorHSVChangedEvent.cs" t="Include" />
+                  <e p="ColorRGBChangedEvent.cs" t="Include" />
+                </e>
+                <e p="IColorPickerBlock.cs" t="Include" />
+              </e>
+              <e p="Combobox" t="Include">
+                <e p="Combobox.cs" t="Include" />
+                <e p="ComboboxCustom.cs" t="Include" />
+                <e p="ComboboxIcons.cs" t="Include" />
+                <e p="ComboboxIconsItemComponent.cs" t="Include" />
+              </e>
+              <e p="Connector" t="Include">
+                <e p="ConnectorBase.cs" t="Include" />
+                <e p="ConnectorLine.cs" t="Include" />
+                <e p="MultipleConnector.cs" t="Include" />
+                <e p="SingleConnector.cs" t="Include" />
+              </e>
+              <e p="Dialog" t="Include">
+                <e p="BringToFront.cs" t="Include" />
+                <e p="Dialog.cs" t="Include" />
+                <e p="DialogActions.cs" t="Include" />
+                <e p="DialogButton.cs" t="Include" />
+                <e p="DialogButtonComponent.cs" t="Include" />
+                <e p="DialogButtonComponentBase.cs" t="Include" />
+                <e p="DialogInfo.cs" t="Include" />
+                <e p="DialogInfoBase.cs" t="Include" />
+                <e p="Lightbox.cs" t="Include" />
+                <e p="Picker.cs" t="Include" />
+                <e p="PickerBool.cs" t="Include" />
+                <e p="PickerIcons.cs" t="Include" />
+                <e p="PickerInt.cs" t="Include" />
+                <e p="PickerListViewCustom.cs" t="Include" />
+                <e p="PickerString.cs" t="Include" />
+                <e p="PickerTreeViewCustom.cs" t="Include" />
+                <e p="Popup.cs" t="Include" />
+              </e>
+              <e p="Drag-and-Drop" t="Include">
+                <e p="BaseDragSupport.cs" t="Include" />
+                <e p="DragSupport.cs" t="Include" />
+                <e p="DragSupportHandle.cs" t="Include" />
+                <e p="IDropSupport.cs" t="Include" />
+                <e p="LayoutDropIndicator.cs" t="Include" />
+                <e p="ListViewCustomDragSupport.cs" t="Include" />
+                <e p="ListViewCustomDropSupport.cs" t="Include" />
+                <e p="ListViewDropIndicator.cs" t="Include" />
+                <e p="ListViewIconsDragSupport.cs" t="Include" />
+                <e p="ListViewIconsDropSupport.cs" t="Include" />
+                <e p="ListViewStringDragSupport.cs" t="Include" />
+                <e p="ListViewStringDropSupport.cs" t="Include" />
+                <e p="TreeViewCustomDropSupport.cs" t="Include" />
+                <e p="TreeViewCustomNodeDragSupport.cs" t="Include" />
+                <e p="TreeViewCustomNodeDropSupport.cs" t="Include" />
+                <e p="TreeViewDropSupport.cs" t="Include" />
+                <e p="TreeViewNodeDragSupport.cs" t="Include" />
+                <e p="TreeViewNodeDropSupport.cs" t="Include" />
+              </e>
+              <e p="Draggable" t="Include">
+                <e p="Draggable.cs" t="Include" />
+                <e p="DraggableHandle.cs" t="Include" />
+                <e p="DragListener.cs" t="Include" />
+                <e p="DragRedirect.cs" t="Include" />
+                <e p="ObjectSliding.cs" t="Include" />
+                <e p="ObjectSlidingHorizontalHelper.cs" t="Include" />
+                <e p="ObjectSlidingVerticalHelper.cs" t="Include" />
+                <e p="OnDragKeepSelected.cs" t="Include" />
+                <e p="OnDragListener.cs" t="Include" />
+              </e>
+              <e p="EasyLayout" t="Include">
+                <e p="EasyLayout.cs" t="Include" />
+                <e p="EasyLayoutBaseType.cs" t="Include" />
+                <e p="EasyLayoutCompact.cs" t="Include" />
+                <e p="EasyLayoutCompactOrGrid.cs" t="Include" />
+                <e p="EasyLayoutEllipse.cs" t="Include" />
+                <e p="EasyLayoutEllipseScroll.cs" t="Include" />
+                <e p="EasyLayoutEllipseSettings.cs" t="Include" />
+                <e p="EasyLayoutEnums.cs" t="Include" />
+                <e p="EasyLayoutExtensions.cs" t="Include" />
+                <e p="EasyLayoutFlex.cs" t="Include" />
+                <e p="EasyLayoutFlexOrStaggered.cs" t="Include" />
+                <e p="EasyLayoutFlexSettings.cs" t="Include" />
+                <e p="EasyLayoutGrid.cs" t="Include" />
+                <e p="EasyLayoutStaggered.cs" t="Include" />
+                <e p="EasyLayoutStaggeredSettings.cs" t="Include" />
+                <e p="EasyLayoutUtilites.cs" t="Include" />
+                <e p="LayoutElementInfo.cs" t="Include" />
+                <e p="LayoutElementMax.cs" t="Include" />
+                <e p="Padding.cs" t="Include" />
+                <e p="Size.cs" t="Include" />
+                <e p="SizesInfo.cs" t="Include" />
+              </e>
+              <e p="Editor.Conditions" t="Include">
+                <e p="Editor" t="Include">
+                  <e p="EditorConditional.cs" t="Include" />
+                  <e p="EditorConditionalMono.cs" t="Include" />
+                  <e p="EditorConditionalUI.cs" t="Include" />
+                </e>
+                <e p="EditorConditionBoolAttribute.cs" t="Include" />
+                <e p="EditorConditionBoolNotAttribute.cs" t="Include" />
+                <e p="EditorConditionEnumAttribute.cs" t="Include" />
+                <e p="EditorConditionFloatAttribute.cs" t="Include" />
+                <e p="EditorConditionIntAttribute.cs" t="Include" />
+                <e p="IEditorCondition.cs" t="Include" />
+              </e>
+              <e p="Effects" t="Include">
+                <e p="TsunamiEffect.cs" t="Include" />
+                <e p="TsunamiEffectScrollCompensation.cs" t="Include" />
+              </e>
+              <e p="InputField" t="Include">
+                <e p="IInputFieldExtended.cs" t="Include" />
+                <e p="IInputFieldProxy.cs" t="Include" />
+                <e p="InputFieldAdapter.cs" t="Include" />
+                <e p="InputFieldExtended.cs" t="Include" />
+                <e p="InputFieldListener.cs" t="Include" />
+                <e p="InputFieldNull.cs" t="Include" />
+                <e p="InputFieldProxy.cs" t="Include" />
+                <e p="InputFieldTMProProxy.cs" t="Include" />
+              </e>
+              <e p="IO" t="Include">
+                <e p="DirectoryTreeView.cs" t="Include" />
+                <e p="DirectoryTreeViewComponent.cs" t="Include" />
+                <e p="DrivesListView.cs" t="Include" />
+                <e p="DrivesListViewComponent.cs" t="Include" />
+                <e p="DrivesListViewComponentBase.cs" t="Include" />
+                <e p="FileDialog.cs" t="Include" />
+                <e p="FileListView.cs" t="Include" />
+                <e p="FileListViewComponent.cs" t="Include" />
+                <e p="FileListViewComponentBase.cs" t="Include" />
+                <e p="FileListViewPath.cs" t="Include" />
+                <e p="FileListViewPathComponent.cs" t="Include" />
+                <e p="FileListViewPathComponentBase.cs" t="Include" />
+                <e p="FileSystemEntry.cs" t="Include" />
+                <e p="FolderDialog.cs" t="Include" />
+                <e p="IOExceptionsView.cs" t="Include" />
+              </e>
+              <e p="ITemplatable.cs" t="Include" />
+              <e p="LayoutSwitcher" t="Include">
+                <e p="LayoutSwitcher.cs" t="Include" />
+                <e p="LayoutSwitcherEvent.cs" t="Include" />
+                <e p="UILayout.cs" t="Include" />
+                <e p="UIPosition.cs" t="Include" />
+              </e>
+              <e p="Listeners" t="Include">
+                <e p="ClickListener.cs" t="Include" />
+                <e p="ScrollListener.cs" t="Include" />
+                <e p="TransformListener.cs" t="Include" />
+              </e>
+              <e p="ListView" t="Include">
+                <e p="EasyLayoutBridge.cs" t="Include" />
+                <e p="Events" t="Include">
+                  <e p="ListViewBaseEvent.cs" t="Include" />
+                  <e p="ListViewCustomEvent.cs" t="Include" />
+                  <e p="ListViewEvent.cs" t="Include" />
+                  <e p="ListViewFocusEvent.cs" t="Include" />
+                  <e p="ListViewGameObjectsEvent.cs" t="Include" />
+                  <e p="ListViewItemClick.cs" t="Include" />
+                  <e p="ListViewItemEventData.cs" t="Include" />
+                  <e p="ListViewItemMove.cs" t="Include" />
+                  <e p="ListViewItemResize.cs" t="Include" />
+                  <e p="ListViewItemSelect.cs" t="Include" />
+                </e>
+                <e p="IItemHeight.cs" t="Include" />
+                <e p="IItemWidth.cs" t="Include" />
+                <e p="ILayoutBridge.cs" t="Include" />
+                <e p="IListViewItemHeight.cs" t="Include" />
+                <e p="IListViewItemWidth.cs" t="Include" />
+                <e p="IViewData.cs" t="Include" />
+                <e p="ListView.cs" t="Include" />
+                <e p="ListViewBase.cs" t="Include" />
+                <e p="ListViewColors" t="Include">
+                  <e p="ListViewColors.cs" t="Include" />
+                  <e p="ListViewColorsComponent.cs" t="Include" />
+                </e>
+                <e p="ListViewComponentPool.cs" t="Include" />
+                <e p="ListViewCustom.cs" t="Include" />
+                <e p="ListViewCustomHeight.cs" t="Include" />
+                <e p="ListViewCustomSize.cs" t="Include" />
+                <e p="ListViewCustomWidth.cs" t="Include" />
+                <e p="ListViewEnums.cs" t="Include" />
+                <e p="ListViewGameObjects.cs" t="Include" />
+                <e p="ListViewHeight.cs" t="Include" />
+                <e p="ListViewIcons.cs" t="Include" />
+                <e p="ListViewIconsItemComponent.cs" t="Include" />
+                <e p="ListViewIconsItemDescription.cs" t="Include" />
+                <e p="ListViewInt" t="Include">
+                  <e p="ListViewInt.cs" t="Include" />
+                  <e p="ListViewIntComponent.cs" t="Include" />
+                  <e p="ListViewIntComponentBase.cs" t="Include" />
+                </e>
+                <e p="ListViewItem.cs" t="Include" />
+                <e p="ListViewItemEventData.cs" t="Include" />
+                <e p="ListViewString.cs" t="Include" />
+                <e p="ListViewStringComponent.cs" t="Include" />
+                <e p="ListViewStringDataFile.cs" t="Include" />
+                <e p="ListViewStringItemComponent.cs" t="Include" />
+                <e p="ListViewType" t="Include">
+                  <e p="ListViewTypeBase.cs" t="Include" />
+                  <e p="ListViewTypeEllipse.cs" t="Include" />
+                  <e p="ListViewTypeFixed.cs" t="Include" />
+                  <e p="ListViewTypeRectangle.cs" t="Include" />
+                  <e p="ListViewTypeSize.cs" t="Include" />
+                  <e p="TileViewStaggered.cs" t="Include" />
+                  <e p="TileViewStaggeredItemPosition.cs" t="Include" />
+                  <e p="TileViewTypeFixed.cs" t="Include" />
+                  <e p="TileViewTypeSize.cs" t="Include" />
+                </e>
+                <e p="StandardLayoutBridge.cs" t="Include" />
+              </e>
+              <e p="Notify" t="Include">
+                <e p="Notify.cs" t="Include" />
+                <e p="NotifyInfoBase.cs" t="Include" />
+                <e p="NotifySequenceManager.cs" t="Include" />
+              </e>
+              <e p="Progressbar" t="Include">
+                <e p="Progressbar.cs" t="Include" />
+                <e p="ProgressbarDeterminate.cs" t="Include" />
+                <e p="ProgressbarDeterminateBase.cs" t="Include" />
+                <e p="ProgressbarEnums.cs" t="Include" />
+                <e p="ProgressbarIndeterminate.cs" t="Include" />
+              </e>
+              <e p="RangeSlider" t="Include">
+                <e p="RangeSlider.cs" t="Include" />
+                <e p="RangeSliderBase.cs" t="Include" />
+                <e p="RangeSliderFloat.cs" t="Include" />
+                <e p="RangeSliderFloatVertical.cs" t="Include" />
+                <e p="RangeSliderHandle.cs" t="Include" />
+                <e p="RangeSliderVertical.cs" t="Include" />
+              </e>
+              <e p="Resizable" t="Include">
+                <e p="Event" t="Include">
+                  <e p="ResizableEvent.cs" t="Include" />
+                  <e p="SplitterResizeEvent.cs" t="Include" />
+                </e>
+                <e p="IResizableItem.cs" t="Include" />
+                <e p="Resizable.cs" t="Include" />
+                <e p="Splitter.cs" t="Include" />
+              </e>
+              <e p="ScrollBlock" t="Include">
+                <e p="ScrollBlock.cs" t="Include" />
+                <e p="ScrollBlockItem.cs" t="Include" />
+              </e>
+              <e p="ScrollRectUtilites" t="Include">
+                <e p="DragOneDirection.cs" t="Include" />
+                <e p="ListViewPaginator.cs" t="Include" />
+                <e p="ScrollbarMinSize.cs" t="Include" />
+                <e p="ScrollButton.cs" t="Include" />
+                <e p="ScrollButtons.cs" t="Include" />
+                <e p="ScrollRectEvents.cs" t="Include" />
+                <e p="ScrollRectHeader.cs" t="Include" />
+                <e p="ScrollRectHeaderType.cs" t="Include" />
+                <e p="ScrollRectPage.cs" t="Include" />
+                <e p="ScrollRectPageSelect.cs" t="Include" />
+                <e p="ScrollRectPageWithNumber.cs" t="Include" />
+                <e p="ScrollRectPaginator.cs" t="Include" />
+                <e p="ScrollRectRestrictedDrag.cs" t="Include" />
+              </e>
+              <e p="Sidebar" t="Include">
+                <e p="Sidebar.cs" t="Include" />
+                <e p="SidebarEnums.cs" t="Include" />
+                <e p="SidebarHandle.cs" t="Include" />
+                <e p="SlideBlock.cs" t="Include" />
+                <e p="SlideBlockHandle.cs" t="Include" />
+              </e>
+              <e p="Spinner" t="Include">
+                <e p="Event" t="Include">
+                  <e p="OnChangeEventFloat.cs" t="Include" />
+                  <e p="OnChangeEventInt.cs" t="Include" />
+                  <e p="SubmitEventFloat.cs" t="Include" />
+                  <e p="SubmitEventInt.cs" t="Include" />
+                </e>
+                <e p="Spinner.cs" t="Include" />
+                <e p="SpinnerBase.cs" t="Include" />
+                <e p="SpinnerFloat.cs" t="Include" />
+              </e>
+              <e p="Style" t="Include">
+                <e p="Collections" t="Include">
+                  <e p="StyleButtonClose.cs" t="Include" />
+                  <e p="StyleCollections.cs" t="Include" />
+                  <e p="StyleCombobox.cs" t="Include" />
+                  <e p="StyleFileListView.cs" t="Include" />
+                  <e p="StyleSupportButtonClose.cs" t="Include" />
+                  <e p="StyleSupportCombobox.cs" t="Include" />
+                  <e p="StyleSupportHeaderCell.cs" t="Include" />
+                  <e p="StyleSupportTable.cs" t="Include" />
+                  <e p="StyleTable.cs" t="Include" />
+                  <e p="StyleTreeView.cs" t="Include" />
+                </e>
+                <e p="Containers" t="Include">
+                  <e p="IStyleSupportTabs.cs" t="Include" />
+                  <e p="StyleAccordion.cs" t="Include" />
+                  <e p="StyleSupportTabsLeft.cs" t="Include" />
+                  <e p="StyleSupportTabsTop.cs" t="Include" />
+                  <e p="StyleTabs.cs" t="Include" />
+                </e>
+                <e p="Dialogs" t="Include">
+                  <e p="StyleDialog.cs" t="Include" />
+                  <e p="StyleNotify.cs" t="Include" />
+                  <e p="StyleSupportDialog.cs" t="Include" />
+                  <e p="StyleSupportNotify.cs" t="Include" />
+                  <e p="StyleSupportPicker.cs" t="Include" />
+                  <e p="StyleSupportPopup.cs" t="Include" />
+                </e>
+                <e p="Editor" t="Include">
+                  <e p="StyleEditor.cs" t="Include" />
+                  <e p="StyleImagePropertyDrawer.cs" t="Include" />
+                  <e p="StyleMenuOptions.cs" t="Include" />
+                  <e p="StyleRangeSliderPropertyDrawer.cs" t="Include" />
+                  <e p="StyleTextPropertyDrawer.cs" t="Include" />
+                </e>
+                <e p="Fast" t="Include">
+                  <e p="StyleFast.cs" t="Include" />
+                  <e p="StyleFastButton.cs" t="Include" />
+                  <e p="StyleFastProgressbarIndeterminate.cs" t="Include" />
+                  <e p="StyleFastScrollbar.cs" t="Include" />
+                </e>
+                <e p="Input" t="Include">
+                  <e p="StyleAutocomplete.cs" t="Include" />
+                  <e p="StyleButton.cs" t="Include" />
+                  <e p="StyleCalendar.cs" t="Include" />
+                  <e p="StyleCenteredSlider.cs" t="Include" />
+                  <e p="StyleColorPicker.cs" t="Include" />
+                  <e p="StyleColorPickerRange.cs" t="Include" />
+                  <e p="StyleRangeSlider.cs" t="Include" />
+                  <e p="StyleScroller.cs" t="Include" />
+                  <e p="StyleSpinner.cs" t="Include" />
+                  <e p="StyleSupportButton.cs" t="Include" />
+                  <e p="StyleSupportButtonBig.cs" t="Include" />
+                  <e p="StyleSupportButtonSmall.cs" t="Include" />
+                  <e p="StyleSupportCalendar.cs" t="Include" />
+                  <e p="StyleSupportColorPicker.cs" t="Include" />
+                  <e p="StyleSupportSpinner.cs" t="Include" />
+                  <e p="StyleSwitch.cs" t="Include" />
+                  <e p="StyleTime.cs" t="Include" />
+                </e>
+                <e p="IStylable.cs" t="Include" />
+                <e p="IStyleDefaultValues.cs" t="Include" />
+                <e p="Misc" t="Include">
+                  <e p="StyleAudioPlayer.cs" t="Include" />
+                  <e p="StyleCanvas.cs" t="Include" />
+                  <e p="StylePaginator.cs" t="Include" />
+                  <e p="StyleProgressbarDeterminate.cs" t="Include" />
+                  <e p="StyleProgressbarIndeterminate.cs" t="Include" />
+                  <e p="StyleSidebar.cs" t="Include" />
+                  <e p="StyleSupportAny.cs" t="Include" />
+                  <e p="StyleSupportStop.cs" t="Include" />
+                  <e p="StyleSupportTooltip.cs" t="Include" />
+                  <e p="StyleTooltip.cs" t="Include" />
+                </e>
+                <e p="Style.cs" t="Include" />
+                <e p="Unity" t="Include">
+                  <e p="StyleDropdown.cs" t="Include" />
+                  <e p="StyleImage.cs" t="Include" />
+                  <e p="StyleInputField.cs" t="Include" />
+                  <e p="StyleRawImage.cs" t="Include" />
+                  <e p="StyleScrollbar.cs" t="Include" />
+                  <e p="StyleSlider.cs" t="Include" />
+                  <e p="StyleSupportScrollbar.cs" t="Include" />
+                  <e p="StyleSupportSlider.cs" t="Include" />
+                  <e p="StyleSupportToggle.cs" t="Include" />
+                  <e p="StyleSupportUnityButton.cs" t="Include" />
+                  <e p="StyleText.cs" t="Include" />
+                  <e p="StyleToggle.cs" t="Include" />
+                  <e p="StyleUnityButton.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Switch" t="Include">
+                <e p="Switch.cs" t="Include" />
+                <e p="SwitchEvent.cs" t="Include" />
+                <e p="SwitchGroup.cs" t="Include" />
+              </e>
+              <e p="Table" t="Include">
+                <e p="ResizableHeader.cs" t="Include" />
+                <e p="ResizableHeaderCell.cs" t="Include" />
+                <e p="ResizableHeaderCellInfo.cs" t="Include" />
+                <e p="ResizableHeaderDragCell.cs" t="Include" />
+                <e p="TableHeader.cs" t="Include" />
+                <e p="TableHeaderCell.cs" t="Include" />
+                <e p="TableHeaderCellInfo.cs" t="Include" />
+                <e p="TableHeaderDragCell.cs" t="Include" />
+              </e>
+              <e p="Tabs" t="Include">
+                <e p="Tab.cs" t="Include" />
+                <e p="TabButton.cs" t="Include" />
+                <e p="TabButtonComponent.cs" t="Include" />
+                <e p="TabButtonComponentBase.cs" t="Include" />
+                <e p="TabIconActiveButton.cs" t="Include" />
+                <e p="TabIconButton.cs" t="Include" />
+                <e p="TabIconButtonBase.cs" t="Include" />
+                <e p="TabIconDefaultButton.cs" t="Include" />
+                <e p="TabIcons.cs" t="Include" />
+                <e p="Tabs.cs" t="Include" />
+                <e p="TabsCustom.cs" t="Include" />
+                <e p="TabSelectEvent.cs" t="Include" />
+                <e p="TabsIcons.cs" t="Include" />
+              </e>
+              <e p="Templates.cs" t="Include" />
+              <e p="Text" t="Include">
+                <e p="ITextProxy.cs" t="Include" />
+                <e p="TextAdapter.cs" t="Include" />
+                <e p="TextNull.cs" t="Include" />
+                <e p="TextTMPro.cs" t="Include" />
+                <e p="TextUnity.cs" t="Include" />
+              </e>
+              <e p="ThirdPartySupport" t="Include">
+                <e p="DataBindSupport" t="Include">
+                  <e p="Calendar" t="Include">
+                    <e p="CalendarDateObserver.cs" t="Include" />
+                    <e p="CalendarDateProvider.cs" t="Include" />
+                    <e p="CalendarDateSetter.cs" t="Include" />
+                    <e p="CalendarDateSynchronizer.cs" t="Include" />
+                    <e p="TimeBaseTimeObserver.cs" t="Include" />
+                    <e p="TimeBaseTimeProvider.cs" t="Include" />
+                    <e p="TimeBaseTimeSetter.cs" t="Include" />
+                    <e p="TimeBaseTimeSynchronizer.cs" t="Include" />
+                  </e>
+                  <e p="CenteredSlider" t="Include">
+                    <e p="Horizontal" t="Include">
+                      <e p="CenteredSliderLimitMaxSetter.cs" t="Include" />
+                      <e p="CenteredSliderLimitMinSetter.cs" t="Include" />
+                      <e p="CenteredSliderStepSetter.cs" t="Include" />
+                      <e p="CenteredSliderUseValueLimitsSetter.cs" t="Include" />
+                      <e p="CenteredSliderValueMaxSetter.cs" t="Include" />
+                      <e p="CenteredSliderValueMinSetter.cs" t="Include" />
+                      <e p="CenteredSliderValueObserver.cs" t="Include" />
+                      <e p="CenteredSliderValueProvider.cs" t="Include" />
+                      <e p="CenteredSliderValueSetter.cs" t="Include" />
+                      <e p="CenteredSliderValueSynchronizer.cs" t="Include" />
+                      <e p="CenteredSliderWholeNumberOfStepsSetter.cs" t="Include" />
+                    </e>
+                    <e p="Vertical" t="Include">
+                      <e p="CenteredSliderVerticalLimitMaxSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalLimitMinSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalStepSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalUseValueLimitsSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalValueMaxSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalValueMinSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalValueObserver.cs" t="Include" />
+                      <e p="CenteredSliderVerticalValueProvider.cs" t="Include" />
+                      <e p="CenteredSliderVerticalValueSetter.cs" t="Include" />
+                      <e p="CenteredSliderVerticalValueSynchronizer.cs" t="Include" />
+                      <e p="CenteredSliderVerticalWholeNumberOfStepsSetter.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="ColorPicker" t="Include">
+                    <e p="ColorPickerColorObserver.cs" t="Include" />
+                    <e p="ColorPickerColorProvider.cs" t="Include" />
+                    <e p="ColorPickerColorSetter.cs" t="Include" />
+                    <e p="ColorPickerColorSynchronizer.cs" t="Include" />
+                  </e>
+                  <e p="IO" t="Include">
+                    <e p="DirectoryTreeView" t="Include">
+                      <e p="DirectoryTreeViewNodesSetter.cs" t="Include" />
+                      <e p="DirectoryTreeViewSelectedNodeObserver.cs" t="Include" />
+                      <e p="DirectoryTreeViewSelectedNodeProvider.cs" t="Include" />
+                      <e p="DirectoryTreeViewSelectedNodesObserver.cs" t="Include" />
+                      <e p="DirectoryTreeViewSelectedNodesProvider.cs" t="Include" />
+                      <e p="DirectoryTreeViewSelectedNodesSetter.cs" t="Include" />
+                      <e p="DirectoryTreeViewSelectedNodesSynchronizer.cs" t="Include" />
+                    </e>
+                    <e p="FileListView" t="Include">
+                      <e p="FileListViewDataSourceSetter.cs" t="Include" />
+                      <e p="FileListViewSelectedItemObserver.cs" t="Include" />
+                      <e p="FileListViewSelectedItemProvider.cs" t="Include" />
+                      <e p="FileListViewSelectedItemsObserver.cs" t="Include" />
+                      <e p="FileListViewSelectedItemsProvider.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="ListView" t="Include">
+                    <e p="ListView" t="Include">
+                      <e p="ListViewDataSourceSetter.cs" t="Include" />
+                      <e p="ListViewSelectedItemObserver.cs" t="Include" />
+                      <e p="ListViewSelectedItemProvider.cs" t="Include" />
+                      <e p="ListViewSelectedItemsObserver.cs" t="Include" />
+                      <e p="ListViewSelectedItemsProvider.cs" t="Include" />
+                    </e>
+                    <e p="ListViewHeight" t="Include">
+                      <e p="ListViewHeightDataSourceSetter.cs" t="Include" />
+                      <e p="ListViewHeightSelectedItemObserver.cs" t="Include" />
+                      <e p="ListViewHeightSelectedItemProvider.cs" t="Include" />
+                      <e p="ListViewHeightSelectedItemsObserver.cs" t="Include" />
+                      <e p="ListViewHeightSelectedItemsProvider.cs" t="Include" />
+                    </e>
+                    <e p="ListViewIcons" t="Include">
+                      <e p="ListViewIconsDataSourceSetter.cs" t="Include" />
+                      <e p="ListViewIconsSelectedItemObserver.cs" t="Include" />
+                      <e p="ListViewIconsSelectedItemProvider.cs" t="Include" />
+                      <e p="ListViewIconsSelectedItemsObserver.cs" t="Include" />
+                      <e p="ListViewIconsSelectedItemsProvider.cs" t="Include" />
+                    </e>
+                    <e p="ListViewInt" t="Include">
+                      <e p="ListViewIntDataSourceSetter.cs" t="Include" />
+                      <e p="ListViewIntSelectedItemObserver.cs" t="Include" />
+                      <e p="ListViewIntSelectedItemProvider.cs" t="Include" />
+                      <e p="ListViewIntSelectedItemsObserver.cs" t="Include" />
+                      <e p="ListViewIntSelectedItemsProvider.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="Progressbar" t="Include">
+                    <e p="ProgressbarMaxSetter.cs" t="Include" />
+                    <e p="ProgressbarValueSetter.cs" t="Include" />
+                  </e>
+                  <e p="RangeSlider" t="Include">
+                    <e p="Float" t="Include">
+                      <e p="RangeSliderFloatLimitMaxSetter.cs" t="Include" />
+                      <e p="RangeSliderFloatLimitMinSetter.cs" t="Include" />
+                      <e p="RangeSliderFloatStepSetter.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMaxObserver.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMaxProvider.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMaxSetter.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMaxSynchronizer.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMinObserver.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMinProvider.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMinSetter.cs" t="Include" />
+                      <e p="RangeSliderFloatValueMinSynchronizer.cs" t="Include" />
+                    </e>
+                    <e p="Int" t="Include">
+                      <e p="RangeSliderLimitMaxSetter.cs" t="Include" />
+                      <e p="RangeSliderLimitMinSetter.cs" t="Include" />
+                      <e p="RangeSliderStepSetter.cs" t="Include" />
+                      <e p="RangeSliderValueMaxObserver.cs" t="Include" />
+                      <e p="RangeSliderValueMaxProvider.cs" t="Include" />
+                      <e p="RangeSliderValueMaxSetter.cs" t="Include" />
+                      <e p="RangeSliderValueMaxSynchronizer.cs" t="Include" />
+                      <e p="RangeSliderValueMinObserver.cs" t="Include" />
+                      <e p="RangeSliderValueMinProvider.cs" t="Include" />
+                      <e p="RangeSliderValueMinSetter.cs" t="Include" />
+                      <e p="RangeSliderValueMinSynchronizer.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="Spinner" t="Include">
+                    <e p="Float" t="Include">
+                      <e p="SpinnerFloatMaxSetter.cs" t="Include" />
+                      <e p="SpinnerFloatMinSetter.cs" t="Include" />
+                      <e p="SpinnerFloatStepSetter.cs" t="Include" />
+                      <e p="SpinnerFloatValueObserver.cs" t="Include" />
+                      <e p="SpinnerFloatValueProvider.cs" t="Include" />
+                      <e p="SpinnerFloatValueSetter.cs" t="Include" />
+                      <e p="SpinnerFloatValueSynchronizer.cs" t="Include" />
+                    </e>
+                    <e p="Int" t="Include">
+                      <e p="SpinnerMaxSetter.cs" t="Include" />
+                      <e p="SpinnerMinSetter.cs" t="Include" />
+                      <e p="SpinnerStepSetter.cs" t="Include" />
+                      <e p="SpinnerValueObserver.cs" t="Include" />
+                      <e p="SpinnerValueProvider.cs" t="Include" />
+                      <e p="SpinnerValueSetter.cs" t="Include" />
+                      <e p="SpinnerValueSynchronizer.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="Switch" t="Include">
+                    <e p="SwitchIsOnObserver.cs" t="Include" />
+                    <e p="SwitchIsOnProvider.cs" t="Include" />
+                    <e p="SwitchIsOnSetter.cs" t="Include" />
+                    <e p="SwitchIsOnSynchronizer.cs" t="Include" />
+                  </e>
+                  <e p="TreeGraph" t="Include">
+                    <e p="TreeGraphNodesSetter.cs" t="Include" />
+                  </e>
+                  <e p="TreeView" t="Include">
+                    <e p="TreeViewNodesSetter.cs" t="Include" />
+                    <e p="TreeViewSelectedNodeObserver.cs" t="Include" />
+                    <e p="TreeViewSelectedNodeProvider.cs" t="Include" />
+                    <e p="TreeViewSelectedNodesObserver.cs" t="Include" />
+                    <e p="TreeViewSelectedNodesProvider.cs" t="Include" />
+                    <e p="TreeViewSelectedNodesSetter.cs" t="Include" />
+                    <e p="TreeViewSelectedNodesSynchronizer.cs" t="Include" />
+                  </e>
+                </e>
+                <e p="ReadMe.txt" t="Include" />
+                <e p="TMProSupport" t="Include">
+                  <e p="Editor" t="Include">
+                    <e p="MenuOptions.cs" t="Include" />
+                    <e p="ProgressbarTMProEditor.cs" t="Include" />
+                    <e p="TabIconButtonTMProEditor.cs" t="Include" />
+                  </e>
+                  <e p="Scripts" t="Include">
+                    <e p="Autocomplete" t="Include">
+                      <e p="AutocompleteCustomTMPro.cs" t="Include" />
+                      <e p="AutocompleteIconsTMPro.cs" t="Include" />
+                      <e p="AutocompleteTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Calendar" t="Include">
+                      <e p="CalendarDateTMPro.cs" t="Include" />
+                      <e p="CalendarDayOfWeekTMPro.cs" t="Include" />
+                      <e p="CalendarTMPro.cs" t="Include" />
+                      <e p="Time12TMPro.cs" t="Include" />
+                      <e p="Time24TMPro.cs" t="Include" />
+                    </e>
+                    <e p="ColorPicker" t="Include">
+                      <e p="ColorPickerHexBlockTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Combobox" t="Include">
+                      <e p="ComboboxIconsItemComponentTMPro.cs" t="Include" />
+                      <e p="ComboboxTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Dialog" t="Include">
+                      <e p="DialogButtonComponentTMPro.cs" t="Include" />
+                      <e p="DialogInfoTMPro.cs" t="Include" />
+                      <e p="PickerBoolTMPro.cs" t="Include" />
+                    </e>
+                    <e p="InputField" t="Include">
+                      <e p="InputFieldTMProExtended.cs" t="Include" />
+                    </e>
+                    <e p="IO" t="Include">
+                      <e p="DirectoryTreeViewComponentTMPro.cs" t="Include" />
+                      <e p="DrivesListViewComponentTMPro.cs" t="Include" />
+                      <e p="FileDialogTMPro.cs" t="Include" />
+                      <e p="FileListViewComponentTMPro.cs" t="Include" />
+                      <e p="FileListViewPathComponentTMPro.cs" t="Include" />
+                    </e>
+                    <e p="ListView" t="Include">
+                      <e p="ListViewIconsItemComponentTMPro.cs" t="Include" />
+                      <e p="ListViewInt" t="Include">
+                        <e p="ListViewIntComponentTMPro.cs" t="Include" />
+                      </e>
+                      <e p="ListViewStringComponentTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Notify" t="Include">
+                      <e p="NotifyInfoTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Progressbar" t="Include">
+                      <e p="ProgressbarDeterminateTMPro.cs" t="Include" />
+                      <e p="ProgressbarTMPro.cs" t="Include" />
+                    </e>
+                    <e p="ScrollRectUtilites" t="Include">
+                      <e p="ScrollRectPageWithNumberTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Style" t="Include">
+                      <e p="StyleTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Tabs" t="Include">
+                      <e p="TabButtonComponentTMPro.cs" t="Include" />
+                      <e p="TabIconActiveButtonTMPro.cs" t="Include" />
+                      <e p="TabIconButtonTMPro.cs" t="Include" />
+                      <e p="TabIconDefaultButtonTMPro.cs" t="Include" />
+                    </e>
+                    <e p="TreeView" t="Include">
+                      <e p="TreeViewComponentTMPro.cs" t="Include" />
+                    </e>
+                    <e p="Utilites" t="Include">
+                      <e p="InputFieldTMProProxy.cs" t="Include" />
+                    </e>
+                  </e>
+                </e>
+              </e>
+              <e p="TileView" t="Include">
+                <e p="TileView.cs" t="Include" />
+                <e p="TileViewCustom.cs" t="Include" />
+                <e p="TileViewCustomSize.cs" t="Include" />
+                <e p="TileViewScrollRectFitter.cs" t="Include" />
+              </e>
+              <e p="Tooltip.cs" t="Include" />
+              <e p="TracksView" t="Include">
+                <e p="ITrackData.cs" t="Include" />
+                <e p="Layouts" t="Include">
+                  <e p="TrackLayout.cs" t="Include" />
+                  <e p="TrackLayoutAnyLine.cs" t="Include" />
+                  <e p="TrackLayoutAnyLineCompact.cs" t="Include" />
+                  <e p="TrackLayoutTopLine.cs" t="Include" />
+                  <e p="TrackLayoutTopLineCompact.cs" t="Include" />
+                </e>
+                <e p="Track.cs" t="Include" />
+                <e p="TrackBackgroundBase.cs" t="Include" />
+                <e p="TrackDataCustomDragSupport.cs" t="Include" />
+                <e p="TrackDataDialogBase.cs" t="Include" />
+                <e p="TrackDataFormBase.cs" t="Include" />
+                <e p="TrackDataViewBase.cs" t="Include" />
+                <e p="TrackDialogBase.cs" t="Include" />
+                <e p="TrackFormBase.cs" t="Include" />
+                <e p="TracksDataViews.cs" t="Include" />
+                <e p="TracksViewBase.cs" t="Include" />
+                <e p="TracksViewCustom.cs" t="Include" />
+                <e p="TrackViewBase.cs" t="Include" />
+              </e>
+              <e p="TreeGraph" t="Include">
+                <e p="TreeGraph.cs" t="Include" />
+                <e p="TreeGraphComponent.cs" t="Include" />
+                <e p="TreeGraphComponentIcons.cs" t="Include" />
+                <e p="TreeGraphCustom.cs" t="Include" />
+              </e>
+              <e p="TreeView" t="Include">
+                <e p="Events" t="Include">
+                  <e p="NodeToggleEvent.cs" t="Include" />
+                  <e p="TreeViewNodeEvent.cs" t="Include" />
+                </e>
+                <e p="ListNode.cs" t="Include" />
+                <e p="TreeNode.cs" t="Include" />
+                <e p="TreeNodeSerialized.cs" t="Include" />
+                <e p="TreeNodeToggle.cs" t="Include" />
+                <e p="TreeView.cs" t="Include" />
+                <e p="TreeViewComponent.cs" t="Include" />
+                <e p="TreeViewComponentBase.cs" t="Include" />
+                <e p="TreeViewCustom.cs" t="Include" />
+                <e p="TreeViewDataSource.cs" t="Include" />
+                <e p="TreeViewDataSourceItem.cs" t="Include" />
+                <e p="TreeViewItem.cs" t="Include" />
+              </e>
+              <e p="Utilities" t="Include">
+                <e p="Animations.cs" t="Include" />
+                <e p="ButtonAdvanced.cs" t="Include" />
+                <e p="ComparisonCompare.cs" t="Include" />
+                <e p="ComparisonComparer.cs" t="Include" />
+                <e p="Compatibility.cs" t="Include" />
+                <e p="ComponentPool.cs" t="Include" />
+                <e p="Events" t="Include">
+                  <e p="MoveEvent.cs" t="Include" />
+                  <e p="PointerUnityEvent.cs" t="Include" />
+                  <e p="SelectEvent.cs" t="Include" />
+                  <e p="SubmitEvent.cs" t="Include" />
+                </e>
+                <e p="Extensions.cs" t="Include" />
+                <e p="GroupedList.cs" t="Include" />
+                <e p="HierarchyToggle.cs" t="Include" />
+                <e p="ICollectionChanged.cs" t="Include" />
+                <e p="ICollectionItemChanged.cs" t="Include" />
+                <e p="ImageAdvanced.cs" t="Include" />
+                <e p="IMovableToCache.cs" t="Include" />
+                <e p="IObservable.cs" t="Include" />
+                <e p="IObservableList.cs" t="Include" />
+                <e p="LayoutUtilites.cs" t="Include" />
+                <e p="LinkedHashSet.cs" t="Include" />
+                <e p="ListComponentPool.cs" t="Include" />
+                <e p="ModalHelper.cs" t="Include" />
+                <e p="MonoBehaviourConditional.cs" t="Include" />
+                <e p="ObservableList.cs" t="Include" />
+                <e p="ResizeListener.cs" t="Include" />
+                <e p="SelectableHelper.cs" t="Include" />
+                <e p="SelectListener.cs" t="Include" />
+                <e p="SlideUp.cs" t="Include" />
+                <e p="UIBehaviourConditional.cs" t="Include" />
+                <e p="Utilites.cs" t="Include" />
+              </e>
+              <e p="WidgetGeneration" t="Include">
+                <e p="AutocompleteGeneratorHelper.cs" t="Include" />
+                <e p="ComboboxGeneratorHelper.cs" t="Include" />
+                <e p="DataBindSupport" t="Include">
+                  <e p="DataBindEvents.cs" t="Include" />
+                  <e p="DataBindGenerator.cs" t="Include" />
+                  <e p="DataBindOption.cs" t="Include" />
+                  <e p="Editor" t="Include">
+                    <e p="MenuOptions.cs" t="Include" />
+                  </e>
+                  <e p="Observer.template.txt" t="Include" />
+                  <e p="Provider.template.txt" t="Include" />
+                  <e p="Setter.template.txt" t="Include" />
+                  <e p="Synchronizer.template.txt" t="Include" />
+                </e>
+                <e p="Editor" t="Include">
+                  <e p="ClassField.cs" t="Include" />
+                  <e p="ClassInfo.cs" t="Include" />
+                  <e p="MenuOptions.cs" t="Include" />
+                  <e p="OverwriteRequestWindow.cs" t="Include" />
+                  <e p="PrefabGenerator.cs" t="Include" />
+                  <e p="ScriptsGenerator.cs" t="Include" />
+                  <e p="Templates" t="Include">
+                    <e p="Collections" t="Include">
+                      <e p="Autocomplete.template.txt" t="Include" />
+                      <e p="Combobox.template.txt" t="Include" />
+                      <e p="ListView.template.txt" t="Include" />
+                      <e p="ListViewComponent.template.txt" t="Include" />
+                      <e p="TreeGraph.template.txt" t="Include" />
+                      <e p="TreeGraphComponent.template.txt" t="Include" />
+                      <e p="TreeView.template.txt" t="Include" />
+                      <e p="TreeViewComponent.template.txt" t="Include" />
+                    </e>
+                    <e p="CollectionsSupport" t="Include">
+                      <e p="Comparers.template.txt" t="Include" />
+                      <e p="ListViewDragSupport.template.txt" t="Include" />
+                      <e p="ListViewDropSupport.template.txt" t="Include" />
+                      <e p="TreeViewDropSupport.template.txt" t="Include" />
+                      <e p="TreeViewNodeDragSupport.template.txt" t="Include" />
+                      <e p="TreeViewNodeDropSuppport.template.txt" t="Include" />
+                    </e>
+                    <e p="Dialogs" t="Include">
+                      <e p="PickerListView.template.txt" t="Include" />
+                      <e p="PickerTreeView.template.txt" t="Include" />
+                    </e>
+                    <e p="MenuOptions.template.txt" t="Include" />
+                    <e p="Scene" t="Include">
+                      <e p="PrefabGenerator.template.txt" t="Include" />
+                      <e p="PrefabGeneratorAutocomplete.template.txt" t="Include" />
+                      <e p="PrefabGeneratorAutocompleteOff.template.txt" t="Include" />
+                      <e p="PrefabGeneratorScene.template.txt" t="Include" />
+                      <e p="PrefabGeneratorTable.template.txt" t="Include" />
+                      <e p="PrefabGeneratorTableOff.template.txt" t="Include" />
+                    </e>
+                    <e p="Test.template.txt" t="Include" />
+                    <e p="TestItem.template.txt" t="Include" />
+                    <e p="TestItemOff.template.txt" t="Include" />
+                  </e>
+                </e>
+                <e p="ListViewGeneratorHelper.cs" t="Include" />
+                <e p="PickerGeneratorHelper.cs" t="Include" />
+                <e p="SceneGeneratorHelper.cs" t="Include" />
+                <e p="TableGeneratorHelper.cs" t="Include" />
+                <e p="TestBase.cs" t="Include" />
+                <e p="TreeGraphGeneratorHelper.cs" t="Include" />
+                <e p="TreeViewGeneratorHelper.cs" t="Include" />
+              </e>
             </e>
           </e>
         </e>
@@ -734,6 +2046,11 @@
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="UIWidgets.csproj" t="IncludeRecursive" />
+      <e p="UIWidgets.Editor.csproj" t="IncludeRecursive" />
+      <e p="UIWidgets.Examples.csproj" t="IncludeRecursive" />
+      <e p="UIWidgets.Examples.Editor.csproj" t="IncludeRecursive" />
+      <e p="UIWidgets.Styles.Editor.csproj" t="IncludeRecursive" />
     </e>
     <e p="W:\Packages\Flow" t="Include">
       <e p="EDebugLevel.cs" t="Include" />
