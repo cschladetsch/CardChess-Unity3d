@@ -380,6 +380,9 @@ namespace App.Model
             return null;
         }
 
+        public MoveResults GetAdjacent(Coord coord, int distance)
+            => GetMoveResults(coord, distance, _surrounding);
+
         public MoveResults GetMovements(Coord coord, EPieceType type)
         {
             var max = Math.Max(Width, Height);
@@ -421,7 +424,7 @@ namespace App.Model
             return GetMoveResults(orig, dist, _diagnonals);
         }
 
-        MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
+        private MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
             var moveResults = new MoveResults();
             var blocked = new List<int>();

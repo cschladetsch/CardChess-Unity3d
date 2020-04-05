@@ -39,6 +39,7 @@
 
         MoveResults GetAttacks(IPieceModel piece);
         MoveResults GetAttacks(Coord coord, EPieceType type);
+        MoveResults GetAdjacent(Coord coord, int distance);
 
         IResponse Add(IPieceModel model);
         IResponse Remove(IPieceModel pieceModel);

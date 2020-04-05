@@ -236,10 +236,18 @@ namespace App.Model
 
             // Can only have one Queen.
             var owner = act.Owner as IPlayerModel;
-            if (act.Card.PieceType == EPieceType.Queen &&
-                Board.Pieces.Any(p => owner == act.Owner && p.PieceType == EPieceType.Queen))
+            if (act.Card.PieceType == EPieceType.Queen)
             {
-                return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Can have up to one Queen on Board at a time.");
+                var otherQueen = Board.Pieces.Any(
+                    p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
+                if (otherQueen)
+                    return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Can have up to one Queen on Board at a time.");
+
+                var nearKing = Board.GetAdjacent(
+                    act.Coord, 1).Interference.Any(
+                    p => p.SameOwner(owner) && p.PieceType == EPieceType.King);
+                if (!nearKing)
+                    return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Queens must be placed next to a King.");
             }
 
             var playerMana = act.Player.Mana;
