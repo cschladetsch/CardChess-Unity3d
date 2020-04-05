@@ -12,7 +12,8 @@
     public interface IArbiterAgent
         : IAgent<IArbiterModel>
     {
-        IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
+        IReadOnlyReactiveProperty<RequestResponse> LastResponse { get; }
+        IReadOnlyReactiveProperty<string> Log { get; }
         IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent { get; }
         IBoardAgent BoardAgent { get; }
         IPlayerAgent WhitePlayerAgent { get; }

@@ -10,7 +10,7 @@ namespace Dekuple
         IRequest Request { get; set; }
         EResponse Type { get; }
         EError Error { get; }
-        Guid RequestId { get; }
+        // Guid RequestId { get; }
         string Text { get;}
         object PayloadObject { get; }
         bool Failed { get; }

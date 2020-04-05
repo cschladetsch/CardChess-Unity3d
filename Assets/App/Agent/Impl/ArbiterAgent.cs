@@ -5,6 +5,8 @@ using App.Common;
 using Flow;
 using UniRx;
 using Dekuple;
+using UnityEngine;
+
 namespace App
 {
     using Dekuple.Agent;
@@ -26,9 +28,10 @@ namespace App
     {
         [Inject] public IBoardAgent BoardAgent { get; set; }
 
-        public IReadOnlyReactiveProperty<IResponse> LastResponse => Model.LastResponse;
+        public IReadOnlyReactiveProperty<RequestResponse> LastResponse => Model.LastResponse;
         public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
         public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
+        public IReadOnlyReactiveProperty<string> Log => Model.Log;
 
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];

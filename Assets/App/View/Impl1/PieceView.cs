@@ -84,7 +84,7 @@
                     return;
                     
                 Info($"{Agent.Model} died");
-                _AudioSource.PlayOneShot(DiedClip);
+                _Queue.Enqueue(Commands.Do(() => _AudioSource.PlayOneShot(DiedClip)));
                 BoardView.Remove(this);
             });
         }

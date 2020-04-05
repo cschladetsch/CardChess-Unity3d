@@ -92,12 +92,11 @@ namespace App.View.Impl1
             Agent.LastResponse.Subscribe(
                 (r) =>
                 {
-                    ResponseText.text = $"{r}";
                     #if DEBUG
                     _gameRoot.CheckAllValid();
                     #endif
                 }
-            );
+            ).AddTo(this);
         }
 
         private void TurnEnded(IResponse obj)

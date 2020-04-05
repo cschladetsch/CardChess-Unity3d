@@ -9,15 +9,15 @@ namespace App.Common.Message
         public IRequest Request { get; set; }
         public EResponse Type { get; }
         public EError Error { get; }
-        public Guid RequestId { get; set; }
+        // public Guid RequestId { get; }
         public string Text { get; }
         public object PayloadObject { get; protected set; }
         public bool Failed => !Success;
         public bool Success => Type == EResponse.Ok && (Error == EError.None || Error == EError.NoChange);
 
         public static Response NotImplemented = new Response(EResponse.NotImplemented);
-        public static Response Ok = new Response(EResponse.Ok);
-        public static Response Fail = new Response(EResponse.Fail);
+        public static readonly Response Ok = new Response();
+        public static readonly Response Fail = new Response(EResponse.Fail);
 
         public Response(EResponse response = EResponse.Ok, EError err = EError.None, string text = "")
         {
@@ -48,9 +48,12 @@ namespace App.Common.Message
 
         public override string ToString()
         {
+            // if (Error == EError.None)
+            //     return $"{Request}->{Success} {Type}:{Text}; {PayloadObject}";
+            // return $"{Request}->{Success} {Type}:{Error} {Text}; {PayloadObject}";
             if (Error == EError.None)
-                return $"{Request}->{Success} {Type}:{Text}; {PayloadObject}";
-            return $"{Request}->{Success} {Type}:{Error} {Text}; {PayloadObject}";
+                return $"{Request} {Type}:{Text}";
+            return $"{Request} {Type}:{Text}:{Error}";
         }
     }
 

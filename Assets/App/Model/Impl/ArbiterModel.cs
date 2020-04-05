@@ -9,12 +9,17 @@ using Dekuple;
 
 using App.Common;
 using App.Common.Message;
+using UnityEditor.PackageManager.Requests;
 
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace App.Model
 {
+    /// <summary>
+    /// TODO: Models should just store entity state. This Model performs game logic that should
+    /// TODO: be moved to ArbiterAgent.
+    /// </summary>
     public class ArbiterModel
         : RespondingModelBase
         , IArbiterModel
@@ -23,17 +28,18 @@ namespace App.Model
         public IReadOnlyReactiveProperty<EGameState> GameState => _gameState;
         public IReactiveProperty<int> TurnNumber => _turnNumber;
         public IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer => _currentPlayer;
-        public IReadOnlyReactiveProperty<IResponse> LastResponse => _lastResponse;
+        public IReadOnlyReactiveProperty<RequestResponse> LastResponse => _lastResponse;
+        public IReadOnlyReactiveProperty<string> Log => _log;
 
-        [Inject]
-        public IBoardModel Board { get; set; }
+        [Inject] public IBoardModel Board { get; set; }
 
         private List<PlayerEntry> _players;
         private readonly IntReactiveProperty _turnNumber = new IntReactiveProperty();
         private readonly IntReactiveProperty _currentPlayerIndex = new IntReactiveProperty(0);
         private readonly ReactiveProperty<IPlayerModel> _currentPlayer = new ReactiveProperty<IPlayerModel>();
         private readonly ReactiveProperty<EGameState> _gameState = new ReactiveProperty<EGameState>(EGameState.PlayTurn);
-        private readonly ReactiveProperty<IResponse> _lastResponse = new ReactiveProperty<IResponse>();
+        private readonly ReactiveProperty<RequestResponse> _lastResponse = new ReactiveProperty<RequestResponse>();
+        private readonly ReactiveProperty<string> _log = new ReactiveProperty<string>();
 
         public ArbiterModel()
             : base(null)
@@ -53,6 +59,7 @@ namespace App.Model
                 new PlayerEntry(w),
                 new PlayerEntry(b),
             };
+            
             _currentPlayerIndex.Subscribe(n => _currentPlayer.Value = _players[n].Player);
             _currentPlayerIndex.Value = 0;
         }
@@ -79,10 +86,11 @@ namespace App.Model
         {
             Assert.IsNotNull(request);
             var response = ProcessRequest(request);
-            Info($"Arbitrate: {request} => {response}");
+            Info($"Arbitrate: {request} {response}");
             var player = request.Owner as IPlayerModel;
             player?.Result(request, response);
-            _lastResponse.Value = response;
+            
+            _lastResponse.Value = new RequestResponse() { Request = request, Response = response };
             return response;
         }
 
@@ -147,13 +155,6 @@ namespace App.Model
             return Response.Ok;
         }
 
-        private void StartFirstTurn()
-        {
-            _currentPlayerIndex.Value = 0;
-            CurrentPlayer.Value.StartTurn();
-            _gameState.Value = EGameState.PlayTurn;
-        }
-
         public void EndTurn()
         {
             Verbose(10, $"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
@@ -201,19 +202,19 @@ namespace App.Model
             var player = move.Player;
             var piece = move.Piece;
             if (GameState.Value != EGameState.PlayTurn)
-                return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}");
+                return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}.");
 
             if (piece.MovedThisTurn)
-                return Failed(move, $"{piece} can only move once per turn");
+                return Failed(move, $"{piece} can only move once per turn.");
 
             if (CurrentPlayer.Value != player)
-                return Failed(move, $"Not {player}'s turn");
+                return Failed(move, $"Not {player}'s turn.");
 
             if (player.Mana.Value < 1)
-                return Failed(move, "Requires 1 mana to move a piece");
+                return Failed(move, "Requires 1 mana to move a piece.");
 
             if (GetEntry(move.Player).MovedPiece)
-                return Failed(move, $"{player} has already moved a piece this turn");
+                return Failed(move, $"{player} has already moved a piece this turn.");
 
             var resp = Board.TryMovePiece(move);
             if (resp.Success)
@@ -230,7 +231,7 @@ namespace App.Model
             var entry = GetEntry(act.Player);
             var isKing = act.Card.PieceType == EPieceType.King;
             if (!entry.PlacedKing && !isKing)
-                return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Must place king first");
+                return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Must place king first.");
 
             var playerMana = act.Player.Mana;
             var manaCost = act.Card.ManaCost;
@@ -271,20 +272,27 @@ namespace App.Model
             Assert.IsNotNull(attacker);
 
             if (attacker.SameOwner(defender))
-                return Failed(battle, $"{attacker} Can't battle own piece");
+                return Failed(battle, $"{attacker} Can't battle own piece.");
 
             if (attacker.AttackedThisTurn)
-                return Failed(battle, $"{attacker} can only attack once per turn");
+                return Failed(battle, $"{attacker} can only attack once per turn.");
 
             var moves = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType);
             if (!moves.Interference.Contains(defender))
-                return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}");
+                return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}.");
 
             var resp = attacker.Attack(defender);
-            if (resp.Success)
-            {
-                attacker.AttackedThisTurn = true;
-            }
+            if (!resp.Success)
+                return resp;
+            
+            if (attacker.Dead.Value)
+                _log.Value = $"{attacker} died.";
+                    
+            if (defender.Dead.Value)
+                _log.Value = $"{defender} died.";
+                
+            attacker.AttackedThisTurn = true;
+
             return resp;
         }
 
@@ -292,12 +300,9 @@ namespace App.Model
         {
             Assert.IsNotNull(turnEnd);
             if (turnEnd.Player != CurrentPlayer.Value)
-            {
-                Warn($"It's not {turnEnd.Player}'s turn to end");
-                return Response.Ok;
-            }
-
-            EndTurn();
+                Warn($"It's not {turnEnd.Player}'s turn to end.");
+            else
+                EndTurn();
 
             return Response.Ok;
         }

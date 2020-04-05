@@ -76,7 +76,7 @@
 
         protected void ResponseHandler(IResponse response)
         {
-            Info($"{response.Request} => {response.Type}:{response.Error}");
+            Info($"{response.Request} => {response.Type} : {response.Error}");
         }
 
         public override string ToString()

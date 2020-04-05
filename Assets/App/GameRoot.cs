@@ -15,6 +15,7 @@ namespace App
     using Dekuple.View.Impl;
     using Agent.Impl;
     using Model.Impl;
+    using UniRx;
     using Common;
     using Agent;
     using Model;
@@ -33,6 +34,7 @@ namespace App
         : ViewBase
     {
         public CardTemplateService CardTemplateService;
+        public ArbiterResponseList ResponseText;
         public CardTemplateDatabase CardTemplateDatabase;
         public IPlayerAgent WhitePlayerAgent;
         public IPlayerAgent BlackPlayerAgent;
@@ -74,7 +76,9 @@ namespace App
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
             ArbiterView.SetAgent(null, ArbiterAgent);
-
+            ArbiterAgent.LastResponse.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
+            ArbiterAgent.Log.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
+            
             CheckAllValid();
         }
 

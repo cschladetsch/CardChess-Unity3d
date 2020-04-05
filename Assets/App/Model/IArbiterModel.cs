@@ -16,7 +16,8 @@
         IReactiveProperty<int> TurnNumber { get; }
         IReadOnlyReactiveProperty<EGameState> GameState { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
-        IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
+        IReadOnlyReactiveProperty<RequestResponse> LastResponse { get; }
+        IReadOnlyReactiveProperty<string> Log { get; }
 
         void StartGame();
         void PrepareGame(IPlayerModel white, IPlayerModel black);
