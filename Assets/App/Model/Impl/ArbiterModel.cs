@@ -228,11 +228,13 @@ namespace App.Model
 
         private IResponse<IPieceModel> TryPlacePiece(PlacePiece act)
         {
-            // Have to at least start with a King.
             var entry = GetEntry(act.Player);
-            var isKing = act.Card.PieceType == EPieceType.King;
+            var card = act.Card;
+            
+            // Have to start with a King.
+            var isKing = card.PieceType == EPieceType.King;
             if (!entry.PlacedKing && !isKing)
-                return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Must place king first.");
+                return Response<IPieceModel>.Failed("Must place king first.");
 
             // Can only have one Queen.
             var owner = act.Owner as IPlayerModel;
@@ -241,31 +243,36 @@ namespace App.Model
                 var otherQueen = Board.Pieces.Any(
                     p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
                 if (otherQueen)
-                    return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Can have up to one Queen on Board at a time.");
+                    return Response<IPieceModel>.Failed("Can have up to one Queen on Board at a time.");
 
                 var nearKing = Board.GetAdjacent(
                     act.Coord, 1).Interference.Any(
                     p => p.SameOwner(owner) && p.PieceType == EPieceType.King);
                 if (!nearKing)
-                    return new Response<IPieceModel>(null, EResponse.Fail, EError.Error, "Queens must be placed next to a King.");
+                    return Response<IPieceModel>.Failed("Queens must be placed next to a King.");
             }
-
+            
+            // Check mana cost.
             var playerMana = act.Player.Mana;
             var manaCost = act.Card.ManaCost;
 #if !IGNORE_MANA
             if (playerMana.Value - manaCost.Value < 0)
-            {
-                Warn($"{act.Player} deoesn't have mana to play {act.Card}");
-                return new Response<IPieceModel>(null, EResponse.Fail, EError.NotEnoughMana, $"Attempted {act}");
-            }
+                return Response<IPieceModel>.Failed("Not enough mana.");
 #endif
 
+            // Pawns can only be placed next to a friendly.
+            if (card.PieceType == EPieceType.Peon
+                && !Board.GetAdjacent(act.Coord, 1).Interference.Any(other => other.SameOwner(card)))
+            {
+                return Response<IPieceModel>.Failed("Peons must be placed next to friendly pieces.");
+            }
+
+            // Let the board make the final decision based on its own state.
             var resp = Board.TryPlacePiece(act);
             if (resp.Failed)
-            {
-                Warn($"{act} failed");
                 return resp;
-            }
+            
+            // We can place the card!
             playerMana.Value -= manaCost.Value;
             if (isKing)
                 entry.PlacedKing = true;
@@ -275,7 +282,6 @@ namespace App.Model
 
         private Response TryResign(Resign resign)
         {
-            Warn($"{resign}");
             _gameState.Value = EGameState.Completed;
             return Response.Ok;
         }
@@ -289,7 +295,7 @@ namespace App.Model
             Assert.IsNotNull(attacker);
 
             if (attacker.SameOwner(defender))
-                return Failed(battle, $"{attacker} Can't battle own piece.");
+                return Failed(battle, $"{attacker} can't battle own piece.");
 
             if (attacker.AttackedThisTurn)
                 return Failed(battle, $"{attacker} can only attack once per turn.");
