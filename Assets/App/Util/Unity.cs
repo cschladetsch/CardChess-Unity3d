@@ -17,5 +17,12 @@
             else
                 Object.Destroy(go);
         }
+        
+        public static void SetAlpha(this UnityEngine.UI.Image image, float a)
+        {
+            var c = image.color;
+            c.a = a;
+            image.color = c;
+        }
     }
 }

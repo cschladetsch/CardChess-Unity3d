@@ -5,7 +5,7 @@
 
     public static class Math
     {
-        private static Random _rand = new Random();
+        private static readonly Random _rand = new Random();
 
         public static int Abs(int n) => n < 0 ? -n : n;
         public static int Max(int a, int b) => a > b ? a : b;

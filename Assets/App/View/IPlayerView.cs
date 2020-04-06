@@ -11,7 +11,7 @@
     public interface IPlayerView
         : IView<IPlayerAgent>
     {
-        void SetAgent(IPlayerView view, IPlayerAgent agent);
+        // void SetAgent(IPlayerView view, IPlayerAgent agent);
         
         /// <summary>
         /// TODO: Remove

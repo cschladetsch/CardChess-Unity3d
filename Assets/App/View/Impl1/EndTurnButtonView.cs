@@ -1,11 +1,14 @@
 ﻿namespace App.View.Impl1
 {
-    using CoLib;
     using UnityEngine;
     using UnityEngine.UI;
+    using TMPro;
+    using CoLib;
+    using Dekuple;
     using Dekuple.View;
     using Dekuple.View.Impl;
     using UniRx;
+    using Common.Message;
     using Agent;
 
     /// <summary>
@@ -22,15 +25,19 @@
     {
         public Button Button;
         public Image Image;
+        public TextMeshProUGUI Text;
 
         private Ref<Vector3> _scale;
 
-        //public void SetAgent(IViewBase player, IAgent agent)
-        public override void SetAgent(IViewBase player, IEndTurnButtonAgent agent)
+        public override void SetAgent(IViewBase owner, IEndTurnButtonAgent agent)
         {
+            var player = owner as IPlayerView;
+            Assert.IsNotNull(player);
             base.SetAgent(player, agent);
             Agent.Model.Interactive.Subscribe(SetInteractive);
             Agent.Model.PlayerHasOptions.Subscribe(SetColor);
+            
+            Button.Bind(() => player.PushRequest(new TurnEnd(player.Agent.Model), TurnEnded));
 
             // pulsate the end button when there's nothing left to do
             _scale = Image.transform.ToScaleRef();
@@ -41,6 +48,14 @@
                 )
              ;
             _Queue.Paused = true;
+        }
+        
+        private void TurnEnded(IResponse obj)
+        {
+            // _AudioSource.PlayOneShot(EndTurnClips[0]);
+            Assert.IsNotNull(obj);
+            Assert.IsTrue(obj.Success);
+            Info($"TurnEnded for {obj.Request.Owner}");
         }
 
         private void SetInteractive(bool interactive)

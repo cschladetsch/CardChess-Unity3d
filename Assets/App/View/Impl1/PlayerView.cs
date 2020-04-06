@@ -2,6 +2,8 @@
 {
     using System;
     using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View;
     using Dekuple.View.Impl;
     using Agent;
 
@@ -20,8 +22,8 @@
         public DeckView Deck;
         public EndTurnButtonView EndTurnButton;
 
-        public void SetAgent(IPlayerView view, IPlayerAgent agent)
-        //public override void SetAgent(IViewBase view, IAgent agent)
+        // public void SetAgent(IPlayerView view, IPlayerAgent agent)
+        public override void SetAgent(IViewBase view, IAgent agent)
         {
             Assert.IsNotNull(agent);
             var player = agent as IPlayerAgent;
