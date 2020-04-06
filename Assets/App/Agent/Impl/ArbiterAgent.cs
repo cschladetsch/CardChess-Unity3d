@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using App.Common;
-using Flow;
-using UniRx;
-using Dekuple;
-using UnityEngine;
-
-namespace App
+﻿namespace App
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using Flow;
+    using UniRx;
+    using Dekuple;
     using Dekuple.Agent;
     using Common.Message;
     using Agent;
     using Model;
+    using Common;
 
     /// <inheritdoc cref="AgentBaseCoro{TModel}" />
     /// <summary>
