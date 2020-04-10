@@ -60,9 +60,8 @@ namespace App.Agent
             Hand.StartGame();
         }
 
-        public void EndGame()
+        public virtual void EndGame()
         {
-            throw new NotImplementedException();
         }
 
         public void PushRequest(IRequest request, Action<IResponse> handler)

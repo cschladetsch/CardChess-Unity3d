@@ -18,7 +18,7 @@ namespace App
     /// The 'Adjudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     ///
-    /// Responsiblity for enforcing the rules of the game are shared with
+    /// Responsibility for enforcing the rules of the game are shared with
     /// the Board- and Card-Agents and Models.
     /// </summary>
     public class ArbiterAgent
@@ -52,14 +52,14 @@ namespace App
             Kernel.Step();
         }
 
-        public ITransient PrepareGame(IPlayerAgent p0, IPlayerAgent p1)
+        public ITransient PrepareGame(IPlayerAgent white, IPlayerAgent black)
         {
-            Assert.IsNotNull(p0);
-            Assert.IsNotNull(p1);
+            Assert.IsNotNull(white);
+            Assert.IsNotNull(black);
 
-            Model.PrepareGame(p0.Model, p1.Model);
-            _playerAgents = new List<IPlayerAgent> {p0, p1};
-            Model.CurrentPlayer.Subscribe(SetPlayerAgent);
+            Model.PrepareGame(white.Model, black.Model);
+            _playerAgents = new List<IPlayerAgent> {white, black};
+            Model.CurrentPlayer.Subscribe(SetPlayerAgent).AddTo(this);
 
             // TODO: do some animations etc
             return null;

@@ -26,8 +26,10 @@ namespace App.Model.Impl
 
         public EndTurnButtonModel(IOwner owner) : base(owner) { }
 
-        public void PrepareModels()
+        public override void PrepareModels()
         {
+            base.PrepareModels();
+            
             _arbiter.LastResponse.CombineLatest(PlayerModel.Mana, (p, m) =>
             {
                 if (_arbiter.CurrentPlayer.Value != PlayerModel)

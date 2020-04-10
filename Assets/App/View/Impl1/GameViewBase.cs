@@ -1,10 +1,10 @@
-﻿using App.Model;
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View.Impl;
+    using Model;
+
     public class GameViewBase
         : ViewBase
         , IGameViewBase

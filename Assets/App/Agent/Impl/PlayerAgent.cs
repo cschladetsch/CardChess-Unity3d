@@ -1,12 +1,13 @@
-﻿using System.Collections;
-
-using Flow;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System.Collections;
+    using Flow;
     using Model;
     using Common.Message;
 
+    /// <summary>
+    /// TODO
+    /// </summary>
     public class PlayerAgent
         : PlayerAgentBase
     {
@@ -18,31 +19,32 @@ namespace App.Agent
         public override void StartGame()
         {
             base.StartGame();
-            _Node.Add(New.Coroutine(Coro));
-        }
-
-        public void EndGame()
-        {
-            _end = true;
-        }
-
-        IEnumerator Coro(IGenerator self)
-        {
-            Name = "PlayerAgentCoro";
-            while (!_end)
+            
+            IEnumerator Coro(IGenerator self)
             {
-                while (_Requests.Count > 0 && _Futures.Count > 0)
+                Name = "PlayerAgentCoro";
+                while (!_end)
                 {
-                    var req = _Requests[0];
-                    _Futures[0].Value = req;
+                    while (_Requests.Count > 0 && _Futures.Count > 0)
+                    {
+                        var req = _Requests[0];
+                        _Futures[0].Value = req;
 
-                    _Requests.RemoveAt(0);
-                    _Futures.RemoveAt(0);
+                        _Requests.RemoveAt(0);
+                        _Futures.RemoveAt(0);
+                        yield return null;
+                    }
+
                     yield return null;
                 }
-
-                yield return null;
             }
+
+            _Node.Add(New.Coroutine(Coro).Named("GameLoop"));
+        }
+
+        public override void EndGame()
+        {
+            _end = true;
         }
 
         public override IFuture<RejectCards> Mulligan()

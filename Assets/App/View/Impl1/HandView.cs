@@ -30,11 +30,13 @@
         {
             get
             {
+#if !UNITY_EDITOR
                 Assert.IsNotNull(CardsRoot);
                 Assert.IsNotNull(CardViewPrefab);
                 Assert.IsNotNull(BoardOverlay);
                 foreach (var c in _cards)
                     Assert.IsTrue(c.IsValid);
+#endif
                 return true;
             }
         }

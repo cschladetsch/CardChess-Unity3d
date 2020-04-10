@@ -21,7 +21,7 @@ namespace App.Mock.Model
             CreateActionList();
         }
 
-        public void StartGame()
+        public override void StartGame()
         {
             base.StartGame();
         }

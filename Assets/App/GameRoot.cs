@@ -46,7 +46,6 @@ namespace App
 
         /// <summary>
         /// Startup the game.
-        ///
         /// Configure all models, agents and views.
         /// </summary>
         protected override bool Begin()
@@ -67,11 +66,10 @@ namespace App
             BoardView.SetAgent(BoardAgent);
             ArbiterView.SetAgent(ArbiterAgent);
 
-            CheckAllValid();
-
-            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
             
+            CheckAllValid();
+
             return true;
         }
 

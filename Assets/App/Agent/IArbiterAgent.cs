@@ -14,7 +14,7 @@
         IPlayerAgent WhitePlayerAgent { get; }
         IPlayerAgent BlackPlayerAgent { get; }
 
-        ITransient PrepareGame(IPlayerAgent p0, IPlayerAgent p1);
+        ITransient PrepareGame(IPlayerAgent white, IPlayerAgent black);
         void Step();
     }
 }

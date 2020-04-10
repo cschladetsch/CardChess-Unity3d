@@ -51,10 +51,6 @@ namespace App.Model
             Height = height;
         }
 
-        public void PrepareModels()
-        {
-        }
-
         public void StartGame()
         {
             ClearBoard();
