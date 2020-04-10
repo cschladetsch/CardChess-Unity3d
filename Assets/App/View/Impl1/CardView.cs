@@ -1,15 +1,11 @@
-﻿using UnityEngine;
-
-using UniRx;
-
-using App.Model;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UniRx;
+    using App.Model;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View;
     using Agent;
     using Common;
     using Common.Message;
@@ -47,16 +43,10 @@ namespace App.View.Impl1
         // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
-        protected override void Begin()
-        {
-            //Verbosity = 50;
-            base.Begin();
-        }
-
         //public override void SetAgent(IPlayerView view, ICardAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public void SetAgent(IViewBase view, IAgent agent)
         {
-            base.SetAgent(view, agent);
+            // base.SetAgent(view, agent);
             _mana = FindTextChild("Mana");
             _health = FindTextChild("Health");
             _power = FindTextChild("Power");

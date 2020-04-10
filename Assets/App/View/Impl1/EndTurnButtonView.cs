@@ -29,17 +29,17 @@ namespace App.View.Impl1
         private Ref<Vector3> _scale;
 
         //public override void SetAgent(IPlayerView player, IEndTurnButtonAgent agent)
-        public override void SetAgent(IViewBase player, IAgent agent)
+        public void SetAgent(IViewBase player, IAgent agent)
         {
-            base.SetAgent(player, agent);
+            // base.SetAgent(player, agent);
             Agent.Model.Interactive.Subscribe(SetInteractive);
             Agent.Model.PlayerHasOptions.Subscribe(SetColor);
 
             // pulsate the end button when there's nothing left to do
             _scale = Image.transform.ToScaleRef();
-            _Queue.Enqueue (
-                Commands.RepeatForever(
-                    Commands.PulsateScale(_scale, 0.085f, 1.2)
+            _Queue.Sequence(
+                Cmd.RepeatForever(
+                    Cmd.PulsateScale(_scale, 0.085f, 1.2)
                     )
                 )
              ;

@@ -43,21 +43,25 @@ namespace App.View.Impl1
             }
         }
 
-        protected override void Begin()
+        protected override bool Begin()
         {
-            base.Begin();
+            if (!base.Begin())
+                return false;
+            
             Coord.Subscribe(c => Move());
             SquareOver.Subscribe(sq =>
             {
                 if (sq != null)
                     BoardView.ShowSquares(Agent.Model.Card, sq);
             }).AddTo(this);
+
+            return true;
         }
 
         //public override void SetAgent(IPlayerView view, IPieceAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public void SetAgent(IViewBase view, IAgent agent)
         {
-            base.SetAgent(view, agent);
+            // base.SetAgent(view, agent);
 
             Assert.IsNotNull(agent);
             var pieceAgent = agent as IPieceAgent;
@@ -92,7 +96,7 @@ namespace App.View.Impl1
         void Die()
         {
             Info($"{Agent.Model} died");
-            Commands.Do(() => _AudioSource.PlayOneShot(HitBothClip));
+            _AudioSource.PlayOneShot(HitBothClip);
             BoardView.Remove(this);
         }
 
@@ -101,12 +105,12 @@ namespace App.View.Impl1
             var coord = Coord.Value;
             var go = GameObject;
             var pos = new Vector3(coord.x - BoardView.Width.Value/2 + 0.5f, coord.y - BoardView.Height.Value/2 + 0.5f, -1);
-            _Queue.Enqueue(
-                Commands.Parallel(
-                    Commands.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
-                    Commands.ScaleTo(go, 1, 0.1)
+            _Queue.Sequence(
+                Cmd.Parallel(
+                    Cmd.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
+                    Cmd.ScaleTo(go, 1, 0.1)
                 ),
-                Commands.Do(() => _AudioSource.PlayOneShot(MoveClip))
+                Cmd.Do(() => _AudioSource.PlayOneShot(MoveClip))
             );
         }
 

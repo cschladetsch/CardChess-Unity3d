@@ -39,14 +39,14 @@ namespace App.Service.Impl
 
         public ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl)
         {
-            return Registry.New<ICardModel>(tmpl, owner);
+            return Registry.Get<ICardModel>(tmpl, owner);
         }
 
         public ICardModel NewCardModel(IPlayerModel owner, EPieceType type)
         {
             var template = GetCardTemplate(type);
             if (template != null) 
-                return Registry.New<ICardModel>(owner, template);
+                return Registry.Get<ICardModel>(owner, template);
             Error($"Failed to find card template {type} for {owner}");
             return null;
         }

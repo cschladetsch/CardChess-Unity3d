@@ -15,8 +15,8 @@ namespace App.Model
 
         public override void StartGame()
         {
-            Info($"{this} StartGame");
             base.StartGame();
+            Info($"{this} StartGame");
         }
     }
 }

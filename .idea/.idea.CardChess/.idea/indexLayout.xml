@@ -13,7 +13,10 @@
       <Path>Library/PackageCache/com.unity.timeline@1.2.13</Path>
       <Path>Packages</Path>
       <Path>ProjectSettings</Path>
+      <Path>W:/Packages/Dekuple</Path>
       <Path>W:/Packages/Flow</Path>
+      <Path>W:/Packages/UniRx</Path>
+      <Path>W:/Packages/colib</Path>
     </explicitIncludes>
     <explicitExcludes>
       <Path>.git</Path>

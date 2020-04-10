@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Dekuple.Agent;
+using Dekuple.View;
 using Flow;
 using UniRx;
 
@@ -24,13 +25,22 @@ namespace App.Agent
         {
         }
 
-        public override void StartGame()
+        public void SetAgent(IViewBase view, IAgent agent)
+        {
+        }
+
+        public void StartGame()
         {
             Model.StartGame();
             foreach (var c in Model.Cards)
-                _cards.Add(Registry.New<ICardAgent>(c));
+                _cards.Add(Registry.Get<ICardAgent>(c));
             Model.Cards.ObserveAdd().Subscribe(Add);
             Model.Cards.ObserveRemove().Subscribe(RemoveCard);
+        }
+
+        public void EndGame()
+        {
+            throw new NotImplementedException();
         }
 
         public IChannel<ICardAgent> DrawCards(uint n)
@@ -58,7 +68,7 @@ namespace App.Agent
         {
             var cardModel = Model.Draw();
             var futureAgent = New.Future<ICardAgent>();
-            var agent = Registry.New<ICardAgent>(cardModel);
+            var agent = Registry.Get<ICardAgent>(cardModel);
             OnDraw?.Invoke(agent);
             futureAgent.Value = agent;
             return futureAgent;
@@ -67,7 +77,7 @@ namespace App.Agent
         private void Add(CollectionAddEvent<ICardModel> add)
         {
             Verbose(6, $"DeckAgent: Add {add.Value} @{add.Index}");
-            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
+            _cards.Insert(add.Index, Registry.Get<ICardAgent>(add.Value));
         }
 
         private void RemoveCard(CollectionRemoveEvent<ICardModel> remove)

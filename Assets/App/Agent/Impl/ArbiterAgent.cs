@@ -78,7 +78,7 @@ namespace App
             throw new Exception("Player agent not found");
         }
 
-        public override void StartGame()
+        public void StartGame()
         {
             Info($"{this} StartGame");
 
@@ -89,6 +89,11 @@ namespace App
                 p.StartGame();
 
             _Node.Add(GameLoop());
+        }
+
+        public void EndGame()
+        {
+            throw new NotImplementedException();
         }
 
         public ITransient GameLoop()

@@ -14,19 +14,19 @@ namespace App.Model
             // TODO: store and use templateDeck
         }
 
-        public override void StartGame()
+        public virtual void StartGame()
         {
             _Cards.Clear();
             for (var n = 0; n < MaxCards; ++n)
             {
                 // LATER: use a pre-made deck (CardLibrary)
                 var tmpl = Database.CardTemplates.GetRandom();
-                var card = Registry.New<ICardModel>(Owner.Value, tmpl);
+                var card = Registry.Get<ICardModel>(Owner.Value, tmpl);
                 Add(card);
             }
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             _Cards.Clear();
         }

@@ -18,14 +18,14 @@ namespace App.Model
         {
         }
 
-        public override void StartGame()
+        public void StartGame()
         {
             Verbose(20, $"Hand StartGame {Player}");
             _Cards.Clear();
             DrawInitialCards();
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             _Cards.Clear();
         }

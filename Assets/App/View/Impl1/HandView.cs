@@ -1,15 +1,12 @@
-﻿using UnityEngine;
-
-using UniRx;
-using CoLib;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UniRx;
+    using CoLib;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.Model;
+    using Dekuple.View.Impl;
     using Agent;
 
     /// <summary>
@@ -42,11 +39,11 @@ namespace App.View.Impl1
             }
         }
 
-        public override void SetAgent(IViewBase playerView, IAgent agent)
+        public override void SetAgent(IAgent agent, IModel model)
         {
             var handAgent = agent as IHandAgent;
             Assert.IsNotNull(handAgent);
-            base.SetAgent(playerView, handAgent);
+            base.SetAgent(agent, model);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 
@@ -79,7 +76,7 @@ namespace App.View.Impl1
         {
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
             cardView.MouseOver.Subscribe(CardMouseOver);
-            cardView.SetAgent(OwnerView, agent);
+            cardView.SetAgent(agent);
             var tr = cardView.GameObject.transform;
             tr.SetParent(CardsRoot);
             tr.localScale = Vector3.one;
@@ -134,7 +131,10 @@ namespace App.View.Impl1
             {
                 Assert.IsTrue(card.IsValid);
                 card.GameObject.name = $"{card.Agent.Model}";
-                _Queue.Enqueue(Commands.MoveTo(card.GameObject, n * Offset, 0.1, Ease.Smooth(), true));
+                _Queue.Sequence(
+                    Cmd.MoveTo(card.GameObject, n * Offset, 0.1, Ease.Smooth(), true)
+                );
+                
                 ++n;
             }
         }

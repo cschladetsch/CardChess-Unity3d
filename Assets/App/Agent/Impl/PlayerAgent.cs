@@ -21,7 +21,7 @@ namespace App.Agent
             _Node.Add(New.Coroutine(Coro));
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             _end = true;
         }

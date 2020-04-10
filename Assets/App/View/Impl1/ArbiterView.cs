@@ -1,5 +1,7 @@
-﻿using Dekuple;
+﻿using App.Model;
+using Dekuple;
 using Dekuple.Agent;
+using Dekuple.Model;
 using Dekuple.View;
 using Dekuple.View.Impl;
 using UnityEngine.UI;
@@ -39,18 +41,18 @@ namespace App.View.Impl1
         private GameRoot _gameRoot;
 
         //public override void SetAgent(IPlayerView view, IArbiterAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public override void SetAgent(IAgent agent, IModel model)
         {
-            base.SetAgent(view, agent);
+            base.SetAgent(agent, model);
 
             PlayMusic();
 
-            WhitePlayerView.SetAgent(WhitePlayerView, Agent.WhitePlayerAgent);
-            BlackPlayerView.SetAgent(BlackPlayerView, Agent.BlackPlayerAgent);
+            WhitePlayerView.SetAgent(Agent.WhitePlayerAgent, Agent.WhitePlayerAgent.Model);
+            BlackPlayerView.SetAgent(Agent.BlackPlayerAgent, Agent.BlackPlayerAgent.Model);
 
-            var model = Agent.Model;
-            model.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
-            model.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
+            var arbiterModel = model as IArbiterModel;
+            arbiterModel.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
+            arbiterModel.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
 
             _gameRoot = transform.parent.GetComponent<GameRoot>();
 

@@ -1,14 +1,12 @@
-﻿using Dekuple;
-using Dekuple.Agent;
-using Flow;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using Dekuple;
+    using Flow;
+    using UniRx;
     using Model;
 
     public interface IArbiterAgent
-        : IAgent<IArbiterModel>
+        : IGameAgent<IArbiterModel>
     {
         IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
         IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent { get; }

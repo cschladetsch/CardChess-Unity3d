@@ -44,15 +44,19 @@ namespace App.View.Impl1
         protected abstract void MouseHover();
         protected abstract void MouseUp(IBoardView board, Coord coord);
 
-        public override void Create()
+        protected override bool Create()
         {
-            base.Create();
+            if (!base.Create())
+                return false;
+            
             if (Image != null)
                 _backgroundColor = new Ref<Color>(() => Image.color, c => Image.color = c);
             else
                 _backgroundColor = new Ref<Color>(() => Color.cyan, c => { });
 
             _squareOver.DistinctUntilChanged().Subscribe(s => _squareOverFiltered.Value = s);
+
+            return true;
         }
 
         private void OnMouseEnter()
@@ -84,9 +88,9 @@ namespace App.View.Impl1
             else
                 pos.z = _oldZ;
 
-            _Queue.Enqueue(
-                Commands.ScaleTo(gameObject, scale, ScaleTime),
-                Commands.MoveTo(gameObject, pos, 0)
+            _Queue.Sequence(
+                Cmd.ScaleTo(gameObject, scale, ScaleTime),
+                Cmd.MoveTo(gameObject, pos, 0)
             );
             return true;
         }
@@ -107,10 +111,10 @@ namespace App.View.Impl1
             var mp = Input.mousePosition;
             _offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(mp.x, mp.y, _screenPoint.z));
 
-            _Queue.Enqueue(
-                Commands.Parallel(
-                    Commands.ScaleTo(gameObject, 1, ScaleTime),
-                    Commands.AlphaTo(_backgroundColor, 0, ImageAlphaAnimDuration, Ease.Smooth())
+            _Queue.Sequence(
+                Cmd.Parallel(
+                    Cmd.ScaleTo(gameObject, 1, ScaleTime),
+                    Cmd.AlphaTo(_backgroundColor, 0, ImageAlphaAnimDuration, Ease.Smooth())
                 )
             );
         }
@@ -148,12 +152,12 @@ namespace App.View.Impl1
 
         protected void ReturnToStart()
         {
-            _Queue.Enqueue(
-                Commands.Parallel(
-                    Commands.Do(() => _AudioSource.PlayOneShot(ReturnToStartClip)),
-                    Commands.AlphaTo(_backgroundColor, 1, ImageAlphaAnimDuration, Ease.Smooth()),
-                    Commands.ScaleTo(transform, 1, ScaleTime),
-                    Commands.MoveTo(
+            _Queue.Sequence(
+                Cmd.Parallel(
+                    Cmd.Do(() => _AudioSource.PlayOneShot(ReturnToStartClip)),
+                    Cmd.AlphaTo(_backgroundColor, 1, ImageAlphaAnimDuration, Ease.Smooth()),
+                    Cmd.ScaleTo(transform, 1, ScaleTime),
+                    Cmd.MoveTo(
                         transform,
                         _startLocation,
                         0.34,
@@ -161,7 +165,7 @@ namespace App.View.Impl1
                         true
                     )
                 ),
-                Commands.Do(() => _dragging = false)
+                Cmd.Do(() => _dragging = false)
             );
         }
     }

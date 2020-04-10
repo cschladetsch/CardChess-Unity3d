@@ -23,25 +23,24 @@ namespace App.View.Impl1
 
         [Inject] public IPlayerView PlayerView;
 
-        protected override void Begin()
+        protected override bool Begin()
         {
+            if (!base.Begin())
+                return false;
+            
             Clear();
+
+            return true;
         }
 
-        //public override void SetAgent(IPlayerView view, IDeckAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
-        {
-            base.SetAgent(view, agent);
-        }
-
-        void Clear()
+        private void Clear()
         {
             foreach (Transform tr in CardsRoot)
                 Destroy(tr.gameObject);
         }
 
         [ContextMenu("DeckView-FromModel")]
-        void ShowDeck()
+        private void ShowDeck()
         {
             Clear();
 
@@ -53,7 +52,7 @@ namespace App.View.Impl1
             foreach (var card in Agent.Model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);
-                view.SetAgent(PlayerView, Agent.Registry.New<ICardAgent>(card));
+                view.SetAgent(PlayerView, Agent.Registry.Get<ICardAgent>(card));
                 view.transform.SetParent(CardsRoot);
                 view.transform.localPosition = new Vector3(nx * dx, 0, 0);
                 view.transform.localRotation = Quaternion.Euler(0, 90, 0);

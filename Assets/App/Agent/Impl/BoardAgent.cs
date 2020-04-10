@@ -63,14 +63,14 @@ namespace App.Agent
             return sb.ToString();
         }
 
-        public override void StartGame()
+        public void StartGame()
         {
-            base.StartGame();
+            // base.StartGame();
             Model.StartGame();
             _pieces.Clear();
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             Info($"BoardAgent EndGame");
             _pieces.Clear();
@@ -104,7 +104,7 @@ namespace App.Agent
 
         private void PieceAdded(CollectionAddEvent<IPieceModel> add)
         {
-            var pieceAgent = Registry.New<IPieceAgent>(add.Value);
+            var pieceAgent = Registry.Get<IPieceAgent>(add.Value);
             pieceAgent.SetOwner(add.Value.Owner.Value);
             _pieces.Insert(add.Index, pieceAgent);
         }
