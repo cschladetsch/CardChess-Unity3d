@@ -51,6 +51,9 @@
             return Agent.CurrentPlayerAgent.Value.Model == owned.Owner.Value;
         }
 
+        public IPlayerView GetPlayerView(IAgent agent)
+            => agent.Owner.Value == BlackPlayer.Agent.Owner.Value ? BlackPlayerView : WhitePlayerView;
+
         private void PlayMusic()
         {
             _AudioSource.clip = MusicClips[0];

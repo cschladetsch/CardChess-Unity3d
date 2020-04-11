@@ -43,12 +43,10 @@
         public ArbiterAgent(IArbiterModel model)
             : base(model)
         {
-            Verbose(50, $"{this} created");
         }
 
         public void Step()
         {
-            Verbose(20, $"Step: {Kernel.StepNumber}");
             Kernel.Step();
         }
 
@@ -82,10 +80,10 @@
         {
             Info($"{this} StartGame");
 
-            BoardAgent.StartGame();
-
             foreach (var p in _playerAgents)
                 p.StartGame();
+
+            BoardAgent.StartGame();
 
             ITransient GameLoop() => New.Coroutine(PlayerTurn).Named("Turn");
             _Node.Add(GameLoop());

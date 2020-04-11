@@ -1,4 +1,7 @@
-﻿namespace App.View
+﻿using Dekuple.Agent;
+using UniRx;
+
+namespace App.View
 {
     using Common;
     using Dekuple;
@@ -14,7 +17,10 @@
         IBoardView BoardView { get; }
         // IPlayerView CurrentPlayerView { get; }
         // EColor CurrentPlayerColor { get; }
+        IPlayerView WhitePlayerView { get; }
+        IPlayerView BlackPlayerView { get; }
 
         bool CurrentPlayerOwns(IOwned owned);
+        IPlayerView GetPlayerView(IAgent agent);
     }
 }
