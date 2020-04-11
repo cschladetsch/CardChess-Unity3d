@@ -20,7 +20,5 @@
         /// Is this piece alive?
         /// </summary>
         IReadOnlyReactiveProperty<bool> Dead { get; }
-
-        void SetAgent(IViewBase view, IPieceAgent agent);
     }
 }

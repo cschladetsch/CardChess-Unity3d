@@ -1,19 +1,14 @@
-﻿namespace App.View.Impl1
+﻿using Dekuple.Agent;
+
+namespace App.View.Impl1
 {
     using Dekuple;
-<<<<<<< HEAD
-    using Dekuple.Agent;
-    using Dekuple.View.Impl;
-    using Model;
-
-=======
     using Dekuple.View.Impl;
     using Model;
 
     /// <summary>
     /// Common for many game objects.
     /// </summary>
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     public class GameViewBase
         : ViewBase
         , IGameViewBase

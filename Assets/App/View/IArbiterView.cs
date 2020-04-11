@@ -12,8 +12,8 @@
         : IView<IArbiterAgent>
     {
         IBoardView BoardView { get; }
-        IPlayerView CurrentPlayerView { get; }
-        EColor CurrentPlayerColor { get; }
+        // IPlayerView CurrentPlayerView { get; }
+        // EColor CurrentPlayerColor { get; }
 
         bool CurrentPlayerOwns(IOwned owned);
     }

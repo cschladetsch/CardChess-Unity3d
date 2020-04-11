@@ -45,7 +45,7 @@ namespace App.Model
             if (abilities != null)
                 Abilities = abilities.ToList();
             FlavourText = flavourText;
-<<<<<<< HEAD
+            MeshPrefab = prefab;
         }
 
         /// <summary>
@@ -54,11 +54,6 @@ namespace App.Model
         /// <param name="player">The owner of new created card</param>
         /// <returns>A new card from this template</returns>
         public ICardModel New(IPlayerModel player)
-        {
-            return Registry.Get<ICardModel>(this, player);
-=======
-            MeshPrefab = prefab;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
-        }
+            => Registry.Get<ICardModel>(this, player);
     }
 }

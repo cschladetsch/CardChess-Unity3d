@@ -17,11 +17,7 @@
     /// The 'Adjudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     ///
-<<<<<<< HEAD
-    /// Responsibility for enforcing the rules of the game are shared with
-=======
     /// Responsible for enforcing the rules of the game are shared with
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     /// the Board- and Card-Agents and Models.
     /// </summary>
     public class ArbiterAgent
@@ -95,19 +91,19 @@
             _Node.Add(GameLoop());
         }
 
-<<<<<<< HEAD
-        public void EndGame()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransient GameLoop()
-        {
-            return New.Coroutine(PlayerTurn).Named("Turn");
-        }
-
-=======
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
+         public void EndGame()
+         {
+             throw new NotImplementedException();
+         }
+// <<<<<<< HEAD
+//
+//         public ITransient GameLoop()
+//         {
+//             return New.Coroutine(PlayerTurn).Named("Turn");
+//         }
+//
+// =======
+// >>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         private IEnumerator PlayerTurn(IGenerator self)
         {
             CurrentPlayerModel.StartTurn();

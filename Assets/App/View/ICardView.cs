@@ -11,7 +11,5 @@
         : IView<ICardAgent>
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
-
-        void SetAgent(IViewBase player, ICardAgent agent);
     }
 }

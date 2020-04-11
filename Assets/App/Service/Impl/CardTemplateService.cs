@@ -39,24 +39,14 @@
             => Database.CardTemplates.Get(id);
 
         public ICardModel NewCardModel(IPlayerModel owner, ICardTemplate tmpl)
-<<<<<<< HEAD
-        {
-            return Registry.Get<ICardModel>(tmpl, owner);
-        }
-=======
-            => Registry.New<ICardModel>(tmpl, owner);
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
+            => Registry.Get<ICardModel>(tmpl, owner);
 
         public ICardModel NewCardModel(IPlayerModel owner, EPieceType type)
         {
             var template = GetCardTemplate(type);
             if (template != null) 
-<<<<<<< HEAD
                 return Registry.Get<ICardModel>(owner, template);
-=======
-                return Registry.New<ICardModel>(owner, template);
             
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
             Error($"Failed to find card template {type} for {owner}");
             return null;
         }

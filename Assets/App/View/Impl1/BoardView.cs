@@ -6,17 +6,9 @@ namespace App.View.Impl1
     using System.Linq;
     using System.Text;
     using UnityEngine;
-<<<<<<< HEAD
-    using Dekuple;
-    using Dekuple.Agent;
-    using Dekuple.Model;
-    using UniRx;
-=======
     using UniRx;
     using Dekuple;
     using Dekuple.Agent;
-    using Dekuple.View;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Model;
     using Agent;
     using Common;

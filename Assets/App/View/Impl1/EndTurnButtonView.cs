@@ -1,21 +1,14 @@
-﻿namespace App.View.Impl1
+﻿using Dekuple.Agent;
+
+namespace App.View.Impl1
 {
     using UnityEngine;
     using UnityEngine.UI;
-<<<<<<< HEAD
-    using UniRx;
-    using CoLib;
-    using Dekuple.Agent;
-    using Dekuple.View.Impl;
-=======
     using TMPro;
     using CoLib;
     using Dekuple;
-    using Dekuple.View;
     using Dekuple.View.Impl;
     using UniRx;
-    using Common.Message;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Agent;
 
     /// <summary>
@@ -36,22 +29,13 @@
 
         private Ref<Vector3> _scale;
 
-<<<<<<< HEAD
-        public override void SetAgent(IAgent player)
+        public override void SetAgent(IAgent agent)
         {
-            // base.SetAgent(player, agent);
-=======
-        public override void SetAgent(IViewBase owner, IEndTurnButtonAgent agent)
-        {
-            var player = owner as IPlayerView;
-            Assert.IsNotNull(player);
-            base.SetAgent(player, agent);
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
+            var button = agent as IEndTurnButtonAgent;
+            Assert.IsNotNull(button);
             Agent.Model.Interactive.Subscribe(SetInteractive);
             Agent.Model.PlayerHasOptions.Subscribe(SetColor);
             
-            Button.Bind(() => player.PushRequest(new TurnEnd(player.Agent.Model), TurnEnded));
-
             // pulsate the end button when there's nothing left to do
             _scale = Image.transform.ToScaleRef();
             _Queue.Sequence(
@@ -63,14 +47,6 @@
             _Queue.Paused = true;
         }
         
-        private void TurnEnded(IResponse obj)
-        {
-            // _AudioSource.PlayOneShot(EndTurnClips[0]);
-            Assert.IsNotNull(obj);
-            Assert.IsTrue(obj.Success);
-            Info($"TurnEnded for {obj.Request.Owner}");
-        }
-
         private void SetInteractive(bool interactive)
         {
             _Queue.Paused = true;

@@ -1,25 +1,11 @@
 ﻿// user can play cards without worrying about mana
 //#define IGNORE_MANA
 
-<<<<<<< HEAD
-=======
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UniRx;
-using Dekuple;
-
-using App.Common;
-using App.Common.Message;
-using UnityEditor.PackageManager.Requests;
-
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace App.Model
 {
-<<<<<<< HEAD
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,12 +14,10 @@ namespace App.Model
     using Common;
     using Common.Message;
 
-=======
     /// <summary>
     /// TODO: Models should just store entity state. This Model performs game logic that should
     /// TODO: be moved to ArbiterAgent.
     /// </summary>
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     public class ArbiterModel
         : RespondingModelBase
         , IArbiterModel

@@ -1,8 +1,4 @@
 ﻿// field not assigned - because it is assigned in Unity3d editor
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
 #pragma warning disable 649
 
 namespace App
@@ -11,15 +7,6 @@ namespace App
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-<<<<<<< HEAD
-    using Dekuple.Agent;
-    using Dekuple.Model;
-    using Dekuple.View;
-    using Agent.Impl;
-    using Model.Impl;
-    using Dekuple;
-    using Dekuple.View.Impl;
-=======
     using Dekuple;
     using Dekuple.Agent;
     using Dekuple.Model;
@@ -28,7 +15,6 @@ namespace App
     using Agent.Impl;
     using Model.Impl;
     using UniRx;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Common;
     using Agent;
     using Model;
@@ -90,14 +76,9 @@ namespace App
             BoardView.SetAgent(BoardAgent);
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
-<<<<<<< HEAD
             ArbiterView.SetAgent(ArbiterAgent);
-=======
-            ArbiterView.SetAgent(null, ArbiterAgent);
             ArbiterAgent.LastResponse.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
             ArbiterAgent.Log.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
-            
             CheckAllValid();
 
             return true;

@@ -42,13 +42,7 @@
 
         public static ICardTemplate Get(Guid id)
         {
-<<<<<<< HEAD
-            var tmp = _templates[id];
-            var card = reg.Get<CardModel>(tmp, owner);
-            return card;
-=======
             return Get(id.ToString());
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         }
 
         public static ICardTemplate Get(string id)

@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-using System;
-using System.Collections;
-using Dekuple.Agent;
-using Dekuple.View;
-using Flow;
-using UniRx;
-
-=======
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
 namespace App.Agent
 {
     using System;
@@ -30,10 +20,6 @@ namespace App.Agent
 
         public DeckAgent(IDeckModel model)
             : base(model)
-        {
-        }
-
-        public void SetAgent(IViewBase view, IAgent agent)
         {
         }
 

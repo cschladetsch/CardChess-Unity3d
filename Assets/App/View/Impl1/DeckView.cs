@@ -2,14 +2,7 @@
 {
     using UnityEngine;
     using Dekuple;
-<<<<<<< HEAD
     using Dekuple.View.Impl;
-    using Agent;
-=======
-    using Dekuple.Agent;
-    using Dekuple.View;
-    using Dekuple.View.Impl;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Common;
     using Agent;
 

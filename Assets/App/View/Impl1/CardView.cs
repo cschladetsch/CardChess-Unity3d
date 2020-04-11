@@ -1,17 +1,12 @@
-﻿namespace App.View.Impl1
+﻿using App.Model;
+using Dekuple.Agent;
+
+namespace App.View.Impl1
 {
     using UnityEngine;
     using UniRx;
-<<<<<<< HEAD
-    using App.Model;
-    using Dekuple;
-    using Dekuple.Agent;
-    using Dekuple.View;
-    using Agent;
-=======
     using Dekuple;
     using Dekuple.View;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Common;
     using Common.Message;
     using Agent;
@@ -45,69 +40,21 @@
 
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
-<<<<<<< HEAD
         public override void SetAgent(IAgent agent)
         {
             var cardAgent = agent as ICardAgent;
             Assert.IsNotNull(cardAgent);
             base.SetAgent(cardAgent);
              
-            _mana = FindTextChild("Mana");
-            _health = FindTextChild("Health");
-            _power = FindTextChild("Power");
-
-            if (_mana == null)
-            {
-                Error("No Mana text child for {0}", this);
-                return;
-            }
-            if (_health == null)
-            {
-                Error("No Health text child for {0}", this);
-                return;
-            }
-            if (_power == null)
-            {
-                Error("No Power text child for {0}", this);
-                return;
-            }
-            
             MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
-            cardAgent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
-            cardAgent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);
-            cardAgent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
+            cardAgent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            cardAgent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            cardAgent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+                
+            //TODO
+                // .material
+                // = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
-            FindPiece().material
-                = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
-
-=======
-        public void SetAgent(IViewBase view, ICardAgent agent)
-        //public override void SetAgent(IViewBase view, IAgent agent)
-        {
-            Assert.IsNotNull(agent);
-            base.SetAgent(view, agent);
-            Agent = agent;
-
-            AddSubscriptions();
-            AddMesh();
-            Assert.IsTrue(IsValid);
-        }
-
-        private void AddMesh()
-        {
-            var root = Instantiate(Agent.Model.Template.MeshPrefab, transform);
-            var mesh = root.GetComponentInChildren<MeshRenderer>();
-            mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
-        }
-
-        private void AddSubscriptions()
-        {
-            base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
-            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
-            Agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
-            
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
             SquareOver.Subscribe(sq =>
             {
                 if (sq != null)

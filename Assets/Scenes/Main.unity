@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.34440798, g: 0.28445378, b: 0.2667588, a: 1}
+  m_IndirectSpecularColor: {r: 0.32611004, g: 0.27033755, b: 0.2541248, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939dab88e06d4ac49be66c1a019f4867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResponseText: {fileID: 1018492918}
+  ResponseText: {fileID: 0}
   CardTemplateDatabase: {fileID: 11400000, guid: 80144cea02e79f94ba483a30f47173a1,
     type: 2}
   BoardView: {fileID: 1478584971}
@@ -1979,7 +1979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Button: {fileID: 1219527787}
   Image: {fileID: 1219527788}
-  Text: {fileID: 554448138}
+  Text: {fileID: 0}
 --- !u!114 &1219527787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3277,9 +3277,8 @@ MonoBehaviour:
   WhitePlayer: {fileID: 152731633}
   BlackPlayer: {fileID: 1991825314}
   CurrentPlayerText: {fileID: 858521117}
-  ResponseText: {fileID: 1257193234}
   StateText: {fileID: 1019281791}
-  WhiteEndButton: {fileID: 2113720919}
+  WhiteEndButton: {fileID: 0}
   BlackEndButton: {fileID: 0}
   MusicClips:
   - {fileID: 8300000, guid: e0a2f3f56084dff4da2da0680902c4f1, type: 3}
@@ -3720,7 +3719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Button: {fileID: 2113720916}
   Image: {fileID: 2113720917}
-  Text: {fileID: 1898058895}
+  Text: {fileID: 0}
 --- !u!1001 &2118964112
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,16 +1,6 @@
-<<<<<<< HEAD
-﻿using System;
+﻿﻿using App.Common.Message;
 
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.Model;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
-=======
-﻿namespace App.View.Impl1
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
+ namespace App.View.Impl1
 {
     using System;
     using Dekuple;
@@ -34,12 +24,7 @@ namespace App.View.Impl1
         public DeckView Deck;
         public EndTurnButtonView EndTurnButton;
 
-<<<<<<< HEAD
         public override void SetAgent(IAgent agent)
-=======
-        // public void SetAgent(IPlayerView view, IPlayerAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         {
             Assert.IsNotNull(agent);
             var player = agent as IPlayerAgent;
@@ -52,6 +37,17 @@ namespace App.View.Impl1
             ManaView.SetAgent(Agent);
             Deck.SetAgent(player.Deck);
             EndTurnButton.SetAgent(player.EndTurnButton);
+            
+            EndTurnButton.Button.Bind(
+                () => player.PushRequest(new TurnEnd(player.Model), TurnEnded));
+        }
+
+        private void TurnEnded(IResponse obj)
+        {
+            // _AudioSource.PlayOneShot(EndTurnClips[0]);
+            Assert.IsNotNull(obj);
+            Assert.IsTrue(obj.Success);
+            Info($"TurnEnded for {obj.Request.Owner}");
         }
 
         public void PushRequest(IRequest request, Action<IResponse> response)

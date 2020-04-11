@@ -4,11 +4,11 @@
     using UniRx;
     using CoLib;
     using Dekuple;
-    using Dekuple.View;
+    using Dekuple.Agent;
     using Common;
     using Common.Message;
     using Agent;
-    using Model;
+
 
     /// <inheritdoc cref="IPieceView"/>
     /// <summary>
@@ -26,6 +26,7 @@
         public AudioClip HitBothClip;
         public AudioClip DiedClip;
         public IReactiveProperty<Coord> Coord => Agent.Coord;
+        public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
 
         public override bool IsValid
         {
@@ -38,15 +39,9 @@
             }
         }
 
-<<<<<<< HEAD
-        protected override bool Begin()
-=======
-        public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
-
         public override string ToString() => $"{PlayerView} {Agent}";
 
-        protected override void Begin()
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
+        protected override bool Begin()
         {
             if (!base.Begin())
                 return false;
@@ -61,27 +56,17 @@
             return true;
         }
 
-<<<<<<< HEAD
-        //public override void SetAgent(IPlayerView view, IPieceAgent agent)
-        public void SetAgent(IViewBase view, IAgent agent)
+        public override void SetAgent(IAgent agent)
         {
-            // base.SetAgent(view, agent);
-
-=======
-        public void SetAgent(IViewBase view, IPieceAgent agent)
-        //public override void SetAgent(IViewBase view, IAgent agent)
-        {
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
             Assert.IsNotNull(agent);
-            base.SetAgent(view, agent);
-            Agent = agent;
+            base.SetAgent(agent);
 
             AddSubscriptions();
             AddMesh();
             Assert.IsTrue(IsValid);
         }
 
-        private void AddSubscriptions()
+        public override bool AddSubscriptions()
         {
             Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
             Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
@@ -100,24 +85,20 @@
                     return;
                     
                 Info($"{Agent.Model} died");
-                _Queue.Enqueue(Commands.Do(() => _AudioSource.PlayOneShot(DiedClip)));
+                _Queue.Sequence(Cmd.Do(() => _AudioSource.PlayOneShot(DiedClip)));
                 BoardView.Remove(this);
             });
+
+            return true;
         }
 
         private void AddMesh()
         {
-<<<<<<< HEAD
-            Info($"{Agent.Model} died");
-            _AudioSource.PlayOneShot(HitBothClip);
-            BoardView.Remove(this);
-=======
             var root = Instantiate(Agent.Model.Card.Template.MeshPrefab, transform);
             root.transform.localScale *= 0.6f;    // pieces on board are smaller than in Hand/Deck
             root.transform.SetLocalZ(App.Parameters.PieceZOffset);
             var mesh = root.GetComponentInChildren<MeshRenderer>();
             mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         }
 
         private void Move()
@@ -125,17 +106,10 @@
             var coord = Coord.Value;
             var go = GameObject;
             var pos = new Vector3(coord.x - BoardView.Width.Value/2 + 0.5f, coord.y - BoardView.Height.Value/2 + 0.5f, -1);
-<<<<<<< HEAD
             _Queue.Sequence(
                 Cmd.Parallel(
                     Cmd.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
                     Cmd.ScaleTo(go, 1, 0.1)
-=======
-            _Queue.Enqueue(
-                Commands.Parallel(
-                    Commands.MoveTo(go, pos, 0.3, Ease.InOutBounce(), true),
-                    Commands.ScaleTo(go, 1, 0.3)
->>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
                 ),
                 Cmd.Do(() => _AudioSource.PlayOneShot(MoveClip))
             );
