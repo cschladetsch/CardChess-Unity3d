@@ -1,6 +1,4 @@
-﻿using Dekuple.Agent;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
     using UnityEngine;
     using UnityEngine.UI;
@@ -8,6 +6,7 @@ namespace App.View.Impl1
     using CoLib;
     using Dekuple;
     using Dekuple.View.Impl;
+    using Dekuple.Agent;
     using UniRx;
     using Agent;
 
@@ -32,7 +31,7 @@ namespace App.View.Impl1
         public override void SetAgent(IAgent agent)
         {
             var button = agent as IEndTurnButtonAgent;
-            Assert.IsNotNull(button);
+            base.SetAgent(button);
             Agent.Model.Interactive.Subscribe(SetInteractive);
             Agent.Model.PlayerHasOptions.Subscribe(SetColor);
             

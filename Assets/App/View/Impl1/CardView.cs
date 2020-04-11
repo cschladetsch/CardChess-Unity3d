@@ -1,15 +1,13 @@
-﻿using App.Model;
-using Dekuple.Agent;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
     using UnityEngine;
     using UniRx;
     using Dekuple;
-    using Dekuple.View;
+    using Dekuple.Agent;
     using Common;
     using Common.Message;
     using Agent;
+    using Model;
 
     /// <inheritdoc cref="ICardView" />
     /// <summary>
@@ -24,6 +22,8 @@ namespace App.View.Impl1
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public AudioClip LeaveHandClip;
+        public IPlayerView PlayerView { get; private set; }
+        public IPlayerModel PlayerModel => PlayerView?.Agent?.Model;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
         public override bool IsValid
@@ -40,16 +40,23 @@ namespace App.View.Impl1
 
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
+        public void SetPlayerView(IPlayerView player)
+            => PlayerView = player;
+
         public override void SetAgent(IAgent agent)
         {
             var cardAgent = agent as ICardAgent;
             Assert.IsNotNull(cardAgent);
             base.SetAgent(cardAgent);
              
-            MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
-            cardAgent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            cardAgent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
-            cardAgent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+            MouseOver.Subscribe(
+                v => _mouseOver.Value = v).AddTo(this);
+            cardAgent.Power.Subscribe(
+                p => Power.text = $"{p}").AddTo(this);
+            cardAgent.Health.Subscribe(
+                p => Health.text = $"{p}").AddTo(this);
+            cardAgent.Model.ManaCost.Subscribe(
+                p => Mana.text = $"{p}").AddTo(this);
                 
             //TODO
                 // .material
@@ -77,9 +84,9 @@ namespace App.View.Impl1
 
         protected override void MouseUp(IBoardView board, Coord coord)
         {
-            Assert.IsTrue(IsValid && PlayerView.IsValid && Agent.IsValid);
-            Verbose(30, $"MouseUp: Requesting new piece {this} owned by {PlayerModel} @{coord}");
-            PlayerView.Agent.PushRequest(new PlacePiece(PlayerModel, Agent.Model, coord), Response);
+            Assert.IsTrue(IsValid && PlayerAgent.IsValid && Agent.IsValid);
+            Verbose(30, $"MouseUp: Requesting new piece {this} owned by {PlayerAgent.Model} @{coord}");
+            PlayerAgent.PushRequest(new PlacePiece(PlayerAgent.Model, Agent.Model, coord), Response);
         }
 
         private void Response(IResponse response)

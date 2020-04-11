@@ -39,7 +39,7 @@
             }
         }
 
-        public override string ToString() => $"{PlayerView} {Agent}";
+        public override string ToString() => $"{Agent}";
 
         protected override bool Begin()
         {
@@ -98,7 +98,7 @@
             root.transform.localScale *= 0.6f;    // pieces on board are smaller than in Hand/Deck
             root.transform.SetLocalZ(App.Parameters.PieceZOffset);
             var mesh = root.GetComponentInChildren<MeshRenderer>();
-            mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+            mesh.material = PlayerAgent.Model.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
         }
 
         private void Move()
@@ -129,11 +129,11 @@
 
         protected override void MouseUp(IBoardView board, Coord coord)
         {
-            var player = PlayerView.Agent;
+            var player = PlayerAgent;
             var existing = BoardView.Get(coord);
             if (existing == null)
             {
-                player.PushRequest(new MovePiece(PlayerModel, Agent.Model, coord), Response);
+                player.PushRequest(new MovePiece(PlayerAgent.Model, Agent.Model, coord), Response);
                 return;
             }
 
@@ -147,7 +147,7 @@
                 return;
             }
 
-            player.PushRequest(new Battle(PlayerModel, Agent.Model, existing.Agent.Model), Response);
+            player.PushRequest(new Battle(PlayerAgent.Model, Agent.Model, existing.Agent.Model), Response);
         }
 
         private void Response(IResponse response)

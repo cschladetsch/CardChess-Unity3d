@@ -1,4 +1,6 @@
-﻿namespace App.View
+﻿using App.Model;
+
+namespace App.View
 {
     using Dekuple.View;
     using UniRx;
@@ -10,6 +12,7 @@
     public interface ICardView
         : IView<ICardAgent>
     {
+        IPlayerModel PlayerModel { get; }
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
     }
 }

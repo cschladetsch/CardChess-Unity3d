@@ -1,4 +1,6 @@
-﻿namespace App.View
+﻿using App.Agent;
+
+namespace App.View
 {
     using Dekuple.View;
     using Model;
@@ -12,8 +14,7 @@
     public interface IGameViewBase
         : IViewBase
     {
-        IPlayerView PlayerView { get; }
-        IPlayerModel PlayerModel { get; }
+        IPlayerAgent PlayerAgent { get; }
         IArbiterView ArbiterView { get; set; }
         IBoardView BoardView { get; set; }
     }

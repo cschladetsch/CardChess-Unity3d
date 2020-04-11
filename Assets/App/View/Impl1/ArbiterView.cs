@@ -24,7 +24,6 @@
         
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
-        //public IPlayerView CurrentPlayerView => CurrentPlayerColor == EColor.White ? WhitePlayerView : BlackPlayerView;
         public IBoardView BoardView => Board;
 
         public override void SetAgent(IAgent agent)
