@@ -4,8 +4,12 @@
     using UniRx;
     using CoLib;
     using Dekuple;
+<<<<<<< HEAD
     using Dekuple.Agent;
     using Dekuple.Model;
+=======
+    using Dekuple.View;
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Dekuple.View.Impl;
     using Agent;
 
@@ -124,6 +128,7 @@
             Assert.IsTrue(IsValid);
         }
 
+        [ContextMenu("Redraw")]
         private void Redraw()
         {
             _Queue.RunToEnd();
@@ -133,10 +138,14 @@
             {
                 Assert.IsTrue(card.IsValid);
                 card.GameObject.name = $"{card.Agent.Model}";
+<<<<<<< HEAD
                 _Queue.Sequence(
                     Cmd.MoveTo(card.GameObject, n * Offset, 0.1, Ease.Smooth(), true)
                 );
                 
+=======
+                _Queue.Enqueue(Commands.MoveTo(card.GameObject, n * Offset, 0.25, Ease.InOutQuad(), true));
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
                 ++n;
             }
         }

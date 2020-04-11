@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Dekuple.Model;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System.Collections.Generic;
+    using Dekuple.Model;
     using Common;
     
     /// <inheritdoc cref="IModel" />

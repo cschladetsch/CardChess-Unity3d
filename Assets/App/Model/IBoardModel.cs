@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Dekuple;
-using Dekuple.Model;
-using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Model;
     using Common;
     using Common.Message;
 
@@ -40,6 +39,7 @@ namespace App.Model
 
         MoveResults GetAttacks(IPieceModel piece);
         MoveResults GetAttacks(Coord coord, EPieceType type);
+        MoveResults GetAdjacent(Coord coord, int distance);
 
         IResponse Add(IPieceModel model);
         IResponse Remove(IPieceModel pieceModel);

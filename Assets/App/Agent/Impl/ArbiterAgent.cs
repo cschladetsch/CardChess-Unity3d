@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using App.Common;
-using Flow;
-using UniRx;
-using Dekuple;
-using Dekuple.Agent;
-
-namespace App
+﻿namespace App
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using Flow;
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Agent;
     using Common.Message;
     using Agent;
     using Model;
+    using Common;
 
     /// <inheritdoc cref="AgentBaseCoro{TModel}" />
     /// <summary>
     /// The 'Adjudicator' of the game: controls the sequencing of the events
     /// but not all the rules.
     ///
+<<<<<<< HEAD
     /// Responsibility for enforcing the rules of the game are shared with
+=======
+    /// Responsible for enforcing the rules of the game are shared with
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     /// the Board- and Card-Agents and Models.
     /// </summary>
     public class ArbiterAgent
@@ -27,9 +30,10 @@ namespace App
     {
         [Inject] public IBoardAgent BoardAgent { get; set; }
 
-        public IReadOnlyReactiveProperty<IResponse> LastResponse => Model.LastResponse;
+        public IReadOnlyReactiveProperty<RequestResponse> LastResponse => Model.LastResponse;
         public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
         public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
+        public IReadOnlyReactiveProperty<string> Log => Model.Log;
 
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
@@ -84,13 +88,14 @@ namespace App
 
             BoardAgent.StartGame();
 
-            // only needed because we're skipping the coro below
             foreach (var p in _playerAgents)
                 p.StartGame();
 
+            ITransient GameLoop() => New.Coroutine(PlayerTurn).Named("Turn");
             _Node.Add(GameLoop());
         }
 
+<<<<<<< HEAD
         public void EndGame()
         {
             throw new NotImplementedException();
@@ -101,6 +106,8 @@ namespace App
             return New.Coroutine(PlayerTurn).Named("Turn");
         }
 
+=======
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         private IEnumerator PlayerTurn(IGenerator self)
         {
             CurrentPlayerModel.StartTurn();

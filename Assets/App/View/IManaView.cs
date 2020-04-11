@@ -1,12 +1,10 @@
-﻿
-using Dekuple.View;
-
-namespace App.View
+﻿namespace App.View
 {
+    using Dekuple.View;
     using Agent;
 
     /// <summary>
-    /// View of the mana available to a player
+    /// View of the Mana available to a Player.
     /// </summary>
     public interface IManaView
         : IView<IPlayerAgent>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using Dekuple.Agent;
 using Dekuple.Model;
 using UniRx;
@@ -8,7 +9,15 @@ using Dekuple.View;
 using Dekuple.View.Impl;
 
 namespace App.View.Impl1
+=======
+﻿namespace App.View.Impl1
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
 {
+    using UnityEngine;
+    using UnityEngine.Assertions;
+    using UniRx;
+    using Dekuple.View;
+    using Dekuple.View.Impl;
     using Agent;
 
     /// <summary>
@@ -42,7 +51,7 @@ namespace App.View.Impl1
         }
 
         [ContextMenu("ManaBar-MockDraw")]
-        public void MockDrwa()
+        public void MockDraw()
         {
             Redraw(2, 5);
         }

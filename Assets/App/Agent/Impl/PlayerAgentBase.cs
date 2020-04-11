@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Flow;
-using UniRx;
-
-using Dekuple;
-using Dekuple.Agent;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System;
+    using System.Collections.Generic;
+    using UniRx;
+    using Flow;
+    using Dekuple;
+    using Dekuple.Agent;
     using Common;
     using Common.Message;
     using Model;
@@ -80,7 +78,7 @@ namespace App.Agent
 
         protected void ResponseHandler(IResponse response)
         {
-            Info($"{response.Request} => {response.Type}:{response.Error}");
+            Info($"{response.Request} => {response.Type} : {response.Error}");
         }
 
         public override string ToString()

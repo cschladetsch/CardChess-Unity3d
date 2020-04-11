@@ -1,20 +1,20 @@
-﻿using Dekuple.Agent;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using UniRx;
+    using Dekuple.Agent;
     using Model;
     using Common;
 
     /// <summary>
-    /// Acts on behalf of a piece
+    /// Acts on behalf of a piece.
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class PieceAgent
         : AgentBase<IPieceModel>
         , IPieceAgent
     {
         public IReactiveProperty<Coord> Coord => Model.Coord;
-        public EPieceType PieceType => Model.PieceType;
+        public EPieceType PieceType => Model.Card.Template.PieceType;
         public IReadOnlyReactiveProperty<bool> Dead => Model.Dead;
         public IReadOnlyReactiveProperty<int> ManaCost => Model.Power;
         public IReadOnlyReactiveProperty<int> Power => Model.Power;

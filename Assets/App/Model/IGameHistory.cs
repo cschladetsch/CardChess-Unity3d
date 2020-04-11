@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// History of games played by the a given user.
     /// </summary>

@@ -1,0 +1,103 @@
+﻿namespace UIWidgets
+{
+	using UnityEngine;
+	using UnityEngine.UI;
+
+	/// <summary>
+	/// FileListViewComponentBase.
+	/// </summary>
+	public abstract class FileListViewComponentBase : ListViewItem, IViewData<FileSystemEntry>
+	{
+		/// <summary>
+		/// Icon.
+		/// </summary>
+		[SerializeField]
+		protected Image Icon;
+
+		/// <summary>
+		/// Directory icon.
+		/// </summary>
+		[SerializeField]
+		protected Sprite DirectoryIcon;
+
+		/// <summary>
+		/// Current item.
+		/// </summary>
+		protected FileSystemEntry Item;
+
+		/// <summary>
+		/// Start this instance.
+		/// </summary>
+		protected override void Start()
+		{
+			base.Start();
+			onDoubleClick.AddListener(DoubleClick);
+		}
+
+		/// <summary>
+		/// Process destroy event.
+		/// </summary>
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+			onDoubleClick.RemoveListener(DoubleClick);
+		}
+
+		/// <summary>
+		/// Set data.
+		/// </summary>
+		/// <param name="item">Item.</param>
+		public virtual void SetData(FileSystemEntry item)
+		{
+			Item = item;
+
+			Icon.sprite = GetIcon(item);
+			Icon.color = Icon.sprite == null ? Color.clear : Color.white;
+		}
+
+		/// <summary>
+		/// Get icon for specified FileSystemEntry.
+		/// </summary>
+		/// <param name="item">Item.</param>
+		/// <returns>Icon for specified FileSystemEntry.</returns>
+		public virtual Sprite GetIcon(FileSystemEntry item)
+		{
+			if (item.IsDirectory)
+			{
+				return DirectoryIcon;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Handle double click event.
+		/// </summary>
+		/// <param name="index">Item index.</param>
+		protected void DoubleClick(int index)
+		{
+			DoubleClick();
+		}
+
+		int doubleClickFrame = -1;
+
+		/// <summary>
+		/// Handle double click event.
+		/// </summary>
+		public virtual void DoubleClick()
+		{
+			if (doubleClickFrame == Time.frameCount)
+			{
+				return;
+			}
+
+			doubleClickFrame = Time.frameCount;
+
+			var flv = Owner as FileListView;
+			if (Item.IsDirectory && (flv.CurrentDirectory != Item.FullName))
+			{
+				flv.CurrentDirectory = Item.FullName;
+			}
+		}
+	}
+}

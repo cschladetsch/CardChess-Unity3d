@@ -1,7 +1,6 @@
-﻿using Dekuple.Model;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using Dekuple.Model;
     using Common;
 
     /// <inheritdoc cref="ICardCollection{TCard}" />

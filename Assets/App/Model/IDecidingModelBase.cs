@@ -1,7 +1,6 @@
-﻿using Dekuple;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using Dekuple;
     using Common.Message;
 
     /// <summary>

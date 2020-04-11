@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace App
+﻿namespace App
 {
+    using UnityEngine;
+
     public static class Unity
     {
         public static void Destroy(Transform tr)
@@ -16,6 +16,13 @@ namespace App
                 Object.DestroyImmediate(go);
             else
                 Object.Destroy(go);
+        }
+        
+        public static void SetAlpha(this UnityEngine.UI.Image image, float a)
+        {
+            var c = image.color;
+            c.a = a;
+            image.color = c;
         }
     }
 }

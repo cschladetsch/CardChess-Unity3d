@@ -1,9 +1,8 @@
-﻿using App.Common;
-using Dekuple;
-using Dekuple.View;
-
-namespace App.View
+﻿namespace App.View
 {
+    using Common;
+    using Dekuple;
+    using Dekuple.View;
     using Agent;
 
     /// <summary>

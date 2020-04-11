@@ -1,8 +1,8 @@
-﻿using App.Model;
-using Dekuple.Agent;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using Dekuple.Agent;
+    using Model;
+
     /// <inheritdoc />
     /// <summary>
     /// Agent for EndTurn button.

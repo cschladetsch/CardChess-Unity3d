@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using Dekuple;
-using Dekuple.Model;
-using UniRx;
-
-namespace App.Model.Impl
+﻿namespace App.Model.Impl
 {
+    using System.Linq;
+    using Dekuple;
+    using Dekuple.Model;
+    using UniRx;
     using Model;
 
     /// <summary>
@@ -35,14 +34,13 @@ namespace App.Model.Impl
                 if (_arbiter.CurrentPlayer.Value != PlayerModel)
                     return false;
                 var canPlace = PlayerModel.Hand.Cards.Any(c => c.ManaCost.Value <= m);
-                var canMove = m > 1 && _board.Pieces.Where(SameOwner).Any(_board.CanMoveOrAttack);
-                Verbose(50, $"*** CanMove={canMove}, canPlace={canPlace}, mana={m}, {PlayerModel}: hasOptions={_playerHasOptions.Value}");
-                return canPlace || canMove;
+                if (canPlace)
+                    return true;
+                return m > 0 && _board.Pieces.Where(SameOwner).Any(_board.CanMoveOrAttack);
             })
-            .Subscribe(h => _playerHasOptions.Value = h)
-            ;
+            .Subscribe(h => _playerHasOptions.Value = h).AddTo(this);
 
-            _arbiter.CurrentPlayer.Subscribe(p => _isInteractive.Value = p == PlayerModel);
+            _arbiter.CurrentPlayer.Subscribe(p => _isInteractive.Value = p == PlayerModel).AddTo(this);
         }
     }
 }

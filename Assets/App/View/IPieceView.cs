@@ -1,8 +1,7 @@
-﻿using Dekuple.View;
-using UniRx;
-
-namespace App.View
+﻿namespace App.View
 {
+    using UniRx;
+    using Dekuple.View;
     using Agent;
     using Common;
 
@@ -22,6 +21,6 @@ namespace App.View
         /// </summary>
         IReadOnlyReactiveProperty<bool> Dead { get; }
 
-        //void SetAgent(IPlayerView view, IPieceAgent agent);
+        void SetAgent(IViewBase view, IPieceAgent agent);
     }
 }

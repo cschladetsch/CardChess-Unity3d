@@ -1,12 +1,14 @@
-﻿using Dekuple;
-
-#pragma warning disable 649
+﻿#pragma warning disable 649
 
 namespace App.Mock.Model
 {
+    using Dekuple;
     using Common;
     using App.Model;
 
+    /// <summary>
+    /// A mock deck for testing.
+    /// </summary>
     public class MockDeck
         : DeckModel
     {

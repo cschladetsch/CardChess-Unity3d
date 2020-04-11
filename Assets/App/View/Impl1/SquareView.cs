@@ -1,10 +1,10 @@
-﻿using App.Common;
-using Dekuple.View.Impl;
-
-#pragma warning disable 649
+﻿#pragma warning disable 649
 
 namespace App.View.Impl1
 {
+    using Dekuple.View.Impl;
+    using Common;
+
     /// <inheritdoc cref="ISquareView" />
     /// <summary>
     /// View of a square on the play board
@@ -33,9 +33,6 @@ namespace App.View.Impl1
             return Coord == sq.Coord;
         }
 
-        public override string ToString()
-        {
-            return $"{Color} @{Coord}";
-        }
+        public override string ToString() => $"{Color} @{Coord}";
     }
 }

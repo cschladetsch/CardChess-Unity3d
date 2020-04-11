@@ -7,6 +7,8 @@ namespace App
 {
     /// <summary>
     /// Global game parameters.
+    ///
+    /// TODO: Make not static so can be tweaked at runtime.
     /// </summary>
     public static class Parameters
     {
@@ -28,7 +30,7 @@ namespace App
         /// <summary>
         /// Number of cards to start with (excluding King)
         /// </summary>
-        public static int StartHandCardCount = 3;
+        public static int StartHandCardCount = 4;
         public static int MaxCardsInHand = 10;
         public static int MaxCardsInDeck = 60;
         public static int MinCardsInDeck = 30;
@@ -52,7 +54,7 @@ namespace App
         /// How long a playerAgent has to complete his turn. Note that there can be
         /// many actions in a turn, and the ordering is important.
         /// </summary>
-        public static float GameTurnTimer = 99999999;
+        public static float GameTurnTimer = 99999;
 
         /// <summary>
         /// Minimum distance to enemy king when playing a new card to the boardAgent
@@ -63,5 +65,7 @@ namespace App
         /// How much health a player loses whenever he is forced to draw from an empty deck.
         /// </summary>
         public static int CardExhaustionHealthLoss = -2;
+
+        public static float PieceZOffset = -0.6f;
     }
 }

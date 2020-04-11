@@ -1,18 +1,16 @@
-﻿using App.Model;
-using UnityEngine;
-
-using CoLib;
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-using UniRx;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
-    using Agent;
+    using UnityEngine;
+    using UniRx;
+    using CoLib;
+    using Dekuple;
+    using Dekuple.View;
     using Common;
     using Common.Message;
+    using Agent;
+    using Model;
 
+    /// <inheritdoc cref="IPieceView"/>
     /// <summary>
     /// View of a Piece on the Board in the scene.
     /// </summary>
@@ -20,17 +18,14 @@ namespace App.View.Impl1
         : Draggable<IPieceAgent>
         , IPieceView
     {
-        #region Unity Properties
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public AudioClip CancelClip;
         public AudioClip MoveClip;
         public AudioClip HitClip;
         public AudioClip HitBothClip;
-        #endregion
-
+        public AudioClip DiedClip;
         public IReactiveProperty<Coord> Coord => Agent.Coord;
-        public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
 
         public override bool IsValid
         {
@@ -43,7 +38,15 @@ namespace App.View.Impl1
             }
         }
 
+<<<<<<< HEAD
         protected override bool Begin()
+=======
+        public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
+
+        public override string ToString() => $"{PlayerView} {Agent}";
+
+        protected override void Begin()
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         {
             if (!base.Begin())
                 return false;
@@ -58,46 +61,63 @@ namespace App.View.Impl1
             return true;
         }
 
+<<<<<<< HEAD
         //public override void SetAgent(IPlayerView view, IPieceAgent agent)
         public void SetAgent(IViewBase view, IAgent agent)
         {
             // base.SetAgent(view, agent);
 
+=======
+        public void SetAgent(IViewBase view, IPieceAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
+        {
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
             Assert.IsNotNull(agent);
-            var pieceAgent = agent as IPieceAgent;
-            Assert.IsNotNull(pieceAgent.Power);
-            Assert.IsNotNull(pieceAgent.Health);
-            Assert.IsNotNull(Power);
-            Assert.IsNotNull(Health);
+            base.SetAgent(view, agent);
+            Agent = agent;
 
-            pieceAgent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
-            pieceAgent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            AddSubscriptions();
+            AddMesh();
+            Assert.IsTrue(IsValid);
+        }
+
+        private void AddSubscriptions()
+        {
+            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
             //agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
-
-            var player = Owner.Value as IPlayerModel;
-            var color = player.Color;
-            FindPiece().GetComponent<Renderer>().material
-                = color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
-
+            
             MouseOver.DistinctUntilChanged().Subscribe(
                 v =>
                 {
                     //BoardView.ShowSquares(this);
                 }
             );
-            Dead.Subscribe(d => { if (d) Die(); });
+            
+            Dead.Subscribe(dead =>
+            {
+                if (!dead)
+                    return;
+                    
+                Info($"{Agent.Model} died");
+                _Queue.Enqueue(Commands.Do(() => _AudioSource.PlayOneShot(DiedClip)));
+                BoardView.Remove(this);
+            });
         }
 
-        GameObject FindPiece()
+        private void AddMesh()
         {
-            return transform.GetComponentInChildren<MeshRenderer>().gameObject;
-        }
-
-        void Die()
-        {
+<<<<<<< HEAD
             Info($"{Agent.Model} died");
             _AudioSource.PlayOneShot(HitBothClip);
             BoardView.Remove(this);
+=======
+            var root = Instantiate(Agent.Model.Card.Template.MeshPrefab, transform);
+            root.transform.localScale *= 0.6f;    // pieces on board are smaller than in Hand/Deck
+            root.transform.SetLocalZ(App.Parameters.PieceZOffset);
+            var mesh = root.GetComponentInChildren<MeshRenderer>();
+            mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         }
 
         private void Move()
@@ -105,18 +125,20 @@ namespace App.View.Impl1
             var coord = Coord.Value;
             var go = GameObject;
             var pos = new Vector3(coord.x - BoardView.Width.Value/2 + 0.5f, coord.y - BoardView.Height.Value/2 + 0.5f, -1);
+<<<<<<< HEAD
             _Queue.Sequence(
                 Cmd.Parallel(
                     Cmd.MoveTo(go, pos, 0.1, Ease.InOutBounce(), true),
                     Cmd.ScaleTo(go, 1, 0.1)
+=======
+            _Queue.Enqueue(
+                Commands.Parallel(
+                    Commands.MoveTo(go, pos, 0.3, Ease.InOutBounce(), true),
+                    Commands.ScaleTo(go, 1, 0.3)
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
                 ),
                 Cmd.Do(() => _AudioSource.PlayOneShot(MoveClip))
             );
-        }
-
-        public override string ToString()
-        {
-            return $"{PlayerView} {Agent}";
         }
 
         protected override bool MouseDown()
@@ -127,7 +149,8 @@ namespace App.View.Impl1
 
         protected override void MouseHover()
         {
-            Verbose(30, $"MouseHover {this}");
+            // TODO: Start a popup
+            // Verbose(30, $"MouseHover {this}");
         }
 
         protected override void MouseUp(IBoardView board, Coord coord)
@@ -145,14 +168,17 @@ namespace App.View.Impl1
 
             // TODO: allow for mounting
             if (existing.SameOwner(this))
+            {
+                ReturnToStart();
                 return;
+            }
 
             player.PushRequest(new Battle(PlayerModel, Agent.Model, existing.Agent.Model), Response);
         }
 
         private void Response(IResponse response)
         {
-            Verbose(3, $"PieceView Response: {response}");
+            Verbose(0, $"PieceView: {response}");
             if (response.Failed)
             {
                 _AudioSource.PlayOneShot(CancelClip);
@@ -164,12 +190,24 @@ namespace App.View.Impl1
             {
                 case Battle battle:
                     _AudioSource.PlayOneShot(HitClip);
-                    ReturnToStart();
+                    if (battle.Defender.Dead.Value)
+                        MoveTo(Coord.Value);
+                    else
+                        ReturnToStart();
                     return;
+ 
                 case MovePiece move:
-                    BoardView.MovePiece(this, Coord.Value);
+                    if (response.Failed)
+                        ReturnToStart();
+                    else
+                        MoveTo(move.Coord);
                     break;
             }
+        }
+
+        private void MoveTo(Coord coord)
+        {
+            BoardView.MovePiece(this, coord);
         }
     }
 }

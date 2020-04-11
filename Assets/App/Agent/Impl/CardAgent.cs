@@ -1,9 +1,8 @@
-﻿using System;
-using Dekuple.Agent;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using System;
+    using UniRx;
+    using Dekuple.Agent;
     using Common;
     using Model;
 

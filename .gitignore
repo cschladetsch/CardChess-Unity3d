@@ -20,3 +20,7 @@ Packages/
 Assets/Packages/
 Assets/[Pp]ackages.*
 
+# Samples and Examples
+Assets/External/New\ UI\ Widgets/Examples
+
+

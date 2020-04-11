@@ -1,11 +1,13 @@
-﻿using App.Model;
-using Dekuple.View;
-
-namespace App.View
+﻿namespace App.View
 {
+    using Dekuple.View;
+    using Model;
+
     /// <inheritdoc />
     /// <summary>
-    /// Totally unsure what this is used for
+    /// Used for things that generally need to know about the game state.
+    ///
+    /// TODO: Remove this. It's unnecessary.
     /// </summary>
     public interface IGameViewBase
         : IViewBase

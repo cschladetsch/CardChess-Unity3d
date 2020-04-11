@@ -1,10 +1,10 @@
-﻿using UniRx;
-using App.Common;
-using Dekuple;
-using Dekuple.Model;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Model;
+    using Common;
+
     /// <inheritdoc />
     /// <summary>
     /// The referee for the game.
@@ -16,7 +16,8 @@ namespace App.Model
         IReactiveProperty<int> TurnNumber { get; }
         IReadOnlyReactiveProperty<EGameState> GameState { get; }
         IReadOnlyReactiveProperty<IPlayerModel> CurrentPlayer { get; }
-        IReadOnlyReactiveProperty<IResponse> LastResponse { get; }
+        IReadOnlyReactiveProperty<RequestResponse> LastResponse { get; }
+        IReadOnlyReactiveProperty<string> Log { get; }
 
         void StartGame();
         void PrepareGame(IPlayerModel white, IPlayerModel black);

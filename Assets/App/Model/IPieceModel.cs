@@ -1,9 +1,8 @@
-﻿using Dekuple;
-using Dekuple.Model;
-using UniRx;
-
-namespace App.Model
+﻿namespace App.Model
 {
+    using UniRx;
+    using Dekuple;
+    using Dekuple.Model;
     using Common;
 
     /// <inheritdoc />
@@ -14,7 +13,6 @@ namespace App.Model
         : IModel
     {
         ICardModel Card { get; }
-        EPieceType PieceType { get; }
         EColor Color { get; }
         IReactiveProperty<Coord> Coord { get; }
         IReadOnlyReactiveProperty<int> Power { get; }
@@ -22,6 +20,7 @@ namespace App.Model
         IReadOnlyReactiveProperty<bool> Dead { get; }
         bool AttackedThisTurn { get; set; }
         bool MovedThisTurn { get; set; }
+        EPieceType PieceType { get; }
 
         IResponse Attack(IPieceModel piece);
         IResponse TakeDamage(IPieceModel piece);

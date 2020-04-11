@@ -1,8 +1,7 @@
-﻿using Dekuple.View;
-using UniRx;
-
-namespace App.View
+﻿namespace App.View
 {
+    using Dekuple.View;
+    using UniRx;
     using Agent;
 
     /// <summary>
@@ -13,6 +12,6 @@ namespace App.View
     {
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
 
-        //void SetAgent(IPlayerView player, ICardAgent agent);
+        void SetAgent(IViewBase player, ICardAgent agent);
     }
 }

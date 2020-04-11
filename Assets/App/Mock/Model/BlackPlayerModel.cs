@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using App.Model;
-using Dekuple;
-
-namespace App.Mock.Model
+﻿namespace App.Mock.Model
 {
+    using System;
+    using System.Collections.Generic;
     using Common;
     using Common.Message;
 
+    /// <summary>
+    /// Model for the test Black Player.
+    /// </summary>
     public class BlackPlayerModel
         : MockModelPlayerBase
         , IBlackPlayerModel

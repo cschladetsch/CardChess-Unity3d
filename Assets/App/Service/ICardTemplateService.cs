@@ -1,10 +1,9 @@
-﻿using System;
-using Dekuple.Model;
-
-namespace App.Service
+﻿namespace App.Service
 {
-    using Model;
+    using System;
+    using Dekuple.Model;
     using Common;
+    using Model;
 
     /// <inheritdoc />
     /// <summary>

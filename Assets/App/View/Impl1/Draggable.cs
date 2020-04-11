@@ -1,20 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-using UniRx;
-using CoLib;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-
-// Resharper doesn't know about Unity's stupid use of reflection
+﻿// Resharper doesn't know about Unity's stupid use of reflection
 // ReSharper disable UnusedMember.Local
 
 namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UniRx;
+    using CoLib;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.View;
     using Common;
 
+    /// <summary>
+    /// An item that can be dragged with the mouse, such as a card or a piece.
+    /// </summary>
+    /// <typeparam name="TIAgent"></typeparam>
     public abstract class Draggable<TIAgent>
         : GameViewBase<TIAgent>
         where TIAgent : class, IAgent
@@ -44,7 +45,17 @@ namespace App.View.Impl1
         protected abstract void MouseHover();
         protected abstract void MouseUp(IBoardView board, Coord coord);
 
+<<<<<<< HEAD
         protected override bool Create()
+=======
+        public override void SetAgent(IViewBase player, IAgent agent)
+        {
+            base.SetAgent(player, agent);
+            PlayerView = player as IPlayerView;
+            Assert.IsNotNull(PlayerView);
+        }
+        public override void Create()
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         {
             if (!base.Create())
                 return false;

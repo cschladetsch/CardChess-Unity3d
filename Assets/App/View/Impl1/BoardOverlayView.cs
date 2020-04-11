@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CoLib;
-using Dekuple.View.Impl;
-using UnityEngine;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using Dekuple.View.Impl;
     using Common;
+    using CoLib;
 
     /// <summary>
-    /// Overlay view of the board; highligted squares
+    /// Overlay view of the board; highlighted squares
     /// </summary>
     public class BoardOverlayView
         : ViewBase
@@ -38,11 +37,25 @@ namespace App.View.Impl1
         [ContextMenu("BoardOverlay-Clear")]
         public void Clear()
         {
+<<<<<<< HEAD
             var squares = (from Transform tr in transform select tr.GetComponent<BoardOverlaySquareView>()).Where(s => s != null).ToList();
             _Queue.Sequence(
                 squares.ForEachParallel(sq => sq.Clear())
             );
             _Queue.Process();
+=======
+            var squares = (from Transform tr in transform select tr.GetComponent<BoardOverlaySquareView>())
+                .Where(s => s != null).ToList();
+
+            foreach (var sq in squares)
+                sq.Clear();
+            
+            // fancier but slower
+            // _Queue.Enqueue(
+            //     squares.ForEachParallel(sq => sq.Clear())
+            // );
+            // _Queue.Process();
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         }
 
         /// <summary>
@@ -59,16 +72,28 @@ namespace App.View.Impl1
             var squares = new List<BoardOverlaySquareView>();
             foreach (var c in coords)
             {
+                // TODO: object pool
                 var sq = Instantiate(BoardOverlaySquareViewPrefab);
                 squares.Add(sq);
-                sq.transform.SetParent(transform);
-                sq.transform.localPosition = new Vector3(c.x, c.y, Zoffset);
-                sq.transform.localScale = Vector3.one;
+                var tr = sq.transform;
+                tr.SetParent(transform);
+                tr.localPosition = new Vector3(c.x, c.y, Zoffset);
+                tr.localScale = Vector3.one;
             }
 
+<<<<<<< HEAD
             _Queue.Sequence(
                 squares.ForEachParallel(sq => sq.SetColor(color))
             );
+=======
+            foreach (var sq in squares)
+                sq.SetColor(color);
+                
+            // fancy but slow
+            // _Queue.Enqueue(
+            //     squares.ForEachParallel(sq => sq.SetColor(color))
+            // );
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         }
     }
 }

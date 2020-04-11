@@ -1,36 +1,17 @@
-﻿using UnityEngine;
-using Random = System.Random;
-
-namespace App
+﻿namespace App
 {
+    using UnityEngine;
+    using Random = System.Random;
+
     public static class Math
     {
-        public static Random Rand = new Random();
+        private static readonly Random _rand = new Random();
 
-        public static int Abs(int n)
-        {
-            return n < 0 ? -n : n;
-        }
-
-        public static int Max(int a, int b)
-        {
-            return a > b ? a : b;
-        }
-
-        public static int Min(int a, int b)
-        {
-            return a < b ? a : b;
-        }
-
-        public static int RandomRanged(int min, int max)
-        {
-            return Rand.Next(min, max);
-        }
-
-        public static int Clamp(int min, int max, int val)
-        {
-            return val < min ? min : (val > max ? max : val);
-        }
+        public static int Abs(int n) => n < 0 ? -n : n;
+        public static int Max(int a, int b) => a > b ? a : b;
+        public static int Min(int a, int b) => a < b ? a : b;
+        public static int RandomRanged(int min, int max) => _rand.Next(min, max);
+        public static int Clamp(int min, int max, int val) => val < min ? min : (val > max ? max : val);
 
         public static void SetX(this Transform v, float x)
         {
@@ -51,6 +32,13 @@ namespace App
             var p = v.position;
             p.z = z;
             v.position = p;
+        }
+
+        public static void SetLocalZ(this Transform v, float z)
+        {
+            var p = v.localPosition;
+            p.z = z;
+            v.localPosition = p;
         }
     }
 }

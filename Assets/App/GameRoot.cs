@@ -1,4 +1,8 @@
 ﻿// field not assigned - because it is assigned in Unity3d editor
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
 #pragma warning disable 649
 
 namespace App
@@ -7,6 +11,7 @@ namespace App
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+<<<<<<< HEAD
     using Dekuple.Agent;
     using Dekuple.Model;
     using Dekuple.View;
@@ -14,12 +19,25 @@ namespace App
     using Model.Impl;
     using Dekuple;
     using Dekuple.View.Impl;
+=======
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.Model;
+    using Dekuple.View;
+    using Dekuple.View.Impl;
+    using Agent.Impl;
+    using Model.Impl;
+    using UniRx;
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Common;
     using Agent;
     using Model;
     using View;
     using View.Impl1;
     using Service.Impl;
+    using Database;
+    using Database.Data.Scriptable;
+
 
     /// <inheritdoc />
     /// <summary>
@@ -28,6 +46,9 @@ namespace App
     public class GameRoot
         : ViewBase
     {
+        public CardTemplateService CardTemplateService;
+        public ArbiterResponseList ResponseText;
+        public CardTemplateDatabase CardTemplateDatabase;
         public IPlayerAgent WhitePlayerAgent;
         public IPlayerAgent BlackPlayerAgent;
         public IBoardAgent BoardAgent;
@@ -43,6 +64,7 @@ namespace App
         private ModelRegistry _models;
         private AgentRegistry _agents;
         private IViewRegistry _views;
+        private static readonly int Rotation = Shader.PropertyToID("_Rotation");
 
         /// <summary>
         /// Startup the game.
@@ -56,6 +78,8 @@ namespace App
             Registry = _views;
 
             base.Begin();
+            
+            CardTemplates.AddCardDatabase(CardTemplateDatabase);
 
             CreateModels();
             CreateAgents();
@@ -66,7 +90,13 @@ namespace App
             BoardView.SetAgent(BoardAgent);
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
+<<<<<<< HEAD
             ArbiterView.SetAgent(ArbiterAgent);
+=======
+            ArbiterView.SetAgent(null, ArbiterAgent);
+            ArbiterAgent.LastResponse.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
+            ArbiterAgent.Log.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
             
             CheckAllValid();
 
@@ -96,7 +126,7 @@ namespace App
         protected override void Step()
         {
             base.Step();
-            RenderSettings.skybox.SetFloat("_Rotation", Time.time * SKyRotationSpeedMultiplier);
+            RenderSettings.skybox.SetFloat(Rotation, Time.time * SKyRotationSpeedMultiplier);
         }
 
         /// <summary>
@@ -146,13 +176,13 @@ namespace App
             _whitePlayerModel = _models.Get<IPlayerModel>(EColor.White);
             _blackPlayerModel = _models.Get<IPlayerModel>(EColor.Black);
 
-            // resolve any cycles of dependancy for singletons, as well as creates models used internally by other models.
+            // resolve any cycles of dependency for singletons, as well as creates models used internally by other models.
             foreach (var model in _models.Instances.ToList())
                 model.PrepareModels();
         }
 
         /// <summary>
-        /// REgistry and create all the agents for the models in the initial game
+        /// Register and create all the agents for the models in the initial game.
         /// </summary>
         private void CreateAgents()
         {

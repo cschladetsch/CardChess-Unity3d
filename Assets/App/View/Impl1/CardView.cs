@@ -2,47 +2,50 @@
 {
     using UnityEngine;
     using UniRx;
+<<<<<<< HEAD
     using App.Model;
     using Dekuple;
     using Dekuple.Agent;
     using Dekuple.View;
     using Agent;
+=======
+    using Dekuple;
+    using Dekuple.View;
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     using Common;
     using Common.Message;
+    using Agent;
 
-    /// <inheritdoc cref="Draggable{TIAgent}" />
-    ///  <summary>
-    ///  View of a card that is not on the board. This includes Hand, Deck, Graveyard.
-    ///  A view of a card on the board is a PieceView.
-    ///  </summary>
+    /// <inheritdoc cref="ICardView" />
+    /// <summary>
+    /// View of a card that is <b>not</b> on the Board. This includes the Hand, Deck, Graveyard.
+    /// A view of a Card on the Board is a <see cref="IPieceView"/>.
+    /// </summary>
     public class CardView
         : Draggable<ICardAgent>
         , ICardView
     {
-        public EPieceType PieceType;
+        public TMPro.TextMeshProUGUI Mana;
+        public TMPro.TextMeshProUGUI Health;
+        public TMPro.TextMeshProUGUI Power;
         public AudioClip LeaveHandClip;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
-
-        // no more manually hooking things up via editor: now we resolve them at creation-time
-        private TMPro.TextMeshProUGUI _mana;
-        private TMPro.TextMeshProUGUI _health;
-        private TMPro.TextMeshProUGUI _power;
 
         public override bool IsValid
         {
             get
             {
                 if (!base.IsValid) return false;
-                if (_mana == null) return false;
-                if (_health == null) return false;
-                if (_power == null) return false;
+                if (Mana == null) return false;
+                if (Health == null) return false;
+                if (Power == null) return false;
                 return true;
             }
         }
 
-        // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
+<<<<<<< HEAD
         public override void SetAgent(IAgent agent)
         {
             var cardAgent = agent as ICardAgent;
@@ -77,13 +80,39 @@
             FindPiece().material
                 = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
+=======
+        public void SetAgent(IViewBase view, ICardAgent agent)
+        //public override void SetAgent(IViewBase view, IAgent agent)
+        {
+            Assert.IsNotNull(agent);
+            base.SetAgent(view, agent);
+            Agent = agent;
+
+            AddSubscriptions();
+            AddMesh();
+            Assert.IsTrue(IsValid);
+        }
+
+        private void AddMesh()
+        {
+            var root = Instantiate(Agent.Model.Template.MeshPrefab, transform);
+            var mesh = root.GetComponentInChildren<MeshRenderer>();
+            mesh.material = PlayerModel.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
+        }
+
+        private void AddSubscriptions()
+        {
+            base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
+            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            Agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
+            
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
             SquareOver.Subscribe(sq =>
             {
                 if (sq != null)
                     BoardView.ShowSquares(Agent.Model, sq);
             }).AddTo(this);
-
-            Assert.IsTrue(IsValid);
         }
 
         protected override bool MouseDown()
@@ -96,6 +125,7 @@
 
         protected override void MouseHover()
         {
+            // TODO: popup info
         }
 
         protected override void MouseUp(IBoardView board, Coord coord)
@@ -115,20 +145,8 @@
                 return;
             }
 
-            var place = response.Request as PlacePiece;
-            Assert.IsNotNull(place);
-            Verbose(20, $"Removing {Agent.Model} from {PlayerModel.Hand}");
+            Verbose(10, $"Removing {Agent.Model} from {PlayerModel.Hand}");
             PlayerModel.Hand.Remove(Agent.Model);
-        }
-
-        private TMPro.TextMeshProUGUI FindTextChild(string name)
-        {
-            return transform.FindChildNamed<TMPro.TextMeshProUGUI>(name);
-        }
-
-        private Renderer FindPiece()
-        {
-            return transform.GetComponentInChildren<MeshRenderer>();
         }
     }
 }

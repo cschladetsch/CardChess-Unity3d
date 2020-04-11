@@ -1,9 +1,8 @@
-﻿using System;
-using Dekuple;
-using Flow;
-
-namespace App.Mock.Agent
+﻿namespace App.Mock.Agent
 {
+    using System;
+    using Dekuple;
+    using Flow;
     using App.Agent;
     using App.Model;
     using Common.Message;

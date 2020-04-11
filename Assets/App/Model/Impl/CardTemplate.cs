@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 
 using Dekuple.Model;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace App.Model
 {
@@ -18,6 +20,7 @@ namespace App.Model
     {
         public ECardType Type { get; }
         public EPieceType PieceType { get; }
+        public GameObject MeshPrefab { get; }
         public string Description { get; }
         public string FlavourText { get; }
         public int ManaCost { get; }
@@ -28,7 +31,7 @@ namespace App.Model
         public IEnumerable<IEffectModel> Effects { get; } = new List<IEffectModel>();
 
         public CardTemplate(ECardType type, EPieceType pieceType, string name, int manaCost, int attack,
-            int health, IEnumerable<EAbility> abilities = null,
+            int health, GameObject prefab = null, IEnumerable<EAbility> abilities = null,
             string flavourText = "")
             : base(null)
         {
@@ -42,6 +45,7 @@ namespace App.Model
             if (abilities != null)
                 Abilities = abilities.ToList();
             FlavourText = flavourText;
+<<<<<<< HEAD
         }
 
         /// <summary>
@@ -52,6 +56,9 @@ namespace App.Model
         public ICardModel New(IPlayerModel player)
         {
             return Registry.Get<ICardModel>(this, player);
+=======
+            MeshPrefab = prefab;
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
         }
     }
 }

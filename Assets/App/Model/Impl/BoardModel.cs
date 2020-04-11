@@ -75,7 +75,7 @@ namespace App.Model
                 return true;
 
             // we have no empty squares, but check for interference squares on movement
-            foreach (var other in moves.Interferernce)
+            foreach (var other in moves.Interference)
             {
                 Assert.IsNotNull(other);
                 Assert.IsFalse(other.Owner == pieceModel.Owner);
@@ -100,7 +100,7 @@ namespace App.Model
                 return true;
 
             // we can attack a defender of a square we could otherwise attack directly
-            if (attacks.Interferernce.Count > 0)
+            if (attacks.Interference.Count > 0)
                 return true;
 
             // we can't move anywhere, mount anything, or attack directly or attack a defender
@@ -130,7 +130,9 @@ namespace App.Model
             Assert.IsTrue(IsValidCoord(coord));
             var found = Get(coord);
             if (found == null)
-                return Response.Fail;
+                return Response.Ok;
+            if (found.Dead.Value)
+                return Response.Ok;
             found.Coord.Value = coord;
             return Response.Ok;
         }
@@ -185,7 +187,7 @@ namespace App.Model
             Assert.IsNotNull(found);
             if (found == null)
                 return Response.Fail;
-            found.Coord.Value = coord;
+            piece.Coord.Value = coord;
             return Response.Ok;
         }
 
@@ -373,6 +375,9 @@ namespace App.Model
             return null;
         }
 
+        public MoveResults GetAdjacent(Coord coord, int distance)
+            => GetMoveResults(coord, distance, _surrounding);
+
         public MoveResults GetMovements(Coord coord, EPieceType type)
         {
             var max = Math.Max(Width, Height);
@@ -414,7 +419,7 @@ namespace App.Model
             return GetMoveResults(orig, dist, _diagnonals);
         }
 
-        MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
+        private MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
             var moveResults = new MoveResults();
             var blocked = new List<int>();
@@ -433,7 +438,7 @@ namespace App.Model
                     var model = At(coord);
                     if (model != null)
                     {
-                        moveResults.Interferernce.Add(model);
+                        moveResults.Interference.Add(model);
                         blocked.Add(m);
                         continue;
                     }

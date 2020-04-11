@@ -79,12 +79,12 @@ namespace App.Model
 
         public void EndGame()
         {
-            Info($"{this} EndGame");
+            Info($"{this} Ends Game");
         }
 
         public override string ToString()
         {
-            return $"{Color} Player";
+            return $"{Color}";
         }
 
         public void CardExhaustion()

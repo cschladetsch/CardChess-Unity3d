@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using App.Common;
-using Dekuple;
-
-namespace App.Mock.Model
+﻿namespace App.Mock.Model
 {
+    using System.Linq;
+    using Dekuple;
     using App.Model;
+    using Common;
 
+    /// <summary>
+    /// A mock hand for testing.
+    /// </summary>
     public class MockHand
         : HandModel
     {

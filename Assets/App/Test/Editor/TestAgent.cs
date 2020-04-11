@@ -62,6 +62,7 @@ namespace App.Agent.Test
         [Test]
         public void TestBasicGameAgents()
         {
+            Database.CardTemplates.AddBasicCards();
             _arbiterAgent.PrepareGame(_whiteAgent, _blackAgent);
             _arbiterAgent.StartGame();
 

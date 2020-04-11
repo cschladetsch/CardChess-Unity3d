@@ -1,10 +1,19 @@
 ﻿namespace App.View.Impl1
 {
     using Dekuple;
+<<<<<<< HEAD
     using Dekuple.Agent;
     using Dekuple.View.Impl;
     using Model;
 
+=======
+    using Dekuple.View.Impl;
+    using Model;
+
+    /// <summary>
+    /// Common for many game objects.
+    /// </summary>
+>>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
     public class GameViewBase
         : ViewBase
         , IGameViewBase
@@ -15,10 +24,7 @@
         [Inject] public IArbiterView ArbiterView { get; set; }
         [Inject] public IBoardView BoardView { get; set; }
 
-        protected bool IsCurrentPlayer()
-        {
-            return ArbiterView.CurrentPlayerOwns(this);
-        }
+        protected bool IsCurrentPlayer() => ArbiterView.CurrentPlayerOwns(this);
     }
 
     public class GameViewBase<TAgent>
