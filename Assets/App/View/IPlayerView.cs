@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Dekuple;
+using Dekuple.Agent;
 using Dekuple.View;
 
 namespace App.View
@@ -13,7 +14,6 @@ namespace App.View
     public interface IPlayerView
         : IView<IPlayerAgent>
     {
-        //void SetAgent(IPlayerView view, IPlayerAgent agent);
         void PushRequest(IRequest request, Action<IResponse> response);
     }
 }

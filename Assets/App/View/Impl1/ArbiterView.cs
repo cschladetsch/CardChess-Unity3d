@@ -35,16 +35,16 @@
         private GameRoot _gameRoot;
 
         //public override void SetAgent(IPlayerView view, IArbiterAgent agent)
-        public override void SetAgent(IAgent agent, IModel model)
+        public override void SetAgent(IAgent agent)
         {
-            base.SetAgent(agent, model);
+            base.SetAgent(agent);
 
             PlayMusic();
 
-            WhitePlayerView.SetAgent(Agent.WhitePlayerAgent, Agent.WhitePlayerAgent.Model);
-            BlackPlayerView.SetAgent(Agent.BlackPlayerAgent, Agent.BlackPlayerAgent.Model);
+            WhitePlayerView.SetAgent(Agent.WhitePlayerAgent);
+            BlackPlayerView.SetAgent(Agent.BlackPlayerAgent);
 
-            var arbiterModel = model as IArbiterModel;
+            var arbiterModel = Model as IArbiterModel;
             arbiterModel.GameState.DistinctUntilChanged().Subscribe(c => StateText.text = $"{c}").AddTo(this);
             arbiterModel.CurrentPlayer.DistinctUntilChanged().Subscribe(c => CurrentPlayerText.text = $"{c}").AddTo(this);
 

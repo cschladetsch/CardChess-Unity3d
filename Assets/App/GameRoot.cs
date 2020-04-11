@@ -64,9 +64,9 @@ namespace App
             PrepareViews(transform);
 
             BoardView.SetAgent(BoardAgent);
-            ArbiterView.SetAgent(ArbiterAgent);
-
+            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
+            ArbiterView.SetAgent(ArbiterAgent);
             
             CheckAllValid();
 

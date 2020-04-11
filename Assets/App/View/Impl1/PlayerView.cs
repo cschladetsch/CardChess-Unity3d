@@ -25,8 +25,7 @@ namespace App.View.Impl1
         public DeckView Deck;
         public EndTurnButtonView EndTurnButton;
 
-        //public override void SetAgent(IPlayerView view, IPlayerAgent agent)
-        public override void SetAgent(IAgent agent, IModel model)
+        public override void SetAgent(IAgent agent)
         {
             Assert.IsNotNull(agent);
             var player = agent as IPlayerAgent;
@@ -34,11 +33,11 @@ namespace App.View.Impl1
             Assert.IsNotNull(player.Hand);
             Assert.IsNotNull(player.Deck);
 
-            base.SetAgent(agent, model);
-            Deck.SetAgent(player.Deck);
+            base.SetAgent(agent);
             Hand.SetAgent(player.Hand);
-            EndTurnButton.SetAgent(this, Agent.EndTurnButton);
             ManaView.SetAgent(Agent);
+            Deck.SetAgent(player.Deck);
+            EndTurnButton.SetAgent(player.EndTurnButton);
         }
 
         public void PushRequest(IRequest request, Action<IResponse> response)

@@ -95,10 +95,10 @@ namespace App.View.Impl1
         }
 
         //public override void SetAgent(IViewBase view, IBoardAgent agent)
-        public override void SetAgent(IAgent agent, IModel model)
+        public override void SetAgent(IAgent agent)
         {
             Assert.IsNotNull(agent);
-            base.SetAgent(agent, model);
+            base.SetAgent(agent);
             var board = agent as IBoardAgent;
             Assert.IsNotNull(board);
             Clear();

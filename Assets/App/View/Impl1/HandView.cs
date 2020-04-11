@@ -41,11 +41,11 @@
             }
         }
 
-        public override void SetAgent(IAgent agent, IModel model)
+        public override void SetAgent(IAgent agent)
         {
             var handAgent = agent as IHandAgent;
             Assert.IsNotNull(handAgent);
-            base.SetAgent(agent, model);
+            base.SetAgent(agent);
             Assert.IsNotNull(CardViewPrefab);
             Assert.IsNotNull(CardsRoot);
 

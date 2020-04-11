@@ -1,14 +1,11 @@
-﻿using CoLib;
-using Dekuple.Agent;
-using Dekuple.View;
-using Dekuple.View.Impl;
-using UnityEngine;
-using UnityEngine.UI;
-
-using UniRx;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UniRx;
+    using CoLib;
+    using Dekuple.Agent;
+    using Dekuple.View.Impl;
     using Agent;
 
     /// <summary>
@@ -28,8 +25,7 @@ namespace App.View.Impl1
 
         private Ref<Vector3> _scale;
 
-        //public override void SetAgent(IPlayerView player, IEndTurnButtonAgent agent)
-        public void SetAgent(IViewBase player, IAgent agent)
+        public override void SetAgent(IAgent player)
         {
             // base.SetAgent(player, agent);
             Agent.Model.Interactive.Subscribe(SetInteractive);
