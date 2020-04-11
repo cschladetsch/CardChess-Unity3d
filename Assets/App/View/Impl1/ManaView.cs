@@ -1,4 +1,5 @@
 ﻿using Dekuple.Agent;
+using Dekuple.Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -21,13 +22,13 @@ namespace App.View.Impl1
         public Transform Root;
         public Vector2 Offset;
 
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public override void SetAgent(IAgent agent)
         {
             Assert.IsNotNull(agent);
             Assert.IsNotNull(ManaElementPrefab);
             Assert.IsNotNull(Root);
 
-            base.SetAgent(view, agent);
+            base.SetAgent(agent);
 
             Agent.Mana.Subscribe(n => Redraw()).AddTo(this);
             Agent.MaxMana.Subscribe(n => Redraw()).AddTo(this);

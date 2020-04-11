@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using UnityEngine;
-
-using App.Agent.Impl;
-using App.Model.Impl;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.Model;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-// field not assigned - because it is assigned in Unity3d editor
+﻿// field not assigned - because it is assigned in Unity3d editor
 #pragma warning disable 649
 
 namespace App
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using Dekuple.Agent;
+    using Dekuple.Model;
+    using Dekuple.View;
+    using Agent.Impl;
+    using Model.Impl;
+    using Dekuple;
+    using Dekuple.View.Impl;
     using Common;
     using Agent;
     using Model;
@@ -50,11 +46,13 @@ namespace App
 
         /// <summary>
         /// Startup the game.
-        ///
         /// Configure all models, agents and views.
         /// </summary>
-        protected override void Begin()
+        protected override bool Begin()
         {
+            if (!base.Begin())
+                return false;
+                
             Registry = _views;
 
             base.Begin();
@@ -65,19 +63,21 @@ namespace App
 
             PrepareViews(transform);
 
-            BoardView.SetAgent(null, BoardAgent);
+            BoardView.SetAgent(BoardAgent);
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
             ArbiterAgent.StartGame();
-            ArbiterView.SetAgent(null, ArbiterAgent);
-
+            ArbiterView.SetAgent(ArbiterAgent);
+            
             CheckAllValid();
+
+            return true;
         }
 
         /// <summary>
         /// Sanity-checking internal game state, for each of models, agents and views
         /// </summary>
         [ContextMenu("GameRoot-IsValid")]
-        public void CheckAllValid()
+        public bool CheckAllValid()
         {
             Assert.IsNotNull(_models);
             Assert.IsNotNull(_agents);
@@ -86,6 +86,8 @@ namespace App
             TestValidity("Models", _models.Instances);
             TestValidity("Agent", _agents.Instances);
             TestValidity("Views", _views.Instances);
+
+            return true;
         }
 
         /// <summary>
@@ -139,10 +141,10 @@ namespace App
             _models.Resolve();
 
             // make the required minimal components for a game
-            _boardModel = _models.New<IBoardModel>();
-            _arbiterModel = _models.New<IArbiterModel>();
-            _whitePlayerModel = _models.New<IPlayerModel>(EColor.White);
-            _blackPlayerModel = _models.New<IPlayerModel>(EColor.Black);
+            _boardModel = _models.Get<IBoardModel>();
+            _arbiterModel = _models.Get<IArbiterModel>();
+            _whitePlayerModel = _models.Get<IPlayerModel>(EColor.White);
+            _blackPlayerModel = _models.Get<IPlayerModel>(EColor.Black);
 
             // resolve any cycles of dependancy for singletons, as well as creates models used internally by other models.
             foreach (var model in _models.Instances.ToList())
@@ -166,10 +168,10 @@ namespace App
 
             _agents.Resolve();
 
-            BoardAgent = _agents.New<IBoardAgent>();
-            ArbiterAgent = _agents.New<IArbiterAgent>();
-            WhitePlayerAgent = _agents.New<IPlayerAgent>(_whitePlayerModel);
-            BlackPlayerAgent = _agents.New<IPlayerAgent>(_blackPlayerModel);
+            BoardAgent = _agents.Get<IBoardAgent>();
+            ArbiterAgent = _agents.Get<IArbiterAgent>();
+            WhitePlayerAgent = _agents.Get<IPlayerAgent>(_whitePlayerModel);
+            BlackPlayerAgent = _agents.Get<IPlayerAgent>(_blackPlayerModel);
         }
 
         private void RegisterViews()

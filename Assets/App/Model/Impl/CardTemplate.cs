@@ -51,7 +51,7 @@ namespace App.Model
         /// <returns>A new card from this template</returns>
         public ICardModel New(IPlayerModel player)
         {
-            return Registry.New<ICardModel>(this, player);
+            return Registry.Get<ICardModel>(this, player);
         }
     }
 }

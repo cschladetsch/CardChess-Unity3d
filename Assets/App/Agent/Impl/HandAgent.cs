@@ -1,8 +1,7 @@
-﻿using Dekuple.Agent;
-using UniRx;
-
-namespace App.Agent
+﻿namespace App.Agent
 {
+    using UniRx;
+    using Dekuple.Agent;
     using Model;
 
     /// <inheritdoc cref="AgentBaseCoro{TModel}" />
@@ -21,15 +20,20 @@ namespace App.Agent
         {
         }
 
-        public override void StartGame()
+        public void StartGame()
         {
             Model.StartGame();
-            Verbose(10, $"HandAgent {PlayerModel} created");
+            Verbose(10, $"{this} created");
             foreach (var c in Model.Cards)
-                _cards.Add(Registry.New<ICardAgent>(c));
+                _cards.Add(Registry.Get<ICardAgent>(c));
 
-            Model.Cards.ObserveAdd().Subscribe(Add);//.AddTo(this);
+            Model.Cards.ObserveAdd().Subscribe(Add).AddTo(this);
             Model.Cards.ObserveRemove().Subscribe(Remove);
+        }
+
+        public void EndGame()
+        {
+            throw new System.NotImplementedException();
         }
 
         private void Remove(CollectionRemoveEvent<ICardModel> remove)
@@ -42,7 +46,7 @@ namespace App.Agent
         private void Add(CollectionAddEvent<ICardModel> add)
         {
             Verbose(10, $"HandAgent: Add {add.Value} @{add.Index}");
-            _cards.Insert(add.Index, Registry.New<ICardAgent>(add.Value));
+            _cards.Insert(add.Index, Registry.Get<ICardAgent>(add.Value));
         }
     }
 }

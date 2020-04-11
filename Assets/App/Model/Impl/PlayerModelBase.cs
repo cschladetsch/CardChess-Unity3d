@@ -60,17 +60,16 @@ namespace App.Model
         public override void PrepareModels()
         {
             // TODO: pass a deck template
-            Deck = Registry.New<IDeckModel>(null, this);
-            Hand = Registry.New<IHandModel>(this);
-            EndTurnButton = Registry.New<IEndTurnButtonModel>(this);
+            Deck = Registry.Get<IDeckModel>(null, this);
+            Hand = Registry.Get<IHandModel>(this);
+            EndTurnButton = Registry.Get<IEndTurnButtonModel>(this);
 
-            base.PrepareModels();
             Deck.PrepareModels();
             Hand.PrepareModels();
             EndTurnButton.PrepareModels();
         }
 
-        public override void StartGame()
+        public virtual void StartGame()
         {
             Mana.Value = 0;
             MaxMana.Value = 0;
@@ -78,7 +77,7 @@ namespace App.Model
             Hand.StartGame();
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             Info($"{this} EndGame");
         }

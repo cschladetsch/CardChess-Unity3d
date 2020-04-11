@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
-using App.Model;
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-
-using UniRx;
-
-#pragma warning disable 649
+﻿#pragma warning disable 649
 
 namespace App.View.Impl1
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using UnityEngine;
+    using Dekuple;
+    using Dekuple.Agent;
+    using Dekuple.Model;
+    using UniRx;
+    using Model;
     using Agent;
     using Common;
 
@@ -76,8 +73,11 @@ namespace App.View.Impl1
             return sb.ToString();
         }
 
-        public override void Create()
+        protected override bool Create()
         {
+            if (!base.Create())
+                return false;
+            
             _squareBitMask = LayerMask.GetMask("BoardSquare");
             _hoveredSquare.DistinctUntilChanged().Subscribe(sq => _hoverSquare.Value = sq);
             HoverSquare.Subscribe(sq =>
@@ -90,16 +90,17 @@ namespace App.View.Impl1
             });
 
             HoverPiece.Subscribe(p => Info($"Dragging {p} @{HoverSquare.Value}"));
+            
+            return true;
         }
 
         //public override void SetAgent(IViewBase view, IBoardAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public override void SetAgent(IAgent agent)
         {
             Assert.IsNotNull(agent);
+            base.SetAgent(agent);
             var board = agent as IBoardAgent;
             Assert.IsNotNull(board);
-            base.SetAgent(view, agent);
-            Agent = agent as IBoardAgent;
             Clear();
             CreateBoard();
 
@@ -111,7 +112,7 @@ namespace App.View.Impl1
         {
             var agent = add.Value;
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
-            view.SetAgent(ArbiterView.CurrentPlayerView, agent);
+            view.SetAgent(agent);
             view.GameObject.transform.SetParent(PiecesRoot);
             _pieces.Add(view);
         }

@@ -4,7 +4,7 @@ using Dekuple.Model;
 namespace App.Model
 {
     using Common;
-
+    
     /// <inheritdoc cref="IModel" />
     /// <summary>
     /// The pool of cards that the player can draw from during a game.

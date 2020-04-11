@@ -1,12 +1,12 @@
-﻿using Dekuple;
+﻿using System.Collections.Generic;
+using Dekuple;
 using Dekuple.Model;
-using UniRx;
-
 // event not used
 #pragma warning disable 67
 
 namespace App.Model
 {
+    using UniRx;
     using Common;
     using Common.Message;
 

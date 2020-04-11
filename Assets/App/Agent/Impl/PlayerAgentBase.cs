@@ -30,7 +30,7 @@ namespace App.Agent
         public IReadOnlyReactiveProperty<int> MaxMana => Model.MaxMana;
         public IReadOnlyReactiveProperty<int> Mana => Model.Mana;
         public IReadOnlyReactiveProperty<int> Health => Model.Health;
-        public ReactiveProperty<bool> Dead { get; private set; }
+        public IReadOnlyReactiveProperty<bool> Dead { get; private set; }
 
         protected readonly List<Turnaround> _Requests = new List<Turnaround>();
         protected readonly List<IFuture<Turnaround>> _Futures = new List<IFuture<Turnaround>>();
@@ -44,22 +44,24 @@ namespace App.Agent
         public abstract ITransient TurnStart();
         public abstract ITransient TurnEnd();
 
-        public override void StartGame()
+        public virtual void StartGame()
         {
-            base.StartGame();
-
             Assert.IsNotNull(Model);
             Assert.IsNotNull(Model.Deck);
             Assert.IsNotNull(Model.Hand);
 
-            Deck = Registry.New<IDeckAgent>(Model.Deck);
-            Hand = Registry.New<IHandAgent>(Model.Hand);
-            EndTurnButton = Registry.New<IEndTurnButtonAgent>(Model.EndTurnButton);
+            Deck = Registry.Get<IDeckAgent>(Model.Deck);
+            Hand = Registry.Get<IHandAgent>(Model.Hand);
+            EndTurnButton = Registry.Get<IEndTurnButtonAgent>(Model.EndTurnButton);
 
             Dead = Health.Select(x => x <= 0).ToReactiveProperty(false);
 
             Deck.StartGame();
             Hand.StartGame();
+        }
+
+        public virtual void EndGame()
+        {
         }
 
         public void PushRequest(IRequest request, Action<IResponse> handler)

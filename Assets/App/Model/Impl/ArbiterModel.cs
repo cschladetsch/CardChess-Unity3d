@@ -1,20 +1,19 @@
 ﻿// user can play cards without worrying about mana
 //#define IGNORE_MANA
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UniRx;
-using Dekuple;
-
-using App.Common;
-using App.Common.Message;
-
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace App.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UniRx;
+    using Dekuple;
+    using Common;
+    using Common.Message;
+
     public class ArbiterModel
         : RespondingModelBase
         , IArbiterModel
@@ -41,11 +40,6 @@ namespace App.Model
             LogPrefix = "Arbiter";
         }
 
-        public override void PrepareModels()
-        {
-            base.PrepareModels();
-        }
-
         public void PrepareGame(IPlayerModel w, IPlayerModel b)
         {
             _players = new List<PlayerEntry>()
@@ -57,7 +51,7 @@ namespace App.Model
             _currentPlayerIndex.Value = 0;
         }
 
-        public override void StartGame()
+        public void StartGame()
         {
             _gameState.Value = EGameState.Start;
             Board.StartGame();
@@ -69,7 +63,7 @@ namespace App.Model
             _gameState.Value = EGameState.PlayTurn;
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             _gameState.Value = EGameState.Completed;
             Info("EndGame");

@@ -45,10 +45,10 @@ namespace App.Model.Test
             _reg.Bind<IEndTurnButtonModel, EndTurnButtonModel>();
             _reg.Resolve();
 
-            _board = _reg.New<IBoardModel>();
-            _arbiter = _reg.New<IArbiterModel>();
-            _white = _reg.New<IWhitePlayerModel>();
-            _black = _reg.New<IBlackPlayerModel>();
+            _board = _reg.Get<IBoardModel>();
+            _arbiter = _reg.Get<IArbiterModel>();
+            _white = _reg.Get<IWhitePlayerModel>();
+            _black = _reg.Get<IBlackPlayerModel>();
 
             foreach (var model in _reg.Instances.ToList())
                 model.PrepareModels();

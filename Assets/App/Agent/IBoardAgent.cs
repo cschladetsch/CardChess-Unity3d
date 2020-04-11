@@ -12,7 +12,7 @@ namespace App.Agent
     /// An agent that acts on behalf of a model board.
     /// </summary>
     public interface IBoardAgent
-        : IAgent<IBoardModel>
+        : IGameAgent<IBoardModel>
         , IPrintable
     {
         IReadOnlyReactiveProperty<int> Width { get; }

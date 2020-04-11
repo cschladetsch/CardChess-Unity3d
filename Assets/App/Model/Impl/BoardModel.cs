@@ -51,18 +51,13 @@ namespace App.Model
             Height = height;
         }
 
-        public override void PrepareModels()
-        {
-            base.PrepareModels();
-        }
-
-        public override void StartGame()
+        public void StartGame()
         {
             ClearBoard();
             ConstructBoard();
         }
 
-        public override void EndGame()
+        public void EndGame()
         {
             ClearBoard();
         }
@@ -215,7 +210,7 @@ namespace App.Model
                 return new Response<IPieceModel>(
                     null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {place.Card}");
 
-            var piece = Registry.New<IPieceModel>(place.Player, place.Card);
+            var piece = Registry.Get<IPieceModel>(place.Player, place.Card);
             var set = AddPiece(coord, piece);
             if (set.Success)
                 piece.MovedThisTurn = true;

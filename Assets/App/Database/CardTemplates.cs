@@ -28,7 +28,7 @@ namespace App.Database
         public static ICardModel NewCardModel(IRegistry<IModel> reg, Guid id, IOwner owner)
         {
             var tmp = _templates[id];
-            var card = reg.New<CardModel>(tmp, owner);
+            var card = reg.Get<CardModel>(tmp, owner);
             return card;
         }
 

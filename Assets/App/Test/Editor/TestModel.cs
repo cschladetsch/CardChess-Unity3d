@@ -13,9 +13,9 @@ namespace App.Model.Test
             Assert.IsTrue(_board.Height == 8);
 
             Assert.IsNotNull(_arbiter);
-            Assert.AreSame(_reg.New<IBoardModel>(), _board);
-            Assert.AreSame(_reg.New<IArbiterModel>(), _board.Arbiter);
-            Assert.AreSame(_reg.New<IArbiterModel>(), _arbiter);
+            Assert.AreSame(_reg.Get<IBoardModel>(), _board);
+            Assert.AreSame(_reg.Get<IArbiterModel>(), _board.Arbiter);
+            Assert.AreSame(_reg.Get<IArbiterModel>(), _arbiter);
 
             Assert.IsNotNull(_white);
             Assert.IsNotNull(_black);

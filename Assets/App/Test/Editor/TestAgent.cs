@@ -37,10 +37,10 @@ namespace App.Agent.Test
             _agency.Bind<IBlackPlayerAgent, MockBlackPlayerAgent>();
             _agency.Resolve();
 
-            _boardAgent = _agency.New<IBoardAgent>();
-            _arbiterAgent = _agency.New<IArbiterAgent>();
-            _whiteAgent = _agency.New<IWhitePlayerAgent>(_white);
-            _blackAgent = _agency.New<IBlackPlayerAgent>(_black);
+            _boardAgent = _agency.Get<IBoardAgent>();
+            _arbiterAgent = _agency.Get<IArbiterAgent>();
+            _whiteAgent = _agency.Get<IWhitePlayerAgent>(_white);
+            _blackAgent = _agency.Get<IBlackPlayerAgent>(_black);
         }
 
         protected override void TearDownTest()

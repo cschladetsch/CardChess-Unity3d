@@ -90,7 +90,7 @@ namespace App.Model
 
         public virtual void Shuffle()
         {
-            _Cards.Shuffle();
+            //TODO _Cards.Shuffle();
         }
 
         public bool ShuffleIn(ICardModel card)

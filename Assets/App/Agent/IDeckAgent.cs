@@ -10,7 +10,7 @@ namespace App.Agent
     /// Controller for a Deck model.
     /// </summary>
     public interface IDeckAgent
-        : IAgent<Model.IDeckModel>
+        : IGameAgent<Model.IDeckModel>
     {
         event Action<ICardAgent> OnDraw;
 

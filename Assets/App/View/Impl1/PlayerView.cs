@@ -2,6 +2,7 @@
 
 using Dekuple;
 using Dekuple.Agent;
+using Dekuple.Model;
 using Dekuple.View;
 using Dekuple.View.Impl;
 
@@ -24,8 +25,7 @@ namespace App.View.Impl1
         public DeckView Deck;
         public EndTurnButtonView EndTurnButton;
 
-        //public override void SetAgent(IPlayerView view, IPlayerAgent agent)
-        public override void SetAgent(IViewBase view, IAgent agent)
+        public override void SetAgent(IAgent agent)
         {
             Assert.IsNotNull(agent);
             var player = agent as IPlayerAgent;
@@ -33,11 +33,11 @@ namespace App.View.Impl1
             Assert.IsNotNull(player.Hand);
             Assert.IsNotNull(player.Deck);
 
-            base.SetAgent(view, agent);
-            Deck.SetAgent(this, Agent.Deck);
-            Hand.SetAgent(this, Agent.Hand);
-            EndTurnButton.SetAgent(this, Agent.EndTurnButton);
-            ManaView.SetAgent(this, Agent);
+            base.SetAgent(agent);
+            Hand.SetAgent(player.Hand);
+            ManaView.SetAgent(Agent);
+            Deck.SetAgent(player.Deck);
+            EndTurnButton.SetAgent(player.EndTurnButton);
         }
 
         public void PushRequest(IRequest request, Action<IResponse> response)

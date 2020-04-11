@@ -25,17 +25,21 @@ namespace App.View.Impl1
         /// </summary>
         public float Zoffset = 1;
 
-        public override void Create()
+        protected override bool Create()
         {
-            base.Create();
+            if (!base.Create())
+                return false;
+            
             Clear();
+
+            return true;
         }
 
         [ContextMenu("BoardOverlay-Clear")]
         public void Clear()
         {
             var squares = (from Transform tr in transform select tr.GetComponent<BoardOverlaySquareView>()).Where(s => s != null).ToList();
-            _Queue.Enqueue(
+            _Queue.Sequence(
                 squares.ForEachParallel(sq => sq.Clear())
             );
             _Queue.Process();
@@ -62,7 +66,7 @@ namespace App.View.Impl1
                 sq.transform.localScale = Vector3.one;
             }
 
-            _Queue.Enqueue(
+            _Queue.Sequence(
                 squares.ForEachParallel(sq => sq.SetColor(color))
             );
         }
