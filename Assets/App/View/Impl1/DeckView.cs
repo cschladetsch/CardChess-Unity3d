@@ -1,17 +1,13 @@
-﻿using UnityEngine;
-
-using Dekuple;
-using Dekuple.Agent;
-using Dekuple.View;
-using Dekuple.View.Impl;
-
-namespace App.View.Impl1
+﻿namespace App.View.Impl1
 {
+    using UnityEngine;
+    using Dekuple;
+    using Dekuple.View.Impl;
     using Agent;
     using Common;
 
     /// <summary>
-    /// View of the deck if a given player
+    /// View of the Deck if a given Player.
     /// </summary>
     public class DeckView
         : ViewBase<IDeckAgent>
@@ -20,8 +16,6 @@ namespace App.View.Impl1
         public Transform CardsRoot;
         public CardView CardViewPrefab;
         public float DeltaX = 0.2f;
-
-        [Inject] public IPlayerView PlayerView;
 
         protected override bool Begin()
         {
@@ -52,7 +46,7 @@ namespace App.View.Impl1
             foreach (var card in Agent.Model.Cards)
             {
                 var view = Instantiate(CardViewPrefab);
-                view.SetAgent(PlayerView, Agent.Registry.Get<ICardAgent>(card));
+                view.SetAgent(Agent.Registry.Get<ICardAgent>(card));
                 view.transform.SetParent(CardsRoot);
                 view.transform.localPosition = new Vector3(nx * dx, 0, 0);
                 view.transform.localRotation = Quaternion.Euler(0, 90, 0);

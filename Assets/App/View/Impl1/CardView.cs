@@ -43,10 +43,12 @@
         // used just to downcast from base Draggable.MouseOver<IViewBase>
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
-        //public override void SetAgent(IPlayerView view, ICardAgent agent)
-        public void SetAgent(IViewBase view, IAgent agent)
+        public override void SetAgent(IAgent agent)
         {
-            // base.SetAgent(view, agent);
+            var cardAgent = agent as ICardAgent;
+            Assert.IsNotNull(cardAgent);
+            base.SetAgent(cardAgent);
+             
             _mana = FindTextChild("Mana");
             _health = FindTextChild("Health");
             _power = FindTextChild("Power");
@@ -66,13 +68,8 @@
                 Error("No Power text child for {0}", this);
                 return;
             }
-
-
-            base.MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
-
-            var cardAgent = agent as ICardAgent;
-
-            Assert.IsNotNull(cardAgent);
+            
+            MouseOver.Subscribe(v => _mouseOver.Value = v as ICardView).AddTo(this);
             cardAgent.Power.Subscribe(p => _power.text = $"{p}").AddTo(this);
             cardAgent.Health.Subscribe(p => _health.text = $"{p}").AddTo(this);
             cardAgent.Model.ManaCost.Subscribe(p => _mana.text = $"{p}").AddTo(this);
