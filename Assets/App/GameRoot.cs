@@ -142,11 +142,14 @@ namespace App
             {
                 if (!(c is IViewBase v))
                     continue;
+                
                 _views.Prepare(v);
             }
 
             foreach (Transform ch in tr)
                 PrepareViews(ch);
+            
+            ArbiterView.SetAgent(_agents.Get<IArbiterAgent>());
         }
 
         private void BindModels()

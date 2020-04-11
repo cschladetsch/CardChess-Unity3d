@@ -422,7 +422,7 @@ MonoBehaviour:
     type: 2}
   BoardView: {fileID: 1478584971}
   ArbiterView: {fileID: 1907898443}
-  SKyRotationSpeedMultiplier: 2
+  SkyRotationSpeed: 2
 --- !u!4 &296395988
 Transform:
   m_ObjectHideFlags: 0
@@ -3274,16 +3274,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Board: {fileID: 1478584971}
-  WhitePlayer: {fileID: 152731633}
-  BlackPlayer: {fileID: 1991825314}
   CurrentPlayerText: {fileID: 858521117}
   StateText: {fileID: 1019281791}
-  WhiteEndButton: {fileID: 0}
-  BlackEndButton: {fileID: 0}
   MusicClips:
   - {fileID: 8300000, guid: e0a2f3f56084dff4da2da0680902c4f1, type: 3}
   EndTurnClips:
   - {fileID: 8300000, guid: 7d040fbbd71f25d42bf6331281ff80cd, type: 3}
+  WhitePlayer: {fileID: 152731633}
+  BlackPlayer: {fileID: 1991825314}
 --- !u!82 &1907898444
 AudioSource:
   m_ObjectHideFlags: 0

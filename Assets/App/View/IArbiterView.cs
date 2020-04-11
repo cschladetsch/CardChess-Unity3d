@@ -15,8 +15,6 @@ namespace App.View
         : IView<IArbiterAgent>
     {
         IBoardView BoardView { get; }
-        // IPlayerView CurrentPlayerView { get; }
-        // EColor CurrentPlayerColor { get; }
         IPlayerView WhitePlayerView { get; }
         IPlayerView BlackPlayerView { get; }
 
