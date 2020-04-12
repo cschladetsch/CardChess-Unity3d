@@ -15,12 +15,12 @@
         , IArbiterView
     {
         public BoardView Board;
-        public PlayerView WhitePlayer;
-        public PlayerView BlackPlayer;
         public TMPro.TextMeshPro CurrentPlayerText;
         public TMPro.TextMeshPro StateText;
         public AudioClip[] MusicClips;
         public AudioClip[] EndTurnClips;
+        public PlayerView WhitePlayer;
+        public PlayerView BlackPlayer;
         
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
@@ -50,6 +50,9 @@
             Assert.IsNotNull(owned.Owner);
             return Agent.CurrentPlayerAgent.Value.Model == owned.Owner.Value;
         }
+
+        public IPlayerView GetPlayerView(IAgent agent)
+            => BlackPlayerView.SameOwner(agent) ? BlackPlayerView : WhitePlayerView;
 
         private void PlayMusic()
         {

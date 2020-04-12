@@ -7,6 +7,7 @@ namespace App
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using UniRx;
     using Dekuple;
     using Dekuple.Agent;
     using Dekuple.Model;
@@ -14,7 +15,6 @@ namespace App
     using Dekuple.View.Impl;
     using Agent.Impl;
     using Model.Impl;
-    using UniRx;
     using Common;
     using Agent;
     using Model;
@@ -23,7 +23,6 @@ namespace App
     using Service.Impl;
     using Database;
     using Database.Data.Scriptable;
-
 
     /// <inheritdoc />
     /// <summary>
@@ -41,7 +40,7 @@ namespace App
         public IArbiterAgent ArbiterAgent;
         public BoardView BoardView;
         public ArbiterView ArbiterView;
-        public float SKyRotationSpeedMultiplier = 2;
+        public float SkyRotationSpeed = 2;
 
         private IBoardModel _boardModel;
         private IArbiterModel _arbiterModel;
@@ -62,26 +61,39 @@ namespace App
                 return false;
                 
             Registry = _views;
-
-            base.Begin();
-            
             CardTemplates.AddCardDatabase(CardTemplateDatabase);
 
-            CreateModels();
-            CreateAgents();
-            RegisterViews();
-
-            PrepareViews(transform);
-
-            BoardView.SetAgent(BoardAgent);
-            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
-            ArbiterAgent.StartGame();
-            ArbiterView.SetAgent(ArbiterAgent);
-            ArbiterAgent.LastResponse.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
-            ArbiterAgent.Log.Subscribe(r => ResponseText.AddEntry($"{r}")).AddTo(this);
-            CheckAllValid();
+            BeginGame();
 
             return true;
+        }
+
+        private void BeginGame()
+        {
+            BindModels();
+            BindAgents();
+            BindViews();
+            
+            PrepareViews(transform);
+            PrepareEntities();
+            SubscribeToResponses();
+            CheckAllValid();
+        }
+
+        private void PrepareEntities()
+        {
+            BoardView.SetAgent(BoardAgent);
+            ArbiterAgent.StartGame();
+            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
+            ArbiterView.SetAgent(ArbiterAgent);
+        }
+
+        private void SubscribeToResponses()
+        {
+            ArbiterAgent.LastResponse.Subscribe(
+                r => ResponseText.AddEntry($"{r}")).AddTo(this);
+            ArbiterAgent.Log.Subscribe(
+                r => ResponseText.AddEntry($"{r}")).AddTo(this);
         }
 
         /// <summary>
@@ -107,7 +119,8 @@ namespace App
         protected override void Step()
         {
             base.Step();
-            RenderSettings.skybox.SetFloat(Rotation, Time.time * SKyRotationSpeedMultiplier);
+            RenderSettings.skybox.SetFloat(
+                Rotation, Time.time*SkyRotationSpeed);
         }
 
         /// <summary>
@@ -129,16 +142,18 @@ namespace App
             {
                 if (!(c is IViewBase v))
                     continue;
+                
                 _views.Prepare(v);
             }
 
             foreach (Transform ch in tr)
                 PrepareViews(ch);
+            
+            ArbiterView.SetAgent(_agents.Get<IArbiterAgent>());
         }
 
-        private void CreateModels()
+        private void BindModels()
         {
-            // setup bindings for all game models
             _models = new ModelRegistry();
             _models.Bind<Service.ICardTemplateService, CardTemplateService>(new CardTemplateService());
             _models.Bind<IBoardModel, BoardModel>(new BoardModel(8, 8));
@@ -157,7 +172,8 @@ namespace App
             _whitePlayerModel = _models.Get<IPlayerModel>(EColor.White);
             _blackPlayerModel = _models.Get<IPlayerModel>(EColor.Black);
 
-            // resolve any cycles of dependency for singletons, as well as creates models used internally by other models.
+            // resolve any cycles of dependency for singletons,
+            // as well as creates models used internally by other models.
             foreach (var model in _models.Instances.ToList())
                 model.PrepareModels();
         }
@@ -165,7 +181,7 @@ namespace App
         /// <summary>
         /// Register and create all the agents for the models in the initial game.
         /// </summary>
-        private void CreateAgents()
+        private void BindAgents()
         {
             _agents = new AgentRegistry();
             _agents.Bind<IBoardAgent, BoardAgent>(new BoardAgent(_boardModel));
@@ -176,16 +192,20 @@ namespace App
             _agents.Bind<IHandAgent, HandAgent>();
             _agents.Bind<IPieceAgent, PieceAgent>();
             _agents.Bind<IPlayerAgent, PlayerAgent>();
-
             _agents.Resolve();
 
+            MakeRootAgents();
+        }
+
+        private void MakeRootAgents()
+        {
             BoardAgent = _agents.Get<IBoardAgent>();
             ArbiterAgent = _agents.Get<IArbiterAgent>();
             WhitePlayerAgent = _agents.Get<IPlayerAgent>(_whitePlayerModel);
             BlackPlayerAgent = _agents.Get<IPlayerAgent>(_blackPlayerModel);
         }
 
-        private void RegisterViews()
+        private void BindViews()
         {
             _views = new ViewRegistry();
             _views.Bind<IBoardView, BoardView>(BoardView);
@@ -223,22 +243,13 @@ namespace App
         }
 
         [ContextMenu("CheckModels")]
-        public void CheckModels()
-        {
-            TestValidity("Models", _models.Instances);
-        }
+        public void CheckModels() => TestValidity("Models", _models.Instances);
 
         [ContextMenu("CheckAgents")]
-        public void CheckAgents()
-        {
-            TestValidity("Agents", _agents.Instances);
-        }
+        public void CheckAgents() => TestValidity("Agents", _agents.Instances);
 
         [ContextMenu("CheckViews")]
-        public void CheckViews()
-        {
-            TestValidity("Views", _views.Instances);
-        }
+        public void CheckViews() => TestValidity("Views", _views.Instances);
 
         /// <summary>
         /// Test that a collection of entities are valid.
@@ -292,21 +303,13 @@ namespace App
         }
 
         [ContextMenu("TraceArbiter")]
-        public void TraceArbiter()
-        {
-            Info(_arbiterModel.ToString());
-        }
+        public void TraceArbiter() => Info(_arbiterModel.ToString());
 
         [ContextMenu("TracePlayer-White")]
-        public void TraceWhite()
-        {
-            Info(WhitePlayerAgent.Model.ToString());
-        }
+        public void TraceWhite() => Info(WhitePlayerAgent.Model.ToString());
 
         [ContextMenu("TracePlayer-Black")]
-        public void TraceBlack()
-        {
-            Info(BlackPlayerAgent.Model.ToString());
-        }
+        public void TraceBlack() => Info(BlackPlayerAgent.Model.ToString());
     }
 }
+

@@ -40,14 +40,13 @@
 
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
-        public void SetPlayerView(IPlayerView player)
-            => PlayerView = player;
-
         public override void SetAgent(IAgent agent)
         {
             var cardAgent = agent as ICardAgent;
             Assert.IsNotNull(cardAgent);
             base.SetAgent(cardAgent);
+
+            PlayerView = ArbiterView.GetPlayerView(agent);
              
             MouseOver.Subscribe(
                 v => _mouseOver.Value = v).AddTo(this);
