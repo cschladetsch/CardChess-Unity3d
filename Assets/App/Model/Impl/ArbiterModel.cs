@@ -227,7 +227,7 @@ namespace App.Model
             // Have to start with a King.
             var isKing = card.PieceType == EPieceType.King;
             if (!entry.PlacedKing && !isKing)
-                return Response<IPieceModel>.Failed("Must place king first.");
+                return Response<IPieceModel>.FailWith("Must place king first.");
 
             // Can only have one Queen.
             var owner = act.Owner as IPlayerModel;
@@ -236,13 +236,13 @@ namespace App.Model
                 var otherQueen = Board.Pieces.Any(
                     p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
                 if (otherQueen)
-                    return Response<IPieceModel>.Failed("Can have up to one Queen on Board at a time.");
+                    return Response<IPieceModel>.FailWith("Can have up to one Queen on Board at a time.");
 
                 var nearKing = Board.GetAdjacent(
                     act.Coord, 1).Interference.Any(
                     p => p.SameOwner(owner) && p.PieceType == EPieceType.King);
                 if (!nearKing)
-                    return Response<IPieceModel>.Failed("Queens must be placed next to a King.");
+                    return Response<IPieceModel>.FailWith("Queens must be placed next to a King.");
             }
             
             // Check mana cost.
@@ -250,14 +250,14 @@ namespace App.Model
             var manaCost = act.Card.ManaCost;
 #if !IGNORE_MANA
             if (playerMana.Value - manaCost.Value < 0)
-                return Response<IPieceModel>.Failed("Not enough mana.");
+                return Response<IPieceModel>.FailWith("Not enough mana.");
 #endif
 
             // Pawns can only be placed next to a friendly.
             if (card.PieceType == EPieceType.Peon
                 && !Board.GetAdjacent(act.Coord, 1).Interference.Any(other => other.SameOwner(card)))
             {
-                return Response<IPieceModel>.Failed("Peons must be placed next to friendly pieces.");
+                return Response<IPieceModel>.FailWith("Peons must be placed next to friendly pieces.");
             }
 
             // Let the board make the final decision based on its own state.

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.32611004, g: 0.27033755, b: 0.2541248, a: 1}
+  m_IndirectSpecularColor: {r: 0.30456322, g: 0.25409847, b: 0.23975211, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939dab88e06d4ac49be66c1a019f4867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResponseText: {fileID: 0}
+  ResponseText: {fileID: 1018492918}
   CardTemplateDatabase: {fileID: 11400000, guid: 80144cea02e79f94ba483a30f47173a1,
     type: 2}
   BoardView: {fileID: 1478584971}

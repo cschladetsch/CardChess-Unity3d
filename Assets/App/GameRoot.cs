@@ -74,22 +74,28 @@ namespace App
             BindAgents();
             BindViews();
             
+            MakeRootAgents();
             PrepareViews(transform);
-            PrepareEntities();
+            
+            BoardView.SetAgent(BoardAgent);
+            WhitePlayerAgent.StartGame();
+            BlackPlayerAgent.StartGame();
+            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
+            ArbiterView.SetAgent(ArbiterAgent);
+            ArbiterAgent.StartGame();
+            
             SubscribeToResponses();
             CheckAllValid();
         }
 
         private void PrepareEntities()
         {
-            BoardView.SetAgent(BoardAgent);
-            ArbiterAgent.StartGame();
-            ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
-            ArbiterView.SetAgent(ArbiterAgent);
         }
 
         private void SubscribeToResponses()
         {
+            Assert.IsNotNull(ResponseText);
+            
             ArbiterAgent.LastResponse.Subscribe(
                 r => ResponseText.AddEntry($"{r}")).AddTo(this);
             ArbiterAgent.Log.Subscribe(
@@ -148,8 +154,6 @@ namespace App
 
             foreach (Transform ch in tr)
                 PrepareViews(ch);
-            
-            ArbiterView.SetAgent(_agents.Get<IArbiterAgent>());
         }
 
         private void BindModels()
@@ -193,8 +197,6 @@ namespace App
             _agents.Bind<IPieceAgent, PieceAgent>();
             _agents.Bind<IPlayerAgent, PlayerAgent>();
             _agents.Resolve();
-
-            MakeRootAgents();
         }
 
         private void MakeRootAgents()

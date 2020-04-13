@@ -22,8 +22,8 @@
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public AudioClip LeaveHandClip;
-        public IPlayerView PlayerView { get; private set; }
-        public IPlayerModel PlayerModel => PlayerView?.Agent?.Model;
+        // public IPlayerView PlayerView { get; private set; }
+        // public IPlayerModel PlayerModel => PlayerView?.Agent?.Model;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
         public override bool IsValid
@@ -46,7 +46,7 @@
             Assert.IsNotNull(cardAgent);
             base.SetAgent(cardAgent);
 
-            PlayerView = ArbiterView.GetPlayerView(agent);
+            // PlayerView = ArbiterView.GetPlayerView(agent);
              
             MouseOver.Subscribe(
                 v => _mouseOver.Value = v).AddTo(this);
@@ -83,7 +83,7 @@
 
         protected override void MouseUp(IBoardView board, Coord coord)
         {
-            Assert.IsTrue(IsValid && PlayerAgent.IsValid && Agent.IsValid);
+            Assert.IsTrue(IsValid && Agent.IsValid);
             Verbose(30, $"MouseUp: Requesting new piece {this} owned by {PlayerAgent.Model} @{coord}");
             PlayerAgent.PushRequest(new PlacePiece(PlayerAgent.Model, Agent.Model, coord), Response);
         }
@@ -98,8 +98,9 @@
                 return;
             }
 
-            Verbose(10, $"Removing {Agent.Model} from {PlayerModel.Hand}");
-            PlayerModel.Hand.Remove(Agent.Model);
+            var player = Owner.Value as IPlayerModel;
+            Verbose(10, $"Removing {Agent.Model} from {player.Hand}");
+            player.Hand.Remove(Agent.Model);
         }
     }
 }

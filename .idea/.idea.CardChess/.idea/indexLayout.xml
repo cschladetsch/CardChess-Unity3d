@@ -21,6 +21,7 @@
       <Path>.idea</Path>
       <Path>Doc</Path>
       <Path>Library</Path>
+      <Path>Temp</Path>
       <Path>obj</Path>
     </explicitExcludes>
   </component>

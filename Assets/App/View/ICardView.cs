@@ -12,7 +12,7 @@ namespace App.View
     public interface ICardView
         : IView<ICardAgent>
     {
-        IPlayerModel PlayerModel { get; }
+        // IPlayerModel PlayerModel { get; }
         IReadOnlyReactiveProperty<ICardView> MouseOver { get; }
     }
 }

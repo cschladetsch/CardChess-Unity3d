@@ -69,7 +69,7 @@ namespace App.Common.Message
             PayloadObject = Payload = load;
         }
 
-        public static Response<TPayload> Failed(string text)
+        public static Response<TPayload> FailWith(string text)
         {
             return new Response<TPayload>(default(TPayload), EResponse.Fail, EError.Error, text);
         }
