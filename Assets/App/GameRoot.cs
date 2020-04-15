@@ -86,6 +86,7 @@ namespace App
             
             ArbiterAgent.StartGame();
             SubscribeToResponses();
+            
             CheckAllValid();
         }
 

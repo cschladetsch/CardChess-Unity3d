@@ -1,4 +1,6 @@
-﻿namespace App
+﻿using System.Linq;
+
+namespace App
 {
     using System;
     using System.Collections;
@@ -65,15 +67,11 @@
 
         private void SetPlayerAgent(IPlayerModel model)
         {
-            foreach (var p in _playerAgents)
-            {
-                if (p.Model != model)
-                    continue;
-
-                _playerAgent.Value = p;
-                return;
-            }
-            throw new Exception("Player agent not found");
+            var agent = _playerAgents.FirstOrDefault(p => p.Model == model);
+            if (agent == null)
+                throw new Exception($"Player agent for {model} not found");
+                
+            _playerAgent.Value = agent;
         }
 
         public void StartGame()

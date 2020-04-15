@@ -40,6 +40,11 @@
 
         private readonly ReactiveProperty<ICardView> _mouseOver = new ReactiveProperty<ICardView>();
 
+        internal CardView()
+        {
+            Verbosity = 100;
+        }
+        
         public override void SetAgent(IAgent agent)
         {
             var cardAgent = agent as ICardAgent;
@@ -84,8 +89,8 @@
         protected override void MouseUp(IBoardView board, Coord coord)
         {
             Assert.IsTrue(IsValid && Agent.IsValid);
-            Verbose(30, $"MouseUp: Requesting new piece {this} owned by {PlayerAgent.Model} @{coord}");
-            PlayerAgent.PushRequest(new PlacePiece(PlayerAgent.Model, Agent.Model, coord), Response);
+            Verbose(30, $"MouseUp: Requesting new {this} owned by {PlayerModel} @{coord}");
+            PlayerAgent.PushRequest(new PlacePiece(PlayerModel, Agent.Model, coord), Response);
         }
 
         private void Response(IResponse response)

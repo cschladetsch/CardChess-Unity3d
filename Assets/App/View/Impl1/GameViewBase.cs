@@ -12,7 +12,9 @@
         : ViewBase
         , IGameViewBase
     {
-        public IPlayerAgent PlayerAgent => Owner.Value as IPlayerAgent;
+        // TODO this is a nightmare
+        public IPlayerAgent PlayerAgent => ArbiterView.GetPlayerView(AgentBase).AgentBase as IPlayerAgent;
+        
         [Inject] public IArbiterView ArbiterView { get; set; }
         [Inject] public IBoardView BoardView { get; set; }
 
