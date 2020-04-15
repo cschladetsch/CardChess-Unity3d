@@ -77,13 +77,14 @@ namespace App
             MakeRootAgents();
             PrepareViews(transform);
             
-            BoardView.SetAgent(BoardAgent);
             WhitePlayerAgent.StartGame();
             BlackPlayerAgent.StartGame();
             ArbiterAgent.PrepareGame(WhitePlayerAgent, BlackPlayerAgent);
-            ArbiterView.SetAgent(ArbiterAgent);
-            ArbiterAgent.StartGame();
             
+            BoardView.SetAgent(BoardAgent);
+            ArbiterView.SetAgent(ArbiterAgent);
+            
+            ArbiterAgent.StartGame();
             SubscribeToResponses();
             CheckAllValid();
         }

@@ -22,8 +22,8 @@
         public TMPro.TextMeshProUGUI Health;
         public TMPro.TextMeshProUGUI Power;
         public AudioClip LeaveHandClip;
-        // public IPlayerView PlayerView { get; private set; }
-        // public IPlayerModel PlayerModel => PlayerView?.Agent?.Model;
+        public IPlayerView PlayerView { get; private set; }
+        public IPlayerModel PlayerModel => PlayerView.Agent.Model;
         public new IReadOnlyReactiveProperty<ICardView> MouseOver => _mouseOver;
 
         public override bool IsValid
@@ -46,7 +46,7 @@
             Assert.IsNotNull(cardAgent);
             base.SetAgent(cardAgent);
 
-            // PlayerView = ArbiterView.GetPlayerView(agent);
+            PlayerView = ArbiterView.GetPlayerView(agent);
              
             MouseOver.Subscribe(
                 v => _mouseOver.Value = v).AddTo(this);
@@ -98,9 +98,8 @@
                 return;
             }
 
-            var player = Owner.Value as IPlayerModel;
-            Verbose(10, $"Removing {Agent.Model} from {player.Hand}");
-            player.Hand.Remove(Agent.Model);
+            Verbose(10, $"Removing {Agent.Model} from {PlayerModel.Hand}");
+            PlayerModel.Hand.Remove(Agent.Model);
         }
     }
 }

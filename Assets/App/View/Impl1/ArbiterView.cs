@@ -31,6 +31,7 @@
             var arbiterAgent = agent as IArbiterAgent;
             Assert.IsNotNull(arbiterAgent);
             base.SetAgent(arbiterAgent);
+            
             PlayMusic();
 
             WhitePlayerView.SetAgent(Agent.WhitePlayerAgent);
@@ -52,7 +53,7 @@
         }
 
         public IPlayerView GetPlayerView(IAgent agent)
-            => BlackPlayerView.SameOwner(agent) ? BlackPlayerView : WhitePlayerView;
+            => WhitePlayerView.SameOwner(agent) ? WhitePlayerView : BlackPlayerView;
 
         private void PlayMusic()
         {

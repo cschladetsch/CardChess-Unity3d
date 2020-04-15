@@ -30,7 +30,7 @@ namespace App
         /// <summary>
         /// Number of cards to start with (excluding King)
         /// </summary>
-        public static int StartHandCardCount = 4;
+        public static int StartHandCardCount = 3;
         public static int MaxCardsInHand = 10;
         public static int MaxCardsInDeck = 60;
         public static int MinCardsInDeck = 30;
