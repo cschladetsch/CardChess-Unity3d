@@ -62,6 +62,8 @@
             return sb.ToString();
         }
 
+        public IBoardModel TypedModel => Model as IBoardModel;
+
         public void StartGame()
         {
             Model.StartGame();
@@ -75,7 +77,9 @@
         }
 
         public IResponse Move(IPieceAgent agent, Coord coord)
-            => Model.Move(agent.Model, coord);
+        {
+            return Model.Move(agent.Model, coord);
+        }
 
         public IResponse Remove(IPieceAgent agent)
             => Model.Remove(agent.Model);

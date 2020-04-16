@@ -1,4 +1,6 @@
-﻿namespace App.View.Impl1
+﻿using App.Model;
+
+namespace App.View.Impl1
 {
     using UnityEngine;
     using UniRx;
@@ -8,7 +10,6 @@
     using Common;
     using Common.Message;
     using Agent;
-
 
     /// <inheritdoc cref="IPieceView"/>
     /// <summary>
@@ -27,6 +28,7 @@
         public AudioClip DiedClip;
         public IReactiveProperty<Coord> Coord => Agent.Coord;
         public IReadOnlyReactiveProperty<bool> Dead => Agent.Dead;
+        public IPieceModel TypedModel => Model as IPieceModel;
 
         public override bool IsValid
         {

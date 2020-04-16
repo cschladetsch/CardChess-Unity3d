@@ -9,6 +9,7 @@ namespace App.Agent
         : IAgent<TInterface>
         where TInterface : Dekuple.Model.IModel
     {
+        TInterface TypedModel { get; }
         // void SetAgent(IOwner view, IAgent agent);
         void StartGame();
         void EndGame();

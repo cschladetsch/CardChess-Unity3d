@@ -21,6 +21,8 @@ namespace App.View.Impl1
         , IBoardView
     {
         #region Unity3d Properties
+
+        public AudioClip CheckSound;
         public Material BlackPieceMaterial;
         public Material WhitePieceMaterial;
         public PieceView PieceViewPrefab;
@@ -47,6 +49,7 @@ namespace App.View.Impl1
         private readonly ReactiveProperty<ISquareView> _hoverSquare = new ReactiveProperty<ISquareView>();
         private readonly ReactiveProperty<IPieceView> _hoverPiece = new ReactiveProperty<IPieceView>();
         private readonly ReactiveCollection<IPieceView> _pieces = new ReactiveCollection<IPieceView>();
+        private Transform _squareTransform;
 
         public override bool IsValid
         {
@@ -107,12 +110,19 @@ namespace App.View.Impl1
             board.Pieces.ObserveRemove().Subscribe(PieceRemoved);
         }
 
+        /// <summary>
+        /// At this point, the piece can and will be added to the board.
+        ///
+        /// Determine the consequences of that.
+        /// </summary>
+        /// <param name="add">The piece added</param>
         private void PieceAdded(CollectionAddEvent<IPieceAgent> add)
         {
             var agent = add.Value;
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab, agent);
             view.GameObject.transform.SetParent(PiecesRoot);
             _pieces.Add(view);
+            Agent.Model.TestForCheck(agent.Model.Color);
         }
 
         private void PieceRemoved(CollectionRemoveEvent<IPieceAgent> add)
@@ -172,14 +182,14 @@ namespace App.View.Impl1
         }
 
         [ContextMenu("Board-Create")]
-        void CreateBoard()
+        private void CreateBoard()
         {
             Clear();
             var length = BlackPrefab.Length;
             Assert.AreEqual(BlackPrefab.Length, WhitePrefab.Length);
-            int width = Width.Value;
-            int height = Height.Value;
-            var z = 0.0f;
+            var width = Width.Value;
+            var height = Height.Value;
+            const float z = 0.0f;
             var origin = new Vector3(-length*(width/2.0f - 1/2.0f), -length*(height/2.0f - 1/2.0f), 0);
             var c = 1;
             _squares = new List<SquareView>(width * height);
@@ -192,9 +202,10 @@ namespace App.View.Impl1
                     var square = Instantiate(prefab);
                     Assert.IsNotNull(square.GetComponent<Collider>());
                     var pos = origin + new Vector3(nx * length, ny * length, z);
-                    square.transform.localPosition = Vector3.zero;
-                    square.transform.SetParent(SquaresRoot.transform);
-                    square.transform.position = pos;
+                    _squareTransform = square.transform;
+                    _squareTransform.localPosition = Vector3.zero;
+                    _squareTransform.SetParent(SquaresRoot.transform);
+                    _squareTransform.position = pos;
                     square.Coord = new Coord(nx, ny);
                     square.Color = white ? EColor.White : EColor.Black;
                     _squares.Add(square);

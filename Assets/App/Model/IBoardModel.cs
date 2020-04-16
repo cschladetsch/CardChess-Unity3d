@@ -1,4 +1,6 @@
-﻿namespace App.Model
+﻿using App.View;
+
+namespace App.Model
 {
     using System;
     using System.Collections.Generic;
@@ -47,5 +49,7 @@
 
         void NewTurn();
         bool CanMoveOrAttack(IPieceModel pieceModel);
+        IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender);
+        IEnumerable<IPieceModel> TestForCheck(EColor color);
     }
 }

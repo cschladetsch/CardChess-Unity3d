@@ -42,6 +42,8 @@
         public abstract ITransient TurnStart();
         public abstract ITransient TurnEnd();
 
+        public IPlayerModel TypedModel => Model as IPlayerModel;
+
         public virtual void StartGame()
         {
             Assert.IsNotNull(Model);

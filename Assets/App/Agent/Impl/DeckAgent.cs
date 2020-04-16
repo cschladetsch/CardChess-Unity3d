@@ -23,6 +23,8 @@ namespace App.Agent
         {
         }
 
+        public IDeckModel TypedModel => Model as IDeckModel;
+
         public void StartGame()
         {
             Model.StartGame();

@@ -74,6 +74,8 @@ namespace App
             _playerAgent.Value = agent;
         }
 
+        public IArbiterModel TypedModel => Model as IArbiterModel;
+
         public void StartGame()
         {
             Info($"{this} StartGame");

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using App.View;
 using Dekuple;
 using UniRx;
 
@@ -107,6 +108,13 @@ namespace App.Model
             return false;
         }
 
+        public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender)
+        {
+            return pieces.Select(GetAttacks).SelectMany(
+                attacks => attacks.Interference.Where(
+                    attack => attack == defender));
+        }
+
         public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
         {
             return Pieces.Where(p => p.PieceType == type);
@@ -122,6 +130,34 @@ namespace App.Model
             Assert.IsNotNull(pieceModel);
             return _pieces.Remove(pieceModel) ? Response.Ok : Response.Fail;
         }
+        
+        public IEnumerable<IPieceModel> TestForCheck(EColor color)
+        {
+            var otherKing = GetKing(OtherColor(color));
+            Assert.IsNotNull(otherKing);
+            
+            var myPieces = ColoredPieces(color);
+            var attacking = AllAttackingPieces(myPieces, otherKing).ToArray();
+            var inCheck = attacking.Any();
+            if (!inCheck)
+                yield break;
+                
+            foreach (var attacker in attacking)
+            {
+                Info($"{otherKing} is in check from {attacker}");
+                yield return attacker;
+            }
+        }
+
+        private IEnumerable<IPieceModel> ColoredPieces(EColor color)
+            => _pieces.Where(p => p.Color == color);
+
+        private IPieceModel GetKing(EColor other)
+            => _pieces.FirstOrDefault(p => p.PieceType == EPieceType.King && p.Color == other);
+
+        private static EColor OtherColor(EColor color)
+            => color == EColor.Black ? EColor.White : EColor.Black;
+
 
         public IResponse Move(IPieceModel pieceModel, Coord coord)
         {
