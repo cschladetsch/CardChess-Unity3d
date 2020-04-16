@@ -45,7 +45,7 @@ namespace App.View.Impl1
 
         internal CardView()
         {
-            Verbosity = 100;
+            // Verbosity = 100;
         }
         
         public override void SetAgent(IAgent agent)

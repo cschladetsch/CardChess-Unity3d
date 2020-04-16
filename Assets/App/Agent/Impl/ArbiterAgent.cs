@@ -77,20 +77,10 @@ namespace App
         public void StartGame()
         {
             Info($"{this} StartGame");
-
-            // foreach (var p in _playerAgents)
-            //     p.StartGame();
-            //
             BoardAgent.StartGame();
-
             _Node.Add(New.Coroutine(PlayerTurn).Named("ArbiterMain"));
         }
 
-         public void EndGame()
-         {
-             throw new NotImplementedException();
-         }
-         
         private IEnumerator PlayerTurn(IGenerator self)
         {
             CurrentPlayerModel.StartTurn();
@@ -140,6 +130,11 @@ namespace App
                 if (request is TurnEnd && response.Success)
                     ResetTurnTimer();
             }
+        }
+
+        public void EndGame()
+        {
+            throw new NotImplementedException();
         }
 
         private void ResetTurnTimer()
