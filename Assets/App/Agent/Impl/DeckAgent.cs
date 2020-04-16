@@ -54,7 +54,7 @@ namespace App.Agent
                     yield break;
                 channel.Insert(card.Value);
 
-                yield return self.ResumeAfter(TimeSpan.FromSeconds(0.020));
+                yield return self.ResumeAfter(TimeSpan.FromSeconds(0.150));
             }
         }
 
