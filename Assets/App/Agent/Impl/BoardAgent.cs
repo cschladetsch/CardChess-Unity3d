@@ -64,7 +64,6 @@
 
         public void StartGame()
         {
-            // base.StartGame();
             Model.StartGame();
             _pieces.Clear();
         }
@@ -76,24 +75,16 @@
         }
 
         public IResponse Move(IPieceAgent agent, Coord coord)
-        {
-            return Model.Move(agent.Model, coord);
-        }
+            => Model.Move(agent.Model, coord);
 
         public IResponse Remove(IPieceAgent agent)
-        {
-            return Model.Remove(agent.Model);
-        }
+            => Model.Remove(agent.Model);
 
-        public IResponse Add(IPieceAgent agent)
-        {
-            return Model.Add(agent.Model);
-        }
+        public IResponse Add(IPieceAgent agent) 
+            => Model.Add(agent.Model);
 
         public IPieceAgent At(Coord coord)
-        {
-            return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
-        }
+            => _pieces.FirstOrDefault(p => p.Coord.Value == coord);
 
         public ITransient PerformNewGame()
         {
@@ -109,8 +100,7 @@
         }
 
         private void PieceRemoved(CollectionRemoveEvent<IPieceModel> remove)
-        {
-            _pieces.RemoveAt(remove.Index);
-        }
+            => _pieces.RemoveAt(remove.Index);
     }
 }
+

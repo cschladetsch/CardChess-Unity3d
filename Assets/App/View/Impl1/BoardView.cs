@@ -110,8 +110,7 @@ namespace App.View.Impl1
         private void PieceAdded(CollectionAddEvent<IPieceAgent> add)
         {
             var agent = add.Value;
-            var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab);
-            view.SetAgent(agent);
+            var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab, agent);
             view.GameObject.transform.SetParent(PiecesRoot);
             _pieces.Add(view);
         }

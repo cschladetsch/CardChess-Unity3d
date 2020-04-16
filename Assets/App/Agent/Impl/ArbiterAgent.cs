@@ -78,28 +78,19 @@ namespace App
         {
             Info($"{this} StartGame");
 
-            foreach (var p in _playerAgents)
-                p.StartGame();
-
+            // foreach (var p in _playerAgents)
+            //     p.StartGame();
+            //
             BoardAgent.StartGame();
 
-            ITransient GameLoop() => New.Coroutine(PlayerTurn).Named("Turn");
-            _Node.Add(GameLoop());
+            _Node.Add(New.Coroutine(PlayerTurn).Named("ArbiterMain"));
         }
 
          public void EndGame()
          {
              throw new NotImplementedException();
          }
-// <<<<<<< HEAD
-//
-//         public ITransient GameLoop()
-//         {
-//             return New.Coroutine(PlayerTurn).Named("Turn");
-//         }
-//
-// =======
-// >>>>>>> 0d79684a249e5d19f2cd1de7351112f6c5354de9
+         
         private IEnumerator PlayerTurn(IGenerator self)
         {
             CurrentPlayerModel.StartTurn();

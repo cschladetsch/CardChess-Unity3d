@@ -75,9 +75,9 @@
 
         private ICardView CreateViewFromAgent(ICardAgent agent)
         {
-            var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab);
+            var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab, agent);
             cardView.MouseOver.Subscribe(CardMouseOver);
-            cardView.SetAgent(agent);
+            //cardView.SetAgent(agent);
             var tr = cardView.GameObject.transform;
             tr.SetParent(CardsRoot);
             tr.localScale = Vector3.one;

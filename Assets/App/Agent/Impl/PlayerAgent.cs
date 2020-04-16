@@ -39,7 +39,8 @@
                 }
             }
 
-            _Node.Add(New.Coroutine(Coro).Named("GameLoop"));
+            Info($"Adding GameLoop for {Model}");
+            _Node.Add(New.Coroutine(Coro).Named($"GameLoop for {Model}"));
         }
 
         public override void EndGame()
