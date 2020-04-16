@@ -237,7 +237,7 @@ namespace App.Model
                     return Response<IPieceModel>.FailWith("Can have up to one Queen on Board at a time.");
 
                 var nearKing = Board.GetAdjacent(
-                    act.Coord, 1).Interference.Any(
+                    act.Coord, 1).Interrupts.Any(
                     p => p.SameOwner(owner) && p.PieceType == EPieceType.King);
                 if (!nearKing)
                     return Response<IPieceModel>.FailWith("Queens must be placed next to a King.");
@@ -253,7 +253,7 @@ namespace App.Model
 
             // Pawns can only be placed next to a friendly.
             if (card.PieceType == EPieceType.Peon
-                && !Board.GetAdjacent(act.Coord, 1).Interference.Any(other => other.SameOwner(card)))
+                && !Board.GetAdjacent(act.Coord, 1).Interrupts.Any(other => other.SameOwner(card)))
             {
                 return Response<IPieceModel>.FailWith("Peons must be placed next to friendly pieces.");
             }
@@ -301,7 +301,7 @@ namespace App.Model
                 return Failed(battle, $"{attacker} can only attack once per turn.");
 
             var moves = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType);
-            if (!moves.Interference.Contains(defender))
+            if (!moves.Interrupts.Contains(defender))
                 return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}.");
 
             var resp = attacker.Attack(defender);

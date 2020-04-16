@@ -16,6 +16,6 @@
         /// <summary>
         /// Pieces that are 'in the way' of the movement.
         /// </summary>
-        public readonly List<IPieceModel> Interference = new List<IPieceModel>();
+        public readonly List<IPieceModel> Interrupts = new List<IPieceModel>();
     }
 }

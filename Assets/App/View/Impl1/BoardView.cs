@@ -142,8 +142,8 @@ namespace App.View.Impl1
             var movements = board.GetMovements(sq.Coord, model.PieceType);
             var attacks = board.GetAttacks(sq.Coord, model.PieceType);
             AddOverlays(movements.Coords, attacks.Coords);
-            OverlayView.Add(movements.Interference.Select(p => p.Coord.Value), Color.yellow);
-            OverlayView.Add(attacks.Interference.Select(p => p.Coord.Value), Color.magenta);
+            OverlayView.Add(movements.Interrupts.Select(p => p.Coord.Value), Color.yellow);
+            OverlayView.Add(attacks.Interrupts.Select(p => p.Coord.Value), Color.magenta);
         }
 
         private void ShowSquares(Coord coord)
@@ -154,8 +154,8 @@ namespace App.View.Impl1
             var movements = board.GetMovements(agent.Model);
             var attacks = movements;//board.GetMovements(agent.Model);
             AddOverlays(movements.Coords, attacks.Coords);
-            OverlayView.Add(movements.Interference.Select(p => p.Coord.Value), Color.yellow);
-            OverlayView.Add(attacks.Interference.Select(p => p.Coord.Value), Color.magenta);
+            OverlayView.Add(movements.Interrupts.Select(p => p.Coord.Value), Color.yellow);
+            OverlayView.Add(attacks.Interrupts.Select(p => p.Coord.Value), Color.magenta);
         }
 
         private void AddOverlays(IList<Coord> moves, IList<Coord> attacks)
