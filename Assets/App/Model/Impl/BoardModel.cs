@@ -6,7 +6,7 @@ using App.View;
 using Dekuple;
 using UniRx;
 
-namespace App.Model
+namespace App.Model.Impl
 {
     using Common;
     using Common.Message;
@@ -59,9 +59,7 @@ namespace App.Model
         }
 
         public void EndGame()
-        {
-            ClearBoard();
-        }
+            => ClearBoard();
 
         public bool CanMoveOrAttack(IPieceModel pieceModel)
         {
@@ -131,18 +129,21 @@ namespace App.Model
             Assert.IsNotNull(pieceModel);
             return _pieces.Remove(pieceModel) ? Response.Ok : Response.Fail;
         }
-        
+
+        public EColor Different(EColor color) =>
+            color == EColor.White ? EColor.Black : EColor.White;
+
         /// <summary>
         /// Test that the King of the given color is not in check
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">The color of the King to test for checks.</param>
         /// <returns>All pieces that are putting the king in Check</returns>
         public IEnumerable<IPieceModel> TestForCheck(EColor color)
         {
             var king = GetKing(color);
             Assert.IsNotNull(king);
             
-            var myPieces = ColoredPieces(color);
+            var myPieces = ColoredPieces(Different(color));
             var attacking = AllAttackingPieces(myPieces, king).ToArray();
             var inCheck = attacking.Any();
             if (!inCheck)
@@ -163,7 +164,6 @@ namespace App.Model
 
         private static EColor OtherColor(EColor color)
             => color == EColor.Black ? EColor.White : EColor.Black;
-
 
         public IResponse Move(IPieceModel pieceModel, Coord coord)
         {
