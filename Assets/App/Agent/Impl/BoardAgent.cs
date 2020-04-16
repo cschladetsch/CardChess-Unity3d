@@ -77,9 +77,7 @@
         }
 
         public IResponse Move(IPieceAgent agent, Coord coord)
-        {
-            return Model.Move(agent.Model, coord);
-        }
+            => Model.Move(agent.Model, coord);
 
         public IResponse Remove(IPieceAgent agent)
             => Model.Remove(agent.Model);

@@ -33,6 +33,6 @@ namespace App.View.Impl1
             return Coord == sq.Coord;
         }
 
-        public override string ToString() => $"{Color} @{Coord}";
+        public override string ToString() => $"{Color} {Coord}";
     }
 }

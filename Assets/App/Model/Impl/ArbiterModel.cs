@@ -15,8 +15,7 @@ namespace App.Model
     using Common.Message;
 
     /// <summary>
-    /// TODO: Models should just store entity state. This Model performs game logic that should
-    /// TODO: be moved to ArbiterAgent.
+    /// The ArbiterModel enforces the rules. The BoardModel provides state information and queries.
     /// </summary>
     public class ArbiterModel
         : RespondingModelBase
@@ -43,6 +42,7 @@ namespace App.Model
             : base(null)
         {
             LogPrefix = "Arbiter";
+            //Verbosity = 100;
         }
 
         public void PrepareGame(IPlayerModel w, IPlayerModel b)
@@ -89,7 +89,7 @@ namespace App.Model
 
         private IResponse ProcessRequest(IGameRequest request)
         {
-            //Info($"{request} tried in {GameState} #{_turnNumber.Value}");
+            Verbose(20, $"{request} in {GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
             {
                 //case EGameState.None:
@@ -105,8 +105,6 @@ namespace App.Model
                 case EGameState.PlayTurn:
                     switch (request.Action)
                     {
-                        //case EActionType.Pass:
-                        //    return TryTurnPass(request as TurnPass());
                         case EActionType.TurnEnd:
                             return TryTurnEnd(request as TurnEnd);
                         case EActionType.Resign:
@@ -270,8 +268,17 @@ namespace App.Model
             if (isKing)
                 entry.PlacedKing = true;
 
+            // can't place a King in Check
+            // if (isKing && Board.AllAttackingPieces(OtherPieces(card), act.Coord).Any())
+            // {
+            //     return Response<IPieceModel>.FailWith("Cannot place King in Check");
+            // }
+            
             return resp;
         }
+
+        private IEnumerable<IPieceModel> OtherPieces(ICardModel card)
+            => Board.Pieces.Where(p => p.Color != card.Color);
 
         private Response TryResign(Resign resign)
         {

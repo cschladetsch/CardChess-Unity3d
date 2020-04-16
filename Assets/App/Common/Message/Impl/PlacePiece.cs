@@ -25,7 +25,7 @@ namespace App.Common.Message
 
         public override string ToString()
         {
-            return $"{Player} {Card.PieceType} to @{Coord}";
+            return $"{Player} {Card.PieceType} to {Coord}";
         }
     }
 }

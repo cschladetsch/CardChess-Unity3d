@@ -27,6 +27,8 @@ namespace App.Model
         IReactiveCollection<IEffectModel> Effects { get; }
         IReadOnlyReactiveProperty<bool> Dead { get; }
 
+        EColor Color { get; }
+
         void ChangeHealth(int change);
         void ChangeManaCost(int change);
         void ChangePower(int change);

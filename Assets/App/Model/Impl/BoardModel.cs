@@ -115,15 +115,16 @@ namespace App.Model
                     attack => attack == defender));
         }
 
-        public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
+        public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord)
         {
-            return Pieces.Where(p => p.PieceType == type);
+            throw new NotImplementedException();
         }
 
+        public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
+            => Pieces.Where(p => p.PieceType == type);
+
         public int NumPieces(EPieceType type)
-        {
-            return PiecesOfType(type).Count();
-        }
+            => PiecesOfType(type).Count();
 
         public IResponse Remove(IPieceModel pieceModel)
         {
@@ -131,20 +132,25 @@ namespace App.Model
             return _pieces.Remove(pieceModel) ? Response.Ok : Response.Fail;
         }
         
+        /// <summary>
+        /// Test that the King of the given color is not in check
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns>All pieces that are putting the king in Check</returns>
         public IEnumerable<IPieceModel> TestForCheck(EColor color)
         {
-            var otherKing = GetKing(OtherColor(color));
-            Assert.IsNotNull(otherKing);
+            var king = GetKing(color);
+            Assert.IsNotNull(king);
             
             var myPieces = ColoredPieces(color);
-            var attacking = AllAttackingPieces(myPieces, otherKing).ToArray();
+            var attacking = AllAttackingPieces(myPieces, king).ToArray();
             var inCheck = attacking.Any();
             if (!inCheck)
                 yield break;
                 
             foreach (var attacker in attacking)
             {
-                Info($"{otherKing} is in check from {attacker}");
+                Info($"{king} is in check from {attacker}");
                 yield return attacker;
             }
         }
@@ -243,12 +249,16 @@ namespace App.Model
             Assert.IsNotNull(place);
             var coord = place.Coord;
             Assert.IsTrue(IsValidCoord(coord));
-
+            var placeCard = place.Card;
+            
             if (At(coord) != null)
                 return new Response<IPieceModel>(
-                    null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {place.Card}");
+                    null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {placeCard}");
 
-            var piece = Registry.Get<IPieceModel>(place.Player, place.Card);
+            if (placeCard.PieceType == EPieceType.King && TestForCheck(placeCard.Color).Any())
+                return Response<IPieceModel>.FailWith("Can't place King in Check");
+                
+            var piece = Registry.Get<IPieceModel>(place.Player, placeCard);
             var set = AddPiece(coord, piece);
             if (set.Success)
                 piece.MovedThisTurn = true;

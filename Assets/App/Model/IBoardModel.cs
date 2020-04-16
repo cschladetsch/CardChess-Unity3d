@@ -50,6 +50,7 @@ namespace App.Model
         void NewTurn();
         bool CanMoveOrAttack(IPieceModel pieceModel);
         IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender);
+        IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord);
         IEnumerable<IPieceModel> TestForCheck(EColor color);
     }
 }
