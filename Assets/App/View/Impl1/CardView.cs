@@ -1,4 +1,7 @@
-﻿namespace App.View.Impl1
+﻿using App.Database;
+using App.Service.Impl;
+
+namespace App.View.Impl1
 {
     using UnityEngine;
     using UniRx;
@@ -52,25 +55,35 @@
             base.SetAgent(cardAgent);
 
             PlayerView = ArbiterView.GetPlayerView(agent);
-             
+            AddMesh(cardAgent);
+            AddCardSubscriptions();
+        }
+
+        private void AddCardSubscriptions()
+        {
             MouseOver.Subscribe(
                 v => _mouseOver.Value = v).AddTo(this);
-            cardAgent.Power.Subscribe(
+            Agent.Power.Subscribe(
                 p => Power.text = $"{p}").AddTo(this);
-            cardAgent.Health.Subscribe(
+            Agent.Health.Subscribe(
                 p => Health.text = $"{p}").AddTo(this);
-            cardAgent.Model.ManaCost.Subscribe(
+            Agent.Model.ManaCost.Subscribe(
                 p => Mana.text = $"{p}").AddTo(this);
-                
-            //TODO
-                // .material
-                // = (Owner.Value as IPlayerModel)?.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;
 
             SquareOver.Subscribe(sq =>
             {
                 if (sq != null)
                     BoardView.ShowSquares(Agent.Model, sq);
             }).AddTo(this);
+        }
+
+        private void AddMesh(ICardAgent cardAgent)
+        {
+            var root = Instantiate(cardAgent.Model.Template.MeshPrefab, transform);
+            var material = (Owner.Value as IPlayerModel)?.Color == EColor.Black
+                ? BoardView.BlackMaterial
+                : BoardView.WhiteMaterial;
+            root.GetComponentInChildren<MeshRenderer>().material = material;
         }
 
         protected override bool MouseDown()
