@@ -170,6 +170,7 @@ namespace App
             _models.Bind<IHandModel, HandModel>();
             _models.Bind<IPieceModel, PieceModel>();
             _models.Bind<IPlayerModel, PlayerModel>();
+            _models.Bind<IPopupModel, PopupModel>();
             _models.Resolve();
 
             // make the required minimal components for a game

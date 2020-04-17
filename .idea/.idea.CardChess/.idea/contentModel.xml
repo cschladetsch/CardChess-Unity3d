@@ -29,9 +29,11 @@
               <e p="PieceAgent.cs" t="Include" />
               <e p="PlayerAgent.cs" t="Include" />
               <e p="PlayerAgentBase.cs" t="Include" />
+              <e p="PopupAgent.cs" t="Include" />
             </e>
             <e p="IPieceAgent.cs" t="Include" />
             <e p="IPlayerAgent.cs" t="Include" />
+            <e p="IPopupAgent.cs" t="Include" />
           </e>
           <e p="Common" t="Include">
             <e p="Coord.cs" t="Include" />
@@ -121,12 +123,14 @@
               <e p="PlayerModel.cs" t="Include" />
               <e p="PlayerModelBase.cs" t="Include" />
               <e p="PlayerOwnedModelBase.cs" t="Include" />
+              <e p="PopupModel.cs" t="Include" />
               <e p="RequestResponse.cs" t="Include" />
               <e p="RespondingModelBase.cs" t="Include" />
               <e p="SpellModel.cs" t="Include" />
             </e>
             <e p="IPieceModel.cs" t="Include" />
             <e p="IPlayerModel.cs" t="Include" />
+            <e p="IPopupModel.cs" t="Include" />
             <e p="ISpellModel.cs" t="Include" />
             <e p="ITemplateDeck.cs" t="Include" />
             <e p="IUserModel.cs" t="Include" />
@@ -151,7 +155,6 @@
             </e>
           </e>
           <e p="UI" t="Include">
-            <e p="ActionFailedPopup.cs" t="Include" />
             <e p="ArbiterResponseList.cs" t="Include" />
             <e p="ArbiterTextEntry.cs" t="Include" />
           </e>
@@ -169,7 +172,7 @@
             <e p="IGameViewBase.cs" t="Include" />
             <e p="IHandView.cs" t="Include" />
             <e p="IManaView.cs" t="Include" />
-            <e p="Impl1" t="Include">
+            <e p="Impl" t="Include">
               <e p="ArbiterView.cs" t="Include" />
               <e p="BoardOverlaySquareView.cs" t="Include" />
               <e p="BoardOverlayView.cs" t="Include" />
@@ -184,10 +187,12 @@
               <e p="ManaView.cs" t="Include" />
               <e p="PieceView.cs" t="Include" />
               <e p="PlayerView.cs" t="Include" />
+              <e p="PopupView.cs" t="Include" />
               <e p="SquareView.cs" t="Include" />
             </e>
             <e p="IPieceView.cs" t="Include" />
             <e p="IPlayerView.cs" t="Include" />
+            <e p="IPopupView.cs" t="Include" />
             <e p="ISquareVIew.cs" t="Include" />
             <e p="Util" t="Include">
               <e p="Binding.cs" t="Include" />
