@@ -11,5 +11,7 @@ namespace App.Model
     {
         IReadOnlyReactiveProperty<string> Title { get; }
         IReadOnlyReactiveProperty<string> Text { get; }
+        
+        void Set(string title, string text);
     }
 }

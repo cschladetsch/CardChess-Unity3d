@@ -1,4 +1,7 @@
 ﻿// field not assigned - because it is assigned in Unity3d editor
+
+using JetBrains.Annotations;
+
 #pragma warning disable 649
 
 namespace App
@@ -41,6 +44,7 @@ namespace App
         public IArbiterAgent ArbiterAgent;
         public BoardView BoardView;
         public ArbiterView ArbiterView;
+        public PopupView PopupView;
         public float SkyRotationSpeed = 2;
 
         private IBoardModel _boardModel;
@@ -103,6 +107,29 @@ namespace App
                 r => ResponseText.AddEntry($"{r}")).AddTo(this);
             ArbiterAgent.Log.Subscribe(
                 r => ResponseText.AddEntry($"{r}")).AddTo(this);
+            ArbiterAgent.LastResponse.Subscribe(
+                r =>
+                {
+                    if (r.Response.Failed)
+                    {
+                        var popup = NewEntity<IPopupView, IPopupAgent, IPopupModel>(PopupView);
+                        Assert.IsNotNull(popup);
+                        popup.Agent.Model.Set("Move Failed", r.Response.Text);
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Make a new complete entity.
+        /// </summary>
+        /// <param name="prefab">The prefab to use to make the view.</param>
+        public TIView NewEntity<TIView, TIAgent, TIModel>([NotNull]UnityEngine.Object prefab)
+            where TIAgent : class, IAgent 
+            where TIModel : class, IModel 
+            where TIView : class, IViewBase
+        {
+            return _views.FromPrefab<TIView>(
+                prefab, _agents.Get<TIAgent>(_models.Get<TIModel>()));
         }
 
         /// <summary>

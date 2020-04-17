@@ -9,6 +9,5 @@ namespace App.View
     public interface IPopupView
         : IView<IPopupAgent>
     {
-
     }
 }

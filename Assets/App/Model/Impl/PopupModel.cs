@@ -13,5 +13,13 @@ namespace App.Model.Impl
 
         private ReactiveProperty<string> _title = new ReactiveProperty<string>();
         private ReactiveProperty<string> _text = new ReactiveProperty<string>();
+
+        public void Set(string title, string text)
+        {
+            _title.Value = title;
+            _text.Value = text;
+        }
     }
 }
+
+

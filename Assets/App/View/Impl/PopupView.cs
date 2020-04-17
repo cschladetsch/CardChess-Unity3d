@@ -1,7 +1,7 @@
 namespace App.View.Impl
 {
+    using UnityEngine.UI;
     using UniRx;
-    using TMPro;
     using Dekuple.View.Impl;
     using Agent;
 
@@ -10,12 +10,14 @@ namespace App.View.Impl
         : ViewBase<IPopupAgent>
         , IPopupView
     {
-        public TextMeshProUGUI Title;
-        public TextMeshProUGUI Text;
+        public Text Title;
+        public Text Text;
 
         public override bool AddSubscriptions()
         {
-            base.AddSubscriptions();
+            if (!base.AddSubscriptions())
+                return false;
+            
             Agent.Model.Title.Subscribe(t => Title.text = t).AddTo(this);
             Agent.Model.Text.Subscribe(t => Text.text = t).AddTo(this);
             return true;
