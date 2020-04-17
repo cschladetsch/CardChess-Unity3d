@@ -151,6 +151,7 @@
             </e>
           </e>
           <e p="UI" t="Include">
+            <e p="ActionFailedPopup.cs" t="Include" />
             <e p="ArbiterResponseList.cs" t="Include" />
             <e p="ArbiterTextEntry.cs" t="Include" />
           </e>
