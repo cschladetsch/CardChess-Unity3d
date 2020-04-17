@@ -1,7 +1,7 @@
 ﻿using App.Database;
 using App.Service.Impl;
 
-namespace App.View.Impl1
+namespace App.View.Impl
 {
     using UnityEngine;
     using UniRx;

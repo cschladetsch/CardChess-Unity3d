@@ -1,4 +1,4 @@
-﻿namespace App.View.Impl1
+﻿namespace App.View.Impl
 {
     using Dekuple;
     using Dekuple.Agent;

@@ -12,17 +12,18 @@ namespace App
     using Dekuple.Agent;
     using Dekuple.Model;
     using Dekuple.View;
-    using Dekuple.View.Impl;
-    using Agent.Impl;
-    using Model.Impl;
     using Common;
     using Agent;
     using Model;
     using View;
-    using View.Impl1;
-    using Service.Impl;
     using Database;
     using Database.Data.Scriptable;
+    
+    using Dekuple.View.Impl;
+    using Agent.Impl;
+    using Model.Impl;
+    using View.Impl;
+    using Service.Impl;
 
     /// <inheritdoc />
     /// <summary>
@@ -199,6 +200,7 @@ namespace App
             _agents.Bind<IHandAgent, HandAgent>();
             _agents.Bind<IPieceAgent, PieceAgent>();
             _agents.Bind<IPlayerAgent, PlayerAgent>();
+            _agents.Bind<IPopupAgent, PopupAgent>();
             _agents.Resolve();
         }
 
@@ -221,6 +223,7 @@ namespace App
             _views.Bind<IHandView, HandView>();
             _views.Bind<IPieceView, PieceView>();
             _views.Bind<IPlayerView, PlayerView>();
+            _views.Bind<IPopupView, PopupView>();
             _views.Resolve();
         }
 

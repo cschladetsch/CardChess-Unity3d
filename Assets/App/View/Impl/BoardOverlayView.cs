@@ -1,4 +1,4 @@
-﻿namespace App.View.Impl1
+﻿namespace App.View.Impl
 {
     using System.Collections.Generic;
     using System.Linq;

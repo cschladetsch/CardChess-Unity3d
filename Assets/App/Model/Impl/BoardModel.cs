@@ -141,7 +141,8 @@ namespace App.Model.Impl
         public IEnumerable<IPieceModel> TestForCheck(EColor color)
         {
             var king = GetKing(color);
-            Assert.IsNotNull(king);
+            if (king == null)
+                yield break;
             
             var myPieces = ColoredPieces(Different(color));
             var attacking = AllAttackingPieces(myPieces, king).ToArray();

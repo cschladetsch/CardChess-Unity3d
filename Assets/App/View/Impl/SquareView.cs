@@ -1,6 +1,6 @@
 ﻿#pragma warning disable 649
 
-namespace App.View.Impl1
+namespace App.View.Impl
 {
     using Dekuple.View.Impl;
     using Common;

@@ -1,6 +1,6 @@
 using Dekuple.Agent;
 
-namespace App.View.Impl1
+namespace App.View.Impl
 {
     using UnityEngine;
     using UnityEngine.Assertions;
