@@ -83,7 +83,7 @@ namespace App.Model
             var player = request.Owner as IPlayerModel;
             if (IsInCheck(player))
             {
-                Verbose(10, $"Arbitrate: leaves king in check, failing.");
+                Info($"Arbitrate: {request} leaves king in check, failing.");
                 response = new Response(request, EResponse.Fail, EError.InCheck, "Can't leave King in Check");
             }
             

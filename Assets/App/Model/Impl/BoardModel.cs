@@ -119,6 +119,8 @@ namespace App.Model.Impl
             {
                 if (other.Coords.Any(c => c == coord))
                     yield return attacking[n];
+                if (other.Interrupts.Select(p => p.Coord.Value == coord).Any())
+                    yield return attacking[n];
                 ++n;
             }
         }
