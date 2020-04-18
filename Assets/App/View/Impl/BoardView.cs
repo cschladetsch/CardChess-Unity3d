@@ -122,7 +122,7 @@ namespace App.View.Impl
             var view = ViewRegistry.FromPrefab<IPieceView>(PieceViewPrefab, agent);
             view.GameObject.transform.SetParent(PiecesRoot);
             _pieces.Add(view);
-            Agent.Model.TestForCheck(agent.Model.Color);
+            // TODO Agent.Model.TestForCheck(agent.Model.Color);
         }
 
         private void PieceRemoved(CollectionRemoveEvent<IPieceAgent> add)
@@ -131,6 +131,7 @@ namespace App.View.Impl
             Assert.IsNotNull(p);
             _pieces.RemoveAt(add.Index);
             p.Destroy();
+            // TODO Agent.Model.TestForCheck(agent.Model.Color);
         }
 
         public void ShowSquares(ICardModel model, ISquareView sq)

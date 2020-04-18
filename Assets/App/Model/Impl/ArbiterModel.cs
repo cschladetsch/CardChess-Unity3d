@@ -268,12 +268,6 @@ namespace App.Model
             if (isKing)
                 entry.PlacedKing = true;
 
-            // can't place a King in Check
-            // if (isKing && Board.AllAttackingPieces(OtherPieces(card), act.Coord).Any())
-            // {
-            //     return Response<IPieceModel>.FailWith("Cannot place King in Check");
-            // }
-            
             return resp;
         }
 

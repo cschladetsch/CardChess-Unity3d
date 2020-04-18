@@ -51,7 +51,7 @@ namespace App.Model
         bool CanMoveOrAttack(IPieceModel pieceModel);
         IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender);
         IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord);
-        IEnumerable<IPieceModel> TestForCheck(EColor color);
+        IEnumerable<IPieceModel> TestForCheck(PlacePiece placePiece);
         EColor Different(EColor color);
     }
 }

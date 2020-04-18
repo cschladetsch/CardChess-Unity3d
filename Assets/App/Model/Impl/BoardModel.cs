@@ -107,15 +107,19 @@ namespace App.Model.Impl
         }
 
         public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender)
-        {
-            return pieces.Select(GetAttacks).SelectMany(
-                attacks => attacks.Interrupts.Where(
-                    attack => attack == defender));
-        }
+            => AllAttackingPieces(pieces, defender.Coord.Value);
 
         public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord)
         {
-            throw new NotImplementedException();
+            var attacking = pieces.ToArray();
+            var all = attacking.Select(GetAttacks);
+            var n = 0;
+            foreach (var other in all)
+            {
+                if (other.Coords.Any(c => c == coord))
+                    yield return attacking[n];
+                ++n;
+            }
         }
 
         public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
@@ -136,23 +140,20 @@ namespace App.Model.Impl
         /// <summary>
         /// Test that the King of the given color is not in check
         /// </summary>
-        /// <param name="color">The color of the King to test for checks.</param>
+        /// <param name="place"></param>
         /// <returns>All pieces that are putting the king in Check</returns>
-        public IEnumerable<IPieceModel> TestForCheck(EColor color)
+        public IEnumerable<IPieceModel> TestForCheck(PlacePiece place)
         {
-            var king = GetKing(color);
-            if (king == null)
-                yield break;
-            
-            var myPieces = ColoredPieces(Different(color));
-            var attacking = AllAttackingPieces(myPieces, king).ToArray();
+            var otherColor = Different(place.Card.Color);
+            var pieces = ColoredPieces(otherColor).ToArray();
+            var attacking = AllAttackingPieces(pieces, place.Coord).ToArray();
             var inCheck = attacking.Any();
             if (!inCheck)
                 yield break;
                 
             foreach (var attacker in attacking)
             {
-                Info($"{king} is in check from {attacker}");
+                Info($"{place.Coord} is in check from {attacker}");
                 yield return attacker;
             }
         }
@@ -256,7 +257,7 @@ namespace App.Model.Impl
                 return new Response<IPieceModel>(
                     null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {placeCard}");
 
-            if (placeCard.PieceType == EPieceType.King && TestForCheck(placeCard.Color).Any())
+            if (placeCard.PieceType == EPieceType.King && TestForCheck(place).Any())
                 return Response<IPieceModel>.FailWith("Can't place King in Check");
                 
             var piece = Registry.Get<IPieceModel>(place.Player, placeCard);
