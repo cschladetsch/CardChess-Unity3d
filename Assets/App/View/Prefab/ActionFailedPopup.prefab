@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 5375393079345150981}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 5375393080775043027}
   m_RootOrder: 0
@@ -716,7 +716,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5375393080540229133}
+      - m_Target: {fileID: -8153897811816826062}
         m_MethodName: Close
         m_Mode: 1
         m_Arguments:
@@ -899,8 +899,9 @@ GameObject:
   - component: {fileID: 5375393080540229121}
   - component: {fileID: 5375393080540229120}
   - component: {fileID: 5375393080540229123}
-  - component: {fileID: 5375393080540229133}
   - component: {fileID: 5375393080540229122}
+  - component: {fileID: -8153897811816826062}
+  - component: {fileID: 1731080407}
   m_Layer: 5
   m_Name: ActionFailedPopup
   m_TagString: Untagged
@@ -1080,21 +1081,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5375393080540229133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5375393080540229135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 458aa478022ea7b47a0067e8112bf691, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleText: {fileID: 5375393080143314225}
-  contentText: {fileID: 5375393080869956156}
-  popupIcon: {fileID: 0}
 --- !u!114 &5375393080540229122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1113,6 +1099,34 @@ MonoBehaviour:
   Buttons:
   - {fileID: 5375393080274322375}
   CloseButton: {fileID: 5375393080941075680}
+--- !u!114 &-8153897811816826062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5375393080540229135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31ade04d98018bd4a8c7c3c7540dca16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: {fileID: 5375393080143314225}
+  Text: {fileID: 5375393080869956156}
+--- !u!114 &1731080407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5375393080540229135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31ade04d98018bd4a8c7c3c7540dca16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: {fileID: 5375393080143314225}
+  Text: {fileID: 5375393080869956156}
 --- !u!1 &5375393080775043026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,11 +1314,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 12
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 107
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1523,7 +1537,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5375393080540229133}
+      - m_Target: {fileID: -8153897811816826062}
         m_MethodName: Close
         m_Mode: 1
         m_Arguments:

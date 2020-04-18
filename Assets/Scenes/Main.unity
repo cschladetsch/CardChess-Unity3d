@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.27362698, g: 0.22997215, b: 0.21805862, a: 1}
+  m_IndirectSpecularColor: {r: 0.15965253, g: 0.13605309, b: 0.13184702, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -429,11 +429,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939dab88e06d4ac49be66c1a019f4867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Canvas: {fileID: 1586609903}
   ResponseText: {fileID: 1018492918}
   CardTemplateDatabase: {fileID: 11400000, guid: 80144cea02e79f94ba483a30f47173a1,
     type: 2}
   BoardView: {fileID: 1478584971}
   ArbiterView: {fileID: 1907898443}
+  PopupView: {fileID: -8153897811816826062, guid: aedf0ded5badfe946818bdf373f84d6a,
+    type: 3}
   SkyRotationSpeed: 2
 --- !u!4 &296395988
 Transform:

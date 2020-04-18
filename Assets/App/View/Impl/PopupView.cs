@@ -22,5 +22,10 @@ namespace App.View.Impl
             Agent.Model.Text.Subscribe(t => Text.text = t).AddTo(this);
             return true;
         }
+
+        public void Close()
+        {
+            Destroy(gameObject);
+        }
     }
 }

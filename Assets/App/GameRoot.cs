@@ -35,6 +35,8 @@ namespace App
     public class GameRoot
         : ViewBase
     {
+        public Canvas Canvas;
+        public GameObject UiBlocker;
         public CardTemplateService CardTemplateService;
         public ArbiterResponseList ResponseText;
         public CardTemplateDatabase CardTemplateDatabase;
@@ -110,11 +112,17 @@ namespace App
             ArbiterAgent.LastResponse.Subscribe(
                 r =>
                 {
+                    if (r.Response == null)
+                        return;
                     if (r.Response.Failed)
                     {
                         var popup = NewEntity<IPopupView, IPopupAgent, IPopupModel>(PopupView);
                         Assert.IsNotNull(popup);
-                        popup.Agent.Model.Set("Move Failed", r.Response.Text);
+                        UiBlocker.SetActive(true);
+                        popup.Transform.SetParent(Canvas.transform);
+                        popup.Transform.localPosition = Vector3.zero;
+                        popup.Agent.Model.Set($"{r.Request}", r.Response.Text);
+                        popup.Agent.Completed += tr => UiBlocker.SetActive(false);
                     }
                 });
         }
