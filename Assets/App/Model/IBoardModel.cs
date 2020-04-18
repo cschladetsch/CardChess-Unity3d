@@ -52,6 +52,8 @@ namespace App.Model
         IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender);
         IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord);
         IEnumerable<IPieceModel> TestForCheck(PlacePiece placePiece);
+        IEnumerable<IPieceModel> TestForCheck(EColor color, Coord kingCoord);
         EColor Different(EColor color);
+        IPieceModel FirstOrDefault(EColor color, EPieceType pieceType);
     }
 }

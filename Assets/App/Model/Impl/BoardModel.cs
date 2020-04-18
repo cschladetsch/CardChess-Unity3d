@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using App.View;
 using Dekuple;
+using JetBrains.Annotations;
 using UniRx;
+using UnityEngine;
 
 namespace App.Model.Impl
 {
@@ -111,10 +113,9 @@ namespace App.Model.Impl
 
         public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord)
         {
-            var attacking = pieces.ToArray();
-            var all = attacking.Select(GetAttacks);
             var n = 0;
-            foreach (var other in all)
+            var attacking = pieces.ToArray();
+            foreach (var other in attacking.Select(GetAttacks))
             {
                 if (other.Coords.Any(c => c == coord))
                     yield return attacking[n];
@@ -143,35 +144,28 @@ namespace App.Model.Impl
         /// <param name="place"></param>
         /// <returns>All pieces that are putting the king in Check</returns>
         public IEnumerable<IPieceModel> TestForCheck(PlacePiece place)
-        {
-            var otherColor = Different(place.Card.Color);
-            var pieces = ColoredPieces(otherColor).ToArray();
-            var attacking = AllAttackingPieces(pieces, place.Coord).ToArray();
-            var inCheck = attacking.Any();
-            if (!inCheck)
-                yield break;
-                
-            foreach (var attacker in attacking)
-            {
-                Info($"{place.Coord} is in check from {attacker}");
-                yield return attacker;
-            }
-        }
+            => TestForCheck(place.Card.Color, place.Coord);
+
+        public IPieceModel FirstOrDefault(EColor color, EPieceType pieceType)
+            => _pieces.FirstOrDefault(p => p.Color == color && p.PieceType == pieceType);
+
+        /// <summary>
+        /// Test if a king placed at the given coordinates would be under check
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="kingCoord"></param>
+        /// <returns></returns>
+        public IEnumerable<IPieceModel> TestForCheck(EColor color, Coord kingCoord)
+            => AllAttackingPieces(ColoredPieces(Different(color)), kingCoord);
 
         private IEnumerable<IPieceModel> ColoredPieces(EColor color)
             => _pieces.Where(p => p.Color == color);
 
         private IPieceModel GetKing(EColor other)
-            => _pieces.FirstOrDefault(p => p.PieceType == EPieceType.King && p.Color == other);
+            => FirstOrDefault(other, EPieceType.King);
 
-        private static EColor OtherColor(EColor color)
-            => color == EColor.Black ? EColor.White : EColor.Black;
-
-        public IResponse Move(IPieceModel pieceModel, Coord coord)
+        public IResponse Move([NotNull]IPieceModel pieceModel, Coord coord)
         {
-            Assert.IsNotNull(pieceModel);
-            Assert.IsNotNull(coord);
-            Assert.IsTrue(IsValidCoord(coord));
             var found = Get(coord);
             if (found == null)
                 return Response.Ok;
@@ -181,8 +175,9 @@ namespace App.Model.Impl
             return Response.Ok;
         }
 
-        IPieceModel Get(Coord coord)
+        private IPieceModel Get(Coord coord)
         {
+            Assert.IsTrue(IsValidCoord(coord));
             return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
         }
 

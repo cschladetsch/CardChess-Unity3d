@@ -79,12 +79,38 @@ namespace App.Model
         {
             Assert.IsNotNull(request);
             var response = ProcessRequest(request);
-            Info($"Arbitrate: {request} {response}");
+            Verbose(10, $"Arbitrate: {request} {response}");
             var player = request.Owner as IPlayerModel;
+            if (IsInCheck(player))
+            {
+                Verbose(10, $"Arbitrate: leaves king in check, failing.");
+                response = new Response(request, EResponse.Fail, EError.InCheck, "Can't leave King in Check");
+            }
+            
             player?.Result(request, response);
             
-            _lastResponse.Value = new RequestResponse() { Request = request, Response = response };
+            _lastResponse.Value = new RequestResponse { Request = request, Response = response };
             return response;
+        }
+
+        private bool IsInCheck(IPlayerModel player)
+        {
+            if (player == null)
+                return false;
+
+            var color = player.Color;
+            var king = Board.FirstOrDefault(color, EPieceType.King);
+            return king != null && Board.TestForCheck(color, king.Coord.Value).Any();
+        }
+
+        /// <summary>
+        /// TODO: this is going to be fun when Instants are added
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        private bool IsInCheckMate(IPlayerModel player)
+        {
+            return false;
         }
 
         private IResponse ProcessRequest(IGameRequest request)
