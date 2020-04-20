@@ -103,10 +103,10 @@ namespace App.Model
             if (king == null)
                 return false;
             
-            return IsInCheck(color, king.Coord.Value);
+            return InCheck(color, king.Coord.Value);
         }
             
-        private bool IsInCheck(EColor color, Coord coord)
+        private bool InCheck(EColor color, Coord coord)
         {
             var checking = Board.TestForCheck(color, coord).ToArray();
             foreach (var ch in checking)
@@ -233,6 +233,9 @@ namespace App.Model
             if (GameState.Value != EGameState.PlayTurn)
                 return Failed(move, $"Currently in {GameState}, {player} cannot move {piece}.");
 
+            if (move.Coord == piece.Coord.Value)
+                return Failed(move, $"Can't move to same square");
+
             if (piece.MovedThisTurn)
                 return Failed(move, $"{piece} can only move once per turn.");
 
@@ -265,7 +268,7 @@ namespace App.Model
             if (!entry.PlacedKing && !isKing)
                 return Response<IPieceModel>.FailWith("Must place king first.");
             
-            if (isKing && IsInCheck(card.Color, act.Coord))
+            if (isKing && InCheck(card.Color, act.Coord))
                 return Response<IPieceModel>.FailWith("Can't place king in check.");
 
             // Can only have one Queen.
@@ -327,6 +330,9 @@ namespace App.Model
             var defender = battle.Defender;
             Assert.IsNotNull(defender);
             Assert.IsNotNull(attacker);
+
+            if (attacker.PieceType == EPieceType.King && InCheck(attacker.Color, defender.Coord.Value))
+                return Failed(battle, "Cannot put own King in Check.");
 
             if (attacker.SameOwner(defender))
                 return Failed(battle, $"{attacker} can't battle own piece.");

@@ -39,7 +39,7 @@
                 }
             }
 
-            Info($"Adding GameLoop for {Model}");
+            Verbose(50, $"Adding GameLoop for {Model}");
             _Node.Add(New.Coroutine(Coro).Named($"GameLoop for {Model}"));
         }
 

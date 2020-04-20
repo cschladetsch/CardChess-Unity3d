@@ -300,6 +300,7 @@ namespace App.Model.Impl
             return sb.ToString();
         }
 
+        [ContextMenu("DebugPrint")]
         public string Print(Func<Coord, string> fun)
         {
             var sb = new StringBuilder();
@@ -492,7 +493,7 @@ namespace App.Model.Impl
                         if (manDist > minDist)
                             minDist = manDist;
                     }
-                    else if (manDist > minDist)
+                    else if (manDist <= minDist)
                         moveResults.Coords.Add(coord);
                 }
             }

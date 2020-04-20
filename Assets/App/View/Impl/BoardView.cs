@@ -91,7 +91,7 @@ namespace App.View.Impl
                 ShowSquares(sq.Coord);
             });
 
-            HoverPiece.Subscribe(p => Info($"Dragging {p} @{HoverSquare.Value}"));
+            HoverPiece.Subscribe(p => { if (p != null) Info($"Dragging {p} @{HoverSquare.Value}"); });
             
             return true;
         }
