@@ -26,8 +26,7 @@ namespace App
         : AgentBaseCoro<IArbiterModel>
         , IArbiterAgent
     {
-        [Inject] public IBoardAgent BoardAgent { get; set; }
-
+        public IArbiterModel TypedModel => Model as IArbiterModel;
         public IReadOnlyReactiveProperty<RequestResponse> LastResponse => Model.LastResponse;
         public IReadOnlyReactiveProperty<EGameState> GameState => Model.GameState;
         public IReadOnlyReactiveProperty<IPlayerAgent> CurrentPlayerAgent => _playerAgent;
@@ -36,6 +35,8 @@ namespace App
         public IPlayerAgent WhitePlayerAgent => _playerAgents[0];
         public IPlayerAgent BlackPlayerAgent => _playerAgents[1];
         public IPlayerModel CurrentPlayerModel => CurrentPlayerAgent.Value.Model;
+
+        [Inject] public IBoardAgent BoardAgent { get; set; }
 
         private float _timeOut;
         private DateTime _timeStart;
@@ -73,8 +74,6 @@ namespace App
                 
             _playerAgent.Value = agent;
         }
-
-        public IArbiterModel TypedModel => Model as IArbiterModel;
 
         public void StartGame()
         {

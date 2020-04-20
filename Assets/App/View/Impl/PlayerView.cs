@@ -44,10 +44,11 @@
 
         private void TurnEnded(IResponse obj)
         {
-            // _AudioSource.PlayOneShot(EndTurnClips[0]);
             Assert.IsNotNull(obj);
-            Assert.IsTrue(obj.Success);
-            Info($"TurnEnded for {obj.Request.Owner}");
+            Info($"TurnEnded for {obj.Request.Owner}: {obj.Success}");
+            // _AudioSource.PlayOneShot(EndTurnClips[0]);
+            if (!obj.Success)
+                return;
         }
 
         public void PushRequest(IRequest request, Action<IResponse> response)

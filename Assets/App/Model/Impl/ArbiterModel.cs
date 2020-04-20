@@ -4,6 +4,8 @@
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
+using System.ComponentModel.Design;
+
 namespace App.Model
 {
     using System;
@@ -81,12 +83,10 @@ namespace App.Model
             var response = ProcessRequest(request);
             Verbose(10, $"Arbitrate: {request} {response}");
             var player = request.Owner as IPlayerModel;
-            if (IsInCheck(player))
+            if (!response.Failed)
             {
-                Info($"Arbitrate: {request} leaves king in check, failing.");
-                response = new Response(request, EResponse.Fail, EError.InCheck, "Can't leave King in Check");
             }
-            
+
             player?.Result(request, response);
             
             _lastResponse.Value = new RequestResponse { Request = request, Response = response };
@@ -100,7 +100,19 @@ namespace App.Model
 
             var color = player.Color;
             var king = Board.FirstOrDefault(color, EPieceType.King);
-            return king != null && Board.TestForCheck(color, king.Coord.Value).Any();
+            if (king == null)
+                return false;
+            
+            return IsInCheck(color, king.Coord.Value);
+        }
+            
+        private bool IsInCheck(EColor color, Coord coord)
+        {
+            var checking = Board.TestForCheck(color, coord).ToArray();
+            foreach (var ch in checking)
+                Info($"Piece {ch} puts {color} in check.");
+
+            return checking.Length > 0;
         }
 
         /// <summary>
@@ -252,13 +264,15 @@ namespace App.Model
             var isKing = card.PieceType == EPieceType.King;
             if (!entry.PlacedKing && !isKing)
                 return Response<IPieceModel>.FailWith("Must place king first.");
+            
+            if (isKing && IsInCheck(card.Color, act.Coord))
+                return Response<IPieceModel>.FailWith("Can't place king in check.");
 
             // Can only have one Queen.
             var owner = act.Owner as IPlayerModel;
             if (act.Card.PieceType == EPieceType.Queen)
             {
-                var otherQueen = Board.Pieces.Any(
-                    p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
+                var otherQueen = Board.Pieces.Any(p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
                 if (otherQueen)
                     return Response<IPieceModel>.FailWith("Can have up to one Queen on Board at a time.");
 
@@ -342,11 +356,21 @@ namespace App.Model
         private IResponse TryTurnEnd(TurnEnd turnEnd)
         {
             Assert.IsNotNull(turnEnd);
+            var player = turnEnd.Owner as IPlayerModel;
             if (turnEnd.Player != CurrentPlayer.Value)
-                Warn($"It's not {turnEnd.Player}'s turn to end.");
-            else
-                EndTurn();
-
+            {
+                Warn($"Arbitrate: It's not {turnEnd.Player}'s turn to end.");
+                return new Response(turnEnd, EResponse.Fail, EError.Error, "Not {turnEnd.Players}'s turn to end.");
+            }
+            
+            if (IsInCheck(player))
+            {
+                var b = IsInCheck(player);
+                Warn($"Arbitrate: {turnEnd} leaves {player}'s king in check, failing.");
+                return new Response(turnEnd, EResponse.Fail, EError.Error, "Can't leave King in Check");
+            }
+            
+            EndTurn();
             return Response.Ok;
         }
 

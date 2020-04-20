@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,16 +112,22 @@ namespace App.Model.Impl
         public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender)
             => AllAttackingPieces(pieces, defender.Coord.Value);
 
+        /// <summary>
+        /// Return subset of all given pieces that attack the given coordinate.
+        /// </summary>
         public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord)
+            => GetAttackingCoords(pieces, coord).Select(At);
+
+        private IEnumerable<Coord> GetAttackingCoords(IEnumerable<IPieceModel> pieces, Coord coord)
         {
             var n = 0;
             var attacking = pieces.ToArray();
             foreach (var other in attacking.Select(GetAttacks))
             {
-                if (other.Coords.Any(c => c == coord))
-                    yield return attacking[n];
-                if (other.Interrupts.Select(p => p.Coord.Value == coord).Any())
-                    yield return attacking[n];
+                if (other.Interrupts.Any(i => i.Coord.Value == coord))
+                    yield return attacking[n].Coord.Value;
+                else if (other.Coords.Any(i => i == coord))
+                    yield return attacking[n].Coord.Value;
                 ++n;
             }
         }
@@ -158,7 +165,7 @@ namespace App.Model.Impl
         /// <param name="kingCoord"></param>
         /// <returns></returns>
         public IEnumerable<IPieceModel> TestForCheck(EColor color, Coord kingCoord)
-            => AllAttackingPieces(ColoredPieces(Different(color)), kingCoord);
+            => AllAttackingPieces(ColoredPieces(Different(color)), kingCoord).Where(p => p.Color != color);
 
         private IEnumerable<IPieceModel> ColoredPieces(EColor color)
             => _pieces.Where(p => p.Color == color);
@@ -467,31 +474,34 @@ namespace App.Model.Impl
         private MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
             var moveResults = new MoveResults();
-            var blocked = new List<int>();
             for (int n = 1; n <= dist; ++n)
             {
-                for (int m = 0; m < dirs.Length; ++m)
+                var minDist = Int32.MinValue;
+                foreach (var next in dirs)
                 {
-                    if (blocked.Contains(m))
-                        continue;
-                    var next = dirs[m];
                     var coord = orig + next*n;
                     if (coord == orig)
                         continue;
                     if (!IsValidCoord(coord))
                         continue;
                     var model = At(coord);
-                    if (model != null)
+                    var manDist = ManhattanDistance(coord, orig);
+                    if (model != null && !moveResults.Interrupts.Contains(model))
                     {
                         moveResults.Interrupts.Add(model);
-                        blocked.Add(m);
-                        continue;
+                        if (manDist > minDist)
+                            minDist = manDist;
                     }
-
-                    moveResults.Coords.Add(coord);
+                    else if (manDist > minDist)
+                        moveResults.Coords.Add(coord);
                 }
             }
             return moveResults;
+        }
+
+        int ManhattanDistance(Coord a, Coord b)
+        {
+            return Math.Abs(b.x - a.x) + Math.Abs(b.y - a.y);
         }
 
         private readonly Coord[] _surrounding = {
@@ -499,7 +509,6 @@ namespace App.Model.Impl
             new Coord(0, 1),
             new Coord(1, 1),
             new Coord(-1, 0),
-            new Coord(0, 0),
             new Coord(1, 0),
             new Coord(-1, -1),
             new Coord(0, -1),
