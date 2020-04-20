@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using App.View;
 using Dekuple;
+using JetBrains.Annotations;
 using UniRx;
+using UnityEngine;
 
-namespace App.Model
+namespace App.Model.Impl
 {
     using Common;
     using Common.Message;
@@ -58,9 +62,7 @@ namespace App.Model
         }
 
         public void EndGame()
-        {
-            ClearBoard();
-        }
+            => ClearBoard();
 
         public bool CanMoveOrAttack(IPieceModel pieceModel)
         {
@@ -75,7 +77,7 @@ namespace App.Model
                 return true;
 
             // we have no empty squares, but check for interference squares on movement
-            foreach (var other in moves.Interference)
+            foreach (var other in moves.Interrupts)
             {
                 Assert.IsNotNull(other);
                 Assert.IsFalse(other.Owner == pieceModel.Owner);
@@ -100,22 +102,41 @@ namespace App.Model
                 return true;
 
             // we can attack a defender of a square we could otherwise attack directly
-            if (attacks.Interference.Count > 0)
+            if (attacks.Interrupts.Count > 0)
                 return true;
 
             // we can't move anywhere, mount anything, or attack directly or attack a defender
             return false;
         }
 
-        public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
+        public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, IPieceModel defender)
+            => AllAttackingPieces(pieces, defender.Coord.Value);
+
+        /// <summary>
+        /// Return subset of all given pieces that attack the given coordinate.
+        /// </summary>
+        public IEnumerable<IPieceModel> AllAttackingPieces(IEnumerable<IPieceModel> pieces, Coord coord)
+            => GetAttackingCoords(pieces, coord).Select(At);
+
+        private IEnumerable<Coord> GetAttackingCoords(IEnumerable<IPieceModel> pieces, Coord coord)
         {
-            return Pieces.Where(p => p.PieceType == type);
+            var n = 0;
+            var attacking = pieces.ToArray();
+            foreach (var other in attacking.Select(GetAttacks))
+            {
+                if (other.Interrupts.Any(i => i.Coord.Value == coord))
+                    yield return attacking[n].Coord.Value;
+                else if (other.Coords.Any(i => i == coord))
+                    yield return attacking[n].Coord.Value;
+                ++n;
+            }
         }
 
+        public IEnumerable<IPieceModel> PiecesOfType(EPieceType type)
+            => Pieces.Where(p => p.PieceType == type);
+
         public int NumPieces(EPieceType type)
-        {
-            return PiecesOfType(type).Count();
-        }
+            => PiecesOfType(type).Count();
 
         public IResponse Remove(IPieceModel pieceModel)
         {
@@ -123,11 +144,37 @@ namespace App.Model
             return _pieces.Remove(pieceModel) ? Response.Ok : Response.Fail;
         }
 
-        public IResponse Move(IPieceModel pieceModel, Coord coord)
+        public EColor Different(EColor color) =>
+            color == EColor.White ? EColor.Black : EColor.White;
+
+        /// <summary>
+        /// Test that the King of the given color is not in check
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns>All pieces that are putting the king in Check</returns>
+        public IEnumerable<IPieceModel> TestForCheck(PlacePiece place)
+            => TestForCheck(place.Card.Color, place.Coord);
+
+        public IPieceModel FirstOrDefault(EColor color, EPieceType pieceType)
+            => _pieces.FirstOrDefault(p => p.Color == color && p.PieceType == pieceType);
+
+        /// <summary>
+        /// Test if a king placed at the given coordinates would be under check
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="kingCoord"></param>
+        /// <returns></returns>
+        public IEnumerable<IPieceModel> TestForCheck(EColor color, Coord kingCoord)
+            => AllAttackingPieces(ColoredPieces(Different(color)), kingCoord).Where(p => p.Color != color);
+
+        private IEnumerable<IPieceModel> ColoredPieces(EColor color)
+            => _pieces.Where(p => p.Color == color);
+
+        private IPieceModel GetKing(EColor other)
+            => FirstOrDefault(other, EPieceType.King);
+
+        public IResponse Move([NotNull]IPieceModel pieceModel, Coord coord)
         {
-            Assert.IsNotNull(pieceModel);
-            Assert.IsNotNull(coord);
-            Assert.IsTrue(IsValidCoord(coord));
             var found = Get(coord);
             if (found == null)
                 return Response.Ok;
@@ -137,8 +184,9 @@ namespace App.Model
             return Response.Ok;
         }
 
-        IPieceModel Get(Coord coord)
+        private IPieceModel Get(Coord coord)
         {
+            Assert.IsTrue(IsValidCoord(coord));
             return _pieces.FirstOrDefault(p => p.Coord.Value == coord);
         }
 
@@ -207,12 +255,16 @@ namespace App.Model
             Assert.IsNotNull(place);
             var coord = place.Coord;
             Assert.IsTrue(IsValidCoord(coord));
-
+            var placeCard = place.Card;
+            
             if (At(coord) != null)
                 return new Response<IPieceModel>(
-                    null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {place.Card}");
+                    null, EResponse.Fail, EError.InvalidTarget, $"Already {At(coord)}, cannot place {placeCard}");
 
-            var piece = Registry.Get<IPieceModel>(place.Player, place.Card);
+            if (placeCard.PieceType == EPieceType.King && TestForCheck(place).Any())
+                return Response<IPieceModel>.FailWith("Can't place King in Check");
+                
+            var piece = Registry.Get<IPieceModel>(place.Player, placeCard);
             var set = AddPiece(coord, piece);
             if (set.Success)
                 piece.MovedThisTurn = true;
@@ -422,31 +474,34 @@ namespace App.Model
         private MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
             var moveResults = new MoveResults();
-            var blocked = new List<int>();
             for (int n = 1; n <= dist; ++n)
             {
-                for (int m = 0; m < dirs.Length; ++m)
+                var minDist = Int32.MinValue;
+                foreach (var next in dirs)
                 {
-                    if (blocked.Contains(m))
-                        continue;
-                    var next = dirs[m];
                     var coord = orig + next*n;
                     if (coord == orig)
                         continue;
                     if (!IsValidCoord(coord))
                         continue;
                     var model = At(coord);
-                    if (model != null)
+                    var manDist = ManhattanDistance(coord, orig);
+                    if (model != null && !moveResults.Interrupts.Contains(model))
                     {
-                        moveResults.Interference.Add(model);
-                        blocked.Add(m);
-                        continue;
+                        moveResults.Interrupts.Add(model);
+                        if (manDist > minDist)
+                            minDist = manDist;
                     }
-
-                    moveResults.Coords.Add(coord);
+                    else if (manDist > minDist)
+                        moveResults.Coords.Add(coord);
                 }
             }
             return moveResults;
+        }
+
+        int ManhattanDistance(Coord a, Coord b)
+        {
+            return Math.Abs(b.x - a.x) + Math.Abs(b.y - a.y);
         }
 
         private readonly Coord[] _surrounding = {
@@ -454,7 +509,6 @@ namespace App.Model
             new Coord(0, 1),
             new Coord(1, 1),
             new Coord(-1, 0),
-            new Coord(0, 0),
             new Coord(1, 0),
             new Coord(-1, -1),
             new Coord(0, -1),

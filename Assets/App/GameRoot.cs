@@ -1,4 +1,7 @@
 ﻿// field not assigned - because it is assigned in Unity3d editor
+
+using JetBrains.Annotations;
+
 #pragma warning disable 649
 
 namespace App
@@ -12,17 +15,18 @@ namespace App
     using Dekuple.Agent;
     using Dekuple.Model;
     using Dekuple.View;
-    using Dekuple.View.Impl;
-    using Agent.Impl;
-    using Model.Impl;
     using Common;
     using Agent;
     using Model;
     using View;
-    using View.Impl1;
-    using Service.Impl;
     using Database;
     using Database.Data.Scriptable;
+    
+    using Dekuple.View.Impl;
+    using Agent.Impl;
+    using Model.Impl;
+    using View.Impl;
+    using Service.Impl;
 
     /// <inheritdoc />
     /// <summary>
@@ -31,6 +35,8 @@ namespace App
     public class GameRoot
         : ViewBase
     {
+        public Canvas Canvas;
+        public GameObject UiBlocker;
         public CardTemplateService CardTemplateService;
         public ArbiterResponseList ResponseText;
         public CardTemplateDatabase CardTemplateDatabase;
@@ -40,6 +46,7 @@ namespace App
         public IArbiterAgent ArbiterAgent;
         public BoardView BoardView;
         public ArbiterView ArbiterView;
+        public PopupView PopupView;
         public float SkyRotationSpeed = 2;
 
         private IBoardModel _boardModel;
@@ -102,6 +109,35 @@ namespace App
                 r => ResponseText.AddEntry($"{r}")).AddTo(this);
             ArbiterAgent.Log.Subscribe(
                 r => ResponseText.AddEntry($"{r}")).AddTo(this);
+            ArbiterAgent.LastResponse.Subscribe(
+                r =>
+                {
+                    if (r.Response == null)
+                        return;
+                    if (r.Response.Failed)
+                    {
+                        var popup = NewEntity<IPopupView, IPopupAgent, IPopupModel>(PopupView);
+                        Assert.IsNotNull(popup);
+                        UiBlocker.SetActive(true);
+                        popup.Transform.SetParent(Canvas.transform);
+                        popup.Transform.localPosition = Vector3.zero;
+                        popup.Agent.Model.Set($"{r.Request}", r.Response.Text);
+                        popup.Agent.Completed += tr => UiBlocker.SetActive(false);
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Make a new complete entity.
+        /// </summary>
+        /// <param name="prefab">The prefab to use to make the view.</param>
+        public TIView NewEntity<TIView, TIAgent, TIModel>([NotNull]UnityEngine.Object prefab)
+            where TIAgent : class, IAgent 
+            where TIModel : class, IModel 
+            where TIView : class, IViewBase
+        {
+            return _views.FromPrefab<TIView>(
+                prefab, _agents.Get<TIAgent>(_models.Get<TIModel>()));
         }
 
         /// <summary>
@@ -170,6 +206,7 @@ namespace App
             _models.Bind<IHandModel, HandModel>();
             _models.Bind<IPieceModel, PieceModel>();
             _models.Bind<IPlayerModel, PlayerModel>();
+            _models.Bind<IPopupModel, PopupModel>();
             _models.Resolve();
 
             // make the required minimal components for a game
@@ -198,6 +235,7 @@ namespace App
             _agents.Bind<IHandAgent, HandAgent>();
             _agents.Bind<IPieceAgent, PieceAgent>();
             _agents.Bind<IPlayerAgent, PlayerAgent>();
+            _agents.Bind<IPopupAgent, PopupAgent>();
             _agents.Resolve();
         }
 
@@ -220,6 +258,7 @@ namespace App
             _views.Bind<IHandView, HandView>();
             _views.Bind<IPieceView, PieceView>();
             _views.Bind<IPlayerView, PlayerView>();
+            _views.Bind<IPopupView, PopupView>();
             _views.Resolve();
         }
 

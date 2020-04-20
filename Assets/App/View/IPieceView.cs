@@ -1,4 +1,6 @@
-﻿namespace App.View
+﻿using App.Model;
+
+namespace App.View
 {
     using UniRx;
     using Dekuple.View;

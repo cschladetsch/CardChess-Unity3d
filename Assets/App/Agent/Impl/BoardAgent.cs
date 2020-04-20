@@ -62,6 +62,8 @@
             return sb.ToString();
         }
 
+        public IBoardModel TypedModel => Model as IBoardModel;
+
         public void StartGame()
         {
             Model.StartGame();

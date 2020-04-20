@@ -21,6 +21,7 @@ namespace App.Model
         public EPieceType PieceType => Template.PieceType;
         public GameObject MeshObject { get; set; }
         public string Description => Template.FlavourText;
+        public EColor Color => Player.Value.Color;
 
         public IReactiveProperty<IPlayerModel> Player => _player;
         public IReadOnlyReactiveProperty<int> ManaCost => _manaCost;

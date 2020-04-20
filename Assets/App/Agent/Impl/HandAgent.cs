@@ -20,6 +20,8 @@
         {
         }
 
+        public IHandModel TypedModel => Model as IHandModel;
+
         public void StartGame()
         {
             Model.StartGame();

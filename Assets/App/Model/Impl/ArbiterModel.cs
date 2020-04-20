@@ -4,6 +4,8 @@
 // DI fails this inspection test
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
+using System.ComponentModel.Design;
+
 namespace App.Model
 {
     using System;
@@ -15,8 +17,7 @@ namespace App.Model
     using Common.Message;
 
     /// <summary>
-    /// TODO: Models should just store entity state. This Model performs game logic that should
-    /// TODO: be moved to ArbiterAgent.
+    /// The ArbiterModel enforces the rules. The BoardModel provides state information and queries.
     /// </summary>
     public class ArbiterModel
         : RespondingModelBase
@@ -43,6 +44,7 @@ namespace App.Model
             : base(null)
         {
             LogPrefix = "Arbiter";
+            //Verbosity = 100;
         }
 
         public void PrepareGame(IPlayerModel w, IPlayerModel b)
@@ -79,17 +81,53 @@ namespace App.Model
         {
             Assert.IsNotNull(request);
             var response = ProcessRequest(request);
-            Info($"Arbitrate: {request} {response}");
+            Verbose(10, $"Arbitrate: {request} {response}");
             var player = request.Owner as IPlayerModel;
+            if (!response.Failed)
+            {
+            }
+
             player?.Result(request, response);
             
-            _lastResponse.Value = new RequestResponse() { Request = request, Response = response };
+            _lastResponse.Value = new RequestResponse { Request = request, Response = response };
             return response;
+        }
+
+        private bool IsInCheck(IPlayerModel player)
+        {
+            if (player == null)
+                return false;
+
+            var color = player.Color;
+            var king = Board.FirstOrDefault(color, EPieceType.King);
+            if (king == null)
+                return false;
+            
+            return IsInCheck(color, king.Coord.Value);
+        }
+            
+        private bool IsInCheck(EColor color, Coord coord)
+        {
+            var checking = Board.TestForCheck(color, coord).ToArray();
+            foreach (var ch in checking)
+                Info($"Piece {ch} puts {color} in check.");
+
+            return checking.Length > 0;
+        }
+
+        /// <summary>
+        /// TODO: this is going to be fun when Instants are added
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        private bool IsInCheckMate(IPlayerModel player)
+        {
+            return false;
         }
 
         private IResponse ProcessRequest(IGameRequest request)
         {
-            //Info($"{request} tried in {GameState} #{_turnNumber.Value}");
+            Verbose(20, $"{request} in {GameState} #{_turnNumber.Value}");
             switch (GameState.Value)
             {
                 //case EGameState.None:
@@ -105,8 +143,6 @@ namespace App.Model
                 case EGameState.PlayTurn:
                     switch (request.Action)
                     {
-                        //case EActionType.Pass:
-                        //    return TryTurnPass(request as TurnPass());
                         case EActionType.TurnEnd:
                             return TryTurnEnd(request as TurnEnd);
                         case EActionType.Resign:
@@ -228,18 +264,20 @@ namespace App.Model
             var isKing = card.PieceType == EPieceType.King;
             if (!entry.PlacedKing && !isKing)
                 return Response<IPieceModel>.FailWith("Must place king first.");
+            
+            if (isKing && IsInCheck(card.Color, act.Coord))
+                return Response<IPieceModel>.FailWith("Can't place king in check.");
 
             // Can only have one Queen.
             var owner = act.Owner as IPlayerModel;
             if (act.Card.PieceType == EPieceType.Queen)
             {
-                var otherQueen = Board.Pieces.Any(
-                    p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
+                var otherQueen = Board.Pieces.Any(p => p.SameOwner(owner) && p.PieceType == EPieceType.Queen);
                 if (otherQueen)
                     return Response<IPieceModel>.FailWith("Can have up to one Queen on Board at a time.");
 
                 var nearKing = Board.GetAdjacent(
-                    act.Coord, 1).Interference.Any(
+                    act.Coord, 1).Interrupts.Any(
                     p => p.SameOwner(owner) && p.PieceType == EPieceType.King);
                 if (!nearKing)
                     return Response<IPieceModel>.FailWith("Queens must be placed next to a King.");
@@ -255,7 +293,7 @@ namespace App.Model
 
             // Pawns can only be placed next to a friendly.
             if (card.PieceType == EPieceType.Peon
-                && !Board.GetAdjacent(act.Coord, 1).Interference.Any(other => other.SameOwner(card)))
+                && !Board.GetAdjacent(act.Coord, 1).Interrupts.Any(other => other.SameOwner(card)))
             {
                 return Response<IPieceModel>.FailWith("Peons must be placed next to friendly pieces.");
             }
@@ -272,6 +310,9 @@ namespace App.Model
 
             return resp;
         }
+
+        private IEnumerable<IPieceModel> OtherPieces(ICardModel card)
+            => Board.Pieces.Where(p => p.Color != card.Color);
 
         private Response TryResign(Resign resign)
         {
@@ -294,7 +335,7 @@ namespace App.Model
                 return Failed(battle, $"{attacker} can only attack once per turn.");
 
             var moves = Board.GetAttacks(attacker.Coord.Value, attacker.PieceType);
-            if (!moves.Interference.Contains(defender))
+            if (!moves.Interrupts.Contains(defender))
                 return Failed(battle, $"{attacker} can not reach {defender.Coord.Value}.");
 
             var resp = attacker.Attack(defender);
@@ -315,11 +356,21 @@ namespace App.Model
         private IResponse TryTurnEnd(TurnEnd turnEnd)
         {
             Assert.IsNotNull(turnEnd);
+            var player = turnEnd.Owner as IPlayerModel;
             if (turnEnd.Player != CurrentPlayer.Value)
-                Warn($"It's not {turnEnd.Player}'s turn to end.");
-            else
-                EndTurn();
-
+            {
+                Warn($"Arbitrate: It's not {turnEnd.Player}'s turn to end.");
+                return new Response(turnEnd, EResponse.Fail, EError.Error, "Not {turnEnd.Players}'s turn to end.");
+            }
+            
+            if (IsInCheck(player))
+            {
+                var b = IsInCheck(player);
+                Warn($"Arbitrate: {turnEnd} leaves {player}'s king in check, failing.");
+                return new Response(turnEnd, EResponse.Fail, EError.Error, "Can't leave King in Check");
+            }
+            
+            EndTurn();
             return Response.Ok;
         }
 
