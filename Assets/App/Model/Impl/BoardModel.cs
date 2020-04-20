@@ -474,6 +474,7 @@ namespace App.Model.Impl
 
         private MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
+            Info($"BoardModel: GetMoveResults: {orig} {dist} {dirs}");
             var moveResults = new MoveResults();
             for (int n = 1; n <= dist; ++n)
             {

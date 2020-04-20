@@ -1,6 +1,4 @@
-﻿using App.Model;
-
-namespace App.View.Impl
+﻿namespace App.View.Impl
 {
     using UnityEngine;
     using UniRx;
@@ -10,6 +8,8 @@ namespace App.View.Impl
     using Common;
     using Common.Message;
     using Agent;
+    using Model;
+
 
     /// <inheritdoc cref="IPieceView"/>
     /// <summary>
