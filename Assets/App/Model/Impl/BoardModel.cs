@@ -493,7 +493,7 @@ namespace App.Model.Impl
                         if (manDist > minDist)
                             minDist = manDist;
                     }
-                    else if (manDist <= minDist)
+                    else if (moveResults.Interrupts.Count == 0)
                         moveResults.Coords.Add(coord);
                 }
             }
