@@ -66,6 +66,6 @@ namespace App
         /// </summary>
         public static int CardExhaustionHealthLoss = -2;
 
-        public static float PieceZOffset = -0.15f;
+        public static float PieceZOffset = -0.55f;
     }
 }
