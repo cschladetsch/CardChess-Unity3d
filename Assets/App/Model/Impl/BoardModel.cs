@@ -214,16 +214,15 @@ namespace App.Model.Impl
             var coord = move.Coord;
             var piece = move.Piece;
 
+            Info($"Attempt to move {piece} @{piece.Coord.Value} to {coord}");
+            
             var dest = At(coord);
             if (dest != null)
-            {
                 return dest != piece ? Failed(move, $"Cannot move {piece} onto {dest}") : Response.Ok;
-            }
 
-            var movements = GetMovements(piece);
-            if (!movements.Coords.Any())
-                return Failed(move, $"Cannot move {move.Piece} move to {move.Coord}");
-            return MovePieceTo(coord, piece);
+            return GetMovements(piece).Coords.All(c => c != coord) 
+                ? Failed(move, $"Cannot move {move.Piece} move to {move.Coord}") 
+                : MovePieceTo(coord, piece);
         }
 
         private IResponse MovePieceTo(Coord coord, IPieceModel piece)
