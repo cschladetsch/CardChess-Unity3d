@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3f39681b93dd241ad371f97ea0b67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0, y: -1.7, z: -0.7}
+  Offset: {x: 0, y: -1.4, z: 0}
   CardsRoot: {fileID: 4157510850355630}
   CardViewPrefab: {fileID: 5143953962960563570, guid: 70b71202dff02e04a995ab868994e6d1,
     type: 3}

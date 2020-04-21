@@ -71,10 +71,11 @@ namespace App.Model
 
         public virtual void StartGame()
         {
-            Mana.Value = 0;
-            MaxMana.Value = 0;
             Deck.StartGame();
             Hand.StartGame();
+            
+            Mana.Value = 1;
+            MaxMana.Value = 1;
         }
 
         public void EndGame()
@@ -95,9 +96,13 @@ namespace App.Model
 
         public virtual void StartTurn()
         {
-            MaxMana.Value = Math.Min(Parameters.MaxManaCap, MaxMana.Value + 1);
+            // only increase mana each other turn
+            var turnNumber = Arbiter.TurnNumber.Value;
+            var inc = turnNumber % 2 == 0 ? 1 : 0;
+            
+            MaxMana.Value = Math.Min(Parameters.MaxManaCap, MaxMana.Value + inc);
             Mana.Value = MaxMana.Value;
-            if (Arbiter.TurnNumber.Value > 1)
+            if (turnNumber > 1)
                 Hand.Add(Deck.Draw());
 
             Verbose(5, $"{this} starts turn with {Mana.Value} mana");

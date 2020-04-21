@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 48229845}
   - component: {fileID: 48229844}
   - component: {fileID: 48229848}
-  - component: {fileID: 48229850}
   - component: {fileID: 48229849}
   m_Layer: 0
   m_Name: Main Camera
@@ -225,9 +224,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 48229843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243b4854aafeaf34eaad7f308caf9f7b, type: 3}
+  m_Script: {fileID: 11500000, guid: edf1a5459d378c549a46d02c03e6cac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  alpha: 0
 --- !u!114 &48229849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,20 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb1dba3da66245448c75b66742c52da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &48229850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 48229843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf1a5459d378c549a46d02c03e6cac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  alpha: 0
 --- !u!1 &124138545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506bab3accff84547b4f847031e55a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoomName: 1000
+  GameVersion: 0.1
+  JoinRetryDelaySeconds: 5
 --- !u!4 &686220567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4401629828264620, guid: db048127caa5ecc47b32c359d8f39207,
@@ -3056,6 +3046,11 @@ PrefabInstance:
       propertyPath: BoardOverlay
       value: 
       objectReference: {fileID: 310639192}
+    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
+        type: 3}
+      propertyPath: Offset.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 3}
 --- !u!1 &1826311053
@@ -3113,7 +3108,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 7340343
 --- !u!114 &1826311056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3984,7 +3979,12 @@ PrefabInstance:
     - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
         type: 3}
       propertyPath: Offset.y
-      value: -1.7
+      value: -1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
+        type: 3}
+      propertyPath: Offset.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 3}
