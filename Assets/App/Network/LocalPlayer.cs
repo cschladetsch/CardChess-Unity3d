@@ -1,4 +1,4 @@
-﻿namespace App
+﻿namespace App.Network
 {
     using System.Collections;
     using System.Collections.Generic;

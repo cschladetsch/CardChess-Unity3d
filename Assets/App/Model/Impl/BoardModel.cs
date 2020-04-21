@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using App.View;
-using Dekuple;
-using JetBrains.Annotations;
-using UniRx;
-using UnityEngine;
-
-namespace App.Model.Impl
+﻿namespace App.Model.Impl
 {
+    using UnityEngine;
+    using System;
+    using System.Text;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UniRx;
+    using Dekuple;
+    using JetBrains.Annotations;
     using Common;
     using Common.Message;
 
@@ -54,7 +51,7 @@ namespace App.Model.Impl
             Width = width;
             Height = height;
 
-            Verbosity = 100;
+            // Verbosity = 100;
         }
 
         public void StartGame()
