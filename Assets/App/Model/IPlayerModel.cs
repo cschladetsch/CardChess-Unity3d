@@ -49,11 +49,8 @@
         /// Invoked when the player tries to draw with an empty hand
         /// </summary>
         void CardExhaustion();
-
         void StartTurn();
-
         void EndTurn();
-
         void Result(IRequest req, IResponse response);
 
         /// <summary>

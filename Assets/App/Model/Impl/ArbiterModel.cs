@@ -189,8 +189,13 @@ namespace App.Model
             Verbose(10, $"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
 
             CurrentPlayer.Value.EndTurn();
-            _currentPlayerIndex.Value = (_currentPlayerIndex.Value + 1) % _players.Count;
-            _turnNumber.Value++;
+            
+            var plex = _currentPlayerIndex.Value;
+            _currentPlayerIndex.Value = (plex + 1) % _players.Count;
+            
+            if (++plex % 2 == 0)
+                _turnNumber.Value++;
+                
             CurrentPlayer.Value.StartTurn();
 
             foreach (var entry in _players)
