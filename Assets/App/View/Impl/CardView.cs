@@ -61,14 +61,10 @@ namespace App.View.Impl
 
         private void AddCardSubscriptions()
         {
-            MouseOver.Subscribe(
-                v => _mouseOver.Value = v).AddTo(this);
-            Agent.Power.Subscribe(
-                p => Power.text = $"{p}").AddTo(this);
-            Agent.Health.Subscribe(
-                p => Health.text = $"{p}").AddTo(this);
-            Agent.Model.ManaCost.Subscribe(
-                p => Mana.text = $"{p}").AddTo(this);
+            MouseOver.Subscribe(v => _mouseOver.Value = v).AddTo(this);
+            Agent.Power.Subscribe(p => Power.text = $"{p}").AddTo(this);
+            Agent.Health.Subscribe(p => Health.text = $"{p}").AddTo(this);
+            Agent.Model.ManaCost.Subscribe(p => Mana.text = $"{p}").AddTo(this);
 
             SquareOver.Subscribe(sq =>
             {

@@ -51,7 +51,6 @@
             Clear();
             BindHand(handAgent);
             Redraw();
-            Assert.IsTrue(IsValid);
         }
 
         private void BindHand(IHandAgent agent)
@@ -61,28 +60,17 @@
 
             agent.Cards.ObserveAdd().Subscribe(Add);
             agent.Cards.ObserveRemove().Subscribe(Remove);
-            Assert.IsTrue(IsValid);
-        }
-
-        [ContextMenu("Debug")]
-        public void Debug()
-        {
-            foreach (var c in _cards)
-            {
-                Assert.IsTrue(c.IsValid);
-            }
         }
 
         private ICardView CreateViewFromAgent(ICardAgent agent)
         {
             var cardView = ViewRegistry.FromPrefab<ICardView>(CardViewPrefab, agent);
             cardView.MouseOver.Subscribe(CardMouseOver);
-            //cardView.SetAgent(agent);
+            cardView.SetAgent(agent);
             var tr = cardView.GameObject.transform;
             tr.SetParent(CardsRoot);
             tr.localScale = Vector3.one;
-            tr.localPosition = new Vector3(-1, -1, 10);
-            Assert.IsTrue(IsValid);
+            tr.localPosition = new Vector3(-1, -1, 5);
             return cardView;
         }
 
@@ -90,11 +78,13 @@
         {
             if (card == null)
                 return;
+            
             if (Time.time - _lastClipPlayed > _minTimeBetweenClips)
             {
                 _AudioSource.PlayOneShot(MouseOverClip);
                 _lastClipPlayed = Time.time;
             }
+            
             Verbose(20, $"MouseOver {card.Agent.Model}");
         }
 
@@ -102,7 +92,6 @@
         public void Clear()
         {
             transform.ForEach<ICardView>(c => c.Destroy());
-            Assert.IsTrue(IsValid);
         }
 
         private void Add(CollectionAddEvent<ICardAgent> add)
@@ -110,7 +99,6 @@
             Verbose(5, $"HandView: Add {add.Value} @{add.Index}");
             _cards.Insert(add.Index, CreateViewFromAgent(add.Value));
             Redraw();
-            Assert.IsTrue(IsValid);
         }
 
         private void Remove(CollectionRemoveEvent<ICardAgent> remove)
@@ -120,7 +108,6 @@
             _cards.RemoveAt(remove.Index);
             view.Destroy();
             Redraw();
-            Assert.IsTrue(IsValid);
         }
 
         [ContextMenu("Redraw")]

@@ -3046,6 +3046,11 @@ PrefabInstance:
       propertyPath: BoardOverlay
       value: 
       objectReference: {fileID: 310639192}
+    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
+        type: 3}
+      propertyPath: Offset.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 3}
 --- !u!1 &1826311053
@@ -3103,7 +3108,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 7340343
 --- !u!114 &1826311056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3974,7 +3979,12 @@ PrefabInstance:
     - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
         type: 3}
       propertyPath: Offset.y
-      value: -1.7
+      value: -1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114904936396802032, guid: d5c0e3b70fa47664e95930c53976fbe2,
+        type: 3}
+      propertyPath: Offset.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5c0e3b70fa47664e95930c53976fbe2, type: 3}
