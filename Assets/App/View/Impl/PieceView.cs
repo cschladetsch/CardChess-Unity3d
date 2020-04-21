@@ -97,7 +97,7 @@
         private void AddMesh()
         {
             var root = Instantiate(Agent.Model.Card.Template.MeshPrefab, transform);
-            root.transform.localScale *= 0.6f;    // pieces on board are smaller than in Hand/Deck
+            root.transform.localScale *= 0.76f;    // pieces on board are smaller than in Hand/Deck
             root.transform.SetLocalZ(App.Parameters.PieceZOffset);
             var mesh = root.GetComponentInChildren<MeshRenderer>();
             mesh.material = PlayerAgent.Model.Color == EColor.Black ? BoardView.BlackMaterial : BoardView.WhiteMaterial;

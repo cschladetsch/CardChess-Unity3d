@@ -53,6 +53,8 @@ namespace App.Model.Impl
         {
             Width = width;
             Height = height;
+
+            Verbosity = 100;
         }
 
         public void StartGame()
@@ -214,13 +216,14 @@ namespace App.Model.Impl
             var coord = move.Coord;
             var piece = move.Piece;
 
-            Info($"Attempt to move {piece} @{piece.Coord.Value} to {coord}");
+            Verbose(5, $"Attempt to move {piece} @{piece.Coord.Value} to {coord}");
             
             var dest = At(coord);
             if (dest != null)
                 return dest != piece ? Failed(move, $"Cannot move {piece} onto {dest}") : Response.Ok;
 
-            return GetMovements(piece).Coords.All(c => c != coord) 
+            var coords = GetMovements(piece).Coords;
+            return coords.All(c => c != coord) 
                 ? Failed(move, $"Cannot move {move.Piece} move to {move.Coord}") 
                 : MovePieceTo(coord, piece);
         }
@@ -473,30 +476,37 @@ namespace App.Model.Impl
 
         private MoveResults GetMoveResults(Coord orig, int dist, Coord[] dirs)
         {
-            Info($"BoardModel: GetMoveResults: {orig} {dist} {dirs}");
+            Verbose(10, $"BoardModel: GetMoveResults: {orig} {dist} {dirs}");
             var moveResults = new MoveResults();
-            for (int n = 1; n <= dist; ++n)
+            foreach (var next in dirs)
             {
-                var minDist = Int32.MinValue;
-                foreach (var next in dirs)
+                var minDist = Int32.MaxValue;
+                for (int n = 1; n <= dist; ++n)
                 {
                     var coord = orig + next*n;
                     if (coord == orig)
                         continue;
+                    
                     if (!IsValidCoord(coord))
                         continue;
+                    
                     var model = At(coord);
                     var manDist = ManhattanDistance(coord, orig);
                     if (model != null && !moveResults.Interrupts.Contains(model))
                     {
-                        moveResults.Interrupts.Add(model);
-                        if (manDist > minDist)
+                        if (manDist <= minDist)
+                        {
+                            moveResults.Interrupts.Add(model);
                             minDist = manDist;
+                        }
+
+                        continue;
                     }
-                    else if (moveResults.Interrupts.Count == 0)
-                        moveResults.Coords.Add(coord);
+                    
+                    moveResults.Coords.Add(coord);
                 }
             }
+            
             return moveResults;
         }
 
