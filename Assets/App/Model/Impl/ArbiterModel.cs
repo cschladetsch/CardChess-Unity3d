@@ -188,22 +188,27 @@ namespace App.Model
         {
             Verbose(10, $"End turn #{_turnNumber.Value} for {CurrentPlayer.Value}");
 
-            CurrentPlayer.Value.EndTurn();
-            
-            var plex = _currentPlayerIndex.Value;
-            _currentPlayerIndex.Value = (plex + 1) % _players.Count;
-            
-            if (++plex % 2 == 0)
-                _turnNumber.Value++;
-                
-            CurrentPlayer.Value.StartTurn();
-
-            foreach (var entry in _players)
-                entry.NewTurn();
+            NextTurn();
 
             Board.NewTurn();
 
             _gameState.Value = EGameState.PlayTurn;
+        }
+
+        private void NextTurn()
+        {
+            CurrentPlayer.Value.EndTurn();
+            
+            var index = _currentPlayerIndex.Value;
+            _currentPlayerIndex.Value = (index + 1) % _players.Count;
+
+            if (++index % 2 == 0)
+                _turnNumber.Value++;
+            
+            CurrentPlayer.Value.StartTurn();
+            
+            foreach (var entry in _players)
+                entry.NewTurn();
         }
 
         private void Endame()
