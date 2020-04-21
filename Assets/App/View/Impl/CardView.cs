@@ -80,6 +80,7 @@ namespace App.View.Impl
         private void AddMesh(ICardAgent cardAgent)
         {
             var root = Instantiate(cardAgent.Model.Template.MeshPrefab, transform);
+            root.transform.SetY(0);
             var material = (Owner.Value as IPlayerModel)?.Color == EColor.Black
                 ? BoardView.BlackMaterial
                 : BoardView.WhiteMaterial;

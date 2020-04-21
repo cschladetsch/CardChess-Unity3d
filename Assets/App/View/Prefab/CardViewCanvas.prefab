@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.33, y: 1.404}
+  m_AnchoredPosition: {x: -0.33, y: 1.104}
   m_SizeDelta: {x: 0.66, y: 0.392}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2496325621195732664
@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 9032003819588235929}
   - component: {fileID: 9032957156065633911}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: CardViewCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -447,8 +447,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.4}
-  m_SizeDelta: {x: 1.3, y: 1.6}
+  m_AnchoredPosition: {x: 0, y: 0.3999939}
+  m_SizeDelta: {x: 1.3, y: 1.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &9211903674015772777
 Canvas:

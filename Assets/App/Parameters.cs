@@ -65,7 +65,5 @@ namespace App
         /// How much health a player loses whenever he is forced to draw from an empty deck.
         /// </summary>
         public static int CardExhaustionHealthLoss = -2;
-
-        public static float PieceZOffset = -0.55f;
     }
 }
