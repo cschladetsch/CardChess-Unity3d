@@ -91,7 +91,7 @@ namespace App.View.Impl
                 ShowSquares(sq.Coord);
             });
 
-            HoverPiece.Subscribe(p => Info($"Dragging {p} @{HoverSquare.Value}"));
+            HoverPiece.Subscribe(p => { if (p != null) Info($"Dragging {p} @{HoverSquare.Value}"); });
             
             return true;
         }
@@ -150,10 +150,9 @@ namespace App.View.Impl
         private void ShowSquares(Coord coord)
         {
             var agent = Agent.At(coord);
-
             var board = Agent.Model;
             var movements = board.GetMovements(agent.Model);
-            var attacks = movements;//board.GetMovements(agent.Model);
+            var attacks = board.GetAttacks(agent.Model);
             AddOverlays(movements.Coords, attacks.Coords);
             OverlayView.Add(movements.Interrupts.Select(p => p.Coord.Value), Color.yellow);
             OverlayView.Add(attacks.Interrupts.Select(p => p.Coord.Value), Color.magenta);

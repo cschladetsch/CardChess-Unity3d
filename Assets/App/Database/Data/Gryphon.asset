@@ -16,8 +16,8 @@ MonoBehaviour:
   PieceType: 9
   Title: 
   FlavourText: 
-  ManaCost: 3
-  Power: 3
+  ManaCost: 2
+  Power: 2
   Health: 3
   Id: 09fb2c49-61d6-46f7-8909-f532e39a77dc
   Model: {fileID: 4718744845488856323, guid: 8c586a89c96e6ba43a9a73024906931c, type: 3}

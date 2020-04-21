@@ -7,6 +7,9 @@ bin/
 .vs/
 .current
 
+# This changes everytime the app runs. sod it.
+Assets/Materials/skyb1/sky,startday.mat
+
 # Unified line endings plugin for VS
 .leu
 

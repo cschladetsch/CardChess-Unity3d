@@ -17,8 +17,8 @@ MonoBehaviour:
   Title: 
   FlavourText: Must be protected!
   ManaCost: 1
-  Power: 1
-  Health: 20
+  Power: 2
+  Health: 3
   Id: 6a327ca3-ad02-46b7-812d-b08376fed72a
   Model: {fileID: 7669379755620265569, guid: dc34ec4178eff3e4c8f86691e6415a92, type: 3}
   Abilities: 
