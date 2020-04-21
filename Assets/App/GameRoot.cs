@@ -47,15 +47,17 @@ namespace App
         public BoardView BoardView;
         public ArbiterView ArbiterView;
         public PopupView PopupView;
-        public float SkyRotationSpeed = 2;
+        public float SkyRotationSpeed = .075f;
 
+        private IModelRegistry _models;
+        private IAgentRegistry _agents;
+        private IViewRegistry _views;
+        
         private IBoardModel _boardModel;
         private IArbiterModel _arbiterModel;
         private IPlayerModel _whitePlayerModel;
         private IPlayerModel _blackPlayerModel;
-        private ModelRegistry _models;
-        private AgentRegistry _agents;
-        private IViewRegistry _views;
+        
         private static readonly int Rotation = Shader.PropertyToID("_Rotation");
 
         /// <summary>

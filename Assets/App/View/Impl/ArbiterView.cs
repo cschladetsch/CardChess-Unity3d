@@ -1,4 +1,6 @@
-﻿namespace App.View.Impl
+﻿using App.Model;
+
+namespace App.View.Impl
 {
     using UnityEngine;
     using UniRx;
@@ -39,9 +41,19 @@
 
             var model = Agent.Model;
             model.GameState.DistinctUntilChanged().Subscribe(
-                c => StateText.text = $"{c}").AddTo(this);
+                c => StateText.text = $"{GetPlayText(c)}").AddTo(this);
             model.CurrentPlayer.DistinctUntilChanged().Subscribe(
                 c => CurrentPlayerText.text = $"{c.Color}").AddTo(this);
+        }
+
+        private string GetPlayText(EGameState state)
+        {
+            switch (state)
+            {
+                case EGameState.PlayTurn: return "Play";
+            }
+
+            return state.ToString();
         }
 
         public bool CurrentPlayerOwns(IOwned owned)

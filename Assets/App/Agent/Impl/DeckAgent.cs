@@ -17,13 +17,14 @@ namespace App.Agent
         public event Action<ICardAgent> OnDraw;
         public int MaxCards => Parameters.MinCardsInDeck;
         public IReadOnlyReactiveCollection<ICardAgent> Cards => _cards;
+        public IDeckModel TypedModel => Model as IDeckModel;
 
+        private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
+        
         public DeckAgent(IDeckModel model)
             : base(model)
         {
         }
-
-        public IDeckModel TypedModel => Model as IDeckModel;
 
         public void StartGame()
         {
@@ -84,7 +85,5 @@ namespace App.Agent
             //card.Destroy();
             _cards.RemoveAt(index);
         }
-
-        private readonly ReactiveCollection<ICardAgent> _cards = new ReactiveCollection<ICardAgent>();
     }
 }

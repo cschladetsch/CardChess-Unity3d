@@ -1,3 +1,5 @@
+.idea/
+
 Temp/
 Library/
 Builds/
@@ -26,5 +28,8 @@ Assets/[Pp]ackages.*
 # Samples and Examples
 Assets/External/New\ UI\ Widgets/Examples
 
+Assets/External/Photon/PhotonChat/Demos
+Assets/External/Photon/PhotonRealtime/Demos
+Assets/External/Photon/PhotonUnityNetworking/Demos
+Assets/External/Photon/PhotonUnityNetworking/Icons
 
-.idea/
