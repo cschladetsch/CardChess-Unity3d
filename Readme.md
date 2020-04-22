@@ -10,39 +10,19 @@ Am taking the unusual option of using an architecture that largely ignores Unity
 
 Focusing on the gameplay and [Rules](https://github.com/cschladetsch/CardChess/wiki), and only later will added interaction and visuals/audio.
 
-## Building
-
-This source repo also uses a library I made called [Flow](https://github.com/cschladetsch/Flow). This is included as a Git submodule. To also clone this code into the repo for this game, use the following single commmand:
-
-```bash
-# git clone --recursive https://github.com/cschladetsch/CardChess.git
-```
-
-By default, the repo installs into a folder called _Chess2_. This is a temporary name and will change. Within this Readme and throughout the project documentation, the root folder of the repo will be referred to as **$ROOT_DIR**.
-
-Or, if you cloned the base repo first (or use a version of git older than 1.9), then you have to 'manually' update the _Flow_ library with:
-
-```bash
-# git clone https://github.com/cschladetsch/CardChess.git && cd CardChess
-# git submodule update --init --recursive
-```
-
 The main scene is in _Scenes/Main_.
 
-## Notes
+## Building
 
-If you get a bunch of errors about "namespace Flow" not named, etc, or problems to do with anything named _Flow_, then you have not got the Flow submodule that lives in _Assets/External/Flow_.
+The build and Packages require an installation of [WorkFolder](https://github.com/cschladetsch/WorkFolder) mapped to the w-drive.
 
-There are a number of ways to fix this. The easiest is to just:
-
-```bash
-# cd $ROOT_DIR
-# git submodule update --init --recursive
-```
+I'll cover this all in more detail when I expect others to try to build it.
 
 ## Testing
 
 There are tests in _App/Tests_ folder that uses mocked types in _App/Mock_.
+
+These tests are currently broken because I changed the rules without fixing the tests to match.
 
 ## Gameplay
 
@@ -55,4 +35,4 @@ Later, if that all works out well, then networking layer will be added between M
 ## Discord
 There's also a [discord server](https://discord.gg/c8SmrE) connected to GitHub. 
 
-Change.
+
