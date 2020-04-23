@@ -8,12 +8,14 @@
         Priest,
         King,
         Queen,
-        Castle,
         Archer,
-        Ballista,
         Gryphon,
         Dragon,
         Barricade,
-        Siege,
+        
+        Castle,
+        Church,
+        Barracks,
+        Ballista,
     }
 }

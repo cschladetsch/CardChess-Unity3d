@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a55add259a8430ea699e394a45eec89, type: 3}
+  m_Name: Church
+  m_EditorClassIdentifier: 
+  Type: 3
+  PieceType: 13
+  Title: Church
+  FlavourText: 
+  ManaCost: 3
+  Power: 0
+  Health: 4
+  Id: 8cc1d4ec-e6bc-44cb-a745-21f278757dfb
+  Model: {fileID: 0}
+  Abilities: 

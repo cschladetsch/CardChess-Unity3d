@@ -418,7 +418,7 @@
                     return GetMovements(coord, type);
                 case EPieceType.Peon:
                     return Diagonals(coord, 1);
-                case EPieceType.Siege:
+                case EPieceType.Ballista:
                     return null;
                 case EPieceType.Dragon:
                     return GetMoveResults(coord, 2, _surrounding);
@@ -445,8 +445,6 @@
                     return GetMoveResults(coord, 1, _knightMoves);
                 case EPieceType.Queen:
                     return GetMoveResults(coord, max, _orthogonals.Concat(_diagnonals).ToArray());
-                case EPieceType.Siege:
-                    break;
                 case EPieceType.Ballista:
                     return GetMoveResults(coord, 2, _orthogonals);
                 case EPieceType.Barricade:

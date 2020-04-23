@@ -7,6 +7,8 @@
     {
         Piece,
         Spell,
-        Item
+        Item,
+        Building,
     }
 }
+
