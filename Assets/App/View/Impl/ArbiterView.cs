@@ -34,7 +34,7 @@ namespace App.View.Impl
             Assert.IsNotNull(arbiterAgent);
             base.SetAgent(arbiterAgent);
             
-            PlayMusic();
+            // PlayMusic();
 
             WhitePlayerView.SetAgent(Agent.WhitePlayerAgent);
             BlackPlayerView.SetAgent(Agent.BlackPlayerAgent);
