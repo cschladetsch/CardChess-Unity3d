@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e440afe59e4841d48bf27a5c88c35f3c
+timeCreated: 1498209928
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - mesh: {instanceID: 0}
+  - arrowPath: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

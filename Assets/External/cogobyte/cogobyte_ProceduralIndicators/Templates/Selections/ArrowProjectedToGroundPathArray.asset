@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0f8a5a0eca54545a9774a9dc11db89, type: 3}
+  m_Name: ArrowProjectedToGroundPathArray
+  m_EditorClassIdentifier: 
+  translation: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  obstacleCheck: 1
+  obstacleCheckDirection: {x: 0, y: -50, z: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  distanceFromGround: 2.64
+  closed: 0
+  counterClockwise: 0
+  customPath:
+  - {x: 263.38068, y: 8.463717, z: 182.79051}
+  - {x: 252.52954, y: 0.8920212, z: 201.16933}
+  levelOfDetailAlongPath: 100
