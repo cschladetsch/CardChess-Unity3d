@@ -1,0 +1,240 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1815cd1fc61e6468ecdb7a5e791fbe, type: 3}
+  m_Name: MoveArrowTip
+  m_EditorClassIdentifier: 
+  size: {x: 1, y: 1, z: 1}
+  arrowTipMode: 2
+  levelOfDetailAlongPath: 1
+  arrowTipPathType: 0
+  pathAlongXFunctionLength: 1
+  pathAlongXFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pathAlongYFunctionLength: 1
+  pathAlongYFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pathAlongZFunctionLength: 1
+  pathAlongZFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  widthFunctionLength: 1
+  widthFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  heightFunctionLength: 1
+  heightFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rotationFunctionLength: 1
+  rotateFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  templatePrimitives: {fileID: 11400000, guid: 36761972cc5a29a429e050f93a5af79b, type: 2}
+  shapeFunctionLength: 1
+  shapeFunction:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  mesh: {fileID: 0}
+  extrudePoints:
+  - e00: -0.50665164
+    e01: 0.55197054
+    e02: -0.6622937
+    e03: 301.8936
+    e10: 0
+    e11: -0.76818776
+    e12: -0.64022493
+    e13: 2.214968
+    e20: -0.862151
+    e21: -0.3243709
+    e22: 0.3892033
+    e23: 190.4969
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  - e00: -0
+    e01: 0.55197054
+    e02: -0
+    e03: 302.44556
+    e10: 0
+    e11: -0.76818776
+    e12: -0
+    e13: 1.4467793
+    e20: -0
+    e21: -0.3243709
+    e22: 0
+    e23: 190.17253
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  openClosed: 0100000002000000
+  primitives:
+  - {fileID: 11400000, guid: 87b7de407b624844aba363378b839931, type: 2}
+  - {fileID: 11400000, guid: 87b7de407b624844aba363378b839931, type: 2}
+  direction: 1
+  path:
+  - {x: 301.8936, y: 2.214968, z: 190.4969}
+  - {x: 302.44556, y: 1.4467793, z: 190.17253}
+  start: {x: 301.8936, y: 2.214968, z: 190.4969}
+  end: {x: 302.44556, y: 1.4467793, z: 190.17253}
+  invalidTip: 0
+  defaultRotateAngle: 120.44639

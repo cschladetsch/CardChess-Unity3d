@@ -1,0 +1,252 @@
+//arrow object manipulation example script
+public class CircleArrowDemo : MonoBehaviour {
+	//Reference to ArrowObject script
+	public ArrowObject arrowObject;
+	//points that will be calculated
+	Vector3[] points = new Vector3[10];
+	//Not an animated arrow, just a setup over code to calculate points
+	void Start () {
+	//creates an arrow of 10 points from (0,0,0) to (10,0,0)
+		for(int i = 0; i < 10; i++)
+		{
+			points[i] = new Vector3(i, 0, 0); 
+		}
+	//changes the arrowPath options, new points for point path
+		arrowObject.arrowPath.editedPath = new List<Vector3>(points);
+		arrowObject.updateArrowMesh();
+		//generates the arrow again and updates the mesh
+	}
+}
+//Example - Creates a new Default extrude Tip
+	arrowObject.updateArrowMesh();
+	arrowObject.arrowPath.arrowHead = ScriptableObject.CreateInstance<ArrowTip>();
+	arrowObject.arrowPath.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+//Example - Creates a new Default extrude Tip
+	arrowObject.arrowPath.arrowTail = ScriptableObject.CreateInstance<ArrowTip>();
+	arrowObject.arrowPath.arrowTail.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+//Example - Set Mode to Broken Extrude
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.BrokenExtrude;
+	arrowObject.updateArrowMesh();
+//Example - Set the Path Type to Function
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.updateArrowMesh();
+//Example set the arrow from (0,0,0) to (10,0,0)
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.startPoint = new Vector3(0,0,0);
+	arrowObject.arrowPath.endPoint = new Vector3(10,0,0);
+	arrowObject.updateArrowMesh();
+//Example - Set number of points to at least 100
+	arrowObject.arrowPath.levelOfDetailAlongPath = 100;
+	arrowObject.updateArrowMesh();
+//Example 1 - A Half circle path
+	Vector3[] points = new Vector3[1000];
+	for (int i = 0; i < 1000; i++)
+	{
+		points[i] = new Vector3(5 *  Mathf.Sin(i/500f * 1.8f * Mathf.PI), i/500, 5 * Mathf.Cos(i / 500f * 1.8f * Mathf.PI)); 
+	}
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.PointArray;
+	arrowObject.arrowPath.editedPath = new List<Vector3>(points);
+	arrowObject.updateArrowMesh();
+//Example 2 - 5 point path (square path that goeas up at end)
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.Extrude;
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.PointArray;
+	arrowObject.arrowPath.levelOfDetailAlongPath = 1;
+	points = new Vector3[5];
+	points[0] = new Vector3(0,0,0);
+	points[1] = new Vector3(3, 0, 0);
+	points[2] = new Vector3(3, 0, 3);
+	points[3] = new Vector3(0, 0, 3);
+	points[4] = new Vector3(0, 3, 3);
+	arrowObject.arrowPath.editedPath = new List<Vector3>(points);
+	arrowObject.updateArrowMesh();
+//Example - Set 3 KeyPoints on the path x function that has a timeline of 2
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.Extrude;
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.levelOfDetailAlongPath = 100;
+	arrowObject.arrowPath.pathAlongXFunctionLength = 2;
+	arrowObject.arrowPath.startPoint = new Vector3(0, 0, 0);
+	arrowObject.arrowPath.endPoint = new Vector3(0, 0, 5);
+	AnimationCurve curve = AnimationCurve.Linear(0, 0, 2, 0);
+	curve.AddKey(0.5f, 3);
+	curve.AddKey(1, 3.5f);
+	curve.AddKey(1.5f, 3);
+	arrowObject.arrowPath.pathAlongXFunction = curve;
+	arrowObject.updateArrowMesh();
+//Example - Set 1 key for arc path. Keep in mind that if arrow direction is same as axis. This function will make the path go faster(+) or slower(-).
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.startPoint = new Vector3(0, 0, 0);
+	arrowObject.arrowPath.endPoint = new Vector3(10, 0, 0);
+	arrowObject.arrowPath.levelOfDetailAlongPath = 100;
+	arrowObject.arrowPath.pathAlongYFunctionLength = 2;
+	AnimationCurve curve = AnimationCurve.Linear(0, 0, 2, 0);
+	curve.AddKey(1, 5);
+	arrowObject.arrowPath.pathAlongYFunction = curve;
+	arrowObject.updateArrowMesh();
+//Example - Combined y and z curves
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.startPoint = new Vector3(0, 0, 0);
+	arrowObject.arrowPath.endPoint = new Vector3(2, 0, 0);
+	arrowObject.arrowPath.levelOfDetailAlongPath = 100;
+	arrowObject.arrowPath.pathAlongZFunctionLength = 2;
+	AnimationCurve curve = AnimationCurve.Linear(0, 0, 2, 0);
+	curve.AddKey(1, 10);
+	arrowObject.arrowPath.pathAlongZFunction = curve;
+	AnimationCurve curveY = AnimationCurve.Linear(0, 0, 1, 0);
+	curveY.AddKey(0.2f, 5);
+	curveY.AddKey(0.5f, 5);
+	curveY.AddKey(0.2f, 5);
+	arrowObject.arrowPath.pathAlongYFunction = curveY;
+	arrowObject.updateArrowMesh();
+//Example - Scale path width from narrow to wide
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.Extrude;
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.levelOfDetailAlongPath = 100;
+	arrowObject.arrowPath.pathAlongXFunctionLength = 2;
+	arrowObject.arrowPath.startPoint = new Vector3(0, 0, 0);
+	arrowObject.arrowPath.endPoint = new Vector3(0, 0, 5);
+	AnimationCurve curve = AnimationCurve.Linear(0f, 0.2f, 2, 1);
+	arrowObject.arrowPath.widthFunctionLength = 2;
+	arrowObject.arrowPath.widthFunction = curve;
+	arrowObject.updateArrowMesh();
+//Example - Scale path height to wave function
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.Extrude;
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.levelOfDetailAlongPath = 100;
+	arrowObject.arrowPath.pathAlongXFunctionLength = 2;
+	arrowObject.arrowPath.startPoint = new Vector3(0, 0, 0);
+	arrowObject.arrowPath.endPoint = new Vector3(0, 0, 5);
+	arrowObject.arrowPath.heightFunctionLength = 6;
+	AnimationCurve curve = AnimationCurve.Linear(0f, 0.2f, 6f, 0.2f);
+	curve.AddKey(1, 0.8f);
+	curve.AddKey(2, 0.2f);
+	curve.AddKey(3, 0.8f);
+	curve.AddKey(4, 0.2f);
+	curve.AddKey(5, 0.8f);
+	arrowObject.arrowPath.heightFunction = curve;
+	arrowObject.updateArrowMesh();
+//Example - create a spiral arrow
+	arrowObject.arrowPath.rotationFunctionLength = 2;
+	AnimationCurve curve = AnimationCurve.Linear(0f, 0f, 2f, 1f);
+	arrowObject.arrowPath.rotateFunction = curve;  
+	arrowObject.updateArrowMesh();
+//Example - Create a new Primitive List and define an animation function
+	PrimitivesList list = ScriptableObject.CreateInstance<PrimitivesList>();
+	list.primitivesList = new List<Primitive>();
+	CirclePrimitive circle = ScriptableObject.CreateInstance<CirclePrimitive>();
+	circle.numberOfSections = 10;
+	PlanePrimitive square = ScriptableObject.CreateInstance<PlanePrimitive>();
+	list.primitivesList.Add(circle);
+	list.primitivesList.Add(square);
+	arrowObject.arrowPath.templatePrimitives = list;
+	arrowObject.arrowPath.shapeFunctionLength = 2;
+	AnimationCurve curve = AnimationCurve.Linear(0f, 0f, 2f, 1.9f);
+	arrowObject.arrowPath.shapeFunction = curve;
+	arrowObject.updateArrowMesh();
+//Example - Create a Custom Shape List and set distance between meshes to 0.7f
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.MadeOfShapes;
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.levelOfDetailAlongPath = 1;
+	MeshesList meshList = ScriptableObject.CreateInstance<MeshesList>();
+	SphereMesh sphere = ScriptableObject.CreateInstance<SphereMesh>();
+	sphere.radius = 0.3f;
+	sphere.numberOfSectionsMeridian = 10;
+	sphere.numberOfSectionsParallel = 10;
+	meshList.meshesList = new List<ProceduralMesh>();
+	meshList.meshesList.Add(sphere);
+	arrowObject.arrowPath.customShapes = meshList;
+	arrowObject.arrowPath.distanceBetweenShapes = new List<float>() { 0.7f };
+	arrowObject.updateArrowMesh();
+//Example - create a broken arrow with each segment legth of 1 with 0.3f space between segments
+	arrowObject.arrowPath.arrowPathType = ArrowPath.ArrowPathType.Function;
+	arrowObject.arrowPath.levelOfDetailAlongPath = 25;
+	arrowObject.arrowPath.arrowPathMode = ArrowPath.ArrowPathMode.BrokenExtrude;
+	arrowObject.arrowPath.startPoint = new Vector3(0, 0, 0);
+	arrowObject.arrowPath.endPoint = new Vector3(0, 0, 7);
+	arrowObject.arrowPath.brokenLineLength = 1;
+	arrowObject.arrowPath.brakeLength = 0.3f;
+	arrowObject.updateArrowMesh();
+//Example - Set the red gradient with no transparency
+	arrowObject.arrowPath.useShapeColors = false;
+	Gradient[] gradient = new Gradient[1];
+	gradient[0] = new Gradient();
+	GradientColorKey[] gck;
+	GradientAlphaKey[] gak;
+	gck = new GradientColorKey[2];
+	gck[0].color = Color.red;
+	gck[0].time = 0.0F;
+	gck[1].color = Color.red;
+	gck[1].time = 1.0F;
+	gak = new GradientAlphaKey[2];
+	gak[0].alpha = 1.0F;
+	gak[0].time = 0.0F;
+	gak[1].alpha = 1.0F;
+	gak[1].time = 1.0F;
+	gradient[0].SetKeys(gck, gak);
+	arrowObject.arrowPath.colorFunctions = gradient;
+	arrowObject.updateArrowMesh();
+//Example - Sets the mode to extrude
+//To use arrowHead of arrowObject without the path, first set it to the new one
+	arrowObject.arrowPath.arrowHead = ScriptableObject.CreateInstance<ArrowTip>();
+	arrowObject.arrowHead = arrowObject.arrowPath.arrowHead;
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.updateArrowMesh();
+//Example - Make tip 3 times wider, 2 times longer and 4 times higher than default tip
+	arrowObject.arrowPath.arrowHead = ScriptableObject.CreateInstance<ArrowTip>();
+	arrowObject.arrowHead = arrowObject.arrowPath.arrowHead;
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.size = new Vector3(3, 2, 4);
+	arrowObject.updateArrowMesh();
+//Example - set the level of detail to 100;
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.levelOfDetailAlongPath = 100;
+	arrowObject.updateArrowMesh();
+//Example Set the arrow tip path mode to FolloWMainPath
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.arrowTipPathType = ArrowTip.ArrowTipPathType.FollowMainPath;
+	arrowObject.updateArrowMesh();
+//Example Hook path. Keep in mind that Y is the tip lenghth, w width and z height
+//and that these offsets are calculated at tip default position (Y up, Z forward, X right)
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.arrowTipPathType = ArrowTip.ArrowTipPathType.Function;
+	arrowObject.arrowHead.pathAlongXFunctionLength = 2;
+	arrowObject.arrowHead.levelOfDetailAlongPath = 100;
+	AnimationCurve curve = AnimationCurve.Linear(0, 0, 2, 0);
+	curve.AddKey(0.5f, 0.5f);
+	arrowObject.arrowHead.pathAlongXFunction = curve;
+	AnimationCurve curveZ = AnimationCurve.Linear(0, 0, 1, 0);
+	curveZ.AddKey(0.5f, 1);
+	arrowObject.arrowHead.pathAlongYFunction = curveZ;
+	arrowObject.updateArrowMesh();
+//Example - Create a tim that doesnt change height
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.arrowTipPathType = ArrowTip.ArrowTipPathType.Function;
+	arrowObject.arrowHead.levelOfDetailAlongPath = 100;
+	arrowObject.arrowHead.heightFunction = AnimationCurve.Linear(0, 0.5f , 1, 0.5f);
+	arrowObject.updateArrowMesh();
+//Example create a spiral tip
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.arrowTipPathType = ArrowTip.ArrowTipPathType.Function;
+	arrowObject.arrowHead.levelOfDetailAlongPath = 100;
+	arrowObject.arrowHead.rotateFunction = AnimationCurve.Linear(0, 0 , 1, 1);
+	arrowObject.updateArrowMesh();
+//Example Create a tip that starts as circle and ends as square
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Extrude;
+	arrowObject.arrowHead.arrowTipPathType = ArrowTip.ArrowTipPathType.Function;
+	arrowObject.arrowHead.levelOfDetailAlongPath = 100;
+	PrimitivesList list = ScriptableObject.CreateInstance<PrimitivesList>();
+	list.primitivesList = new List<Primitive>();
+	CirclePrimitive circle = ScriptableObject.CreateInstance<CirclePrimitive>();
+	circle.numberOfSections = 10;
+	PlanePrimitive square = ScriptableObject.CreateInstance<PlanePrimitive>();
+	list.primitivesList.Add(circle);
+	list.primitivesList.Add(square);
+	arrowObject.arrowHead.templatePrimitives = list;
+	arrowObject.arrowHead.shapeFunctionLength = 2;
+	AnimationCurve curve = AnimationCurve.Linear(0f, 0f, 2f, 1.9f);
+	arrowObject.arrowHead.shapeFunction = curve;
+	arrowObject.updateArrowMesh();
+//Example - Create a winged arrow mesh custom mesh as tip
+	arrowObject.arrowHead.arrowTipMode = ArrowTip.ArrowTipMode.Mesh;
+	WingedArrowMesh wingedMesh = ScriptableObject.CreateInstance<WingedArrowMesh>();
+	arrowObject.arrowHead.mesh = wingedMesh;
+	arrowObject.updateArrowMesh();

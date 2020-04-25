@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4e207a28cd19d41a33b5a1fe1f5a88, type: 3}
+  m_Name: WingedArrowMesh
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  length: 1
+  leftLength: 1
+  rightLength: 1
+  leftWingWidth: 0
+  rightWingWidth: 0
+  startWidth: 1
+  endWidth: 0
+  leftBackDistance: 1
+  rightBackDistance: 1
+  leftColor:
+    serializedVersion: 2
+    rgba: 4278190331
+  color:
+    serializedVersion: 2
+    rgba: 4294904832
+  rightColor:
+    serializedVersion: 2
+    rgba: 4278255590
