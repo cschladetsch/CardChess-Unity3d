@@ -2,7 +2,5 @@
 
 This folder contains external libraries and utilities not generally produced in-house.
 
-The two exceptions are:
+Basically, this is where Asset Store purchases go (if  they can be moved at all), and where your put other stuff you find that is not made locally.
 
-* CoLib. A library for animating MonoBehaviours over time.
-* [Flow](https://github.com/cschladetsch/Flow/). A library written by me for managing co-routines via a non-singleton Kernel.
