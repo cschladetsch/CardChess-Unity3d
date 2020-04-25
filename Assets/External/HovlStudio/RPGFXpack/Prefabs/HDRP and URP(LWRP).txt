@@ -1,0 +1,4 @@
+SUPPORT ASSET FOR URP(LWRP) or HDRP here --> https://assetstore.unity.com/packages/slug/157764
+
+If you want to use post-effects like in the demo video:
+https://youtu.be/hZSZ2Q8MF3k
