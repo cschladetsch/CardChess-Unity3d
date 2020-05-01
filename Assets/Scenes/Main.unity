@@ -4832,6 +4832,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7d040fbbd71f25d42bf6331281ff80cd, type: 3}
   WhitePlayer: {fileID: 152731633}
   BlackPlayer: {fileID: 1991825314}
+  AuduiMusic: {fileID: 24100000, guid: de6a8437024cb5d4681259222a27443f, type: 2}
+  AudioSfx: {fileID: 24100000, guid: c883c4edd7c9b6546a568346012e4b9c, type: 2}
+  AudioBattle: {fileID: 24100000, guid: da3610d17d4cccf4c87bbbd001d9daff, type: 2}
 --- !u!82 &1907898444
 AudioSource:
   m_ObjectHideFlags: 0
