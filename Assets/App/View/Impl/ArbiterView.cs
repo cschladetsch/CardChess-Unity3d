@@ -1,4 +1,5 @@
 ﻿using App.Model;
+using UnityEngine.Audio;
 
 namespace App.View.Impl
 {
@@ -27,6 +28,10 @@ namespace App.View.Impl
         public IPlayerView WhitePlayerView => WhitePlayer;
         public IPlayerView BlackPlayerView => BlackPlayer;
         public IBoardView BoardView => Board;
+
+        public AudioMixer AuduiMusic;
+        public AudioMixer AudioSfx;
+        public AudioMixer AudioBattle;
 
         public override void SetAgent(IAgent agent)
         {
