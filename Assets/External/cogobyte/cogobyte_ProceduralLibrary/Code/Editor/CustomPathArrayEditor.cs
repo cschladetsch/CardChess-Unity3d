@@ -64,11 +64,11 @@ namespace Cogobyte.ProceduralLibrary
         {
             CustomPathArray customPath = pathArray as CustomPathArray;
             float size = HandleUtility.GetHandleSize(customPath.customPath[p1]);
-            if (Handles.Button(customPath.customPath[p1], Quaternion.identity, size * handleSize, size * pickSize, Handles.DotCap))
-            {
-                selectedIndex = p1;
-                Repaint();
-            }
+            //if (Handles.Button(customPath.customPath[p1], Quaternion.identity, size * handleSize, size * pickSize, Handles.Disc))
+            //{
+            //    selectedIndex = p1;
+            //    Repaint();
+            //}
             if(!(!customPath.closed && p2==0)) Handles.DrawLine(customPath.customPath[p1], customPath.customPath[p2]);
             if (selectedIndex == p1)
             {

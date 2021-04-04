@@ -94,7 +94,7 @@ namespace Cogobyte.ProceduralLibrary
             for (int i = 0; i < verts.Length; i++)
             {
                 Handles.color = colors[i];
-                Handles.CubeCap(0, verts[i], Quaternion.identity, size * 0.05f);
+                //Handles.CubeCap(0, verts[i], Quaternion.identity, size * 0.05f);
             }
         }
 

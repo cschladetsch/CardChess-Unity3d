@@ -159,11 +159,11 @@ namespace Cogobyte.ProceduralLibrary
             Handles.Label(spline.points[index].position, spline.points[index].position.ToString());
             float size = HandleUtility.GetHandleSize(spline.points[index].position);
             Handles.color = Color.green;
-            if (Handles.Button(spline.points[index].position, Quaternion.identity, size * handleSize, size * 3 * pickSize, Handles.DotCap))
-            {
-                selectedIndex = index;
-                Repaint();
-            }
+            //if (Handles.Button(spline.points[index].position, Quaternion.identity, size * handleSize, size * 3 * pickSize, Handles.DotCap))
+            //{
+            //    selectedIndex = index;
+            //    Repaint();
+            //}
             if (selectedIndex == index)
             {
                 EditorGUI.BeginChangeCheck();
@@ -174,7 +174,7 @@ namespace Cogobyte.ProceduralLibrary
                     EditorUtility.SetDirty(pathArray);
                     spline.points[index].MovePoint(point);
                 }
-                Handles.CubeCap(17, spline.points[index].frontControlPoint, Quaternion.identity, size * handleSize);
+                //Handles.CubeCap(17, spline.points[index].frontControlPoint, Quaternion.identity, size * handleSize);
                 EditorGUI.BeginChangeCheck();
                 Vector3 frontControlPoint = Handles.DoPositionHandle(spline.points[index].frontControlPoint, Quaternion.identity);
                 if (EditorGUI.EndChangeCheck())
@@ -183,7 +183,7 @@ namespace Cogobyte.ProceduralLibrary
                     EditorUtility.SetDirty(pathArray);
                     spline.points[index].MoveFrontControlPoint(frontControlPoint);
                 }
-                Handles.CubeCap(18, spline.points[index].backControlPoint, Quaternion.identity, size * handleSize);
+                //Handles.CubeCap(18, spline.points[index].backControlPoint, Quaternion.identity, size * handleSize);
                 EditorGUI.BeginChangeCheck();
                 Vector3 backControlPoint = Handles.DoPositionHandle(spline.points[index].backControlPoint, Quaternion.identity);
                 if (EditorGUI.EndChangeCheck())

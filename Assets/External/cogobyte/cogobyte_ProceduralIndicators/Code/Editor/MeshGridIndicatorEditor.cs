@@ -44,20 +44,20 @@ namespace Cogobyte.ProceduralIndicators
             }
             int[] tris = gridIndicator.mesh.triangles;
             Vector3[] verts = gridIndicator.mesh.vertices;
-            ShowVertices(gridIndicator.transform.position + gridIndicator.meshPosition, verts);
+            //ShowVertices(gridIndicator.transform.position + gridIndicator.meshPosition, verts);
             ShowWireFrame(gridIndicator.transform.position + gridIndicator.meshPosition,verts, tris);
         }
 
-        //Draws the vertices of the mesh that will be sliced
-        public void ShowVertices(Vector3 pos, Vector3[] verts)
-        {
-            Handles.color = Color.white;
-            float size = HandleUtility.GetHandleSize(pos);
-            for (int i = 0; i < verts.Length; i++)
-            {
-                Handles.CubeCap(0, pos + Quaternion.Euler(gridIndicator.meshRotation) * Vector3.Scale(verts[i], gridIndicator.meshScale), Quaternion.identity, size * 0.05f);
-            }
-        }
+        ////Draws the vertices of the mesh that will be sliced
+        //public void ShowVertices(Vector3 pos, Vector3[] verts)
+        //{
+        //    Handles.color = Color.white;
+        //    float size = HandleUtility.GetHandleSize(pos);
+        //    for (int i = 0; i < verts.Length; i++)
+        //    {
+        //        Handles.CubeCap(0, pos + Quaternion.Euler(gridIndicator.meshRotation) * Vector3.Scale(verts[i], gridIndicator.meshScale), Quaternion.identity, size * 0.05f);
+        //    }
+        //}
 
         //Draws the triangles of the mesh that will be sliced
         public void ShowWireFrame(Vector3 pos,Vector3[] verts, int[] tris)
